@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class
+        name="pl.edu.icm.saos.model.SupremeCourtJudgment.PersonnelType"
+        x="1038" y="611">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class
+        name="pl.edu.icm.saos.model.AdministrativeCourtJudgmentKeyword"
+        x="1466" y="708">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.AdministrativeCaseType" x="1337" y="578">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.AdministrativeAuthority" x="1590" y="488">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.CommonCourtJudgment" x="8" y="396">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="pl.edu.icm.saos.model.Judgment"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.CommonCourtJudgmentKeyword"
+            endpointName="keywords" kind="Simple"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.CommonCourtDivision"
+            endpointName="commonCourtDivision" kind="Simple"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.Judgment" x="809" y="13">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.JudgmentDataSource"
+            endpointName="source" kind="Simple"/>
+        <Association destinationClassName="pl.edu.icm.saos.model.Judge"
+            endpointName="judges" kind="Simple"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.CommonCourtJudgmentKeyword"
+        x="-16" y="563">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.CommonCourtJudgmentKeyword"
+            endpointName="parent" kind="Simple"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.CommonCourtDivision" x="306" y="676">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.CommonCourt"
+            endpointName="court" kind="Simple"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.Judge.JudgeRole" x="-20" y="200">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.CommonCourt.CommonCourtType"
+        x="365" y="372">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.JudgmentDataSource" x="224" y="-2">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.CommonCourt" x="493" y="554">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.CommonCourtDivision"
+            endpointName="divisions" kind="Simple"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.CommonCourt.CommonCourtType"
+            endpointName="type" kind="Simple"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.SupremeCourtChamber" x="1070" y="363">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.SupremeCourtChamberDivision"
+            endpointName="divisions" kind="Simple"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.AdministrativeCourt" x="1597" y="265">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.SupremeCourtJudgmentForm" x="711" y="647">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.Judge" x="375" y="189">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="true"/>
+        <MethodDisplayFilter public-accepted="false"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.Judge.JudgeRole"
+            endpointName="specialRoles" kind="Simple"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.Judgment"
+            endpointName="judgment" kind="Simple"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.AdministrativeCourtJudgment"
+        x="1330" y="327">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="pl.edu.icm.saos.model.Judgment"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.AdministrativeCaseType"
+            endpointName="caseType" kind="Simple"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.AdministrativeCourtJudgmentKeyword"
+            endpointName="keywords" kind="Simple"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.AdministrativeAuthority"
+            endpointName="accusedAuthority" kind="Simple"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.AdministrativeCourt"
+            endpointName="court" kind="Simple"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.SupremeCourtChamberDivision"
+        x="1105" y="500">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.SupremeCourtChamber"
+            endpointName="supremeCourtChamber" kind="Simple"/>
+    </Class>
+    <Class name="pl.edu.icm.saos.model.SupremeCourtJudgment" x="669" y="399">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="pl.edu.icm.saos.model.Judgment"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.SupremeCourtJudgmentForm"
+            endpointName="supremeCourtJudgmentForm" kind="Simple"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.SupremeCourtJudgment.PersonnelType"
+            endpointName="personnelType" kind="Simple"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.SupremeCourtChamber"
+            endpointName="supremeCourtChambers" kind="Simple"/>
+        <Association
+            destinationClassName="pl.edu.icm.saos.model.SupremeCourtChamberDivision"
+            endpointName="supremeCourtChamberDivision" kind="Simple"/>
+    </Class>
+</ClassDiagram>

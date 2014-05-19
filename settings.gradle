@@ -1,0 +1,3 @@
+include 'saos-persistence',
+        'saos-import',
+        'saos-webapp'

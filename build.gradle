@@ -1,0 +1,36 @@
+subprojects {
+    
+    apply plugin: 'java'
+    
+    repositories {
+       mavenCentral()
+       maven { url "http://repo.spring.io/libs-snapshot" }
+    }
+
+    ext.lib = [
+        'org.apache.commons:commons-lang3':'org.apache.commons:commons-lang3:3.3.2',
+        'commons-collections:commons-collections':'commons-collections:commons-collections:3.2.1',
+        'joda-time:joda-time':'joda-time:joda-time:2.3'
+      ]
+    
+    
+    dependencies {
+        compile lib.'org.apache.commons:commons-lang3'
+        testCompile 'junit:junit:4.8.2'
+        
+    }
+
+    version = '1.0'
+
+    jar {
+        manifest.attributes provider: 'University of Warsaw, ICM'
+    }
+    
+    tasks.withType(Compile) {
+        options.encoding = 'UTF-8'
+    }
+    
+    task wrapper(type: Wrapper) {
+        gradleVersion = '1.12'
+    }
+}
