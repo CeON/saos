@@ -34,12 +34,15 @@ public abstract class Judgment {
     private LocalDate judgmentDate;
     private List<Judge> judges;
     private List<String> courtReporters; 
+    
     private String decision; 
     
     private String summary;
     
     private String reasons; 
 
+    private String textContent;
+    
     private String legalBasis;
     private LocalDate finalJudgmentDate;
     
@@ -104,7 +107,14 @@ public abstract class Judgment {
         return judgmentType;
     }
 
+    /** 
+     * A full text content of the judgment  
+     */
+    public String getTextContent() {
+        return textContent;
+    }
 
+    
     
     
     
@@ -156,6 +166,10 @@ public abstract class Judgment {
 
     public void setJudgmentType(JudgmentType judgmentType) {
         this.judgmentType = judgmentType;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
     }
     
 }
