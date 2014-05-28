@@ -1,18 +1,35 @@
 subprojects {
     
     apply plugin: 'java'
+    apply plugin: 'eclipse'
+    
     
     repositories {
        mavenCentral()
-       maven { url "http://repo.spring.io/libs-snapshot" }
+       maven { url "http://repo.spring.io/libs-milestone" }
+         
     }
 
-    ext.lib = [
-        'org.apache.commons:commons-lang3':'org.apache.commons:commons-lang3:3.3.2',
-        'commons-collections:commons-collections':'commons-collections:commons-collections:3.2.1',
-        'joda-time:joda-time':'joda-time:joda-time:2.3'
-      ]
+    ext.springBootVersion = "1.0.2.RELEASE"
     
+
+    ext.lib = [
+        'org.apache.commons:commons-lang3'                     :'org.apache.commons:commons-lang3:3.3.2',
+        'commons-collections:commons-collections'              :'commons-collections:commons-collections:3.2.1',
+        'joda-time:joda-time'                                  :'joda-time:joda-time:2.3',
+        'joda-time:joda-time-jsptags'                          :'joda-time:joda-time-jsptags:1.1.1',
+        
+        'org.springframework.data:spring-data-jpa'             :'org.springframework.data:spring-data-jpa:1.6.0.RELEASE',
+        'org.springframework.security:spring-security-taglibs' :'org.springframework.security:spring-security-taglibs:3.2.4.RELEASE',
+        'org.springframework.boot:spring-boot-starter-web'     :'org.springframework.boot:spring-boot-starter-web:' + springBootVersion,
+        'org.springframework.boot:spring-boot-starter-security':'org.springframework.boot:spring-boot-starter-security:' + springBootVersion,
+        
+        'org.apache.tiles:tiles-jsp'                           :'org.apache.tiles:tiles-jsp:3.0.4',
+        'javax.servlet:javax.servlet-api'                      :'javax.servlet:javax.servlet-api:3.1.0',
+        'javax.servlet:jsp-api'                                :'javax.servlet:jsp-api:2.0',
+        'javax.servlet:jstl'                                   :'javax.servlet:jstl:1.2'
+    ]
+
     
     dependencies {
         compile lib.'org.apache.commons:commons-lang3'

@@ -1,0 +1,36 @@
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    
+    <!-- ************* Main template definition -->
+    <definition name="template" template="/WEB-INF/view/template/mainTemplate.jsp">
+        <put-attribute name="top" value="/WEB-INF/view/template/header.jsp" />
+        <put-attribute name="navigation" value="/WEB-INF/view/template/navigation.jsp" />
+        <put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
+    </definition>
+
+    
+    <!-- ************* Simple template definition -->
+    <definition name="simpleTemplate" template="/WEB-INF/view/template/simpleTemplate.jsp">
+        
+    </definition>
+    
+
+    <!-- ************* General  -->
+    
+    <definition name="index" extends="template">
+        <put-attribute name="content" value="/WEB-INF/view/index.jsp" />
+    </definition>
+    
+    
+    <!-- ************** Errors -->
+    
+    <definition name="error404" extends="simpleTemplate">
+        <put-attribute name="content" value="/WEB-INF/view/error/error404.jsp" />
+    </definition>
+    
+    <definition name="error500" extends="simpleTemplate">
+        <put-attribute name="content" value="/WEB-INF/view/error/error500.jsp" />
+    </definition>
+    
+    
+</tiles-definitions>

@@ -1,3 +1,32 @@
+apply plugin: 'war'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
+apply plugin: 'compass'
+
 dependencies {
-    compile 'org.springframework.boot:spring-boot-starter-web:1.0.2.RELEASE'
+    compile lib.'org.springframework.boot:spring-boot-starter-web'
+    compile lib.'org.springframework.boot:spring-boot-starter-security'
+    compile lib.'org.apache.tiles:tiles-jsp'
+    providedCompile lib.'javax.servlet:javax.servlet-api'
+    providedCompile lib.'javax.servlet:jsp-api'
+    compile lib.'javax.servlet:jstl'
+    compile lib.'org.springframework.boot:spring-boot-starter-security'
+    compile lib.'org.springframework.security:spring-security-taglibs'
+    compile lib.'joda-time:joda-time-jsptags'
+}
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url 'http://dl.bintray.com/robfletcher/gradle-plugins' }
+    }
+    dependencies {
+        classpath 'org.gradle.plugins:gradle-compass:1.0.7'
+    }
+}
+
+compass {
+    sassDir = file('src/main/webapp/WEB-INF/static/stylesheet/scss')
+    cssDir = file('src/main/webapp/WEB-INF/static/stylesheet/css/.generated')
 }
