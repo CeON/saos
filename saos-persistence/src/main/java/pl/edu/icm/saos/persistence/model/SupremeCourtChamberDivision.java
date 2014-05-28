@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.model;
+package pl.edu.icm.saos.persistence.model;
 
 /**
  * pl. wydział izby sądu najwyższego 

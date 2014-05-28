@@ -4,15 +4,17 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'compass'
 
 dependencies {
-    compile lib.'org.springframework.boot:spring-boot-starter-web'
-    compile lib.'org.springframework.boot:spring-boot-starter-security'
+    compile project(':saos-persistence')
+    
     compile lib.'org.apache.tiles:tiles-jsp'
     providedCompile lib.'javax.servlet:javax.servlet-api'
     providedCompile lib.'javax.servlet:jsp-api'
     compile lib.'javax.servlet:jstl'
-    compile lib.'org.springframework.boot:spring-boot-starter-security'
+    compile lib.'org.springframework.security:spring-security-web'
+    compile lib.'org.springframework.security:spring-security-config'
     compile lib.'org.springframework.security:spring-security-taglibs'
     compile lib.'joda-time:joda-time-jsptags'
+    compile lib.'org.springframework:spring-webmvc'
 }
 
 buildscript {
@@ -29,4 +31,13 @@ buildscript {
 compass {
     sassDir = file('src/main/webapp/WEB-INF/static/stylesheet/scss')
     cssDir = file('src/main/webapp/WEB-INF/static/stylesheet/css/.generated')
+}
+
+eclipse.classpath.file {
+    // Classpath entry for Eclipse which changes the order of classpathentries; otherwise no sources for 3rd party jars are shown
+    withXml { xml ->
+        def node = xml.asNode()
+        node.remove( node.find { it.@path == 'org.eclipse.jst.j2ee.internal.web.container' } )
+        node.appendNode( 'classpathentry', [ kind: 'con', path: 'org.eclipse.jst.j2ee.internal.web.container', exported: 'true'])
+    }
 }

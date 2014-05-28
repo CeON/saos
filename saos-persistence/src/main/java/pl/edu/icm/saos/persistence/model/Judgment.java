@@ -1,9 +1,18 @@
-package pl.edu.icm.saos.model;
+package pl.edu.icm.saos.persistence.model;
 
-import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.SequenceGenerator;
+
 import org.joda.time.LocalDate;
+
+import pl.edu.icm.saos.persistence.common.DataObject;
 
 
 /**
@@ -12,8 +21,10 @@ import org.joda.time.LocalDate;
  * 
  * @author Łukasz Dumiszewski
  */
-
-public abstract class Judgment {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@SequenceGenerator(name = "seq_judgment", allocationSize = 1, sequenceName = "seq_judgment")
+public abstract class Judgment extends DataObject {
 
     /** pl. rodzaj wyroku */
     public enum JudgmentType {
@@ -26,8 +37,8 @@ public abstract class Judgment {
         
     }
     
+    
     private JudgmentDataSource source;
-    private Date creationDate;
     
     // sentence
     private String caseNumber;
@@ -50,12 +61,18 @@ public abstract class Judgment {
     
     //------------------------ GETTERS --------------------------
     
+    
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_judgment")
+    @Override
+    public int getId() {
+        return id;
+    }
+    
+    
     public JudgmentDataSource getSource() {
         return source;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
     }
 
     /** pl. sygnatura sprawy */
@@ -122,10 +139,6 @@ public abstract class Judgment {
     
     public void setSource(JudgmentDataSource source) {
         this.source = source;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
     }
 
     public void setCaseNumber(String caseNumber) {

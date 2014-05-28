@@ -1,4 +1,7 @@
 dependencies {
     compile lib.'joda-time:joda-time'
-    compile "org.springframework.boot:spring-boot-starter-data-jpa:" + springBootVersion 
+    compile lib.'org.hibernate:hibernate-core'
+    compile lib.'org.hibernate.javax.persistence:hibernate-jpa-2.0-api'
+    compile lib.'org.springframework:spring-context'
+    compile lib.'org.springframework.data:spring-data-jpa'
 }

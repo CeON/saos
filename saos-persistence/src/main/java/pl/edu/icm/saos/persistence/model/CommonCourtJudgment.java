@@ -1,13 +1,15 @@
-package pl.edu.icm.saos.model;
+package pl.edu.icm.saos.persistence.model;
 
 import java.util.List;
+
+import javax.persistence.Entity;
 
 /**
  * pl. Orzeczenie sądu powszechnego
  * 
  * @author Łukasz Dumiszewski
  */
-
+@Entity
 public class CommonCourtJudgment extends Judgment {
     
     private CommonCourtDivision commonCourtDivision;

@@ -1,18 +1,17 @@
-package pl.edu.icm.saos.model;
+package pl.edu.icm.saos.persistence.model;
 
 /**
- * pl. Sąd administracyjny
- * <br/> <br/>
- * Dictionary of administrative courts
+ * pl. Hasła tematyczne orzeczeń sądu administracyjnego
+ * 
+ * 
  * 
  * @author Łukasz Dumiszewski
  */
 
-public class AdministrativeCourt {
-    
+public class AdministrativeCourtJudgmentKeyword {
+
     private String name;
 
-    
     //------------------------ GETTERS --------------------------
     
     public String getName() {
@@ -24,5 +23,4 @@ public class AdministrativeCourt {
     public void setName(String name) {
         this.name = name;
     }
-    
 }
