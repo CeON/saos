@@ -21,6 +21,7 @@ import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 @PropertySource(ignoreResourceNotFound=true, value={"classpath:saos.default.properties"})
 @ComponentScan(useDefaultFilters=false, includeFilters={@Filter(type=FilterType.ANNOTATION, value=Service.class)})
 @EnableScheduling
+@PropertySource(ignoreResourceNotFound=true, value={"classpath:saos.default.properties"})
 public class GeneralConfiguration {
 
         

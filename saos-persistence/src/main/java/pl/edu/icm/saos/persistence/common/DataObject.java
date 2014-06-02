@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 /**
@@ -38,6 +39,7 @@ public abstract class DataObject {
     }
     
     /** every instance needs to provided it with a proper GeneratedValue annotation */
+    @Transient
     public abstract int getId();
 
     

@@ -1,11 +1,24 @@
 package pl.edu.icm.saos.persistence.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import pl.edu.icm.saos.persistence.common.DataObject;
+
 /**
  * pl. typ sprawy administracyjnej
  * @author Łukasz Dumiszewski
  */
-
-public class AdministrativeCaseType {
+@Entity
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+@SequenceGenerator(name = "seq_adm_case_type", allocationSize = 1, sequenceName = "seq_adm_case_type")
+public class AdministrativeCaseType extends DataObject {
     
     
     private String code;
@@ -13,6 +26,13 @@ public class AdministrativeCaseType {
     
     
     //------------------------ GETTERS --------------------------
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_adm_case_type")
+    @Override
+    public int getId() {
+        return id;
+    }
     
     public String getCode() {
         return code;
@@ -30,5 +50,6 @@ public class AdministrativeCaseType {
     public void setDescription(String description) {
         this.description = description;
     }
+    
     
 }

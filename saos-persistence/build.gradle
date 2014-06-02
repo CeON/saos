@@ -1,7 +1,12 @@
 dependencies {
     compile lib.'joda-time:joda-time'
     compile lib.'org.hibernate:hibernate-core'
-    compile lib.'org.hibernate.javax.persistence:hibernate-jpa-2.0-api'
     compile lib.'org.springframework:spring-context'
     compile lib.'org.springframework.data:spring-data-jpa'
+    compile lib.'org.apache.commons:commons-dbcp2'
+    compile lib.'org.springframework:spring-orm'
+    compile lib.'org.postgresql:postgresql'
+    compile lib.'org.jadira.usertype:usertype.jodatime'
+    //compile lib.'net.sf.ehcache:ehcache'
+    compile lib.'org.hibernate:hibernate-ehcache'
 }

@@ -5,7 +5,7 @@ import javax.servlet.Filter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import pl.edu.icm.saos.persistence.PersistenceConfiguration;
+import pl.edu.icm.saos.persistence.PersistenceTestConfiguration;
 
 
    
@@ -13,7 +13,7 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
    
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] { GeneralConfiguration.class, SecurityConfiguration.class, PersistenceConfiguration.class };
+        return new Class<?>[] { GeneralConfiguration.class, SecurityConfiguration.class, PersistenceTestConfiguration.class };
     }
 
     @Override

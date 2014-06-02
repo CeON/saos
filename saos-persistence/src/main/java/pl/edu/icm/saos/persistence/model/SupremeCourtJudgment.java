@@ -2,10 +2,20 @@ package pl.edu.icm.saos.persistence.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
 /**
  * @author Łukasz Dumiszewski
  */
-
+@Entity
 public class SupremeCourtJudgment extends Judgment {
 
     /** pl. typ składu sędziowskiego */
@@ -33,21 +43,29 @@ public class SupremeCourtJudgment extends Judgment {
     
     //------------------------ GETTERS --------------------------
     
+    
     /**
      * It is not going to be needed, because very likely it can be composed of {@link #getJudgmentType()} and {@link #getPersonnelType()}
      * */
+    @ManyToOne
     public SupremeCourtJudgmentForm getSupremeCourtJudgmentForm() {
         return supremeCourtJudgmentForm;
     }
     
+    @Enumerated(EnumType.STRING)
     public PersonnelType getPersonnelType() {
         return personnelType;
     }
     
+    @ManyToOne
     public SupremeCourtChamberDivision getSupremeCourtChamberDivision() {
         return supremeCourtChamberDivision;
     }
     
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "supreme_court_judgment_chamber",
+            joinColumns = {@JoinColumn(name = "fk_judgment", nullable = false, updatable = false) }, 
+            inverseJoinColumns = {@JoinColumn(name = "fk_chamber", nullable = false, updatable = false) })
     public List<SupremeCourtChamber> getSupremeCourtChambers() {
         return supremeCourtChambers;
     }

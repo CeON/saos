@@ -2,6 +2,21 @@ package pl.edu.icm.saos.persistence.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import pl.edu.icm.saos.persistence.common.DataObject;
+
 /**
  * pl. Sąd Powszechny
  * <br/> <br/>
@@ -9,8 +24,10 @@ import java.util.List;
  * 
  * @author Łukasz Dumiszewski
  */
-
-public class CommonCourt {
+@Entity
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+@SequenceGenerator(name = "seq_common_court", allocationSize = 1, sequenceName = "seq_common_court")
+public class CommonCourt extends DataObject {
 
     public enum CommonCourtType {
         /** pl. sąd apelacyjny */
@@ -34,12 +51,23 @@ public class CommonCourt {
     
     //------------------------ GETTERS --------------------------
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_common_court")
+    @Override
+    public int getId() {
+        return id;
+    }
+    
     public String getName() {
         return name;
     }
+    
+    @Enumerated(EnumType.STRING)
     public CommonCourtType getType() {
         return type;
     }
+    
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="court")
     public List<CommonCourtDivision> getDivisions() {
         return divisions;
     }

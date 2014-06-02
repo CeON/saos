@@ -32,20 +32,31 @@ subprojects {
         'javax.servlet:jstl'                                   :'javax.servlet:jstl:1.2',
         
         'org.hibernate:hibernate-core'                         :'org.hibernate:hibernate-core:4.3.5.Final',
-        'org.hibernate.javax.persistence:hibernate-jpa-2.0-api':'org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final',
+        'org.hibernate:hibernate-ehcache'                      :'org.hibernate:hibernate-ehcache:4.3.5.Final',
+        'org.apache.commons:commons-dbcp2'                     :'org.apache.commons:commons-dbcp2:2.0.1',
+        'org.postgresql:postgresql'                            :'org.postgresql:postgresql:9.3-1101-jdbc41',
+        'org.jadira.usertype:usertype.jodatime'                :'org.jadira.usertype:usertype.jodatime:2.0.1',
+        'net.sf.ehcache:ehcache'                               :'net.sf.ehcache:ehcache:2.8.2',
+        
         'org.springframework:spring-context'                   :'org.springframework:spring-context:'+springVersion,
         'org.springframework:spring-webmvc'                    :'org.springframework:spring-webmvc:'+springVersion,
+        'org.springframework:spring-orm'                       :'org.springframework:spring-orm:'+springVersion,
+        'org.springframework:spring-test'                      :'org.springframework:spring-test:'+springVersion,
+        
         'org.springframework.data:spring-data-jpa'             :'org.springframework.data:spring-data-jpa:1.6.0.RELEASE',
         
         'org.slf4j:slf4j-api'                                  :'org.slf4j:slf4j-api:1.7.5',
         'org.slf4j:slf4j-simple'                               :'org.slf4j:slf4j-simple:1.7.5',
         'ch.qos.logback:logback-classic'                       :'ch.qos.logback:logback-classic:1.0.13',
         'org.codehaus.groovy:groovy-all'                       :'org.codehaus.groovy:groovy-all:2.2.1' 
+        
+        
     ]
     
     dependencies {
         compile lib.'org.apache.commons:commons-lang3'
         testCompile 'junit:junit:4.8.2'
+        testCompile lib.'org.springframework:spring-test'
         compile lib.'org.slf4j:slf4j-api'   
         compile lib.'org.slf4j:slf4j-simple'
         compile lib.'ch.qos.logback:logback-classic' 

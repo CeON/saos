@@ -2,13 +2,33 @@ package pl.edu.icm.saos.persistence.model;
 
 import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import pl.edu.icm.saos.persistence.common.DataObject;
+
 /**
  * pl. Sędzia
  * 
  * @author Łukasz Dumiszewski
  */
-
-public class Judge {
+@Entity
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+@SequenceGenerator(name = "seq_judge", allocationSize = 1, sequenceName = "seq_judge")
+public class Judge extends DataObject {
     
     public enum JudgeRole {
         
@@ -26,15 +46,27 @@ public class Judge {
     
     private String name;
     
-    private List<JudgeRole> specialRoles;
+    private List<JudgeRole> roles;
 
     
     //------------------------ GETTERS --------------------------
     
-    public List<JudgeRole> getSpecialRoles() {
-        return specialRoles;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_judge")
+    @Override
+    public int getId() {
+        return id;
+    }
+    
+    @Enumerated(EnumType.STRING)
+    @ElementCollection
+    @CollectionTable(name="judge_role", joinColumns = @JoinColumn(name = "fk_judge"))
+    @Column(name="role")
+    public List<JudgeRole> getRoles() {
+        return roles;
     }
 
+    @ManyToOne
     public Judgment getJudgment() {
         return judgment;
     }
@@ -48,8 +80,8 @@ public class Judge {
     
     //------------------------ SETTERS --------------------------
     
-    public void setSpecialRoles(List<JudgeRole> specialRoles) {
-        this.specialRoles = specialRoles;
+    public void setRoles(List<JudgeRole> roles) {
+        this.roles = roles;
     }
 
     public void setJudgment(Judgment judgment) {

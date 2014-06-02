@@ -2,14 +2,23 @@ package pl.edu.icm.saos.persistence.model;
 
 import java.util.List;
 
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
@@ -23,6 +32,7 @@ import pl.edu.icm.saos.persistence.common.DataObject;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
 @SequenceGenerator(name = "seq_judgment", allocationSize = 1, sequenceName = "seq_judgment")
 public abstract class Judgment extends DataObject {
 
@@ -38,7 +48,8 @@ public abstract class Judgment extends DataObject {
     }
     
     
-    private JudgmentDataSource source;
+    private JudgmentDataSource dataSource;
+    private String dataSourceJudgmentUrl;
     
     // sentence
     private String caseNumber;
@@ -54,7 +65,7 @@ public abstract class Judgment extends DataObject {
 
     private String textContent;
     
-    private String legalBasis;
+    private List<String> legalBases;
     private LocalDate finalJudgmentDate;
     
     private JudgmentType judgmentType;
@@ -70,9 +81,13 @@ public abstract class Judgment extends DataObject {
         return id;
     }
     
+    @Enumerated(EnumType.STRING)
+    public JudgmentDataSource getDataSource() {
+        return dataSource;
+    }
     
-    public JudgmentDataSource getSource() {
-        return source;
+    public String getDataSourceJudgmentUrl() {
+        return dataSourceJudgmentUrl;
     }
 
     /** pl. sygnatura sprawy */
@@ -81,16 +96,20 @@ public abstract class Judgment extends DataObject {
     }
 
     /** pl. data orzeczenia */
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
     public LocalDate getJudgmentDate() {
         return judgmentDate;
     }
 
+    @OneToMany(mappedBy="judgment")
     public List<Judge> getJudges() {
         return judges;
     }
 
     /** pl. protokolanci */
-    // TODO: is it possible to be more than one?
+    @ElementCollection
+    @CollectionTable(name="judgment_court_reporter")
+    @Column(name="court_reporter")
     public List<String> getCourtReporters() {
         return courtReporters;
     }
@@ -110,16 +129,19 @@ public abstract class Judgment extends DataObject {
         return reasons;
     }
 
-    /** pl. podstawa prawna */
-    public String getLegalBasis() {
-        return legalBasis;
+    /** pl. podstawy prawne */
+    @ElementCollection
+    public List<String> getLegalBases() {
+        return legalBases;
     }
 
     /** pl. data uprawomocnienia wyroku */
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
     public LocalDate getFinalJudgmentDate() {
         return finalJudgmentDate;
     }
 
+    @Enumerated(EnumType.STRING)
     public JudgmentType getJudgmentType() {
         return judgmentType;
     }
@@ -137,8 +159,8 @@ public abstract class Judgment extends DataObject {
     
     //------------------------ SETTERS --------------------------
     
-    public void setSource(JudgmentDataSource source) {
-        this.source = source;
+    public void setDataSource(JudgmentDataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public void setCaseNumber(String caseNumber) {
@@ -169,8 +191,8 @@ public abstract class Judgment extends DataObject {
         this.reasons = reasons;
     }
 
-    public void setLegalBasis(String legalBasis) {
-        this.legalBasis = legalBasis;
+    public void setLegalBases(List<String> legalBases) {
+        this.legalBases = legalBases;
     }
 
     public void setFinalJudgmentDate(LocalDate finalJudgmentDate) {
@@ -183,6 +205,10 @@ public abstract class Judgment extends DataObject {
 
     public void setTextContent(String textContent) {
         this.textContent = textContent;
+    }
+
+    public void setDataSourceJudgmentUrl(String dataSourceJudgmentUrl) {
+        this.dataSourceJudgmentUrl = dataSourceJudgmentUrl;
     }
     
 }
