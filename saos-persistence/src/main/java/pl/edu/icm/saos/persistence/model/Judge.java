@@ -2,6 +2,7 @@ package pl.edu.icm.saos.persistence.model;
 
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -15,9 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import pl.edu.icm.saos.persistence.common.DataObject;
 
 /**
@@ -26,7 +24,7 @@ import pl.edu.icm.saos.persistence.common.DataObject;
  * @author Łukasz Dumiszewski
  */
 @Entity
-@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+@Cacheable(true)
 @SequenceGenerator(name = "seq_judge", allocationSize = 1, sequenceName = "seq_judge")
 public class Judge extends DataObject {
     

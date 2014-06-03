@@ -2,6 +2,7 @@ package pl.edu.icm.saos.persistence.model;
 
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,9 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
-
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
 
@@ -22,7 +20,7 @@ import pl.edu.icm.saos.persistence.common.DataObject;
  * @author Łukasz Dumiszewski
  */
 @Entity
-@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+@Cacheable(true)
 @SequenceGenerator(name = "seq_supreme_court_chamber", allocationSize = 1, sequenceName = "seq_supreme_court_chamber")
 public class SupremeCourtChamber extends DataObject {
 

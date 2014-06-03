@@ -9,4 +9,5 @@ dependencies {
     compile lib.'org.jadira.usertype:usertype.jodatime'
     //compile lib.'net.sf.ehcache:ehcache'
     compile lib.'org.hibernate:hibernate-ehcache'
+    compile lib.'org.hibernate:hibernate-entitymanager'
 }

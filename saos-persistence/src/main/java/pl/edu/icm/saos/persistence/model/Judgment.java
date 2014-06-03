@@ -2,6 +2,7 @@ package pl.edu.icm.saos.persistence.model;
 
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -16,8 +17,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
@@ -32,7 +31,7 @@ import pl.edu.icm.saos.persistence.common.DataObject;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Cache(usage=CacheConcurrencyStrategy.READ_ONLY)
+@Cacheable(true)
 @SequenceGenerator(name = "seq_judgment", allocationSize = 1, sequenceName = "seq_judgment")
 public abstract class Judgment extends DataObject {
 

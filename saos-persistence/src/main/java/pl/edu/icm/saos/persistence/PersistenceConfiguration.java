@@ -1,28 +1,32 @@
 package pl.edu.icm.saos.persistence;
 
+import java.sql.SQLException;
 import java.util.Properties;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.SharedCacheMode;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.hibernate4.HibernateExceptionTranslator;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import pl.edu.icm.saos.persistence.common.CustomDbNamingStrategy;
 
 /**
  * @author Łukasz Dumiszewski
  */
 @Configuration
 @ComponentScan
-//@EnableJpaRepositories
+@EnableJpaRepositories
 @EnableTransactionManagement
 public class PersistenceConfiguration {
     
@@ -43,7 +47,7 @@ public class PersistenceConfiguration {
     }
     
     
-    @Bean
+    /*@Bean
     public LocalSessionFactoryBean sessionFactory() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
@@ -51,6 +55,19 @@ public class PersistenceConfiguration {
         sessionFactory.setPackagesToScan("pl.edu.icm.saos.persistence.model");
         sessionFactory.setNamingStrategy(new CustomDbNamingStrategy());
         return sessionFactory;
+    }*/
+    
+    @Bean
+    public EntityManagerFactory entityManagerFactory() {
+       LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+       emf.setDataSource(dataSource());
+       emf.setPackagesToScan(new String[] {"pl.edu.icm.saos.persistence.model"});
+       emf.setSharedCacheMode(SharedCacheMode.ENABLE_SELECTIVE);
+       HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+       emf.setJpaVendorAdapter(vendorAdapter);
+       emf.setJpaProperties(hibernateProperties());
+       emf.afterPropertiesSet();
+       return emf.getObject();
     }
     
     
@@ -61,18 +78,30 @@ public class PersistenceConfiguration {
         properties.setProperty("hibernate.format_sql", "true");
         properties.setProperty("hibernate.generate_statistics", env.getProperty("hibernate.generate_statistics"));
         properties.setProperty("hibernate.cache.use_second_level_cache", "true");        
-        properties.setProperty("hibernate.cache.region.factory_class", "org.hibernate.cache.EhCacheRegionFactory");
+        properties.setProperty("hibernate.cache.region.factory_class", "org.hibernate.cache.SingletonEhCacheRegionFactory");
         properties.setProperty("net.sf.ehcache.configurationResourceName", env.getProperty("net.sf.ehcache.configurationResourceName"));
+        properties.setProperty("hibernate.ejb.naming_strategy", "pl.edu.icm.saos.persistence.common.CustomDbNamingStrategy");
         return properties;
     }
     
-    
     @Bean
+    public PlatformTransactionManager transactionManager() throws SQLException {
+
+      JpaTransactionManager txManager = new JpaTransactionManager(entityManagerFactory());
+      return txManager;
+    }
+
+    @Bean
+    public HibernateExceptionTranslator hibernateExceptionTranslator() {
+      return new HibernateExceptionTranslator();
+    }
+    
+    /*@Bean
     @Autowired
     public HibernateTransactionManager transactionManager(SessionFactory sessionFactory) {
        HibernateTransactionManager txManager = new HibernateTransactionManager();
        txManager.setSessionFactory(sessionFactory);
        return txManager;
-    }
+    }*/
     
 }
