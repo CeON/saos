@@ -50,5 +50,3 @@ for (e in props) {
   if (e.key.startsWith('logger.')) { logger(e.key[7..-1], toLevel(e.value)) }
 }
 
-logger("org.hibernate", DEBUG)
-logger("pl.edu.icm.saos", DEBUG)
