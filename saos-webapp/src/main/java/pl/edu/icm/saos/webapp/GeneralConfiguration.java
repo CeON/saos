@@ -23,7 +23,7 @@ import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 @PropertySource(ignoreResourceNotFound=true, value={"classpath:saos.default.properties", "file:///${user.home}/.icm/saos.local.properties"})
 public class GeneralConfiguration {
 
-        
+    
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
         PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();

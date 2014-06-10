@@ -4,7 +4,9 @@ apply plugin: 'eclipse-wtp'
 apply plugin: 'compass'
 
 dependencies {
-    compile project(':saos-persistence')
+    //compile project(':saos-persistence')
+    //compile project(':saos-import')
+    compile project(path:':saos-batch')
     
     compile lib.'org.apache.tiles:tiles-jsp'
     providedCompile lib.'javax.servlet:javax.servlet-api'
@@ -41,3 +43,4 @@ eclipse.classpath.file {
         node.appendNode( 'classpathentry', [ kind: 'con', path: 'org.eclipse.jst.j2ee.internal.web.container', exported: 'true'])
     }
 }
+

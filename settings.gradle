@@ -1,3 +1,4 @@
 include 'saos-persistence',
         'saos-import',
+        'saos-batch',
         'saos-webapp'

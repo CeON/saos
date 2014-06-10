@@ -1,17 +1,14 @@
 package pl.edu.icm.saos.persistence.model;
 
-import java.util.List;
-
 import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
 
@@ -19,9 +16,14 @@ import pl.edu.icm.saos.persistence.common.DataObject;
  * pl. Sąd Powszechny
  * <br/> <br/>
  * Dictionary of common courts
+ * <br/><br/>
+ * Court codes based on: 
+ * https://github.com/CeON/saos/tree/master/saos-persistence/src/main/doc/commonCourtCodes.pdf
+ * 
  * 
  * @author Łukasz Dumiszewski
  */
+@Table(uniqueConstraints={@UniqueConstraint(name="code_unique", columnNames={"appealCourtCode", "regionalCourtCode", "districtCourtCode"})})
 @Entity
 @Cacheable(true)
 @SequenceGenerator(name = "seq_common_court", allocationSize = 1, sequenceName = "seq_common_court")
@@ -38,12 +40,12 @@ public class CommonCourt extends DataObject {
         DISTRICT_COURT 
     }
     
+    private int appealCourtCode;
+    private int regionalCourtCode;
+    private int districtCourtCode;
     
+    private String shortName;
     private String name;
-    
-    private CommonCourtType type;
-    
-    private List<CommonCourtDivision> divisions;
     
     
     
@@ -56,18 +58,41 @@ public class CommonCourt extends DataObject {
         return id;
     }
     
+    public int getAppealCourtCode() {
+        return appealCourtCode;
+    }
+
+    public int getRegionalCourtCode() {
+        return regionalCourtCode;
+    }
+
+    public int getDistrictCourtCode() {
+        return districtCourtCode;
+    }
+    
     public String getName() {
         return name;
     }
     
-    @Enumerated(EnumType.STRING)
-    public CommonCourtType getType() {
-        return type;
+    public String getShortName() {
+        return shortName;
     }
-    
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="court")
-    public List<CommonCourtDivision> getDivisions() {
-        return divisions;
+
+    @Transient
+    public CommonCourtType getType() {
+        if (districtCourtCode != 0) {
+            return CommonCourtType.DISTRICT_COURT;
+        }
+        
+        if (regionalCourtCode != 0) {
+            return CommonCourtType.REGIONAL_COURT;
+        }
+        
+        if (appealCourtCode != 0) {
+            return CommonCourtType.APPEAL_COURT;
+        }
+        
+        throw new IllegalStateException("can't identify common court type, incorrect court codes");
     }
     
     
@@ -76,10 +101,20 @@ public class CommonCourt extends DataObject {
     public void setName(String name) {
         this.name = name;
     }
-    public void setType(CommonCourtType type) {
-        this.type = type;
+    
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
-    public void setDivisions(List<CommonCourtDivision> divisions) {
-        this.divisions = divisions;
+
+    public void setAppealCourtCode(int appealCourtCode) {
+        this.appealCourtCode = appealCourtCode;
+    }
+
+    public void setRegionalCourtCode(int regionalCourtCode) {
+        this.regionalCourtCode = regionalCourtCode;
+    }
+
+    public void setDistrictCourtCode(int districtCourtCode) {
+        this.districtCourtCode = districtCourtCode;
     }
 }

@@ -1,47 +1,53 @@
 package pl.edu.icm.saos.persistence.model;
 
 import javax.persistence.Cacheable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
 
 /**
- * pl. Wydział Sądu Powszechnego
+ * pl. Typ wydziału sądu powszechnego
+ * 
+ * Based on:
+ * https://github.com/CeON/saos/tree/master/saos-persistence/src/main/doc/commonCourtCodes.pdf
+ *
  * 
  * @author Łukasz Dumiszewski
  */
 @Entity
 @Cacheable(true)
-@SequenceGenerator(name = "seq_common_court_division", allocationSize = 1, sequenceName = "seq_common_court_division")
-public class CommonCourtDivision extends DataObject {
+@SequenceGenerator(name = "seq_cc_division_type", allocationSize = 1, sequenceName = "seq_cc_division_type")
+public class CommonCourtDivisionType extends DataObject {
 
-    private CommonCourt court;
+    private String code;
     private String name;
 
     
     //------------------------ GETTERS --------------------------
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_common_court_division")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cc_division_type")
     @Override
     public int getId() {
         return id;
     }
     
-    
-    @ManyToOne
-    public CommonCourt getCourt() {
-        return court;
-    }
-
+    /** e.g. (Wydział) Pracy */
     public String getName() {
         return name;
     }
+    
+    /** e.g. 15 */
+    @Column(unique=true, nullable=false)
+    public String getCode() {
+        return code;
+    }
+    
     
     
     //------------------------ SETTERS --------------------------
@@ -50,8 +56,10 @@ public class CommonCourtDivision extends DataObject {
         this.name = name;
     }
 
-    public void setCourt(CommonCourt court) {
-        this.court = court;
+
+    public void setCode(String code) {
+        this.code = code;
     }
+
     
 }

@@ -26,6 +26,8 @@ subprojects {
         'org.springframework.security:spring-security-web'     :'org.springframework.security:spring-security-web:3.2.4.RELEASE',
         'org.springframework.security:spring-security-config'  :'org.springframework.security:spring-security-config:3.2.4.RELEASE',
     
+        'org.springframework.batch:spring-batch-core'          :'org.springframework.batch:spring-batch-core:3.0.0.RELEASE',
+        
         'org.apache.tiles:tiles-jsp'                           :'org.apache.tiles:tiles-jsp:3.0.4',
         'javax.servlet:javax.servlet-api'                      :'javax.servlet:javax.servlet-api:3.1.0',
         'javax.servlet:jsp-api'                                :'javax.servlet:jsp-api:2.0',
@@ -45,7 +47,7 @@ subprojects {
         'org.springframework:spring-orm'                       :'org.springframework:spring-orm:'+springVersion,
         'org.springframework:spring-test'                      :'org.springframework:spring-test:'+springVersion,
         
-        'org.springframework.data:spring-data-jpa'             :'org.springframework.data:spring-data-jpa:1.6.0.RELEASE',
+        
         
         'org.slf4j:slf4j-api'                                  :'org.slf4j:slf4j-api:1.7.5',
         'org.slf4j:slf4j-simple'                               :'org.slf4j:slf4j-simple:1.7.5',
@@ -80,5 +82,13 @@ subprojects {
         gradleVersion = '1.12'
     }
     
+    task packageTests(type: Jar) {
+        classifier = "tests"
+        from sourceSets.test.output
+    }
     
+    /* this below just to correct a bug of gradleEclipseWtp, without this the plugin copies also the test classes to the server */
+    eclipse.classpath.file.whenMerged { cp ->
+        cp.entries.findAll { it instanceof org.gradle.plugins.ide.eclipse.model.SourceFolder && it.path.startsWith("src/test/") }*.output = "test-bin"
+    }
 }

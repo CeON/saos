@@ -3,12 +3,12 @@ package pl.edu.icm.saos.persistence.model;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 /**
  * pl. Orzeczenie sądu powszechnego
@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class CommonCourtJudgment extends Judgment {
     
-    private CommonCourtDivision commonCourtDivision;
+    private CommonCourtData courtData = new CommonCourtData();
     private List<CommonCourtJudgmentKeyword> keywords;
     
     
@@ -31,13 +31,11 @@ public class CommonCourtJudgment extends Judgment {
     public List<CommonCourtJudgmentKeyword> getKeywords() {
         return keywords;
     }
-    
-    @ManyToOne
-    public CommonCourtDivision getCommonCourtDivision() {
-        return commonCourtDivision;
-    }
 
-    
+    @Embedded
+    public CommonCourtData getCourtData() {
+        return courtData;
+    }
     
     //------------------------ SETTERS --------------------------
     
@@ -45,7 +43,9 @@ public class CommonCourtJudgment extends Judgment {
         this.keywords = keywords;
     }
 
-    public void setCommonCourtDivision(CommonCourtDivision commonCourtDivision) {
-        this.commonCourtDivision = commonCourtDivision;
+    public void setCourtData(CommonCourtData courtData) {
+        this.courtData = courtData;
     }
+
+   
 }
