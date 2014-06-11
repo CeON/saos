@@ -52,8 +52,9 @@ subprojects {
         'org.slf4j:slf4j-api'                                  :'org.slf4j:slf4j-api:1.7.5',
         'org.slf4j:slf4j-simple'                               :'org.slf4j:slf4j-simple:1.7.5',
         'ch.qos.logback:logback-classic'                       :'ch.qos.logback:logback-classic:1.0.13',
-        'org.codehaus.groovy:groovy-all'                       :'org.codehaus.groovy:groovy-all:2.2.1' 
+        'org.codehaus.groovy:groovy-all'                       :'org.codehaus.groovy:groovy-all:2.2.1',
         
+        'org.mockito:mockito-core'                             :'org.mockito:mockito-core:1.9.5'
         
     ]
     
@@ -65,6 +66,7 @@ subprojects {
         compile lib.'org.slf4j:slf4j-simple'
         compile lib.'ch.qos.logback:logback-classic' 
         compile lib.'org.codehaus.groovy:groovy-all' 
+        compile lib.'org.mockito:mockito-core'
         
     }
 

@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @ComponentScan
-@EnableJpaRepositories
+@EnableJpaRepositories(repositoryImplementationPostfix="CustomImpl")
 @EnableTransactionManagement
 public class PersistenceConfiguration {
     

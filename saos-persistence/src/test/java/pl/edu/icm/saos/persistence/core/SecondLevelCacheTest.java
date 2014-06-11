@@ -34,6 +34,10 @@ public class SecondLevelCacheTest extends PersistenceTestSupport {
     
     @Test
     public void test() {
+        Cache cache = entityManager.getEntityManagerFactory().getCache();
+        cache.evictAll();
+        Statistics statistics = ((Session)(entityManager.getDelegate())).getSessionFactory().getStatistics();
+        statistics.clear();
         
         Judgment judgment = new CommonCourtJudgment();
         judgmentRepository.save(judgment);
@@ -41,12 +45,10 @@ public class SecondLevelCacheTest extends PersistenceTestSupport {
         judgmentRepository.findOne(judgment.getId());
         judgmentRepository.findOne(judgment.getId());
         
-        Cache cache = entityManager.getEntityManagerFactory().getCache();
         Assert.assertTrue(cache.contains(CommonCourtJudgment.class, judgment.getId()));
         cache.evict(CommonCourtJudgment.class);
         Assert.assertFalse(cache.contains(CommonCourtJudgment.class, judgment.getId()));
         
-        Statistics statistics = ((Session)(entityManager.getDelegate())).getSessionFactory().getStatistics();
         Assert.assertEquals(1, statistics.getSecondLevelCachePutCount());
         Assert.assertEquals(2, statistics.getSecondLevelCacheHitCount());
         Assert.assertEquals(0, statistics.getSecondLevelCacheMissCount());

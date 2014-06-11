@@ -6,6 +6,7 @@ import javax.persistence.Cacheable;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -46,9 +47,7 @@ public abstract class Judgment extends DataObject {
         
     }
     
-    
-    private JudgmentDataSource dataSource;
-    private String dataSourceJudgmentUrl;
+    private JudgmentSource judgmentSource = new JudgmentSource();
     
     // sentence
     private String caseNumber;
@@ -79,16 +78,12 @@ public abstract class Judgment extends DataObject {
     public int getId() {
         return id;
     }
-    
-    @Enumerated(EnumType.STRING)
-    public JudgmentDataSource getDataSource() {
-        return dataSource;
-    }
-    
-    public String getDataSourceJudgmentUrl() {
-        return dataSourceJudgmentUrl;
-    }
 
+    @Embedded
+    public JudgmentSource getJudgmentSource() {
+        return judgmentSource;
+    }
+    
     /** pl. sygnatura sprawy */
     public String getCaseNumber() {
         return caseNumber;
@@ -156,12 +151,10 @@ public abstract class Judgment extends DataObject {
     
     
     
+    
+    
     //------------------------ SETTERS --------------------------
     
-    public void setDataSource(JudgmentDataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     public void setCaseNumber(String caseNumber) {
         this.caseNumber = caseNumber;
     }
@@ -206,8 +199,10 @@ public abstract class Judgment extends DataObject {
         this.textContent = textContent;
     }
 
-    public void setDataSourceJudgmentUrl(String dataSourceJudgmentUrl) {
-        this.dataSourceJudgmentUrl = dataSourceJudgmentUrl;
+    public void setJudgmentSource(JudgmentSource judgmentSource) {
+        this.judgmentSource = judgmentSource;
     }
+
+
     
 }

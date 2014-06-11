@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
@@ -21,7 +22,13 @@ public class DbCleaner {
     
     @Transactional
     public void clean() {
-        Query query = entityManager.createQuery("delete from " + Judgment.class.getName());
+        deleteAll(Judgment.class);
+        deleteAll(CommonCourt.class);
+    }
+    
+    
+    private void deleteAll(Class<?> clazz) {
+        Query query = entityManager.createQuery("delete from " + clazz.getName());
         query.executeUpdate();
     }
     

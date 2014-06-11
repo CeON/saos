@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
  * @author Łukasz Dumiszewski
@@ -20,14 +19,12 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void testSaveAndGet() {
-        Iterable<Judgment> judgments = judgmentRepository.findAll();
-        Assert.assertFalse(judgments.iterator().hasNext());
+        Assert.assertEquals(0, judgmentRepository.count());
         
         CommonCourtJudgment judgment = new CommonCourtJudgment();
         judgmentRepository.save(judgment);
         
-        judgments = judgmentRepository.findAll();
-        Assert.assertTrue(judgments.iterator().hasNext());
+        Assert.assertEquals(1, judgmentRepository.count());
     }
     
     

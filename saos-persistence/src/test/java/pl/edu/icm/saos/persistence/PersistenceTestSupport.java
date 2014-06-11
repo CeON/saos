@@ -14,6 +14,9 @@ public abstract class PersistenceTestSupport {
     @Autowired
     private DbCleaner dbCleaner;
     
+    @Autowired
+    private DbUtils dbUtils;
+    
     
     @Before
     public void before() {
@@ -24,6 +27,12 @@ public abstract class PersistenceTestSupport {
     public void after() {
         dbCleaner.clean(); 
     }
+
     
+    protected DbUtils getDbUtils() {
+        return dbUtils;
+    }
+    
+   
     
 }
