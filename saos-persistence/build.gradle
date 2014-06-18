@@ -1,4 +1,6 @@
 dependencies {
+    compile project(':saos-common')
+    
     compile lib.'joda-time:joda-time'
     compile lib.'org.hibernate:hibernate-core'
     compile lib.'org.springframework:spring-context'

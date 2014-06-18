@@ -10,6 +10,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import org.apache.commons.lang3.StringUtils;
+
 import pl.edu.icm.saos.persistence.common.DataObject;
 
 /**
@@ -40,9 +42,9 @@ public class CommonCourt extends DataObject {
         DISTRICT_COURT 
     }
     
-    private int appealCourtCode;
-    private int regionalCourtCode;
-    private int districtCourtCode;
+    private String appealCourtCode;
+    private String regionalCourtCode;
+    private String districtCourtCode;
     
     private String shortName;
     private String name;
@@ -58,15 +60,18 @@ public class CommonCourt extends DataObject {
         return id;
     }
     
-    public int getAppealCourtCode() {
+    /** See class description */
+    public String getAppealCourtCode() {
         return appealCourtCode;
     }
 
-    public int getRegionalCourtCode() {
+    /** See class description */
+    public String getRegionalCourtCode() {
         return regionalCourtCode;
     }
 
-    public int getDistrictCourtCode() {
+    /** See class description */
+    public String getDistrictCourtCode() {
         return districtCourtCode;
     }
     
@@ -80,21 +85,79 @@ public class CommonCourt extends DataObject {
 
     @Transient
     public CommonCourtType getType() {
-        if (districtCourtCode != 0) {
+        if (!StringUtils.equals(districtCourtCode, "00")) {
             return CommonCourtType.DISTRICT_COURT;
         }
         
-        if (regionalCourtCode != 0) {
+        if (!StringUtils.equals(regionalCourtCode, "00")) {
             return CommonCourtType.REGIONAL_COURT;
         }
         
-        if (appealCourtCode != 0) {
+        if (!StringUtils.equals(appealCourtCode, "00")) {
             return CommonCourtType.APPEAL_COURT;
         }
         
         throw new IllegalStateException("can't identify common court type, incorrect court codes");
     }
     
+    @Transient
+    public String getCourtCode() {
+        return "15" + this.appealCourtCode + this.regionalCourtCode + this.districtCourtCode;
+    }
+
+    
+    //------------------------ PRIVATE --------------------------
+    
+    
+    
+    
+    //------------------------ HashCode & Equals --------------------------
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((appealCourtCode == null) ? 0 : appealCourtCode.hashCode());
+        result = prime
+                * result
+                + ((districtCourtCode == null) ? 0 : districtCourtCode
+                        .hashCode());
+        result = prime
+                * result
+                + ((regionalCourtCode == null) ? 0 : regionalCourtCode
+                        .hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CommonCourt other = (CommonCourt) obj;
+        if (appealCourtCode == null) {
+            if (other.appealCourtCode != null)
+                return false;
+        } else if (!appealCourtCode.equals(other.appealCourtCode))
+            return false;
+        if (districtCourtCode == null) {
+            if (other.districtCourtCode != null)
+                return false;
+        } else if (!districtCourtCode.equals(other.districtCourtCode))
+            return false;
+        if (regionalCourtCode == null) {
+            if (other.regionalCourtCode != null)
+                return false;
+        } else if (!regionalCourtCode.equals(other.regionalCourtCode))
+            return false;
+        return true;
+    }
+
+
     
     //------------------------ SETTERS --------------------------
     
@@ -106,15 +169,17 @@ public class CommonCourt extends DataObject {
         this.shortName = shortName;
     }
 
-    public void setAppealCourtCode(int appealCourtCode) {
+    public void setAppealCourtCode(String appealCourtCode) {
         this.appealCourtCode = appealCourtCode;
     }
 
-    public void setRegionalCourtCode(int regionalCourtCode) {
+    public void setRegionalCourtCode(String regionalCourtCode) {
         this.regionalCourtCode = regionalCourtCode;
     }
 
-    public void setDistrictCourtCode(int districtCourtCode) {
+    public void setDistrictCourtCode(String districtCourtCode) {
         this.districtCourtCode = districtCourtCode;
     }
+
+   
 }

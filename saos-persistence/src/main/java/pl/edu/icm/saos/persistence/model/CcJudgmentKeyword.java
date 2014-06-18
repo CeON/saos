@@ -17,17 +17,17 @@ import pl.edu.icm.saos.persistence.common.DataObject;
  */
 @Entity
 @Cacheable(true)
-@SequenceGenerator(name = "seq_common_court_judgment_keyword", allocationSize = 1, sequenceName = "seq_common_court_judgment_keyword")
-public class CommonCourtJudgmentKeyword extends DataObject {
+@SequenceGenerator(name = "seq_cc_judgment_keyword", allocationSize = 1, sequenceName = "seq_cc_judgment_keyword")
+public class CcJudgmentKeyword extends DataObject {
 
     private String name;
-    private CommonCourtJudgmentKeyword parent;
+    private CcJudgmentKeyword parent;
 
     
     //------------------------ GETTERS --------------------------
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_common_court_judgment_keyword")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cc_judgment_keyword")
     @Override
     public int getId() {
         return id;
@@ -38,7 +38,7 @@ public class CommonCourtJudgmentKeyword extends DataObject {
     }
 
     @ManyToOne
-    public CommonCourtJudgmentKeyword getParent() {
+    public CcJudgmentKeyword getParent() {
         return parent;
     }
 
@@ -49,7 +49,7 @@ public class CommonCourtJudgmentKeyword extends DataObject {
         this.name = name;
     }
 
-    public void setParent(CommonCourtJudgmentKeyword parent) {
+    public void setParent(CcJudgmentKeyword parent) {
         this.parent = parent;
     }
 }

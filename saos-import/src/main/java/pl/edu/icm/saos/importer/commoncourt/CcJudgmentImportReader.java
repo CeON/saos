@@ -6,8 +6,6 @@ import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.stereotype.Service;
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
-
 /**
  * @author Łukasz Dumiszewski
  */
@@ -17,7 +15,7 @@ public class CcJudgmentImportReader implements ItemReader<String> {
     private int counter = 0;
     
     @Override
-    public String read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+    public String read() throws Exception, UnexpectedInputException, NonTransientResourceException {
         while (counter<100) {
             counter++;
             return RandomStringUtils.randomAlphanumeric(10);

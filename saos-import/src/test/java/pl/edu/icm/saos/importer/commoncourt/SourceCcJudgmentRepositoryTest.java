@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.client.response.MockRestResponseCreators;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.common.collect.Sets;
 
@@ -24,20 +25,21 @@ import com.google.common.collect.Sets;
  * @author Łukasz Dumiszewski
  */
 
-public class CcJudgmentExternalRepositoryTest {
+public class SourceCcJudgmentRepositoryTest {
 
     private static final String JUDGMENT_LIST_URL = "http://externalSource.pl/judgments";
     
-    private CcJudgmentExternalRepository ccJudgmentExternalRepository = new CcJudgmentExternalRepository();
+    private SourceCcJudgmentRepository sourceCcJudgmentRepository = new SourceCcJudgmentRepository();
+    private SourceCcJudgmentUrlFactory urlFactory = Mockito.mock(SourceCcJudgmentUrlFactory.class);
     private CcJudgmentImportUtils ccJudgmentImportUtils = Mockito.mock(CcJudgmentImportUtils.class);
     private RestTemplate restTemplate = new RestTemplate();
     
     
     @Before
     public void before() {
-        ccJudgmentExternalRepository.setCcJudgmentImportUtils(ccJudgmentImportUtils);
-        ccJudgmentExternalRepository.setRestTemplate(restTemplate);
-        ccJudgmentExternalRepository.setCcJudgmentListSourceUrl(JUDGMENT_LIST_URL);
+        sourceCcJudgmentRepository.setCcJudgmentImportUtils(ccJudgmentImportUtils);
+        sourceCcJudgmentRepository.setRestTemplate(restTemplate);
+        sourceCcJudgmentRepository.setSourceCcJudgmentUrlFactory(urlFactory);
         
      }
     
@@ -49,16 +51,20 @@ public class CcJudgmentExternalRepositoryTest {
         
         Date publicationDateFrom = new LocalDate(2012, 04, 11).toDate();
         int pageNo = 2;
+        int pageSize = 10;
         String responseMessage = "<id>111</id><id>222</id>";
         
-        mockServer.expect(requestTo(generateUrl(pageNo, publicationDateFrom))).andExpect(method(HttpMethod.GET))
+        Mockito.when(urlFactory.createSourceJudgmentsUrl(Mockito.eq(pageNo), Mockito.eq(pageSize), Mockito.eq(publicationDateFrom))).thenReturn(generateUrl(pageNo, pageSize, publicationDateFrom));
+        
+        String expectedUrl = UriComponentsBuilder.fromHttpUrl(generateUrl(pageNo, pageSize, publicationDateFrom)).build().encode().toUriString();
+        mockServer.expect(requestTo(expectedUrl)).andExpect(method(HttpMethod.GET))
                 .andRespond(MockRestResponseCreators.withSuccess(responseMessage, MediaType.APPLICATION_XML));
         
         Set<String> result = Sets.newHashSet("111", "222");
         Mockito.when(ccJudgmentImportUtils.extractIds(Mockito.anyString())).thenReturn(result);
         
         
-        Set<String> realResult = ccJudgmentExternalRepository.findJudgmentIds(pageNo, publicationDateFrom);
+        Set<String> realResult = sourceCcJudgmentRepository.findJudgmentIds(pageNo, pageSize, publicationDateFrom);
         
         Assert.assertEquals(result, realResult);
         mockServer.verify();
@@ -68,11 +74,11 @@ public class CcJudgmentExternalRepositoryTest {
 
     //------------------------ PRIVATE --------------------------
 
-    private String generateUrl(int pageNo, Date publicationDateFrom) {
-        String publicationDateFromParam = new SimpleDateFormat(ccJudgmentExternalRepository.getQueryDateFromFormat()).format(publicationDateFrom);
-        int limit = ccJudgmentExternalRepository.getPageSize();
+    private String generateUrl(int pageNo, int pageSize, Date publicationDateFrom) {
+        String publicationDateFromParam = new SimpleDateFormat("yyyy-MM-dd").format(publicationDateFrom);
+        int limit = pageSize;
         int offset = limit * (pageNo-1);
-        return JUDGMENT_LIST_URL+"?offset="+ offset +"&limit="+limit+"&sort=signature%7Casc&publicationDateFrom="+publicationDateFromParam;
+        return JUDGMENT_LIST_URL+"?offset="+ offset +"&limit="+limit+"&sort=signature|asc&publicationDateFrom="+publicationDateFromParam;
     }
     
     

@@ -1,6 +1,6 @@
 package pl.edu.icm.saos.persistence.repository;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.JudgmentSource;
@@ -16,6 +16,6 @@ public interface CcJudgmentRepositoryCustom {
      * {@link CommonCourtJudgment}s. <br/> 
      * See: {@link CommonCourtJudgment#getJudgmentSource()}
      */
-    public Date getMaxSourcePublicationDate();
+    public DateTime getMaxSourcePublicationDate();
     
 }

@@ -1,6 +1,6 @@
-insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '3', 'Cywilny');
-insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '6', 'Karny');
-insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '9', 'Cywilny Rodzinny');
+insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '03', 'Cywilny');
+insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '06', 'Karny');
+insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '09', 'Cywilny Rodzinny');
 insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '12', 'Rodzinny i Nieletnich');
 insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '15', 'Pracy');
 insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '18', 'Ubezpieczeń Społecznych');

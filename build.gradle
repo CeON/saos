@@ -46,16 +46,16 @@ subprojects {
         'org.springframework:spring-webmvc'                    :'org.springframework:spring-webmvc:'+springVersion,
         'org.springframework:spring-orm'                       :'org.springframework:spring-orm:'+springVersion,
         'org.springframework:spring-test'                      :'org.springframework:spring-test:'+springVersion,
-        
-        
+        'org.springframework:spring-oxm'                       :'org.springframework:spring-oxm:'+springVersion,
+        'org.springframework:spring-web'                       :'org.springframework:spring-web:'+springVersion,
         
         'org.slf4j:slf4j-api'                                  :'org.slf4j:slf4j-api:1.7.5',
         'org.slf4j:slf4j-simple'                               :'org.slf4j:slf4j-simple:1.7.5',
         'ch.qos.logback:logback-classic'                       :'ch.qos.logback:logback-classic:1.0.13',
-        'org.codehaus.groovy:groovy-all'                       :'org.codehaus.groovy:groovy-all:2.2.1',
+        'org.codehaus.groovy:groovy-all'                       :'org.codehaus.groovy:groovy-all:2.3.2',
         
-        'org.mockito:mockito-core'                             :'org.mockito:mockito-core:1.9.5'
-        
+        'org.mockito:mockito-core'                             :'org.mockito:mockito-core:1.9.5',
+        'com.google.guava:guava'                               :'com.google.guava:guava:17.0'
     ]
     
     dependencies {
@@ -67,6 +67,7 @@ subprojects {
         compile lib.'ch.qos.logback:logback-classic' 
         compile lib.'org.codehaus.groovy:groovy-all' 
         compile lib.'org.mockito:mockito-core'
+        compile lib.'com.google.guava:guava'
         
     }
 

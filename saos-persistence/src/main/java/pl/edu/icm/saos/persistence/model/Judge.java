@@ -16,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.gradle.jarjar.com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.persistence.common.DataObject;
 
 /**
@@ -27,6 +29,7 @@ import pl.edu.icm.saos.persistence.common.DataObject;
 @Cacheable(true)
 @SequenceGenerator(name = "seq_judge", allocationSize = 1, sequenceName = "seq_judge")
 public class Judge extends DataObject {
+    
     
     public enum JudgeRole {
         
@@ -44,8 +47,26 @@ public class Judge extends DataObject {
     
     private String name;
     
-    private List<JudgeRole> roles;
+    private List<JudgeRole> specialRoles;
 
+    
+    
+    
+    //------------------------ CONSTRUCTORS --------------------------
+    
+    
+    public Judge(String name, JudgeRole... specialRoles) {
+        super();
+        this.name = name;
+        this.specialRoles = Lists.newArrayList(specialRoles);
+    }
+    
+
+    public Judge() {
+        super();
+    }
+
+    
     
     //------------------------ GETTERS --------------------------
     
@@ -60,8 +81,8 @@ public class Judge extends DataObject {
     @ElementCollection
     @CollectionTable(name="judge_role", joinColumns = @JoinColumn(name = "fk_judge"))
     @Column(name="role")
-    public List<JudgeRole> getRoles() {
-        return roles;
+    public List<JudgeRole> getSpecialRoles() {
+        return specialRoles;
     }
 
     @ManyToOne
@@ -78,8 +99,8 @@ public class Judge extends DataObject {
     
     //------------------------ SETTERS --------------------------
     
-    public void setRoles(List<JudgeRole> roles) {
-        this.roles = roles;
+    public void setSpecialRoles(List<JudgeRole> specialRoles) {
+        this.specialRoles = specialRoles;
     }
 
     public void setJudgment(Judgment judgment) {

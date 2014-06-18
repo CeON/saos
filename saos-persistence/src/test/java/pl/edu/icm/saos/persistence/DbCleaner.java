@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
@@ -24,6 +25,8 @@ public class DbCleaner {
     public void clean() {
         deleteAll(Judgment.class);
         deleteAll(CommonCourt.class);
+        deleteAll(CommonCourtDivisionType.class);
+        
     }
     
     

@@ -1,9 +1,8 @@
 package pl.edu.icm.saos.persistence.repository;
 
-import java.util.Date;
-
 import javax.transaction.Transactional;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -24,9 +23,9 @@ public class CcJudgmentRepositoryTest extends PersistenceTestSupport {
     @Test
     @Transactional
     public void getMaxSourcePublicationDate() {
-        CommonCourtJudgment ccJudgment20121221_2112 = createCcJudgment(new LocalDateTime(2012, 12, 21, 21, 12, 13).toDate());
-        CommonCourtJudgment ccJudgment20131101_2311 = createCcJudgment(new LocalDateTime(2013, 11, 1, 23, 11, 12).toDate());
-        CommonCourtJudgment ccJudgment20131101_2312 = createCcJudgment(new LocalDateTime(2013, 11, 1, 23, 12, 12).toDate());
+        CommonCourtJudgment ccJudgment20121221_2112 = createCcJudgment(new LocalDateTime(2012, 12, 21, 21, 12, 13).toDateTime());
+        CommonCourtJudgment ccJudgment20131101_2311 = createCcJudgment(new LocalDateTime(2013, 11, 1, 23, 11, 12).toDateTime());
+        CommonCourtJudgment ccJudgment20131101_2312 = createCcJudgment(new LocalDateTime(2013, 11, 1, 23, 12, 12).toDateTime());
         
         getDbUtils().persist(ccJudgment20121221_2112, ccJudgment20131101_2311, ccJudgment20131101_2312);
         
@@ -36,7 +35,7 @@ public class CcJudgmentRepositoryTest extends PersistenceTestSupport {
     
     //------------------------ PRIVATE --------------------------
     
-    private CommonCourtJudgment createCcJudgment(Date sourcePublicationDate) {
+    private CommonCourtJudgment createCcJudgment(DateTime sourcePublicationDate) {
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
         ccJudgment.getJudgmentSource().setSourcePublicationDate(sourcePublicationDate);
         return ccJudgment;

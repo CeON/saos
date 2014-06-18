@@ -3,6 +3,7 @@ package pl.edu.icm.saos.persistence.model;
 import java.util.List;
 
 import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -23,6 +24,8 @@ import org.joda.time.LocalDate;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
 
+import com.google.common.collect.Lists;
+
 
 /**
  * 
@@ -39,11 +42,13 @@ public abstract class Judgment extends DataObject {
     /** pl. rodzaj wyroku */
     public enum JudgmentType {
         /** pl. postanowienie */
-        DECREE,
+        DECISION,
         /** pl. uchwała */
         RESOLUTION,
         /** pl. wyrok */
-        JUDGMENT
+        SENTENCE,
+        /** pl. uzasadnienie */
+        REASON
         
     }
     
@@ -52,8 +57,10 @@ public abstract class Judgment extends DataObject {
     // sentence
     private String caseNumber;
     private LocalDate judgmentDate;
-    private List<Judge> judges;
+    private List<Judge> judges = Lists.newArrayList();;
     private List<String> courtReporters; 
+    private String publisher;
+    private String reviser;
     
     private String decision; 
     
@@ -64,6 +71,8 @@ public abstract class Judgment extends DataObject {
     private String textContent;
     
     private List<String> legalBases;
+    private List<ReferencedRegulation> referencedRegulations;
+    
     private LocalDate finalJudgmentDate;
     
     private JudgmentType judgmentType;
@@ -107,6 +116,16 @@ public abstract class Judgment extends DataObject {
     public List<String> getCourtReporters() {
         return courtReporters;
     }
+    
+    /** pl. osoba publikująca orzeczenie */
+    public String getPublisher() {
+        return publisher;
+    }
+
+    /** pl. osoba sprawdzająca i poprawiająca orzeczenie przed publikacją */
+    public String getReviser() {
+        return reviser;
+    }
 
     /** pl. rozstrzygnięcie */
     public String getDecision() {
@@ -128,7 +147,17 @@ public abstract class Judgment extends DataObject {
     public List<String> getLegalBases() {
         return legalBases;
     }
+    
+    /**
+     * Referenced law journal entries
+     * pl. powołane przepisy
+     */
+    @OneToMany(mappedBy="judgment", cascade=CascadeType.ALL)
+    public List<ReferencedRegulation> getReferencedRegulations() {
+        return referencedRegulations;
+    }
 
+    
     /** pl. data uprawomocnienia wyroku */
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
     public LocalDate getFinalJudgmentDate() {
@@ -148,7 +177,12 @@ public abstract class Judgment extends DataObject {
     }
 
     
+    //------------------------ LOGIC --------------------------
     
+    public void addJudge(Judge judge) {
+        this.judges.add(judge);
+        judge.setJudgment(this);
+    }
     
     
     
@@ -163,7 +197,9 @@ public abstract class Judgment extends DataObject {
         this.judgmentDate = judgmentDate;
     }
 
-    public void setJudges(List<Judge> judges) {
+   
+    @SuppressWarnings("unused") // for hibernate only
+    private void setJudges(List<Judge> judges) {
         this.judges = judges;
     }
 
@@ -201,6 +237,18 @@ public abstract class Judgment extends DataObject {
 
     public void setJudgmentSource(JudgmentSource judgmentSource) {
         this.judgmentSource = judgmentSource;
+    }
+
+    public void setReferencedRegulations(List<ReferencedRegulation> referencedRegulations) {
+        this.referencedRegulations = referencedRegulations;
+    }
+
+    public void setPublisher(String publisher) {
+        this.publisher = publisher;
+    }
+
+    public void setReviser(String reviser) {
+        this.reviser = reviser;
     }
 
 

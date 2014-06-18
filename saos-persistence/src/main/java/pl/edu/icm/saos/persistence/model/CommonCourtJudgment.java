@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.google.common.collect.Lists;
+
 /**
  * pl. Orzeczenie sądu powszechnego
  * 
@@ -19,7 +21,7 @@ import javax.persistence.ManyToMany;
 public class CommonCourtJudgment extends Judgment {
     
     private CommonCourtData courtData = new CommonCourtData();
-    private List<CommonCourtJudgmentKeyword> keywords;
+    private List<CcJudgmentKeyword> keywords = Lists.newArrayList();
     
     
     //------------------------ GETTERS --------------------------
@@ -28,7 +30,7 @@ public class CommonCourtJudgment extends Judgment {
     @JoinTable(name = "assigned_cc_judgment_keyword",
             joinColumns = {@JoinColumn(name = "fk_judgment", nullable = false, updatable = false) }, 
             inverseJoinColumns = {@JoinColumn(name = "fk_keyword", nullable = false, updatable = false) })
-    public List<CommonCourtJudgmentKeyword> getKeywords() {
+    public List<CcJudgmentKeyword> getKeywords() {
         return keywords;
     }
 
@@ -37,9 +39,16 @@ public class CommonCourtJudgment extends Judgment {
         return courtData;
     }
     
+    
+    //------------------------ LOGIC --------------------------
+    
+    public void addKeyword(CcJudgmentKeyword keyword) {
+        this.keywords.add(keyword);
+    }
+    
     //------------------------ SETTERS --------------------------
     
-    public void setKeywords(List<CommonCourtJudgmentKeyword> keywords) {
+    public void setKeywords(List<CcJudgmentKeyword> keywords) {
         this.keywords = keywords;
     }
 

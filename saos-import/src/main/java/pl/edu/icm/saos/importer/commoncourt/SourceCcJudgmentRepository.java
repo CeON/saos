@@ -1,19 +1,22 @@
 package pl.edu.icm.saos.importer.commoncourt;
 
-import java.text.SimpleDateFormat;
+import java.io.StringReader;
 import java.util.Date;
 import java.util.Set;
 
-import org.joda.time.LocalDate;
+import javax.xml.transform.stream.StreamSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import pl.edu.icm.saos.importer.commoncourt.xml.SourceCcJudgment;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -22,28 +25,28 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 @Service
-public class CcJudgmentExternalRepository {
+public class SourceCcJudgmentRepository {
 
-    private int pageSize = 10;
-    
-    private String queryDateFromFormat = "yyyy-MM-dd";
-    
-    private String ccJudgmentListSourceUrl;
     
     private RestTemplate restTemplate = new RestTemplate();
     
     private CcJudgmentImportUtils ccJudgmentImportUtils;
+    
+    private Jaxb2Marshaller ccJudgmentMarshaller;
+    
+    private SourceCcJudgmentUrlFactory sourceCcJudgmentUrlFactory;
+    
     
     
     /**
      * @param pageNo starts from 1
      * @param publicationDateFrom if null then all judgments taken into account
      */
-    Set<String> findJudgmentIds(int pageNo, Date publicationDateFrom) {
+    public Set<String> findJudgmentIds(int pageNo, int pageSize, Date publicationDateFrom) {
         
         Preconditions.checkArgument(pageNo >= 1);
         
-        String url = createFindJudgmentsUrl(pageNo, publicationDateFrom);
+        String url = sourceCcJudgmentUrlFactory.createSourceJudgmentsUrl(pageNo, pageSize, publicationDateFrom);
         
         HttpHeaders headers = createHttpHeaders();
        
@@ -52,17 +55,33 @@ public class CcJudgmentExternalRepository {
         return ccJudgmentImportUtils.extractIds(response.getBody());
     }
 
+    
+    
+    public SourceCcJudgment findJudgment(String judgmentId) {
+        
+        String url = sourceCcJudgmentUrlFactory.createSourceJudgmentUrl(judgmentId);
+        
+        HttpHeaders headers = createHttpHeaders();
+        
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
+        
+        return (SourceCcJudgment)ccJudgmentMarshaller.unmarshal(new StreamSource(new StringReader(response.getBody())));
+    }
 
-
+    
 
    
     
     public static void main(String[] args) {
-        CcJudgmentExternalRepository repo = new CcJudgmentExternalRepository();
+        SourceCcJudgmentRepository repo = new SourceCcJudgmentRepository();
         repo.setCcJudgmentImportUtils(new CcJudgmentImportUtils());
-        Set<String> judgments = repo.findJudgmentIds(1, new LocalDate("2014-06-04").toDate());
-        
-        System.out.println(judgments);
+        //Set<String> judgments = repo.findJudgmentIds(1, new LocalDate("2014-06-04").toDate());
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+        marshaller.setClassesToBeBound(SourceCcJudgment.class);          
+        repo.setCcJudgmentMarshaller(marshaller);
+        //repo.setCcJudgmentDetailsSourceUrl("http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details");
+        SourceCcJudgment judgment = repo.findJudgment("155000000001521_III_AUa_001639_2011_Uz_2012-01-26_001");
+        System.out.println(judgment);
         
     }
 
@@ -70,13 +89,6 @@ public class CcJudgmentExternalRepository {
     
     //------------------------ PRIVATE --------------------------
     
-    private String createFindJudgmentsUrl(int pageNo, Date publicationDateFrom) {
-        String url = ccJudgmentListSourceUrl +"?offset="+pageSize*(pageNo-1)+"&limit="+pageSize+"&sort=signature|asc";
-        if (publicationDateFrom != null) {
-            url += "&publicationDateFrom="+new SimpleDateFormat(queryDateFromFormat).format(publicationDateFrom);
-        }
-        return url;
-    }
     
     
     private HttpHeaders createHttpHeaders() {
@@ -89,15 +101,8 @@ public class CcJudgmentExternalRepository {
     
     //------------------------ GETTERS --------------------------
 
-    public String getQueryDateFromFormat() {
-        return queryDateFromFormat;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-
+   
+   
     
     //------------------------ SETTERS --------------------------
     
@@ -105,23 +110,22 @@ public class CcJudgmentExternalRepository {
     public void setCcJudgmentImportUtils(CcJudgmentImportUtils ccJudgmentImportUtils) {
         this.ccJudgmentImportUtils = ccJudgmentImportUtils;
     }
+
+    @Autowired
+    public void setCcJudgmentMarshaller(Jaxb2Marshaller ccJudgmentMarshaller) {
+        this.ccJudgmentMarshaller = ccJudgmentMarshaller;
+    }
     
     public void setRestTemplate(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public void setQueryDateFromFormat(String queryDateFromFormat) {
-        this.queryDateFromFormat = queryDateFromFormat;
+    @Autowired
+    public void setSourceCcJudgmentUrlFactory(SourceCcJudgmentUrlFactory sourceCcJudgmentUrlFactory) {
+        this.sourceCcJudgmentUrlFactory = sourceCcJudgmentUrlFactory;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    @Value("${import.judgmentList.commonCourt.source.url}")
-    public void setCcJudgmentListSourceUrl(String ccJudgmentListSourceUrl) {
-        this.ccJudgmentListSourceUrl = ccJudgmentListSourceUrl;
-    }
     
+
     
 }

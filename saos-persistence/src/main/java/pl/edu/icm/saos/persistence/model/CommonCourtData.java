@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 public class CommonCourtData {
     
     private CommonCourt court;
-    private byte courtDivisionNumber;
+    private int courtDivisionNumber;
     private CommonCourtDivisionType courtDivisionType;
     
     
@@ -26,10 +26,13 @@ public class CommonCourtData {
         return court;
     }
 
-    public byte getCourtDivisionNumber() {
+    public int getCourtDivisionNumber() {
         return courtDivisionNumber;
     }
 
+    
+    //------------------------ LOGIC --------------------------
+    
     
     //------------------------ SETTERS --------------------------
     
@@ -41,7 +44,7 @@ public class CommonCourtData {
         this.court = court;
     }
 
-    public void setCourtDivisionNumber(byte courtDivisionNumber) {
+    public void setCourtDivisionNumber(int courtDivisionNumber) {
         this.courtDivisionNumber = courtDivisionNumber;
     }
 }

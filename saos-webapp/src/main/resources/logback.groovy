@@ -50,3 +50,4 @@ for (e in props) {
   if (e.key.startsWith('logger.')) { logger(e.key[7..-1], toLevel(e.value)) }
 }
 
+

@@ -1,10 +1,11 @@
 package pl.edu.icm.saos.persistence.model;
 
-import java.util.Date;
-
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 /**
  * @author Łukasz Dumiszewski
@@ -15,7 +16,7 @@ public class JudgmentSource {
     private JudgmentSourceType sourceType;
     private String sourceJudgmentUrl;
     private String sourceJudgmentId;
-    private Date sourcePublicationDate;
+    private DateTime sourcePublicationDate;
     
     
     
@@ -35,7 +36,8 @@ public class JudgmentSource {
         return sourceJudgmentId;
     }
     
-    public Date getSourcePublicationDate() {
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    public DateTime getSourcePublicationDate() {
         return sourcePublicationDate;
     }
 
@@ -56,7 +58,7 @@ public class JudgmentSource {
         this.sourceJudgmentId = sourceJudgmentId;
     }
 
-    public void setSourcePublicationDate(Date sourcePublicationDate) {
+    public void setSourcePublicationDate(DateTime sourcePublicationDate) {
         this.sourcePublicationDate = sourcePublicationDate;
     }
 }

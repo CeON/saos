@@ -8,6 +8,6 @@ import pl.edu.icm.saos.persistence.model.CommonCourt;
  * @author Łukasz Dumiszewski
  */
 
-public interface CommonCourtRepository extends JpaRepository<CommonCourt, Integer> {
+public interface CommonCourtRepository extends JpaRepository<CommonCourt, Integer>, CommonCourtRepositoryCustom {
 
 }

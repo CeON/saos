@@ -1,9 +1,8 @@
 package pl.edu.icm.saos.persistence.repository;
 
-import java.util.Date;
-
 import javax.persistence.EntityManager;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
@@ -19,9 +18,9 @@ public class CcJudgmentRepositoryCustomImpl implements CcJudgmentRepositoryCusto
     
     
     @Override
-    public Date getMaxSourcePublicationDate() {
+    public DateTime getMaxSourcePublicationDate() {
         String jpql = "select max(judgmentSource.sourcePublicationDate) from " + CommonCourtJudgment.class.getName();
-        return entityManager.createQuery(jpql, Date.class).getSingleResult();
+        return entityManager.createQuery(jpql, DateTime.class).getSingleResult();
     }
 
 }

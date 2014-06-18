@@ -1,4 +1,5 @@
-include 'saos-persistence',
+include 'saos-common',
+        'saos-persistence',
         'saos-import',
         'saos-batch',
         'saos-webapp'
