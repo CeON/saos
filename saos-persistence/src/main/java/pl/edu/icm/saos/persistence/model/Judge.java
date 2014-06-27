@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.gradle.jarjar.com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
@@ -96,6 +97,12 @@ public class Judge extends DataObject {
     }
 
 
+    //------------------------ LOGIC --------------------------
+    
+    public boolean hasAnySpecialRole() {
+        return !CollectionUtils.isEmpty(getSpecialRoles());
+    }
+    
     
     //------------------------ SETTERS --------------------------
     

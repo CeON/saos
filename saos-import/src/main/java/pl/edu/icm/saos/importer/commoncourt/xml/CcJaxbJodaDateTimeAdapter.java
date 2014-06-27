@@ -4,9 +4,8 @@ package pl.edu.icm.saos.importer.commoncourt.xml;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+
+import pl.edu.icm.saos.importer.commoncourt.download.CcjImportDateFormatter;
 
 
 /**
@@ -17,15 +16,14 @@ import org.joda.time.format.DateTimeFormatter;
  */
 public class CcJaxbJodaDateTimeAdapter extends XmlAdapter<String, DateTime> {
 
-    private static DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.S");
-
+    private CcjImportDateFormatter ccjImportDateFormatter = new CcjImportDateFormatter();
     
     public DateTime unmarshal(String xmlDate) throws Exception {
         
-        return fmt.withZone(DateTimeZone.forID("CET")).parseDateTime(xmlDate.substring(0, 21));
+        return ccjImportDateFormatter.parse(xmlDate);
     }
 
     public String marshal(DateTime dateTime) throws Exception {
-        return fmt.print(dateTime);
+        return ccjImportDateFormatter.format(dateTime);
     }
 }

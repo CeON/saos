@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.commoncourt;
+package pl.edu.icm.saos.importer.commoncourt.process;
 
 /**
  * @author Łukasz Dumiszewski
@@ -51,5 +51,42 @@ public class LawJournalEntryData {
     }
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    
+    //------------------------ HashCode & Equals --------------------------
+        
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + entry;
+        result = prime * result + journalNo;
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + year;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        LawJournalEntryData other = (LawJournalEntryData) obj;
+        if (entry != other.entry)
+            return false;
+        if (journalNo != other.journalNo)
+            return false;
+        if (title == null) {
+            if (other.title != null)
+                return false;
+        } else if (!title.equals(other.title))
+            return false;
+        if (year != other.year)
+            return false;
+        return true;
     }
 }

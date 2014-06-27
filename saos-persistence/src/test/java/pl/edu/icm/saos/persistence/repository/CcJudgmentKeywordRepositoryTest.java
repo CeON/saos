@@ -26,16 +26,16 @@ public class CcJudgmentKeywordRepositoryTest extends PersistenceTestSupport {
     @Transactional
     public void findOneByName() {
         String keywordName = "Emerytura";
-        CcJudgmentKeyword keyword = ccJudgmentKeywordRepository.findOneByName(keywordName);
+        CcJudgmentKeyword keyword = ccJudgmentKeywordRepository.findOneByPhrase(keywordName);
         assertNull(keyword);
         
         keyword = new CcJudgmentKeyword();
-        keyword.setName(keywordName);
+        keyword.setPhrase(keywordName);
         ccJudgmentKeywordRepository.save(keyword);
         
-        CcJudgmentKeyword dbKeyword  = ccJudgmentKeywordRepository.findOneByName(keywordName);
+        CcJudgmentKeyword dbKeyword  = ccJudgmentKeywordRepository.findOneByPhrase(keywordName);
         assertNotNull(dbKeyword);
-        assertEquals(keywordName, dbKeyword.getName());
+        assertEquals(keywordName, dbKeyword.getPhrase());
     }
     
     

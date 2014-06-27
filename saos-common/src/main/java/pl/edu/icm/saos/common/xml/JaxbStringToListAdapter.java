@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.commoncourt.xml;
+package pl.edu.icm.saos.common.xml;
 
 import java.util.List;
 

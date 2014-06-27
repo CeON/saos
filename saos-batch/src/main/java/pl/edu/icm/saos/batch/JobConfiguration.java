@@ -9,10 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 
-import pl.edu.icm.saos.importer.commoncourt.CcJudgmentImportProcessor;
-import pl.edu.icm.saos.importer.commoncourt.CcJudgmentImportReader;
-import pl.edu.icm.saos.importer.commoncourt.CcJudgmentImportWriter;
+import pl.edu.icm.saos.importer.commoncourt.download.CcjImportDownloadProcessor;
+import pl.edu.icm.saos.importer.commoncourt.download.CcjImportDownloadReader;
+import pl.edu.icm.saos.importer.commoncourt.download.CcjImportDownloadWriter;
+import pl.edu.icm.saos.importer.commoncourt.download.SourceCcJudgmentTextData;
+import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 
 
 @Configuration
@@ -26,14 +30,19 @@ public class JobConfiguration {
     private StepBuilderFactory steps;
 
     
-    @Autowired
-    private CcJudgmentImportReader ccJudgmentImportReader;
     
     @Autowired
-    private CcJudgmentImportWriter ccJudgmentImportWriter;
+    private CcjImportDownloadWriter ccjImportDownloadWriter;
     
     @Autowired
-    private CcJudgmentImportProcessor ccJudgmentImportProcessor;
+    private CcjImportDownloadProcessor ccjImportDownloadProcessor;
+    
+    
+    @Scope(value="step", proxyMode = ScopedProxyMode.TARGET_CLASS)
+    @Bean
+    public CcjImportDownloadReader ccjImportDownloadReader() {
+        return new CcjImportDownloadReader();
+    }
     
     
     @Bean
@@ -41,13 +50,16 @@ public class JobConfiguration {
         return jobs.get("judgmentImportJob").start(ccJudgmentImportStep()).incrementer(new RunIdIncrementer()).build();
     }
 
+    
+    
     @Bean
     @Autowired
     protected Step ccJudgmentImportStep() {
-        return steps.get("ccJudgmentImportStep").<String, String> chunk(10)
-            .reader(ccJudgmentImportReader)
-            .processor(ccJudgmentImportProcessor)
-            .writer(ccJudgmentImportWriter)
+        return steps.get("ccJudgmentImportDownloadStep").<SourceCcJudgmentTextData, RawSourceCcJudgment> chunk(20)
+            .faultTolerant()
+            .reader(ccjImportDownloadReader())
+            .processor(ccjImportDownloadProcessor)
+            .writer(ccjImportDownloadWriter)
             .build();
     } 
     

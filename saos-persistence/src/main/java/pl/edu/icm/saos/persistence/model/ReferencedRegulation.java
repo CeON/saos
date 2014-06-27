@@ -46,7 +46,6 @@ public class ReferencedRegulation extends DataObject {
 
     /**
      *  The raw legal basis text from the judgment source. <br/>
-     *  Not filled (null) if the {@link #getLawJournalEntry()} filled.
      * */
     public String getRawText() {
         return rawText;

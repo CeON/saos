@@ -17,6 +17,7 @@ subprojects {
     ext.lib = [
         'org.apache.commons:commons-lang3'                     :'org.apache.commons:commons-lang3:3.3.2',
         'commons-collections:commons-collections'              :'commons-collections:commons-collections:3.2.1',
+        'commons-codec:commons-codec'                          :'commons-codec:commons-codec:1.9',
         'joda-time:joda-time'                                  :'joda-time:joda-time:2.3',
         'joda-time:joda-time-jsptags'                          :'joda-time:joda-time-jsptags:1.1.1',
         

@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.commoncourt;
+package pl.edu.icm.saos.importer.commoncourt.download;
 
 @GrabResolver(name='codehaus', root='http://repository.codehaus.org')
 @Grab(group='org.codehaus.groovy.modules.http-builder', module='http-builder', version='0.7')

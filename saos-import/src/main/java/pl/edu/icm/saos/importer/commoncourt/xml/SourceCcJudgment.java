@@ -13,6 +13,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import pl.edu.icm.saos.common.xml.JaxbStringToListAdapter;
+
 /**
  * DTO containing judgment data imported from an external source
  * 
@@ -80,6 +82,12 @@ public class SourceCcJudgment {
     @XmlElement
     private String thesis;
     
+    
+    private String textContent;
+    
+    private String sourceUrl;
+    
+    
     //------------------------ GETTERS --------------------------
     
     public String getSignature() {
@@ -125,7 +133,7 @@ public class SourceCcJudgment {
     public List<String> getLegalBases() {
         return legalBases;
     }
-
+    
     public String getRecorder() {
         return recorder;
     }
@@ -150,6 +158,16 @@ public class SourceCcJudgment {
         return thesis;
     }
 
+    public String getTextContent() {
+        return textContent;
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    
+    
     
     
     //------------------------ LOGIC --------------------------
@@ -235,6 +253,14 @@ public class SourceCcJudgment {
 
     public void setThesis(String thesis) {
         this.thesis = thesis;
+    }
+
+    public void setTextContent(String textContent) {
+        this.textContent = textContent;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
     }
 
 

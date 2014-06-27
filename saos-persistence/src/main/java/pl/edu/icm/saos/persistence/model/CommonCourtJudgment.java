@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 import com.google.common.collect.Lists;
 
@@ -44,6 +45,20 @@ public class CommonCourtJudgment extends Judgment {
     
     public void addKeyword(CcJudgmentKeyword keyword) {
         this.keywords.add(keyword);
+    }
+    
+    @Transient
+    public CcJudgmentKeyword getKeyword(String phrase) {
+        for (CcJudgmentKeyword keyword : this.keywords) {
+            if (keyword.getPhrase().equalsIgnoreCase(phrase)) {
+                return keyword;
+            }
+        }
+        return null;
+    }
+    
+    public boolean hasKeyword(String phrase) {
+        return getKeyword(phrase) != null;
     }
     
     //------------------------ SETTERS --------------------------

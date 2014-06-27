@@ -18,11 +18,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
 import com.google.common.collect.Lists;
 
@@ -71,7 +73,7 @@ public abstract class Judgment extends DataObject {
     private String textContent;
     
     private List<String> legalBases;
-    private List<ReferencedRegulation> referencedRegulations;
+    private List<ReferencedRegulation> referencedRegulations = Lists.newArrayList();
     
     private LocalDate finalJudgmentDate;
     
@@ -184,6 +186,30 @@ public abstract class Judgment extends DataObject {
         judge.setJudgment(this);
     }
     
+    public void addReferencedRegulation(ReferencedRegulation regulation) {
+        this.referencedRegulations.add(regulation);
+        regulation.setJudgment(this);
+    }
+    
+    /**
+     * Returns {@link Judge}s that have the given role. If the role == null then returns judges that
+     * have no special role assigned. See {@link Judge#getSpecialRoles()}. 
+     */
+    @Transient
+    public List<Judge> getJudges(JudgeRole role) {
+        List<Judge> roleJudges = Lists.newArrayList();
+        for (Judge judge : getJudges()) {
+            if (role != null && judge.hasAnySpecialRole()) {
+                if (judge.getSpecialRoles().contains(role)) {
+                    roleJudges.add(judge);
+                }
+            }
+            else if (role == null && !judge.hasAnySpecialRole()) {
+                roleJudges.add(judge);
+            }
+        }
+        return roleJudges;
+    }
     
     
     
@@ -239,7 +265,8 @@ public abstract class Judgment extends DataObject {
         this.judgmentSource = judgmentSource;
     }
 
-    public void setReferencedRegulations(List<ReferencedRegulation> referencedRegulations) {
+    @SuppressWarnings("unused") // for hibernate only
+    private void setReferencedRegulations(List<ReferencedRegulation> referencedRegulations) {
         this.referencedRegulations = referencedRegulations;
     }
 

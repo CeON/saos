@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.ReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 
 /**
  * @author Łukasz Dumiszewski
@@ -23,9 +26,13 @@ public class DbCleaner {
     
     @Transactional
     public void clean() {
+        deleteAll(ReferencedRegulation.class);
+        deleteAll(LawJournalEntry.class);
         deleteAll(Judgment.class);
         deleteAll(CommonCourt.class);
         deleteAll(CommonCourtDivisionType.class);
+        
+        deleteAll(RawSourceCcJudgment.class);
         
     }
     

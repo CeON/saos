@@ -20,7 +20,7 @@ import pl.edu.icm.saos.persistence.common.DataObject;
 @SequenceGenerator(name = "seq_cc_judgment_keyword", allocationSize = 1, sequenceName = "seq_cc_judgment_keyword")
 public class CcJudgmentKeyword extends DataObject {
 
-    private String name;
+    private String phrase;
     private CcJudgmentKeyword parent;
 
     
@@ -33,8 +33,8 @@ public class CcJudgmentKeyword extends DataObject {
         return id;
     }
     
-    public String getName() {
-        return name;
+    public String getPhrase() {
+        return phrase;
     }
 
     @ManyToOne
@@ -45,8 +45,8 @@ public class CcJudgmentKeyword extends DataObject {
     
     //------------------------ SETTERS --------------------------
     
-    public void setName(String name) {
-        this.name = name;
+    public void setPhrase(String phrase) {
+        this.phrase = phrase;
     }
 
     public void setParent(CcJudgmentKeyword parent) {

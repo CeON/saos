@@ -8,4 +8,5 @@ dependencies {
         compile lib.'joda-time:joda-time'
         compile lib.'org.springframework:spring-oxm'
         compile lib.'org.springframework:spring-web'
+        compile lib.'commons-codec:commons-codec'
 }

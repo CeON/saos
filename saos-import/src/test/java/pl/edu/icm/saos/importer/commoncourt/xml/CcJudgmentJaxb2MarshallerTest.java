@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.commoncourt;
+package pl.edu.icm.saos.importer.commoncourt.xml;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,9 +23,9 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 
-public class CcJudgmentMarshallerTest {
+public class CcJudgmentJaxb2MarshallerTest {
     
-    private static Logger log = LoggerFactory.getLogger(CcJudgmentMarshallerTest.class);
+    private static Logger log = LoggerFactory.getLogger(CcJudgmentJaxb2MarshallerTest.class);
     
     
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
@@ -43,9 +43,9 @@ public class CcJudgmentMarshallerTest {
                                  "<courtId>15500000</courtId>"+
                                  "<departmentId>1521</departmentId>"+
                                  "<type>SENTENCE, REASON</type>"+
-                                 "<chairman>Barbara Ciuraszkiewicz</chairman>"+
+                                 "<chairman>Barbara Ciuraszkiewicz  </chairman>"+
                                  "<judges>"+
-                                 "   <judge>Barbara Ciuraszkiewicz</judge>"+
+                                 "   <judge> Barbara Ciuraszkiewicz</judge>"+
                                  "   <judge>Danuta Owsiana</judge>"+
                                  "   <judge>Danuta Rychlik-Dobrowolska</judge>"+
                                  "</judges>"+

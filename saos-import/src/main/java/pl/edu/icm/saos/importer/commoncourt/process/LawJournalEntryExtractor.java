@@ -1,26 +1,23 @@
-package pl.edu.icm.saos.importer.commoncourt;
+package pl.edu.icm.saos.importer.commoncourt.process;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.stereotype.Service;
 
 import com.google.common.base.Preconditions;
 
 /**
  * @author Łukasz Dumiszewski
  */
-
-public final class LawJournalEntryExtractor {
+@Service("lawJournalEntryExtractor")
+public class LawJournalEntryExtractor {
 
     private static final String TITLE_YEAR_SEPARATOR = "###YEAR###";
     
     
-    private LawJournalEntryExtractor() {
-        throw new IllegalStateException("may not be instantiated");
-    }
-
     
     /** 
      * Extracts law journal entry data from string of a form like this: <br/>
@@ -28,7 +25,7 @@ public final class LawJournalEntryExtractor {
      * 
      * @returns null if the year or number or entry of the journal cannot be found in the given string
      */
-    public static LawJournalEntryData extractLawJournalEntry(String lawJournalEntryString) {
+    public LawJournalEntryData extractLawJournalEntry(String lawJournalEntryString) {
         Preconditions.checkNotNull(lawJournalEntryString);
         
         String title = extractTitle(lawJournalEntryString);
@@ -62,25 +59,25 @@ public final class LawJournalEntryExtractor {
     
     //------------------------ PRIVATE --------------------------
 
-    private static Integer extractYear(String yearNumberEntryPart) {
+    private Integer extractYear(String yearNumberEntryPart) {
         Pattern p = Pattern.compile("^([1|2][0-9]{3}\\s*r)");
         Matcher m = p.matcher(yearNumberEntryPart);
         return findNumber(m);
     }
 
-    private static Integer extractNumber(String yearNumberEntryPart) {
+    private Integer extractNumber(String yearNumberEntryPart) {
         Pattern p = Pattern.compile("[N|n][R|r]\\s*[0-9]+");
         Matcher m = p.matcher(yearNumberEntryPart);
         return findNumber(m);
     }
 
-    private static Integer extractEntry(String yearNumberEntryPart) {
+    private Integer extractEntry(String yearNumberEntryPart) {
         Pattern p = Pattern.compile("[P|p][O|o][Z|z]\\s*\\.*\\s*[0-9]+");
         Matcher m = p.matcher(yearNumberEntryPart);
         return findNumber(m);
     }
 
-    private static Integer findNumber(Matcher m) {
+    private Integer findNumber(Matcher m) {
         if (m.find()) {
             String number = m.group().replaceAll("\\D", "");
             return NumberUtils.toInt(number);
@@ -88,11 +85,11 @@ public final class LawJournalEntryExtractor {
         return null;
     }
     
-    private static String extractTitle(String entry) {
+    private String extractTitle(String entry) {
         return extractPart(entry, 0);
     }
 
-    private static String extractYearNumberEntryPart(String entry) {
+    private String extractYearNumberEntryPart(String entry) {
         return extractPart(entry, 1);
     }
 

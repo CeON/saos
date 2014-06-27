@@ -11,6 +11,6 @@ import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 public interface CcJudgmentKeywordRepository  extends JpaRepository<CcJudgmentKeyword, Integer> {
 
     
-    CcJudgmentKeyword findOneByName(String name);
+    CcJudgmentKeyword findOneByPhrase(String phrase);
     
 }

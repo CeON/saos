@@ -1,8 +1,7 @@
-package pl.edu.icm.saos.importer.commoncourt;
+package pl.edu.icm.saos.importer.commoncourt.download;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,37 +16,50 @@ public class SourceCcJudgmentUrlFactory {
     
     private String ccJudgmentDetailsSourceUrl;
     
+    private String ccJudgmentContentSourceUrl;
+    
+    
     private String queryDateFromFormat = "yyyy-MM-dd";
     
     
     
-    String createSourceJudgmentsUrl(int pageNo, int pageSize, Date publicationDateFrom) {
+    String createSourceJudgmentsUrl(int pageNo, int pageSize, DateTime publicationDateFrom) {
         String url = ccJudgmentListSourceUrl +"?offset="+pageSize*(pageNo-1)+"&limit="+pageSize+"&sort=signature|asc";
         if (publicationDateFrom != null) {
-            url += "&publicationDateFrom="+new SimpleDateFormat(queryDateFromFormat).format(publicationDateFrom);
+            url += "&publicationDateFrom="+publicationDateFrom.toString(DateTimeFormat.forPattern(queryDateFromFormat));
         }
         return url;
     }
     
-    String createSourceJudgmentUrl(String judgmentId) {
+    String createSourceJudgmentDetailsUrl(String judgmentId) {
         return ccJudgmentDetailsSourceUrl + "?id="+judgmentId;
+    }
+    
+    String createSourceJudgmentContentUrl(String judgmentId) {
+        return ccJudgmentContentSourceUrl + "?id="+judgmentId;
     }
     
     
     
     //------------------------ SETTERS --------------------------
     
-    @Value("${import.judgmentList.commonCourt.source.url}")
+    @Value("${import.commonCourt.judgmentList.source.url}")
     public void setCcJudgmentListSourceUrl(String ccJudgmentListSourceUrl) {
         this.ccJudgmentListSourceUrl = ccJudgmentListSourceUrl;
     }
 
 
-    @Value("${import.judgmentDetails.commonCourt.source.url}")
+    @Value("${import.commonCourt.judgmentDetails.source.url}")
     public void setCcJudgmentDetailsSourceUrl(String ccJudgmentDetailsSourceUrl) {
         this.ccJudgmentDetailsSourceUrl = ccJudgmentDetailsSourceUrl;
     }
 
+    
+    @Value("${import.commonCourt.judgmentContent.source.url}")
+    public void setCcJudgmentContentSourceUrl(String ccJudgmentContentSourceUrl) {
+        this.ccJudgmentContentSourceUrl = ccJudgmentContentSourceUrl;
+    }
+    
     public void setQueryDateFromFormat(String queryDateFromFormat) {
         this.queryDateFromFormat = queryDateFromFormat;
     }
