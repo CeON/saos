@@ -1,12 +1,11 @@
 package pl.edu.icm.saos.persistence.common;
 
 
-import java.util.Date;
-
-import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.persistence.Version;
+
+import org.joda.time.DateTime;
 
 /**
  * 
@@ -18,7 +17,7 @@ public abstract class DataObject {
 
     protected int id;
     private int ver;
-    private Date creationDate = new Date(); 
+    private DateTime creationDate = new DateTime(); 
    
     
     
@@ -33,8 +32,7 @@ public abstract class DataObject {
     /**
      * timestamp utworzenia rekordu
      */
-    @Column(columnDefinition="timestamp")
-    public Date getCreationDate() {
+    public DateTime getCreationDate() {
         return creationDate;
     }
     
@@ -52,7 +50,7 @@ public abstract class DataObject {
 
     /** for hibernate */
     @SuppressWarnings("unused")
-    private void setCreationDate(Date creationDate) {
+    private void setCreationDate(DateTime creationDate) {
         this.creationDate = creationDate;
     }
 

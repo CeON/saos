@@ -40,7 +40,7 @@ subprojects {
         
         'org.apache.commons:commons-dbcp2'                     :'org.apache.commons:commons-dbcp2:2.0.1',
         'org.postgresql:postgresql'                            :'org.postgresql:postgresql:9.3-1101-jdbc41',
-        'org.jadira.usertype:usertype.jodatime'                :'org.jadira.usertype:usertype.jodatime:2.0.1',
+        'org.jadira.usertype:usertype.core'                    :'org.jadira.usertype:usertype.core:3.2.0.GA',
         'net.sf.ehcache:ehcache'                               :'net.sf.ehcache:ehcache:2.8.2',
         
         'org.springframework:spring-context'                   :'org.springframework:spring-context:'+springVersion,
@@ -69,6 +69,8 @@ subprojects {
         compile lib.'org.codehaus.groovy:groovy-all' 
         compile lib.'org.mockito:mockito-core'
         compile lib.'com.google.guava:guava'
+        compile lib.'commons-collections:commons-collections' 
+        
         
     }
 

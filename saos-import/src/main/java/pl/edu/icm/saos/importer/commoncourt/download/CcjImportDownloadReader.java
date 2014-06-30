@@ -1,11 +1,11 @@
 package pl.edu.icm.saos.importer.commoncourt.download;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ExecutionContext;
@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 
 import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
@@ -37,15 +39,18 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
     
     private String customPublicationDateFrom = null;
     
-    @Autowired
     private SourceCcjExternalRepository sourceCcjExternalRepository;
     
-    @Autowired
     private RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository;
+    
+    private CcjImportDateFormatter ccjImportDateFormatter;
+    
     
     
     @Override
     public SourceCcJudgmentTextData read() throws Exception, UnexpectedInputException, NonTransientResourceException {
+        Preconditions.checkNotNull(publicationDateFrom);
+        
         if (CollectionUtils.isEmpty(judgmentIds)) {
             judgmentIds = new LinkedList<String>(sourceCcjExternalRepository.findJudgmentIds(pageNo, pageSize, publicationDateFrom));
             if (CollectionUtils.isEmpty(judgmentIds)) {
@@ -70,9 +75,9 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
         pageNo = 1;
         judgmentIds = Lists.newLinkedList();
         if (customPublicationDateFrom == null) {
-            publicationDateFrom = new DateTime(2014, 06, 22, 23, 59, DateTimeZone.forID("CET"));
+            publicationDateFrom = rawSourceCcJudgmentRepository.findMaxPublicationDate();
         } else {
-            publicationDateFrom = new CcjImportDateFormatter().parse(customPublicationDateFrom);
+            publicationDateFrom = ccjImportDateFormatter.parse(customPublicationDateFrom);
         }
         log.info("publication date from: {}", new CcjImportDateFormatter().format(publicationDateFrom));
     }
@@ -89,6 +94,22 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
     }
     
     
+    //------------------------ GETTERS --------------------------
+    
+    int getPageNo() {
+        return pageNo;
+    }
+
+
+    DateTime getPublicationDateFrom() {
+        return publicationDateFrom;
+    }
+
+
+    List<String> getJudgmentIds() {
+        return ImmutableList.copyOf(judgmentIds);
+    }
+
     
     //------------------------ SETTERS --------------------------
     
@@ -101,6 +122,24 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
         this.customPublicationDateFrom = customPublicationDateFrom;
     }
 
+
+    @Autowired
+    public void setSourceCcjExternalRepository(SourceCcjExternalRepository sourceCcjExternalRepository) {
+        this.sourceCcjExternalRepository = sourceCcjExternalRepository;
+    }
+
+    @Autowired
+    public void setRawSourceCcJudgmentRepository(RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository) {
+        this.rawSourceCcJudgmentRepository = rawSourceCcJudgmentRepository;
+    }
+
+    @Autowired
+    public void setCcjImportDateFormatter(CcjImportDateFormatter ccjImportDateFormatter) {
+        this.ccjImportDateFormatter = ccjImportDateFormatter;
+    }
+
+
+    
 
    
 

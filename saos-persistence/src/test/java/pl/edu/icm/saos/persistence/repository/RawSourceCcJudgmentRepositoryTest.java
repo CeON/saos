@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +21,7 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
     @Autowired
     private RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository;
     
+
     
     @Test
     public void findOneBySourceIdAndDataMd5_NotFound() {
@@ -30,6 +30,7 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
         RawSourceCcJudgment rawSourceCcJudgment = rawSourceCcJudgmentRepository.findOneBySourceIdAndDataMd5(sourceId, dataMd5);
         
         assertNull(rawSourceCcJudgment);
+        
     }
     
     
@@ -41,6 +42,7 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
         RawSourceCcJudgment rawSourceCcJudgment = new RawSourceCcJudgment();
         rawSourceCcJudgment.setSourceId(sourceId);
         rawSourceCcJudgment.setDataMd5(dataMd5);
+        rawSourceCcJudgment.setPublicationDate(new DateTime(2014, 06, 20, 23, 13, 2, 2));
         rawSourceCcJudgmentRepository.save(rawSourceCcJudgment);
         
         RawSourceCcJudgment dbRawSourceCcJudgment = rawSourceCcJudgmentRepository.findOneBySourceIdAndDataMd5(sourceId, dataMd5);
@@ -56,14 +58,14 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
         DateTime maxPublicationDate = rawSourceCcJudgmentRepository.findMaxPublicationDate();
         assertNull(maxPublicationDate);
         
-        DateTime maxDateTime = new DateTime(2014, 06, 20, 23, 13, 2, 3, DateTimeZone.forID("CET"));
+        DateTime maxDateTime = new DateTime(2014, 06, 20, 23, 13, 2, 3);
         createAndSaveRawSourceCcJudgment(maxDateTime);
-        createAndSaveRawSourceCcJudgment(new DateTime(2014, 06, 20, 23, 13, 2, 2, DateTimeZone.forID("CET")));
-        createAndSaveRawSourceCcJudgment(new DateTime(2011, 06, 20, 23, 13, 3, DateTimeZone.forID("CET")));
-        createAndSaveRawSourceCcJudgment(new DateTime(2013, 12, 20, 22, 13, 1, DateTimeZone.forID("CET")));
+        createAndSaveRawSourceCcJudgment(new DateTime(2014, 06, 20, 23, 13, 2, 2));
+        createAndSaveRawSourceCcJudgment(new DateTime(2011, 06, 20, 23, 13, 3));
+        createAndSaveRawSourceCcJudgment(new DateTime(2013, 12, 20, 22, 13, 1));
         
         maxPublicationDate = rawSourceCcJudgmentRepository.findMaxPublicationDate();
-        //assertEquals(maxDateTime, maxPublicationDate);
+        assertEquals(maxDateTime, maxPublicationDate);
         
     }
 

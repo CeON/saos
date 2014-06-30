@@ -7,7 +7,6 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +49,7 @@ public class SourceCcjExternalRepositoryTest {
     public void findJudgmentIds() {
         MockRestServiceServer mockServer = MockRestServiceServer.createServer(restTemplate);
         
-        DateTime publicationDateFrom = new DateTime(2012, 04, 11, 12, 00, DateTimeZone.forID("CET"));
+        DateTime publicationDateFrom = new DateTime(2012, 04, 11, 12, 00);
         int pageNo = 2;
         int pageSize = 10;
         String responseMessage = "<id>111</id><id>222</id>";

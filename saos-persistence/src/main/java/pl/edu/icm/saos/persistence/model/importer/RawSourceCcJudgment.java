@@ -10,7 +10,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 import pl.edu.icm.saos.persistence.common.ColumnDefinitionConst;
@@ -54,7 +53,6 @@ public class RawSourceCcJudgment extends DataObject {
         return processed;
     }
 
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     public DateTime getProcessingDate() {
         return processingDate;
     }
@@ -99,7 +97,6 @@ public class RawSourceCcJudgment extends DataObject {
     }
 
     /** date of publication in the source system */
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     public DateTime getPublicationDate() {
         return publicationDate;
     }

@@ -81,6 +81,9 @@ public class PersistenceConfiguration {
         properties.setProperty("hibernate.cache.region.factory_class", "org.hibernate.cache.SingletonEhCacheRegionFactory");
         properties.setProperty("net.sf.ehcache.configurationResourceName", env.getProperty("net.sf.ehcache.configurationResourceName"));
         properties.setProperty("hibernate.ejb.naming_strategy", "pl.edu.icm.saos.persistence.common.CustomDbNamingStrategy");
+        properties.setProperty("jadira.usertype.autoRegisterUserTypes", env.getProperty("jadira.usertype.autoRegisterUserTypes"));
+        properties.setProperty("jadira.usertype.databaseZone", env.getProperty("jadira.usertype.databaseZone"));
+        properties.setProperty("jadira.usertype.javaZone", env.getProperty("jadira.usertype.javaZone"));
         return properties;
     }
     

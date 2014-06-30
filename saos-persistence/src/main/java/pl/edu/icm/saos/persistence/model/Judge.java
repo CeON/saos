@@ -17,9 +17,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.gradle.jarjar.com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
+
+import com.google.common.collect.Lists;
 
 /**
  * pl. Sędzia

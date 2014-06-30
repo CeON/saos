@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.importer.commoncourt.download;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,11 +22,14 @@ public class SourceCcJudgmentUrlFactory {
     
     private String queryDateFromFormat = "yyyy-MM-dd";
     
+    @Value("${import.commonCourt.dates.timeZoneId}")
+    private String timeZoneId = "Europe/Warsaw";
     
     
     String createSourceJudgmentsUrl(int pageNo, int pageSize, DateTime publicationDateFrom) {
         String url = ccJudgmentListSourceUrl +"?offset="+pageSize*(pageNo-1)+"&limit="+pageSize+"&sort=signature|asc";
         if (publicationDateFrom != null) {
+            publicationDateFrom = publicationDateFrom.toDateTime(DateTimeZone.forID(timeZoneId));
             url += "&publicationDateFrom="+publicationDateFrom.toString(DateTimeFormat.forPattern(queryDateFromFormat));
         }
         return url;

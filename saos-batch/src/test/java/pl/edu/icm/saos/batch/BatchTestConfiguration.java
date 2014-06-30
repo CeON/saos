@@ -2,23 +2,26 @@ package pl.edu.icm.saos.batch;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
+import pl.edu.icm.saos.batch.core.BatchCoreTest;
 import pl.edu.icm.saos.batch.core.TestProcessor;
 import pl.edu.icm.saos.batch.core.TestReader;
 import pl.edu.icm.saos.batch.core.TestWriter;
-import pl.edu.icm.saos.importer.ImportConfiguration;
 
 /**
  * @author Łukasz Dumiszewski
  */
 @Configuration
-@Import({BatchConfiguration.class, ImportConfiguration.class})
+@EnableBatchProcessing
+@ComponentScan(basePackageClasses=BatchCoreTest.class)
+//@Import({BatchConfiguration.class})
 public class BatchTestConfiguration {
 
     

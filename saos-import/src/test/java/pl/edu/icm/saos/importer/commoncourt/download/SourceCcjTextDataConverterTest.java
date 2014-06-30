@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -32,7 +31,7 @@ public class SourceCcjTextDataConverterTest {
     private SourceCcJudgment sourceCcJudgment = new SourceCcJudgment();
     private String sourceId = "sourceId123";
     private String caseNumber = "caseNumber11223";
-    private DateTime publicationDate = new DateTime(2014,6,24,18,15,06,0, DateTimeZone.forID("CET"));
+    private DateTime publicationDate = new DateTime(2014,6,24,18,15,06,0);
     
     
     @Before

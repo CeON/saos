@@ -47,7 +47,7 @@ public class JobScheduler {
         
         Map<String, JobParameter> params = Maps.newHashMap();
         params.put("startDate", new JobParameter(new Date()));
-        params.put("customPublicationDateFrom", new JobParameter(new CcjImportDateFormatter().format(new DateTime(2014, 06, 15, 23, 59, DateTimeZone.forID("CET")))));
+        params.put("customPublicationDateFrom", new JobParameter(new CcjImportDateFormatter().format(new DateTime(2014, 06, 26, 23, 59, DateTimeZone.forID("Europe/Warsaw")))));
         JobExecution execution = jobLauncher.run(judgmentImportJob, new JobParameters(params));
         
         log.info("Judgment import has finished, exit status: {}", execution.getStatus());
