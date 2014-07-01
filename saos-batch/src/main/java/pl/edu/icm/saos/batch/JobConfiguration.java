@@ -16,6 +16,10 @@ import pl.edu.icm.saos.importer.commoncourt.download.CcjImportDownloadProcessor;
 import pl.edu.icm.saos.importer.commoncourt.download.CcjImportDownloadReader;
 import pl.edu.icm.saos.importer.commoncourt.download.CcjImportDownloadWriter;
 import pl.edu.icm.saos.importer.commoncourt.download.SourceCcJudgmentTextData;
+import pl.edu.icm.saos.importer.commoncourt.process.CcjImportProcessProcessor;
+import pl.edu.icm.saos.importer.commoncourt.process.CcjImportProcessReader;
+import pl.edu.icm.saos.importer.commoncourt.process.CcjImportProcessWriter;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 
 
@@ -37,6 +41,16 @@ public class JobConfiguration {
     @Autowired
     private CcjImportDownloadProcessor ccjImportDownloadProcessor;
     
+    @Autowired
+    private CcjImportProcessReader ccjImportProcessReader;
+    
+    @Autowired
+    private CcjImportProcessProcessor ccjImportProcessProcessor;
+    
+    @Autowired
+    private CcjImportProcessWriter ccjImportProcessWriter;
+    
+    
     
     @Scope(value="step", proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Bean
@@ -46,15 +60,28 @@ public class JobConfiguration {
     
     
     @Bean
-    public Job judgmentImportJob() {
-        return jobs.get("judgmentImportJob").start(ccJudgmentImportStep()).incrementer(new RunIdIncrementer()).build();
+    public Job ccJudgmentImportJob() {
+        return jobs.get("ccJudgmentImportJob").start(ccJudgmentImportDownloadStep()).next(ccJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
     }
 
     
     
     @Bean
+    public Job ccJudgmentImportDownloadJob() {
+        return jobs.get("ccJudgmentImportDownloadJob").start(ccJudgmentImportDownloadStep()).incrementer(new RunIdIncrementer()).build();
+    }
+    
+    
+    @Bean
+    public Job ccJudgmentImportProcessJob() {
+        return jobs.get("ccJudgmentImportProcessJob").start(ccJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
+    }
+    
+    
+    
+    @Bean
     @Autowired
-    protected Step ccJudgmentImportStep() {
+    protected Step ccJudgmentImportDownloadStep() {
         return steps.get("ccJudgmentImportDownloadStep").<SourceCcJudgmentTextData, RawSourceCcJudgment> chunk(20)
             .faultTolerant()
             .reader(ccjImportDownloadReader())
@@ -63,7 +90,15 @@ public class JobConfiguration {
             .build();
     } 
     
-    
+    @Bean
+    @Autowired
+    protected Step ccJudgmentImportProcessStep() {
+        return steps.get("ccJudgmentImportProcessStep").<RawSourceCcJudgment, CommonCourtJudgment> chunk(20)
+            .reader(ccjImportProcessReader)
+            .processor(ccjImportProcessProcessor)
+            .writer(ccjImportProcessWriter)
+            .build();
+    } 
     
     
   

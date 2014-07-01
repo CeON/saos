@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.persistence.repository;
 
 import org.joda.time.DateTime;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -18,5 +20,8 @@ public interface RawSourceCcJudgmentRepository extends JpaRepository<RawSourceCc
     
     @Query("select max(rJudgment.publicationDate) from RawSourceCcJudgment rJudgment")
     DateTime findMaxPublicationDate();
+    
+    @Query("select rJudgment from RawSourceCcJudgment rJudgment where rJudgment.processed = false  order by justReasons, publicationDate, id")
+    Page<RawSourceCcJudgment> findNotProcessed(Pageable pageable);
     
 }

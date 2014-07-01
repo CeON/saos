@@ -37,20 +37,37 @@ public class JobScheduler {
     private JobLauncher jobLauncher;
    
     @Autowired
-    private Job judgmentImportJob;
+    public Job ccJudgmentImportJob;
+    
+    @Autowired
+    private Job ccJudgmentImportProcessJob;
     
     
     @Scheduled(cron="${importJudgments.cron}")
-    public void importJudgments() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
+    public void importCcJudgments() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
         
         log.info("Judgment import has started");
         
         Map<String, JobParameter> params = Maps.newHashMap();
         params.put("startDate", new JobParameter(new Date()));
-        params.put("customPublicationDateFrom", new JobParameter(new CcjImportDateFormatter().format(new DateTime(2014, 06, 26, 23, 59, DateTimeZone.forID("Europe/Warsaw")))));
-        JobExecution execution = jobLauncher.run(judgmentImportJob, new JobParameters(params));
+        params.put("customPublicationDateFrom", new JobParameter(new CcjImportDateFormatter().format(new DateTime(2014, 06, 15, 23, 59, DateTimeZone.forID("Europe/Warsaw")))));
+        JobExecution execution = jobLauncher.run(ccJudgmentImportJob, new JobParameters(params));
         
         log.info("Judgment import has finished, exit status: {}", execution.getStatus());
+   
+    }
+    
+
+    @Scheduled(cron="0 0/5 * * * *")
+    public void processRawCcJudgments() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
+        
+        log.info("Judgment import processing has started");
+        
+        Map<String, JobParameter> params = Maps.newHashMap();
+        params.put("startDate", new JobParameter(new Date()));
+        JobExecution execution = jobLauncher.run(ccJudgmentImportProcessJob, new JobParameters(params));
+        
+        log.info("Judgment import processing has finished, exit status: {}", execution.getStatus());
    
     }
 

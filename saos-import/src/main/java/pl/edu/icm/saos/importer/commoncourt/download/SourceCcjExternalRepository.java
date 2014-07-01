@@ -45,12 +45,12 @@ public class SourceCcjExternalRepository {
     
     
     /**
-     * @param pageNo starts from 1
+     * @param pageNo 0-based
      * @param publicationDateFrom if null then all judgments taken into account
      */
     public List<String> findJudgmentIds(int pageNo, int pageSize, DateTime publicationDateFrom) {
         
-        Preconditions.checkArgument(pageNo >= 1);
+        Preconditions.checkArgument(pageNo >= 0);
         
         String url = sourceCcJudgmentUrlFactory.createSourceJudgmentsUrl(pageNo, pageSize, publicationDateFrom);
         

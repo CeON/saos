@@ -15,7 +15,7 @@ import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
  * 
  * @author Łukasz Dumiszewski
  */
-@Service
+@Service("ccjImportDownloadProcessor")
 public class CcjImportDownloadProcessor implements ItemProcessor<SourceCcJudgmentTextData, RawSourceCcJudgment> {
 
     private static Logger log = LoggerFactory.getLogger(CcjImportDownloadProcessor.class);

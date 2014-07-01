@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -20,7 +21,9 @@ import pl.edu.icm.saos.persistence.common.DataObject;
  * 
  * @author Łukasz Dumiszewski
  */
-@Table(schema="importer", uniqueConstraints={@UniqueConstraint(name="sourceIdDataMd5_Unique", columnNames={"sourceId", "dataMd5"})})
+@Table(schema="importer",
+    indexes = {@Index(name="idx_source_id", columnList="sourceId"), @Index(name="idx_data_md5", columnList="dataMd5")},
+    uniqueConstraints={@UniqueConstraint(name="sourceIdDataMd5_Unique", columnNames={"sourceId", "dataMd5"})})
 @Entity
 @Cacheable(false)
 @SequenceGenerator(name = "seq_raw_source_cc_judgment", allocationSize = 1, sequenceName = "seq_raw_source_cc_judgment")
@@ -157,6 +160,42 @@ public class RawSourceCcJudgment extends DataObject {
 
     public void setDataMd5(String dataMd5) {
         this.dataMd5 = dataMd5;
+    }
+
+    
+    //------------------------ HashCode & Equals --------------------------
+    
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((dataMd5 == null) ? 0 : dataMd5.hashCode());
+        result = prime * result
+                + ((sourceId == null) ? 0 : sourceId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RawSourceCcJudgment other = (RawSourceCcJudgment) obj;
+        if (dataMd5 == null) {
+            if (other.dataMd5 != null)
+                return false;
+        } else if (!dataMd5.equals(other.dataMd5))
+            return false;
+        if (sourceId == null) {
+            if (other.sourceId != null)
+                return false;
+        } else if (!sourceId.equals(other.sourceId))
+            return false;
+        return true;
     }
 
    

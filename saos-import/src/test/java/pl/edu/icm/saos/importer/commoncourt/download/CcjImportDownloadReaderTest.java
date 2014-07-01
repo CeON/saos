@@ -59,7 +59,7 @@ public class CcjImportDownloadReaderTest {
         verify(rawSourceCcJudgmentRepository).findMaxPublicationDate();
         
         assertEquals(maxPublicationDate, ccjImportDownloadReader.getPublicationDateFrom());
-        assertEquals(1, ccjImportDownloadReader.getPageNo());
+        assertEquals(0, ccjImportDownloadReader.getPageNo());
         assertEquals(0, ccjImportDownloadReader.getJudgmentIds().size());
         
     }
@@ -80,7 +80,7 @@ public class CcjImportDownloadReaderTest {
         verify(ccjImportDateFormatter).parse(Mockito.eq(customPublicationDateFrom));
         
         assertEquals(customPublicationDate, ccjImportDownloadReader.getPublicationDateFrom());
-        assertEquals(1, ccjImportDownloadReader.getPageNo());
+        assertEquals(0, ccjImportDownloadReader.getPageNo());
         assertEquals(0, ccjImportDownloadReader.getJudgmentIds().size());
         
     }
@@ -94,19 +94,19 @@ public class CcjImportDownloadReaderTest {
         readerOpen(publicationDate);
         
         List<String> judgmentIds = Lists.newArrayList("123", "234");
-        when(sourceCcjExternalRepository.findJudgmentIds(Mockito.eq(1), Mockito.eq(pageSize) , Mockito.eq(publicationDate))).thenReturn(judgmentIds);
+        when(sourceCcjExternalRepository.findJudgmentIds(Mockito.eq(0), Mockito.eq(pageSize) , Mockito.eq(publicationDate))).thenReturn(judgmentIds);
         
         SourceCcJudgmentTextData ccjTextData = createCcjTextData("1111x");
         when(sourceCcjExternalRepository.findJudgment(Mockito.eq(judgmentIds.get(0)))).thenReturn(ccjTextData);
         
         SourceCcJudgmentTextData readTextData = ccjImportDownloadReader.read();
         
-        verify(sourceCcjExternalRepository).findJudgmentIds(Mockito.eq(1), Mockito.eq(pageSize) , Mockito.eq(publicationDate));
+        verify(sourceCcjExternalRepository).findJudgmentIds(Mockito.eq(0), Mockito.eq(pageSize) , Mockito.eq(publicationDate));
         verify(sourceCcjExternalRepository).findJudgment(Mockito.eq(judgmentIds.get(0)));
         
         assertCcjTextData(ccjTextData, readTextData);
         judgmentIds.remove(0);
-        assertReader(2, publicationDate, judgmentIds);
+        assertReader(1, publicationDate, judgmentIds);
         
         
         
@@ -126,7 +126,7 @@ public class CcjImportDownloadReaderTest {
         
         assertCcjTextData(ccjTextData, readTextData);
         judgmentIds.remove(0);
-        assertReader(2, publicationDate, judgmentIds);
+        assertReader(1, publicationDate, judgmentIds);
     }
 
     
@@ -142,12 +142,12 @@ public class CcjImportDownloadReaderTest {
         
         SourceCcJudgmentTextData readTextData = ccjImportDownloadReader.read();
         
-        verify(sourceCcjExternalRepository).findJudgmentIds(Mockito.eq(1), Mockito.eq(pageSize) , Mockito.eq(publicationDate));
+        verify(sourceCcjExternalRepository).findJudgmentIds(Mockito.eq(0), Mockito.eq(pageSize) , Mockito.eq(publicationDate));
         
         verify(sourceCcjExternalRepository, never()).findJudgment(Mockito.anyString());
         
         assertNull(readTextData);
-        assertReader(1, publicationDate, judgmentIds);
+        assertReader(0, publicationDate, judgmentIds);
     }
         
     

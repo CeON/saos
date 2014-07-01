@@ -33,7 +33,7 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
     private Logger log = LoggerFactory.getLogger(CcjImportDownloadReader.class);
     
     private int pageSize = 100;
-    private int pageNo = 1;
+    private int pageNo = 0;
     private DateTime publicationDateFrom;
     private Queue<String> judgmentIds;
     
@@ -72,7 +72,7 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
     
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        pageNo = 1;
+        pageNo = 0;
         judgmentIds = Lists.newLinkedList();
         if (customPublicationDateFrom == null) {
             publicationDateFrom = rawSourceCcJudgmentRepository.findMaxPublicationDate();
