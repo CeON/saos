@@ -12,8 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import pl.edu.icm.saos.importer.commoncourt.process.LawJournalEntryCreator;
-import pl.edu.icm.saos.importer.commoncourt.process.LawJournalEntryData;
+import pl.edu.icm.saos.common.testUtils.ReflectionFieldSetter;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
 
@@ -35,7 +34,7 @@ public class LawJournalEntryCreatorTest {
     @Before
     public void before() {
         
-        lawJournalEntry.setId(114);
+        ReflectionFieldSetter.setField(lawJournalEntry, "id", 114);
         lawJournalEntry.setYear(2011);
         lawJournalEntry.setEntry(11);
         lawJournalEntry.setEntry(1);

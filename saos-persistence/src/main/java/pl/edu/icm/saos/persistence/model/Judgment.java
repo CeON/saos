@@ -17,15 +17,18 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
+import org.springframework.util.ObjectUtils;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 
@@ -48,9 +51,7 @@ public abstract class Judgment extends DataObject {
         /** pl. uchwała */
         RESOLUTION,
         /** pl. wyrok */
-        SENTENCE,
-        /** pl. uzasadnienie */
-        REASON
+        SENTENCE
         
     }
     
@@ -60,22 +61,17 @@ public abstract class Judgment extends DataObject {
     private String caseNumber;
     private LocalDate judgmentDate;
     private List<Judge> judges = Lists.newArrayList();;
-    private List<String> courtReporters; 
-    private String publisher;
-    private String reviser;
-    
+    private List<String> courtReporters = Lists.newArrayList(); 
     private String decision; 
     
     private String summary;
     
-    private String reasons; 
+    private JudgmentReasoning reasoning; 
 
     private String textContent;
     
-    private List<String> legalBases;
+    private List<String> legalBases = Lists.newArrayList();
     private List<ReferencedRegulation> referencedRegulations = Lists.newArrayList();
-    
-    private LocalDate finalJudgmentDate;
     
     private JudgmentType judgmentType;
     
@@ -106,7 +102,7 @@ public abstract class Judgment extends DataObject {
         return judgmentDate;
     }
 
-    @OneToMany(mappedBy="judgment")
+    @OneToMany(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL)
     public List<Judge> getJudges() {
         return judges;
     }
@@ -119,16 +115,6 @@ public abstract class Judgment extends DataObject {
         return courtReporters;
     }
     
-    /** pl. osoba publikująca orzeczenie */
-    public String getPublisher() {
-        return publisher;
-    }
-
-    /** pl. osoba sprawdzająca i poprawiająca orzeczenie przed publikacją */
-    public String getReviser() {
-        return reviser;
-    }
-
     /** pl. rozstrzygnięcie */
     public String getDecision() {
         return decision;
@@ -140,12 +126,15 @@ public abstract class Judgment extends DataObject {
     }
 
     /** reasons for judgment, pl. uzasadnienie */
-    public String getReasons() {
-        return reasons;
+    @OneToOne(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL)
+    public JudgmentReasoning getReasoning() {
+        return reasoning;
     }
 
     /** pl. podstawy prawne */
     @ElementCollection
+    @CollectionTable(name="judgment_legal_bases")
+    @Column(name="legal_base")
     public List<String> getLegalBases() {
         return legalBases;
     }
@@ -154,18 +143,13 @@ public abstract class Judgment extends DataObject {
      * Referenced law journal entries
      * pl. powołane przepisy
      */
-    @OneToMany(mappedBy="judgment", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL)
     public List<ReferencedRegulation> getReferencedRegulations() {
         return referencedRegulations;
     }
 
     
-    /** pl. data uprawomocnienia wyroku */
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-    public LocalDate getFinalJudgmentDate() {
-        return finalJudgmentDate;
-    }
-
+    
     @Enumerated(EnumType.STRING)
     public JudgmentType getJudgmentType() {
         return judgmentType;
@@ -181,15 +165,12 @@ public abstract class Judgment extends DataObject {
     
     //------------------------ LOGIC --------------------------
     
-    public void addJudge(Judge judge) {
+    
+    public void addJudge(Judge judge) { // how to treat the situation when there is more than one judge with the same name?
         this.judges.add(judge);
         judge.setJudgment(this);
     }
     
-    public void addReferencedRegulation(ReferencedRegulation regulation) {
-        this.referencedRegulations.add(regulation);
-        regulation.setJudgment(this);
-    }
     
     /**
      * Returns {@link Judge}s that have the given role. If the role == null then returns judges that
@@ -212,6 +193,46 @@ public abstract class Judgment extends DataObject {
     }
     
     
+    public void removeAllJudges() {
+        judges.clear();
+    }
+    
+    
+    
+    public void addLegalBase(String legalBase) {
+        Preconditions.checkArgument(!containsLegalBase(legalBase));
+        
+        this.legalBases.add(legalBase);
+    }
+
+    public boolean containsLegalBase(String legalBase) {
+        return this.legalBases.contains(legalBase);
+    }
+    
+    
+    
+    public void addReferencedRegulation(ReferencedRegulation regulation) {
+        Preconditions.checkArgument(!this.containsReferencedRegulation(regulation));
+        
+        this.referencedRegulations.add(regulation);
+        regulation.setJudgment(this);
+    }
+
+    public void removeAllReferencedRegulations() {
+        referencedRegulations.clear();
+    }
+    
+    public boolean containsReferencedRegulation(ReferencedRegulation regulation) {
+        Preconditions.checkNotNull(regulation);
+        
+        for (ReferencedRegulation referencedRegulation : getReferencedRegulations()) {
+            if (regulation.getRawText().equals(referencedRegulation.getRawText()) &&
+                ObjectUtils.nullSafeEquals(regulation.getLawJournalEntry(), referencedRegulation.getLawJournalEntry())) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     //------------------------ SETTERS --------------------------
     
@@ -241,16 +262,15 @@ public abstract class Judgment extends DataObject {
         this.summary = summary;
     }
 
-    public void setReasons(String reasons) {
-        this.reasons = reasons;
+    public void setReasoning(JudgmentReasoning reasoning) {
+        if (reasoning != null) {
+            reasoning.setJudgment(this);
+        }
+        this.reasoning = reasoning;
     }
 
     public void setLegalBases(List<String> legalBases) {
         this.legalBases = legalBases;
-    }
-
-    public void setFinalJudgmentDate(LocalDate finalJudgmentDate) {
-        this.finalJudgmentDate = finalJudgmentDate;
     }
 
     public void setJudgmentType(JudgmentType judgmentType) {
@@ -268,14 +288,6 @@ public abstract class Judgment extends DataObject {
     @SuppressWarnings("unused") // for hibernate only
     private void setReferencedRegulations(List<ReferencedRegulation> referencedRegulations) {
         this.referencedRegulations = referencedRegulations;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public void setReviser(String reviser) {
-        this.reviser = reviser;
     }
 
 

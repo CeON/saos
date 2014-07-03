@@ -54,7 +54,7 @@ public abstract class DataObject {
         this.creationDate = creationDate;
     }
 
-    public void setId(int id) {
+    protected void setId(int id) {
         this.id = id;
     }
     

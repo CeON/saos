@@ -29,7 +29,7 @@ public class CcJudgmentRepositoryTest extends PersistenceTestSupport {
         
         getDbUtils().persist(ccJudgment20121221_2112, ccJudgment20131101_2311, ccJudgment20131101_2312);
         
-        Assert.assertEquals(ccJudgment20131101_2312.getJudgmentSource().getSourcePublicationDate(), ccJudgmentRepository.getMaxSourcePublicationDate());
+        Assert.assertEquals(ccJudgment20131101_2312.getJudgmentSource().getPublicationDate(), ccJudgmentRepository.getMaxSourcePublicationDate());
     }
     
     
@@ -37,7 +37,7 @@ public class CcJudgmentRepositoryTest extends PersistenceTestSupport {
     
     private CommonCourtJudgment createCcJudgment(DateTime sourcePublicationDate) {
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
-        ccJudgment.getJudgmentSource().setSourcePublicationDate(sourcePublicationDate);
+        ccJudgment.getJudgmentSource().setPublicationDate(sourcePublicationDate);
         return ccJudgment;
     }
     

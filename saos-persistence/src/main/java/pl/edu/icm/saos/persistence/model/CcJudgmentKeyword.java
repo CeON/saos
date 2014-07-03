@@ -5,8 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
 
@@ -16,13 +17,25 @@ import pl.edu.icm.saos.persistence.common.DataObject;
  * @author Łukasz Dumiszewski
  */
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(name="phrase_unique", columnNames="phrase")})
 @Cacheable(true)
 @SequenceGenerator(name = "seq_cc_judgment_keyword", allocationSize = 1, sequenceName = "seq_cc_judgment_keyword")
 public class CcJudgmentKeyword extends DataObject {
 
-    private String phrase;
-    private CcJudgmentKeyword parent;
+   
 
+    private String phrase;
+   
+    
+    //------------------------ CONSTRUCTORS --------------------------
+    
+    public CcJudgmentKeyword() {
+        
+    }
+
+    public CcJudgmentKeyword(String phrase) {
+        this.phrase = phrase;
+    }
     
     //------------------------ GETTERS --------------------------
     
@@ -37,11 +50,7 @@ public class CcJudgmentKeyword extends DataObject {
         return phrase;
     }
 
-    @ManyToOne
-    public CcJudgmentKeyword getParent() {
-        return parent;
-    }
-
+    
     
     //------------------------ SETTERS --------------------------
     
@@ -49,7 +58,35 @@ public class CcJudgmentKeyword extends DataObject {
         this.phrase = phrase;
     }
 
-    public void setParent(CcJudgmentKeyword parent) {
-        this.parent = parent;
+    
+    
+    //------------------------ HashCode & Equals --------------------------
+    
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((phrase == null) ? 0 : phrase.hashCode());
+        return result;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        CcJudgmentKeyword other = (CcJudgmentKeyword) obj;
+        if (phrase == null) {
+            if (other.phrase != null)
+                return false;
+        } else if (!phrase.equals(other.phrase))
+            return false;
+        return true;
+    }
+
+    
 }

@@ -1,5 +1,6 @@
 
 dependencies {
+        testCompile project(':saos-common').sourceSets.test.output
         compile project(':saos-persistence')
     
         compile lib.'commons-collections:commons-collections'
@@ -9,4 +10,7 @@ dependencies {
         compile lib.'org.springframework:spring-oxm'
         compile lib.'org.springframework:spring-web'
         compile lib.'commons-codec:commons-codec'
+        
 }
+
+

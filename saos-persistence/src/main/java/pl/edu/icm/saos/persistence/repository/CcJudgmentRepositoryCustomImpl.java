@@ -19,7 +19,7 @@ public class CcJudgmentRepositoryCustomImpl implements CcJudgmentRepositoryCusto
     
     @Override
     public DateTime getMaxSourcePublicationDate() {
-        String jpql = "select max(judgmentSource.sourcePublicationDate) from " + CommonCourtJudgment.class.getName();
+        String jpql = "select max(judgmentSource.publicationDate) from " + CommonCourtJudgment.class.getName();
         return entityManager.createQuery(jpql, DateTime.class).getSingleResult();
     }
 

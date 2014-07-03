@@ -12,7 +12,7 @@ import pl.edu.icm.saos.persistence.model.JudgmentSource;
 public interface CcJudgmentRepositoryCustom {
 
     /**
-     * Retrieves the max {@link JudgmentSource#getSourcePublicationDate()} from all
+     * Retrieves the max {@link JudgmentSource#getPublicationDate()} from all
      * {@link CommonCourtJudgment}s. <br/> 
      * See: {@link CommonCourtJudgment#getJudgmentSource()}
      */

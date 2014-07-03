@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.importer.commoncourt.process;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -16,11 +17,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import pl.edu.icm.saos.importer.commoncourt.process.CcJudgmentKeywordCreator;
-import pl.edu.icm.saos.importer.commoncourt.process.LawJournalEntryCreator;
-import pl.edu.icm.saos.importer.commoncourt.process.LawJournalEntryData;
-import pl.edu.icm.saos.importer.commoncourt.process.LawJournalEntryExtractor;
-import pl.edu.icm.saos.importer.commoncourt.process.SourceCcJudgmentConverter;
 import pl.edu.icm.saos.importer.commoncourt.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
@@ -55,6 +51,8 @@ public class SourceCcJudgmentConverterTest {
     
     private LawJournalEntryExtractor lawJournalEntryExtractor = mock(LawJournalEntryExtractor.class);
     
+    private CcjReasoningExtractor ccjReasoningExtractor = mock(CcjReasoningExtractor.class);
+    
     
     private SourceCcJudgment sJudgment;
     
@@ -71,6 +69,8 @@ public class SourceCcJudgmentConverterTest {
     private List<LawJournalEntry> lawJournalEntries;
     private List<String> themePhrases;
     private List<CcJudgmentKeyword> keywords;
+    private final String reasoningText = "Reasons for judgment...";
+    private final String contentTextWithoutReasoning = "Sentence...";
       
     @Before
     public void before() {
@@ -80,8 +80,8 @@ public class SourceCcJudgmentConverterTest {
         sourceCcJudgmentConverter.setCommonCourtRepository(commonCourtRepository);
         sourceCcJudgmentConverter.setLawJournalEntryCreator(lawJournalEntryCreator);
         sourceCcJudgmentConverter.setLawJournalEntryExtractor(lawJournalEntryExtractor);
+        sourceCcJudgmentConverter.setCcjReasoningExtractor(ccjReasoningExtractor);
     
-        
         court.setAppealCourtCode("05");
         court.setRegionalCourtCode("05");
         court.setDistrictCourtCode("05");
@@ -106,6 +106,11 @@ public class SourceCcJudgmentConverterTest {
         
         
         sJudgment = createSourceJudgment();
+        
+        
+        when(ccjReasoningExtractor.removeReasoningText(Mockito.eq(sJudgment.getTextContent()))).thenReturn(contentTextWithoutReasoning);
+        when(ccjReasoningExtractor.extractReasoningText(Mockito.eq(sJudgment.getTextContent()))).thenReturn(reasoningText);
+        
          
     }
 
@@ -131,35 +136,43 @@ public class SourceCcJudgmentConverterTest {
         assertEquals(sJudgment.getId(), judgment.getJudgmentSource().getSourceJudgmentId());
         assertEquals(sJudgment.getSignature(), judgment.getCaseNumber());
         assertEquals(sJudgment.getCourtId(), judgment.getCourtData().getCourt().getCourtCode());
-        assertEquals(DIVISION_TYPE_CODE, judgment.getCourtData().getCourtDivisionType().getCode());
-        assertEquals(DIVISION_NUMBER/5, judgment.getCourtData().getCourtDivisionNumber());
+        assertEquals(DIVISION_TYPE_CODE, judgment.getCourtData().getDivisionType().getCode());
+        assertEquals(DIVISION_NUMBER/5, judgment.getCourtData().getDivisionNumber());
         assertEquals(sJudgment.getDecision(), judgment.getDecision());
         assertEquals(sJudgment.getThesis(), judgment.getSummary());
         assertEquals(sJudgment.getJudgmentDate(), judgment.getJudgmentDate());
-        assertEquals(sJudgment.getPublicationDate(), judgment.getJudgmentSource().getSourcePublicationDate());
+        assertEquals(sJudgment.getPublicationDate(), judgment.getJudgmentSource().getPublicationDate());
         assertEquals(sJudgment.getLegalBases(), judgment.getLegalBases());
-        assertEquals(sJudgment.getPublisher(), judgment.getPublisher());
-        assertEquals(sJudgment.getReviser(), judgment.getReviser());
+        assertEquals(sJudgment.getPublisher(), judgment.getJudgmentSource().getPublisher());
+        assertEquals(sJudgment.getReviser(), judgment.getJudgmentSource().getReviser());
         assertTrue(judgment.getCourtReporters().contains(sJudgment.getRecorder()));
         assertJudges(sJudgment, judgment);
         assertReferencedRegulations(judgment);
         assertKeywords(judgment);
         assertEquals(JudgmentType.SENTENCE, judgment.getJudgmentType());
-        assertEquals(sJudgment.getTextContent(), judgment.getTextContent());
+        assertEquals(contentTextWithoutReasoning, judgment.getTextContent());
+        assertNotNull(judgment.getReasoning());
+        assertReasoning(judgment);
         assertEquals(sJudgment.getSourceUrl(), judgment.getJudgmentSource().getSourceJudgmentUrl());
     }
 
 
 
 
-    
-    
+   
     //------------------------ PRIVATE --------------------------
 
+    private void assertReasoning(CommonCourtJudgment judgment) {
+        assertEquals(reasoningText, judgment.getReasoning().getText());
+        assertEquals(sJudgment.getPublicationDate(), judgment.getReasoning().getPublicationDate());
+        assertEquals(sJudgment.getReviser(), judgment.getReasoning().getReviser());
+        assertEquals(sJudgment.getPublisher(), judgment.getReasoning().getPublisher());
+    }
 
+    
     private void assertKeywords(CommonCourtJudgment judgment) {
         for (String phrase : sJudgment.getThemePhrases()) {
-            assertTrue(judgment.hasKeyword(phrase));
+            assertTrue(judgment.containsKeyword(phrase));
         }
     }
 

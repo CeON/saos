@@ -11,6 +11,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 /**
@@ -44,7 +45,13 @@ public class CommonCourtJudgment extends Judgment {
     //------------------------ LOGIC --------------------------
     
     public void addKeyword(CcJudgmentKeyword keyword) {
+        Preconditions.checkArgument(!containsKeyword(keyword));
+        
         this.keywords.add(keyword);
+    }
+    
+    public void removeAllKeywords() {
+        this.keywords.clear();
     }
     
     @Transient
@@ -57,13 +64,19 @@ public class CommonCourtJudgment extends Judgment {
         return null;
     }
     
-    public boolean hasKeyword(String phrase) {
+    public boolean containsKeyword(String phrase) {
         return getKeyword(phrase) != null;
     }
     
+    public boolean containsKeyword(CcJudgmentKeyword keyword) {
+        return keywords.contains(keyword);
+    }
+        
+    
     //------------------------ SETTERS --------------------------
     
-    public void setKeywords(List<CcJudgmentKeyword> keywords) {
+    @SuppressWarnings("unused") /* for hibernate */
+    private void setKeywords(List<CcJudgmentKeyword> keywords) {
         this.keywords = keywords;
     }
 

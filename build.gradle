@@ -88,10 +88,12 @@ subprojects {
         gradleVersion = '1.12'
     }
     
-    task packageTests(type: Jar) {
+    task testJar(type: Jar) {
         classifier = "tests"
         from sourceSets.test.output
     }
+    
+    
     
     /* this below just to correct a bug of gradleEclipseWtp, without this the plugin copies also the test classes to the server */
     eclipse.classpath.file.whenMerged { cp ->

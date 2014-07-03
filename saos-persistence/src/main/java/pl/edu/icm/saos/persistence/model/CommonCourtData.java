@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.persistence.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -10,15 +12,16 @@ import javax.persistence.ManyToOne;
 public class CommonCourtData {
     
     private CommonCourt court;
-    private int courtDivisionNumber;
-    private CommonCourtDivisionType courtDivisionType;
+    private int divisionNumber;
+    private CommonCourtDivisionType divisionType;
     
     
     //------------------------ GETTERS --------------------------
     
     @ManyToOne
-    public CommonCourtDivisionType getCourtDivisionType() {
-        return courtDivisionType;
+    @JoinColumn(name="fk_court_division_type")
+    public CommonCourtDivisionType getDivisionType() {
+        return divisionType;
     }
 
     @ManyToOne
@@ -26,8 +29,9 @@ public class CommonCourtData {
         return court;
     }
 
-    public int getCourtDivisionNumber() {
-        return courtDivisionNumber;
+    @Column(name="court_division_number")
+    public int getDivisionNumber() {
+        return divisionNumber;
     }
 
     
@@ -36,15 +40,15 @@ public class CommonCourtData {
     
     //------------------------ SETTERS --------------------------
     
-    public void setCourtDivisionType(CommonCourtDivisionType courtDivisionType) {
-        this.courtDivisionType = courtDivisionType;
+    public void setDivisionType(CommonCourtDivisionType divisionType) {
+        this.divisionType = divisionType;
     }
 
     public void setCourt(CommonCourt court) {
         this.court = court;
     }
 
-    public void setCourtDivisionNumber(int courtDivisionNumber) {
-        this.courtDivisionNumber = courtDivisionNumber;
+    public void setDivisionNumber(int divisionNumber) {
+        this.divisionNumber = divisionNumber;
     }
 }

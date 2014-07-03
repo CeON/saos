@@ -1,10 +1,16 @@
 package pl.edu.icm.saos.importer.commoncourt.process;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.util.CommonCourtDivisionUtils;
+import pl.edu.icm.saos.importer.common.AbstractJudgmentConverter;
 import pl.edu.icm.saos.importer.commoncourt.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourtData;
@@ -12,7 +18,6 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
-import pl.edu.icm.saos.persistence.model.JudgmentSource;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceType;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.ReferencedRegulation;
@@ -26,7 +31,7 @@ import com.google.common.collect.Lists;
  */
 
 @Service("sourceCcJudgmentConverter")
-public class SourceCcJudgmentConverter {
+public class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJudgment, SourceCcJudgment> {
 
     private CommonCourtRepository commonCourtRepository;
     
@@ -38,41 +43,77 @@ public class SourceCcJudgmentConverter {
     
     private LawJournalEntryExtractor lawJournalEntryExtractor;
     
+    private CcjReasoningExtractor ccjReasoningExtractor;
     
-    /**
-     * Converts {@link SourceCcJudgment} to {@link CommonCourtJudgment} <br/>
-     * Note, this method does not trim the string values. It assumes that all the string attributes
-     * of sourceJudgment have been already trimmed.
-     */
-    public CommonCourtJudgment convertJudgment(SourceCcJudgment sourceJudgment) {
-        CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
-        ccJudgment.setCaseNumber(sourceJudgment.getSignature());
-        ccJudgment.setCourtData(convertCommonCourt(sourceJudgment));
-        ccJudgment.setJudgmentDate(sourceJudgment.getJudgmentDate());
-        ccJudgment.setJudgmentSource(convertJudgmentSource(sourceJudgment));
-        ccJudgment.setCourtReporters(Lists.newArrayList(sourceJudgment.getRecorder()));
-        convertAndAddJudges(sourceJudgment, ccJudgment);
-        ccJudgment.setReviser(sourceJudgment.getReviser());
-        ccJudgment.setPublisher(sourceJudgment.getPublisher());
-        convertAndAddKeywords(sourceJudgment, ccJudgment);
-        ccJudgment.setSummary(sourceJudgment.getThesis());
-        ccJudgment.setDecision(sourceJudgment.getDecision());
-        convertAndSetType(sourceJudgment, ccJudgment);
-        convertAndAddReferencedRegulations(sourceJudgment, ccJudgment);
-        ccJudgment.setLegalBases(Lists.newArrayList(sourceJudgment.getLegalBases()));
-        ccJudgment.setTextContent(sourceJudgment.getTextContent());
+    
+    
+    
+    //------------------------ JudgmentConverterTemplate impl --------------------------
+
+    /** 
+     * Converts data specific to the judgment type
+     * */
+    @Override
+    protected void extractSpecific(SourceCcJudgment sourceJudgment, CommonCourtJudgment ccJudgment) {
         
-        return ccJudgment;
+        List<CcJudgmentKeyword> keywords = extractKeywords(sourceJudgment);
+        for (CcJudgmentKeyword keyword : keywords) {
+            ccJudgment.addKeyword(keyword);
+        }
+        
+        ccJudgment.setCourtData(extractCommonCourtData(sourceJudgment));
     }
 
+    @Override
+    protected CommonCourtJudgment createNewJudgment() {
+        return new CommonCourtJudgment();
+    }
+   
+    @Override
+    protected ArrayList<String> extractLegalBases(SourceCcJudgment sourceJudgment) {
+        return Lists.newArrayList(sourceJudgment.getLegalBases());
+    }
 
-    
+    @Override
+    protected String extractThesis(SourceCcJudgment sourceJudgment) {
+        return sourceJudgment.getThesis();
+    }
 
+    @Override
+    protected String extractDecision(SourceCcJudgment sourceJudgment) {
+        return sourceJudgment.getDecision();
+    }
+
+    @Override
+    protected ArrayList<String> extractCourtReporters(SourceCcJudgment sourceJudgment) {
+        return Lists.newArrayList(sourceJudgment.getRecorder());
+    }
+
+    @Override
+    protected LocalDate extractJudgmentDate(SourceCcJudgment sourceJudgment) {
+        return sourceJudgment.getJudgmentDate();
+    }
+
+    @Override
+    protected String extractCaseNumber(SourceCcJudgment sourceJudgment) {
+        return sourceJudgment.getSignature();
+    }
+        
+    @Override
+    protected String extractTextContent(SourceCcJudgment sourceJudgment) {
+        return ccjReasoningExtractor.removeReasoningText(sourceJudgment.getTextContent());
+    }
     
-    //------------------------ PRIVATE --------------------------
+    @Override
+    protected String extractReasoningText(SourceCcJudgment sourceJudgment) {
+        return ccjReasoningExtractor.extractReasoningText(sourceJudgment.getTextContent());
+    }
     
     
-    private void convertAndAddReferencedRegulations(SourceCcJudgment sourceJudgment, CommonCourtJudgment ccJudgment) {
+    @Override
+    protected List<ReferencedRegulation> extractReferencedRegulations(SourceCcJudgment sourceJudgment) {
+        
+        List<ReferencedRegulation> regulations = Lists.newArrayList();
         
         for (String reference : sourceJudgment.getReferences()) {
             
@@ -86,71 +127,102 @@ public class SourceCcJudgmentConverter {
                 regulation.setLawJournalEntry(lawJournalEntry);
             }
             
-            ccJudgment.addReferencedRegulation(regulation);
+            regulations.add(regulation);
         
         }
+        
+        return regulations;
     }
 
-    
-    private JudgmentSource convertJudgmentSource(SourceCcJudgment sourceJudgment) {
-        JudgmentSource judgmentSource = new JudgmentSource();
-        judgmentSource.setSourceJudgmentId(sourceJudgment.getId());
-        judgmentSource.setSourceJudgmentUrl(sourceJudgment.getSourceUrl());
-        judgmentSource.setSourcePublicationDate(sourceJudgment.getPublicationDate());
-        judgmentSource.setSourceType(JudgmentSourceType.COMMON_COURT);
-        return judgmentSource;
-    }
-    
-    
-    private CommonCourtData convertCommonCourt(SourceCcJudgment sourceJudgment) {
-        CommonCourtData commonCourtData = new CommonCourtData();
-        commonCourtData.setCourt(commonCourtRepository.getOneByCode(sourceJudgment.getCourtId()));
-        commonCourtData.setCourtDivisionType(ccDivisionTypeRepository.findByCode(CommonCourtDivisionUtils.extractDivisionTypeCode(sourceJudgment.getDepartmentId())));
-        commonCourtData.setCourtDivisionNumber(CommonCourtDivisionUtils.extractNormalizedDivisionNumber(sourceJudgment.getDepartmentId()));
-        return commonCourtData;
+    @Override
+    protected JudgmentSourceType getSourceType() {
+        return JudgmentSourceType.COMMON_COURT;
     }
 
 
-    private void convertAndAddJudges(SourceCcJudgment sourceJudgment, CommonCourtJudgment ccJudgment) {
+    @Override
+    protected String extractSourceJudgmentId(SourceCcJudgment sourceJudgment) {
+        return sourceJudgment.getId();
+    }
+
+    @Override
+    protected String extractSourceUrl(SourceCcJudgment sourceJudgment) {
+        return sourceJudgment.getSourceUrl();
+    }
+
+    @Override
+    protected String extractPublisher(SourceCcJudgment sourceJudgment) {
+        return sourceJudgment.getPublisher();
+    }
+
+    @Override
+    protected String extractReviser(SourceCcJudgment sourceJudgment) {
+        return sourceJudgment.getReviser();
+    }
+
+    @Override
+    protected DateTime extractPublicationDate(SourceCcJudgment sourceJudgment) {
+        return sourceJudgment.getPublicationDate();
+    }
+    
+    @Override
+    protected List<Judge> extractJudges(SourceCcJudgment sourceJudgment) {
+        
+        List<Judge> judges = Lists.newArrayList();
+        
         if (!StringUtils.isBlank(sourceJudgment.getChairman())) {
-            ccJudgment.addJudge(new Judge(sourceJudgment.getChairman(), JudgeRole.PRESIDING_JUDGE));
+            judges.add(new Judge(sourceJudgment.getChairman(), JudgeRole.PRESIDING_JUDGE));
         }
         for (String judgeName : sourceJudgment.getJudges()) {
             if (!StringUtils.equalsIgnoreCase(sourceJudgment.getChairman(), judgeName)) {
-                ccJudgment.addJudge(new Judge(judgeName));
+                judges.add(new Judge(judgeName));
             }
         }
+        
+        return judges;
+    }
+    
+    /**
+     * If the type cannot be resolved then returns null
+     */
+    @Override
+    protected JudgmentType extractJudgmentType(SourceCcJudgment sourceJudgment) {
+        for (String sourceType : sourceJudgment.getTypes()) {
+            String sType = sourceType.trim().toUpperCase();
+            if (sType.equalsIgnoreCase("DECISION")) {
+                return JudgmentType.DECISION;
+            }
+            if (sType.equalsIgnoreCase("SENTENCE")) {
+                return JudgmentType.SENTENCE;
+            } 
+            
+        }
+        return null;
     }
 
     
-    private void convertAndAddKeywords(SourceCcJudgment sourceJudgment, CommonCourtJudgment ccJudgment) {
+
+    //------------------------ PRIVATE --------------------------
+    
+    private CommonCourtData extractCommonCourtData(SourceCcJudgment sourceJudgment) {
+        CommonCourtData commonCourtData = new CommonCourtData();
+        commonCourtData.setCourt(commonCourtRepository.getOneByCode(sourceJudgment.getCourtId()));
+        commonCourtData.setDivisionType(ccDivisionTypeRepository.findByCode(CommonCourtDivisionUtils.extractDivisionTypeCode(sourceJudgment.getDepartmentId())));
+        commonCourtData.setDivisionNumber(CommonCourtDivisionUtils.extractNormalizedDivisionNumber(sourceJudgment.getDepartmentId()));
+        return commonCourtData;
+    }
+    
+    private List<CcJudgmentKeyword> extractKeywords(SourceCcJudgment sourceJudgment) {
+        List<CcJudgmentKeyword> keywords = Lists.newArrayList();
         for (String themePhrase : sourceJudgment.getThemePhrases()) {
             themePhrase = themePhrase.toLowerCase();
             CcJudgmentKeyword keyword = ccJudgmentKeywordCreator.getOrCreateCcJudgmentKeyword(themePhrase);
-            ccJudgment.addKeyword(keyword);
+            keywords.add(keyword);
         }
+        return keywords;
     }
     
     
-    private void convertAndSetType(SourceCcJudgment sourceJudgment, CommonCourtJudgment ccJudgment) {
-        
-        for (String sourceType : sourceJudgment.getTypes()) {
-            String sType = sourceType.trim().toUpperCase();
-            if (sType.equalsIgnoreCase("REASON") && sourceJudgment.getTypes().size() == 1) {
-                ccJudgment.setJudgmentType(JudgmentType.REASON);
-                return;
-            }
-            if (sType.equalsIgnoreCase("DECISION")) {
-                ccJudgment.setJudgmentType(JudgmentType.DECISION);
-                return;
-            }
-            if (sType.equalsIgnoreCase("SENTENCE")) {
-                ccJudgment.setJudgmentType(JudgmentType.SENTENCE);
-                return;
-            }
-            
-        }
-    }
 
 
     
@@ -179,5 +251,10 @@ public class SourceCcJudgmentConverter {
     @Autowired
     public void setLawJournalEntryExtractor(LawJournalEntryExtractor lawJournalEntryExtractor) {
         this.lawJournalEntryExtractor = lawJournalEntryExtractor;
+    }
+
+    @Autowired
+    public void setCcjReasoningExtractor(CcjReasoningExtractor ccjReasoningExtractor) {
+        this.ccjReasoningExtractor = ccjReasoningExtractor;
     }
 }
