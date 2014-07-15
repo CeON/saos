@@ -88,5 +88,10 @@ public class CcJudgmentKeyword extends DataObject {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "CcJudgmentKeyword [phrase=" + phrase + "]";
+    }
+
     
 }

@@ -3,6 +3,8 @@ package pl.edu.icm.saos.persistence.model.importer;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,6 +36,8 @@ public class RawSourceCcJudgment extends DataObject {
     private DateTime publicationDate;
     private DateTime processingDate;
     private boolean processed = false;
+    private ImportProcessingStatus processingStatus;
+    private String processErrorDesc;
     private String textMetadata;
     private String textContent;
     private boolean justReasons;
@@ -51,15 +55,6 @@ public class RawSourceCcJudgment extends DataObject {
         return id;
     }
     
-    @Column(columnDefinition=ColumnDefinitionConst.BOOLEAN_NOT_NULL_DEFUALT_FALSE)
-    public boolean isProcessed() {
-        return processed;
-    }
-
-    public DateTime getProcessingDate() {
-        return processingDate;
-    }
-
     public String getTextMetadata() {
         return textMetadata;
     }
@@ -71,7 +66,7 @@ public class RawSourceCcJudgment extends DataObject {
     /**
      * If true then the data represents only reasons for judgment, not the judgment itself. <br/>
      * The common court judgment data provider sometimes gives the judgment and reasons as
-     * two separate entities. The SAOS import process will merge them into one. 
+     * two separate entities. The SAOS import process merges them into one. 
      */
     @Column(columnDefinition=ColumnDefinitionConst.BOOLEAN_NOT_NULL_DEFUALT_FALSE)
     public boolean isJustReasons() {
@@ -113,16 +108,54 @@ public class RawSourceCcJudgment extends DataObject {
         return dataMd5;
     }
 
+    /** Is completely processed? (and is not supposed to be processed again) */
+    @Column(columnDefinition=ColumnDefinitionConst.BOOLEAN_NOT_NULL_DEFUALT_FALSE)
+    public boolean isProcessed() {
+        return processed;
+    }
     
+    @Enumerated(EnumType.STRING)
+    public ImportProcessingStatus getProcessingStatus() {
+        return processingStatus;
+    }
+
+    public DateTime getProcessingDate() {
+        return processingDate;
+    }
     
+    public String getProcessErrorDesc() {
+        return processErrorDesc;
+    }
+
+    
+
+   
+    //------------------------ LOGIC --------------------------
+    
+    public void markProcessedOk() {
+        setProcessed(true);
+        updateProcessingStatus(ImportProcessingStatus.OK);
+    }
+    
+    public void markProcessedError(String errorDescription) {
+        setProcessed(true);
+        setProcessErrorDesc(errorDescription);
+        updateProcessingStatus(ImportProcessingStatus.ERROR);
+    }
+    
+    public void updateProcessingStatus(ImportProcessingStatus processingStatus) {
+        setProcessingStatus(processingStatus);
+        setProcessingDate(new DateTime());
+    }
     
     //------------------------ SETTERS --------------------------
     
-    public void setProcessed(boolean processed) {
+    
+    private void setProcessed(boolean processed) {
         this.processed = processed;
     }
 
-    public void setProcessingDate(DateTime processingDate) {
+    private void setProcessingDate(DateTime processingDate) {
         this.processingDate = processingDate;
     }
 
@@ -162,6 +195,15 @@ public class RawSourceCcJudgment extends DataObject {
         this.dataMd5 = dataMd5;
     }
 
+    private void setProcessingStatus(ImportProcessingStatus processingStatus) {
+        this.processingStatus = processingStatus;
+    }
+    
+    public void setProcessErrorDesc(String processErrorDesc) {
+        this.processErrorDesc = processErrorDesc;
+    }
+
+    
     
     //------------------------ HashCode & Equals --------------------------
     
@@ -198,5 +240,7 @@ public class RawSourceCcJudgment extends DataObject {
         return true;
     }
 
+    
+   
    
 }

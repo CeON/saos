@@ -1,14 +1,13 @@
 package pl.edu.icm.saos.persistence.model;
 
 import javax.persistence.Cacheable;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
-
-import org.joda.time.DateTime;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
 
@@ -24,9 +23,7 @@ public class JudgmentReasoning extends DataObject {
 
     private Judgment judgment;
     private String text;
-    private DateTime publicationDate;
-    private String reviser;
-    private String publisher;
+    private JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
     
     
     
@@ -53,23 +50,12 @@ public class JudgmentReasoning extends DataObject {
         return text;
     }
 
-
-
-    public DateTime getPublicationDate() {
-        return publicationDate;
+    @Embedded
+    public JudgmentSourceInfo getSourceInfo() {
+        return sourceInfo;
     }
 
-
-
-    public String getReviser() {
-        return reviser;
-    }
-
-
-
-    public String getPublisher() {
-        return publisher;
-    }
+    
 
 
     
@@ -80,27 +66,14 @@ public class JudgmentReasoning extends DataObject {
     }
 
 
-
     public void setText(String text) {
         this.text = text;
     }
 
-
-
-    public void setPublicationDate(DateTime publicationDate) {
-        this.publicationDate = publicationDate;
+    public void setSourceInfo(JudgmentSourceInfo sourceInfo) {
+        this.sourceInfo = sourceInfo;
     }
 
 
-
-    public void setReviser(String reviser) {
-        this.reviser = reviser;
-    }
-
-
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
+   
 }

@@ -3,18 +3,16 @@ package pl.edu.icm.saos.importer.commoncourt.process;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.junit.Test;
 
+import pl.edu.icm.saos.importer.commoncourt.common.JudgmentSourceInfoAssertUtils;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
-import pl.edu.icm.saos.persistence.model.ReferencedRegulation;
-
-import com.google.common.collect.Lists;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.SourceCode;
 
 /**
  * @author Łukasz Dumiszewski
@@ -32,27 +30,40 @@ public class CcjReasoningMergerTest {
         
         CommonCourtJudgment judgment = new CommonCourtJudgment();
         JudgmentReasoning oldReasoning = new JudgmentReasoning();
-        oldReasoning.setPublicationDate(new DateTime());
-        oldReasoning.setPublisher("233223232323");
-        oldReasoning.setReviser("2323dssfdsf");
+        oldReasoning.getSourceInfo().setPublicationDate(new DateTime());
+        oldReasoning.getSourceInfo().setPublisher("233223232323");
+        oldReasoning.getSourceInfo().setReviser("2323dssfdsf");
+        oldReasoning.getSourceInfo().setSourceJudgmentId("212121212 2121 212 12 12");
+        oldReasoning.getSourceInfo().setSourceJudgmentUrl("http://sdsdsd/sd/sdsd");
+        oldReasoning.getSourceInfo().setSourceCode(SourceCode.ADMINISTRATIVE_COURT);
         oldReasoning.setText("2112121212wk,sjkdsdjckdjck xkj kdxc j");
+        
         judgment.setReasoning(oldReasoning);
         
         
         CommonCourtJudgment reasoningJudgment = new CommonCourtJudgment();
         JudgmentReasoning newReasoning = new JudgmentReasoning();
         
-        DateTime newPublicationDate = oldReasoning.getPublicationDate().minusDays(12);
-        newReasoning.setPublicationDate(newPublicationDate);
+        DateTime newPublicationDate = oldReasoning.getSourceInfo().getPublicationDate().minusDays(12);
+        newReasoning.getSourceInfo().setPublicationDate(newPublicationDate);
         
-        String newPublisher = oldReasoning.getPublisher() + "new";
-        newReasoning.setPublisher(newPublisher);
+        String newPublisher = oldReasoning.getSourceInfo().getPublisher() + "new";
+        newReasoning.getSourceInfo().setPublisher(newPublisher);
         
-        String newReviser = oldReasoning.getReviser() + "new";
-        newReasoning.setReviser(newReviser);
+        String newReviser = oldReasoning.getSourceInfo().getReviser() + "new";
+        newReasoning.getSourceInfo().setReviser(newReviser);
         
         String newText = oldReasoning.getText() + "new";
         newReasoning.setText(newText);
+        
+        String newSourceJudgmentId = "212121212sd2121 212 12 12";
+        newReasoning.getSourceInfo().setSourceJudgmentId(newSourceJudgmentId);
+        
+        String newSourceUrl = "http://sdsdssssssd/sd/sdsd";
+        newReasoning.getSourceInfo().setSourceJudgmentUrl(newSourceUrl);
+        
+        SourceCode newSourceType = SourceCode.COMMON_COURT;
+        newReasoning.getSourceInfo().setSourceCode(newSourceType);
         
         reasoningJudgment.setReasoning(newReasoning);
         
@@ -60,17 +71,12 @@ public class CcjReasoningMergerTest {
         
         ccjReasoningMerger.mergeReasoning(judgment, reasoningJudgment);
         
-        assertEquals(newPublicationDate, oldReasoning.getPublicationDate());
-        assertEquals(newPublisher, oldReasoning.getPublisher());
-        assertEquals(newReviser, oldReasoning.getReviser());
         assertEquals(newText, oldReasoning.getText());
         
         assertEquals(newReasoning, reasoningJudgment.getReasoning());
-        assertEquals(newPublicationDate, newReasoning.getPublicationDate());
-        assertEquals(newPublisher, newReasoning.getPublisher());
-        assertEquals(newReviser, newReasoning.getReviser());
         assertEquals(newText, newReasoning.getText());
         
+        JudgmentSourceInfoAssertUtils.assertSourceInfo(oldReasoning.getSourceInfo(), newReasoning.getSourceInfo(), newPublicationDate, newPublisher, newReviser, newSourceJudgmentId, newSourceUrl, newSourceType);
         
     }
     
@@ -83,12 +89,13 @@ public class CcjReasoningMergerTest {
         String legalBase2 = "legalBase2";
         String legalBase3 = "legalBase3";
         String legalBase4 = "legalBase4";
-        judgment.setLegalBases(Lists.newArrayList(legalBase1, legalBase4));
+        judgment.addLegalBase(legalBase1);
+        judgment.addLegalBase(legalBase4);
         
         CommonCourtJudgment reasoningJudgment = new CommonCourtJudgment();
-        List<String> newLegalBases = Lists.newArrayList(legalBase1, legalBase2, legalBase3);
-        reasoningJudgment.setLegalBases(newLegalBases);
-        
+        reasoningJudgment.addLegalBase(legalBase1);
+        reasoningJudgment.addLegalBase(legalBase2);
+        reasoningJudgment.addLegalBase(legalBase3);
         
         ccjReasoningMerger.mergeReasoning(judgment, reasoningJudgment);
         
@@ -113,7 +120,6 @@ public class CcjReasoningMergerTest {
         CcJudgmentKeyword keyword2 = new CcJudgmentKeyword("keyword2");
         CcJudgmentKeyword keyword3 = new CcJudgmentKeyword("keyword3");
         CcJudgmentKeyword keyword4 = new CcJudgmentKeyword("keyword4");
-        judgment.addKeyword(keyword1);
         judgment.addKeyword(keyword2);
         judgment.addKeyword(keyword3);
         judgment.addKeyword(keyword4);
@@ -137,6 +143,8 @@ public class CcjReasoningMergerTest {
         assertTrue(reasoningJudgment.containsKeyword(keyword2));
         assertTrue(reasoningJudgment.containsKeyword(keyword3));
         
+        assertTrue(reasoningJudgment.getKeyword("keyword1")==judgment.getKeyword("keyword1"));
+        
     }
     
     
@@ -144,9 +152,9 @@ public class CcjReasoningMergerTest {
     public void mergeReasoning_ReferencedRegulations() {
         CommonCourtJudgment judgment = new CommonCourtJudgment();
         
-        ReferencedRegulation regulation1 = createRegulation("rawText1", "entryTitle1", 2011, 12, 2);
-        ReferencedRegulation regulation2 = createRegulation("rawText2", "entryTitle2", 2012, 13, 2);
-        ReferencedRegulation regulation3 = createRegulation("rawText3", "entryTitle3", 2013, 14, 2);
+        JudgmentReferencedRegulation regulation1 = createRegulation("rawText1", "entryTitle1", 2011, 12, 2);
+        JudgmentReferencedRegulation regulation2 = createRegulation("rawText2", "entryTitle2", 2012, 13, 2);
+        JudgmentReferencedRegulation regulation3 = createRegulation("rawText3", "entryTitle3", 2013, 14, 2);
         
         judgment.addReferencedRegulation(regulation1);
         judgment.addReferencedRegulation(regulation2);
@@ -154,8 +162,8 @@ public class CcjReasoningMergerTest {
         
         
         CommonCourtJudgment reasoningJudgment = new CommonCourtJudgment();
-        ReferencedRegulation regulation4 = createRegulation("rawText4", "entryTitle4", 2011, 12, 2);
-        ReferencedRegulation regulation5 = createRegulation("rawText2", "entryTitle2", 2012, 13, 2);
+        JudgmentReferencedRegulation regulation4 = createRegulation("rawText4", "entryTitle4", 2011, 12, 2);
+        JudgmentReferencedRegulation regulation5 = createRegulation("rawText2", "entryTitle2", 2012, 13, 2);
         reasoningJudgment.addReferencedRegulation(regulation1);
         reasoningJudgment.addReferencedRegulation(regulation4);
         reasoningJudgment.addReferencedRegulation(regulation5);
@@ -177,14 +185,14 @@ public class CcjReasoningMergerTest {
 
 
 
-    private ReferencedRegulation createRegulation(String rawText, String title,
+    private JudgmentReferencedRegulation createRegulation(String rawText, String title,
             int year, int journalNo, int entry) {
         LawJournalEntry lawJournalEntry = new LawJournalEntry();
         lawJournalEntry.setTitle(title);
         lawJournalEntry.setYear(year);
         lawJournalEntry.setJournalNo(journalNo);
         lawJournalEntry.setEntry(entry);
-        ReferencedRegulation regulation1 = new ReferencedRegulation();
+        JudgmentReferencedRegulation regulation1 = new JudgmentReferencedRegulation();
         regulation1.setRawText(rawText);
         regulation1.setLawJournalEntry(lawJournalEntry);
         return regulation1;

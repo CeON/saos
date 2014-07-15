@@ -26,6 +26,8 @@ class LawJournalEntryCreator {
         if (lawJournalEntry == null) {
             lawJournalEntry = new LawJournalEntry(entryData.getYear(), entryData.getJournalNo(), entryData.getEntry(), entryData.getTitle());
             lawJournalEntryRepository.save(lawJournalEntry);
+            lawJournalEntryRepository.flush();
+            
         }
         return lawJournalEntry;
     }

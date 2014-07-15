@@ -1,4 +1,6 @@
 dependencies {
+    testCompile project(path:':saos-common', configuration:'testArtifacts')
+    
     compile project(':saos-common')
     
     compile lib.'joda-time:joda-time'

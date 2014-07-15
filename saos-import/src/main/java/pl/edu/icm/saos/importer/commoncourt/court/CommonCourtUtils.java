@@ -1,6 +1,8 @@
-package pl.edu.icm.saos.common.util;
+package pl.edu.icm.saos.importer.commoncourt.court;
 
 import org.apache.commons.lang3.StringUtils;
+
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 
 import com.google.common.base.Preconditions;
 
@@ -14,7 +16,7 @@ import com.google.common.base.Preconditions;
  * @author Łukasz Dumiszewski
  */
 
-public final class CommonCourtUtils {
+final class CommonCourtUtils {
 
     private CommonCourtUtils() {
         throw new IllegalStateException("not to instantiate");
@@ -58,5 +60,17 @@ public final class CommonCourtUtils {
         return courtCode.substring(6, 8);
     }
     
+    
+    public static CommonCourtType extractType(String courtCode) {
+        String regionalCode = extractRegionalCourtNumber(courtCode);
+        String districtCode = extractDistrictCourtNumber(courtCode);
+        if (regionalCode.equals("00")) {
+            return CommonCourtType.APPEAL;
+        }
+        if (districtCode.equals("00")) {
+            return CommonCourtType.REGIONAL;
+        }
+        return CommonCourtType.DISTRICT;
+    }
     
 }

@@ -19,8 +19,11 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 import org.springframework.util.ObjectUtils;
@@ -29,6 +32,7 @@ import pl.edu.icm.saos.persistence.common.DataObject;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 
@@ -39,6 +43,7 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(name="source_id_judgment_id_unique", columnNames={"sourceCode", "sourceJudgmentId"})})
 @Inheritance(strategy = InheritanceType.JOINED)
 @Cacheable(true)
 @SequenceGenerator(name = "seq_judgment", allocationSize = 1, sequenceName = "seq_judgment")
@@ -55,7 +60,7 @@ public abstract class Judgment extends DataObject {
         
     }
     
-    private JudgmentSource judgmentSource = new JudgmentSource();
+    private JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
     
     // sentence
     private String caseNumber;
@@ -71,7 +76,7 @@ public abstract class Judgment extends DataObject {
     private String textContent;
     
     private List<String> legalBases = Lists.newArrayList();
-    private List<ReferencedRegulation> referencedRegulations = Lists.newArrayList();
+    private List<JudgmentReferencedRegulation> referencedRegulations = Lists.newArrayList();
     
     private JudgmentType judgmentType;
     
@@ -87,11 +92,12 @@ public abstract class Judgment extends DataObject {
     }
 
     @Embedded
-    public JudgmentSource getJudgmentSource() {
-        return judgmentSource;
+    public JudgmentSourceInfo getSourceInfo() {
+        return sourceInfo;
     }
     
     /** pl. sygnatura sprawy */
+    @Column(nullable=false)
     public String getCaseNumber() {
         return caseNumber;
     }
@@ -103,16 +109,26 @@ public abstract class Judgment extends DataObject {
     }
 
     @OneToMany(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL)
-    public List<Judge> getJudges() {
+    private List<Judge> getJudges_() {
         return judges;
     }
 
+    @Transient
+    public List<Judge> getJudges() {
+        return ImmutableList.copyOf(getJudges_());
+    }
+    
     /** pl. protokolanci */
     @ElementCollection
-    @CollectionTable(name="judgment_court_reporter")
+    @CollectionTable(name="judgment_court_reporter", uniqueConstraints={@UniqueConstraint(name="judgment_court_reporter_unique", columnNames={"fk_judgment", "court_reporter"})})
     @Column(name="court_reporter")
-    public List<String> getCourtReporters() {
+    private List<String> getCourtReporters_() {
         return courtReporters;
+    }
+    
+    @Transient
+    public List<String> getCourtReporters() {
+        return ImmutableList.copyOf(getCourtReporters_());
     }
     
     /** pl. rozstrzygnięcie */
@@ -133,19 +149,30 @@ public abstract class Judgment extends DataObject {
 
     /** pl. podstawy prawne */
     @ElementCollection
-    @CollectionTable(name="judgment_legal_bases")
+    @CollectionTable(name="judgment_legal_bases", uniqueConstraints={@UniqueConstraint(name="judgment_legal_base_unique", columnNames={"fk_judgment", "legal_base"})})
     @Column(name="legal_base")
-    public List<String> getLegalBases() {
+    private List<String> getLegalBases_() {
         return legalBases;
+    }
+    
+    @Transient
+    public List<String> getLegalBases() {
+        return ImmutableList.copyOf(getLegalBases_());
     }
     
     /**
      * Referenced law journal entries
      * pl. powołane przepisy
+     * for hibernate
      */
     @OneToMany(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL)
-    public List<ReferencedRegulation> getReferencedRegulations() {
+    private List<JudgmentReferencedRegulation> getReferencedRegulations_() {
         return referencedRegulations;
+    }
+    
+    @Transient
+    public List<JudgmentReferencedRegulation> getReferencedRegulations() {
+        return ImmutableList.copyOf(getReferencedRegulations_());
     }
 
     
@@ -166,7 +193,9 @@ public abstract class Judgment extends DataObject {
     //------------------------ LOGIC --------------------------
     
     
-    public void addJudge(Judge judge) { // how to treat the situation when there is more than one judge with the same name?
+    public void addJudge(Judge judge) { 
+        Preconditions.checkArgument(!this.containsJudge(judge));
+        
         this.judges.add(judge);
         judge.setJudgment(this);
     }
@@ -193,9 +222,23 @@ public abstract class Judgment extends DataObject {
     }
     
     
+    public boolean containsJudge(Judge judge) {
+        for (Judge existingJudge : judges) {
+            if (StringUtils.equalsIgnoreCase(existingJudge.getName(), judge.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void removeAllJudges() {
         judges.clear();
     }
+    
+    public void removeJudge(Judge judge) {
+        judges.remove(judge);
+    }
+    
     
     
     
@@ -209,9 +252,27 @@ public abstract class Judgment extends DataObject {
         return this.legalBases.contains(legalBase);
     }
     
+    public void removeLegalBase(String legalBase) {
+        this.legalBases.remove(legalBase);
+    }
+    
+
+    public void addCourtReporter(String courtReporter) {
+        Preconditions.checkArgument(!containsLegalBase(courtReporter));
+        
+        this.courtReporters.add(courtReporter);
+    }
+
+    public boolean containsCourtReporter(String courtReporter) {
+        return this.courtReporters.contains(courtReporter);
+    }
+
+    public void removeCourtReporter(String courtReporter) {
+        this.courtReporters.remove(courtReporter);
+    }
     
     
-    public void addReferencedRegulation(ReferencedRegulation regulation) {
+    public void addReferencedRegulation(JudgmentReferencedRegulation regulation) {
         Preconditions.checkArgument(!this.containsReferencedRegulation(regulation));
         
         this.referencedRegulations.add(regulation);
@@ -222,10 +283,14 @@ public abstract class Judgment extends DataObject {
         referencedRegulations.clear();
     }
     
-    public boolean containsReferencedRegulation(ReferencedRegulation regulation) {
+    public void removeReferencedRegulation(JudgmentReferencedRegulation regulation) {
+        referencedRegulations.remove(regulation);
+    }
+    
+    public boolean containsReferencedRegulation(JudgmentReferencedRegulation regulation) {
         Preconditions.checkNotNull(regulation);
         
-        for (ReferencedRegulation referencedRegulation : getReferencedRegulations()) {
+        for (JudgmentReferencedRegulation referencedRegulation : getReferencedRegulations_()) {
             if (regulation.getRawText().equals(referencedRegulation.getRawText()) &&
                 ObjectUtils.nullSafeEquals(regulation.getLawJournalEntry(), referencedRegulation.getLawJournalEntry())) {
                 return true;
@@ -245,12 +310,13 @@ public abstract class Judgment extends DataObject {
     }
 
    
-    @SuppressWarnings("unused") // for hibernate only
-    private void setJudges(List<Judge> judges) {
+    @SuppressWarnings("unused") /** for hibernate only */
+    private void setJudges_(List<Judge> judges) {
         this.judges = judges;
     }
 
-    public void setCourtReporters(List<String> courtReporters) {
+    @SuppressWarnings("unused") /** for hibernate only */
+    private void setCourtReporters_(List<String> courtReporters) {
         this.courtReporters = courtReporters;
     }
 
@@ -269,7 +335,8 @@ public abstract class Judgment extends DataObject {
         this.reasoning = reasoning;
     }
 
-    public void setLegalBases(List<String> legalBases) {
+    @SuppressWarnings("unused") /** for hibernate */
+    private void setLegalBases_(List<String> legalBases) {
         this.legalBases = legalBases;
     }
 
@@ -281,13 +348,43 @@ public abstract class Judgment extends DataObject {
         this.textContent = textContent;
     }
 
-    public void setJudgmentSource(JudgmentSource judgmentSource) {
-        this.judgmentSource = judgmentSource;
+    public void setSourceInfo(JudgmentSourceInfo sourceInfo) {
+        this.sourceInfo = sourceInfo;
     }
 
-    @SuppressWarnings("unused") // for hibernate only
-    private void setReferencedRegulations(List<ReferencedRegulation> referencedRegulations) {
+    @SuppressWarnings("unused") /** for hibernate only */
+    private void setReferencedRegulations_(List<JudgmentReferencedRegulation> referencedRegulations) {
         this.referencedRegulations = referencedRegulations;
+    }
+    
+    
+    //------------------------ HashCode & Equals --------------------------
+    
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((sourceInfo == null) ? 0 : sourceInfo.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Judgment other = (Judgment) obj;
+        if (sourceInfo == null) {
+            if (other.sourceInfo != null)
+                return false;
+        } else if (!sourceInfo.equals(other.sourceInfo))
+            return false;
+        return true;
     }
 
 

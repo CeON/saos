@@ -174,14 +174,16 @@ public class SourceCcJudgment {
     
     @Override
     public String toString() {
-        return "SourceCcJudgment [signature=" + signature + ", judgmentDate="
-                + judgmentDate + ", publicationDate=" + publicationDate
-                + ", courtId=" + courtId + ", departmentId=" + departmentId
-                + ", types=" + types + ", chairman=" + chairman + ", judges="
-                + judges + ", themePhrases=" + themePhrases + ", references="
-                + references + ", legalBases=" + legalBases + ", recorder="
-                + recorder + ", decision=" + decision + ", reviser=" + reviser
-                + ", publisher=" + publisher + "]";
+        return "SourceCcJudgment [id=" + id + ", signature=" + signature
+                + ", judgmentDate=" + judgmentDate + ", publicationDate="
+                + publicationDate + ", courtId=" + courtId + ", departmentId="
+                + departmentId + ", types=" + types + ", chairman=" + chairman
+                + ", judges=" + judges + ", themePhrases=" + themePhrases
+                + ", references=" + references + ", legalBases=" + legalBases
+                + ", recorder=" + recorder + ", decision=" + decision
+                + ", reviser=" + reviser + ", publisher=" + publisher
+                + ", thesis=" + thesis + ", textContent=(...)" 
+                + ", sourceUrl=" + sourceUrl + "]";
     }
     
     

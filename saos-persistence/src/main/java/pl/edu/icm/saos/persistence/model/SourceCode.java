@@ -7,7 +7,7 @@ package pl.edu.icm.saos.persistence.model;
  * @author Łukasz Dumiszewski
  */
 
-public enum JudgmentSourceType {
+public enum SourceCode {
     
     /** pl. Naczelny Sąd Administracyjny */
     ADMINISTRATIVE_COURT, 

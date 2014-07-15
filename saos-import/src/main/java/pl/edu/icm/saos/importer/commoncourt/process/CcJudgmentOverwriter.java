@@ -1,20 +1,20 @@
 package pl.edu.icm.saos.importer.commoncourt.process;
 
+import org.springframework.stereotype.Service;
+
 import pl.edu.icm.saos.importer.common.AbstractJudgmentOverwriter;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.CommonCourtData;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 
 /**
  * @author Łukasz Dumiszewski
  */
-
+@Service("ccJudgmentOverwriter")
 public class CcJudgmentOverwriter extends AbstractJudgmentOverwriter<CommonCourtJudgment> {
 
     @Override
     protected void overwriteSpecificData(CommonCourtJudgment oldJudgment, CommonCourtJudgment newJudgment) {
-        overwriteCourtData(oldJudgment, newJudgment);
+        overwriteCourt(oldJudgment, newJudgment);
         
         overwriteKeywords(oldJudgment, newJudgment);
     }
@@ -23,30 +23,21 @@ public class CcJudgmentOverwriter extends AbstractJudgmentOverwriter<CommonCourt
   
     //------------------------ PRIVATE --------------------------
     
-    private void overwriteCourtData(CommonCourtJudgment oldJudgment, CommonCourtJudgment newJudgment) {
-        CommonCourtData oldCourtData = oldJudgment.getCourtData();
-        CommonCourtData newCourtData = newJudgment.getCourtData();
-        if (newCourtData.getCourt() == null) {
-            oldJudgment.getCourtData().setCourt(null);
-        } else {
-            if (oldCourtData.getCourt() == null) {
-                oldCourtData.setCourt(new CommonCourt());
-            }
-            oldCourtData.getCourt().setAppealCourtCode(newCourtData.getCourt().getAppealCourtCode());
-            oldCourtData.getCourt().setRegionalCourtCode(newCourtData.getCourt().getRegionalCourtCode());
-            oldCourtData.getCourt().setDistrictCourtCode(newCourtData.getCourt().getDistrictCourtCode());
-            oldCourtData.getCourt().setName(newCourtData.getCourt().getName());
-            oldCourtData.getCourt().setShortName(newCourtData.getCourt().getShortName());
-        }
-        oldCourtData.setDivisionNumber(newCourtData.getDivisionNumber());
-        oldCourtData.setDivisionType(newCourtData.getDivisionType());
+    private void overwriteCourt(CommonCourtJudgment oldJudgment, CommonCourtJudgment newJudgment) {
+        oldJudgment.setCourtDivision(newJudgment.getCourtDivision());
     }
 
     
     private void overwriteKeywords(CommonCourtJudgment oldJudgment, CommonCourtJudgment newJudgment) {
-        oldJudgment.removeAllKeywords();
+        for (CcJudgmentKeyword oldKeyword : oldJudgment.getKeywords()) {
+            if (!newJudgment.containsKeyword(oldKeyword)) {
+                oldJudgment.removeKeyword(oldKeyword);
+            }
+        }
         for (CcJudgmentKeyword keyword : newJudgment.getKeywords()) {
-            oldJudgment.addKeyword(keyword);
+            if (!oldJudgment.containsKeyword(keyword)) {
+                oldJudgment.addKeyword(keyword);
+            }
         }
     }
 

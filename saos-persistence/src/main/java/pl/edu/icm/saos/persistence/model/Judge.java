@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -28,6 +30,7 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(name="judgment_name_unique", columnNames={"fk_judgment", "name"})})
 @Cacheable(true)
 @SequenceGenerator(name = "seq_judge", allocationSize = 1, sequenceName = "seq_judge")
 public class Judge extends DataObject {
@@ -117,6 +120,43 @@ public class Judge extends DataObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    
+    //------------------------ HashCode & Equals --------------------------
+    
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((judgment == null) ? 0 : judgment.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Judge other = (Judge) obj;
+        if (judgment == null) {
+            if (other.judgment != null)
+                return false;
+        } else if (!judgment.equals(other.judgment))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
     }
     
     

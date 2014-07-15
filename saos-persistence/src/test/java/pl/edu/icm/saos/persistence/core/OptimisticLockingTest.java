@@ -30,12 +30,15 @@ public class OptimisticLockingTest extends PersistenceTestSupport {
     public void lock() {
     
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
+        Assert.assertEquals(0, ccJudgment.getVer());
         entityManager.persist(ccJudgment);
+        Assert.assertEquals(0, ccJudgment.getVer());
         entityManager.flush();
         entityManager.clear();
         Assert.assertEquals(1, ccJudgmentRepository.findAll().size());
         
         CommonCourtJudgment ccJudgmentDb = ccJudgmentRepository.findOne(ccJudgment.getId());
+        Assert.assertEquals(0, ccJudgmentDb.getVer());
         ccJudgmentDb.setCaseNumber("111");
         entityManager.persist(ccJudgmentDb);
         entityManager.flush();

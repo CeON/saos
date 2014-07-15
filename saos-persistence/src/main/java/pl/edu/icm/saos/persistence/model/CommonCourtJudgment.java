@@ -3,15 +3,16 @@ package pl.edu.icm.saos.persistence.model;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
@@ -22,7 +23,7 @@ import com.google.common.collect.Lists;
 @Entity
 public class CommonCourtJudgment extends Judgment {
     
-    private CommonCourtData courtData = new CommonCourtData();
+    private CommonCourtDivision courtDivision;
     private List<CcJudgmentKeyword> keywords = Lists.newArrayList();
     
     
@@ -32,13 +33,19 @@ public class CommonCourtJudgment extends Judgment {
     @JoinTable(name = "assigned_cc_judgment_keyword",
             joinColumns = {@JoinColumn(name = "fk_judgment", nullable = false, updatable = false) }, 
             inverseJoinColumns = {@JoinColumn(name = "fk_keyword", nullable = false, updatable = false) })
-    public List<CcJudgmentKeyword> getKeywords() {
+    private List<CcJudgmentKeyword> getKeywords_() {
         return keywords;
     }
+    
+    
+    @Transient
+    public List<CcJudgmentKeyword> getKeywords() {
+        return ImmutableList.copyOf(getKeywords_());
+    }
 
-    @Embedded
-    public CommonCourtData getCourtData() {
-        return courtData;
+    @ManyToOne
+    public CommonCourtDivision getCourtDivision() {
+        return courtDivision;
     }
     
     
@@ -52,6 +59,10 @@ public class CommonCourtJudgment extends Judgment {
     
     public void removeAllKeywords() {
         this.keywords.clear();
+    }
+    
+    public void removeKeyword(CcJudgmentKeyword keyword) {
+        this.keywords.remove(keyword);
     }
     
     @Transient
@@ -76,12 +87,12 @@ public class CommonCourtJudgment extends Judgment {
     //------------------------ SETTERS --------------------------
     
     @SuppressWarnings("unused") /* for hibernate */
-    private void setKeywords(List<CcJudgmentKeyword> keywords) {
+    private void setKeywords_(List<CcJudgmentKeyword> keywords) {
         this.keywords = keywords;
     }
 
-    public void setCourtData(CommonCourtData courtData) {
-        this.courtData = courtData;
+    public void setCourtDivision(CommonCourtDivision courtDivision) {
+        this.courtDivision = courtDivision;
     }
 
    

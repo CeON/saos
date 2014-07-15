@@ -5,6 +5,8 @@ import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -29,6 +31,7 @@ public class CcjImportDownloadWriterTest {
     @Before
     public void before() {
         ccjImportDownloadWriter.setRawSourceCcJudgmentRepository(rawSourceCcJudgmentRepository);
+        ccjImportDownloadWriter.setEntityManager(mock(EntityManager.class));
     }
     
     

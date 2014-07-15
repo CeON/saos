@@ -31,7 +31,7 @@ public class CcjImportDownloadProcessor implements ItemProcessor<SourceCcJudgmen
         RawSourceCcJudgment rawSourceCcJudgment = sourceCcjTextDataConverter.convert(ccjTextData);
         
         if (rawSourceCcJudgmentRepository.findOneBySourceIdAndDataMd5(rawSourceCcJudgment.getSourceId(), rawSourceCcJudgment.getDataMd5()) != null) {
-            log.debug("omitting, same judgment has been found in raw_source_cc_judgment: sourceId: {}, dataMd5: {}", rawSourceCcJudgment.getSourceId(), rawSourceCcJudgment.getDataMd5());
+            log.trace("omitting, same judgment has been found in raw_source_cc_judgment: sourceId: {}, dataMd5: {}", rawSourceCcJudgment.getSourceId(), rawSourceCcJudgment.getDataMd5());
             return null;
         }
         

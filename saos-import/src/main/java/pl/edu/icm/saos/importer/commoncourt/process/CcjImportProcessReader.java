@@ -45,18 +45,23 @@ public class CcjImportProcessReader implements ItemStreamReader<RawSourceCcJudgm
             if (CollectionUtils.isEmpty(rawSourceCcJudgments)) {
                 return null;
             }
+            logDebug();
             pageNo++;
-            log.debug("{} raw source cc judgments have been read", rawSourceCcJudgments.size());
         }
         
+        RawSourceCcJudgment rJudgment = rawSourceCcJudgments.poll();
         
-        return rawSourceCcJudgments.poll();
+        return rJudgment;
     }
+
+
+
+
     
     
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        pageNo = 0;
+        pageNo=0;
         rawSourceCcJudgments = Lists.newLinkedList();
         
     }
@@ -72,6 +77,24 @@ public class CcjImportProcessReader implements ItemStreamReader<RawSourceCcJudgm
         
     }
 
+    
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private void logDebug() {
+        if (log.isDebugEnabled()) {
+            log.debug("{} raw source cc judgments have been read", rawSourceCcJudgments.size());
+            log.debug("read judgments: ");
+            for (RawSourceCcJudgment rj : rawSourceCcJudgments) {
+                log.info("{}", rj.getId());
+            };
+            log.debug("{} judgments read", rawSourceCcJudgments.size() + pageNo*pageSize);
+        }
+    }
+
+
+    
+   
     
     //------------------------ SETTERS --------------------------
 

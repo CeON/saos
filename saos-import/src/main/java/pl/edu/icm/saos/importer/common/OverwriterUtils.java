@@ -2,6 +2,7 @@ package pl.edu.icm.saos.importer.common;
 
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 
 /**
  * A utility class for judgment overwriting purposes
@@ -23,11 +24,18 @@ public final class OverwriterUtils {
                 oldJudgmentReasoning.setJudgment(oldJudgment);
                 oldJudgment.setReasoning(oldJudgmentReasoning);
             }
-            oldJudgmentReasoning.setPublicationDate(newJudgmentReasoning.getPublicationDate());
-            oldJudgmentReasoning.setPublisher(newJudgmentReasoning.getPublisher());
-            oldJudgmentReasoning.setReviser(newJudgmentReasoning.getReviser());
+            overwriteSourceInfo(oldJudgmentReasoning.getSourceInfo(), newJudgmentReasoning.getSourceInfo());
             oldJudgmentReasoning.setText(newJudgmentReasoning.getText());
         }
+    }
+    
+    public static void overwriteSourceInfo(JudgmentSourceInfo oldJudgmentSource, JudgmentSourceInfo newJudgmentSource) {
+        oldJudgmentSource.setSourceJudgmentId(newJudgmentSource.getSourceJudgmentId());
+        oldJudgmentSource.setPublicationDate(newJudgmentSource.getPublicationDate());
+        oldJudgmentSource.setSourceJudgmentUrl(newJudgmentSource.getSourceJudgmentUrl());
+        oldJudgmentSource.setSourceCode(newJudgmentSource.getSourceCode());
+        oldJudgmentSource.setPublisher(newJudgmentSource.getPublisher());
+        oldJudgmentSource.setReviser(newJudgmentSource.getReviser());
     }
     
 }

@@ -12,9 +12,9 @@ import org.joda.time.DateTime;
  * @author Łukasz Dumiszewski
  */
 @Embeddable
-public class JudgmentSource {
+public class JudgmentSourceInfo {
 
-    private JudgmentSourceType sourceType;
+    private SourceCode sourceCode;
     private String sourceJudgmentUrl;
     private String sourceJudgmentId;
     private DateTime publicationDate;
@@ -28,8 +28,8 @@ public class JudgmentSource {
     
     
     @Enumerated(EnumType.STRING)
-    public JudgmentSourceType getSourceType() {
-        return sourceType;
+    public SourceCode getSourceCode() {
+        return sourceCode;
     }
     
     public String getSourceJudgmentUrl() {
@@ -60,8 +60,8 @@ public class JudgmentSource {
     //------------------------ SETTERS --------------------------
     
     
-    public void setSourceType(JudgmentSourceType sourceType) {
-        this.sourceType = sourceType;
+    public void setSourceCode(SourceCode sourceCode) {
+        this.sourceCode = sourceCode;
     }
 
     public void setSourceJudgmentUrl(String sourceJudgmentUrl) {
@@ -83,6 +83,44 @@ public class JudgmentSource {
     public void setReviser(String reviser) {
         this.reviser = reviser;
     }
+
+    
+    
+    //------------------------ HashCode & Equals --------------------------
+    
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((sourceCode == null) ? 0 : sourceCode.hashCode());
+        result = prime
+                * result
+                + ((sourceJudgmentId == null) ? 0 : sourceJudgmentId.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        JudgmentSourceInfo other = (JudgmentSourceInfo) obj;
+        if (sourceCode != other.sourceCode)
+            return false;
+        if (sourceJudgmentId == null) {
+            if (other.sourceJudgmentId != null)
+                return false;
+        } else if (!sourceJudgmentId.equals(other.sourceJudgmentId))
+            return false;
+        return true;
+    }
+
+   
 
     
 }

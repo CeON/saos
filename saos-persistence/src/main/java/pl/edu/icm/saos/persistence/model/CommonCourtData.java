@@ -6,13 +6,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
+ * Court & department codes based on: 
+ * https://github.com/CeON/saos/tree/master/saos-persistence/src/main/doc/commonCourtCodes.pdf
+
  * @author Łukasz Dumiszewski
  */
 @Embeddable
 public class CommonCourtData {
     
+    
     private CommonCourt court;
-    private int divisionNumber;
+    private String divisionNumberCode;
     private CommonCourtDivisionType divisionType;
     
     
@@ -29,11 +33,14 @@ public class CommonCourtData {
         return court;
     }
 
-    @Column(name="court_division_number")
-    public int getDivisionNumber() {
-        return divisionNumber;
+    @Column(name="court_division_number_code")
+    public String getDivisionNumberCode() {
+        return divisionNumberCode;
     }
 
+
+    
+    
     
     //------------------------ LOGIC --------------------------
     
@@ -48,7 +55,9 @@ public class CommonCourtData {
         this.court = court;
     }
 
-    public void setDivisionNumber(int divisionNumber) {
-        this.divisionNumber = divisionNumber;
+    public void setDivisionNumberCode(String divisionNumberCode) {
+        this.divisionNumberCode = divisionNumberCode;
     }
+
+    
 }

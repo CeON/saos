@@ -1,4 +1,3 @@
-
 import static ch.qos.logback.classic.Level.DEBUG
 import static ch.qos.logback.classic.Level.ERROR
 import static ch.qos.logback.classic.Level.INFO
@@ -17,7 +16,7 @@ def defaultPattern = "%d{HH:mm:ss.SSS} %-5level: [%thread] %logger{36} - %msg%n"
 def logDirectory = System.properties.getProperty('catalina.base', System.getProperty('java.io.tmpdir'))+"/logs"
 
 def props = new Properties()
-def propsFile = new File(System.properties['user.home'], '.icm/saos.logback.properties')
+def propsFile = new File(System.properties['user.home'], '.icm/saos.logback-test.properties')
 if (propsFile.exists()) {
   propsFile.withInputStream {
     props.load(it)
@@ -47,8 +46,10 @@ appender("FILE", RollingFileAppender) {
 
 root(toLevel(props.logLevel ?: "INFO"), ["STDOUT", "FILE"])
 
+println "===Logger levels==="
 for (e in props) {
-  if (e.key.startsWith('logger.')) { logger(e.key[7..-1], toLevel(e.value)) }
+    println e.key + ":" + e.value
+  if (e.key.startsWith('logger.')) { logger(e.key[7..-1], toLevel(e.value.trim())) }
 }
-logger("org", DEBUG);
+
 

@@ -35,6 +35,7 @@ compass {
     cssDir = file('src/main/webapp/WEB-INF/static/stylesheet/css/.generated')
 }
 
+
 eclipse.classpath.file {
     // Classpath entry for Eclipse which changes the order of classpathentries; otherwise no sources for 3rd party jars are shown
     withXml { xml ->

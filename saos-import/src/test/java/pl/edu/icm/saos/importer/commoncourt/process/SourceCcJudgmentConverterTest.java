@@ -20,14 +20,15 @@ import org.mockito.Mockito;
 import pl.edu.icm.saos.importer.commoncourt.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
-import pl.edu.icm.saos.persistence.model.ReferencedRegulation;
-import pl.edu.icm.saos.persistence.repository.CcDivisionTypeRepository;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 
 import com.google.common.collect.Lists;
@@ -43,7 +44,7 @@ public class SourceCcJudgmentConverterTest {
     
     private CommonCourtRepository commonCourtRepository = mock(CommonCourtRepository.class);
     
-    private CcDivisionTypeRepository ccDivisionTypeRepository = mock(CcDivisionTypeRepository.class);
+    private CcDivisionRepository ccDivisionRepository = mock(CcDivisionRepository.class);
     
     private CcJudgmentKeywordCreator ccJudgmentKeywordCreator = mock(CcJudgmentKeywordCreator.class);
     
@@ -58,11 +59,10 @@ public class SourceCcJudgmentConverterTest {
     
     private CommonCourt court = new CommonCourt();
     
-    private CommonCourtDivisionType divisionType = new CommonCourtDivisionType();
+    private CommonCourtDivision division = new CommonCourtDivision();
     
     private static final String COURT_ID = "15050505";
-    private static final String DIVISION_TYPE_CODE = "03";
-    private static final int DIVISION_NUMBER = 15;
+    private static final String DIVISION_CODE = "0521";
     
     private List<String> references;
     private List<LawJournalEntryData> lawJournalEntryDataList;
@@ -75,21 +75,20 @@ public class SourceCcJudgmentConverterTest {
     @Before
     public void before() {
         
-        sourceCcJudgmentConverter.setCcDivisionTypeRepository(ccDivisionTypeRepository);
+        sourceCcJudgmentConverter.setCcDivisionRepository(ccDivisionRepository);
         sourceCcJudgmentConverter.setCcJudgmentKeywordCreator(ccJudgmentKeywordCreator);
         sourceCcJudgmentConverter.setCommonCourtRepository(commonCourtRepository);
         sourceCcJudgmentConverter.setLawJournalEntryCreator(lawJournalEntryCreator);
         sourceCcJudgmentConverter.setLawJournalEntryExtractor(lawJournalEntryExtractor);
         sourceCcJudgmentConverter.setCcjReasoningExtractor(ccjReasoningExtractor);
     
-        court.setAppealCourtCode("05");
-        court.setRegionalCourtCode("05");
-        court.setDistrictCourtCode("05");
-        when(commonCourtRepository.getOneByCode(Mockito.eq(COURT_ID))).thenReturn(court);
+        court.setCode("15050505");
+        when(commonCourtRepository.findOneByCode(Mockito.eq(COURT_ID))).thenReturn(court);
         
+        division.setCode(DIVISION_CODE);
+        division.setCourt(court);
         
-        divisionType.setCode(DIVISION_TYPE_CODE);
-        when(ccDivisionTypeRepository.findByCode(Mockito.eq(DIVISION_TYPE_CODE))).thenReturn(divisionType);
+        when(ccDivisionRepository.findOneByCourtIdAndCode(Mockito.eq(court.getId()), Mockito.eq(DIVISION_CODE))).thenReturn(division);
         
         createReferencedRegulations();
         
@@ -133,18 +132,14 @@ public class SourceCcJudgmentConverterTest {
     @Test
     public void convertJudgment() {
         CommonCourtJudgment judgment = sourceCcJudgmentConverter.convertJudgment(sJudgment);
-        assertEquals(sJudgment.getId(), judgment.getJudgmentSource().getSourceJudgmentId());
+        JudgmentSourceInfo sourceInfo = judgment.getSourceInfo();
+        assertSourceInfo(sJudgment, sourceInfo);
         assertEquals(sJudgment.getSignature(), judgment.getCaseNumber());
-        assertEquals(sJudgment.getCourtId(), judgment.getCourtData().getCourt().getCourtCode());
-        assertEquals(DIVISION_TYPE_CODE, judgment.getCourtData().getDivisionType().getCode());
-        assertEquals(DIVISION_NUMBER/5, judgment.getCourtData().getDivisionNumber());
+        assertEquals(sJudgment.getDepartmentId(), judgment.getCourtDivision().getCode());
         assertEquals(sJudgment.getDecision(), judgment.getDecision());
+        assertEquals(sJudgment.getLegalBases(), judgment.getLegalBases());
         assertEquals(sJudgment.getThesis(), judgment.getSummary());
         assertEquals(sJudgment.getJudgmentDate(), judgment.getJudgmentDate());
-        assertEquals(sJudgment.getPublicationDate(), judgment.getJudgmentSource().getPublicationDate());
-        assertEquals(sJudgment.getLegalBases(), judgment.getLegalBases());
-        assertEquals(sJudgment.getPublisher(), judgment.getJudgmentSource().getPublisher());
-        assertEquals(sJudgment.getReviser(), judgment.getJudgmentSource().getReviser());
         assertTrue(judgment.getCourtReporters().contains(sJudgment.getRecorder()));
         assertJudges(sJudgment, judgment);
         assertReferencedRegulations(judgment);
@@ -153,9 +148,13 @@ public class SourceCcJudgmentConverterTest {
         assertEquals(contentTextWithoutReasoning, judgment.getTextContent());
         assertNotNull(judgment.getReasoning());
         assertReasoning(judgment);
-        assertEquals(sJudgment.getSourceUrl(), judgment.getJudgmentSource().getSourceJudgmentUrl());
+        
     }
 
+
+
+
+    
 
 
 
@@ -164,9 +163,16 @@ public class SourceCcJudgmentConverterTest {
 
     private void assertReasoning(CommonCourtJudgment judgment) {
         assertEquals(reasoningText, judgment.getReasoning().getText());
-        assertEquals(sJudgment.getPublicationDate(), judgment.getReasoning().getPublicationDate());
-        assertEquals(sJudgment.getReviser(), judgment.getReasoning().getReviser());
-        assertEquals(sJudgment.getPublisher(), judgment.getReasoning().getPublisher());
+        JudgmentSourceInfo sourceInfo = judgment.getReasoning().getSourceInfo();
+        assertSourceInfo(sJudgment, sourceInfo);
+    }
+
+    private void assertSourceInfo(SourceCcJudgment sJudgment, JudgmentSourceInfo sourceInfo) {
+        assertEquals(sJudgment.getId(), sourceInfo.getSourceJudgmentId());
+        assertEquals(sJudgment.getPublicationDate(), sourceInfo.getPublicationDate());
+        assertEquals(sJudgment.getSourceUrl(), sourceInfo.getSourceJudgmentUrl());
+        assertEquals(sJudgment.getPublisher(), sourceInfo.getPublisher());
+        assertEquals(sJudgment.getReviser(), sourceInfo.getReviser());
     }
 
     
@@ -185,7 +191,7 @@ public class SourceCcJudgmentConverterTest {
 
 
     private void assertReferencedRegulation(CommonCourtJudgment judgment, int i) {
-        ReferencedRegulation regulation = judgment.getReferencedRegulations().get(i);
+        JudgmentReferencedRegulation regulation = judgment.getReferencedRegulations().get(i);
         assertEquals(references.get(i), regulation.getRawText());
         if (lawJournalEntryDataList.get(i) == null) {
             assertNull(regulation.getLawJournalEntry());
@@ -261,7 +267,7 @@ public class SourceCcJudgmentConverterTest {
         sJudgment.setId("SOME_EXTERNAL_ID_2222 ");
         sJudgment.setSignature(" CASE_NR_234 ");
         sJudgment.setCourtId(COURT_ID);
-        sJudgment.setDepartmentId(DIVISION_NUMBER + DIVISION_TYPE_CODE);
+        sJudgment.setDepartmentId(DIVISION_CODE);
         sJudgment.setDecision("Decision decision");
         sJudgment.setChairman(" Jan Olkowski");
         sJudgment.setJudges(Lists.newArrayList("Jan Olkowski", "Adam Nowak"));

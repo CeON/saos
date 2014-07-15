@@ -1,7 +1,5 @@
 package pl.edu.icm.saos.persistence.repository;
 
-import javax.persistence.NoResultException;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +30,10 @@ public class CommonCourtRepositoryTest extends PersistenceTestSupport {
     }
     
     
-    @Test(expected=IllegalArgumentException.class)
-    public void findByCourtCode_InvalidCode() {
-        commonCourtRepository.getOneByCode("1200000220");
-    }
-
-    
-    @Test(expected=NoResultException.class)
-    public void findByCourtCode_NoResultException() {
-        CommonCourt commonCourt = commonCourtRepository.getOneByCode("15120000");
+        
+    @Test
+    public void findOneByCode_NotFound() {
+        CommonCourt commonCourt = commonCourtRepository.findOneByCode("15120000");
         Assert.assertNull(commonCourt);
         
     }
@@ -49,12 +42,10 @@ public class CommonCourtRepositoryTest extends PersistenceTestSupport {
     @Test
     public void findByCourtCode() {
         CommonCourt commonCourt = new CommonCourt();
-        commonCourt.setAppealCourtCode("12");
-        commonCourt.setRegionalCourtCode("00");
-        commonCourt.setDistrictCourtCode("00");
+        commonCourt.setCode("15120000");
         commonCourtRepository.save(commonCourt);
         
-        CommonCourt dbCommonCourt = commonCourtRepository.getOneByCode("15120000");
+        CommonCourt dbCommonCourt = commonCourtRepository.findOneByCode(commonCourt.getCode());
         Assert.assertNotNull(dbCommonCourt);
         Assert.assertEquals(commonCourt, dbCommonCourt);
         

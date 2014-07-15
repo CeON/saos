@@ -9,21 +9,22 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.common.util.CommonCourtDivisionUtils;
 import pl.edu.icm.saos.importer.common.AbstractJudgmentConverter;
 import pl.edu.icm.saos.importer.commoncourt.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
-import pl.edu.icm.saos.persistence.model.CommonCourtData;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
-import pl.edu.icm.saos.persistence.model.JudgmentSourceType;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
-import pl.edu.icm.saos.persistence.model.ReferencedRegulation;
-import pl.edu.icm.saos.persistence.repository.CcDivisionTypeRepository;
+import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 /**
@@ -35,7 +36,7 @@ public class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonC
 
     private CommonCourtRepository commonCourtRepository;
     
-    private CcDivisionTypeRepository ccDivisionTypeRepository;
+    private CcDivisionRepository ccDivisionRepository;
     
     private CcJudgmentKeywordCreator ccJudgmentKeywordCreator;
     
@@ -54,14 +55,16 @@ public class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonC
      * Converts data specific to the judgment type
      * */
     @Override
-    protected void extractSpecific(SourceCcJudgment sourceJudgment, CommonCourtJudgment ccJudgment) {
+    protected void extractSpecific(CommonCourtJudgment ccJudgment, SourceCcJudgment sourceJudgment) {
         
         List<CcJudgmentKeyword> keywords = extractKeywords(sourceJudgment);
         for (CcJudgmentKeyword keyword : keywords) {
-            ccJudgment.addKeyword(keyword);
+            if (!ccJudgment.containsKeyword(keyword)) {
+                ccJudgment.addKeyword(keyword);
+            }
         }
         
-        ccJudgment.setCourtData(extractCommonCourtData(sourceJudgment));
+        ccJudgment.setCourtDivision(extractCommonCourtDivision(sourceJudgment));
     }
 
     @Override
@@ -111,13 +114,13 @@ public class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonC
     
     
     @Override
-    protected List<ReferencedRegulation> extractReferencedRegulations(SourceCcJudgment sourceJudgment) {
+    protected List<JudgmentReferencedRegulation> extractReferencedRegulations(SourceCcJudgment sourceJudgment) {
         
-        List<ReferencedRegulation> regulations = Lists.newArrayList();
+        List<JudgmentReferencedRegulation> regulations = Lists.newArrayList();
         
         for (String reference : sourceJudgment.getReferences()) {
             
-            ReferencedRegulation regulation = new ReferencedRegulation();
+            JudgmentReferencedRegulation regulation = new JudgmentReferencedRegulation();
             LawJournalEntryData entryData = lawJournalEntryExtractor.extractLawJournalEntry(reference);
             
             regulation.setRawText(reference);
@@ -135,8 +138,8 @@ public class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonC
     }
 
     @Override
-    protected JudgmentSourceType getSourceType() {
-        return JudgmentSourceType.COMMON_COURT;
+    protected SourceCode getSourceType() {
+        return SourceCode.COMMON_COURT;
     }
 
 
@@ -204,12 +207,11 @@ public class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonC
 
     //------------------------ PRIVATE --------------------------
     
-    private CommonCourtData extractCommonCourtData(SourceCcJudgment sourceJudgment) {
-        CommonCourtData commonCourtData = new CommonCourtData();
-        commonCourtData.setCourt(commonCourtRepository.getOneByCode(sourceJudgment.getCourtId()));
-        commonCourtData.setDivisionType(ccDivisionTypeRepository.findByCode(CommonCourtDivisionUtils.extractDivisionTypeCode(sourceJudgment.getDepartmentId())));
-        commonCourtData.setDivisionNumber(CommonCourtDivisionUtils.extractNormalizedDivisionNumber(sourceJudgment.getDepartmentId()));
-        return commonCourtData;
+    private CommonCourtDivision extractCommonCourtDivision(SourceCcJudgment sourceJudgment) {
+        CommonCourt court = commonCourtRepository.findOneByCode(sourceJudgment.getCourtId());
+        Preconditions.checkNotNull(court);
+        CommonCourtDivision division = ccDivisionRepository.findOneByCourtIdAndCode(court.getId(), sourceJudgment.getDepartmentId());
+        return division;
     }
     
     private List<CcJudgmentKeyword> extractKeywords(SourceCcJudgment sourceJudgment) {
@@ -234,8 +236,8 @@ public class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonC
     }
 
     @Autowired
-    public void setCcDivisionTypeRepository(CcDivisionTypeRepository ccDivisionTypeRepository) {
-        this.ccDivisionTypeRepository = ccDivisionTypeRepository;
+    public void setCcDivisionRepository(CcDivisionRepository ccDivisionRepository) {
+        this.ccDivisionRepository = ccDivisionRepository;
     }
 
     @Autowired

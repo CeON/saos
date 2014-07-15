@@ -14,8 +14,8 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
-import pl.edu.icm.saos.persistence.model.JudgmentSource;
-import pl.edu.icm.saos.persistence.model.JudgmentSourceType;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.SourceCode;
 
 import com.google.common.collect.Lists;
 
@@ -153,11 +153,12 @@ public class JudgmentCommonDataOverwriterTest {
     @Test
     public void overwriteJudgment_CourtReporters() {
         Judgment oldJudgment = createJudgment();
-        oldJudgment.setCourtReporters(Lists.newArrayList("sldslkdlsdsd", "ddsdsdsds"));
+        oldJudgment.addCourtReporter("sldslkdlsdsd");
+        oldJudgment.addCourtReporter("ddsdsdsds");
         
         Judgment newJudgment = createJudgment();
         List<String> newCourtReporters = Lists.newArrayList("sldslkdlsdssd");
-        newJudgment.setCourtReporters(newCourtReporters);
+        newJudgment.addCourtReporter(newCourtReporters.get(0));
         
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
         
@@ -169,11 +170,14 @@ public class JudgmentCommonDataOverwriterTest {
     @Test
     public void overwriteJudgment_LegalBases() {
         Judgment oldJudgment = createJudgment();
-        oldJudgment.setLegalBases(Lists.newArrayList("sldslkdlsdsd", "ddsdsdsds"));
+        oldJudgment.addLegalBase("sldslkdlsdsd");
+        oldJudgment.addLegalBase("ddsdsdsds");
         
         Judgment newJudgment = createJudgment();
         List<String> newLegalBases = Lists.newArrayList("sldslkdlsdssd", "dsdsddsdddddd", "lllllsldlsdl");
-        newJudgment.setLegalBases(newLegalBases);
+        newJudgment.addLegalBase(newLegalBases.get(0));
+        newJudgment.addLegalBase(newLegalBases.get(1));
+        newJudgment.addLegalBase(newLegalBases.get(2));
         
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
         
@@ -183,27 +187,15 @@ public class JudgmentCommonDataOverwriterTest {
     
     
     @Test
-    public void overwriteJudgment_Reasoning() {
+    public void overwriteJudgment_ReasoningText() {
         Judgment oldJudgment = createJudgment();
         JudgmentReasoning oldReasoning = new JudgmentReasoning();
-        oldReasoning.setPublicationDate(new DateTime());
-        oldReasoning.setPublisher("233223232323");
-        oldReasoning.setReviser("2323dssfdsf");
         oldReasoning.setText("2112121212wk,sjkdsdjckdjck xkj kdxc j");
         oldJudgment.setReasoning(oldReasoning);
         
         
         Judgment newJudgment = createJudgment();
         JudgmentReasoning newReasoning = new JudgmentReasoning();
-        
-        DateTime newPublicationDate = oldReasoning.getPublicationDate().minusDays(12);
-        newReasoning.setPublicationDate(newPublicationDate);
-        
-        String newPublisher = oldReasoning.getPublisher() + "new";
-        newReasoning.setPublisher(newPublisher);
-        
-        String newReviser = oldReasoning.getReviser() + "new";
-        newReasoning.setReviser(newReviser);
         
         String newText = oldReasoning.getText() + "new";
         newReasoning.setText(newText);
@@ -214,38 +206,36 @@ public class JudgmentCommonDataOverwriterTest {
         
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
         
-        assertEquals(newPublicationDate, oldReasoning.getPublicationDate());
-        assertEquals(newPublisher, oldReasoning.getPublisher());
-        assertEquals(newReviser, oldReasoning.getReviser());
         assertEquals(newText, oldReasoning.getText());
         
         assertEquals(newReasoning, newJudgment.getReasoning());
-        assertEquals(newPublicationDate, newReasoning.getPublicationDate());
-        assertEquals(newPublisher, newReasoning.getPublisher());
-        assertEquals(newReviser, newReasoning.getReviser());
         assertEquals(newText, newReasoning.getText());
-        
     }
     
     
     @Test
-    public void overwriteJudgment_JudgmentSource() {
-        
-        // old judgment
+    public void overwriteJudgment_ReasoningSourceInfo() {
         Judgment oldJudgment = createJudgment();
-        JudgmentSource oldSource = new JudgmentSource();
+        JudgmentReasoning oldReasoning = new JudgmentReasoning();
+        JudgmentSourceInfo oldSource = new JudgmentSourceInfo();
         oldSource.setPublicationDate(new DateTime(2003, 12, 23, 23, 23));
         oldSource.setPublisher("123dssds d sd");
         oldSource.setReviser("2323232escxcvxv3");
         oldSource.setSourceJudgmentId("212121212 2121 212 12 12");
         oldSource.setSourceJudgmentUrl("http://sdsdsd/sd/sdsd");
-        oldSource.setSourceType(JudgmentSourceType.ADMINISTRATIVE_COURT);
-        oldJudgment.setJudgmentSource(oldSource);
+        oldSource.setSourceCode(SourceCode.ADMINISTRATIVE_COURT);
+        oldReasoning.setSourceInfo(oldSource);
+        oldJudgment.setReasoning(oldReasoning);
         
         
-        // new judgment
         Judgment newJudgment = createJudgment();
-        JudgmentSource newSource = new JudgmentSource();
+        JudgmentReasoning newReasoning = new JudgmentReasoning();
+        
+        String newText = oldReasoning.getText() + "new";
+        newReasoning.setText(newText);
+        
+        newJudgment.setReasoning(newReasoning);
+        JudgmentSourceInfo newSource = new JudgmentSourceInfo();
         
         DateTime newPublicationDate = new DateTime(2003, 12, 23, 23, 23);
         newSource.setPublicationDate(newPublicationDate);
@@ -262,10 +252,62 @@ public class JudgmentCommonDataOverwriterTest {
         String newSourceUrl = "http://sdsdssssssd/sd/sdsd";
         newSource.setSourceJudgmentUrl(newSourceUrl);
         
-        JudgmentSourceType newSourceType = JudgmentSourceType.COMMON_COURT;
-        newSource.setSourceType(newSourceType);
+        SourceCode newSourceType = SourceCode.COMMON_COURT;
+        newSource.setSourceCode(newSourceType);
         
-        newJudgment.setJudgmentSource(newSource);
+        newReasoning.setSourceInfo(newSource);
+        
+        
+        judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        
+        //assert
+        
+        JudgmentSourceInfoAssertUtils.assertSourceInfo(oldJudgment.getReasoning().getSourceInfo(), newJudgment.getReasoning().getSourceInfo(), newPublicationDate,
+                newPublisher, newReviser, newSourceJudgmentId, newSourceUrl,
+                newSourceType);
+    }
+
+
+    
+    
+    @Test
+    public void overwriteJudgment_SourceInfo() {
+        
+        // old judgment
+        Judgment oldJudgment = createJudgment();
+        JudgmentSourceInfo oldSource = new JudgmentSourceInfo();
+        oldSource.setPublicationDate(new DateTime(2003, 12, 23, 23, 23));
+        oldSource.setPublisher("123dssds d sd");
+        oldSource.setReviser("2323232escxcvxv3");
+        oldSource.setSourceJudgmentId("212121212 2121 212 12 12");
+        oldSource.setSourceJudgmentUrl("http://sdsdsd/sd/sdsd");
+        oldSource.setSourceCode(SourceCode.ADMINISTRATIVE_COURT);
+        oldJudgment.setSourceInfo(oldSource);
+        
+        
+        // new judgment
+        Judgment newJudgment = createJudgment();
+        JudgmentSourceInfo newSource = new JudgmentSourceInfo();
+        
+        DateTime newPublicationDate = new DateTime(2003, 12, 23, 23, 23);
+        newSource.setPublicationDate(newPublicationDate);
+        
+        String newPublisher = "12232w sds df sd s";
+        newSource.setPublisher(newPublisher);
+        
+        String newReviser = "12232w sds df sd s";
+        newSource.setReviser(newReviser);
+        
+        String newSourceJudgmentId = "212121212sd2121 212 12 12";
+        newSource.setSourceJudgmentId(newSourceJudgmentId);
+        
+        String newSourceUrl = "http://sdsdssssssd/sd/sdsd";
+        newSource.setSourceJudgmentUrl(newSourceUrl);
+        
+        SourceCode newSourceType = SourceCode.COMMON_COURT;
+        newSource.setSourceCode(newSourceType);
+        
+        newJudgment.setSourceInfo(newSource);
         
         
         // overwrite
@@ -274,28 +316,22 @@ public class JudgmentCommonDataOverwriterTest {
         
         //assert
         
-        assertEquals(newPublicationDate, oldJudgment.getJudgmentSource().getPublicationDate());
-        assertEquals(newPublisher, oldJudgment.getJudgmentSource().getPublisher());
-        assertEquals(newReviser, oldJudgment.getJudgmentSource().getReviser());
-        assertEquals(newSourceJudgmentId, oldJudgment.getJudgmentSource().getSourceJudgmentId());
-        assertEquals(newSourceUrl, oldJudgment.getJudgmentSource().getSourceJudgmentUrl());
-        assertEquals(newSourceType, oldJudgment.getJudgmentSource().getSourceType());
-        
-        assertEquals(newPublicationDate, newJudgment.getJudgmentSource().getPublicationDate());
-        assertEquals(newPublisher, newJudgment.getJudgmentSource().getPublisher());
-        assertEquals(newReviser, newJudgment.getJudgmentSource().getReviser());
-        assertEquals(newSourceJudgmentId, newJudgment.getJudgmentSource().getSourceJudgmentId());
-        assertEquals(newSourceUrl, newJudgment.getJudgmentSource().getSourceJudgmentUrl());
-        assertEquals(newSourceType, newJudgment.getJudgmentSource().getSourceType());
+        JudgmentSourceInfoAssertUtils.assertSourceInfo(oldJudgment.getSourceInfo(), newJudgment.getSourceInfo(), newPublicationDate,
+                newPublisher, newReviser, newSourceJudgmentId, newSourceUrl,
+                newSourceType);
     }
     
     
-    
+    //------------------------ PRIVATE --------------------------
     
     private Judgment createJudgment() {
         Judgment judgment = new CommonCourtJudgment();
         return judgment;
     }
+
+    
+    
+    
 
     
     

@@ -50,7 +50,7 @@ public class JobScheduler {
         
         Map<String, JobParameter> params = Maps.newHashMap();
         params.put("startDate", new JobParameter(new Date()));
-        params.put("customPublicationDateFrom", new JobParameter(new CcjImportDateFormatter().format(new DateTime(2014, 06, 15, 23, 59, DateTimeZone.forID("Europe/Warsaw")))));
+        params.put("customPublicationDateFrom", new JobParameter(new CcjImportDateFormatter().format(new DateTime(2014, 05, 01, 23, 59, DateTimeZone.forID("Europe/Warsaw")))));
         JobExecution execution = jobLauncher.run(ccJudgmentImportJob, new JobParameters(params));
         
         log.info("Judgment import has finished, exit status: {}", execution.getStatus());
@@ -58,17 +58,41 @@ public class JobScheduler {
     }
     
 
-    @Scheduled(cron="0 0/5 * * * *")
+    @Scheduled(cron="0 13 13 * * *")
     public void processRawCcJudgments() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
         
         log.info("Judgment import processing has started");
         
-        Map<String, JobParameter> params = Maps.newHashMap();
-        params.put("startDate", new JobParameter(new Date()));
-        JobExecution execution = jobLauncher.run(ccJudgmentImportProcessJob, new JobParameters(params));
+        JobExecution execution = forceStartNewJob(ccJudgmentImportProcessJob);
         
         log.info("Judgment import processing has finished, exit status: {}", execution.getStatus());
    
     }
 
+    @Autowired
+    private Job commonCourtImportJob;
+    
+    
+    //@Scheduled(cron="0 0/2 * * * *")
+    public void importCommonCourts() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
+        
+        log.info("Common court import has started");
+        
+        JobExecution execution = forceStartNewJob(commonCourtImportJob);
+        
+        log.info("Common court import has finished, exit status: {}", execution.getStatus());
+   
+    }
+
+    
+    
+    //------------------------ PRIVATE --------------------------
+
+    private JobExecution forceStartNewJob(Job job)  throws JobExecutionAlreadyRunningException, JobRestartException,
+            JobInstanceAlreadyCompleteException, JobParametersInvalidException {
+        Map<String, JobParameter> params = Maps.newHashMap();
+        params.put("startDate", new JobParameter(new Date()));
+        JobExecution execution = jobLauncher.run(job, new JobParameters(params));
+        return execution;
+    }
 }

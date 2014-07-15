@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.joda.time.DateTime;
@@ -26,7 +27,6 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
     @Autowired
     private RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository;
     
-
     
     @Test
     public void findOneBySourceIdAndDataMd5_NotFound() {
@@ -86,6 +86,7 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
         RawSourceCcJudgment rJudgment2 = createAndSaveRawSourceCcJudgment(new DateTime(2011, 06, 20, 23, 13, 3), true);
         RawSourceCcJudgment rJudgment3 = createAndSaveRawSourceCcJudgment(new DateTime(2013, 12, 20, 22, 13, 1), false);
         
+        
         Page<RawSourceCcJudgment> rJudgmentPage = rawSourceCcJudgmentRepository.findNotProcessed(new PageRequest(0, 10));
         assertEquals(3, rJudgmentPage.getTotalElements());
         assertEquals(3, rJudgmentPage.getContent().size());
@@ -117,6 +118,29 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     
+    @Test
+    public void findOneBySourceIdAndProcessed() {
+        RawSourceCcJudgment rJudgment0 = createAndSaveRawSourceCcJudgment(new DateTime(2013, 11, 20, 22, 13, 1), false);
+        rJudgment0.setSourceId("1234A");
+        rawSourceCcJudgmentRepository.save(rJudgment0);
+
+        RawSourceCcJudgment rJudgment1 = createAndSaveRawSourceCcJudgment(new DateTime(2013, 11, 20, 22, 13, 1), true);
+        rJudgment1.setSourceId("1234B");
+        rawSourceCcJudgmentRepository.save(rJudgment1);
+
+        RawSourceCcJudgment rJudgment2 = createAndSaveRawSourceCcJudgment(new DateTime(2013, 11, 20, 22, 13, 1), true);
+        rJudgment2.setSourceId("1234B");
+        rawSourceCcJudgmentRepository.save(rJudgment2);
+        
+        List<RawSourceCcJudgment> rJudgments = rawSourceCcJudgmentRepository.findBySourceIdAndProcessed(rJudgment0.getSourceId(), false);
+        assertEquals(1, rJudgments.size());
+        assertEquals(rJudgment0.getId(), rJudgments.get(0).getId());
+
+        rJudgments = rawSourceCcJudgmentRepository.findBySourceIdAndProcessed(rJudgment1.getSourceId(), false);
+        assertEquals(0, rJudgments.size());
+        
+    }
+    
     //------------------------ PRIVATE --------------------------
 
     private RawSourceCcJudgment createAndSaveRawSourceCcJudgment(DateTime maxDateTime) {
@@ -126,7 +150,9 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
     private RawSourceCcJudgment createAndSaveRawSourceCcJudgment(DateTime maxDateTime, boolean processed) {
         RawSourceCcJudgment rawSourceCcJudgment = new RawSourceCcJudgment();
         rawSourceCcJudgment.setPublicationDate(maxDateTime);
-        rawSourceCcJudgment.setProcessed(processed);
+        if (processed) {
+            rawSourceCcJudgment.markProcessedOk();
+        }
         rawSourceCcJudgment.setSourceId(UUID.randomUUID().toString());
         rawSourceCcJudgment.setDataMd5(UUID.randomUUID().toString());
         rawSourceCcJudgmentRepository.save(rawSourceCcJudgment);

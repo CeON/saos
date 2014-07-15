@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.persistence.repository;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +23,13 @@ public interface RawSourceCcJudgmentRepository extends JpaRepository<RawSourceCc
     @Query("select max(rJudgment.publicationDate) from RawSourceCcJudgment rJudgment")
     DateTime findMaxPublicationDate();
     
-    @Query("select rJudgment from RawSourceCcJudgment rJudgment where rJudgment.processed = false  order by justReasons, publicationDate, id")
+    /**
+     * Finds all {@link RawSourceCcJudgment}s that are not marked as processed ({@link RawSourceCcJudgment#isProcessed()})
+     * and have not been already processed by the given import process ({@link RawSourceCcJudgment#getImportProcessId()}).
+     */
+    @Query("select rJudgment from RawSourceCcJudgment rJudgment where rJudgment.processed=false order by justReasons, publicationDate, id")
     Page<RawSourceCcJudgment> findNotProcessed(Pageable pageable);
+    
+    List<RawSourceCcJudgment> findBySourceIdAndProcessed(String sourceJudgmentId, boolean processed);
     
 }

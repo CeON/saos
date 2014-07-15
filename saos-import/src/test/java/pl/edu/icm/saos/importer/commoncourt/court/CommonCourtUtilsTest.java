@@ -1,10 +1,12 @@
-package pl.edu.icm.saos.common.util;
+package pl.edu.icm.saos.importer.commoncourt.court;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import pl.edu.icm.saos.importer.commoncourt.court.CommonCourtUtils;
 
 /**
  * @author Łukasz Dumiszewski

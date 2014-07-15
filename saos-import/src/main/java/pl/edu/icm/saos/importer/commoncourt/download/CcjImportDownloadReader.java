@@ -52,12 +52,14 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
         Preconditions.checkNotNull(publicationDateFrom);
         
         if (CollectionUtils.isEmpty(judgmentIds)) {
+            log.debug("reading next {} judgments...", pageSize);
             judgmentIds = new LinkedList<String>(sourceCcjExternalRepository.findJudgmentIds(pageNo, pageSize, publicationDateFrom));
+            log.debug("{} judgments have been read", pageNo*pageSize + judgmentIds.size());
             if (CollectionUtils.isEmpty(judgmentIds)) {
                 return null;
             }
             pageNo++;
-            log.debug("{} judgments have been read", judgmentIds.size());
+            
         }
         
         String judgmentId = judgmentIds.poll();
@@ -121,7 +123,6 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
     public void setCustomPublicationDateFrom(String customPublicationDateFrom) {
         this.customPublicationDateFrom = customPublicationDateFrom;
     }
-
 
     @Autowired
     public void setSourceCcjExternalRepository(SourceCcjExternalRepository sourceCcjExternalRepository) {

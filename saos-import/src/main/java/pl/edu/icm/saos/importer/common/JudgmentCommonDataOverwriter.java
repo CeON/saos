@@ -4,8 +4,7 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentSource;
-import pl.edu.icm.saos.persistence.model.ReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -24,14 +23,14 @@ public class JudgmentCommonDataOverwriter implements JudgmentOverwriter<Judgment
         
         oldJudgment.setCaseNumber(newJudgment.getCaseNumber());
         oldJudgment.setJudgmentDate(newJudgment.getJudgmentDate());
-        oldJudgment.setCourtReporters(Lists.newArrayList(newJudgment.getCourtReporters()));
+        overwriteCourtReporters(oldJudgment, newJudgment);
         oldJudgment.setDecision(newJudgment.getDecision());
         oldJudgment.setJudgmentType(newJudgment.getJudgmentType());
-        oldJudgment.setLegalBases(Lists.newArrayList(newJudgment.getLegalBases()));
+        overwriteLegalBases(oldJudgment, newJudgment);
         oldJudgment.setSummary(newJudgment.getSummary());
         oldJudgment.setTextContent(newJudgment.getTextContent());
         
-        overwriteJudgmentSource(oldJudgment, newJudgment);
+        OverwriterUtils.overwriteSourceInfo(oldJudgment.getSourceInfo(), newJudgment.getSourceInfo());
         
         OverwriterUtils.overwriteReasoning(oldJudgment, newJudgment);
         
@@ -41,44 +40,80 @@ public class JudgmentCommonDataOverwriter implements JudgmentOverwriter<Judgment
         
         
     }
-    
+
+
+
     
 
     //------------------------ PRIVATE --------------------------
 
     
+    private void overwriteCourtReporters(Judgment oldJudgment, Judgment newJudgment) {
+        
+        for (String oldCourtReporter : oldJudgment.getCourtReporters()) {
+            if (!newJudgment.containsCourtReporter(oldCourtReporter)) {
+                oldJudgment.removeCourtReporter(oldCourtReporter);
+            }
+        }
+        for (String courtReporter : newJudgment.getCourtReporters()) {
+            if (!oldJudgment.containsCourtReporter(courtReporter)) {
+                oldJudgment.addCourtReporter(courtReporter);
+            }
+        }
+    }
+    
+    private void overwriteLegalBases(Judgment oldJudgment, Judgment newJudgment) {
+        
+        for (String oldLegalBase : oldJudgment.getLegalBases()) {
+            if (!newJudgment.containsLegalBase(oldLegalBase)) {
+                oldJudgment.removeLegalBase(oldLegalBase);
+            }
+        }
+        for (String legalBase : newJudgment.getLegalBases()) {
+            if (!oldJudgment.containsLegalBase(legalBase)) {
+                oldJudgment.addLegalBase(legalBase);
+            }
+        }
+    }
+    
     private void overwriteReferencedRegulations(Judgment oldJudgment, Judgment newJudgment) {
-        oldJudgment.removeAllReferencedRegulations();
-        for (ReferencedRegulation regulation : newJudgment.getReferencedRegulations()) {
-            ReferencedRegulation nRegulation = new ReferencedRegulation();
+        
+        for (JudgmentReferencedRegulation oldRegulation : oldJudgment.getReferencedRegulations()) {
+            if (!newJudgment.containsReferencedRegulation(oldRegulation)) {
+                oldJudgment.removeReferencedRegulation(oldRegulation);
+            }
+        }
+        
+        for (JudgmentReferencedRegulation regulation : newJudgment.getReferencedRegulations()) {
+            if (oldJudgment.containsReferencedRegulation(regulation)) {
+                continue;
+            }
+            JudgmentReferencedRegulation nRegulation = new JudgmentReferencedRegulation();
             nRegulation.setRawText(regulation.getRawText());
             nRegulation.setLawJournalEntry(regulation.getLawJournalEntry());
             oldJudgment.addReferencedRegulation(nRegulation);
         }
     }
+    
 
 
     private void overwriteJudges(Judgment oldJudgment, Judgment newJudgment) {
-        oldJudgment.removeAllJudges();
+        for (Judge oldJudge : oldJudgment.getJudges()) {
+            if (!newJudgment.containsJudge(oldJudge)) {
+                oldJudgment.removeJudge(oldJudge);
+            }
+        }
         for (Judge judge : newJudgment.getJudges()) {
             Judge nJudge = new Judge();
             nJudge.setName(judge.getName());
             nJudge.setSpecialRoles(Lists.newArrayList(judge.getSpecialRoles()));
-            oldJudgment.addJudge(nJudge);
+            if (!oldJudgment.containsJudge(nJudge)) {
+                oldJudgment.addJudge(nJudge);    
+            }
+            
         }
     }
     
-    
-
-    
-    private void overwriteJudgmentSource(Judgment oldJudgment, Judgment newJudgment) {
-        JudgmentSource oldJudgmentSource = oldJudgment.getJudgmentSource();
-        JudgmentSource newJudgmentSource = newJudgment.getJudgmentSource();
-        oldJudgmentSource.setSourceJudgmentId(newJudgmentSource.getSourceJudgmentId());
-        oldJudgmentSource.setPublicationDate(newJudgmentSource.getPublicationDate());
-        oldJudgmentSource.setSourceJudgmentUrl(newJudgmentSource.getSourceJudgmentUrl());
-        oldJudgmentSource.setSourceType(newJudgmentSource.getSourceType());
-        oldJudgmentSource.setPublisher(newJudgmentSource.getPublisher());
-        oldJudgmentSource.setReviser(newJudgmentSource.getReviser());
-    }
+       
+   
 }

@@ -1,6 +1,7 @@
 
 dependencies {
-        testCompile project(':saos-common').sourceSets.test.output
+        testCompile project(path:':saos-common', configuration:'testArtifacts')
+        testCompile project(path:':saos-persistence', configuration:'testArtifacts')
         compile project(':saos-persistence')
     
         compile lib.'commons-collections:commons-collections'
@@ -12,5 +13,3 @@ dependencies {
         compile lib.'commons-codec:commons-codec'
         
 }
-
-

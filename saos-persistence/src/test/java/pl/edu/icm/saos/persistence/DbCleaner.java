@@ -8,10 +8,11 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
-import pl.edu.icm.saos.persistence.model.ReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 
 /**
@@ -26,11 +27,12 @@ public class DbCleaner {
     
     @Transactional
     public void clean() {
-        deleteAll(ReferencedRegulation.class);
+        deleteAll(JudgmentReferencedRegulation.class);
         deleteAll(LawJournalEntry.class);
         deleteAll(Judgment.class);
-        deleteAll(CommonCourt.class);
         deleteAll(CommonCourtDivisionType.class);
+        deleteAll(CommonCourtDivision.class);
+        deleteAll(CommonCourt.class);
         
         deleteAll(RawSourceCcJudgment.class);
         
