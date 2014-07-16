@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
 
 import pl.edu.icm.saos.common.xml.XmlTagContentExtractor;
 import pl.edu.icm.saos.importer.commoncourt.court.XmlCommonCourt;
-import pl.edu.icm.saos.importer.commoncourt.xml.SourceCcJudgment;
+import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 
 import com.google.common.collect.Lists;
 

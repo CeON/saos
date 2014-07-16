@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.commoncourt.download.CcjImportDateFormatter;
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDateFormatter;
 
 import com.google.common.collect.Maps;
 
@@ -42,8 +42,8 @@ public class JobScheduler {
     @Autowired
     private Job ccJudgmentImportProcessJob;
     
-    
-    @Scheduled(cron="${importJudgments.cron}")
+ 
+    @Scheduled(cron="${import.commonCourt.judgments.cron}")
     public void importCcJudgments() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
         
         log.info("Judgment import has started");
@@ -58,7 +58,7 @@ public class JobScheduler {
     }
     
 
-    @Scheduled(cron="0 13 13 * * *")
+    @Scheduled(cron="${import.commonCourt.judgments.processRawSourceCcJudgments.cron}")
     public void processRawCcJudgments() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
         
         log.info("Judgment import processing has started");
@@ -73,7 +73,7 @@ public class JobScheduler {
     private Job commonCourtImportJob;
     
     
-    //@Scheduled(cron="0 0/2 * * * *")
+    @Scheduled(cron="${import.commonCourt.courts.cron}")
     public void importCommonCourts() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
         
         log.info("Common court import has started");

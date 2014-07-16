@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
 
@@ -29,7 +30,7 @@ public class OptimisticLockingTest extends PersistenceTestSupport {
     @Transactional
     public void lock() {
     
-        CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
+        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createCcJudgment();
         Assert.assertEquals(0, ccJudgment.getVer());
         entityManager.persist(ccJudgment);
         Assert.assertEquals(0, ccJudgment.getVer());

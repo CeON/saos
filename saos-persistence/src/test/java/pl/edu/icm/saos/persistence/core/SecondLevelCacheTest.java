@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -39,7 +40,7 @@ public class SecondLevelCacheTest extends PersistenceTestSupport {
         Statistics statistics = ((Session)(entityManager.getDelegate())).getSessionFactory().getStatistics();
         statistics.clear();
         
-        Judgment judgment = new CommonCourtJudgment();
+        Judgment judgment = TestJudgmentFactory.createCcJudgment();
         judgmentRepository.save(judgment);
         
         judgmentRepository.findOne(judgment.getId());

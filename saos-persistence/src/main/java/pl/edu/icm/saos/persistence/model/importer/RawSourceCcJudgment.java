@@ -240,6 +240,18 @@ public class RawSourceCcJudgment extends DataObject {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "RawSourceCcJudgment [sourceId=" + sourceId + ", caseNumber="
+                + caseNumber + ", publicationDate=" + publicationDate
+                + ", processingDate=" + processingDate + ", processed="
+                + processed + ", processingStatus=" + processingStatus
+                + ", processErrorDesc=" + processErrorDesc + ", justReasons="
+                + justReasons + ", sourceUrl=" + sourceUrl
+                + ", contentSourceUrl=" + contentSourceUrl + ", dataMd5="
+                + dataMd5 + "]";
+    }
+
     
    
    

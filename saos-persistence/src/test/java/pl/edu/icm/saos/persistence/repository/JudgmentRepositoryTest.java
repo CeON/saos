@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
@@ -35,6 +36,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         Assert.assertEquals(0, judgmentRepository.count());
         
         CommonCourtJudgment judgment = new CommonCourtJudgment();
+        judgment.setCaseNumber("222");
         judgmentRepository.save(judgment);
         
         Assert.assertEquals(1, judgmentRepository.count());
@@ -51,7 +53,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void findOneBySourceCodeAndSourceJudgmentId_FOUND() {
-        CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
+        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createCcJudgment();
         JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
         sourceInfo.setSourceCode(SourceCode.COMMON_COURT);
         sourceInfo.setSourceJudgmentId("1123");

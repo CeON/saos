@@ -387,6 +387,14 @@ public abstract class Judgment extends DataObject {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return "Judgment [sourceInfo=" + sourceInfo + ", caseNumber="
+                + caseNumber + ", judgmentDate=" + judgmentDate + ", judges="
+                + judges + ", decision=" + decision + ", judgmentType="
+                + judgmentType + "]";
+    }
+
 
     
 }
