@@ -29,7 +29,7 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 @Service
-public class SourceCcjExternalRepository {
+class SourceCcjExternalRepository {
 
     private static Logger log = LoggerFactory.getLogger(SourceCcjExternalRepository.class);
     

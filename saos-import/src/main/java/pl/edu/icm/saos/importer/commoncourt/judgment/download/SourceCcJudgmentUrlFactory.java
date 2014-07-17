@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * @author Łukasz Dumiszewski
  */
 @Service("sourceCcJudgmentUrlFactory")
-public class SourceCcJudgmentUrlFactory {
+class SourceCcJudgmentUrlFactory {
     
     
     private String ccJudgmentListSourceUrl;

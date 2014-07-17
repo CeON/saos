@@ -12,7 +12,7 @@ import pl.edu.icm.saos.persistence.repository.CcJudgmentKeywordRepository;
  * @author Łukasz Dumiszewski
  */
 @Service("ccJudgmentKeywordCreator")
-public class CcJudgmentKeywordCreator {
+class CcJudgmentKeywordCreator {
 
     private static Logger log = LoggerFactory.getLogger(CcJudgmentKeywordCreator.class);
     

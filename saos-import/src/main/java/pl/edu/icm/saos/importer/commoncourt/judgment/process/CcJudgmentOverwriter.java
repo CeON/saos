@@ -10,7 +10,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
  * @author Łukasz Dumiszewski
  */
 @Service("ccJudgmentOverwriter")
-public class CcJudgmentOverwriter extends AbstractJudgmentOverwriter<CommonCourtJudgment> {
+class CcJudgmentOverwriter extends AbstractJudgmentOverwriter<CommonCourtJudgment> {
 
     @Override
     protected void overwriteSpecificData(CommonCourtJudgment oldJudgment, CommonCourtJudgment newJudgment) {

@@ -13,7 +13,7 @@ import com.google.common.base.Preconditions;
  * @author Łukasz Dumiszewski
  */
 @Service("lawJournalEntryExtractor")
-public class LawJournalEntryExtractor {
+class LawJournalEntryExtractor {
 
     private static final String TITLE_YEAR_SEPARATOR = "###YEAR###";
     

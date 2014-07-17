@@ -1,7 +1,5 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,7 @@ import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 @Service("ccjImportProcessProcessor")
 public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgment, CommonCourtJudgment> {
 
-    private static Logger log = LoggerFactory.getLogger(CcjImportProcessProcessor.class);
+    //private static Logger log = LoggerFactory.getLogger(CcjImportProcessProcessor.class);
     
     private RawSourceCcJudgmentConverter rawSourceCcJudgmentConverter;
     private RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository;
@@ -28,11 +26,6 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
     
     @Override
     public CommonCourtJudgment process(RawSourceCcJudgment rawJudgment) throws Exception {
-        log.debug("====== processing: {} ", rawJudgment);
-        log.debug("rJudgment ver: {}", rawJudgment.getVer());
-        RawSourceCcJudgment dbrj = rawSourceCcJudgmentRepository.findOne(rawJudgment.getId());
-        log.debug("dbrj: {}", dbrj);
-        log.debug("dbrj ver: {}", dbrj.getVer());
         
         boolean onlyReasoning = rawJudgment.isJustReasons();
         

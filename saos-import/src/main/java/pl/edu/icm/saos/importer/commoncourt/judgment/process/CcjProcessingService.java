@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.importer.common.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
@@ -18,14 +19,14 @@ import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
  * @author Łukasz Dumiszewski
  */
 @Service("ccjProcessingService")
-public class CcjProcessingService {
+class CcjProcessingService {
     
     private static Logger log = LoggerFactory.getLogger(CcjProcessingService.class);
     
     private CcJudgmentRepository ccJudgmentRepository;
     private JudgmentOverwriter<CommonCourtJudgment> judgmentOverwriter;
     private CcjReasoningMerger ccjReasoningMerger;
-    private SourceCcJudgmentConverter sourceCcJudgmentConverter;
+    private JudgmentConverter<CommonCourtJudgment, SourceCcJudgment> sourceCcJudgmentConverter;
     
     /**
      * Processes 'normal' judgment, i.e. judgment that is not only a mere reasoning <br/>
@@ -41,7 +42,7 @@ public class CcjProcessingService {
         CommonCourtJudgment oldJudgment = ccJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(ccJudgment.getSourceInfo().getSourceCode(), ccJudgment.getSourceInfo().getSourceJudgmentId()); 
         if (oldJudgment != null) {
             judgmentOverwriter.overwriteJudgment(oldJudgment, ccJudgment);
-            ccJudgment = oldJudgment;
+            return oldJudgment;
         }
         return ccJudgment;
     }
@@ -71,7 +72,7 @@ public class CcjProcessingService {
     
     private CommonCourtJudgment findRelatedJudgment(CommonCourtJudgment ccReasoningJudgment) {
         List<CommonCourtJudgment> ccJudgments = ccJudgmentRepository.findBySourceCodeAndCaseNumber(ccReasoningJudgment.getSourceInfo().getSourceCode(), ccReasoningJudgment.getCaseNumber());
-        if (ccJudgments.size() == 1) {
+        if (ccJudgments != null && ccJudgments.size() == 1) {
             return ccJudgments.get(0);
         }
         return null;
@@ -97,7 +98,7 @@ public class CcjProcessingService {
     }
 
     @Autowired
-    public void setSourceCcJudgmentConverter(SourceCcJudgmentConverter sourceCcJudgmentConverter) {
+    public void setSourceCcJudgmentConverter(JudgmentConverter<CommonCourtJudgment, SourceCcJudgment> sourceCcJudgmentConverter) {
         this.sourceCcJudgmentConverter = sourceCcJudgmentConverter;
     }
 

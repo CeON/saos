@@ -13,7 +13,7 @@ import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
  */
 
 @Service("sourceCcjTextDataConverter")
-public class SourceCcjTextDataConverter {
+class SourceCcjTextDataConverter {
 
     
     private SourceCcJudgmentMarshaller ccJudgmentMarshaller;

@@ -21,7 +21,6 @@ import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessReader;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 
@@ -101,11 +100,13 @@ public class CcjImportProcessReaderTest {
         Mockito.reset(rawSourceCcJudgmentRepository);
         when(page.getContent()).thenReturn(new ArrayList<RawSourceCcJudgment>());
         when(rawSourceCcJudgmentRepository.findNotProcessed(Mockito.any(Pageable.class))).thenReturn(page);
-        
-        
+                
         rJudgmentRead = ccjImportProcessReader.read();
+        assertNull(rJudgmentRead);
         
-        verify(rawSourceCcJudgmentRepository).findNotProcessed(Mockito.any(Pageable.class));
+        arg = ArgumentCaptor.forClass(Pageable.class);
+        verify(rawSourceCcJudgmentRepository).findNotProcessed(arg.capture());
+        assertEquals(1, arg.getValue().getPageNumber());
         
     }
 

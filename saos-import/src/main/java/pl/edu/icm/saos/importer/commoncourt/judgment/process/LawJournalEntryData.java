@@ -4,7 +4,7 @@ package pl.edu.icm.saos.importer.commoncourt.judgment.process;
  * @author Łukasz Dumiszewski
  */
 
-public class LawJournalEntryData {
+class LawJournalEntryData {
     
     
     private int year;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  * @author Łukasz Dumiszewski
  */
 @Service("ccjReasoningExtractor")
-public class CcjReasoningExtractor {
+class CcjReasoningExtractor {
 
     
     private String reasoningStartPhrase = "<h2>UZASADNIENIE</h2>";
