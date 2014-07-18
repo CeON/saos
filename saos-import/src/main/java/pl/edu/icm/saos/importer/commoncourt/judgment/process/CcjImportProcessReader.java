@@ -84,10 +84,12 @@ public class CcjImportProcessReader implements ItemStreamReader<RawSourceCcJudgm
     private void logDebug() {
         if (log.isDebugEnabled()) {
             log.debug("{} raw source cc judgments have been read", rawSourceCcJudgments.size());
-            log.debug("read judgments: ");
+            log.trace("read judgments: ");
+            StringBuilder sb = new StringBuilder();
             for (RawSourceCcJudgment rj : rawSourceCcJudgments) {
-                log.info("{}", rj.getId());
+                sb.append(rj.getId());
             };
+            log.trace(sb.toString());
             log.debug("{} judgments read", rawSourceCcJudgments.size() + pageNo*pageSize);
         }
     }

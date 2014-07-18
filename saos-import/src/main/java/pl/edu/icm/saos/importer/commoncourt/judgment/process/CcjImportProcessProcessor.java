@@ -1,5 +1,9 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
+import javax.persistence.EntityManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +20,14 @@ import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 @Service("ccjImportProcessProcessor")
 public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgment, CommonCourtJudgment> {
 
-    //private static Logger log = LoggerFactory.getLogger(CcjImportProcessProcessor.class);
+    private static Logger log = LoggerFactory.getLogger(CcjImportProcessProcessor.class);
     
     private RawSourceCcJudgmentConverter rawSourceCcJudgmentConverter;
     private RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository;
     private CcjProcessingService ccjProcessingService;
     
+    @Autowired
+    private EntityManager entityManager;
     
     
     @Override
@@ -30,6 +36,7 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
         boolean onlyReasoning = rawJudgment.isJustReasons();
         
         SourceCcJudgment sourceCcJudgment = rawSourceCcJudgmentConverter.convertSourceCcJudgment(rawJudgment);
+        log.debug("process: \n {}", sourceCcJudgment);
         
         /* (1) if processed judgment contains only reasons for judgment */
         

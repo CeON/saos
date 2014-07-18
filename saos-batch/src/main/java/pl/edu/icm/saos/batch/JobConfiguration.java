@@ -6,6 +6,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.tasklet.TaskletStep;
 import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 import pl.edu.icm.saos.importer.commoncourt.court.CcImportJobExecutionListener;
 import pl.edu.icm.saos.importer.commoncourt.court.CommonCourtImportProcessor;
@@ -113,14 +115,18 @@ public class JobConfiguration {
     @Bean
     @Autowired
     protected Step ccJudgmentImportProcessStep() {
-        return steps.get("ccJudgmentImportProcessStep")
+        TaskletStep step = steps.get("ccJudgmentImportProcessStep")
              .<RawSourceCcJudgment, CommonCourtJudgment> chunk(20)
                  .faultTolerant().skipPolicy(ccjImportProcessSkipPolicy).listener(ccjImportProcessSkipListener)
+                 
             .reader(ccjImportProcessReader)
             .processor(ccjImportProcessProcessor)
             .writer(ccjImportProcessWriter)
             .listener(ccjImportProcessStepExecutionListener)
+            .transactionAttribute(new DefaultTransactionAttribute())
             .build();
+        step.setTransactionAttribute(new DefaultTransactionAttribute());
+        return step;
     } 
     
     

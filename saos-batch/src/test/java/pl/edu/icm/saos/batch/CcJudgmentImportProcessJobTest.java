@@ -23,6 +23,6 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     
     @Test
     public void execute() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
-        //jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
+        jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
     }
 }

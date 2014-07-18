@@ -23,6 +23,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import pl.edu.icm.saos.persistence.common.DefaultIsolationLevelJpaDialect;
+
 /**
  * @author Łukasz Dumiszewski
  */
@@ -72,6 +74,7 @@ public class PersistenceConfiguration {
        emf.setJpaVendorAdapter(vendorAdapter);
        emf.setJpaProperties(hibernateProperties());
        emf.afterPropertiesSet();
+       emf.setJpaDialect(new DefaultIsolationLevelJpaDialect());
        return emf.getObject();
     }
     

@@ -21,7 +21,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @EnableBatchProcessing
 @Import(JobConfiguration.class)
 public class BatchConfiguration implements BatchConfigurer {
-
+    
     @Autowired
     private PlatformTransactionManager transactionManager;
     
@@ -35,6 +35,8 @@ public class BatchConfiguration implements BatchConfigurer {
         factory.setDataSource(dataSource);
         factory.setTransactionManager(transactionManager);
         factory.afterPropertiesSet();
+        factory.setIsolationLevelForCreate("ISOLATION_DEFAULT");
+        
         return factory.getObject();        
     }
     
@@ -56,7 +58,6 @@ public class BatchConfiguration implements BatchConfigurer {
 
     @Override
     public PlatformTransactionManager getTransactionManager() throws Exception {
-        System.out.println("getTransactionManager():"+transactionManager);
         return transactionManager;
     }
 
