@@ -42,6 +42,9 @@ public class JobScheduler {
     @Autowired
     private Job ccJudgmentImportProcessJob;
     
+    @Autowired
+    private JobForcingExecutor jobExecutor;
+    
  
     @Scheduled(cron="${import.commonCourt.judgments.cron}")
     public void importCcJudgments() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
@@ -63,7 +66,7 @@ public class JobScheduler {
         
         log.info("Judgment import processing has started");
         
-        JobExecution execution = forceStartNewJob(ccJudgmentImportProcessJob);
+        JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
         
         log.info("Judgment import processing has finished, exit status: {}", execution.getStatus());
    
@@ -78,7 +81,7 @@ public class JobScheduler {
         
         log.info("Common court import has started");
         
-        JobExecution execution = forceStartNewJob(commonCourtImportJob);
+        JobExecution execution = jobExecutor.forceStartNewJob(commonCourtImportJob);
         
         log.info("Common court import has finished, exit status: {}", execution.getStatus());
    
@@ -86,13 +89,5 @@ public class JobScheduler {
 
     
     
-    //------------------------ PRIVATE --------------------------
 
-    private JobExecution forceStartNewJob(Job job)  throws JobExecutionAlreadyRunningException, JobRestartException,
-            JobInstanceAlreadyCompleteException, JobParametersInvalidException {
-        Map<String, JobParameter> params = Maps.newHashMap();
-        params.put("startDate", new JobParameter(new Date()));
-        JobExecution execution = jobLauncher.run(job, new JobParameters(params));
-        return execution;
-    }
 }

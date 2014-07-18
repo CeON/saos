@@ -5,6 +5,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +43,10 @@ public class JobConfiguration {
     @Autowired
     private StepBuilderFactory steps;
 
+    @Autowired
+    private JobRepository jobRepository;
     
+       
     //======== Common Court Judgment importer ========
     
     @Scope(value="step", proxyMode = ScopedProxyMode.TARGET_CLASS)

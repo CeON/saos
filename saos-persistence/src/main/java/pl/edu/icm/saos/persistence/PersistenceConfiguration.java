@@ -38,6 +38,7 @@ public class PersistenceConfiguration {
     private Environment env;
 
     
+    
     @Bean
     public DataSource dataSource() {
         log.info("== DATASOURCE URL: " + env.getProperty("datasource.url") + "  == ");
@@ -93,7 +94,6 @@ public class PersistenceConfiguration {
     
     @Bean
     public PlatformTransactionManager transactionManager() throws SQLException {
-
       JpaTransactionManager txManager = new JpaTransactionManager(entityManagerFactory());
       return txManager;
     }
