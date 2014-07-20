@@ -3,3 +3,5 @@ include 'saos-common',
         'saos-import',
         'saos-batch',
         'saos-webapp'
+include 'saos-webapp/grunt'
+project(':saos-webapp/grunt').name = 'saos-webapp-grunt'

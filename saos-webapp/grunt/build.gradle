@@ -1,0 +1,22 @@
+buildscript {
+    repositories {
+		jcenter()
+    }
+    dependencies {
+		classpath 'com.moowork.gradle:gradle-node-plugin:0.4'
+		classpath 'com.moowork.gradle:gradle-grunt-plugin:0.5'
+    }
+}
+
+apply plugin: 'node'
+apply plugin: 'grunt'
+
+node {
+	version = '0.11.10'
+	distBaseUrl = 'http://nodejs.org/dist'
+	download = true
+	workDir = file("nodejs")
+}
+
+grunt_build.dependsOn 'installGrunt'
+grunt_build.dependsOn 'npmInstall'
