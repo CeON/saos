@@ -5,6 +5,7 @@
     <title>HELLO</title>
 </head>
 <body>
-<p th:text="'Thymeleaf prefix: ' + ${thymeleafPrefix}"></p>
+<h1>Hello</h1>
+<p></p>
 </body>
 </html>

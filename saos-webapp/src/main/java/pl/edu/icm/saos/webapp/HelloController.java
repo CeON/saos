@@ -9,9 +9,19 @@ public class HelloController {
 
     
     @RequestMapping("/")
-    public String index(ModelMap model) {
+    public String home(ModelMap model) {
         model.addAttribute("thymeleafPrefix", "bleble");
-        return "index";
+        return "home";
+    }
+    
+    @RequestMapping("/search")
+    public String search(ModelMap model) {
+        return "search";
+    }
+    
+    @RequestMapping("/results")
+    public String results(ModelMap model) {
+        return "results";
     }
 
 }

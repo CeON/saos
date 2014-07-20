@@ -21,6 +21,18 @@
         <put-attribute name="content" value="/WEB-INF/view/index.jsp" />
     </definition>
     
+    <definition name="home" extends="template">
+        <put-attribute name="content" value="/WEB-INF/view/home.jsp" />
+    </definition>
+    
+    <definition name="search" extends="template">
+        <put-attribute name="content" value="/WEB-INF/view/judgement/judgementSearch.jsp" />
+    </definition>
+    
+    <definition name="results" extends="template">
+        <put-attribute name="content" value="/WEB-INF/view/judgement/judgementResults.jsp" />
+    </definition>
+    
     
     <!-- ************** Errors -->
     
