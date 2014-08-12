@@ -2,8 +2,6 @@ package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -12,6 +10,7 @@ import pl.edu.icm.saos.importer.common.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
 
@@ -21,7 +20,6 @@ import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
 @Service("ccjProcessingService")
 class CcjProcessingService {
     
-    private static Logger log = LoggerFactory.getLogger(CcjProcessingService.class);
     
     private CcJudgmentRepository ccJudgmentRepository;
     private JudgmentOverwriter<CommonCourtJudgment> judgmentOverwriter;
@@ -48,7 +46,7 @@ class CcjProcessingService {
     }
 
 
-    /**
+     /**
      * Processes judgment that is just a reasoning of another judgment <br/> 
      * Checks if the judgment for the given reasoning has ever been processed. If so, then it is merged
      * with the passed reasoning and returned. In other case this method returns null.
@@ -59,8 +57,7 @@ class CcjProcessingService {
         
         CommonCourtJudgment relatedJudgment = findRelatedJudgment(ccjReasoning);
         if (relatedJudgment == null) {
-            log.debug("could not find related judgment");
-            return null;
+            throw new CcjImportProcessSkippableException("no related judgment found for reasonig: " + sourceCcjReasoning.getId(), ImportProcessingSkipReason.RELATED_JUDGMENT_NOT_FOUND);
         }
         ccjReasoningMerger.mergeReasoning(relatedJudgment, ccjReasoning);
         return relatedJudgment;
@@ -70,6 +67,7 @@ class CcjProcessingService {
     //------------------------ PRIVATE --------------------------
     
     
+
     private CommonCourtJudgment findRelatedJudgment(CommonCourtJudgment ccReasoningJudgment) {
         List<CommonCourtJudgment> ccJudgments = ccJudgmentRepository.findBySourceCodeAndCaseNumber(ccReasoningJudgment.getSourceInfo().getSourceCode(), ccReasoningJudgment.getCaseNumber());
         if (ccJudgments != null && ccJudgments.size() == 1) {

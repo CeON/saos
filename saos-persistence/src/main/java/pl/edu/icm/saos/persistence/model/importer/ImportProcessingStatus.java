@@ -7,6 +7,5 @@ package pl.edu.icm.saos.persistence.model.importer;
 public enum ImportProcessingStatus {
 
     OK,
-    ERROR,
-    RELATED_JUDGMENT_NOT_FOUND
+    SKIPPED    
 }

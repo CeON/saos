@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import pl.edu.icm.saos.common.testUtils.ReflectionFieldSetter;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
@@ -55,4 +56,17 @@ public class OptimisticLockingTest extends PersistenceTestSupport {
         
     }
     
+    @Test(expected=OptimisticLockException.class)
+    @Transactional
+    public void lock_LocalVerGreater() {
+        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createCcJudgment();
+        entityManager.persist(ccJudgment);
+        entityManager.flush();
+        entityManager.clear();
+        
+        ReflectionFieldSetter.setField(ccJudgment, "ver", 3);
+        entityManager.merge(ccJudgment);
+        entityManager.flush();
+        
+    }
 }

@@ -31,15 +31,15 @@ public class RawSourceCcjProcessFlagUpdaterTest extends PersistenceTestSupport {
     public void markProcessedAllEligible() {
         RawSourceCcJudgment rJudgment1 = createAndSaveRawSourceCcJudgment(ImportProcessingStatus.OK, false);
         RawSourceCcJudgment rJudgment2 = createAndSaveRawSourceCcJudgment(ImportProcessingStatus.OK, true);
-        RawSourceCcJudgment rJudgment3 = createAndSaveRawSourceCcJudgment(ImportProcessingStatus.ERROR, false);
-        RawSourceCcJudgment rJudgment4 = createAndSaveRawSourceCcJudgment(ImportProcessingStatus.RELATED_JUDGMENT_NOT_FOUND, false);
+        RawSourceCcJudgment rJudgment3 = createAndSaveRawSourceCcJudgment(ImportProcessingStatus.SKIPPED, false);
+        RawSourceCcJudgment rJudgment4 = createAndSaveRawSourceCcJudgment(ImportProcessingStatus.SKIPPED, false);
         RawSourceCcJudgment rJudgment5 = createAndSaveRawSourceCcJudgment(null, false);
         
         ccjProcessFlagUpdater.markProcessedAllEligible();
         
         assertTrue(rJudgmentRepository.findOne(rJudgment1.getId()).isProcessed());
         assertTrue(rJudgmentRepository.findOne(rJudgment2.getId()).isProcessed());
-        assertTrue(rJudgmentRepository.findOne(rJudgment3.getId()).isProcessed());
+        assertFalse(rJudgmentRepository.findOne(rJudgment3.getId()).isProcessed());
         assertFalse(rJudgmentRepository.findOne(rJudgment4.getId()).isProcessed());
         assertFalse(rJudgmentRepository.findOne(rJudgment5.getId()).isProcessed());
     }

@@ -1,7 +1,5 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +12,6 @@ import pl.edu.icm.saos.persistence.repository.CcJudgmentKeywordRepository;
 @Service("ccJudgmentKeywordCreator")
 class CcJudgmentKeywordCreator {
 
-    private static Logger log = LoggerFactory.getLogger(CcJudgmentKeywordCreator.class);
     
     private CcJudgmentKeywordRepository ccJudgmentKeywordRepository;
     

@@ -1,7 +1,5 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
-import javax.persistence.EntityManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -23,12 +21,8 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
     private static Logger log = LoggerFactory.getLogger(CcjImportProcessProcessor.class);
     
     private RawSourceCcJudgmentConverter rawSourceCcJudgmentConverter;
-    private RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository;
     private CcjProcessingService ccjProcessingService;
-    
-    @Autowired
-    private EntityManager entityManager;
-    
+    private RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository;
     
     @Override
     public CommonCourtJudgment process(RawSourceCcJudgment rawJudgment) throws Exception {
@@ -44,10 +38,6 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
         
         if (onlyReasoning) {
             ccJudgment = ccjProcessingService.processReasoningJudgment(sourceCcJudgment);
-            if (ccJudgment == null) {
-               updateProcessingStatus(rawJudgment, ImportProcessingStatus.RELATED_JUDGMENT_NOT_FOUND);
-               return null;
-            }
         }
         
         /* (2) if processed judgment is 'normal' judgment */
@@ -55,7 +45,7 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
             ccJudgment = ccjProcessingService.processNormalJudgment(sourceCcJudgment);
         }
         
-        rawJudgment = updateProcessingStatus(rawJudgment, ImportProcessingStatus.OK);
+        updateProcessingStatus(rawJudgment, ImportProcessingStatus.OK);
         
         return ccJudgment;
         
@@ -66,9 +56,9 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
     //------------------------ PRIVATE --------------------------
    
     
-    private RawSourceCcJudgment updateProcessingStatus(RawSourceCcJudgment rawJudgment, ImportProcessingStatus processingStatus) {
+    private void updateProcessingStatus(RawSourceCcJudgment rawJudgment, ImportProcessingStatus processingStatus) {
         rawJudgment.updateProcessingStatus(processingStatus);
-        return rawSourceCcJudgmentRepository.save(rawJudgment);
+        rawSourceCcJudgmentRepository.save(rawJudgment);
     }
     
     
@@ -85,9 +75,11 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
         this.ccjProcessingService = ccjProcessingService;
     }
 
+
     @Autowired
     public void setRawSourceCcJudgmentRepository(RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository) {
         this.rawSourceCcJudgmentRepository = rawSourceCcJudgmentRepository;
     }
+
     
 }

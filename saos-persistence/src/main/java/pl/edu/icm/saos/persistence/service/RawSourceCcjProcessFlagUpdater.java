@@ -30,7 +30,7 @@ public class RawSourceCcjProcessFlagUpdater {
     public void markProcessedAllEligible() {
         String q = "update " + RawSourceCcJudgment.class.getName() + " set processed = true " +
                     " where processingStatus in (:processingStatuses) and processed = false";
-        Query query = entityManager.createQuery(q).setParameter("processingStatuses", Lists.newArrayList(ImportProcessingStatus.OK, ImportProcessingStatus.ERROR));
+        Query query = entityManager.createQuery(q).setParameter("processingStatuses", Lists.newArrayList(ImportProcessingStatus.OK));
         query.executeUpdate();
     }
 }

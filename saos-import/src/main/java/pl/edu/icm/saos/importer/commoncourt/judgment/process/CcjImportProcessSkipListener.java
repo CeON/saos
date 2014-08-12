@@ -1,7 +1,5 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.SkipListener;
@@ -9,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 
@@ -34,29 +33,35 @@ public class CcjImportProcessSkipListener implements SkipListener<RawSourceCcJud
     public void onSkipInWrite(CommonCourtJudgment ccJudgment, Throwable t) {
         log.debug("writing skipping: " + ccJudgment);
         
-        List<RawSourceCcJudgment> rJudgments = rawJudgmentRepository.findBySourceIdAndProcessed(ccJudgment.getSourceInfo().getSourceJudgmentId(), false);
-        
-        if (rJudgments.size() != 1) {
-            return;
-        }
-        
-        RawSourceCcJudgment rJudgment = rJudgments.get(0);
-        rJudgment.markProcessedError(t.getMessage());
-        log.debug("saving error to: " + rJudgment.getId() + ", err desc: " + rJudgment.getProcessErrorDesc());
-        rawJudgmentRepository.save(rJudgment);
-        rawJudgmentRepository.flush();
-        
         
     }
 
+    
     @Override
     public void onSkipInProcess(RawSourceCcJudgment rJudgment, Throwable t) {
-        log.debug("skipping: " + rJudgment);
+        CcjImportProcessSkippableException e = (CcjImportProcessSkippableException)t;
+        
+        logSkipReason(rJudgment, e);
+        
         RawSourceCcJudgment rawJudgment = rawJudgmentRepository.findOne(rJudgment.getId());
-        rawJudgment.markProcessedError(t.getMessage());
+        rawJudgment.markSkipped(e.getSkipReason());
         rawJudgmentRepository.save(rawJudgment);
         rawJudgmentRepository.flush();
+    }
+
+    
+    // ------------------------ PRIVATE --------------------------
+    
+    private void logSkipReason(RawSourceCcJudgment rJudgment, CcjImportProcessSkippableException e) {
         
+        if (e.getSkipReason()==ImportProcessingSkipReason.RELATED_JUDGMENT_NOT_FOUND) {
+            log.warn("skipping: " + rJudgment);
+            log.warn("skip reason: " + e.getMessage());
+        }
+        else {
+            log.error("skipping: " + rJudgment);
+            log.error("skip reason: " + e.getMessage());
+        }
     }
 
     

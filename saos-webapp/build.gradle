@@ -55,5 +55,5 @@ task version(dependsOn: build) {
 
 
 
-build.dependsOn ':saos-webapp-grunt:grunt_build'
+//build.dependsOn ':saos-webapp-grunt:grunt_build'
 

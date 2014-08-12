@@ -1,7 +1,6 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -17,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import pl.edu.icm.saos.importer.common.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
@@ -135,7 +135,7 @@ public class CcjProcessingServiceTest {
     
     
     
-    @Test
+    @Test(expected=CcjImportProcessSkippableException.class)
     public void processReasoning_RelatedNotFound() {
         
         //------------------ data preparation -----------------------
@@ -146,27 +146,30 @@ public class CcjProcessingServiceTest {
         ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
         ccJudgment.getSourceInfo().setSourceJudgmentId("1232345");
         ccJudgment.setCaseNumber("12122dsdcsc");
+        ccJudgment.setCourtDivision(new CommonCourtDivision());
         
         when(sourceCcJudgmentConverter.convertJudgment(Mockito.isA(SourceCcJudgment.class))).thenReturn(ccJudgment);
         when(ccJudgmentRepository.findBySourceCodeAndCaseNumber(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getCaseNumber()))).thenReturn(null);
         
         //------------------ method invocation -----------------------
-                
-        CommonCourtJudgment retCcJudgment = ccjProcessingService.processReasoningJudgment(sourceCcJudgment);
         
+        try {
+            ccjProcessingService.processReasoningJudgment(sourceCcJudgment);
+        }
+        
+        finally {
 
         //------------------ assertions -----------------------
         
-        assertNull(retCcJudgment);
-        
-        ArgumentCaptor<SourceCcJudgment> argSourceCcJudgment = ArgumentCaptor.forClass(SourceCcJudgment.class);
-        verify(sourceCcJudgmentConverter).convertJudgment(argSourceCcJudgment.capture());
-        assertTrue(sourceCcJudgment == argSourceCcJudgment.getValue());
-        
-        verify(ccJudgmentRepository).findBySourceCodeAndCaseNumber(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getCaseNumber()));
-        
-        
-        verifyZeroInteractions(judgmentOverwriter, ccjReasoningMerger);
+            ArgumentCaptor<SourceCcJudgment> argSourceCcJudgment = ArgumentCaptor.forClass(SourceCcJudgment.class);
+            verify(sourceCcJudgmentConverter).convertJudgment(argSourceCcJudgment.capture());
+            assertTrue(sourceCcJudgment == argSourceCcJudgment.getValue());
+            
+            verify(ccJudgmentRepository).findBySourceCodeAndCaseNumber(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getCaseNumber()));
+            
+            
+            verifyZeroInteractions(judgmentOverwriter, ccjReasoningMerger);
+        }
     }
     
     

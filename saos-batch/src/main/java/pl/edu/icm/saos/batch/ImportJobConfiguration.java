@@ -37,7 +37,7 @@ import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 
 @Configuration
 @ComponentScan
-public class JobConfiguration {
+public class ImportJobConfiguration {
 
     @Autowired
     private JobBuilderFactory jobs;

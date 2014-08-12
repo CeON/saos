@@ -14,15 +14,11 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcJudgmentKeywordCreator;
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjReasoningExtractor;
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.LawJournalEntryCreator;
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.LawJournalEntryData;
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.LawJournalEntryExtractor;
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.SourceCcJudgmentConverter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
@@ -31,9 +27,10 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 
@@ -156,9 +153,29 @@ public class SourceCcJudgmentConverterTest {
         assertReasoning(judgment);
         
     }
+    
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+   
 
+    @Test
+    public void convertJudgment_COURT_NOT_FOUND() {
+        exception.expect(CcjImportProcessSkippableException.class);
+        exception.expect(CcjSkippableExceptionMatcher.hasSkipReason(ImportProcessingSkipReason.COURT_NOT_FOUND));
+        
+        sJudgment.setCourtId(COURT_ID + "_WRONG");
+        sourceCcJudgmentConverter.convertJudgment(sJudgment);
+        
+    }
 
+    @Test
+    public void convertJudgment_COURT_DIVISION_NOT_FOUND() {
+        exception.expect(CcjImportProcessSkippableException.class);
+        exception.expect(CcjSkippableExceptionMatcher.hasSkipReason(ImportProcessingSkipReason.COURT_DIVISION_NOT_FOUND));
 
+        sJudgment.setDepartmentId(DIVISION_CODE + "_WRONG");
+        sourceCcJudgmentConverter.convertJudgment(sJudgment);
+    }
 
     
 

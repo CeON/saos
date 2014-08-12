@@ -21,7 +21,6 @@ public class CcjImportProcessWriter implements ItemWriter<CommonCourtJudgment> {
     
     @Override
     public void write(List<? extends CommonCourtJudgment> judgments) throws Exception {
-        
         judgmentRepository.save(judgments);
         judgmentRepository.flush();
     }

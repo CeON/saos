@@ -19,7 +19,7 @@ import org.springframework.transaction.PlatformTransactionManager;
  */
 @Configuration
 @EnableBatchProcessing
-@Import(JobConfiguration.class)
+@Import(ImportJobConfiguration.class)
 public class BatchConfiguration implements BatchConfigurer {
     
     @Autowired

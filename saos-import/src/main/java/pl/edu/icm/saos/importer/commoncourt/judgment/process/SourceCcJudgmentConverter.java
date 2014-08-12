@@ -21,10 +21,10 @@ import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 /**
@@ -32,7 +32,7 @@ import com.google.common.collect.Lists;
  */
 
 @Service("sourceCcJudgmentConverter")
-public class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJudgment, SourceCcJudgment> {
+class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJudgment, SourceCcJudgment> {
 
     private CommonCourtRepository commonCourtRepository;
     
@@ -209,8 +209,13 @@ public class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonC
     
     private CommonCourtDivision extractCommonCourtDivision(SourceCcJudgment sourceJudgment) {
         CommonCourt court = commonCourtRepository.findOneByCode(sourceJudgment.getCourtId());
-        Preconditions.checkNotNull(court);
-        CommonCourtDivision division = ccDivisionRepository.findOneByCourtIdAndCode(court.getId(), sourceJudgment.getDepartmentId());
+        if (court == null) {
+            throw new CcjImportProcessSkippableException("court not found, code = " + sourceJudgment.getCourtId(), ImportProcessingSkipReason.COURT_NOT_FOUND);
+        }
+        CommonCourtDivision division = ccDivisionRepository.findOneByCourtIdAndCode(court.getId(), StringUtils.leftPad(sourceJudgment.getDepartmentId(), 7, '0'));
+        if (division == null) {
+            throw new CcjImportProcessSkippableException("court division not found, code = " + sourceJudgment.getDepartmentId(), ImportProcessingSkipReason.COURT_DIVISION_NOT_FOUND);
+        }
         return division;
     }
     

@@ -37,7 +37,7 @@ public class RawSourceCcJudgment extends DataObject {
     private DateTime processingDate;
     private boolean processed = false;
     private ImportProcessingStatus processingStatus;
-    private String processErrorDesc;
+    private ImportProcessingSkipReason processingSkipReason;
     private String textMetadata;
     private String textContent;
     private boolean justReasons;
@@ -123,10 +123,13 @@ public class RawSourceCcJudgment extends DataObject {
         return processingDate;
     }
     
-    public String getProcessErrorDesc() {
-        return processErrorDesc;
+    
+    @Enumerated(EnumType.STRING)
+    public ImportProcessingSkipReason getProcessingSkipReason() {
+        return processingSkipReason;
     }
 
+    
     
 
    
@@ -137,10 +140,10 @@ public class RawSourceCcJudgment extends DataObject {
         updateProcessingStatus(ImportProcessingStatus.OK);
     }
     
-    public void markProcessedError(String errorDescription) {
-        setProcessed(true);
-        setProcessErrorDesc(errorDescription);
-        updateProcessingStatus(ImportProcessingStatus.ERROR);
+    public void markSkipped(ImportProcessingSkipReason skipReason) {
+        setProcessed(false);
+        setProcessingSkipReason(skipReason);
+        updateProcessingStatus(ImportProcessingStatus.SKIPPED);
     }
     
     public void updateProcessingStatus(ImportProcessingStatus processingStatus) {
@@ -199,11 +202,11 @@ public class RawSourceCcJudgment extends DataObject {
         this.processingStatus = processingStatus;
     }
     
-    public void setProcessErrorDesc(String processErrorDesc) {
-        this.processErrorDesc = processErrorDesc;
+   
+    public void setProcessingSkipReason(ImportProcessingSkipReason processingSkipReason) {
+        this.processingSkipReason = processingSkipReason;
     }
 
-    
     
     //------------------------ HashCode & Equals --------------------------
     
@@ -242,16 +245,18 @@ public class RawSourceCcJudgment extends DataObject {
 
     @Override
     public String toString() {
-        return "RawSourceCcJudgment [sourceId=" + sourceId + ", caseNumber="
+        return "RawSourceCcJudgment [id=" + getId() + ", ver=" + getVer() + ", sourceId=" + sourceId + ", caseNumber="
                 + caseNumber + ", publicationDate=" + publicationDate
                 + ", processingDate=" + processingDate + ", processed="
                 + processed + ", processingStatus=" + processingStatus
-                + ", processErrorDesc=" + processErrorDesc + ", justReasons="
+                + ", processingSkipReason=" + processingSkipReason + ", justReasons="
                 + justReasons + ", sourceUrl=" + sourceUrl
                 + ", contentSourceUrl=" + contentSourceUrl + ", dataMd5="
-                + dataMd5 + "]";
+                + dataMd5 
+                + "]";
     }
 
+    
     
    
    
