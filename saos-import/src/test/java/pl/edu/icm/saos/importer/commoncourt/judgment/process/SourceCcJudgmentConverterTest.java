@@ -65,7 +65,7 @@ public class SourceCcJudgmentConverterTest {
     private CommonCourtDivision division = new CommonCourtDivision();
     
     private static final String COURT_ID = "15050505";
-    private static final String DIVISION_CODE = "0521";
+    private static final String DIVISION_CODE = "0000521";
     
     private List<String> references;
     private List<LawJournalEntryData> lawJournalEntryDataList;

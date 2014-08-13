@@ -27,7 +27,7 @@ import pl.edu.icm.saos.persistence.common.DataObject;
     indexes = {@Index(name="idx_source_id", columnList="sourceId"), @Index(name="idx_data_md5", columnList="dataMd5")},
     uniqueConstraints={@UniqueConstraint(name="sourceIdDataMd5_Unique", columnNames={"sourceId", "dataMd5"})})
 @Entity
-@Cacheable(false)
+@Cacheable(true)
 @SequenceGenerator(name = "seq_raw_source_cc_judgment", allocationSize = 1, sequenceName = "seq_raw_source_cc_judgment")
 public class RawSourceCcJudgment extends DataObject {
     
@@ -135,18 +135,20 @@ public class RawSourceCcJudgment extends DataObject {
    
     //------------------------ LOGIC --------------------------
     
-    public void markProcessedOk() {
-        setProcessed(true);
+    public void markProcessingOk() {
+        setProcessingSkipReason(null);
         updateProcessingStatus(ImportProcessingStatus.OK);
     }
     
-    public void markSkipped(ImportProcessingSkipReason skipReason) {
-        setProcessed(false);
+    public void markProcessingSkipped(ImportProcessingSkipReason skipReason) {
         setProcessingSkipReason(skipReason);
         updateProcessingStatus(ImportProcessingStatus.SKIPPED);
     }
     
-    public void updateProcessingStatus(ImportProcessingStatus processingStatus) {
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private void updateProcessingStatus(ImportProcessingStatus processingStatus) {
         setProcessingStatus(processingStatus);
         setProcessingDate(new DateTime());
     }

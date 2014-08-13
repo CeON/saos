@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import pl.edu.icm.saos.common.testUtils.ReflectionFieldSetter;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 
@@ -151,7 +152,7 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
         RawSourceCcJudgment rawSourceCcJudgment = new RawSourceCcJudgment();
         rawSourceCcJudgment.setPublicationDate(maxDateTime);
         if (processed) {
-            rawSourceCcJudgment.markProcessedOk();
+            ReflectionFieldSetter.setField(rawSourceCcJudgment, "processed", processed);
         }
         rawSourceCcJudgment.setSourceId(UUID.randomUUID().toString());
         rawSourceCcJudgment.setDataMd5(UUID.randomUUID().toString());

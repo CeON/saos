@@ -44,7 +44,7 @@ public class CcjImportProcessSkipListener implements SkipListener<RawSourceCcJud
         logSkipReason(rJudgment, e);
         
         RawSourceCcJudgment rawJudgment = rawJudgmentRepository.findOne(rJudgment.getId());
-        rawJudgment.markSkipped(e.getSkipReason());
+        rawJudgment.markProcessingSkipped(e.getSkipReason());
         rawJudgmentRepository.save(rawJudgment);
         rawJudgmentRepository.flush();
     }

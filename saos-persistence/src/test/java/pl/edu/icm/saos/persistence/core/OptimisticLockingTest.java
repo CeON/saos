@@ -64,7 +64,7 @@ public class OptimisticLockingTest extends PersistenceTestSupport {
         entityManager.flush();
         entityManager.clear();
         
-        ReflectionFieldSetter.setField(ccJudgment, "ver", 3);
+        ReflectionFieldSetter.setField(ccJudgment, "ver", 2);
         entityManager.merge(ccJudgment);
         entityManager.flush();
         

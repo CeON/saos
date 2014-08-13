@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.importer.ImportProcessingStatus;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 
@@ -26,6 +25,10 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
     
     @Override
     public CommonCourtJudgment process(RawSourceCcJudgment rawJudgment) throws Exception {
+        
+        // refetch the rawJudgment from db - without this we can run into OptimisticLockingEx
+        // in case of skipping items due errors, see more detailed explanation: https://github.com/CeON/saos/issues/22
+        rawJudgment = rawSourceCcJudgmentRepository.findOne(rawJudgment.getId());
         
         boolean onlyReasoning = rawJudgment.isJustReasons();
         
@@ -45,9 +48,10 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
             ccJudgment = ccjProcessingService.processNormalJudgment(sourceCcJudgment);
         }
         
-        updateProcessingStatus(rawJudgment, ImportProcessingStatus.OK);
+        markProcessingOk(rawJudgment);
         
         return ccJudgment;
+        
         
     }
 
@@ -56,8 +60,8 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
     //------------------------ PRIVATE --------------------------
    
     
-    private void updateProcessingStatus(RawSourceCcJudgment rawJudgment, ImportProcessingStatus processingStatus) {
-        rawJudgment.updateProcessingStatus(processingStatus);
+    private void markProcessingOk(RawSourceCcJudgment rawJudgment) {
+        rawJudgment.markProcessingOk();
         rawSourceCcJudgmentRepository.save(rawJudgment);
     }
     
@@ -80,6 +84,7 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
     public void setRawSourceCcJudgmentRepository(RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository) {
         this.rawSourceCcJudgmentRepository = rawSourceCcJudgmentRepository;
     }
+
 
     
 }

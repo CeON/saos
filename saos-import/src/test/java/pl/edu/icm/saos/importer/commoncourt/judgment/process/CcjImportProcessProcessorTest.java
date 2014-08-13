@@ -1,14 +1,15 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -17,7 +18,6 @@ import org.mockito.MockitoAnnotations;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
-import pl.edu.icm.saos.persistence.model.importer.ImportProcessingStatus;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 
@@ -38,7 +38,19 @@ public class CcjImportProcessProcessorTest {
     @Mock
     private CcjProcessingService ccjProcessingService;
     
+    @Mock
+    private SourceCcJudgment sourceCcJudgment;
     
+    @Mock
+    private RawSourceCcJudgment rJudgment;
+    
+    @Mock
+    private CommonCourtJudgment ccJudgment;
+    
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+   
+
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
@@ -47,6 +59,8 @@ public class CcjImportProcessProcessorTest {
         ccjImportProcessProcessor.setRawSourceCcjConverter(rawSourceCcJudgmentConverter);
         ccjImportProcessProcessor.setRawSourceCcJudgmentRepository(rawSourceCcJudgmentRepository);
         
+        when(rJudgment.getId()).thenReturn(101);
+        when(rawSourceCcJudgmentRepository.findOne(Mockito.eq(101))).thenReturn(rJudgment);
     }
 
     
@@ -54,10 +68,6 @@ public class CcjImportProcessProcessorTest {
     public void process_normalJudgment() throws Exception {
         
         //--------------- data preparation --------------------
-        
-        SourceCcJudgment sourceCcJudgment = mock(SourceCcJudgment.class);
-        RawSourceCcJudgment rJudgment = mock(RawSourceCcJudgment.class);
-        CommonCourtJudgment ccJudgment = mock(CommonCourtJudgment.class);
         
         when(rJudgment.isJustReasons()).thenReturn(false);
         
@@ -85,7 +95,8 @@ public class CcjImportProcessProcessorTest {
         assertTrue(argSourceJudgment.getValue() == sourceCcJudgment); 
         
         
-        verify(rJudgment).updateProcessingStatus(ImportProcessingStatus.OK);
+        verify(rJudgment).markProcessingOk();
+        verify(rJudgment).getId();
         
         argRJudgment = ArgumentCaptor.forClass(RawSourceCcJudgment.class);
         verify(rawSourceCcJudgmentRepository).save(argRJudgment.capture());
@@ -103,10 +114,6 @@ public class CcjImportProcessProcessorTest {
     public void process_reasoningJudgment_RelatedJudgmentFound() throws Exception {
         
         //--------------- data preparation --------------------
-        
-        SourceCcJudgment sourceCcJudgment = mock(SourceCcJudgment.class);
-        RawSourceCcJudgment rJudgment = mock(RawSourceCcJudgment.class);
-        CommonCourtJudgment ccJudgment = mock(CommonCourtJudgment.class);
         
         when(rJudgment.isJustReasons()).thenReturn(true);
         
@@ -134,7 +141,8 @@ public class CcjImportProcessProcessorTest {
         assertTrue(argSourceJudgment.getValue() == sourceCcJudgment); 
         
         
-        verify(rJudgment).updateProcessingStatus(ImportProcessingStatus.OK);
+        verify(rJudgment).markProcessingOk();
+        verify(rJudgment).getId();
         
         argRJudgment = ArgumentCaptor.forClass(RawSourceCcJudgment.class);
         verify(rawSourceCcJudgmentRepository).save(argRJudgment.capture());
@@ -151,9 +159,6 @@ public class CcjImportProcessProcessorTest {
     public void process_reasoningJudgment_RelatedJudgmentNotFound() throws Exception {
         
         //--------------- data preparation --------------------
-        
-        SourceCcJudgment sourceCcJudgment = mock(SourceCcJudgment.class);
-        RawSourceCcJudgment rJudgment = mock(RawSourceCcJudgment.class);
         
         when(rJudgment.isJustReasons()).thenReturn(true);
         
@@ -172,6 +177,7 @@ public class CcjImportProcessProcessorTest {
         
         
             verify(rJudgment).isJustReasons();
+            verify(rJudgment).getId();
             
             ArgumentCaptor<RawSourceCcJudgment> argRJudgment = ArgumentCaptor.forClass(RawSourceCcJudgment.class);
             verify(rawSourceCcJudgmentConverter).convertSourceCcJudgment(argRJudgment.capture());
@@ -186,6 +192,44 @@ public class CcjImportProcessProcessorTest {
             
             verifyNoMoreInteractions(rJudgment);
         }
+    }
+    
+    
+    @Test
+    public void process_courtNotFound() throws Exception {
+        
+        exception.expect(CcjImportProcessSkippableException.class);
+        exception.expect(CcjSkippableExceptionMatcher.hasSkipReason(ImportProcessingSkipReason.COURT_NOT_FOUND));
+        
+        //--------------- data preparation --------------------
+        
+        when(rJudgment.isJustReasons()).thenReturn(false);
+        
+        when(rawSourceCcJudgmentConverter.convertSourceCcJudgment(Mockito.isA(RawSourceCcJudgment.class))).thenReturn(sourceCcJudgment);
+        when(ccjProcessingService.processNormalJudgment(Mockito.isA(SourceCcJudgment.class))).thenThrow(new CcjImportProcessSkippableException("", ImportProcessingSkipReason.COURT_NOT_FOUND));
+                
+        
+        //---------------- test method invocation -------------
+        
+        ccjImportProcessProcessor.process(rJudgment);
+        
+        
+        verify(rJudgment).isJustReasons();
+        verify(rJudgment).getId();
+        
+        ArgumentCaptor<RawSourceCcJudgment> argRJudgment = ArgumentCaptor.forClass(RawSourceCcJudgment.class);
+        verify(rawSourceCcJudgmentConverter).convertSourceCcJudgment(argRJudgment.capture());
+        assertTrue(argRJudgment.getValue() == rJudgment);
+        
+        ArgumentCaptor<SourceCcJudgment> argSourceJudgment = ArgumentCaptor.forClass(SourceCcJudgment.class);
+        verify(ccjProcessingService).processNormalJudgment(argSourceJudgment.capture());
+        assertTrue(argSourceJudgment.getValue() == sourceCcJudgment); 
+        
+        
+        verify(ccjProcessingService, never()).processNormalJudgment(Mockito.any(SourceCcJudgment.class));
+        
+        verifyNoMoreInteractions(rJudgment);
+
     }
     
     

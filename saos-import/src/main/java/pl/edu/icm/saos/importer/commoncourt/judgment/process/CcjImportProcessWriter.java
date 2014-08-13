@@ -15,7 +15,6 @@ import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 @Service("ccjImportProcessWriter")
 public class CcjImportProcessWriter implements ItemWriter<CommonCourtJudgment> {
 
-    //private static Logger log = LoggerFactory.getLogger(CcjImportProcessWriter.class);
     
     private JudgmentRepository judgmentRepository;
     
