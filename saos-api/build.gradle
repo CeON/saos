@@ -1,0 +1,8 @@
+dependencies {
+
+    compile project(':saos-persistence')
+
+    compile lib.'org.springframework.hateoas'
+    compile lib.'com.fasterxml.jackson.core:jackson-annotations'
+
+}

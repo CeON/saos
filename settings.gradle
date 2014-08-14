@@ -2,6 +2,9 @@ include 'saos-common',
         'saos-persistence',
         'saos-import',
         'saos-batch',
+        'saos-api',
         'saos-webapp'
 include 'saos-webapp/grunt'
 project(':saos-webapp/grunt').name = 'saos-webapp-grunt'
+
+

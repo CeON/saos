@@ -91,7 +91,7 @@ public class SourceCcJudgmentConverterTest {
         division.setCode(DIVISION_CODE);
         division.setCourt(court);
         
-        when(ccDivisionRepository.findOneByCourtIdAndCode(Mockito.eq(court.getId()), Mockito.eq(DIVISION_CODE))).thenReturn(division);
+        when(ccDivisionRepository.findOneByCourtIdAndCode(Mockito.eq(court.getId()), Mockito.eq(StringUtils.leftPad(DIVISION_CODE, 7, '0')))).thenReturn(division);
         
         createReferencedRegulations();
         
