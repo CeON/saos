@@ -11,6 +11,7 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,6 +29,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 import org.springframework.util.ObjectUtils;
 
+import pl.edu.icm.saos.common.visitor.Visitor;
 import pl.edu.icm.saos.persistence.common.DataObject;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
@@ -65,7 +67,7 @@ public abstract class Judgment extends DataObject {
     // sentence
     private String caseNumber;
     private LocalDate judgmentDate;
-    private List<Judge> judges = Lists.newArrayList();;
+    private List<Judge> judges = Lists.newArrayList();
     private List<String> courtReporters = Lists.newArrayList(); 
     private String decision; 
     
@@ -142,7 +144,7 @@ public abstract class Judgment extends DataObject {
     }
 
     /** reasons for judgment, pl. uzasadnienie */
-    @OneToOne(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL)
+    @OneToOne(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     public JudgmentReasoning getReasoning() {
         return reasoning;
     }
@@ -298,6 +300,24 @@ public abstract class Judgment extends DataObject {
         }
         return false;
     }
+    
+    
+    @Override
+    public void passVisitorDown(Visitor visitor) {
+        for (Judge judge : getJudges()) {
+            judge.accept(visitor);
+        }
+        
+        if (reasoning != null) {
+            reasoning.accept(visitor);
+        }
+        
+        for (JudgmentReferencedRegulation regulation : getReferencedRegulations()) {
+            regulation.accept(visitor);
+        }
+    }
+    
+    
     
     //------------------------ SETTERS --------------------------
     

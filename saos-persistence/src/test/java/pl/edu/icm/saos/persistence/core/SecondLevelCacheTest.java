@@ -40,7 +40,7 @@ public class SecondLevelCacheTest extends PersistenceTestSupport {
         Statistics statistics = ((Session)(entityManager.getDelegate())).getSessionFactory().getStatistics();
         statistics.clear();
         
-        Judgment judgment = TestJudgmentFactory.createCcJudgment();
+        Judgment judgment = TestJudgmentFactory.createSimpleCcJudgment();
         judgmentRepository.save(judgment);
         
         judgmentRepository.findOne(judgment.getId());

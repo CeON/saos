@@ -42,7 +42,7 @@ public class CcJudgmentRepositoryTest  extends PersistenceTestSupport {
     
     @Test
     public void findOneBySourceCodeAndSourceJudgmentId_FOUND() {
-        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createCcJudgment();
+        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createSimpleCcJudgment();
         JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
         sourceInfo.setSourceCode(SourceCode.COMMON_COURT);
         sourceInfo.setSourceJudgmentId("1123");

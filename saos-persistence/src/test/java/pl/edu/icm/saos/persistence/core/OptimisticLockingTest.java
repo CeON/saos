@@ -31,7 +31,7 @@ public class OptimisticLockingTest extends PersistenceTestSupport {
     @Transactional
     public void lock() {
     
-        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createCcJudgment();
+        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createSimpleCcJudgment();
         Assert.assertEquals(0, ccJudgment.getVer());
         entityManager.persist(ccJudgment);
         Assert.assertEquals(0, ccJudgment.getVer());
@@ -59,7 +59,7 @@ public class OptimisticLockingTest extends PersistenceTestSupport {
     @Test(expected=OptimisticLockException.class)
     @Transactional
     public void lock_LocalVerGreater() {
-        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createCcJudgment();
+        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createSimpleCcJudgment();
         entityManager.persist(ccJudgment);
         entityManager.flush();
         entityManager.clear();

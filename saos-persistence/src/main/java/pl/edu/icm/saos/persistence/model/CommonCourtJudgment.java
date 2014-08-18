@@ -43,7 +43,7 @@ public class CommonCourtJudgment extends Judgment {
         return ImmutableList.copyOf(getKeywords_());
     }
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     public CommonCourtDivision getCourtDivision() {
         return courtDivision;
     }

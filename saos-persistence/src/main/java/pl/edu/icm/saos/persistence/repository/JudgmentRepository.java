@@ -7,8 +7,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 /**
  * @author Łukasz Dumiszewski
  */
-
-public interface JudgmentRepository extends JudgmentCommonRepository<Judgment>, JpaRepository<Judgment, Integer> {
+public interface JudgmentRepository extends JudgmentCommonRepository<Judgment>, JpaRepository<Judgment, Integer>, JudgmentRepositoryCustom {
 
     
 }

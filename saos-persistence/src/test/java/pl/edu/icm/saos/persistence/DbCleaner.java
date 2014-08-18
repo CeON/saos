@@ -7,12 +7,15 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
+import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 
 /**
@@ -29,6 +32,13 @@ public class DbCleaner {
     public void clean() {
         deleteAll(JudgmentReferencedRegulation.class);
         deleteAll(LawJournalEntry.class);
+        deleteAllSql("judgment_court_reporter");
+        deleteAllSql("judge_role");
+        deleteAllSql("assigned_cc_judgment_keyword");
+        deleteAll(CcJudgmentKeyword.class);
+        deleteAll(Judge.class);
+        deleteAllSql("judgment_legal_bases");
+        deleteAll(JudgmentReasoning.class);
         deleteAll(Judgment.class);
         deleteAll(CommonCourtDivisionType.class);
         deleteAll(CommonCourtDivision.class);
@@ -44,4 +54,8 @@ public class DbCleaner {
         query.executeUpdate();
     }
     
+    private void deleteAllSql(String tableName) {
+        Query query = entityManager.createNativeQuery("delete from " + tableName);
+        query.executeUpdate();
+    }
 }

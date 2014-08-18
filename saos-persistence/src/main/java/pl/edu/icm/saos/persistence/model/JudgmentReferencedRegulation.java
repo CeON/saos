@@ -2,6 +2,7 @@ package pl.edu.icm.saos.persistence.model;
 
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,6 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import pl.edu.icm.saos.common.visitor.Visitor;
 import pl.edu.icm.saos.persistence.common.DataObject;
 
 /**
@@ -37,12 +39,12 @@ public class JudgmentReferencedRegulation extends DataObject {
         return id;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     public Judgment getJudgment() {
         return judgment;
     }
 
-    @ManyToOne
+    @ManyToOne(fetch=FetchType.LAZY)
     public LawJournalEntry getLawJournalEntry() {
         return lawJournalEntry;
     }
@@ -54,7 +56,13 @@ public class JudgmentReferencedRegulation extends DataObject {
         return rawText;
     }
 
-    
+    //------------------------ LOGIC --------------------------
+    @Override
+    public void passVisitorDown(Visitor visitor) {
+        if (lawJournalEntry != null) {
+            lawJournalEntry.accept(visitor);
+        }
+    }
 
     //------------------------ SETTERS --------------------------
     

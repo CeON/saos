@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
+import org.hibernate.LazyInitializationException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -30,6 +31,8 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     @Autowired
     private JudgmentRepository judgmentRepository;
     
+    @Autowired
+    private TestJudgmentFactory testJudgmentFactory;
     
     @Test
     public void testSaveAndGet() {
@@ -53,7 +56,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void findOneBySourceCodeAndSourceJudgmentId_FOUND() {
-        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createCcJudgment();
+        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createSimpleCcJudgment();
         JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
         sourceInfo.setSourceCode(SourceCode.COMMON_COURT);
         sourceInfo.setSourceJudgmentId("1123");
@@ -83,7 +86,41 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         assertEquals(ccJudgment1.getId(), ccJudgments.get(0).getId());
       
     }
+    
+    @Test
+    public void findOneAndInitialize_Judgment() {
+        Judgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
+        Judgment dbJudgment = judgmentRepository.findOneAndInitialize(ccJudgment.getId());
+        assertNotNull(dbJudgment);
+        dbJudgment.getJudges().size();
+        dbJudgment.getJudges().get(0).getSpecialRoles().size();
+        dbJudgment.getReferencedRegulations().size();
+        dbJudgment.getReferencedRegulations().get(0).getLawJournalEntry().getTitle();
+        dbJudgment.getCourtReporters().size();
+        dbJudgment.getReasoning().getSourceInfo().getSourceCode();
+        dbJudgment.getLegalBases().size();
+        
+    }
 
+    @Test
+    public void findOneAndInitialize_CommonCourtJudgment() {
+        Judgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
+        CommonCourtJudgment dbJudgment = judgmentRepository.findOneAndInitialize(ccJudgment.getId());
+        assertNotNull(dbJudgment);
+        dbJudgment.getCourtDivision().getCourt().getCode();
+        dbJudgment.getKeywords().size();
+    }
+
+    
+    @Test(expected=LazyInitializationException.class)
+    public void findOne_Uninitialized() {
+        Judgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
+        Judgment dbJudgment = judgmentRepository.findOne(ccJudgment.getId());
+        assertNotNull(dbJudgment);
+        dbJudgment.getJudges().size();
+    }
+    
+    
     //------------------------ PRIVATE --------------------------
     
     private CommonCourtJudgment createCcJudgment(SourceCode sourceCode, String sourceJudgmentId, String caseNumber) {
