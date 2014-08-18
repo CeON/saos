@@ -1,15 +1,19 @@
 buildscript {
     repositories {
+		mavenCentral()
+		maven { url 'http://dl.bintray.com/robfletcher/gradle-plugins' }
 		jcenter()
     }
     dependencies {
 		classpath 'com.moowork.gradle:gradle-node-plugin:0.4'
 		classpath 'com.moowork.gradle:gradle-grunt-plugin:0.5'
+		classpath 'org.gradle.plugins:gradle-compass:1.0.7'
     }
 }
 
 apply plugin: 'node'
 apply plugin: 'grunt'
+apply plugin: 'compass'
 
 node {
 	version = '0.11.10'
@@ -17,6 +21,16 @@ node {
 	download = true
 	workDir = file("nodejs")
 }
+
+compass {
+	sassDir = file('../src/main/webapp/WEB-INF/static/stylesheet/scss')
+	cssDir = file('../src/main/webapp/WEB-INF/static/stylesheet/.generated')
+	outputStyle = 'compressed'
+	relativeAssets = false
+	debugInfo = false
+}
+
+grunt_build.dependsOn 'compileSass'
 
 grunt_build.dependsOn 'installGrunt'
 grunt_build.dependsOn 'npmInstall'

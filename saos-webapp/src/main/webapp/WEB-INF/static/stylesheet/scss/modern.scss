@@ -1,0 +1,401 @@
+$light: #e7e7e7;
+$grey: #eee;
+$grey-darker: darken($grey, 3%);
+$sand: rgba(255, 212, 100, 0.95);
+$blue: #238ed2; /*rgba(19, 82, 162, 1);*/
+$orange: rgba(242, 105, 100, 0.9);
+$panel-color: rgba(51, 51, 51, 1);
+$text: #222;
+$white: #fafafa;
+
+$footer-height: 5em;
+
+* {
+	margin: 0;
+}
+
+body {
+	background: url("http://subtlepatterns.com/patterns/debut_light.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+html, body {
+	font-family: 'Noto Sans', sans-serif;
+	font-weight: 300;
+	height: 100%;
+}
+
+h1 {
+	font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+}
+
+
+a {
+	&:focus {
+		outline: 4px solid lighten($blue, 12%);
+	}
+}
+
+.container {
+	width: 970px !important;
+}
+
+header {
+	
+	h1 {
+		font-weight: 300;
+		margin: 0px 0px 10px;
+		padding: 6px 0px 16px;
+	}
+	
+	.navbar-default {
+		background: $panel-color;
+		border: 0px solid $grey-darker;
+		border-width: 0px 0px;
+		border-radius: 0px;
+		margin-bottom: 0px;
+		
+		
+		.container {
+			padding: 0;
+		}
+	}
+}
+
+footer, .push {
+	height: $footer-height;
+}
+
+footer {
+	background: $panel-color;
+	border: 0px solid $grey-darker;
+	border-width: 0px 0px 6px;
+	color: $white;
+	padding: 16px 0px 8px;
+	
+	ul li {
+		padding: 0px 8px;
+	}
+}
+
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin: 0 auto -$footer-height;
+}
+
+.navbar-blank {
+	padding-bottom: 0;
+	padding-top: 0;
+	margin-bottom: 0;
+}
+
+.language-change {
+	
+	a {
+		color: $text;
+		
+		&:hover {
+			background: inherit;
+		}
+	}
+
+	.lang-selected {
+		
+		font: {
+			size: 1.3em;
+			weight: 400;
+		}
+	}
+	
+	.font-small {
+		font-size: 10px;
+	}
+}
+
+form.search {
+
+	.form-group {
+		margin: 16px 0px 16px;
+	}
+
+	input[type="text"] {
+		background-color: #f5f4f3;
+		border-color: rgb(200, 200, 200);
+		border-width: 1px 1px 3px;
+		border-style: solid;
+		border-radius: 0px;
+		box-shadow: none; 
+		color: #414243;
+		/*font-style: italic;*/
+		font-weight: 300;
+		font-size: 1.2em;
+		padding: 10px 12px;
+		width: 400px;
+	}
+
+	/*
+	input[type="text"] {
+		border-color: rgb(200, 200, 200);
+		border-width: 1px;
+		border-style: solid;
+		border-radius: 2px;
+		box-shadow: none;
+		color: #818283;
+		font-style: italic;
+		font-weight: 300;
+		padding: 6px 10px;
+	}*/
+
+}
+
+.navbar-default {
+	margin-bottom: 0px;
+	
+	
+	.navbar-nav {
+		
+		
+		li a {
+			border: 0px solid $panel-color;
+			
+			
+		}
+		
+		li a, li .active {
+			background: $panel-color !important;
+			color: $white !important;
+		}
+		
+		li a {
+			font-size: 16px;
+			padding: 15px;
+			transition: all 0.2s ease 0s;
+				
+			&:first-child {
+				border-left: 2px solid $panel-color;
+			}
+		
+			&:hover, &:focus {
+				background: $orange;
+				
+				color: #f8f8f8;
+			}
+		}
+	}
+}
+
+.advert-header {
+	background: $panel-color;
+	color: $white;
+	display: inline-block;
+	font-size: 24px;
+	padding: 8px 16px;
+}
+
+.advert-idea {
+	margin-top: 30px;
+	margin-bottom: 0px;
+	
+	> div {
+		/*border: 2px solid $panel-color;*/
+	}
+	
+	.item-desc {
+		background: $white;
+		border: 1px solid #e6e6e6;
+		font-size: 17px;
+		line-height: 1.5em;
+		padding: 10px 50px;
+		
+	}
+}
+
+.advert-ground {
+	background: #333;
+	margin-top: 0px;
+	margin-bottom: 150px;
+	padding: 30px 0px;
+
+	.item {
+		color: $white;
+		padding: 0px 40px;
+	
+		.block {
+			background: $sand;
+			/*background: $light;*/
+			border-radius: 75px;
+			height: 150px;
+			margin: 10px auto 20px;
+			width: 150px;
+		
+		}
+		
+		.item-title {
+			font-size: 20px;
+			font-weight: 600;
+			text-align: center;
+		}
+		
+		.item-desc {
+			font-size: 17px;
+			text-align: justify
+		}
+		
+		.search {
+			background-image: url("../../image/icons/search.png");
+			background-position: 50%;
+			background-repeat: no-repeat;
+			cursor: pointer;
+		}
+		
+		.stats {
+			background-image: url("../../image/icons/chart.png");
+			background-position: 50%;
+			background-repeat: no-repeat;
+			cursor: pointer;
+		}
+		
+		.api {
+			background-image: url("../../image/icons/computer.png");
+			background-position: 50%;
+			background-repeat: no-repeat;
+			cursor: pointer;
+		}
+	
+	}
+
+}
+
+.spinner {
+	img {
+		border: 2px solid $panel-color;
+		border-top: 0px;
+	}
+	
+	.stage {
+		background: #e8e8e8;
+		background-image: url("../../image/banners/stats.png");
+		background-repeat: no-repeat;
+		/*border: 2px solid $panel-color;*/
+		border-top: 0px;	
+		height: 320px;
+		position: relative;
+		width: 100%; 
+		
+		
+		.block-info {
+			background: $orange;
+			bottom: 20px;
+			color: $white;
+			left: 20px;
+			padding: 20px;
+			position: absolute;
+			width: 460px;
+			
+			h3 {
+				font-size: 20px;
+				font-weight: bold;
+				margin: 5px 0px;
+			}
+			
+			p {
+				font-size: 17px;
+				line-height: 1.5em;
+			}
+		}
+		
+		.block-button {
+		
+		}
+	}
+	
+	.pagination {
+		text-align: center;
+		width: 100%;
+	
+		ul {
+			list-style: none;
+			
+			li {
+			border: 4px solid #333;
+			cursor: pointer;
+			display: inline-block;
+			height: 16px;
+			margin: 5px 10px;
+			width: 16px;
+			
+				&:hover, &.active {
+					border-color: $orange;
+				}
+				
+			}
+		}
+	
+	}
+
+}
+
+.advert-partners {
+	margin: 30px auto 20px;
+}
+
+.advert-frame {
+	background: #fff;
+	border: 1px solid #e6e6e6;
+	border-radius: 0px;
+	padding: 15px;
+	
+	img {
+		padding-bottom: 15px;
+	}
+	
+	> div {
+		text-align: center;
+	}
+	
+}
+
+.search-form {
+	background: none repeat scroll 0 0 #fff;
+    border: 1px solid #e0e0e0;
+    margin-top: 30px;
+    padding: 0 40px;
+    
+	h3 {
+		border-bottom: 1px solid #e0e0e0;
+	    font-weight: 300;
+	    margin-bottom: 30px;
+	    padding-bottom: 6px;
+	}
+	
+	input {
+		border-radius: 2px;
+		border-color: e0e0e0;
+		box-shadow: 0 0 1px rgba(255, 255, 255, 0.976) inset;
+		color: #444;
+	}
+	
+	label {
+		font-weight: 400;
+	}
+}
+
+.button {
+	border-radius: 2px;
+	padding: 6px 12px;
+}
+
+.button-blue {
+	background: $blue;
+}
+
+.btn-blue {
+    background-color: #da4f49;
+    background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);
+    background-repeat: repeat-x;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    color: #ffffff;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}

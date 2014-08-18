@@ -5,7 +5,6 @@
 
 	<ul class="nav navbar-nav" >
 		<li><spring:message code="saos.fullname"/></li>
-		<li><spring:eval expression="@versionProperties.getProperty('saos.version')"/></li>
 	</ul>
 	
 	<ul class="nav navbar-nav navbar-right" >

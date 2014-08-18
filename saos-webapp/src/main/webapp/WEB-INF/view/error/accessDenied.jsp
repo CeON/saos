@@ -10,7 +10,9 @@
 
 
 <head>
-    <%@include file="/WEB-INF/view/common/cssInit.jsp"%>
+   	<spring:eval expression="@exposedProperties.getProperty('webapp.version')" var="webappVersion" />
+    
+    <saos:cssjsInit></saos:cssjsInit>
 
 </head>
 

@@ -10,8 +10,7 @@
 
 
 <head>
-    <%@include file="/WEB-INF/view/common/cssInit.jsp"%>
-
+    <saos:cssjsInit></saos:cssjsInit>
 </head>
 
 <body>

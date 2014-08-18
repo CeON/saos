@@ -5,7 +5,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     gradleProp: (function() {
-    	var lines = grunt.file.read('../../gradle.properties').split("\n"),
+    	var lines = grunt.file.read('../src/main/resources/saos.version.properties').split("\n"),
     		i = 0,
     		length = lines.length,
     		temp = "",
@@ -13,7 +13,7 @@ module.exports = function(grunt) {
     	
     	for (i = 0; i < length; i += 1) {
     		temp = lines[i].split("=");
-    		if (temp[0] === "version") {
+    		if (temp[0] === "saos.version") {
     			version = temp[1];
     		}
     	}
@@ -36,6 +36,9 @@ module.exports = function(grunt) {
          ],
         
         dev: {
+        	generated: [
+        	      mainDir + 'stylesheet/.generated'
+            ],
         	css: [
         	      '<%= webapp.dir %>' + 'stylesheet/css'
             ],
@@ -62,7 +65,6 @@ module.exports = function(grunt) {
             ' * Copyright <%= pkg.copyright %>. <%= pkg.license %> licensed.\n' +
             ' */\n'
     },
-    
     
     validation: {
         options: {
@@ -113,66 +115,37 @@ module.exports = function(grunt) {
     
     uglify: {
         options: {
-          banner: '/*! <%= pkg.name %> version <%= gradleProp %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+          banner: '/* <%= pkg.name %> version <%= gradleProp %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
         },
         dist: {
           files: {
-        	  '../src/main/webapp/WEB-INF/static/dist/saos.min.js' : '../src/main/webapp/WEB-INF/static/javascript/saos-common.js' /*['<%= concat.dist.dest %>']*/
+        	  '../src/main/webapp/WEB-INF/static/javascript/.generated/saos.min.js' : '../src/main/webapp/WEB-INF/static/javascript/saos-common.js' /*['<%= concat.dist.dest %>']*/
           }
         }
     },
-    
-    /* Sass */
-    
-    sass: {
-      dev: {
-        options: {
-          style: 'expanded',
-          banner: '<%= tag.banner %>',
-          compass: false
-        },
-        files: [{
-         expand: true,
-         cwd: mainDir + 'stylesheet/scss', //'<%= webapp.dir %>' + 'stylesheet/scss', //'<%= project.dev.sass %>',
-         src: ['*.scss'],
-         dest: mainDir + 'stylesheet/.generated', //'<%= webapp.dir %>' + 'stylesheet/.generated', //'<%= project.css %>', // '<%= project.dev.css %>',
-         ext: '.css'
-        }]
-      },
-      
-      dist: {
-        options: {
-          style: 'compressed',
-          banner: '<%= tag.banner %>',
-          compass: false
-        },
-        files: [{
-         expand: true,
-         cwd: 'sass',
-         src: ['*.scss', 'adapt/*.scss'],
-         dest: 'css',
-         ext: '.css'
-        }]
-      }
-     },
+ 
+	concat_css: {
+	    options: {
+		     },
+	    all: {
+	      src: ['<%= project.dev.generated %>/modern.css', '<%= project.dev.generated %>' + '/styles.css'],
+	      dest: '<%= project.dev.generated %>' + '/dist/styles.min.css'
+	    }
+	},
+	
+	usebanner: {
+	  options: {
+	    position: 'top',
+	    banner: '/* <%= pkg.name %> version <%= gradleProp %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+	  },
+	  files: {
+	    src: [
+          	'<%= project.dev.generated %>/dist/styles.min.css'
+	    ]
+	  }
+	},
      
-     /*
-     concat_css: {
-         options: {
-           // Task-specific options go here.
-         },
-         all: {
-           src: ["css/base.css", "css/960.css", "css/style.css", "css/pon.css", "css/top_navigation.css"],
-           dest: "dist/styles.min.css"
-         },
-     }*/
-     
-     
-     log: {
-    	 bar: 'hello'
-     },
-     
-     watch: {
+    watch: {
          sass: {
            files: '<%= project.dev.sass %>' + '/{,*/}*.{scss,sass}',
            tasks: ['sass:dev']
@@ -190,7 +163,7 @@ module.exports = function(grunt) {
 	  grunt.log.writeln(grunt.config('gradleProp'));
   });
   
-  grunt.registerTask('build', ['uglify', 'sass:dev']);
+  grunt.registerTask('build', ['uglify', 'concat_css', 'usebanner']);
  
   grunt.registerTask('wcag', ['accessibility']);
   grunt.registerTask('valid', ['validation']);

@@ -7,13 +7,24 @@
         <put-attribute name="navigation" value="/WEB-INF/view/template/navigation.jsp" />
         <put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
     </definition>
-
     
     <!-- ************* Simple template definition -->
     <definition name="simpleTemplate" template="/WEB-INF/view/template/simpleTemplate.jsp">
         
     </definition>
     
+    <!--   Layout development -->
+
+	   	<!--  Angular TEST  -->    
+		<definition name="angular" template="/WEB-INF/view/angular/homePage.jsp">
+	        <put-attribute name="top" value="/WEB-INF/view/angular/header.jsp" />
+	        <put-attribute name="navigation" value="/WEB-INF/view/angular/navigation.jsp" />
+	        <put-attribute name="footer" value="/WEB-INF/view/angular/footer.jsp" />
+	    </definition>
+	    
+	    <definition name="angularSearch" extends="angular">
+	        <put-attribute name="content" value="/WEB-INF/view/angular/search.jsp" />
+	    </definition>
 
     <!-- ************* General  -->
     
@@ -33,6 +44,13 @@
         <put-attribute name="content" value="/WEB-INF/view/judgement/judgementResults.jsp" />
     </definition>
     
+    <definition name="content" extends="template">
+        <put-attribute name="content" value="/WEB-INF/view/template/content.jsp" />
+    </definition>
+    
+    <definition name="basicSearch" extends="template">
+        <put-attribute name="content" value="/WEB-INF/view/judgement/search.jsp" />
+    </definition>
     
     <!-- ************** Errors -->
     

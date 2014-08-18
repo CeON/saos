@@ -10,9 +10,7 @@
 
 
 <head>
-    <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="session"></c:set>  
-    <%@include file="/WEB-INF/view/common/cssInit.jsp"%>
-
+	<saos:cssjsInit></saos:cssjsInit>
 </head>
 
 <body>

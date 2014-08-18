@@ -14,4 +14,4 @@ contextPath = '${pageContext.request.contextPath}';
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.clipboard/jquery.clipboard.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/modernizr.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/bootstrap.min.js"></script>
-<script type="text/javascript" src="${contextPath}/static/javascript/saos.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/.generated/saos.min.js"></script>
