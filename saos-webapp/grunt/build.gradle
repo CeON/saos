@@ -26,8 +26,30 @@ compass {
 	sassDir = file('../src/main/webapp/WEB-INF/static/stylesheet/scss')
 	cssDir = file('../src/main/webapp/WEB-INF/static/stylesheet/.generated')
 	outputStyle = 'compressed'
-	relativeAssets = false
-	debugInfo = false
+}
+
+task prepareEnvForCompass(dependsOn: compileSass) {
+	def path = '../src/main/webapp/WEB-INF/static/stylesheet/'
+	
+	FileCollection collection = files(new File(path + '.generated'), new File(path + '.generated/ceon'), new File(path + '.generated/bootstrap'), new File(path + '.generated/dist'))
+	
+	collection.each {File file ->
+		if (!file.isDirectory()) {
+			file.mkdirs()
+		}
+	}
+}
+
+task prepareEnvForGrunt(dependsOn: grunt_build) {
+	def path = '../src/main/webapp/WEB-INF/static/javascript/'
+	
+	FileCollection collection = files(new File(path + '.generated'))
+	
+	collection.each {File file ->
+		if (!file.isDirectory()) {
+			file.mkdirs()
+		}
+	}
 }
 
 grunt_build.dependsOn 'compileSass'
