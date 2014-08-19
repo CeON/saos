@@ -260,7 +260,7 @@ public abstract class Judgment extends DataObject {
     
 
     public void addCourtReporter(String courtReporter) {
-        Preconditions.checkArgument(!containsLegalBase(courtReporter));
+        Preconditions.checkArgument(!containsCourtReporter(courtReporter));
         
         this.courtReporters.add(courtReporter);
     }
