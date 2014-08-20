@@ -45,5 +45,9 @@ public abstract class ApiConstants {
     public static final String JOURNAL_YEAR = "journalYear";
     public static final String JOURNAL_TITLE = "journalTitle";
 
+    public static final String DIVISION = "division";
+    public static final String COURT = "court";
+    public static final String TYPE = "type";
+    public static final String KEYWORDS = "keywords";
 
 }

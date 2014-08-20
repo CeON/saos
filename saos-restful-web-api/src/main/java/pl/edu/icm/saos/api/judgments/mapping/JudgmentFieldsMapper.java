@@ -44,8 +44,61 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
         item.put(REFERENCED_REGULATIONS, toListOfMapsFromJRR(element.getReferencedRegulations()));
 
 
+        if(element instanceof CommonCourtJudgment){
+            CommonCourtJudgment commonJudgment = (CommonCourtJudgment) element;
+            Map<String, Object> commonJudgmentFields = toMapCommonJudgmentFields(commonJudgment);
+
+            item.putAll(commonJudgmentFields);
+        }
+
 
         return item;
+    }
+
+    private Map<String, Object> toMapCommonJudgmentFields(CommonCourtJudgment commonJudgment) {
+        Map<String, Object> item = new LinkedHashMap<>();
+
+        CommonCourtDivision division = commonJudgment.getCourtDivision();
+        item.put(DIVISION, toMap(division));
+        item.put(KEYWORDS, toListFromKeywords(commonJudgment.getKeywords()));
+
+        return item;
+
+    }
+
+    private List<String> toListFromKeywords(List<CcJudgmentKeyword> keywords) {
+        if(keywords == null)
+            keywords = Collections.EMPTY_LIST;
+
+        List<String> list = new LinkedList<>();
+
+        for(CcJudgmentKeyword keyword: keywords){
+            list.add(keyword.getPhrase());
+        }
+
+        return list;
+    }
+
+    private Map<String, Object> toMap(CommonCourtDivision division) {
+        Map<String, Object> item = new LinkedHashMap<>();
+        item.put(NAME, division.getName());
+        item.put(CODE, division.getCode());
+        item.put(TYPE, division.getType().getName());
+
+        item.put(COURT, toMap(division.getCourt()));
+
+        return item;
+    }
+
+    private Map<String, Object> toMap(CommonCourt court) {
+        Map<String, Object> item = new LinkedHashMap<>();
+
+        item.put(CODE, court.getCode());
+        item.put(NAME, court.getName());
+        item.put(TYPE, court.getType());
+
+        return item;
+
     }
 
     private List<Map<String, Object>> toListOfMapsFromJRR(List<JudgmentReferencedRegulation> referencedRegulations) {

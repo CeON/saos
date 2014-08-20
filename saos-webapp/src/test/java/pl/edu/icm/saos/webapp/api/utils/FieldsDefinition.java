@@ -104,6 +104,22 @@ public abstract class FieldsDefinition {
 
         judgment.setSourceInfo(judgmentSourceInfo);
 
+        judgment.setCourtDivision(
+                commonCourtDivision()
+                        .code(JC.DEVISION_CODE)
+                        .name(JC.DEVISION_NAME)
+                        .type(commonCourtDivisionType(JC.DEVISION_TYPE_NAME, JC.DEVISION_TYPE_CODE))
+                        .court(
+                                commonCourt()
+                                .name(JC.COURT_NAME)
+                                .code(JC.COURT_CODE)
+                                .type(JC.COURT_TYPE)
+                        )
+        );
+
+        judgment.addKeyword(keyword(JC.FIRST_KEYWORD));
+        judgment.addKeyword(keyword(JC.SECOND_KEYWORD));
+
 
 
         return judgment;
@@ -172,6 +188,21 @@ public abstract class FieldsDefinition {
         public static final long REASONING_PUBLICATION_DATE_IN_MILLISECONDS = 73L;
 
 
+        public static final String DEVISION_NAME = "I Wydzial Cywilny";
+        public static final String DEVISION_CODE = "0000503";
+
+        public static final String DEVISION_TYPE_NAME = "Cywilny";
+        public static final String DEVISION_TYPE_CODE = "03";
+
+        public static final String COURT_NAME = "Sad Apelacyjny we Wroclawiu";
+        public static final String COURT_CODE = "15500000";
+        public static final CommonCourt.CommonCourtType COURT_TYPE = CommonCourt.CommonCourtType.APPEAL;
+
+        public static final String FIRST_KEYWORD = "konsument";
+        public static final String SECOND_KEYWORD = "klauzule niedozwolone";
+
+
+
 
     }
 
@@ -194,6 +225,26 @@ public abstract class FieldsDefinition {
 
     private static JudgmentReasoningWrapper judgmentReasoning(String text){
         return new JudgmentReasoningWrapper(text);
+    }
+
+    private static CommonCourtDivisionWrapper commonCourtDivision(){
+        return new CommonCourtDivisionWrapper();
+    }
+
+    private static CommonCourtDivisionType commonCourtDivisionType(String name, String code){
+        CommonCourtDivisionType divisionType = new CommonCourtDivisionType();
+        divisionType.setCode(code);
+        divisionType.setName(name);
+
+        return divisionType;
+    }
+
+    private static CommonCourtWrapper commonCourt(){
+        return new CommonCourtWrapper();
+    }
+
+    private static CcJudgmentKeyword keyword(String keyword){
+        return new CcJudgmentKeyword(keyword);
     }
 
 
@@ -289,6 +340,49 @@ public abstract class FieldsDefinition {
 
         public JudgmentReasoningWrapper sourceInfo(JudgmentSourceInfo sourceInfo){
             setSourceInfo(sourceInfo);
+            return this;
+        }
+
+    }
+
+    private static class CommonCourtDivisionWrapper extends CommonCourtDivision {
+
+        public CommonCourtDivisionWrapper court(CommonCourt court){
+            setCourt(court);
+            return this;
+        }
+
+        public CommonCourtDivisionWrapper name(String name){
+            setName(name);
+            return this;
+        }
+
+        public CommonCourtDivisionWrapper code(String code){
+            setCode(code);
+            return this;
+        }
+
+        public CommonCourtDivisionWrapper type(CommonCourtDivisionType type){
+            setType(type);
+            return this;
+        }
+
+    }
+
+    private static class CommonCourtWrapper extends CommonCourt {
+
+        public CommonCourtWrapper code(String code){
+            setCode(code);
+            return this;
+        }
+
+        public CommonCourtWrapper name(String name){
+            setName(name);
+            return this;
+        }
+
+        public CommonCourtWrapper type(CommonCourtType type){
+            setType(type);
             return this;
         }
 

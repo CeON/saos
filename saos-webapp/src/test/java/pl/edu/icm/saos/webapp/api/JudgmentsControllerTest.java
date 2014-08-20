@@ -126,6 +126,17 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[2].journalEntry").value(JC.THIRD_REFERENCED_REGULATION_ENTRY))
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[2].journalYear").value(JC.THIRD_REFERENCED_REGULATION_YEAR))
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[2].text").value(JC.THIRD_REFERENCED_REGULATION_TEXT))
+
+
+                .andExpect(jsonPath("$.items.[0].division.court.code").value(JC.COURT_CODE))
+                .andExpect(jsonPath("$.items.[0].division.court.name").value(JC.COURT_NAME))
+                .andExpect(jsonPath("$.items.[0].division.court.type").value(JC.COURT_TYPE.name()))
+                .andExpect(jsonPath("$.items.[0].division.name").value(JC.DEVISION_NAME))
+                .andExpect(jsonPath("$.items.[0].division.code").value(JC.DEVISION_CODE))
+                .andExpect(jsonPath("$.items.[0].division.type").value(JC.DEVISION_TYPE_NAME))
+
+                .andExpect(jsonPath("$.items.[0].keywords.[0]").value(JC.FIRST_KEYWORD))
+                .andExpect(jsonPath("$.items.[0].keywords.[1]").value(JC.SECOND_KEYWORD))
                 ;
     }
 
