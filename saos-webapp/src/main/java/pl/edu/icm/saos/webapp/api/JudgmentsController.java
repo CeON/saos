@@ -18,11 +18,11 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.webapp.api.model.JudgmentsSearchResults;
 import pl.edu.icm.saos.webapp.api.services.ApiSearchService;
 
-import java.util.Arrays;
 import java.util.Map;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
 
 /**
  * @author pavtel
@@ -58,5 +58,17 @@ public class JudgmentsController {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         return new ResponseEntity<Map<String, Object>>(representation, httpHeaders, HttpStatus.OK);
+    }
+
+
+
+    //**** setters *******
+
+    public void setListSuccessRepresentationBuilder(JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder) {
+        this.listSuccessRepresentationBuilder = listSuccessRepresentationBuilder;
+    }
+
+    public void setApiSearchService(ApiSearchService apiSearchService) {
+        this.apiSearchService = apiSearchService;
     }
 }
