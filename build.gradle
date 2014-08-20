@@ -3,7 +3,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'eclipse-wtp' /** without this wtp does not upload dependant projects, http://stackoverflow.com/questions/23697438/gradle-groovy-project-dependent-on-java-project*/
-    
+
     sourceCompatibility = 1.8
     
     repositories {
@@ -80,7 +80,9 @@ subprojects {
         //compile lib.'org.slf4j:slf4j-simple'
         compile lib.'ch.qos.logback:logback-classic'
         compile lib.'org.codehaus.groovy:groovy-all'
-        compile lib.'org.mockito:mockito-core'
+        compile (lib.'org.mockito:mockito-core') {
+            exclude module: 'hamcrest-core'
+        }
         compile lib.'com.google.guava:guava'
         compile lib.'commons-collections:commons-collections'
     }

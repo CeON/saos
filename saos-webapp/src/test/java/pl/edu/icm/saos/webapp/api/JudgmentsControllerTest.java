@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pl.edu.icm.saos.webapp.api.utils.FieldsDefinition.*;
-//import static org.hamcrest.collection.IsArrayWithSize.*; TODO
+import static org.hamcrest.Matchers.*;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
@@ -80,16 +80,16 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.items.[0].judgmentDate").value(JC.DATE_YEAR+"-"+JC.DATE_MONTH+"-"+JC.DATE_DAY))
 
                 .andExpect(jsonPath("$.items.[0].judges").isArray())
-//                .andExpect(jsonPath("$.items.[0].judges", arrayWithSize(3))) TODO after resolving problem with hamcrest-library imports
+                .andExpect(jsonPath("$.items.[0].judges").value(iterableWithSize(3)))
                 .andExpect(jsonPath("$.items.[0].judges.[0].name").value(JC.PRESIDING_JUDGE_NAME))
-//                .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles", arrayWithSize(1))) TODO
+                .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles").value(iterableWithSize(1)))
                 .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles.[0]").value(Judge.JudgeRole.PRESIDING_JUDGE.name()))
                 .andExpect(jsonPath("$.items.[0].judges.[1].name").value(JC.SECOND_JUDGE_NAME))
-//                .andExpect(jsonPath("$.items.[0].judges.[1].specialRoles", emptyArray())) TODO
+                .andExpect(jsonPath("$.items.[0].judges.[1].specialRoles").value(emptyIterable()))
                 .andExpect(jsonPath("$.items.[0].judges.[2].name").value(JC.THIRD_JUDGE_NAME))
-//                .andExpect(jsonPath("$.items.[0].judges.[2].specialRoles", emptyArray())) TODO
+                .andExpect(jsonPath("$.items.[0].judges.[2].specialRoles").value(emptyIterable()))
 
-//                .andExpect(jsonPath("$.items.[0].courtReporters", arrayWithSize(2))) TODO
+                .andExpect(jsonPath("$.items.[0].courtReporters").value(iterableWithSize(2)))
                 .andExpect(jsonPath("$.items.[0].courtReporters.[0]").value(JC.FIRST_COURT_REPORTER))
                 .andExpect(jsonPath("$.items.[0].courtReporters.[1]").value(JC.SECOND_COURT_REPORTER))
 
@@ -104,11 +104,11 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.items.[0].reasoning.publisher").value(JC.REASONING_PUBLISHER))
                 .andExpect(jsonPath("$.items.[0].reasoning.reviser").value(JC.REASONING_REVISER))
 
-//                .andExpect(jsonPath("$.items.[0].legalBases", arrayWithSize(2))) TODO
-                .andExpect(jsonPath("$.items.[0].legalBases[0]").value(JC.FIRST_LEGAL_BASE))
-                .andExpect(jsonPath("$.items.[0].legalBases[1]").value(JC.SECOND_LEGAL_BASE))
+                .andExpect(jsonPath("$.items.[0].legalBases").value(iterableWithSize(2)))
+                .andExpect(jsonPath("$.items.[0].legalBases.[0]").value(JC.FIRST_LEGAL_BASE))
+                .andExpect(jsonPath("$.items.[0].legalBases.[1]").value(JC.SECOND_LEGAL_BASE))
 
-//                .andExpect(jsonPath("$.items.[0].referencedRegulations", arrayWithSize(3))) TODO
+                .andExpect(jsonPath("$.items.[0].referencedRegulations").value(iterableWithSize(3)))
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[0].journalTitle").value(JC.FIRST_REFERENCED_REGULATION_TITLE))
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[0].journalNo").value(JC.FIRST_REFERENCED_REGULATION_JOURNAL_NO))
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[0].journalEntry").value(JC.FIRST_REFERENCED_REGULATION_ENTRY))
