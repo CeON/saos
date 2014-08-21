@@ -40,8 +40,8 @@ public class DbCleaner {
         deleteAllSql("judgment_legal_bases");
         deleteAll(JudgmentReasoning.class);
         deleteAll(Judgment.class);
-        deleteAll(CommonCourtDivisionType.class);
         deleteAll(CommonCourtDivision.class);
+        deleteAll(CommonCourtDivisionType.class);
         deleteAll(CommonCourt.class);
         
         deleteAll(RawSourceCcJudgment.class);

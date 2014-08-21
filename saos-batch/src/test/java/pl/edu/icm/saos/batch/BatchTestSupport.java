@@ -23,7 +23,7 @@ public abstract class BatchTestSupport {
     
     
     @Before
-    public void before() {
+    public void before() throws Exception {
        dbCleaner.clean();
     }
     

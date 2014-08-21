@@ -5,7 +5,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
 /**
@@ -41,7 +40,6 @@ public class JudgmentSourceInfo {
     }
     
     @Column(name="source_publication_date")
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     public DateTime getPublicationDate() {
         return publicationDate;
     }

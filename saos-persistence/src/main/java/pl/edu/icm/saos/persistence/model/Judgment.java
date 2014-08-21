@@ -196,7 +196,7 @@ public abstract class Judgment extends DataObject {
     
     
     public void addJudge(Judge judge) { 
-        Preconditions.checkArgument(!this.containsJudge(judge));
+        Preconditions.checkArgument(!this.containsJudge(judge.getName()));
         
         this.judges.add(judge);
         judge.setJudgment(this);
@@ -224,14 +224,19 @@ public abstract class Judgment extends DataObject {
     }
     
     
-    public boolean containsJudge(Judge judge) {
+    public boolean containsJudge(String judgeName) {
+        return getJudge(judgeName) != null;
+    }
+    
+    public Judge getJudge(String judgeName) {
         for (Judge existingJudge : judges) {
-            if (StringUtils.equalsIgnoreCase(existingJudge.getName(), judge.getName())) {
-                return true;
+            if (StringUtils.equalsIgnoreCase(existingJudge.getName(), judgeName)) {
+                return existingJudge;
             }
         }
-        return false;
+        return null;
     }
+    
     
     public void removeAllJudges() {
         judges.clear();

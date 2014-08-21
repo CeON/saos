@@ -6,8 +6,6 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjReasoningExtractor;
-
 /**
  * @author Łukasz Dumiszewski
  */
@@ -28,7 +26,7 @@ public class CcjReasoningExtractorTest {
     @Test
     public void extractReasoning_FOUND() {
         String reasoningText = "<p>Treść uzadadnienia</p>";
-        String extractedReasoningText = ccjReasoningExtractor.extractReasoningText("sdsdsd<div><h2>UzaSadNienie</h2>"+reasoningText);
+        String extractedReasoningText = ccjReasoningExtractor.extractReasoningText("sdsdsd<div><h2>UzaSadNienie</h2>\n"+reasoningText);
         assertNotNull(extractedReasoningText);
         assertEquals(reasoningText, extractedReasoningText);
     }

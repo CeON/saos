@@ -9,8 +9,8 @@ import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
-import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
 /**
@@ -153,7 +153,7 @@ public abstract class AbstractJudgmentConverter<JUDGMENT extends Judgment, SOURC
     private void convertJudges(JUDGMENT judgment, SOURCE_JUDGMENT sourceJudgment) {
         List<Judge> judges = extractJudges(sourceJudgment);
         for (Judge judge : judges) {
-            if (!judgment.containsJudge(judge)) {
+            if (!judgment.containsJudge(judge.getName())) {
                 judgment.addJudge(judge);
             }
         }
