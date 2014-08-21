@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.common.testUtils;
+package pl.edu.icm.saos.common.testcommon;
 
 import java.lang.reflect.Field;
 

@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import pl.edu.icm.saos.common.testUtils.ReflectionFieldSetter;
+import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.LawJournalEntryCreator;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.LawJournalEntryData;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;

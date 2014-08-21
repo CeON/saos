@@ -9,7 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
-import pl.edu.icm.saos.common.testUtils.ReflectionFieldSetter;
+import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;

@@ -8,7 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import pl.edu.icm.saos.common.testUtils.ReflectionFieldSetter;
+import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;

@@ -85,6 +85,7 @@ subprojects {
         }
         compile lib.'com.google.guava:guava'
         compile lib.'commons-collections:commons-collections'
+                
     }
 
     version = '0.0.1-SNAPSHOT'
@@ -115,7 +116,23 @@ subprojects {
         testArtifacts testJar
     }
     
-   
+    test {
+        useJUnit {
+            excludeCategories "pl.edu.icm.saos.common.testcommon.category.SlowTest"
+        }
+    }
+    
+    task slowTest(type: Test) {
+        useJUnit {
+            includeCategories "pl.edu.icm.saos.common.testcommon.category.SlowTest"
+        }
+    }
+    
+    tasks.withType(Test) {
+        testLogging {
+            events 'passed'
+        }
+    }
    
     
     

@@ -4,6 +4,8 @@ apply plugin: 'eclipse-wtp'
 
 
 dependencies {
+    testCompile project(path:':saos-common', configuration:'testArtifacts')
+    
     //compile project(':saos-persistence')
     //compile project(':saos-import')
     compile project(path:':saos-batch')

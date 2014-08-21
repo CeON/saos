@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -20,7 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.batch.BatchTestSupport;
 import pl.edu.icm.saos.batch.JobForcingExecutor;
-import pl.edu.icm.saos.common.testUtils.ReflectionFieldSetter;
+import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
@@ -42,6 +44,7 @@ import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
  * Functional tests of ccJudgmentImportProcessJob
  * @author Łukasz Dumiszewski
  */
+@Category(SlowTest.class)
 public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
 
 
