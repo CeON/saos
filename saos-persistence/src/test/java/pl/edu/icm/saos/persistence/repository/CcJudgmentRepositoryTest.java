@@ -7,10 +7,12 @@ import static org.junit.Assert.assertNull;
 import java.util.List;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
@@ -21,7 +23,7 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
 /**
  * @author Łukasz Dumiszewski
  */
-
+@Category(SlowTest.class)
 public class CcJudgmentRepositoryTest  extends PersistenceTestSupport {
 
     private static Logger log = LoggerFactory.getLogger(JudgmentRepositoryTest.class);

@@ -1,8 +1,17 @@
 package pl.edu.icm.saos.webapp.api;
 
+import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.ApiConstants.LIMIT;
+import static pl.edu.icm.saos.api.ApiConstants.OFFSET;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,24 +19,20 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import pl.edu.icm.saos.api.ApiConfiguration;
 import pl.edu.icm.saos.api.judgments.JudgmentsListSuccessRepresentationBuilder;
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.webapp.api.services.ApiSearchService;
+import pl.edu.icm.saos.webapp.api.utils.FieldsDefinition.JC;
 import pl.edu.icm.saos.webapp.api.utils.TrivialApiSearchService;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static pl.edu.icm.saos.webapp.api.utils.FieldsDefinition.*;
-import static org.hamcrest.Matchers.*;
-
-import static pl.edu.icm.saos.api.ApiConstants.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  ApiConfiguration.class)
+@Category(SlowTest.class)
 public class JudgmentsControllerTest {
 
     private static final String JUDGMENTS_PATH = "/api/judgments";

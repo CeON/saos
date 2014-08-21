@@ -8,8 +8,10 @@ import org.hibernate.Session;
 import org.hibernate.stat.Statistics;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
@@ -19,7 +21,7 @@ import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 /**
  * @author Łukasz Dumiszewski
  */
-
+@Category(SlowTest.class)
 public class SecondLevelCacheTest extends PersistenceTestSupport {
 
     //private static Logger log = LoggerFactory.getLogger(SecondLevelCacheTest.class);

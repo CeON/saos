@@ -8,8 +8,10 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
+import pl.edu.icm.saos.common.testcommon.category.FastTest;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
@@ -24,7 +26,7 @@ import com.google.common.collect.Lists;
 /**
  * @author Łukasz Dumiszewski
  */
-
+@Category(FastTest.class)
 public class JudgmentCommonDataOverwriterTest {
 
     private JudgmentCommonDataOverwriter judgmentOverwriter = new JudgmentCommonDataOverwriter();
