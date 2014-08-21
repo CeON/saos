@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.edu.icm.saos.api.exceptions.WrongRequestParameterException;
 import pl.edu.icm.saos.api.parameters.Pagination;
 import pl.edu.icm.saos.api.judgments.JudgmentsListSuccessRepresentationBuilder;
+import pl.edu.icm.saos.api.parameters.ParametersExtractor;
+import pl.edu.icm.saos.api.parameters.RequestParameters;
+import pl.edu.icm.saos.api.search.JudgmentsSearchResults;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.webapp.api.model.JudgmentsSearchResults;
 import pl.edu.icm.saos.webapp.api.services.ApiSearchService;
 
 import java.util.Map;
@@ -37,6 +40,9 @@ public class JudgmentsController {
     @Autowired
     private ApiSearchService apiSearchService;
 
+    @Autowired
+    private ParametersExtractor parametersExtractor;
+
     private final String DEFAULT_OFFSET = "0";
 
     public JudgmentsController() {
@@ -46,14 +52,15 @@ public class JudgmentsController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showJudgments(
             @RequestParam(value = LIMIT, required = false, defaultValue = "0") int limit,
-            @RequestParam(value = OFFSET, required = false, defaultValue = DEFAULT_OFFSET) int offset
-    ){
+            @RequestParam(value = OFFSET, required = false, defaultValue = DEFAULT_OFFSET) int offset,
+            @RequestParam(value = EXPAND, required = false) String expand
+    ) throws WrongRequestParameterException {
 
-        Pagination pagination = new Pagination(limit, offset);
-        JudgmentsSearchResults searchResults = apiSearchService.performSearch(pagination);
+        RequestParameters requestParameters = parametersExtractor.extractRequestParameter(expand, limit, offset);
+        JudgmentsSearchResults searchResults = apiSearchService.performSearch(requestParameters);
 
-        Map<String, Object> representation = listSuccessRepresentationBuilder.build(searchResults.getPagination(),
-                 linkTo(JudgmentsController.class).toUriComponentsBuilder(), searchResults.getJudgments());
+        Map<String, Object> representation = listSuccessRepresentationBuilder.build(searchResults,
+                 linkTo(JudgmentsController.class).toUriComponentsBuilder());
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
@@ -70,5 +77,9 @@ public class JudgmentsController {
 
     public void setApiSearchService(ApiSearchService apiSearchService) {
         this.apiSearchService = apiSearchService;
+    }
+
+    public void setParametersExtractor(ParametersExtractor parametersExtractor) {
+        this.parametersExtractor = parametersExtractor;
     }
 }

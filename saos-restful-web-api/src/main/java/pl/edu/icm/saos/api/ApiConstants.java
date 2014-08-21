@@ -14,6 +14,9 @@ public abstract class ApiConstants {
     public static final String LIMIT = "limit";
     public static final String OFFSET = "offset";
 
+    public static final String EXPAND = "expand";
+    public static final String ALL = "all";
+
     public static final String CODE = "code";
 
     public static final String JUDGMENT_TYPE = "judgmentType";

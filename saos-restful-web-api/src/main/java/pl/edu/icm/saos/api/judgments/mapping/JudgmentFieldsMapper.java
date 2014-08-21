@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import pl.edu.icm.saos.persistence.model.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
@@ -22,7 +23,7 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
      * {@inheritDoc}
      */
     @Override
-    public Map<String, Object> toMap(Judgment element) {
+    public Map<String, Object> toMap(Judgment element, boolean expandAll) {
         Map<String, Object> item = new LinkedHashMap<>();
 
         item.put(CASE_NUMBER, element.getCaseNumber());
@@ -44,15 +45,23 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
         item.put(REFERENCED_REGULATIONS, toListOfMapsFromJRR(element.getReferencedRegulations()));
 
 
-        if(element instanceof CommonCourtJudgment){
-            CommonCourtJudgment commonJudgment = (CommonCourtJudgment) element;
-            Map<String, Object> commonJudgmentFields = toMapCommonJudgmentFields(commonJudgment);
-
-            item.putAll(commonJudgmentFields);
+        if(expandAll) {
+            item.putAll(mapOptionalFields(element));
         }
 
 
         return item;
+    }
+
+    private Map<String, Object> mapOptionalFields(Judgment element){
+        Map<String , Object> map = new LinkedHashMap<>();
+        if (element instanceof CommonCourtJudgment) {
+            CommonCourtJudgment commonJudgment = (CommonCourtJudgment) element;
+            Map<String, Object> commonJudgmentFields = toMapCommonJudgmentFields(commonJudgment);
+
+            map.putAll(commonJudgmentFields);
+        }
+        return map;
     }
 
     private Map<String, Object> toMapCommonJudgmentFields(CommonCourtJudgment commonJudgment) {
@@ -68,13 +77,11 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
 
     private List<String> toListFromKeywords(List<CcJudgmentKeyword> keywords) {
         if(keywords == null)
-            keywords = Collections.EMPTY_LIST;
+            keywords = Collections.emptyList();
 
-        List<String> list = new LinkedList<>();
-
-        for(CcJudgmentKeyword keyword: keywords){
-            list.add(keyword.getPhrase());
-        }
+        List<String> list = keywords.stream()
+                .map(CcJudgmentKeyword::getPhrase)
+                .collect(Collectors.toList());
 
         return list;
     }
@@ -103,7 +110,7 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
 
     private List<Map<String, Object>> toListOfMapsFromJRR(List<JudgmentReferencedRegulation> referencedRegulations) {
         if(referencedRegulations == null)
-            referencedRegulations = Collections.EMPTY_LIST;
+            referencedRegulations = Collections.emptyList();
 
         List<Map<String, Object>> list = new LinkedList<>();
 

@@ -5,8 +5,7 @@ import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.ApiConstants.LIMIT;
-import static pl.edu.icm.saos.api.ApiConstants.OFFSET;
+import static pl.edu.icm.saos.api.ApiConstants.*;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -23,6 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.ApiConfiguration;
 import pl.edu.icm.saos.api.judgments.JudgmentsListSuccessRepresentationBuilder;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.api.parameters.ParametersExtractor;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -32,7 +32,7 @@ import pl.edu.icm.saos.webapp.api.utils.TrivialApiSearchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  ApiConfiguration.class)
-@Category(SlowTest.class)
+//@Category(SlowTest.class)
 public class JudgmentsControllerTest {
 
     private static final String JUDGMENTS_PATH = "/api/judgments";
@@ -48,6 +48,9 @@ public class JudgmentsControllerTest {
     @Autowired
     private JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder;
 
+    @Autowired
+    private ParametersExtractor parametersExtractor;
+
     @Before
     public void setUp(){
         ApiSearchService apiSearchService = new TrivialApiSearchService();
@@ -55,6 +58,7 @@ public class JudgmentsControllerTest {
         JudgmentsController judgmentsController = new JudgmentsController();
         judgmentsController.setApiSearchService(apiSearchService);
         judgmentsController.setListSuccessRepresentationBuilder(listSuccessRepresentationBuilder);
+        judgmentsController.setParametersExtractor(parametersExtractor);
 
         mockMvc = standaloneSetup(judgmentsController)
                     .build();
@@ -64,13 +68,39 @@ public class JudgmentsControllerTest {
     //*** END CONFIGURATION ***
 
     @Test
-    public void itShouldShowAllExpectedJudgmentsField() throws Exception {
+    public void itShouldShowAllJudgmentsFields() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(LIMIT, "2")
+                .param(OFFSET, "1")
+                .param(EXPAND, ALL)
+                .accept(MediaType.APPLICATION_JSON));
+        //then
+        checkBasicFields(actions);
+        checkAdditionalFields(actions);
+    }
+
+    @Test
+    public void itShouldShowOnlyBasicJudgmentsFields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
                 .param(LIMIT, "2")
                 .param(OFFSET, "1")
                 .accept(MediaType.APPLICATION_JSON));
         //then
+        checkBasicFields(actions);
+
+        actions
+                .andExpect(jsonPath("$.items.[0].division").doesNotExist())
+                .andExpect(jsonPath("$.items.[0].keywords").doesNotExist())
+                ;
+
+
+    }
+
+
+    private void checkBasicFields(ResultActions actions) throws Exception {
+
         actions
                 .andExpect(jsonPath("$.items.[0].caseNumber").value(JC.CASE_NUMBER))
                 .andExpect(jsonPath("$.items.[0].judgmentType").value(Judgment.JudgmentType.SENTENCE.name()))
@@ -131,8 +161,11 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[2].journalEntry").value(JC.THIRD_REFERENCED_REGULATION_ENTRY))
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[2].journalYear").value(JC.THIRD_REFERENCED_REGULATION_YEAR))
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[2].text").value(JC.THIRD_REFERENCED_REGULATION_TEXT))
+                ;
+    }
 
-
+    public void checkAdditionalFields(ResultActions actions) throws Exception {
+        actions
                 .andExpect(jsonPath("$.items.[0].division.court.code").value(JC.COURT_CODE))
                 .andExpect(jsonPath("$.items.[0].division.court.name").value(JC.COURT_NAME))
                 .andExpect(jsonPath("$.items.[0].division.court.type").value(JC.COURT_TYPE.name()))
@@ -142,26 +175,29 @@ public class JudgmentsControllerTest {
 
                 .andExpect(jsonPath("$.items.[0].keywords.[0]").value(JC.FIRST_KEYWORD))
                 .andExpect(jsonPath("$.items.[0].keywords.[1]").value(JC.SECOND_KEYWORD))
-                ;
+        ;
     }
 
 
     @Test
     public void itShouldShowRequestParameters() throws Exception {
         //given
-        int limit = 22;
+        int limit = 11;
         int offset = 5;
+        String expand = ALL;
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
                 .param(LIMIT, String.valueOf(limit))
                 .param(OFFSET, String.valueOf(offset))
+                .param(EXPAND, expand)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
         actions
                 .andExpect(jsonPath("$.queryTemplate.limit").value(limit))
                 .andExpect(jsonPath("$.queryTemplate.offset").value(offset))
+                .andExpect(jsonPath("$.queryTemplate.expand").value(expand))
                 ;
     }
 
