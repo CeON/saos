@@ -32,7 +32,7 @@ import pl.edu.icm.saos.webapp.api.utils.TrivialApiSearchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  ApiConfiguration.class)
-//@Category(SlowTest.class)
+@Category(SlowTest.class)
 public class JudgmentsControllerTest {
 
     private static final String JUDGMENTS_PATH = "/api/judgments";
