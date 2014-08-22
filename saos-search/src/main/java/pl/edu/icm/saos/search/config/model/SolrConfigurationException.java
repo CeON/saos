@@ -1,0 +1,18 @@
+package pl.edu.icm.saos.search.config.model;
+
+/**
+ * @author madryk
+ */
+public class SolrConfigurationException extends RuntimeException {
+
+    private static final long serialVersionUID = -2936543837495005943L;
+
+
+    public SolrConfigurationException(String message) {
+        super(message);
+    }
+    
+    public SolrConfigurationException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}

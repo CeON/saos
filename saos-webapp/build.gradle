@@ -8,6 +8,7 @@ dependencies {
     //compile project(':saos-import')
     compile project(path:':saos-batch')
     compile project(path:':saos-restful-web-api')
+    compile project(path:':saos-search')
     
     compile lib.'org.apache.tiles:tiles-jsp'
     providedCompile lib.'javax.servlet:javax.servlet-api'

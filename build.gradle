@@ -43,7 +43,11 @@ subprojects {
         'org.postgresql:postgresql' :'org.postgresql:postgresql:9.3-1101-jdbc41',
         'org.jadira.usertype:usertype.core' :'org.jadira.usertype:usertype.core:3.2.0.GA',
         'net.sf.ehcache:ehcache' :'net.sf.ehcache:ehcache:2.8.2',
-        
+
+        'org.apache.solr:solr-core' :'org.apache.solr:solr-core:4.9.0',
+        'org.apache.solr:solr-solrj' :'org.apache.solr:solr-solrj:4.9.0',
+        'org.springframework.data:spring-data-solr' :'org.springframework.data:spring-data-solr:1.2.2.RELEASE',
+       
         'org.springframework:spring-context' :'org.springframework:spring-context:'+springVersion,
         'org.springframework:spring-webmvc' :'org.springframework:spring-webmvc:'+springVersion,
         'org.springframework:spring-orm' :'org.springframework:spring-orm:'+springVersion,
