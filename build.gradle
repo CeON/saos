@@ -80,9 +80,10 @@ subprojects {
         //compile lib.'org.slf4j:slf4j-simple'
         compile lib.'ch.qos.logback:logback-classic'
         compile lib.'org.codehaus.groovy:groovy-all'
-        compile (lib.'org.mockito:mockito-core') {
+        testCompile (lib.'org.mockito:mockito-core') {
             exclude module: 'hamcrest-core'
         }
+        testCompile lib.'org.hamcrest:hamcrest-library'
         compile lib.'com.google.guava:guava'
         compile lib.'commons-collections:commons-collections'
                 

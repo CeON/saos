@@ -25,7 +25,6 @@ dependencies {
     compile lib.'com.fasterxml.jackson.core:jackson-core'
     testCompile lib.'com.jayway.jsonpath:json-path'
     testCompile lib.'com.jayway.jsonpath:json-path-assert'
-    compile lib.'org.hamcrest:hamcrest-library'
 }
 
 buildscript {
