@@ -7,14 +7,16 @@ import javax.transaction.Transactional;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.model.Judge;
 
 /**
  * @author Łukasz Dumiszewski
  */
-
+@Category(SlowTest.class)
 public class EntityManagerTest extends PersistenceTestSupport {
 
     @PersistenceContext

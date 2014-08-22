@@ -7,9 +7,11 @@ import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import pl.edu.icm.saos.common.testUtils.ReflectionFieldSetter;
+import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
@@ -18,7 +20,7 @@ import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 /**
  * @author Łukasz Dumiszewski
  */
-
+@Category(SlowTest.class)
 public class RawSourceCcjProcessFlagUpdaterTest extends PersistenceTestSupport {
 
     @Autowired

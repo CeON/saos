@@ -21,14 +21,14 @@ class CcjReasoningExtractor {
      * 
      * */
     public String extractReasoningText(String judgmentText) {
-        Pattern p = Pattern.compile("(?i)"+reasoningStartPhrase+".*");
+        Pattern p = Pattern.compile("(?i)"+reasoningStartPhrase+".*", Pattern.DOTALL);
         Matcher m = p.matcher(judgmentText);
         if (m.find()) {
             String reasoning = m.group();
             
             reasoning = reasoning.replaceAll("(?i)"+reasoningStartPhrase, "");
-            if (!reasoning.startsWith("<div>") && reasoning.matches("(</div>\\s*)$")) {
-                reasoning = reasoning.replaceAll("(</div>\\s*)$", "");
+            if (!reasoning.startsWith("<div>")) {
+                reasoning = reasoning.replaceAll("(?sm)(</div>\\s*)$", "");
             }
             
             return reasoning.trim();

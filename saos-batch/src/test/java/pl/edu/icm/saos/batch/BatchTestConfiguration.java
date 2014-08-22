@@ -12,6 +12,5 @@ import pl.edu.icm.saos.persistence.PersistenceConfiguration;
 @Import({BatchConfiguration.class, ImportConfiguration.class, PersistenceConfiguration.class})
 public class BatchTestConfiguration extends CommonTestConfiguration {
     
-    
-   
+     
 }

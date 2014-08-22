@@ -10,18 +10,20 @@ import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import pl.edu.icm.saos.common.testUtils.ReflectionFieldSetter;
+import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 
 /**
  * @author Łukasz Dumiszewski
  */
-
+@Category(SlowTest.class)
 public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
 
     

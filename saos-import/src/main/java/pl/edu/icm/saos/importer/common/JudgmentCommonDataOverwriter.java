@@ -99,7 +99,7 @@ public class JudgmentCommonDataOverwriter implements JudgmentOverwriter<Judgment
 
     private void overwriteJudges(Judgment oldJudgment, Judgment newJudgment) {
         for (Judge oldJudge : oldJudgment.getJudges()) {
-            if (!newJudgment.containsJudge(oldJudge)) {
+            if (!newJudgment.containsJudge(oldJudge.getName())) {
                 oldJudgment.removeJudge(oldJudge);
             }
         }
@@ -107,8 +107,10 @@ public class JudgmentCommonDataOverwriter implements JudgmentOverwriter<Judgment
             Judge nJudge = new Judge();
             nJudge.setName(judge.getName());
             nJudge.setSpecialRoles(Lists.newArrayList(judge.getSpecialRoles()));
-            if (!oldJudgment.containsJudge(nJudge)) {
+            if (!oldJudgment.containsJudge(nJudge.getName())) {
                 oldJudgment.addJudge(nJudge);    
+            } else {
+                oldJudgment.getJudge(nJudge.getName()).setSpecialRoles(nJudge.getSpecialRoles());
             }
             
         }

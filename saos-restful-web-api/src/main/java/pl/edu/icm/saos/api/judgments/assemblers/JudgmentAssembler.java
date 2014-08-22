@@ -1,14 +1,16 @@
 package pl.edu.icm.saos.api.judgments.assemblers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import pl.edu.icm.saos.api.judgments.mapping.FieldsMapper;
+import pl.edu.icm.saos.api.parameters.JoinedParameter;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
  * @author pavtel
@@ -22,25 +24,18 @@ public class JudgmentAssembler {
     public JudgmentAssembler() {
     }
 
-    public Map<String, Object> toSimpleItemRepresentation(Judgment judgment){
-        Map<String, Object> data = judgmentFieldsMapper.toMap(judgment);
-
-
-        return data;
-    }
-
-    public Map<String, Object> toItemRepresentation(Judgment judgment){
-        Map<String, Object> data = toSimpleItemRepresentation(judgment);
+    public Map<String, Object> toItemRepresentation(Judgment judgment, boolean expandAll){
+        Map<String, Object> data = judgmentFieldsMapper.toMap(judgment, expandAll);
 
         return data;
     }
 
-    public List<Object> toItemsList(List<? extends Judgment> judgments){
-        List<Object> items = new LinkedList<>();
+    public List<Object> toItemsList(List<? extends Judgment> judgments, JoinedParameter expandParameter){
+        final boolean expandAll = expandParameter.containsValue(ALL);
 
-        for(Judgment judgment: judgments){
-            items.add(toItemRepresentation(judgment));
-        }
+        List<Object> items = judgments.stream()
+                .map((judgment) -> toItemRepresentation(judgment, expandAll))
+                .collect(Collectors.toList());
 
         return items;
     }

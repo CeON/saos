@@ -5,8 +5,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
@@ -15,6 +17,7 @@ import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 /**
  * @author Łukasz Dumiszewski
  */
+@Category(SlowTest.class)
 public class CommonCourtHierarchyUpdaterTest extends PersistenceTestSupport {
 
     @Autowired

@@ -4,6 +4,8 @@ apply plugin: 'eclipse-wtp'
 
 
 dependencies {
+    testCompile project(path:':saos-common', configuration:'testArtifacts')
+    
     //compile project(':saos-persistence')
     //compile project(':saos-import')
     compile project(path:':saos-batch')
@@ -22,6 +24,8 @@ dependencies {
     compile lib.'org.springframework.hateoas'
     compile lib.'com.fasterxml.jackson.core:jackson-databind'
     compile lib.'com.fasterxml.jackson.core:jackson-core'
+    testCompile lib.'com.jayway.jsonpath:json-path'
+    testCompile lib.'com.jayway.jsonpath:json-path-assert'
 }
 
 buildscript {

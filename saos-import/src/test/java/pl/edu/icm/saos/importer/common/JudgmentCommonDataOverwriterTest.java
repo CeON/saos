@@ -1,16 +1,20 @@
 package pl.edu.icm.saos.importer.common;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
-import pl.edu.icm.saos.common.testUtils.ReflectionFieldSetter;
-import pl.edu.icm.saos.importer.common.JudgmentCommonDataOverwriter;
+import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
+import pl.edu.icm.saos.common.testcommon.category.FastTest;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
@@ -22,7 +26,7 @@ import com.google.common.collect.Lists;
 /**
  * @author Łukasz Dumiszewski
  */
-
+@Category(FastTest.class)
 public class JudgmentCommonDataOverwriterTest {
 
     private JudgmentCommonDataOverwriter judgmentOverwriter = new JudgmentCommonDataOverwriter();
@@ -148,7 +152,35 @@ public class JudgmentCommonDataOverwriterTest {
         assertEquals(newTextContent, newJudgment.getTextContent());
     }
     
-    
+    @Test
+    public void overwriteJudgment_Judges() {
+        Judgment oldJudgment = createJudgment();
+        oldJudgment.addJudge(new Judge("Anna Nowak", JudgeRole.PRESIDING_JUDGE));
+        oldJudgment.addJudge(new Judge("Katarzyna Oleksiak"));
+        oldJudgment.addJudge(new Judge("Szymon Woźniak"));
+        oldJudgment.addJudge(new Judge("Szymon Z"));
+        
+        Judgment newJudgment = createJudgment();
+        newJudgment.addJudge(new Judge("Katarzyna Oleksiak", JudgeRole.PRESIDING_JUDGE));
+        newJudgment.addJudge(new Judge("Anna Nowak"));
+        newJudgment.addJudge(new Judge("Szymon Woźniak"));
+        newJudgment.addJudge(new Judge("Szymon W"));
+        
+        judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        
+        assertEquals(1, newJudgment.getJudges(JudgeRole.PRESIDING_JUDGE).size());
+        assertEquals("Katarzyna Oleksiak", newJudgment.getJudges(JudgeRole.PRESIDING_JUDGE).get(0).getName());
+        assertTrue(newJudgment.containsJudge("Anna Nowak"));
+        assertTrue(newJudgment.containsJudge("Szymon Woźniak"));
+        assertTrue(newJudgment.containsJudge("Szymon W"));
+        
+        assertEquals(1, oldJudgment.getJudges(JudgeRole.PRESIDING_JUDGE).size());
+        assertEquals("Katarzyna Oleksiak", oldJudgment.getJudges(JudgeRole.PRESIDING_JUDGE).get(0).getName());
+        assertTrue(oldJudgment.containsJudge("Anna Nowak"));
+        assertTrue(newJudgment.containsJudge("Szymon Woźniak"));
+        assertTrue(newJudgment.containsJudge("Szymon W"));
+        
+    }
     
     @Test
     public void overwriteJudgment_CourtReporters() {

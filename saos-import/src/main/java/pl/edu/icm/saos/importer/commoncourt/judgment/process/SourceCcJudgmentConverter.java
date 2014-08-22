@@ -3,6 +3,8 @@ package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -186,22 +188,36 @@ class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJud
     }
     
     /**
-     * If the type cannot be resolved then returns null
+     * Returns null in case of REASON type
+     * @throws CcjImportProcessSkippableException if the type cannot be resolved
      */
     @Override
     protected JudgmentType extractJudgmentType(SourceCcJudgment sourceJudgment) {
-        for (String sourceType : sourceJudgment.getTypes()) {
-            String sType = sourceType.trim().toUpperCase();
-            if (sType.equalsIgnoreCase("DECISION")) {
-                return JudgmentType.DECISION;
+        List<String> sjTypes = Lists.newArrayList(sourceJudgment.getTypes());
+        CollectionUtils.transform(sjTypes, new Transformer() {
+            @Override
+            public Object transform(Object object) {
+                return ((String)object).toUpperCase().trim();
             }
-            if (sType.equalsIgnoreCase("SENTENCE")) {
-                return JudgmentType.SENTENCE;
-            } 
-            
+        });
+        if (sjTypes.contains("SENTENCE")) {
+            return JudgmentType.SENTENCE;
         }
-        return null;
-    }
+        
+        if (sjTypes.contains("DECISION")) {
+            return JudgmentType.DECISION;
+        }
+        
+        if (sjTypes.contains("REGULATION")) {
+            return JudgmentType.DECISION;
+        }
+        
+        if (sjTypes.contains("REASON")) {
+            return null;
+        }
+        
+        throw new CcjImportProcessSkippableException("no proper judgment type found in judgment " + sourceJudgment, ImportProcessingSkipReason.UNKNOWN_JUDGMENT_TYPE);
+     }
 
     
 

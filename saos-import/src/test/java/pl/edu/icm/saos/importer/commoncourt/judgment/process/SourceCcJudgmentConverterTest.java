@@ -177,9 +177,21 @@ public class SourceCcJudgmentConverterTest {
         sourceCcJudgmentConverter.convertJudgment(sJudgment);
     }
 
-    
+    @Test
+    public void convertJudgment_UNKNOWN_JUDGMENT_TYPE() {
+        exception.expect(CcjImportProcessSkippableException.class);
+        exception.expect(CcjSkippableExceptionMatcher.hasSkipReason(ImportProcessingSkipReason.UNKNOWN_JUDGMENT_TYPE));
 
+        sJudgment.setTypes(Lists.newArrayList("sdsd sd "));
+        sourceCcJudgmentConverter.convertJudgment(sJudgment);
+    }
 
+    @Test
+    public void convertJudgment_REASON_ONLY_TYPE() {
+        
+        sJudgment.setTypes(Lists.newArrayList("reason"));
+        assertNull(sourceCcJudgmentConverter.convertJudgment(sJudgment).getJudgmentType());
+    }
 
    
     //------------------------ PRIVATE --------------------------
