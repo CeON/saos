@@ -1,6 +1,5 @@
-package pl.edu.icm.saos.webapp.api.services;
+package pl.edu.icm.saos.api.judgments.services;
 
-import pl.edu.icm.saos.api.parameters.Pagination;
 import pl.edu.icm.saos.api.parameters.RequestParameters;
 import pl.edu.icm.saos.api.search.JudgmentsSearchResults;
 

@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.api.utils;
+package pl.edu.icm.saos.api.utils;
 
 
 import org.joda.time.DateTime;

@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.api.services;
+package pl.edu.icm.saos.api.judgments.services;
 
 import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.api.parameters.RequestParameters;

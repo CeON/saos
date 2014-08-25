@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.api;
+package pl.edu.icm.saos.api.judgments;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -9,22 +9,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.icm.saos.api.exceptions.WrongRequestParameterException;
-import pl.edu.icm.saos.api.parameters.Pagination;
-import pl.edu.icm.saos.api.judgments.JudgmentsListSuccessRepresentationBuilder;
+import pl.edu.icm.saos.api.judgments.services.ApiSearchService;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.parameters.RequestParameters;
 import pl.edu.icm.saos.api.search.JudgmentsSearchResults;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.webapp.api.services.ApiSearchService;
 
 import java.util.Map;
 
-import static pl.edu.icm.saos.api.ApiConstants.*;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static pl.edu.icm.saos.api.ApiConstants.*;
 
 
 /**

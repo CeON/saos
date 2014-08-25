@@ -1,4 +1,5 @@
-package pl.edu.icm.saos.webapp.api;
+package pl.edu.icm.saos.api.judgments;
+
 
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.iterableWithSize;
@@ -20,19 +21,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.ApiConfiguration;
-import pl.edu.icm.saos.api.judgments.JudgmentsListSuccessRepresentationBuilder;
+import pl.edu.icm.saos.api.judgments.services.ApiSearchService;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
-import pl.edu.icm.saos.webapp.api.services.ApiSearchService;
-import pl.edu.icm.saos.webapp.api.utils.FieldsDefinition.JC;
-import pl.edu.icm.saos.webapp.api.utils.TrivialApiSearchService;
+import pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
+import pl.edu.icm.saos.api.utils.TrivialApiSearchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  ApiConfiguration.class)
-@Category(SlowTest.class)
+//@Category(SlowTest.class)
 public class JudgmentsControllerTest {
 
     private static final String JUDGMENTS_PATH = "/api/judgments";
@@ -40,7 +40,6 @@ public class JudgmentsControllerTest {
     private static final String DATE_FORMAT = "YYYY-MM-dd";
 
     private MockMvc mockMvc;
-
 
 
     //*** CONFIGURATION ***
@@ -52,7 +51,7 @@ public class JudgmentsControllerTest {
     private ParametersExtractor parametersExtractor;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         ApiSearchService apiSearchService = new TrivialApiSearchService();
 
         JudgmentsController judgmentsController = new JudgmentsController();
@@ -61,7 +60,7 @@ public class JudgmentsControllerTest {
         judgmentsController.setParametersExtractor(parametersExtractor);
 
         mockMvc = standaloneSetup(judgmentsController)
-                    .build();
+                .build();
     }
 
 
@@ -93,7 +92,7 @@ public class JudgmentsControllerTest {
         actions
                 .andExpect(jsonPath("$.items.[0].division").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].keywords").doesNotExist())
-                ;
+        ;
 
 
     }
@@ -112,7 +111,7 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.items.[0].source.reviser").value(JC.SOURCE_REVISER))
                 .andExpect(jsonPath("$.items.[0].source.publicationDate").value(new DateTime(JC.SOURCE_PUBLICATION_DATE_IN_MILLISECONDS).toString(DATE_FORMAT)))
 
-                .andExpect(jsonPath("$.items.[0].judgmentDate").value(JC.DATE_YEAR+"-"+JC.DATE_MONTH+"-"+JC.DATE_DAY))
+                .andExpect(jsonPath("$.items.[0].judgmentDate").value(JC.DATE_YEAR + "-" + JC.DATE_MONTH + "-" + JC.DATE_DAY))
 
                 .andExpect(jsonPath("$.items.[0].judges").isArray())
                 .andExpect(jsonPath("$.items.[0].judges").value(iterableWithSize(3)))
@@ -161,7 +160,7 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[2].journalEntry").value(JC.THIRD_REFERENCED_REGULATION_ENTRY))
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[2].journalYear").value(JC.THIRD_REFERENCED_REGULATION_YEAR))
                 .andExpect(jsonPath("$.items.[0].referencedRegulations.[2].text").value(JC.THIRD_REFERENCED_REGULATION_TEXT))
-                ;
+        ;
     }
 
     public void checkAdditionalFields(ResultActions actions) throws Exception {
@@ -198,14 +197,6 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.queryTemplate.limit").value(limit))
                 .andExpect(jsonPath("$.queryTemplate.offset").value(offset))
                 .andExpect(jsonPath("$.queryTemplate.expand").value(expand))
-                ;
+        ;
     }
-
-
-
-
-
-
-
-
 }

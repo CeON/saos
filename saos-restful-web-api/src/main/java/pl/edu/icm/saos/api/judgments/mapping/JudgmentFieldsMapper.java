@@ -19,6 +19,40 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
 
     private static final String DATE_FORMAT = "YYYY-MM-dd";
 
+
+    public Map<String, Object> basicFieldsWithLinksToMap(Judgment judgment){
+        Map<String, Object> item = new LinkedHashMap<>();
+
+
+
+
+        return item;
+
+
+    }
+
+
+    public Map<String, Object> basicsFieldsToMap(Judgment element){
+        Map<String, Object> item = new LinkedHashMap<>();
+
+        item.put(CASE_NUMBER, element.getCaseNumber());
+        item.put(JUDGMENT_TYPE, element.getJudgmentType());
+        item.put(JUDGMENT_DATE, toString(element.getJudgmentDate()));
+        item.put(JUDGES, toListOfMaps(element.getJudges()));
+
+        return item;
+
+    }
+
+    public Map<String, Object> simpleHierarchyToMap(Judgment judgment){
+        Map<String, Object> item = new LinkedHashMap<>();
+
+        return item;
+
+
+    }
+
+
     /**
      * {@inheritDoc}
      */
