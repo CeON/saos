@@ -2,7 +2,10 @@ package pl.edu.icm.saos.api.judgments.mapping;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pl.edu.icm.saos.api.links.LinksBuilder;
+import pl.edu.icm.saos.api.mapping.FieldsMapper;
 import pl.edu.icm.saos.persistence.model.*;
 
 import java.util.*;
@@ -16,12 +19,18 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 @Component("judgmentFieldsMapper")
 public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
 
-
     private static final String DATE_FORMAT = "YYYY-MM-dd";
+
+    @Autowired
+    private LinksBuilder linksBuilder;
+
+    @Autowired
+    private FieldsMapper<CommonCourtDivision> divisionFieldsMapper;
 
 
     public Map<String, Object> basicFieldsWithLinksToMap(Judgment judgment){
         Map<String, Object> item = new LinkedHashMap<>();
+        item.putAll(basicsFieldsToMap(judgment));
 
 
 
@@ -35,10 +44,18 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
     public Map<String, Object> basicsFieldsToMap(Judgment element){
         Map<String, Object> item = new LinkedHashMap<>();
 
+
+
+        item.put(HREF, linksBuilder.linkToJudgment(element.getId()));
         item.put(CASE_NUMBER, element.getCaseNumber());
         item.put(JUDGMENT_TYPE, element.getJudgmentType());
         item.put(JUDGMENT_DATE, toString(element.getJudgmentDate()));
         item.put(JUDGES, toListOfMaps(element.getJudges()));
+
+        if(element instanceof CommonCourtJudgment){
+            CommonCourtJudgment commonCourtJudgment = (CommonCourtJudgment) element;
+            item.put(DIVISION, divisionFieldsMapper.basicsFieldsToMap(commonCourtJudgment.getCourtDivision()));
+        }
 
         return item;
 
@@ -53,10 +70,6 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
     }
 
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public Map<String, Object> toMap(Judgment element, boolean expandAll) {
         Map<String, Object> item = new LinkedHashMap<>();
 
@@ -223,5 +236,16 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
         } else {
             return localDate.toString(DATE_FORMAT);
         }
+    }
+
+
+
+    //*** setters ****
+    public void setLinksBuilder(LinksBuilder linksBuilder) {
+        this.linksBuilder = linksBuilder;
+    }
+
+    public void setDivisionFieldsMapper(FieldsMapper<CommonCourtDivision> divisionFieldsMapper) {
+        this.divisionFieldsMapper = divisionFieldsMapper;
     }
 }

@@ -13,7 +13,7 @@ import java.util.Arrays;
 public abstract class FieldsDefinition {
 
     public static CommonCourtJudgment createCommonJudgment(){
-        CommonCourtJudgment judgment = new CommonCourtJudgment();
+        CommonCourtJudgment judgment = commonCourtJudgmentWrapper(JC.JUDGMENT_ID);
         judgment.setCaseNumber(JC.CASE_NUMBER);
         judgment.setDecision(JC.DECISION);
 
@@ -105,12 +105,12 @@ public abstract class FieldsDefinition {
         judgment.setSourceInfo(judgmentSourceInfo);
 
         judgment.setCourtDivision(
-                commonCourtDivision()
-                        .code(JC.DEVISION_CODE)
-                        .name(JC.DEVISION_NAME)
-                        .type(commonCourtDivisionType(JC.DEVISION_TYPE_NAME, JC.DEVISION_TYPE_CODE))
+                commonCourtDivision(JC.DIVISION_ID)
+                        .code(JC.DIVISION_CODE)
+                        .name(JC.DIVISION_NAME)
+                        .type(commonCourtDivisionType(JC.DIVISION_TYPE_NAME, JC.DIVISION_TYPE_CODE))
                         .court(
-                                commonCourt()
+                                commonCourt(JC.COURT_ID)
                                 .name(JC.COURT_NAME)
                                 .code(JC.COURT_CODE)
                                 .type(JC.COURT_TYPE)
@@ -126,6 +126,7 @@ public abstract class FieldsDefinition {
     }
 
     public static final class JC {
+        public static final int JUDGMENT_ID = 333;
         public static final String CASE_NUMBER = "00112233";
         public static final String DECISION = "oddala apelacje";
 
@@ -188,12 +189,14 @@ public abstract class FieldsDefinition {
         public static final long REASONING_PUBLICATION_DATE_IN_MILLISECONDS = 73L;
 
 
-        public static final String DEVISION_NAME = "I Wydzial Cywilny";
-        public static final String DEVISION_CODE = "0000503";
+        public static final int DIVISION_ID = 444;
+        public static final String DIVISION_NAME = "I Wydzial Cywilny";
+        public static final String DIVISION_CODE = "0000503";
 
-        public static final String DEVISION_TYPE_NAME = "Cywilny";
-        public static final String DEVISION_TYPE_CODE = "03";
+        public static final String DIVISION_TYPE_NAME = "Cywilny";
+        public static final String DIVISION_TYPE_CODE = "03";
 
+        public static final int COURT_ID = 555;
         public static final String COURT_NAME = "Sad Apelacyjny we Wroclawiu";
         public static final String COURT_CODE = "15500000";
         public static final CommonCourt.CommonCourtType COURT_TYPE = CommonCourt.CommonCourtType.APPEAL;
@@ -227,8 +230,8 @@ public abstract class FieldsDefinition {
         return new JudgmentReasoningWrapper(text);
     }
 
-    private static CommonCourtDivisionWrapper commonCourtDivision(){
-        return new CommonCourtDivisionWrapper();
+    private static CommonCourtDivisionWrapper commonCourtDivision(int divisionId){
+        return new CommonCourtDivisionWrapper(divisionId);
     }
 
     private static CommonCourtDivisionType commonCourtDivisionType(String name, String code){
@@ -239,8 +242,12 @@ public abstract class FieldsDefinition {
         return divisionType;
     }
 
-    private static CommonCourtWrapper commonCourt(){
-        return new CommonCourtWrapper();
+    private static CommonCourtJudgmentWrapper commonCourtJudgmentWrapper(int id){
+        return new CommonCourtJudgmentWrapper(id);
+    }
+
+    private static CommonCourtWrapper commonCourt(int courtId){
+        return new CommonCourtWrapper(courtId);
     }
 
     private static CcJudgmentKeyword keyword(String keyword){
@@ -347,6 +354,10 @@ public abstract class FieldsDefinition {
 
     private static class CommonCourtDivisionWrapper extends CommonCourtDivision {
 
+        public CommonCourtDivisionWrapper(int divisionId){
+            setId(divisionId);
+        }
+
         public CommonCourtDivisionWrapper court(CommonCourt court){
             setCourt(court);
             return this;
@@ -371,6 +382,10 @@ public abstract class FieldsDefinition {
 
     private static class CommonCourtWrapper extends CommonCourt {
 
+        public CommonCourtWrapper(int courtId) {
+            setId(courtId);
+        }
+
         public CommonCourtWrapper code(String code){
             setCode(code);
             return this;
@@ -386,5 +401,11 @@ public abstract class FieldsDefinition {
             return this;
         }
 
+    }
+
+    private static class CommonCourtJudgmentWrapper extends CommonCourtJudgment {
+        public CommonCourtJudgmentWrapper(int id){
+            setId(id);
+        }
     }
 }

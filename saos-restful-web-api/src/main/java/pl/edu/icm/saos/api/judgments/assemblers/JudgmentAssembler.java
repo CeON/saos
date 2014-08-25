@@ -2,7 +2,7 @@ package pl.edu.icm.saos.api.judgments.assemblers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.edu.icm.saos.api.judgments.mapping.FieldsMapper;
+import pl.edu.icm.saos.api.mapping.FieldsMapper;
 import pl.edu.icm.saos.api.parameters.JoinedParameter;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
@@ -25,7 +25,7 @@ public class JudgmentAssembler {
     }
 
     public Map<String, Object> toItemRepresentation(Judgment judgment, boolean expandAll){
-        Map<String, Object> data = judgmentFieldsMapper.toMap(judgment, expandAll);
+        Map<String, Object> data = judgmentFieldsMapper.basicsFieldsToMap(judgment);
 
         return data;
     }

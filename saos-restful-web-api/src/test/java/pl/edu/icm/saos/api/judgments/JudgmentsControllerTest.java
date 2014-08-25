@@ -3,6 +3,7 @@ package pl.edu.icm.saos.api.judgments;
 
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.iterableWithSize;
+import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -10,6 +11,7 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -32,10 +34,12 @@ import pl.edu.icm.saos.api.utils.TrivialApiSearchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  ApiConfiguration.class)
-//@Category(SlowTest.class)
+@Category(SlowTest.class)
 public class JudgmentsControllerTest {
 
     private static final String JUDGMENTS_PATH = "/api/judgments";
+    private static final String DIVISIONS_PATH = "/api/divisions";
+    private static final String COURTS_PATH = "/api/courts";
 
     private static final String DATE_FORMAT = "YYYY-MM-dd";
 
@@ -67,6 +71,55 @@ public class JudgmentsControllerTest {
     //*** END CONFIGURATION ***
 
     @Test
+    public void itShouldShowAllBasicsJudgmentsFields() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(LIMIT, "2")
+                .param(OFFSET, "1")
+                .accept(MediaType.APPLICATION_JSON));
+        //then
+        actions
+                .andExpect(jsonPath("$.items.[0].href").value(endsWith(JUDGMENTS_PATH+"/"+JC.JUDGMENT_ID)))
+                .andExpect(jsonPath("$.items.[0].caseNumber").value(JC.CASE_NUMBER))
+                .andExpect(jsonPath("$.items.[0].judgmentType").value(Judgment.JudgmentType.SENTENCE.name()))
+
+                .andExpect(jsonPath("$.items.[0].source").doesNotExist())
+                .andExpect(jsonPath("$.items.[0].judgmentDate").value(JC.DATE_YEAR + "-" + JC.DATE_MONTH + "-" + JC.DATE_DAY))
+
+                .andExpect(jsonPath("$.items.[0].judges").isArray())
+                .andExpect(jsonPath("$.items.[0].judges").value(iterableWithSize(3)))
+                .andExpect(jsonPath("$.items.[0].judges.[0].name").value(JC.PRESIDING_JUDGE_NAME))
+                .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles").value(iterableWithSize(1)))
+                .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles.[0]").value(Judge.JudgeRole.PRESIDING_JUDGE.name()))
+                .andExpect(jsonPath("$.items.[0].judges.[1].name").value(JC.SECOND_JUDGE_NAME))
+                .andExpect(jsonPath("$.items.[0].judges.[1].specialRoles").value(emptyIterable()))
+                .andExpect(jsonPath("$.items.[0].judges.[2].name").value(JC.THIRD_JUDGE_NAME))
+                .andExpect(jsonPath("$.items.[0].judges.[2].specialRoles").value(emptyIterable()))
+
+                .andExpect(jsonPath("$.items.[0].courtReporters").doesNotExist())
+                .andExpect(jsonPath("$.items.[0].decision").doesNotExist())
+                .andExpect(jsonPath("$.items.[0].summary").doesNotExist())
+                .andExpect(jsonPath("$.items.[0].textContent").doesNotExist())
+                .andExpect(jsonPath("$.items.[0].reasoning").doesNotExist())
+                .andExpect(jsonPath("$.items.[0].legalBases").doesNotExist())
+                .andExpect(jsonPath("$.items.[0].referencedRegulations").doesNotExist())
+
+                .andExpect(jsonPath("$.items.[0].division.code").doesNotExist())
+                .andExpect(jsonPath("$.items.[0].division.type").doesNotExist())
+
+                .andExpect(jsonPath("$.items.[0].division.court.code").doesNotExist())
+                .andExpect(jsonPath("$.items.[0].division.court.type").doesNotExist())
+
+                .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(DIVISIONS_PATH+"/"+JC.DIVISION_ID)))
+                .andExpect(jsonPath("$.items.[0].division.name").value(JC.DIVISION_NAME))
+
+                .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(COURTS_PATH+"/"+JC.COURT_ID)))
+                .andExpect(jsonPath("$.items.[0].division.court.name").value(JC.COURT_NAME))
+        ;
+    }
+
+    @Test
+    @Ignore
     public void itShouldShowAllJudgmentsFields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
@@ -80,6 +133,7 @@ public class JudgmentsControllerTest {
     }
 
     @Test
+    @Ignore
     public void itShouldShowOnlyBasicJudgmentsFields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
@@ -168,9 +222,9 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.items.[0].division.court.code").value(JC.COURT_CODE))
                 .andExpect(jsonPath("$.items.[0].division.court.name").value(JC.COURT_NAME))
                 .andExpect(jsonPath("$.items.[0].division.court.type").value(JC.COURT_TYPE.name()))
-                .andExpect(jsonPath("$.items.[0].division.name").value(JC.DEVISION_NAME))
-                .andExpect(jsonPath("$.items.[0].division.code").value(JC.DEVISION_CODE))
-                .andExpect(jsonPath("$.items.[0].division.type").value(JC.DEVISION_TYPE_NAME))
+                .andExpect(jsonPath("$.items.[0].division.name").value(JC.DIVISION_NAME))
+                .andExpect(jsonPath("$.items.[0].division.code").value(JC.DIVISION_CODE))
+                .andExpect(jsonPath("$.items.[0].division.type").value(JC.DIVISION_TYPE_NAME))
 
                 .andExpect(jsonPath("$.items.[0].keywords.[0]").value(JC.FIRST_KEYWORD))
                 .andExpect(jsonPath("$.items.[0].keywords.[1]").value(JC.SECOND_KEYWORD))
