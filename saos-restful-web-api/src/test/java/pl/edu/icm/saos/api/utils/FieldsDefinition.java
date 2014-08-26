@@ -105,21 +105,7 @@ public abstract class FieldsDefinition {
         judgment.setSourceInfo(judgmentSourceInfo);
 
         judgment.setCourtDivision(
-                commonCourtDivision(JC.DIVISION_ID)
-                        .code(JC.DIVISION_CODE)
-                        .name(JC.DIVISION_NAME)
-                        .type(commonCourtDivisionType(JC.DIVISION_TYPE_NAME, JC.DIVISION_TYPE_CODE))
-                        .court(
-                                commonCourt(JC.COURT_ID)
-                                .name(JC.COURT_NAME)
-                                .code(JC.COURT_CODE)
-                                .type(JC.COURT_TYPE)
-                                .parent(
-                                        commonCourt(JC.COURT_PARENT_ID)
-                                        .name(JC.COURT_PARENT_NAME)
-                                        .type(JC.COURT_PARENT_TYPE)
-                                )
-                        )
+                createCommonDivision()
         );
 
         judgment.addKeyword(keyword(JC.FIRST_KEYWORD));
@@ -128,6 +114,25 @@ public abstract class FieldsDefinition {
 
 
         return judgment;
+    }
+
+    public static CommonCourtDivision createCommonDivision(){
+        return
+                commonCourtDivision(JC.DIVISION_ID)
+                        .code(JC.DIVISION_CODE)
+                        .name(JC.DIVISION_NAME)
+                        .type(commonCourtDivisionType(JC.DIVISION_TYPE_NAME, JC.DIVISION_TYPE_CODE))
+                        .court(
+                                commonCourt(JC.COURT_ID)
+                                        .name(JC.COURT_NAME)
+                                        .code(JC.COURT_CODE)
+                                        .type(JC.COURT_TYPE)
+                                        .parent(
+                                                commonCourt(JC.COURT_PARENT_ID)
+                                                        .name(JC.COURT_PARENT_NAME)
+                                                        .type(JC.COURT_PARENT_TYPE)
+                                        )
+                        );
     }
 
     public static final class JC {

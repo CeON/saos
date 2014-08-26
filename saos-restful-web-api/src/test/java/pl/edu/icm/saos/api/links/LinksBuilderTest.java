@@ -2,9 +2,12 @@ package pl.edu.icm.saos.api.links;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.hateoas.Link;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import static org.hamcrest.Matchers.*;
+import static pl.edu.icm.saos.api.ApiConstants.*;
 
 import static org.junit.Assert.*;
 
@@ -52,6 +55,59 @@ public class LinksBuilderTest {
 
         //then
         assertTrue(actualUrl.endsWith("/api/courts/"+someCourtId));
+    }
+
+    @Test
+    public void itShouldReturnLinkToGivenJudgment(){
+        //given
+        int someJudgmentId = 454;
+
+        //when
+        Link link = linksBuilder.linkToJudgment(someJudgmentId);
+
+        //then
+        assertThat(link.getHref(), endsWith("/api/judgments/"+someJudgmentId));
+        assertThat(link.getRel(), is(SELF));
+    }
+
+    @Test
+    public void itShouldReturnLinkToGivenDivision(){
+        //given
+        int someDivisionId = 689;
+
+        //when
+        Link link = linksBuilder.linkToDivision(someDivisionId);
+
+        //then
+        assertThat(link.getHref(), endsWith("/api/divisions/"+someDivisionId));
+        assertThat(link.getRel(), is(SELF));
+    }
+
+    @Test
+    public void itShouldReturnLinkToGivenCourt(){
+        //given
+        int someCourtId = 909;
+
+        //when
+        Link link = linksBuilder.linkToCourt(someCourtId);
+
+        //then
+        assertThat(link.getHref(), endsWith("/api/courts/"+someCourtId));
+        assertThat(link.getRel(), is(SELF));
+    }
+
+    @Test
+    public void itShouldReturnLinkToGivenCourtWithGivenRel(){
+        //given
+        int someCourtId = 234;
+        String someRelName = "someCourtRelName";
+
+        //when
+        Link link = linksBuilder.linkToCourt(someCourtId, someRelName);
+
+        //then
+        assertThat(link.getHref(), endsWith("/api/courts/"+someCourtId));
+        assertThat(link.getRel(), is(someRelName));
     }
 
 

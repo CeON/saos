@@ -36,10 +36,6 @@ import static pl.edu.icm.saos.api.judgments.JudgmentRepresentationVerifier.*;
 @Category(SlowTest.class)
 public class JudgmentControllerTest {
 
-    private static final String JUDGMENT_PATH = JUDGMENTS_PATH+"/"+JC.JUDGMENT_ID;
-    private static final String DIVISION_PATH = DIVISIONS_PATH+"/"+JC.DIVISION_ID;
-    private static final String COURT_PATH = COURTS_PATH+"/"+JC.COURT_ID;
-    private static final String PARENT_COURT_PATH = COURTS_PATH+"/"+JC.COURT_PARENT_ID;
 
     @Configuration
     public static class TestConfiguration {

@@ -27,21 +27,32 @@ public class LinksBuilder {
         return urlToElement(DivisionController.class, divisionId);
     }
 
+    public Link linkToDivision(int divisionId) {
+        return linkFor(DivisionController.class, divisionId);
+    }
+
     public String urlToCourt(int courtId) {
         return urlToElement(CourtController.class, courtId);
     }
 
+    public Link linkToCourt(int courtId){
+        return linkFor(CourtController.class, courtId);
+    }
+
+    public Link linkToCourt(int courtId, String relName){
+        return linkFor(CourtController.class, courtId, relName);
+    }
 
     private String urlToElement(Class<?> controller, int elementId){
-        return linkFor(controller, String.valueOf(elementId)).getHref();
+        return linkFor(controller, elementId).getHref();
     }
 
     private Link linkFor(Class<?> controller, int elementId){
-        return linkFor(controller, String.valueOf(elementId));
+        return linkFor(controller, elementId, SELF);
     }
 
-    private Link linkFor(Class<?> controller, String elementId){
-        return linkFor(controller, elementId, SELF);
+    private Link linkFor(Class<?> controller , int id, String relName){
+        return linkFor(controller, String.valueOf(id), relName);
     }
 
     private Link linkFor(Class<?> controller, String elementId, String relName){
