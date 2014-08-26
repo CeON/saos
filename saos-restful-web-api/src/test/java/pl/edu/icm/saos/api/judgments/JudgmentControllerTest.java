@@ -41,6 +41,21 @@ public class JudgmentControllerTest {
     private static final String COURT_PATH = COURTS_PATH+"/"+JC.COURT_ID;
     private static final String PARENT_COURT_PATH = COURTS_PATH+"/"+JC.COURT_PARENT_ID;
 
+    @Configuration
+    public static class TestConfiguration {
+
+        @Bean(name = "mockJudgmentRepository")
+        public JudgmentRepository judgmentRepository(){
+
+            JudgmentRepository judgmentRepository = mock(JudgmentRepository.class);
+            when(judgmentRepository.findOne(JC.JUDGMENT_ID)).thenReturn(createCommonJudgment());
+
+            return judgmentRepository;
+
+        }
+
+    }
+
 
     @Autowired
     private SingleJudgmentSuccessRepresentationBuilder singleJudgmentSuccessRepresentationBuilder;
@@ -136,19 +151,19 @@ public class JudgmentControllerTest {
                 ;
     }
 
-    @Configuration
-    public static class TestConfiguration {
+    @Test
+    public void itShouldShowLinks() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENT_PATH)
+                .accept(MediaType.APPLICATION_JSON));
 
-        @Bean(name = "mockJudgmentRepository")
-        public JudgmentRepository judgmentRepository(){
-
-            JudgmentRepository judgmentRepository = mock(JudgmentRepository.class);
-            when(judgmentRepository.findOne(JC.JUDGMENT_ID)).thenReturn(createCommonJudgment());
-
-            return judgmentRepository;
-
-        }
-
+        //then
+        actions
+                .andExpect(jsonPath("$.links").isArray())
+                .andExpect(jsonPath("$.links[?(@.rel==self)].href[0]").value(endsWith(JUDGMENT_PATH)))
+                ;
     }
+
+
 
 }
