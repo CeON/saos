@@ -2,18 +2,11 @@ package pl.edu.icm.saos.api.links;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import pl.edu.icm.saos.api.ApiConfiguration;
-import pl.edu.icm.saos.api.judgments.JudgmentController;
-import pl.edu.icm.saos.api.judgments.JudgmentsController;
 
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 public class LinksBuilderTest {
 
@@ -31,7 +24,7 @@ public class LinksBuilderTest {
         int someJudgmentId = 333;
 
         //when
-        String actualUrl = linksBuilder.linkToJudgment(someJudgmentId);
+        String actualUrl = linksBuilder.urlToJudgment(someJudgmentId);
 
         //then
         assertTrue(actualUrl.endsWith("/api/judgments/"+someJudgmentId));
@@ -43,7 +36,7 @@ public class LinksBuilderTest {
         int someDivisionId = 123;
 
         //when
-        String actualUrl = linksBuilder.linkToDivision(someDivisionId);
+        String actualUrl = linksBuilder.urlToDivision(someDivisionId);
 
         //then
         assertTrue(actualUrl.endsWith("/api/divisions/"+someDivisionId));
@@ -55,7 +48,7 @@ public class LinksBuilderTest {
         int someCourtId = 321321;
 
         //when
-        String actualUrl = linksBuilder.linkToCourt(someCourtId);
+        String actualUrl = linksBuilder.urlToCourt(someCourtId);
 
         //then
         assertTrue(actualUrl.endsWith("/api/courts/"+someCourtId));

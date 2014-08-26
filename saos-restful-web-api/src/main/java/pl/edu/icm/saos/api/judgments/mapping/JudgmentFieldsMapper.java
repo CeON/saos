@@ -28,46 +28,62 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
     private FieldsMapper<CommonCourtDivision> divisionFieldsMapper;
 
 
-    public Map<String, Object> basicFieldsWithLinksToMap(Judgment judgment){
+
+
+    public Map<String, Object> basicFieldsToMap(Judgment element){
         Map<String, Object> item = new LinkedHashMap<>();
-        item.putAll(basicsFieldsToMap(judgment));
+        item.putAll(commonFieldsToMap(element));
 
-
-
+        if(element instanceof CommonCourtJudgment){
+            CommonCourtJudgment commonCourtJudgment = (CommonCourtJudgment) element;
+            item.put(DIVISION, divisionFieldsMapper.basicFieldsToMap(commonCourtJudgment.getCourtDivision()));
+        }
 
         return item;
-
-
     }
 
-
-    public Map<String, Object> basicsFieldsToMap(Judgment element){
+    private Map<String, Object> commonFieldsToMap(Judgment element){
         Map<String, Object> item = new LinkedHashMap<>();
 
-
-
-        item.put(HREF, linksBuilder.linkToJudgment(element.getId()));
+        item.put(HREF, linksBuilder.urlToJudgment(element.getId()));
         item.put(CASE_NUMBER, element.getCaseNumber());
         item.put(JUDGMENT_TYPE, element.getJudgmentType());
         item.put(JUDGMENT_DATE, toString(element.getJudgmentDate()));
         item.put(JUDGES, toListOfMaps(element.getJudges()));
 
+        return item;
+
+    }
+
+    @Override
+    public Map<String, Object> fieldsToMap(Judgment element) {
+        Map<String, Object> item = new LinkedHashMap<>();
+        item.putAll(commonFieldsToMap(element));
+
+        item.put(SOURCE, toMap(element.getSourceInfo()));
+        item.put(COURT_REPORTERS, toSimpleList(element.getCourtReporters()));
+        item.put(DECISION, element.getDecision());
+        item.put(SUMMARY, element.getSummary());
+        item.put(TEXT_CONTENT, element.getTextContent());
+
+        JudgmentReasoning judgmentReasoning = element.getReasoning();
+        Map<String, Object> reasoning = toMap(judgmentReasoning.getSourceInfo());
+        reasoning.put(TEXT, judgmentReasoning.getText());
+
+        item.put(REASONING, reasoning);
+        item.put(LEGAL_BASES, toSimpleList(element.getLegalBases()));
+        item.put(REFERENCED_REGULATIONS, toListOfMapsFromJRR(element.getReferencedRegulations()));
+
         if(element instanceof CommonCourtJudgment){
             CommonCourtJudgment commonCourtJudgment = (CommonCourtJudgment) element;
-            item.put(DIVISION, divisionFieldsMapper.basicsFieldsToMap(commonCourtJudgment.getCourtDivision()));
+            item.put(DIVISION, divisionFieldsMapper.fieldsToMap(commonCourtJudgment.getCourtDivision()));
+            item.put(KEYWORDS, toListFromKeywords(commonCourtJudgment.getKeywords()));
         }
 
         return item;
-
     }
 
-    public Map<String, Object> simpleHierarchyToMap(Judgment judgment){
-        Map<String, Object> item = new LinkedHashMap<>();
 
-        return item;
-
-
-    }
 
 
     public Map<String, Object> toMap(Judgment element, boolean expandAll) {

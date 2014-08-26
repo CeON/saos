@@ -15,22 +15,29 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 public class LinksBuilder {
 
 
-    public String linkToJudgment(int judgmentId){
-        return linkToElement(JudgmentController.class, judgmentId);
+    public String urlToJudgment(int judgmentId){
+        return urlToElement(JudgmentController.class, judgmentId);
     }
 
-    public String linkToDivision(int divisionId){
-        return linkToElement(DivisionController.class, divisionId);
+    public Link linkToJudgment(int judgmentId){
+        return linkFor(JudgmentController.class, judgmentId);
     }
 
-    public String linkToCourt(int courtId) {
-        return linkToElement(CourtController.class, courtId);
+    public String urlToDivision(int divisionId){
+        return urlToElement(DivisionController.class, divisionId);
+    }
+
+    public String urlToCourt(int courtId) {
+        return urlToElement(CourtController.class, courtId);
     }
 
 
-
-    private String linkToElement(Class<?> controller, int elementId){
+    private String urlToElement(Class<?> controller, int elementId){
         return linkFor(controller, String.valueOf(elementId)).getHref();
+    }
+
+    private Link linkFor(Class<?> controller, int elementId){
+        return linkFor(controller, String.valueOf(elementId));
     }
 
     private Link linkFor(Class<?> controller, String elementId){

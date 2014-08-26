@@ -9,8 +9,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourt;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static pl.edu.icm.saos.api.ApiConstants.HREF;
-import static pl.edu.icm.saos.api.ApiConstants.NAME;
+import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
  * @author pavtel
@@ -23,10 +22,25 @@ public class CourtFieldsMapper implements FieldsMapper<CommonCourt> {
 
 
     @Override
-    public Map<String, Object> basicsFieldsToMap(CommonCourt court) {
+    public Map<String, Object> basicFieldsToMap(CommonCourt court) {
         Map<String, Object> item = new LinkedHashMap<>();
+        item.put(HREF, linksBuilder.urlToCourt(court.getId()));
         item.put(NAME, court.getName());
-        item.put(HREF, linksBuilder.linkToCourt(court.getId()));
+
+        return item;
+    }
+
+    @Override
+    public Map<String, Object> fieldsToMap(CommonCourt court) {
+        Map<String, Object> item = new LinkedHashMap<>();
+        item.putAll(basicFieldsToMap(court));
+
+        item.put(CODE, court.getCode());
+        item.put(TYPE, court.getType());
+
+        if(court.getParentCourt() != null){
+            item.put(PARENT_COURT, basicFieldsToMap(court.getParentCourt()));
+        }
 
         return item;
     }

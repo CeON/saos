@@ -37,6 +37,7 @@ public abstract class ApiConstants {
     public static final String DECISION = "decision";
     public static final String SUMMARY = "summary";
     public static final String TEXT_CONTENT = "textContent";
+    public static final String PARENT_COURT = "parentCourt";
 
     public static final String REASONING = "reasoning";
     public static final String TEXT = "text";

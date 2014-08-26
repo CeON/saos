@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.api.mapping;
 
+import pl.edu.icm.saos.persistence.model.Judgment;
+
 import java.util.Map;
 
 /** This mapper provides functionality for converting Java object into map
@@ -7,5 +9,7 @@ import java.util.Map;
  */
 public interface FieldsMapper<T> {
 
-    public Map<String, Object> basicsFieldsToMap(T element);
+    public Map<String, Object> basicFieldsToMap(T element);
+
+    Map<String,Object> fieldsToMap(T judgment);
 }

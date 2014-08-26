@@ -31,20 +31,15 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
 import pl.edu.icm.saos.api.utils.TrivialApiSearchService;
+import static pl.edu.icm.saos.api.utils.Constansts.*;
+import static pl.edu.icm.saos.api.judgments.JudgmentRepresentationVerifier.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  ApiConfiguration.class)
 @Category(SlowTest.class)
 public class JudgmentsControllerTest {
 
-    private static final String JUDGMENTS_PATH = "/api/judgments";
-    private static final String DIVISIONS_PATH = "/api/divisions";
-    private static final String COURTS_PATH = "/api/courts";
-
-    private static final String DATE_FORMAT = "YYYY-MM-dd";
-
     private MockMvc mockMvc;
-
 
     //*** CONFIGURATION ***
 
@@ -78,24 +73,10 @@ public class JudgmentsControllerTest {
                 .param(OFFSET, "1")
                 .accept(MediaType.APPLICATION_JSON));
         //then
+        verifyBasicFields(actions, "$.items.[0]");
+
         actions
-                .andExpect(jsonPath("$.items.[0].href").value(endsWith(JUDGMENTS_PATH+"/"+JC.JUDGMENT_ID)))
-                .andExpect(jsonPath("$.items.[0].caseNumber").value(JC.CASE_NUMBER))
-                .andExpect(jsonPath("$.items.[0].judgmentType").value(Judgment.JudgmentType.SENTENCE.name()))
-
                 .andExpect(jsonPath("$.items.[0].source").doesNotExist())
-                .andExpect(jsonPath("$.items.[0].judgmentDate").value(JC.DATE_YEAR + "-" + JC.DATE_MONTH + "-" + JC.DATE_DAY))
-
-                .andExpect(jsonPath("$.items.[0].judges").isArray())
-                .andExpect(jsonPath("$.items.[0].judges").value(iterableWithSize(3)))
-                .andExpect(jsonPath("$.items.[0].judges.[0].name").value(JC.PRESIDING_JUDGE_NAME))
-                .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles").value(iterableWithSize(1)))
-                .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles.[0]").value(Judge.JudgeRole.PRESIDING_JUDGE.name()))
-                .andExpect(jsonPath("$.items.[0].judges.[1].name").value(JC.SECOND_JUDGE_NAME))
-                .andExpect(jsonPath("$.items.[0].judges.[1].specialRoles").value(emptyIterable()))
-                .andExpect(jsonPath("$.items.[0].judges.[2].name").value(JC.THIRD_JUDGE_NAME))
-                .andExpect(jsonPath("$.items.[0].judges.[2].specialRoles").value(emptyIterable()))
-
                 .andExpect(jsonPath("$.items.[0].courtReporters").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].decision").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].summary").doesNotExist())

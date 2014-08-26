@@ -114,6 +114,11 @@ public abstract class FieldsDefinition {
                                 .name(JC.COURT_NAME)
                                 .code(JC.COURT_CODE)
                                 .type(JC.COURT_TYPE)
+                                .parent(
+                                        commonCourt(JC.COURT_PARENT_ID)
+                                        .name(JC.COURT_PARENT_NAME)
+                                        .type(JC.COURT_PARENT_TYPE)
+                                )
                         )
         );
 
@@ -197,9 +202,13 @@ public abstract class FieldsDefinition {
         public static final String DIVISION_TYPE_CODE = "03";
 
         public static final int COURT_ID = 555;
-        public static final String COURT_NAME = "Sad Apelacyjny we Wroclawiu";
+        public static final String COURT_NAME = "Sad Rejonowy we Wroclawiu";
         public static final String COURT_CODE = "15500000";
-        public static final CommonCourt.CommonCourtType COURT_TYPE = CommonCourt.CommonCourtType.APPEAL;
+        public static final CommonCourt.CommonCourtType COURT_TYPE = CommonCourt.CommonCourtType.REGIONAL;
+
+        public static final int COURT_PARENT_ID = 2222;
+        public static final String COURT_PARENT_NAME = "Sad Apelacyjny we Wroclawiu";
+        public static final CommonCourt.CommonCourtType COURT_PARENT_TYPE = CommonCourt.CommonCourtType.APPEAL;
 
         public static final String FIRST_KEYWORD = "konsument";
         public static final String SECOND_KEYWORD = "klauzule niedozwolone";
@@ -210,28 +219,28 @@ public abstract class FieldsDefinition {
     }
 
 
-    private static LawJournalEntryWrapper lawJournalEntry(){
-        return new LawJournalEntryWrapper();
+    private static LawJournalEntryBuilder lawJournalEntry(){
+        return new LawJournalEntryBuilder();
     }
 
-    private static JudgmentReferencedRegulationWrapper judgmentReferencedRegulation(){
-        return new JudgmentReferencedRegulationWrapper();
+    private static JudgmentReferencedRegulationBuilder judgmentReferencedRegulation(){
+        return new JudgmentReferencedRegulationBuilder();
     }
 
-    private static JudgeWrapper judge(String name){
-        return new JudgeWrapper(name);
+    private static JudgeBuilder judge(String name){
+        return new JudgeBuilder(name);
     }
 
-    private static JudgmentSourceInfoWrapper judgmentSourceInfo(SourceCode sourceCode){
-        return new JudgmentSourceInfoWrapper(sourceCode);
+    private static JudgmentSourceInfoBuilder judgmentSourceInfo(SourceCode sourceCode){
+        return new JudgmentSourceInfoBuilder(sourceCode);
     }
 
-    private static JudgmentReasoningWrapper judgmentReasoning(String text){
-        return new JudgmentReasoningWrapper(text);
+    private static JudgmentReasoningBuilder judgmentReasoning(String text){
+        return new JudgmentReasoningBuilder(text);
     }
 
-    private static CommonCourtDivisionWrapper commonCourtDivision(int divisionId){
-        return new CommonCourtDivisionWrapper(divisionId);
+    private static CommonCourtDivisionBuilder commonCourtDivision(int divisionId){
+        return new CommonCourtDivisionBuilder(divisionId);
     }
 
     private static CommonCourtDivisionType commonCourtDivisionType(String name, String code){
@@ -242,12 +251,12 @@ public abstract class FieldsDefinition {
         return divisionType;
     }
 
-    private static CommonCourtJudgmentWrapper commonCourtJudgmentWrapper(int id){
-        return new CommonCourtJudgmentWrapper(id);
+    private static CommonCourtJudgmentBuilder commonCourtJudgmentWrapper(int id){
+        return new CommonCourtJudgmentBuilder(id);
     }
 
-    private static CommonCourtWrapper commonCourt(int courtId){
-        return new CommonCourtWrapper(courtId);
+    private static CommonCourtBuilder commonCourt(int courtId){
+        return new CommonCourtBuilder(courtId);
     }
 
     private static CcJudgmentKeyword keyword(String keyword){
@@ -255,24 +264,24 @@ public abstract class FieldsDefinition {
     }
 
 
-    private static class LawJournalEntryWrapper extends LawJournalEntry {
+    private static class LawJournalEntryBuilder extends LawJournalEntry {
 
-        public LawJournalEntryWrapper title(String title){
+        public LawJournalEntryBuilder title(String title){
             setTitle(title);
             return this;
         }
 
-        public LawJournalEntryWrapper year(int year){
+        public LawJournalEntryBuilder year(int year){
             setYear(year);
             return this;
         }
 
-        public LawJournalEntryWrapper entry(int entry){
+        public LawJournalEntryBuilder entry(int entry){
             setEntry(entry);
             return this;
         }
 
-        public LawJournalEntryWrapper journalNo(int journalNo){
+        public LawJournalEntryBuilder journalNo(int journalNo){
             setJournalNo(journalNo);
             return this;
         }
@@ -280,131 +289,136 @@ public abstract class FieldsDefinition {
     }
 
 
-    private static class JudgmentReferencedRegulationWrapper extends JudgmentReferencedRegulation {
+    private static class JudgmentReferencedRegulationBuilder extends JudgmentReferencedRegulation {
 
 
-        public JudgmentReferencedRegulationWrapper rawText(String rawText){
+        public JudgmentReferencedRegulationBuilder rawText(String rawText){
             setRawText(rawText);
             return this;
         }
 
-        public JudgmentReferencedRegulationWrapper lawJournalEntry(LawJournalEntry lawJournalEntry){
+        public JudgmentReferencedRegulationBuilder lawJournalEntry(LawJournalEntry lawJournalEntry){
             setLawJournalEntry(lawJournalEntry);
             return this;
         }
     }
 
-    private static class JudgeWrapper extends Judge {
+    private static class JudgeBuilder extends Judge {
 
-        private JudgeWrapper(String name){
+        private JudgeBuilder(String name){
             setName(name);
         }
 
-        public JudgeWrapper judgesRoles(JudgeRole ... judgeRoles){
+        public JudgeBuilder judgesRoles(JudgeRole ... judgeRoles){
             setSpecialRoles(Arrays.asList(judgeRoles));
             return this;
         }
 
     }
 
-    private static class JudgmentSourceInfoWrapper extends JudgmentSourceInfo {
+    private static class JudgmentSourceInfoBuilder extends JudgmentSourceInfo {
 
-        private JudgmentSourceInfoWrapper(SourceCode sourceCode) {
+        private JudgmentSourceInfoBuilder(SourceCode sourceCode) {
             setSourceCode(sourceCode);
         }
 
-        public JudgmentSourceInfoWrapper sourceJudgmentUrl(String sourceJudgmentUrl){
+        public JudgmentSourceInfoBuilder sourceJudgmentUrl(String sourceJudgmentUrl){
             setSourceJudgmentUrl(sourceJudgmentUrl);
             return this;
         }
 
-        public JudgmentSourceInfoWrapper sourceJudgmentId(String sourceJudgmentId){
+        public JudgmentSourceInfoBuilder sourceJudgmentId(String sourceJudgmentId){
             setSourceJudgmentId(sourceJudgmentId);
             return this;
         }
 
-        public JudgmentSourceInfoWrapper publisher(String publisher){
+        public JudgmentSourceInfoBuilder publisher(String publisher){
             setPublisher(publisher);
             return this;
         }
 
-        public JudgmentSourceInfoWrapper reviser(String reviser){
+        public JudgmentSourceInfoBuilder reviser(String reviser){
             setReviser(reviser);
             return this;
         }
 
-        public JudgmentSourceInfoWrapper publicationDate(DateTime publicationDate){
+        public JudgmentSourceInfoBuilder publicationDate(DateTime publicationDate){
             setPublicationDate(publicationDate);
             return this;
         }
     }
 
-    private static class JudgmentReasoningWrapper extends JudgmentReasoning {
+    private static class JudgmentReasoningBuilder extends JudgmentReasoning {
 
-        private JudgmentReasoningWrapper(String text) {
+        private JudgmentReasoningBuilder(String text) {
             setText(text);
         }
 
-        public JudgmentReasoningWrapper sourceInfo(JudgmentSourceInfo sourceInfo){
+        public JudgmentReasoningBuilder sourceInfo(JudgmentSourceInfo sourceInfo){
             setSourceInfo(sourceInfo);
             return this;
         }
 
     }
 
-    private static class CommonCourtDivisionWrapper extends CommonCourtDivision {
+    private static class CommonCourtDivisionBuilder extends CommonCourtDivision {
 
-        public CommonCourtDivisionWrapper(int divisionId){
+        public CommonCourtDivisionBuilder(int divisionId){
             setId(divisionId);
         }
 
-        public CommonCourtDivisionWrapper court(CommonCourt court){
+        public CommonCourtDivisionBuilder court(CommonCourt court){
             setCourt(court);
             return this;
         }
 
-        public CommonCourtDivisionWrapper name(String name){
+        public CommonCourtDivisionBuilder name(String name){
             setName(name);
             return this;
         }
 
-        public CommonCourtDivisionWrapper code(String code){
+        public CommonCourtDivisionBuilder code(String code){
             setCode(code);
             return this;
         }
 
-        public CommonCourtDivisionWrapper type(CommonCourtDivisionType type){
+        public CommonCourtDivisionBuilder type(CommonCourtDivisionType type){
             setType(type);
             return this;
         }
 
     }
 
-    private static class CommonCourtWrapper extends CommonCourt {
+    private static class CommonCourtBuilder extends CommonCourt {
 
-        public CommonCourtWrapper(int courtId) {
+        public CommonCourtBuilder(int courtId) {
             setId(courtId);
         }
 
-        public CommonCourtWrapper code(String code){
+        public CommonCourtBuilder code(String code){
             setCode(code);
             return this;
         }
 
-        public CommonCourtWrapper name(String name){
+        public CommonCourtBuilder name(String name){
             setName(name);
             return this;
         }
 
-        public CommonCourtWrapper type(CommonCourtType type){
+        public CommonCourtBuilder type(CommonCourtType type){
             setType(type);
+            return this;
+        }
+
+        public CommonCourtBuilder parent(CommonCourt parent){
+            setParentCourt(parent);
             return this;
         }
 
     }
 
-    private static class CommonCourtJudgmentWrapper extends CommonCourtJudgment {
-        public CommonCourtJudgmentWrapper(int id){
+    private static class CommonCourtJudgmentBuilder extends CommonCourtJudgment {
+        public CommonCourtJudgmentBuilder(int id){
             setId(id);
         }
     }

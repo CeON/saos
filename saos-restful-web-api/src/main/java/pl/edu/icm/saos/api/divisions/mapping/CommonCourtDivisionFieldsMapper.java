@@ -10,9 +10,8 @@ import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static pl.edu.icm.saos.api.ApiConstants.COURT;
-import static pl.edu.icm.saos.api.ApiConstants.HREF;
-import static pl.edu.icm.saos.api.ApiConstants.NAME;
+import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.ApiConstants.TYPE;
 
 /**
  * @author pavtel
@@ -28,11 +27,32 @@ public class CommonCourtDivisionFieldsMapper implements FieldsMapper<CommonCourt
 
 
     @Override
-    public Map<String, Object> basicsFieldsToMap(CommonCourtDivision division) {
+    public Map<String, Object> basicFieldsToMap(CommonCourtDivision division) {
         Map<String, Object> item = new LinkedHashMap<>();
-        item.put(HREF, linksBuilder.linkToDivision(division.getId()));
+        item.putAll(commonFieldsToMap(division));
+        item.put(COURT, commonCourtFieldsMapper.basicFieldsToMap(division.getCourt()));
+
+        return item;
+    }
+
+    private Map<String, Object> commonFieldsToMap(CommonCourtDivision division){
+        Map<String, Object> item = new LinkedHashMap<>();
+        item.put(HREF, linksBuilder.urlToDivision(division.getId()));
         item.put(NAME, division.getName());
-        item.put(COURT, commonCourtFieldsMapper.basicsFieldsToMap(division.getCourt()));
+
+        return item;
+    }
+
+
+    @Override
+    public Map<String, Object> fieldsToMap(CommonCourtDivision division) {
+        Map<String, Object> item = new LinkedHashMap<>();
+        item.putAll(commonFieldsToMap(division));
+
+        item.put(CODE, division.getCode());
+        item.put(TYPE, division.getType().getName());
+
+        item.put(COURT, commonCourtFieldsMapper.fieldsToMap(division.getCourt()));
 
         return item;
     }
