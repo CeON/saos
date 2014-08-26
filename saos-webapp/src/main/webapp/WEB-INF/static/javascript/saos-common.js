@@ -54,8 +54,13 @@ $(document).ready(function() {
 	$.blockUI.defaults.message = '<img src="${contextPath}/static/images/ajax-loader.gif">';
 	
     $.datepicker.setDefaults($.datepicker.regional["pl"]);
-    $('[id^="datePicker_"]').datepicker({changeYear: 'true', yearRange: 'c-50:' + ((new Date()).getFullYear()+1) });
+    $('[id^="datepicker_"]').datepicker({changeYear: 'true', yearRange: 'c-50:' + ((new Date()).getFullYear()+1) });
     
     $('[title]').tooltip({container: 'body'});
+    
+    
+    
+    /*** Search form show more fields ***/
+    SearchForm.init();
     
 });
