@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.ApiConfiguration;
-import pl.edu.icm.saos.api.judgments.services.ApiSearchService;
+import pl.edu.icm.saos.api.search.ApiSearchService;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.utils.FieldsDefinition.JC;

@@ -2,7 +2,9 @@ package pl.edu.icm.saos.api.links;
 
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
 import pl.edu.icm.saos.api.courts.CourtController;
+import pl.edu.icm.saos.api.courts.CourtsController;
 import pl.edu.icm.saos.api.divisions.DivisionController;
 import pl.edu.icm.saos.api.judgments.JudgmentController;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -37,6 +39,10 @@ public class LinksBuilder {
 
     public Link linkToCourt(int courtId){
         return linkFor(CourtController.class, courtId);
+    }
+
+    public UriComponentsBuilder courtsUriBuilder(){
+        return linkTo(CourtsController.class).toUriComponentsBuilder();
     }
 
     public Link linkToCourt(int courtId, String relName){

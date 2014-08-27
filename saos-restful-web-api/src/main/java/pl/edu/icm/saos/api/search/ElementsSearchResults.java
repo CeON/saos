@@ -8,22 +8,22 @@ import java.util.List;
 /**
  * @author pavtel
  */
-public class JudgmentsSearchResults {
+public class ElementsSearchResults<T> {
 
     private RequestParameters requestParameters;
 
-    private List<? extends Judgment> judgments;
+    private List<? extends T> elements;
 
-    public JudgmentsSearchResults(RequestParameters requestParameters, List<? extends Judgment> judgments) {
+    public ElementsSearchResults(RequestParameters requestParameters, List<? extends T> elements) {
         this.requestParameters = requestParameters;
-        this.judgments = judgments;
+        this.elements = elements;
     }
 
     public RequestParameters getRequestParameters() {
         return requestParameters;
     }
 
-    public List<? extends Judgment> getJudgments() {
-        return judgments;
+    public List<? extends T> getElements() {
+        return elements;
     }
 }

@@ -72,23 +72,7 @@ public class CourtControllerTest {
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
-        actions
-                .andExpect(jsonPath("$.data.href").value(endsWith(COURT_PATH)))
-                .andExpect(jsonPath("$.data.code").value(JC.COURT_CODE))
-                .andExpect(jsonPath("$.data.name").value(JC.COURT_NAME))
-                .andExpect(jsonPath("$.data.type").value(JC.COURT_TYPE.name()))
-
-                .andExpect(jsonPath("$.data.parentCourt.href").value(endsWith(PARENT_COURT_PATH)))
-                .andExpect(jsonPath("$.data.parentCourt.name").value(endsWith(JC.COURT_PARENT_NAME)))
-
-                .andExpect(jsonPath("$.data.divisions").isArray())
-                .andExpect(jsonPath("$.data.divisions.[0].href").value(endsWith(DIVISIONS_PATH + "/" + JC.DIVISION_ID)))
-                .andExpect(jsonPath("$..data.divisions.[0].name").value(JC.DIVISION_NAME))
-
-                .andExpect(jsonPath("$.data.divisions.[1].href").value(endsWith(DIVISIONS_PATH + "/" + JC.SECOND_DIVISION_ID)))
-                .andExpect(jsonPath("$..data.divisions.[1].name").value(JC.SECOND_DIVISION_NAME))
-
-                ;
+        CourtsRepresentationVerifier.verifyBasicFields(actions, "$.data");
     }
 
 

@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.icm.saos.api.exceptions.WrongRequestParameterException;
-import pl.edu.icm.saos.api.judgments.services.ApiSearchService;
+import pl.edu.icm.saos.api.search.ApiSearchService;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.parameters.RequestParameters;
-import pl.edu.icm.saos.api.search.JudgmentsSearchResults;
+import pl.edu.icm.saos.api.search.ElementsSearchResults;
+import pl.edu.icm.saos.persistence.model.Judgment;
 
 import java.util.Map;
 
@@ -33,7 +34,7 @@ public class JudgmentsController {
     private JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder;
 
     @Autowired
-    private ApiSearchService apiSearchService;
+    private ApiSearchService<Judgment> apiSearchService;
 
     @Autowired
     private ParametersExtractor parametersExtractor;
@@ -52,7 +53,7 @@ public class JudgmentsController {
     ) throws WrongRequestParameterException {
 
         RequestParameters requestParameters = parametersExtractor.extractRequestParameter(expand, limit, offset);
-        JudgmentsSearchResults searchResults = apiSearchService.performSearch(requestParameters);
+        ElementsSearchResults searchResults = apiSearchService.performSearch(requestParameters);
 
         Map<String, Object> representation = listSuccessRepresentationBuilder.build(searchResults,
                  linkTo(JudgmentsController.class).toUriComponentsBuilder());
@@ -70,7 +71,7 @@ public class JudgmentsController {
         this.listSuccessRepresentationBuilder = listSuccessRepresentationBuilder;
     }
 
-    public void setApiSearchService(ApiSearchService apiSearchService) {
+    public void setApiSearchService(ApiSearchService<Judgment> apiSearchService) {
         this.apiSearchService = apiSearchService;
     }
 

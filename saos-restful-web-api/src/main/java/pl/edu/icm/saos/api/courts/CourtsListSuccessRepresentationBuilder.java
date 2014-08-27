@@ -1,80 +1,82 @@
-package pl.edu.icm.saos.api.judgments;
+package pl.edu.icm.saos.api.courts;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-import pl.edu.icm.saos.api.judgments.assemblers.JudgmentAssembler;
+import pl.edu.icm.saos.api.courts.assemblers.CourtAssembler;
+import pl.edu.icm.saos.api.links.LinksBuilder;
 import pl.edu.icm.saos.api.parameters.Pagination;
 import pl.edu.icm.saos.api.parameters.RequestParameters;
 import pl.edu.icm.saos.api.response.representations.SuccessRepresentation;
 import pl.edu.icm.saos.api.search.ElementsSearchResults;
-import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
  * @author pavtel
  */
-@Component("judgmentsListSuccessRepresentationBuilder")
-public class JudgmentsListSuccessRepresentationBuilder {
+@Component
+public class CourtsListSuccessRepresentationBuilder {
 
     @Autowired
-    private JudgmentAssembler judgmentAssembler;
+    private CourtAssembler courtAssembler;
 
-    public JudgmentsListSuccessRepresentationBuilder() {
-    }
+    @Autowired
+    private LinksBuilder linksBuilder;
 
-    public Map<String, Object> build(ElementsSearchResults<Judgment> searchResults, UriComponentsBuilder uriComponentsBuilder){
+
+    public Map<String, Object> build(ElementsSearchResults<CommonCourt> searchResults){
         SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
-        builder.links(toLinks(searchResults.getRequestParameters(), uriComponentsBuilder, true)); //TODO calculate hasMore value
-        builder.items(toItems(searchResults));
+
+        builder.items(courtAssembler.toItemsList(searchResults.getElements()));
+
+        builder.links(toLinks(searchResults.getRequestParameters()));
+
         builder.queryTemplate(toQueryTemplate(searchResults.getRequestParameters()));
 
+
         return builder.build();
+    }
+
+    private List<Link> toLinks(RequestParameters requestParameters) {
+        return toLinks(requestParameters, linksBuilder.courtsUriBuilder(), true);
     }
 
     private List<Link> toLinks(RequestParameters requestParameters, UriComponentsBuilder uriComponentsBuilder, boolean hasMore) {
         List<Link> links = new LinkedList<>();
 
         Pagination pagination = requestParameters.getPagination();
-        String expandValue = requestParameters.getExpandParameter().getJoinedValue();
 
-        links.add(buildLink(pagination, expandValue , SELF, uriComponentsBuilder));
+        links.add(buildLink(pagination , SELF, uriComponentsBuilder));
 
         if(requestParameters.getPagination().hasPrevious()){
-            links.add(buildLink(pagination.getPrevious(), expandValue, Link.REL_PREVIOUS, uriComponentsBuilder));
+            links.add(buildLink(pagination.getPrevious(), Link.REL_PREVIOUS, uriComponentsBuilder));
         }
 
         if(hasMore){
-            links.add(buildLink(pagination.getNext(), expandValue, Link.REL_NEXT, uriComponentsBuilder));
+            links.add(buildLink(pagination.getNext(), Link.REL_NEXT, uriComponentsBuilder));
         }
 
 
         return links;
     }
 
-    private Link buildLink(Pagination pagination,  String expandValue, String relName, UriComponentsBuilder uriComponentsBuilder) {
+    private Link buildLink(Pagination pagination, String relName, UriComponentsBuilder uriComponentsBuilder) {
 
         uriComponentsBuilder
                 .replaceQueryParam(LIMIT, pagination.getLimit())
                 .replaceQueryParam(OFFSET, pagination.getOffset());
 
-        if(StringUtils.isNotEmpty(expandValue)){
-            uriComponentsBuilder.replaceQueryParam(EXPAND, expandValue);
-        }
 
         String path = uriComponentsBuilder.build().encode().toUriString();
         return new Link(path, relName);
-    }
-
-
-    private List<Object> toItems(ElementsSearchResults<Judgment> searchResults) {
-        List<? extends Judgment> judgments = searchResults.getElements();
-        return judgmentAssembler.toItemsList(judgments, searchResults.getRequestParameters().getExpandParameter());
     }
 
     private Object toQueryTemplate(RequestParameters requestParameters) {
@@ -83,8 +85,17 @@ public class JudgmentsListSuccessRepresentationBuilder {
         Pagination pagination = requestParameters.getPagination();
         queryTemplate.put(OFFSET, pagination.getOffset());
         queryTemplate.put(LIMIT, pagination.getLimit());
-        queryTemplate.put(EXPAND, requestParameters.getExpandParameter().getJoinedValue());
 
         return queryTemplate;
+    }
+
+
+    // *** setters ***
+    public void setCourtAssembler(CourtAssembler courtAssembler) {
+        this.courtAssembler = courtAssembler;
+    }
+
+    public void setLinksBuilder(LinksBuilder linksBuilder) {
+        this.linksBuilder = linksBuilder;
     }
 }

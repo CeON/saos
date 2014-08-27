@@ -39,6 +39,15 @@ public class CourtAssembler {
         return item;
     }
 
+    public List<Object> toItemsList(List<? extends CommonCourt> courts){
+
+        List<Object> items = courts.stream()
+                .map(this::fieldsToItemRepresentation)
+                .collect(Collectors.toList());
+
+        return items;
+    }
+
 
 
     //*** setters ***
