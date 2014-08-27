@@ -26,10 +26,20 @@ public class SearchConfiguration {
     
     @Bean
     public SolrServer solrServer() {
+        log.info("== SOLR SERVER URL: " + environment.getProperty("solr.index.url") + "  == ");
         String solrServerUrl = environment.getProperty("solr.index.url");
         
         HttpSolrServer solrServer = new HttpSolrServer(solrServerUrl);
 
+        return solrServer;
+    }
+    
+    @Bean
+    public SolrServer solrJudgmentsServer() {
+        String solrServerUrl = environment.getProperty("solr.index.url");
+        
+        HttpSolrServer solrServer = new HttpSolrServer(solrServerUrl + "/judgments");
+        
         return solrServer;
     }
     

@@ -31,6 +31,7 @@ import org.springframework.util.ObjectUtils;
 
 import pl.edu.icm.saos.common.visitor.Visitor;
 import pl.edu.icm.saos.persistence.common.DataObject;
+import pl.edu.icm.saos.persistence.common.IndexableObject;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
 import com.google.common.base.Preconditions;
@@ -49,7 +50,7 @@ import com.google.common.collect.Lists;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Cacheable(true)
 @SequenceGenerator(name = "seq_judgment", allocationSize = 1, sequenceName = "seq_judgment")
-public abstract class Judgment extends DataObject {
+public abstract class Judgment extends IndexableObject {
 
     /** pl. rodzaj wyroku */
     public enum JudgmentType {

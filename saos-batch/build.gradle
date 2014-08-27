@@ -3,9 +3,11 @@ dependencies {
     
     testCompile project(path:':saos-common', configuration:'testArtifacts')
     testCompile project(path:':saos-persistence', configuration:'testArtifacts')
+    testCompile project(path:':saos-search', configuration:'testArtifacts')
     
     compile project(':saos-persistence')
     compile project(':saos-import')
+    compile project(':saos-search')
        
     compile lib.'commons-collections:commons-collections'
     compile lib.'org.springframework.batch:spring-batch-core'

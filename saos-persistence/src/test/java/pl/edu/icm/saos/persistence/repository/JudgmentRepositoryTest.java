@@ -13,6 +13,8 @@ import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -120,6 +122,26 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         Judgment dbJudgment = judgmentRepository.findOne(ccJudgment.getId());
         assertNotNull(dbJudgment);
         dbJudgment.getJudges().size();
+    }
+    
+    @Test
+    public void findAllToIndex_FOUND() {
+        createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        
+        Page<Judgment> judgments = judgmentRepository.findAllToIndex(new PageRequest(0, 10));
+        
+        assertEquals(1, judgments.getTotalElements());
+    }
+    
+    @Test
+    public void findAllToIndex_NOT_FOUND() {
+        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        judgment.setIndexed(true);
+        judgmentRepository.save(judgment);
+        
+        Page<Judgment> judgments = judgmentRepository.findAllToIndex(new PageRequest(0, 10));
+        
+        assertEquals(0, judgments.getTotalElements());
     }
     
     

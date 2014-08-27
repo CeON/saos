@@ -14,7 +14,10 @@ loadProperties(System.getProperty('user.home') + '/.icm/saos.gradle.local.proper
 
 dependencies {
     compile lib.'org.springframework:spring-context'
+    compile lib.'org.springframework.batch:spring-batch-core'
     compile lib.'org.apache.solr:solr-solrj'
+    
+    compile project(':saos-persistence')
 }
 
 

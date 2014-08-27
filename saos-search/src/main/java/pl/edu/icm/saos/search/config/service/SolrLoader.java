@@ -12,6 +12,7 @@ import org.apache.solr.common.util.NamedList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,9 @@ public class SolrLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private static Logger log = LoggerFactory.getLogger(SolrLoader.class);
     
-    @Autowired SolrServer solrServer;
+    @Autowired
+    @Qualifier("solrServer")
+    SolrServer solrServer;
     
     @Autowired List<IndexConfiguration> indexesConfiguration;
 

@@ -12,7 +12,7 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
  * @author Łukasz Dumiszewski
  */
 
-public interface JudgmentCommonRepository<T extends Judgment> {
+public interface JudgmentCommonRepository<T extends Judgment> extends IndexableObjectRepository<T> {
 
     
     @Query("select j from #{#entityName} j where j.sourceInfo.sourceCode=:sourceCode and j.sourceInfo.sourceJudgmentId=:sourceJudgmentId ")
