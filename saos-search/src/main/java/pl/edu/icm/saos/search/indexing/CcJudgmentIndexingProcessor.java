@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.search.indexing;
 
 import org.apache.solr.common.SolrInputDocument;
+import org.springframework.stereotype.Component;
 
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
@@ -8,6 +9,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
+@Component
 public class CcJudgmentIndexingProcessor extends JudgmentIndexingProcessorBase implements SpecificJudgmentIndexingProcessor<CommonCourtJudgment> {
 
     @Override
