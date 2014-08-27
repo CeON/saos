@@ -24,16 +24,14 @@ public class CourtFieldsMapper implements FieldsMapper<CommonCourt> {
     @Override
     public Map<String, Object> basicFieldsToMap(CommonCourt court) {
         Map<String, Object> item = new LinkedHashMap<>();
-        item.put(HREF, linksBuilder.urlToCourt(court.getId()));
-        item.put(NAME, court.getName());
-
+        item.putAll(commonFieldsToMap(court));
         return item;
     }
 
     @Override
     public Map<String, Object> fieldsToMap(CommonCourt court) {
         Map<String, Object> item = new LinkedHashMap<>();
-        item.putAll(basicFieldsToMap(court));
+        item.putAll(commonFieldsToMap(court));
 
         item.put(CODE, court.getCode());
         item.put(TYPE, court.getType());
@@ -45,9 +43,18 @@ public class CourtFieldsMapper implements FieldsMapper<CommonCourt> {
         return item;
     }
 
+    @Override
+    public Map<String, Object> commonFieldsToMap(CommonCourt court) {
+        Map<String, Object> item = new LinkedHashMap<>();
+        item.put(HREF, linksBuilder.urlToCourt(court.getId()));
+        item.put(NAME, court.getName());
+
+        return item;
+    }
+
 
     //*** setters ***
-    public LinksBuilder getLinksBuilder() {
-        return linksBuilder;
+    public void setLinksBuilder(LinksBuilder linksBuilder) {
+        this.linksBuilder = linksBuilder;
     }
 }

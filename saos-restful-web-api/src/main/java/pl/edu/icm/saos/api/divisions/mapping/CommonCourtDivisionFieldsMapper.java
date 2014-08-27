@@ -35,7 +35,8 @@ public class CommonCourtDivisionFieldsMapper implements FieldsMapper<CommonCourt
         return item;
     }
 
-    private Map<String, Object> commonFieldsToMap(CommonCourtDivision division){
+    @Override
+    public Map<String, Object> commonFieldsToMap(CommonCourtDivision division){
         Map<String, Object> item = new LinkedHashMap<>();
         item.put(HREF, linksBuilder.urlToDivision(division.getId()));
         item.put(NAME, division.getName());

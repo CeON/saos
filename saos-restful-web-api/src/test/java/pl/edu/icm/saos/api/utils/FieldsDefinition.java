@@ -135,6 +135,36 @@ public abstract class FieldsDefinition {
                         );
     }
 
+    private static CommonCourtDivision createSecondCommonDivision(){
+        return
+                commonCourtDivision(JC.SECOND_DIVISION_ID)
+                        .code(JC.SECOND_DIVISION_CODE)
+                        .name(JC.SECOND_DIVISION_NAME)
+                        .type(commonCourtDivisionType(JC.SECOND_DIVISION_TYPE_NAME, JC.SECOND_DIVISION_TYPE_CODE)
+                        )
+                        ;
+    }
+
+    public static CommonCourt createCommonCourt(){
+        return
+                commonCourt(JC.COURT_ID)
+                        .name(JC.COURT_NAME)
+                        .code(JC.COURT_CODE)
+                        .type(JC.COURT_TYPE)
+                        .parent(
+                                commonCourt(JC.COURT_PARENT_ID)
+                                        .name(JC.COURT_PARENT_NAME)
+                                        .type(JC.COURT_PARENT_TYPE)
+                        )
+                        .divisions(
+                                createCommonDivision(),
+                                createSecondCommonDivision()
+                        )
+                ;
+    }
+
+
+
     public static final class JC {
         public static final int JUDGMENT_ID = 333;
         public static final String CASE_NUMBER = "00112233";
@@ -205,6 +235,13 @@ public abstract class FieldsDefinition {
 
         public static final String DIVISION_TYPE_NAME = "Cywilny";
         public static final String DIVISION_TYPE_CODE = "03";
+
+        public static final int SECOND_DIVISION_ID = 555;
+        public static final String SECOND_DIVISION_NAME = "II Wydzial Karny";
+        public static final String SECOND_DIVISION_CODE = "0000604";
+
+        public static final String SECOND_DIVISION_TYPE_NAME = "Karny";
+        public static final String SECOND_DIVISION_TYPE_CODE = "04";
 
         public static final int COURT_ID = 555;
         public static final String COURT_NAME = "Sad Rejonowy we Wroclawiu";
@@ -417,6 +454,14 @@ public abstract class FieldsDefinition {
 
         public CommonCourtBuilder parent(CommonCourt parent){
             setParentCourt(parent);
+            return this;
+        }
+
+        public CommonCourtBuilder divisions(CommonCourtDivision ... divisions){
+            for(CommonCourtDivision division: divisions){
+                addDivision(division);
+            }
+
             return this;
         }
 

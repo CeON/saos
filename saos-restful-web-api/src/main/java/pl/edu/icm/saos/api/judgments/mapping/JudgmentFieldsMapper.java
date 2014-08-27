@@ -42,7 +42,8 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
         return item;
     }
 
-    private Map<String, Object> commonFieldsToMap(Judgment element){
+    @Override
+    public Map<String, Object> commonFieldsToMap(Judgment element){
         Map<String, Object> item = new LinkedHashMap<>();
 
         item.put(HREF, linksBuilder.urlToJudgment(element.getId()));

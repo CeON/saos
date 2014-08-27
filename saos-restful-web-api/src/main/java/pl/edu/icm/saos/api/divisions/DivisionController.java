@@ -30,7 +30,7 @@ public class DivisionController {
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> showJudgments(@PathVariable("divisionId") int divisionId){
+    public ResponseEntity<Map<String, Object>> showDivision(@PathVariable("divisionId") int divisionId){
 
         CommonCourtDivision division = ccDivisionRepository.findOne(divisionId);
 

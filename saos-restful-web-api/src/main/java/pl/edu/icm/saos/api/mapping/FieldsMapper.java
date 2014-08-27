@@ -12,4 +12,6 @@ public interface FieldsMapper<T> {
     public Map<String, Object> basicFieldsToMap(T element);
 
     Map<String,Object> fieldsToMap(T element);
+
+    Map<String, Object> commonFieldsToMap(T element);
 }
