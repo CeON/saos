@@ -5,5 +5,9 @@ dependencies {
 
     compile lib.'org.springframework.hateoas'
     compile lib.'com.fasterxml.jackson.core:jackson-annotations'
-
+    compile lib.'com.fasterxml.jackson.core:jackson-databind'
+    compile lib.'com.fasterxml.jackson.core:jackson-core'
+    testCompile lib.'com.jayway.jsonpath:json-path'
+    testCompile lib.'com.jayway.jsonpath:json-path-assert'
+    testCompile lib.'javax.servlet:javax.servlet-api'
 }

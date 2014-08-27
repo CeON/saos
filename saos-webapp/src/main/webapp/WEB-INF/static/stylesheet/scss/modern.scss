@@ -33,6 +33,7 @@ h1 {
 a {
 	&:focus {
 		outline: 4px solid lighten($blue, 12%);
+		z-index: 10;
 	}
 }
 
@@ -380,6 +381,25 @@ form.search {
 	label {
 		font-weight: 400;
 	}
+	
+	#advance-form {
+		display: none;
+	}
+	
+	ul {
+		list-style: none;
+		padding-left: 0px;
+		padding-bottom: 20px;
+		
+		a {
+			padding: 5px 10px;
+		}
+	}
+	
+	input[type="checkbox"] {
+		margin-left: 0px;
+	}
+	
 }
 
 .button {

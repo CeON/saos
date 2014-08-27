@@ -2,7 +2,7 @@ package pl.edu.icm.saos.api.judgments.assemblers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.edu.icm.saos.api.judgments.mapping.FieldsMapper;
+import pl.edu.icm.saos.api.mapping.FieldsMapper;
 import pl.edu.icm.saos.api.parameters.JoinedParameter;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
@@ -24,8 +24,15 @@ public class JudgmentAssembler {
     public JudgmentAssembler() {
     }
 
-    public Map<String, Object> toItemRepresentation(Judgment judgment, boolean expandAll){
-        Map<String, Object> data = judgmentFieldsMapper.toMap(judgment, expandAll);
+    public Map<String, Object> fieldsToItemRepresentation(Judgment judgment){
+        Map<String, Object> data = judgmentFieldsMapper.fieldsToMap(judgment);
+
+        return data;
+    }
+
+
+    public Map<String, Object> basicFieldsToItemRepresentation(Judgment judgment){
+        Map<String, Object> data = judgmentFieldsMapper.basicFieldsToMap(judgment);
 
         return data;
     }
@@ -34,9 +41,14 @@ public class JudgmentAssembler {
         final boolean expandAll = expandParameter.containsValue(ALL);
 
         List<Object> items = judgments.stream()
-                .map((judgment) -> toItemRepresentation(judgment, expandAll))
+                .map((judgment) -> basicFieldsToItemRepresentation(judgment))
                 .collect(Collectors.toList());
 
         return items;
+    }
+
+    //*** setters ***
+    public void setJudgmentFieldsMapper(FieldsMapper<Judgment> judgmentFieldsMapper) {
+        this.judgmentFieldsMapper = judgmentFieldsMapper;
     }
 }

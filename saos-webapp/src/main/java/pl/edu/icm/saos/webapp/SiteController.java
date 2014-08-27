@@ -1,17 +1,22 @@
 package pl.edu.icm.saos.webapp;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 @Controller
 public class SiteController {
 
-    
+	
     @RequestMapping("/")
     public String home(ModelMap model) {
         
-        return "home";
+        return "content";
     }
     
     @RequestMapping("/search")
@@ -19,19 +24,14 @@ public class SiteController {
         return "search";
     }
     
-    @RequestMapping("/results")
-    public String results(ModelMap model) {
-        return "results";
-    }
-    
-    @RequestMapping("/modern/")
-    public String modernHome() {
+    @RequestMapping("/old/")
+    public String oldHome() {
     	
-    	return "content"; 
+    	return "home"; 
     }
     
-    @RequestMapping("/modern/search")
-    public String modernSearch() {
+    @RequestMapping("/old/search")
+    public String oldSearch() {
     	
     	return "basicSearch";
     }
