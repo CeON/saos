@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.icm.saos.api.judgments.assemblers.JudgmentAssembler;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 import java.util.Map;
@@ -29,11 +33,12 @@ public class JudgmentController {
     @Autowired
     private SingleJudgmentSuccessRepresentationBuilder singleJudgmentSuccessRepresentationBuilder;
 
+
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showJudgment(@PathVariable("judgmentId") int judgmentId){
 
-        Judgment judgment = judgmentRepository.findOne(judgmentId);
+        Judgment judgment = judgmentRepository.findOneAndInitialize(judgmentId);
 
         Map<String, Object> representation = singleJudgmentSuccessRepresentationBuilder.build(judgment);
 

@@ -37,7 +37,7 @@ public class CourtFieldsMapper implements FieldsMapper<CommonCourt> {
         item.put(TYPE, court.getType());
 
         if(court.getParentCourt() != null){
-            item.put(PARENT_COURT, basicFieldsToMap(court.getParentCourt()));
+            item.put(PARENT_COURT, toHref(court.getParentCourt()));
         }
 
         return item;
@@ -48,6 +48,13 @@ public class CourtFieldsMapper implements FieldsMapper<CommonCourt> {
         Map<String, Object> item = new LinkedHashMap<>();
         item.put(HREF, linksBuilder.urlToCourt(court.getId()));
         item.put(NAME, court.getName());
+
+        return item;
+    }
+
+    private Map<String, Object> toHref(CommonCourt court){
+        Map<String, Object> item = new LinkedHashMap<>();
+        item.put(HREF, linksBuilder.urlToCourt(court.getId()));
 
         return item;
     }

@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.ApiConfiguration;
+import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -32,19 +34,20 @@ import static pl.edu.icm.saos.api.judgments.JudgmentRepresentationVerifier.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  {JudgmentControllerTest.TestConfiguration.class, ApiConfiguration.class})
+@ContextConfiguration(classes =  {JudgmentControllerTest.TestConfiguration.class})
 @Category(SlowTest.class)
 public class JudgmentControllerTest {
 
 
     @Configuration
+    @Import(TestsConfig.class)
     public static class TestConfiguration {
 
         @Bean(name = "mockJudgmentRepository")
         public JudgmentRepository judgmentRepository(){
 
             JudgmentRepository judgmentRepository = mock(JudgmentRepository.class);
-            when(judgmentRepository.findOne(JC.JUDGMENT_ID)).thenReturn(createCommonJudgment());
+            when(judgmentRepository.findOneAndInitialize(JC.JUDGMENT_ID)).thenReturn(createCommonJudgment());
 
             return judgmentRepository;
 
@@ -143,7 +146,6 @@ public class JudgmentControllerTest {
                 .andExpect(jsonPath("$.data.division.court.type").value(JC.COURT_TYPE.name()))
 
                 .andExpect(jsonPath("$.data.division.court.parentCourt.href").value(endsWith(PARENT_COURT_PATH)))
-                .andExpect(jsonPath("$.data.division.court.parentCourt.name").value(endsWith(JC.COURT_PARENT_NAME)))
                 ;
     }
 

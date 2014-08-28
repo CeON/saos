@@ -21,7 +21,6 @@ public class CourtsRepresentationVerifier {
                 .andExpect(jsonPath(pathPrefix+".type").value(FieldsDefinition.JC.COURT_TYPE.name()))
 
                 .andExpect(jsonPath(pathPrefix+".parentCourt.href").value(endsWith(PARENT_COURT_PATH)))
-                .andExpect(jsonPath(pathPrefix+".parentCourt.name").value(endsWith(FieldsDefinition.JC.COURT_PARENT_NAME)))
 
                 .andExpect(jsonPath(pathPrefix+".divisions").isArray())
                 .andExpect(jsonPath(pathPrefix+".divisions.[0].href").value(endsWith(DIVISIONS_PATH + "/" + FieldsDefinition.JC.DIVISION_ID)))

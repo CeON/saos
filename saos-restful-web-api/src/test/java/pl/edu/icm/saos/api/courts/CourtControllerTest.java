@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -19,6 +20,8 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static pl.edu.icm.saos.api.utils.FieldsDefinition.*;
+
+import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import static org.mockito.Mockito.*;
@@ -27,12 +30,13 @@ import static pl.edu.icm.saos.api.utils.Constansts.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  {CourtControllerTest.TestConfiguration.class, ApiConfiguration.class})
+@ContextConfiguration(classes =  {CourtControllerTest.TestConfiguration.class})
 @Category(SlowTest.class)
 public class CourtControllerTest {
 
     @Configuration
-    public static class TestConfiguration {
+    @Import(TestsConfig.class)
+    static class TestConfiguration {
 
         @Bean(name = "mockCourtRepository")
         public CommonCourtRepository commonCourtRepository(){

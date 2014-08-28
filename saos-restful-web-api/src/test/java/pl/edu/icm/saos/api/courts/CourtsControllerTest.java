@@ -6,14 +6,18 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.ApiConfiguration;
+import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.search.ApiSearchService;
 import pl.edu.icm.saos.api.search.ElementsSearchResults;
@@ -32,13 +36,13 @@ import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonCourt;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  {CourtsControllerTest.TestConfiguration.class, ApiConfiguration.class})
+@ContextConfiguration(classes =  {CourtsControllerTest.TestConfiguration.class})
 @Category(SlowTest.class)
 public class CourtsControllerTest {
 
-
     @Configuration
-    public static class TestConfiguration {
+    @Import(TestsConfig.class)
+    static class TestConfiguration {
 
         @Bean(name = "mockCourtsSearchService")
         public ApiSearchService<CommonCourt> courtApiSearchService(){
@@ -74,7 +78,7 @@ public class CourtsControllerTest {
 
 
     @Test
-    public void itShouldShowAllBasicsJudgmentsFields() throws Exception {
+    public void itShouldShowAllBasicsCourtsFields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(COURTS_PATH)
                 .param(LIMIT, "2")

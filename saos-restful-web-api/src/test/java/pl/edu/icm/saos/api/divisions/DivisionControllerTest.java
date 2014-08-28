@@ -8,12 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.ApiConfiguration;
+import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 
@@ -27,11 +29,12 @@ import static pl.edu.icm.saos.api.utils.FieldsDefinition.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  {DivisionControllerTest.TestConfiguration.class, ApiConfiguration.class})
+@ContextConfiguration(classes =  {DivisionControllerTest.TestConfiguration.class})
 @Category(SlowTest.class)
 public class DivisionControllerTest {
 
     @Configuration
+    @Import(TestsConfig.class)
     public static class TestConfiguration {
 
         @Bean(name = "mockCcDivisionRepository")
@@ -84,7 +87,6 @@ public class DivisionControllerTest {
                 .andExpect(jsonPath("$.data.court.type").value(JC.COURT_TYPE.name()))
 
                 .andExpect(jsonPath("$.data.court.parentCourt.href").value(endsWith(PARENT_COURT_PATH)))
-                .andExpect(jsonPath("$.data.court.parentCourt.name").value(endsWith(JC.COURT_PARENT_NAME)))
 
         ;
     }
