@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.api.courts.services;
 
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.api.parameters.RequestParameters;
 import pl.edu.icm.saos.api.search.ApiSearchService;
 import pl.edu.icm.saos.api.search.ElementsSearchResults;
@@ -10,6 +12,7 @@ import java.util.Arrays;
 /**
  * @author pavtel
  */
+@Service
 public class CourtsSearchService implements ApiSearchService<CommonCourt> {
 
     @Override

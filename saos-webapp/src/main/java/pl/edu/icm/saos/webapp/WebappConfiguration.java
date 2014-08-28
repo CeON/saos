@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 
 @Configuration
-@ComponentScan
+@ComponentScan (basePackages = {"pl.edu.icm.saos.webapp", "pl.edu.icm.saos.api"})
 @EnableWebMvc
 public class WebappConfiguration extends WebMvcConfigurerAdapter {
 

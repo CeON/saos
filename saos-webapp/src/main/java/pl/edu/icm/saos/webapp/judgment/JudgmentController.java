@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
-@Controller
+@Controller("webJudgmentController")
 public class JudgmentController {
 
     @Autowired
