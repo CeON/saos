@@ -358,18 +358,23 @@ form.search {
 	
 }
 
-.search-form {
-	background: none repeat scroll 0 0 #fff;
-    border: 1px solid #e0e0e0;
-    margin-top: 30px;
-    padding: 0 40px;
-    
+.block {
+	
 	h3 {
 		border-bottom: 1px solid #e0e0e0;
 	    font-weight: 300;
 	    margin-bottom: 30px;
 	    padding-bottom: 6px;
 	}
+	
+}
+
+.search-form {
+	background: none repeat scroll 0 0 #fff;
+    border: 1px solid #e0e0e0;
+    margin-top: 30px;
+    padding: 0 40px;
+    
 	
 	input {
 		border-radius: 2px;
@@ -419,3 +424,150 @@ form.search {
     color: #ffffff;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
+
+
+.judgment-list {
+
+	.judgment {
+		background: none repeat scroll 0 0 #fff;
+	    border: 1px solid #e0e0e0;
+	    margin-top: 30px;
+	    padding: 15px 40px 20px;
+	
+	
+		.case-number {
+			color: #0176c3;
+			font-size: 22px;
+			margin-bottom: 6px;
+		}
+		
+		.type {
+			color: #aaa;
+			font-size: 11px;
+			position: relative;
+			bottom: -3px;
+		}
+		
+		.court {
+			font-style: italic;
+			font-size: 14px;
+		}
+		
+		.judges {
+			margin-top: 2px;
+		}
+		
+		.judge {
+			border-bottom: 1px dotted #333;
+			cursor: pointer;
+			display: inline-block;
+			margin-right: 8px;
+			
+			&:hover {
+				border-bottom: 1px solid #333;
+			}
+		}
+		
+	}
+}
+
+.keywords {
+	margin: 10px 0px;
+
+	.keyword {
+		background: $grey;
+		border-radius: 2px;
+		color: #666;
+		cursor: pointer;
+		display: inline-block;
+		font-size: 13px;
+		margin-right: 4px;
+		padding: 4px 8px;
+		
+		&:hover {
+			background: darken($grey, 10%);
+			color: #666;
+		}
+	}
+}
+
+.accuracy {
+	border: 3px solid #ddd;
+    border-radius: 50px;
+    color: #aaa;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    height: 60px;
+    padding: 12px 0;
+    text-align: center;
+    width: 60px;
+}
+
+.judgment-page, .judgment-filter {
+	background: none repeat scroll 0 0 #fff;
+    border: 1px solid #e0e0e0;
+	margin-top: 30px;
+	padding: 30px 40px;
+}
+
+.judgment-filter {
+	padding: 0px 40px 30px;
+	
+	h3 {
+		margin-bottom: 15px;
+	}
+	
+	div {
+		margin: 5px 0px;
+	}
+}
+
+.judgment-page {
+
+	padding-top: 0px;
+
+	h4 {
+		border-bottom: 1px solid #e0e0e0;
+		font-size: 20px;
+	    font-weight: 300;
+	    margin-bottom: 10px;
+	    margin-top: 30px;
+	    padding-bottom: 6px;
+	}
+
+	.modal-dialog {
+		width: 960px;
+	}
+	
+	.judgment-data {
+		list-style: none;
+		margin: 30px 0px 40px;
+		padding-left: 0px;
+		
+		li {
+			margin: 10px 0px;
+		}
+	
+		.label-title {
+			color: #616161;
+    		display: inline-block;
+    		margin-right: 10px;
+    		position: absolute;
+    		width: 155px;
+		}
+		
+		.desc {
+			margin-left: 170px;
+		}
+	
+	}
+	
+	.referencedRegulations {
+		list-style: decimal outside none;
+
+	
+	}
+		
+}
+
