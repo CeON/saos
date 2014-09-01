@@ -16,6 +16,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
@@ -44,7 +45,18 @@ public class JudgmentIndexingProcessor extends JudgmentIndexingProcessorBase imp
         processJudges(doc, item);
         processJudgmentSpecificFields(doc, item);
         
+        for (String legalBase : item.getLegalBases()) {
+            addField(doc, JudgmentIndexField.LEGAL_BASE, legalBase);
+        }
+        for (JudgmentReferencedRegulation referencedRegulation : item.getReferencedRegulations()) {
+            addField(doc, JudgmentIndexField.REFERENCED_REGULATION, referencedRegulation.getRawText());
+        }
+        
+        
         addDateField(doc, JudgmentIndexField.JUDGMENT_DATE, item.getJudgmentDate());
+        if (item.getJudgmentType() != null) {
+            addField(doc, JudgmentIndexField.JUDGMENT_TYPE, item.getJudgmentType().name());
+        }
         addField(doc, JudgmentIndexField.CONTENT, item.getTextContent());
         
         item.markAsIndexed();

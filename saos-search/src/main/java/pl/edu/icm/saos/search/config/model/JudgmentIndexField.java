@@ -7,6 +7,9 @@ public enum JudgmentIndexField {
     TITLE("title"),
     
     JUDGMENT_DATE("judgmentDate"),
+    JUDGMENT_TYPE("judgmentType"),
+    LEGAL_BASE("legalBases"),
+    REFERENCED_REGULATION("referencedRegulations"),
     
     COURT_TYPE("courtType"),
     COURT_ID("courtId"),
