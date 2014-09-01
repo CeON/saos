@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Value;
 
 import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -32,7 +31,7 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
 
     private Logger log = LoggerFactory.getLogger(CcjImportDownloadReader.class);
     
-    private int pageSize = 100;
+    private int pageSize = 1000;
     private int pageNo = 0;
     private DateTime publicationDateFrom;
     private Queue<String> judgmentIds;
@@ -49,7 +48,7 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
     
     @Override
     public SourceCcJudgmentTextData read() throws Exception, UnexpectedInputException, NonTransientResourceException {
-        Preconditions.checkNotNull(publicationDateFrom);
+        //Preconditions.checkNotNull(publicationDateFrom);
         
         if (CollectionUtils.isEmpty(judgmentIds)) {
             log.debug("reading next {} judgments...", pageSize);
@@ -81,7 +80,8 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
         } else {
             publicationDateFrom = ccjImportDateFormatter.parse(customPublicationDateFrom);
         }
-        log.info("publication date from: {}", new CcjImportDateFormatter().format(publicationDateFrom));
+        log.info("publication date from: {}", publicationDateFrom==null?"null":new CcjImportDateFormatter().format(publicationDateFrom));
+        
     }
 
     @Override
