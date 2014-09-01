@@ -5,7 +5,6 @@ import javax.servlet.Filter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import pl.edu.icm.saos.api.ApiConfiguration;
 import pl.edu.icm.saos.batch.BatchConfiguration;
 import pl.edu.icm.saos.importer.ImportConfiguration;
 import pl.edu.icm.saos.persistence.PersistenceConfiguration;
@@ -17,7 +16,7 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
    
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] { GeneralConfiguration.class, SecurityConfiguration.class, BatchConfiguration.class, PersistenceConfiguration.class, ImportConfiguration.class, ApiConfiguration.class, SearchConfiguration.class };
+        return new Class<?>[] { GeneralConfiguration.class, SecurityConfiguration.class, BatchConfiguration.class, PersistenceConfiguration.class, ImportConfiguration.class,  SearchConfiguration.class };
     }
 
     @Override

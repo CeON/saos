@@ -24,7 +24,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import pl.edu.icm.saos.api.ApiConfiguration;
 import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.api.search.ApiSearchService;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
@@ -32,11 +31,9 @@ import pl.edu.icm.saos.api.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
 import pl.edu.icm.saos.api.utils.TrivialApiSearchService;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 import static pl.edu.icm.saos.api.utils.Constansts.*;
 import static pl.edu.icm.saos.api.judgments.JudgmentRepresentationVerifier.*;
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonJudgment;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  JudgmentsControllerTest.TestConfiguration.class)
