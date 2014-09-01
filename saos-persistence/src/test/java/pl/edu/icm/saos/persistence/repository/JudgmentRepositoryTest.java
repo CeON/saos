@@ -3,10 +3,12 @@ package pl.edu.icm.saos.persistence.repository;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.hibernate.LazyInitializationException;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -136,12 +138,33 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     @Test
     public void findAllToIndex_NOT_FOUND() {
         CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
-        judgment.setIndexed(true);
+        judgment.markAsIndexed();
         judgmentRepository.save(judgment);
         
         Page<Judgment> judgments = judgmentRepository.findAllToIndex(new PageRequest(0, 10));
         
         assertEquals(0, judgments.getTotalElements());
+    }
+    
+    @Test
+    public void findAllToIndex_CHECK_INDEXED_DATE() {
+        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        
+        DateTime beforeIndexed = new DateTime();
+        waitForTimeChange();
+        
+        judgment.markAsIndexed();
+        judgmentRepository.save(judgment);
+        
+        waitForTimeChange();
+        DateTime afterIndexed = new DateTime();
+        
+        Judgment actualJudgment = judgmentRepository.findOne(judgment.getId());
+        
+        assertNotNull(actualJudgment);
+        assertNotNull(actualJudgment.getIndexedDate());
+        assertTrue(beforeIndexed.isBefore(actualJudgment.getIndexedDate()));
+        assertTrue(afterIndexed.isAfter(actualJudgment.getCreationDate()));
     }
     
     
@@ -157,5 +180,12 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         judgmentRepository.save(ccJudgment);
         return ccJudgment;
     }
-      
+    
+    private void waitForTimeChange() {
+        try {
+            Thread.sleep(10);
+        } catch (InterruptedException e) {
+
+        }
+    }
 }

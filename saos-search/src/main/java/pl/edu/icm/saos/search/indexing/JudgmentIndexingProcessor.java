@@ -47,7 +47,7 @@ public class JudgmentIndexingProcessor extends JudgmentIndexingProcessorBase imp
         addDateField(doc, JudgmentIndexField.JUDGMENT_DATE, item.getJudgmentDate());
         addField(doc, JudgmentIndexField.CONTENT, item.getTextContent());
         
-        item.setIndexed(true);
+        item.markAsIndexed();
         ccJudgmentRepository.save(item);
         
         return doc;
