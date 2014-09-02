@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
-
+<spring:eval expression="@exposedProperties.getProperty('referenced.law.journal.site')" var="lawJournalSite" />
 
 <div class="container judgment-page block">
 	
@@ -93,10 +93,13 @@
 		<h4><spring:message code="judgment.referencedRegulations" />:</h4>
 		<ul class="referencedRegulations">	
 			<c:forEach items="${judgment.referencedRegulations}" var="referencedRegulation" >
-				<li class="legalBase"><c:out value="${referencedRegulation.rawText}" /></li>
+				<li class="legalBase">
+					<a href="${lawJournalSite}/${referencedRegulation.lawJournalEntry.year}/s/${referencedRegulation.lawJournalEntry.journalNo}/${referencedRegulation.lawJournalEntry.entry}" >
+						<c:out value="${referencedRegulation.rawText}" />
+					</a>
+				</li>
 			</c:forEach>
 		</ul>
-	
 	
 		</br>
 		</br>
