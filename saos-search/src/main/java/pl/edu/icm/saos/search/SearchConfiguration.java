@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ClassPathResource;
 
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 
@@ -20,6 +21,8 @@ import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 public class SearchConfiguration {
     
     private static Logger log = LoggerFactory.getLogger(SearchConfiguration.class);
+    
+    private static final String CONF_BASE_CLASSPATH = "pl/edu/icm/saos/search/config";
     
     @Autowired
     private Environment environment;
@@ -48,6 +51,13 @@ public class SearchConfiguration {
         IndexConfiguration judgmentsIndex = new IndexConfiguration();
         judgmentsIndex.setName("judgments");
         judgmentsIndex.setInstanceDir("judgments");
+        
+        String judgmentsConfFilesClassPath = CONF_BASE_CLASSPATH + "/judgments/conf/";
+        
+        judgmentsIndex.addConfigurationFile(new ClassPathResource(judgmentsConfFilesClassPath + "schema.xml"));
+        judgmentsIndex.addConfigurationFile(new ClassPathResource(judgmentsConfFilesClassPath + "solrconfig.xml"));
+        judgmentsIndex.addConfigurationFile(new ClassPathResource(judgmentsConfFilesClassPath + "stopwords.txt"));
+        judgmentsIndex.addConfigurationFile(new ClassPathResource(judgmentsConfFilesClassPath + "synonyms.txt"));
         
         return judgmentsIndex;
     }

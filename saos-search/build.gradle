@@ -1,17 +1,4 @@
 
-def loadProperties(String sourceFileName) {
-    def config = new Properties()
-    def propFile = file(sourceFileName)
-    if (propFile.canRead()) {
-        config.load(new FileInputStream(propFile))
-        for (Map.Entry property in config) {
-            project.ext[property.key] = property.value;
-        }
-    }
-}
-
-loadProperties(System.getProperty('user.home') + '/.icm/saos.gradle.local.properties');
-
 dependencies {
     compile lib.'org.springframework:spring-context'
     compile lib.'org.springframework.batch:spring-batch-core'
@@ -19,11 +6,3 @@ dependencies {
     
     compile project(':saos-persistence')
 }
-
-
-task initSolrConfig(type: Copy) {
-    from 'src/main/resources/pl/edu/icm/saos/search/config'
-    into this.properties['saos.solr.configuration.home']
-}
-
-processResources.dependsOn initSolrConfig
