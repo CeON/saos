@@ -385,6 +385,10 @@ form.search {
 	
 	label {
 		font-weight: 400;
+		
+		&.col-sm-2 {
+			width: 18%;		
+		}
 	}
 	
 	#advance-form {
@@ -404,6 +408,7 @@ form.search {
 	input[type="checkbox"] {
 		margin-left: 0px;
 	}
+	
 	
 }
 
@@ -577,14 +582,5 @@ form.search {
 		
 }
 
-.modal {
-
-	.modal-body {
-		padding: 15px 30px;
-	
-	
-	}
-
-}
 
 
