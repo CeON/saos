@@ -22,19 +22,14 @@ public class JudgmentController {
 	@RequestMapping("/result/{id}")
 	public String JudgmentSignleResult(ModelMap model, @PathVariable int id) {
 		
-		List<String> keywords = new ArrayList<String>();
-		keywords.add("very");
-		keywords.add("important");
-		keywords.add("keywords");
-		model.addAttribute("keywords", keywords);
-		
-		/*
 		Judgment judgment = judgmentRepository.findOneAndInitialize(id);
+		
 		if(judgment instanceof CommonCourtJudgment){
 			CommonCourtJudgment ddJ = (CommonCourtJudgment) judgment;
-		}*/
-		
-		model.addAttribute("judgment", judgmentRepository.findOneAndInitialize(id));
+			model.addAttribute("judgment", ddJ);
+		} else {
+			model.addAttribute("judgment", judgment);
+		}
 		
 		return "singleResult";
 	}
@@ -42,11 +37,6 @@ public class JudgmentController {
 	@RequestMapping("/results")
 	public String JudgmentResults(ModelMap model) {
 		
-		List<String> keywords = new ArrayList<String>();
-		keywords.add("very");
-		keywords.add("important");
-		keywords.add("keywords");
-		model.addAttribute("keywords", keywords);
 		
 		List<Judgment> judgments = new ArrayList<Judgment>();
 		judgments.add(judgmentRepository.findOneAndInitialize(1));

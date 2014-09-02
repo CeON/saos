@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
-<%--
-<saos:searchForm></saos:searchForm>
- --%>
-
 
 <div class="container judgment-list">
 
@@ -27,13 +23,15 @@
 		
 			<div class="row" >
 				<div class="col-md-8">
-					<div class="type" ><c:out value="${judgment.judgmentType}" /></div>
-					<div class="case-number"><a href="${contextPath}/result/${judgment.id}"><c:out value="${judgment.caseNumber}" /></a> - <c:out value="${judgment.judgmentDate}" /></div>
+					<div class="type" ><span><spring:message code="judgment.results.${fn:toLowerCase(judgment.judgmentType)}" /></span></div>
+					<div class="case-number"><a href="${contextPath}/result/${judgment.id}"><c:out value="${judgment.caseNumber}" /></a></div>
 					
-					<div class="court">Sąd Rejonowy w Piasecznie</div>
+					<div class="date"><span><spring:message code="judgment.results.date" />:</span><c:out value="${judgment.judgmentDate}" /></div>
+					<div class="court"><c:out value="${judgment.courtDivision.court.name}" /> - <c:out value="${judgment.courtDivision.name}" /></div>
 					
 					
 					<div class="judges" >
+						<span><spring:message code="judgment.results.judges" />:</span>
 						<c:forEach items="${judgment.judges}" var="judge" >
 							<div class="judge"><c:out value="${judge.name}" /></div>
 						</c:forEach>	
@@ -41,11 +39,13 @@
 					
 					<!--  <h4>Słowa kluczowe:</h4>  -->
 					
-					<div class="keywords">	
-						<c:forEach items="${keywords}" var="keyword" >
-							<div class="keyword"><c:out value="${keyword}" /></div>
-						</c:forEach>
-					</div>
+					<c:if test="${!empty judgment.keywords}" >
+						<div class="keywords">	
+							<c:forEach items="${judgment.keywords}" var="keyword" >
+								<div class="keyword"><c:out value="${keyword.phrase}" /></div>
+							</c:forEach>
+						</div>
+					</c:if>
 				</div>
 				<div class="col-md-4">
 					<div class="accuracy" >99%</div>

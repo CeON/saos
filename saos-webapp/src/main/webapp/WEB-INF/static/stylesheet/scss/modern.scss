@@ -446,6 +446,10 @@ form.search {
 			font-size: 11px;
 			position: relative;
 			bottom: -3px;
+			
+			span {
+				text-transform: uppercase;
+			}
 		}
 		
 		.court {
@@ -534,6 +538,10 @@ form.search {
 	    margin-bottom: 10px;
 	    margin-top: 30px;
 	    padding-bottom: 6px;
+	    
+	    span {
+	    	text-transform: uppercase;
+	    }
 	}
 
 	.modal-dialog {
