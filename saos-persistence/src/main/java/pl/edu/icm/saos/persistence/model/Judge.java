@@ -18,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.google.common.base.Objects;
 import org.apache.commons.collections.CollectionUtils;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
@@ -158,6 +159,12 @@ public class Judge extends DataObject {
             return false;
         return true;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(Judge.class)
+                .add("name", name)
+                .add("roles", specialRoles)
+                .toString();
+    }
 }

@@ -10,6 +10,7 @@ import java.lang.reflect.ParameterizedType;
  *
  * @param <D> expected query result type
  * @author mpol@icm.edu.pl
+ * @author pavtel
  */
 @SuppressWarnings("serial")
 public abstract class DatabaseSearchFilter<D extends DataObject> extends SearchFilter {
@@ -109,6 +110,15 @@ public abstract class DatabaseSearchFilter<D extends DataObject> extends SearchF
          */
         public B limit(int limit) {
             instance.setLimit(limit);
+            return self();
+        }
+
+        /**
+         * @param offset
+         * @return this builder
+         */
+        public B offset(int offset){
+            instance.setFirst(offset);
             return self();
         }
 

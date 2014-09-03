@@ -53,14 +53,14 @@ public class JudgmentsController {
     ) throws WrongRequestParameterException {
 
         RequestParameters requestParameters = parametersExtractor.extractRequestParameter(expand, limit, offset);
-        ElementsSearchResults searchResults = apiSearchService.performSearch(requestParameters);
+        ElementsSearchResults<Judgment> searchResults = apiSearchService.performSearch(requestParameters);
 
         Map<String, Object> representation = listSuccessRepresentationBuilder.build(searchResults,
                  linkTo(JudgmentsController.class).toUriComponentsBuilder());
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
-        return new ResponseEntity<Map<String, Object>>(representation, httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(representation, httpHeaders, HttpStatus.OK);
     }
 
 

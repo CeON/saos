@@ -6,6 +6,7 @@ import pl.edu.icm.saos.persistence.search.dto.SearchFilter;
 import pl.edu.icm.saos.persistence.search.implementor.SearchImplementor;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -16,12 +17,14 @@ public class DatabaseSearchServiceImpl implements DatabaseSearchService {
     
     
     @Override
+    @Transactional
     public <E, T extends SearchFilter> SearchResult<E> search(T filter) {
         SearchImplementor<T, E> searchImplementor = getSearchImplementor(filter);
         return searchImplementor.search(filter);
     }
     
     @Override
+    @Transactional
     public <T extends SearchFilter> int count(T filter) {
         SearchImplementor<T, ?> searchImplementor = getSearchImplementor(filter);
         return searchImplementor.count(filter);

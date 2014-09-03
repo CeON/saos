@@ -9,12 +9,33 @@ import pl.edu.icm.saos.persistence.model.Judgment;
  */
 public class JudgmentSearchFilter extends DatabaseSearchFilter<Judgment> {
 
-    public JudgmentSearchFilter() {
-        this(false);
+
+    public static class Builder extends DatabaseSearchFilter.Builder<Builder, JudgmentSearchFilter>{
+
+        public Builder() {
+            instance = new JudgmentSearchFilter();
+        }
+
+        @Override
+        protected Builder self() {
+            return this;
+        }
+
+        public Builder startDate(LocalDate startDate){
+            instance.setStartDate(startDate);
+            return this;
+        }
+
+        public Builder endDate(LocalDate endDate){
+            instance.setEndDate(endDate);
+            return this;
+        }
+
+
     }
 
-    public JudgmentSearchFilter(boolean initialize) {
-        setInitialize(initialize);
+    public static Builder builder(){
+        return new Builder();
     }
 
     private LocalDate startDate;

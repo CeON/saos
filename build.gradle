@@ -17,6 +17,7 @@ subprojects {
     
 
     ext.lib = [
+        'junit:junit-dep' : 'junit:junit-dep:4.8.2',
         'org.apache.commons:commons-lang3' :'org.apache.commons:commons-lang3:3.3.2',
         'commons-collections:commons-collections' :'commons-collections:commons-collections:3.2.1',
         'commons-codec:commons-codec' :'commons-codec:commons-codec:1.9',
@@ -81,7 +82,9 @@ subprojects {
     
     dependencies {
         compile lib.'org.apache.commons:commons-lang3'
-        testCompile 'junit:junit:4.8.2'
+        testCompile (lib.'junit:junit-dep') {
+            exclude module: 'hamcrest-core'
+        }
         testCompile lib.'org.springframework:spring-test'
         compile lib.'org.slf4j:slf4j-api'
         //compile lib.'org.slf4j:slf4j-simple'

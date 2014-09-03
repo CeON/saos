@@ -5,22 +5,17 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.*;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
-import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
-import pl.edu.icm.saos.persistence.model.LawJournalEntry;
-import pl.edu.icm.saos.persistence.model.SourceCode;
 
 import com.google.common.collect.Lists;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Łukasz Dumiszewski
@@ -48,6 +43,8 @@ public class TestJudgmentFactory {
         judge.setName("Monkey Donkey");
         judge.setSpecialRoles(Lists.newArrayList(JudgeRole.PRESIDING_JUDGE));
         judgment.addJudge(judge);
+
+        judgment.setDecision("judgment decision");
         
         LawJournalEntry entry = new LawJournalEntry();
         entry.setYear(2011);
@@ -72,28 +69,37 @@ public class TestJudgmentFactory {
         keyword1.setPhrase("Abc1");
         
         CcJudgmentKeyword keyword2 = new CcJudgmentKeyword();
-        keyword1.setPhrase("Abc2");
+        keyword2.setPhrase("Abc2");
         
         judgment.addKeyword(keyword1);
         judgment.addKeyword(keyword2);
+
+        JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
+        sourceInfo.setPublisher("S I Publisher");
+        sourceInfo.setPublicationDate(new DateTime());
+        sourceInfo.setReviser("S I Reviser");
+        sourceInfo.setSourceCode(SourceCode.COMMON_COURT);
+        sourceInfo.setSourceJudgmentId("999666");
+        sourceInfo.setSourceJudgmentUrl("http://iiiiiii/sssss/pl");
+        judgment.setSourceInfo(sourceInfo);
         
         
         JudgmentReasoning reasoning = new JudgmentReasoning();
         judgment.setReasoning(reasoning);
         reasoning.setJudgment(judgment);
         reasoning.setText("Reasoning of the judgment");
-        JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
-        sourceInfo.setPublisher("J Publisher");
-        sourceInfo.setPublicationDate(new DateTime());
-        sourceInfo.setReviser("J Reviser");
-        sourceInfo.setSourceCode(SourceCode.COMMON_COURT);
-        sourceInfo.setSourceJudgmentId("1234565");
-        sourceInfo.setSourceJudgmentUrl("http://sssss/sssss/pl");
-        reasoning.setSourceInfo(sourceInfo);
+        JudgmentSourceInfo reasoningSourceInfo = new JudgmentSourceInfo();
+        reasoningSourceInfo.setPublisher("J Publisher");
+        reasoningSourceInfo.setPublicationDate(new DateTime());
+        reasoningSourceInfo.setReviser("J Reviser");
+        reasoningSourceInfo.setSourceCode(SourceCode.COMMON_COURT);
+        reasoningSourceInfo.setSourceJudgmentId("1234565");
+        reasoningSourceInfo.setSourceJudgmentUrl("http://sssss/sssss/pl");
+        reasoning.setSourceInfo(reasoningSourceInfo);
         
         judgment.addLegalBase("ABC");
         judgment.addLegalBase("BCA");
-        
+
         if (save) {
             entityManager.persist(keyword1);
             entityManager.persist(keyword2);
@@ -106,4 +112,38 @@ public class TestJudgmentFactory {
         }
         return judgment;
     }
+
+    @Transactional
+    public List<CommonCourtJudgment> createSimpleCcJudgments(boolean save){
+        CommonCourtJudgment firstJudgment = new CommonCourtJudgment();
+        firstJudgment.setCaseNumber("A");
+        firstJudgment.setJudgmentDate(new LocalDate(10000000000L));
+
+        CommonCourtJudgment secondJudgment = new CommonCourtJudgment();
+        secondJudgment.setCaseNumber("B");
+        secondJudgment.setJudgmentDate(new LocalDate(20000000000L));
+
+
+        CommonCourtJudgment thirdJudgment = new CommonCourtJudgment();
+        thirdJudgment.setCaseNumber("C");
+        thirdJudgment.setJudgmentDate(new LocalDate(30000000000L));
+
+
+        CommonCourtJudgment fourthJudgment = new CommonCourtJudgment();
+        fourthJudgment.setCaseNumber("D");
+        fourthJudgment.setJudgmentDate(new LocalDate(40000000000L));
+
+
+        if(save){
+            entityManager.persist(firstJudgment);
+            entityManager.persist(secondJudgment);
+            entityManager.persist(thirdJudgment);
+            entityManager.persist(fourthJudgment);
+            entityManager.flush();
+        }
+
+
+        return Arrays.asList(firstJudgment, secondJudgment, thirdJudgment, fourthJudgment);
+    }
+
 }

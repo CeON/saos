@@ -5,6 +5,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
+import com.google.common.base.Objects;
 import org.joda.time.DateTime;
 
 /**
@@ -118,7 +119,15 @@ public class JudgmentSourceInfo {
         return true;
     }
 
-   
-
-    
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(JudgmentSourceInfo.class)
+                .add("sourceCode", sourceCode)
+                .add("sourceJudgmentUrl", sourceJudgmentUrl)
+                .add("sourceJudgmentId", sourceJudgmentId)
+                .add("publicationDate", publicationDate)
+                .add("publisher", publisher)
+                .add("reviser", reviser)
+                .toString();
+    }
 }
