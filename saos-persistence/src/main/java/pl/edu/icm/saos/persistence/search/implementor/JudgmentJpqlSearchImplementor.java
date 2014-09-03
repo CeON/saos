@@ -18,7 +18,7 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
 
     @Override
     protected String createQuery(JudgmentSearchFilter searchFilter) {
-        StringBuilder jpql = new StringBuilder(" select journal from " + Judgment.class.getName() + " journal ");
+        StringBuilder jpql = new StringBuilder(" select judgment from " + Judgment.class.getName() + " judgment ");
         return appendConditions(searchFilter, jpql);
     }
 
