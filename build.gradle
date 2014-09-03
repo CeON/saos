@@ -9,6 +9,7 @@ subprojects {
     repositories {
        mavenCentral()
        maven { url "http://repo.spring.io/libs-milestone" }
+       maven { url "http://maven.icm.edu.pl/artifactory/repo"}
          
     }
 
@@ -71,7 +72,9 @@ subprojects {
         'com.fasterxml.jackson.core:jackson-databind' : 'com.fasterxml.jackson.core:jackson-databind:2.4.1',
         'com.jayway.jsonpath:json-path' : 'com.jayway.jsonpath:json-path:0.9.1',
         'com.jayway.jsonpath:json-path-assert' : 'com.jayway.jsonpath:json-path-assert:0.9.1',
-        'org.hamcrest:hamcrest-library' : 'org.hamcrest:hamcrest-library:1.3'
+        'org.hamcrest:hamcrest-library' : 'org.hamcrest:hamcrest-library:1.3',
+        'pl.edu.icm.ceon:ceon-search-core' : 'pl.edu.icm.ceon:ceon-search-core:1.0.2',
+        'pl.edu.icm.ceon:ceon-search-model' : 'pl.edu.icm.ceon:ceon-search-model:1.0.2'
 
         
     ]
