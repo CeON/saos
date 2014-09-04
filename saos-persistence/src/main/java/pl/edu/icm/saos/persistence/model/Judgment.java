@@ -382,6 +382,18 @@ public abstract class Judgment extends IndexableObject {
     private void setReferencedRegulations_(List<JudgmentReferencedRegulation> referencedRegulations) {
         this.referencedRegulations = referencedRegulations;
     }
+
+    public boolean isInstanceOfCommonCourtJudgment(){
+        return this instanceof CommonCourtJudgment;
+    }
+
+    public boolean isInstanceOfAdministrativeCourtJudgment(){
+        return this instanceof AdministrativeCourtJudgment;
+    }
+
+    public boolean isInstanceOfSupremeCourtJudgment(){
+        return this instanceof SupremeCourtJudgment;
+    }
     
     
     //------------------------ HashCode & Equals --------------------------
