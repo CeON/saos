@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
-<spring:eval expression="@exposedProperties.getProperty('referenced.law.journal.site')" var="lawJournalSite" />
 
 <div class="container judgment-page block">
 	
@@ -93,10 +92,10 @@
 		<h4><spring:message code="judgment.referencedRegulations" />:</h4>
 		<ul class="referencedRegulations">	
 			<c:forEach items="${judgment.referencedRegulations}" var="referencedRegulation" >
-				<li class="legalBase">
-					<a href="${lawJournalSite}/${referencedRegulation.lawJournalEntry.year}/s/${referencedRegulation.lawJournalEntry.journalNo}/${referencedRegulation.lawJournalEntry.entry}" >
-						<c:out value="${referencedRegulation.rawText}" />
-					</a>
+				<li class="legalBase"> 
+					<saos:lawJournalLink year="${referencedRegulation.lawJournalEntry.year}"
+						 journalNo="${referencedRegulation.lawJournalEntry.journalNo}" entry="${referencedRegulation.lawJournalEntry.entry}" 
+						 text="${referencedRegulation.rawText}" />
 				</li>
 			</c:forEach>
 		</ul>
@@ -125,11 +124,10 @@
 
 		    </div>
 		  </div>
-		</div>
+		</div><!-- Modal end -->
 
 		
 	</div>
 	
-	 
 </div>
 

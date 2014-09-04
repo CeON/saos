@@ -28,8 +28,6 @@
 			    <div class="col-sm-4">
 			      <input type="text" class="form-control" id="input-search-casenumber" placeholder="<spring:message code="search.field.casenumber" />">
 			    </div>
-			    
-			    
 		    </div>
 		    
 		    <div class="form-group">
