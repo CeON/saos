@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"	
+       
+	   xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    
+    
+    <!-- <import resource="classpath*:/org/springframework/batch/admin/web/resources/servlet-config.xml"/> 
+    <import resource="classpath*:/org/springframework/batch/admin/web/resources/webapp-config.xml"/>-->
+    
+    <!-- the 2 files above are recommended (in springBatchAdmin docs and forums) to import 
+
+    	 Instead I have imported separately some of the context files (that have been referenced in the 2 mentioned files)
+    	 to have the possibility of defining the rest of resources according to my wish - 
+    	 for example I want to use our standard backend configuration of spring batch rather than that from springBatchAdmin - 
+    	 to have greater control over it /Łukasz Dumiszewski/
+     -->
+
+	<import resource="classpath*:/META-INF/spring/batch/servlet/resources/resources-context.xml" />
+	<import resource="classpath*:/META-INF/spring/batch/servlet/manager/manager-context.xml" />
+	<import resource="classpath*:/META-INF/spring/batch/servlet/manager/controller-context.xml" />
+	<import resource="classpath*:/META-INF/spring/batch/servlet/manager/integration-context.xml" />
+	<import resource="classpath*:/META-INF/spring/batch/bootstrap/integration/file-context.xml" />
+	<import resource="classpath*:/META-INF/spring/batch/bootstrap/integration/configuration-context.xml" />
+	<!-- <import resource="classpath*:/META-INF/spring/batch/bootstrap/integration/jmx-context.xml" />-->
+	<import resource="classpath*:/META-INF/spring/batch/bootstrap/integration/restart-context.xml" />
+	
+	<import resource="applicationContext-batchAdmin-launcher.xml"/>
+	
+
+
+	<!-- by default the address to batch home page on the main menu is /batch, but it does not seem to be properly mapped.
+	     Below the patch -->
+	<mvc:view-controller path="/batch" view-name="forward:/home"/>
+	
+	<bean name="forward:/home" class="org.springframework.web.servlet.view.InternalResourceView">
+		<property name="url" value="#{resourceService.servletPath}/home" />
+	</bean>
+	<!-- end -->
+
+
+
+
+</beans>

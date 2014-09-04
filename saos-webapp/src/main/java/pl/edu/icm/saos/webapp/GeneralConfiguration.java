@@ -27,6 +27,7 @@ public class GeneralConfiguration {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
         PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
+        propertyPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(false);
         return propertyPlaceholderConfigurer;
     }
     

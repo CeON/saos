@@ -15,8 +15,29 @@ public class SecurityConfiguration {
 
     public static final String CSRF_TOKEN_SESSION_ATTR_NAME = "HTTP_CSRF_TOKEN";
     
+    
     @Configuration
     @Order(1)
+    public static class BatchAdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
+    
+        
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                .requestMatchers().antMatchers("/batch/**/*")
+                .and()
+                .authorizeRequests()
+                    .anyRequest().permitAll()
+                    .and().csrf().disable()
+                ;
+        }
+        
+       
+        
+    }
+    
+    @Configuration
+    @Order(2)
     public static class MainSecurityConfiguration extends WebSecurityConfigurerAdapter {
     
         

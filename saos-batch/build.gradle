@@ -11,4 +11,8 @@ dependencies {
        
     compile lib.'commons-collections:commons-collections'
     compile lib.'org.springframework.batch:spring-batch-core'
+    
+    compile lib.'org.springframework.batch:spring-batch-admin-manager'
+    compile lib.'org.springframework.batch:spring-batch-admin-resources'
+    
 }

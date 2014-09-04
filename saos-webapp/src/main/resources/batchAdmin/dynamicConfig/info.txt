@@ -1,0 +1,5 @@
+# this is a folder for dynamic load job configurations polled (and required) by spring batch admin
+# are we going to use the auto-loading functionality? probably not, but switching off this option is a quite
+# entangled operation
+
+# the name of this folder is defined in saos.default.properies by the 'batch.job.configuration.file.dir' property
