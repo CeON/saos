@@ -10,8 +10,11 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.FieldsNames;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.search.dto.CommonCourtSearchFilter;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 import static org.hamcrest.Matchers.*;
@@ -34,7 +37,7 @@ public class DatabaseSearchServiceImplTest extends PersistenceTestSupport{
     private DatabaseSearchService databaseSearchService;
 
     @Test
-    public void itShouldFindJudgmentsWithAllBasicFields(){
+    public void it_should_find_judgments_with_all_basic_fields(){
         //given
         CommonCourtJudgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -72,7 +75,7 @@ public class DatabaseSearchServiceImplTest extends PersistenceTestSupport{
     }
 
     @Test
-    public void itShouldFindSubListOfJudgmentsOrderedByJudgmentDate(){
+    public void it_should_find_subList_of_judgments_ordered_by_judgmentDate(){
         //given
         List<CommonCourtJudgment> judgments = testJudgmentFactory.createSimpleCcJudgments(true);
         judgments.sort((first, second) -> first.getJudgmentDate().compareTo(second.getJudgmentDate()));
@@ -94,11 +97,11 @@ public class DatabaseSearchServiceImplTest extends PersistenceTestSupport{
         List<Judgment> actualJudgments = searchResult.getResultRecords();
 
         assertThat(actualJudgments, iterableWithSize(2));
-        assertThat(toCaseNumbers(actualJudgments), containsListInAnyOrder(toCaseNumbers(judgments.subList(1, 3))));
+        assertThat(toCaseNumbers(actualJudgments), is(toCaseNumbers(judgments.subList(1, 3))));
     }
 
     @Test
-    public void itShouldFindJudgmentsBetweenStartJudgmentDateAndEndJudgmentDate(){
+    public void it_should_find_judgments_between_startJudgmentDate_and_endJudgmentDate(){
         //given
         List<CommonCourtJudgment> judgments = testJudgmentFactory.createSimpleCcJudgments(true);
         CommonCourtJudgment givenJudgment = judgments.get(3);
@@ -121,12 +124,71 @@ public class DatabaseSearchServiceImplTest extends PersistenceTestSupport{
         assertThat(actualJudgments.get(0).getCaseNumber(), is(givenJudgment.getCaseNumber()));
     }
 
+
+    @Test
+    public void it_should_find_all_CommonCourt_Basic_Fields_With_Its_All_Divisions_Fields(){
+        //given
+        CommonCourt commonCourt = testJudgmentFactory.createFullCommonCourt(true);
+
+        CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
+                .initialize()
+                .filter();
+
+        //when
+        SearchResult<CommonCourt> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        List<CommonCourt> courts = searchResult.getResultRecords();
+
+        assertThat(courts, iterableWithSize(1));
+        CommonCourt actualCourt = courts.get(0);
+
+        assertThat("court code", actualCourt.getCode(), is(commonCourt.getCode()));
+        assertThat("court name", actualCourt.getName(), is(commonCourt.getName()));
+        assertThat("court type", actualCourt.getType(), is(commonCourt.getType()));
+
+        List<CommonCourtDivision> divisions = actualCourt.getDivisions();
+
+        assertThat(divisions, iterableWithSize(2));
+        assertThat(" divisions ", actualCourt.getDivisions(), containsListInAnyOrder(commonCourt.getDivisions()));
+
+    }
+
+    @Test
+    public void it_should_find_subList_of_courts_ordered_by_id(){
+        //given
+        List<CommonCourt> commonCourts = testJudgmentFactory.createSimpleCommonCourts(true);
+
+        commonCourts.sort((first, second) -> Integer.compare(first.getId(), second.getId()));
+
+        int offset = 1;
+        int limit = 2;
+        CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
+                .limit(limit)
+                .offset(offset)
+                .upBy("id")
+                .filter();
+
+
+        //when
+        SearchResult<CommonCourt> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        List<CommonCourt> courts = searchResult.getResultRecords();
+
+        assertThat("courts code", toCodes(courts), is(toCodes(commonCourts.subList(1, 3))));
+    }
+
     private static  org.hamcrest.Matcher<java.lang.Iterable<?>> containsListInAnyOrder(List<?> items) {
         return containsInAnyOrder(items.toArray());
     }
 
     private static <T extends Judgment> List<String> toCaseNumbers(List<T> judgments){
         return judgments.stream().map(Judgment::getCaseNumber).collect(Collectors.toList());
+    }
+
+    private static List<String> toCodes(List<CommonCourt> courts){
+        return courts.stream().map(CommonCourt::getCode).collect(Collectors.toList());
     }
 
 

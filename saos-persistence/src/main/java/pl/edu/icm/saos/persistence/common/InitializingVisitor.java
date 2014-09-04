@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.persistence.common;
 
 import pl.edu.icm.saos.common.visitor.Visitor;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -29,6 +30,11 @@ public class InitializingVisitor implements Visitor {
     
     public void visit(Judge judge) {
         JpaUtils.initialize(judge.getSpecialRoles());
+    }
+
+
+    public void visit(CommonCourt court){
+        JpaUtils.initialize(court.getDivisions());
     }
     
     

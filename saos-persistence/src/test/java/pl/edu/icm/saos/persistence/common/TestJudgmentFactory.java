@@ -32,6 +32,79 @@ public class TestJudgmentFactory {
         judgment.setCaseNumber(RandomStringUtils.randomAlphanumeric(10));
         return judgment;
     }
+
+    @Transactional
+    public CommonCourt createFullCommonCourt(boolean save){
+        CommonCourt court = new CommonCourt();
+        court.setCode("ABC_COURT_CODE");
+        court.setName("ABC cour name");
+        court.setType(CommonCourt.CommonCourtType.APPEAL);
+
+        CommonCourtDivision firstDivision = new CommonCourtDivision();
+        firstDivision.setCode("F_D");
+        firstDivision.setName("F_D Division name");
+        CommonCourtDivisionType firstType = new CommonCourtDivisionType();
+        firstType.setCode("00003333");
+        firstType.setName("Karny");
+        firstDivision.setType(firstType);
+        court.addDivision(firstDivision);
+
+        CommonCourtDivision secondDivision = new CommonCourtDivision();
+        secondDivision.setCode("S_D");
+        secondDivision.setName("S_D Division name");
+        CommonCourtDivisionType secondType = new CommonCourtDivisionType();
+        secondType.setCode("00006666");
+        secondType.setName("Cywilny");
+        secondDivision.setType(secondType);
+        court.addDivision(secondDivision);
+
+        if(save){
+            entityManager.persist(firstType);
+            entityManager.persist(secondType);
+            entityManager.persist(firstDivision);
+            entityManager.persist(secondDivision);
+            entityManager.persist(court);
+            entityManager.flush();
+        }
+
+
+
+        return court;
+    }
+
+    @Transactional
+    public List<CommonCourt> createSimpleCommonCourts(boolean save){
+        CommonCourt aCourt = new CommonCourt();
+        aCourt.setCode("A_CODE");
+        aCourt.setName("A name");
+        aCourt.setType(CommonCourt.CommonCourtType.APPEAL);
+
+        CommonCourt bCourt = new CommonCourt();
+        bCourt.setCode("B_CODE");
+        bCourt.setName("B name");
+        bCourt.setType(CommonCourt.CommonCourtType.DISTRICT);
+
+        CommonCourt cCourt = new CommonCourt();
+        cCourt.setCode("C_CODE");
+        cCourt.setName("C name");
+        cCourt.setType(CommonCourt.CommonCourtType.DISTRICT);
+
+
+        CommonCourt dCourt = new CommonCourt();
+        dCourt.setCode("D_CODE");
+        dCourt.setName("D name");
+        dCourt.setType(CommonCourt.CommonCourtType.REGIONAL);
+
+        if(save){
+            entityManager.persist(aCourt);
+            entityManager.persist(bCourt);
+            entityManager.persist(cCourt);
+            entityManager.persist(dCourt);
+            entityManager.flush();
+        }
+
+        return Arrays.asList(aCourt, bCourt, cCourt, dCourt);
+    }
     
     @Transactional
     public CommonCourtJudgment createFullCcJudgment(boolean save) {
