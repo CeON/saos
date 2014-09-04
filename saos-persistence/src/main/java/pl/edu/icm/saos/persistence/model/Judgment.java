@@ -383,15 +383,18 @@ public abstract class Judgment extends IndexableObject {
         this.referencedRegulations = referencedRegulations;
     }
 
-    public boolean instanceOfCommonCourtJudgment(){
+    @Transient
+    public boolean isInstanceOfCommonCourtJudgment(){
         return this instanceof CommonCourtJudgment;
     }
 
-    public boolean instanceOfAdministrativeCourtJudgment(){
+    @Transient
+    public boolean isInstanceOfAdministrativeCourtJudgment(){
         return this instanceof AdministrativeCourtJudgment;
     }
 
-    public boolean instanceOfSupremeCourtJudgment(){
+    @Transient
+    public boolean isInstanceOfSupremeCourtJudgment(){
         return this instanceof SupremeCourtJudgment;
     }
     
