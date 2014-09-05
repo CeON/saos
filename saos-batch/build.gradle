@@ -12,7 +12,13 @@ dependencies {
     compile lib.'commons-collections:commons-collections'
     compile lib.'org.springframework.batch:spring-batch-core'
     
-    compile lib.'org.springframework.batch:spring-batch-admin-manager'
-    compile lib.'org.springframework.batch:spring-batch-admin-resources'
+    compile(lib.'org.springframework.batch:spring-batch-admin-manager') {
+        exclude group: 'net.sf.ehcache', module: 'ehcache-core'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
+
+    compile(lib.'org.springframework.batch:spring-batch-admin-resources') {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+    }
     
 }
