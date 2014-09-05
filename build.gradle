@@ -146,6 +146,7 @@ subprojects {
     tasks.withType(Test) {
         testLogging {
             events 'passed'
+            exceptionFormat = 'full'
         }
     }
    
