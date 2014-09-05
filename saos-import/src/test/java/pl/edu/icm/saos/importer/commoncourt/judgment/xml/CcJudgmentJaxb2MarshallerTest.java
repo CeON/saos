@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDateFormatter;
+
 import com.google.common.collect.Lists;
 
 /**
@@ -73,7 +75,7 @@ public class CcJudgmentJaxb2MarshallerTest {
         assertEquals("155000000001521_III_AUa_001639_2011_Uz_2012-01-26_001", judgment.getId());
         assertEquals("III AUa 1639/11", judgment.getSignature());
         assertEquals(new LocalDate(2012,1,26), judgment.getJudgmentDate());
-        assertEquals(new LocalDateTime(2013,04,12,01,01,05).toDateTime(DateTimeZone.getDefault()), judgment.getPublicationDate());
+        assertEquals(new LocalDateTime(2013,04,12,01,01,05).toDateTime(DateTimeZone.forID(CcjImportDateFormatter.DEFAULT_IMPORT_TIME_ZONE_ID)).withZone(judgment.getPublicationDate().getZone()), judgment.getPublicationDate());
         assertEquals("15500000", judgment.getCourtId());
         assertEquals("1521", judgment.getDepartmentId());
         assertEquals(Lists.newArrayList("SENTENCE", "REASON"), judgment.getTypes());

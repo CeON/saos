@@ -16,8 +16,9 @@ public class CcjImportDateFormatter {
 
     private static DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.S");
 
-
-    private String timeZoneId = "Europe/Warsaw";
+    public static final String DEFAULT_IMPORT_TIME_ZONE_ID = "Europe/Warsaw";
+    
+    private String timeZoneId = DEFAULT_IMPORT_TIME_ZONE_ID;
 
     private String jadiraJavaZone = "jvm";
     
