@@ -11,7 +11,15 @@ public interface FieldsMapper<T> {
 
     public Map<String, Object> basicFieldsToMap(T element);
 
-    Map<String,Object> fieldsToMap(T element);
+    default Map<String,Object> fieldsToMap(T element){
+        return fieldsToMap(element, false);
+    }
 
-    Map<String, Object> commonFieldsToMap(T element);
+    Map<String,Object> fieldsToMap(T element, boolean useIdInsteadOfLinks);
+
+    default Map<String, Object> commonFieldsToMap(T element) {
+        return commonFieldsToMap(element, false);
+    }
+
+    Map<String, Object> commonFieldsToMap(T element, boolean useIdInsteadOfLinks);
 }

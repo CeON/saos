@@ -3,6 +3,7 @@ package pl.edu.icm.saos.api.parameters;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDate;
 import org.springframework.stereotype.Component;
 import pl.edu.icm.saos.api.exceptions.WrongRequestParameterException;
 
@@ -10,6 +11,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
@@ -20,6 +23,10 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 public class ParametersExtractor {
 
     private static final Splitter SPLITTER = Splitter.on(",").trimResults().omitEmptyStrings();
+
+    private static final Splitter DATE_SPLITTER = Splitter.on("-").trimResults().omitEmptyStrings();
+
+    private static final Pattern DATE_PATTERN = Pattern.compile("^[1-9]\\d{3}-(1[0-2]|[1-9])-([1-9]|[1-2]\\d|3[0-1])$");
 
     private int defaultLimit = 20; //TODO move into properties file
     private int maxLimit = 100; //TODO move into properties file
@@ -46,6 +53,32 @@ public class ParametersExtractor {
 
 
         return new JoinedParameter(joinedValue, values);
+    }
+
+
+    public LocalDate extractLocalDate(String value, String paramName) throws WrongRequestParameterException {
+        if(value == null || StringUtils.isBlank(value))
+            return null;
+
+        if(!DATE_PATTERN.matcher(value).matches()){
+            throw new WrongRequestParameterException(paramName, "should have format yyyy-MM-DD");
+        }
+
+        List<Integer> integers = DATE_SPLITTER
+                .splitToList(value)
+                .stream()
+                .map(Integer::valueOf)
+                .collect(Collectors.toList())
+                ;
+
+        int year = integers.get(0);
+        int month = integers.get(1);
+        int day = integers.get(2);
+
+
+        LocalDate localDate = new LocalDate(year, month, day);
+
+        return localDate;
     }
 
     public Pagination extractAndValidatePagination(int limit, int offset) throws WrongRequestParameterException {

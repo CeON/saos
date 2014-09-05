@@ -35,10 +35,17 @@ public class CommonCourtDivisionFieldsMapper implements FieldsMapper<CommonCourt
         return item;
     }
 
+
     @Override
-    public Map<String, Object> commonFieldsToMap(CommonCourtDivision division){
+    public Map<String, Object> commonFieldsToMap(CommonCourtDivision division, boolean useIdInsteadOfLinks) {
         Map<String, Object> item = new LinkedHashMap<>();
-        item.put(HREF, linksBuilder.urlToDivision(division.getId()));
+
+        if(useIdInsteadOfLinks){
+            item.put(ID, division.getId());
+        }else{
+            item.put(HREF, linksBuilder.urlToDivision(division.getId()));
+        }
+
         item.put(NAME, division.getName());
 
         return item;
@@ -46,14 +53,22 @@ public class CommonCourtDivisionFieldsMapper implements FieldsMapper<CommonCourt
 
 
     @Override
-    public Map<String, Object> fieldsToMap(CommonCourtDivision division) {
+    public Map<String, Object> fieldsToMap(CommonCourtDivision division, boolean useIdInsteadOfLinks) {
         Map<String, Object> item = new LinkedHashMap<>();
-        item.putAll(commonFieldsToMap(division));
+        item.putAll(commonFieldsToMap(division, useIdInsteadOfLinks));
 
         item.put(CODE, division.getCode());
         item.put(TYPE, division.getType().getName());
 
-        item.put(COURT, commonCourtFieldsMapper.fieldsToMap(division.getCourt()));
+
+        if(useIdInsteadOfLinks){
+            Map<String,Object> court = new LinkedHashMap<>();
+            court.put(ID, division.getCourt().getId());
+            item.put(COURT, court);
+        }else{
+            item.put(COURT, commonCourtFieldsMapper.fieldsToMap(division.getCourt()));
+        }
+
 
         return item;
     }

@@ -43,23 +43,29 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
     }
 
     @Override
-    public Map<String, Object> commonFieldsToMap(Judgment element){
+    public Map<String, Object> commonFieldsToMap(Judgment element, boolean useIdInsteadOfLinks) {
         Map<String, Object> item = new LinkedHashMap<>();
 
-        item.put(HREF, linksBuilder.urlToJudgment(element.getId()));
+        if(useIdInsteadOfLinks){
+            item.put(ID, element.getId());
+        } else {
+            item.put(HREF, linksBuilder.urlToJudgment(element.getId()));
+        }
+
         item.put(CASE_NUMBER, element.getCaseNumber());
         item.put(JUDGMENT_TYPE, element.getJudgmentType());
         item.put(JUDGMENT_DATE, toString(element.getJudgmentDate()));
         item.put(JUDGES, toListOfMaps(element.getJudges()));
 
         return item;
-
     }
 
+
+
     @Override
-    public Map<String, Object> fieldsToMap(Judgment element) {
+    public Map<String, Object> fieldsToMap(Judgment element, boolean useIdInsteadOfLinks) {
         Map<String, Object> item = new LinkedHashMap<>();
-        item.putAll(commonFieldsToMap(element));
+        item.putAll(commonFieldsToMap(element, useIdInsteadOfLinks));
 
         item.put(SOURCE, toMap(element.getSourceInfo()));
         item.put(COURT_REPORTERS, toSimpleList(element.getCourtReporters()));
@@ -75,16 +81,22 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
         item.put(LEGAL_BASES, toSimpleList(element.getLegalBases()));
         item.put(REFERENCED_REGULATIONS, toListOfMapsFromJRR(element.getReferencedRegulations()));
 
-        if(element instanceof CommonCourtJudgment){
+        if(element.isInstanceOfCommonCourtJudgment()){
             CommonCourtJudgment commonCourtJudgment = (CommonCourtJudgment) element;
-            item.put(DIVISION, divisionFieldsMapper.fieldsToMap(commonCourtJudgment.getCourtDivision()));
+
+            if(useIdInsteadOfLinks){
+                Map<String, Object> division = new LinkedHashMap<>();
+                division.put(ID, commonCourtJudgment.getCourtDivision().getId());
+                item.put(DIVISION, division);
+            }else{
+                item.put(DIVISION, divisionFieldsMapper.fieldsToMap(commonCourtJudgment.getCourtDivision()));
+            }
+
             item.put(KEYWORDS, toListFromKeywords(commonCourtJudgment.getKeywords()));
         }
 
         return item;
     }
-
-
 
 
     public Map<String, Object> toMap(Judgment element, boolean expandAll) {

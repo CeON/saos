@@ -28,25 +28,42 @@ public class CourtFieldsMapper implements FieldsMapper<CommonCourt> {
         return item;
     }
 
+
+
     @Override
-    public Map<String, Object> fieldsToMap(CommonCourt court) {
+    public Map<String, Object> fieldsToMap(CommonCourt court, boolean useIdInsteadOfLinks) {
         Map<String, Object> item = new LinkedHashMap<>();
-        item.putAll(commonFieldsToMap(court));
+        item.putAll(commonFieldsToMap(court, useIdInsteadOfLinks));
 
         item.put(CODE, court.getCode());
         item.put(TYPE, court.getType());
 
         if(court.getParentCourt() != null){
-            item.put(PARENT_COURT, toHref(court.getParentCourt()));
+
+            if(useIdInsteadOfLinks){
+                Map<String, Object> parentCourt = new LinkedHashMap<>();
+                parentCourt.put(ID, court.getParentCourt().getId());
+                item.put(PARENT_COURT, parentCourt);
+            }else{
+                item.put(PARENT_COURT, toHref(court.getParentCourt()));
+            }
+
         }
 
         return item;
     }
 
+
     @Override
-    public Map<String, Object> commonFieldsToMap(CommonCourt court) {
+    public Map<String, Object> commonFieldsToMap(CommonCourt court, boolean useIdInsteadOfLinks) {
         Map<String, Object> item = new LinkedHashMap<>();
-        item.put(HREF, linksBuilder.urlToCourt(court.getId()));
+
+        if(useIdInsteadOfLinks){
+            item.put(ID, court.getId());
+        } else {
+            item.put(HREF, linksBuilder.urlToCourt(court.getId()));
+        }
+
         item.put(NAME, court.getName());
 
         return item;

@@ -12,6 +12,8 @@ public abstract class ApiConstants {
     public static final String PREV = "prev";
     public static final String HREF = "href";
 
+    public static final String ID = "id";
+
     public static final String LIMIT = "limit";
     public static final String OFFSET = "offset";
 
@@ -55,4 +57,7 @@ public abstract class ApiConstants {
     public static final String COURT = "court";
     public static final String TYPE = "type";
     public static final String KEYWORDS = "keywords";
+
+    public static final String JUDGMENT_START_DATE = "judgmentStartDate";
+    public static final String JUDGMENT_END_DATE = "judgmentEndDate";
 }
