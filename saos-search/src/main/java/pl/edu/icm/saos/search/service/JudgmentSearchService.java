@@ -21,13 +21,16 @@ public class JudgmentSearchService implements SearchService<JudgmentSearchResult
     SolrServer solrServer;
     
     @Autowired
+    JudgmentSearchQueryFactory queryFactory;
+    
+    @Autowired
     JudgmentSearchResultsTranslator resultsTranslator;
 
     @Override
     public SearchResults<JudgmentSearchResult> search(JudgmentCriteria query,
             Paging paging) {
 
-        SolrQuery solrQuery = new SolrQuery(query.getAll()); // TODO
+        SolrQuery solrQuery = queryFactory.createQuery(query, paging);
         
         QueryResponse response = null;
         try {

@@ -1,7 +1,9 @@
 package pl.edu.icm.saos.search.model;
 
-public class Sorting {
+import pl.edu.icm.saos.search.util.SolrConstants;
 
+public class Sorting {
+    
     public enum Direction {
         ASC,
         DESC
@@ -21,5 +23,9 @@ public class Sorting {
 
     public Direction getDirection() {
         return direction;
+    }
+    
+    public static Sorting relevanceSorting() {
+        return new Sorting(SolrConstants.RELEVANCE_SORT_NAME, Direction.DESC);
     }
 }
