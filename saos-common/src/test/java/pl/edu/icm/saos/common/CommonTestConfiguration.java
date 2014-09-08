@@ -8,6 +8,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 
 /**
+ * Common test configuration for slow tests (based on spring context)
  * @author Łukasz Dumiszewski
  */
 @Configuration
