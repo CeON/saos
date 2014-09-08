@@ -2,8 +2,12 @@ dependencies {
     testCompile project(path:':saos-common', configuration:'testArtifacts')
     
     compile project(':saos-persistence')
-
-    compile lib.'org.springframework.hateoas'
+    compile lib.'org.springframework:spring-web'
+    compile lib.'org.springframework:spring-webmvc'
+    compile(lib.'org.springframework.hateoas') {
+        exclude group: 'org.springframework', module:'spring-web'
+        exclude group: 'org.springframework', module:'spring-webmvc'
+    }
     compile lib.'com.fasterxml.jackson.core:jackson-annotations'
     compile lib.'com.fasterxml.jackson.core:jackson-databind'
     compile lib.'com.fasterxml.jackson.core:jackson-core'

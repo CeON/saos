@@ -14,6 +14,10 @@ dependencies {
     //compile lib.'net.sf.ehcache:ehcache'
     compile lib.'org.hibernate:hibernate-ehcache'
     compile lib.'org.hibernate:hibernate-entitymanager'
-    compile lib.'pl.edu.icm.ceon:ceon-search-model'
-    compile lib.'pl.edu.icm.ceon:ceon-search-core'
+    compile(lib.'pl.edu.icm.ceon:ceon-search-model') {
+         exclude group: 'org.springframework', module:'spring-web'
+    }
+    compile(lib.'pl.edu.icm.ceon:ceon-search-core') {
+         exclude group: 'org.springframework', module:'spring-web'
+    }
 }

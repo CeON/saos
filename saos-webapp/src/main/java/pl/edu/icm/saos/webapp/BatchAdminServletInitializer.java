@@ -5,6 +5,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import pl.edu.icm.saos.batch.admin.BatchAdminConfiguration;
 
 
+
 /**
  * @author Łukasz Dumiszewski
  */
