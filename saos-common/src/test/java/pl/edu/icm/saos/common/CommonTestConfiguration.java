@@ -11,7 +11,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
  * @author Łukasz Dumiszewski
  */
 @Configuration
-@PropertySource(ignoreResourceNotFound=false, value={"classpath:saos.default.test.properties", "file:///${user.home}/.icm/saos-test.local.properties"})
+@PropertySource(ignoreResourceNotFound=true, value={"classpath:saos.default.test.properties", "file:///${user.home}/.icm/saos-test.local.properties"})
 public class CommonTestConfiguration {
 
     @Bean
