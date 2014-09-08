@@ -59,6 +59,7 @@ public class DumpCourtsController {
                 .limit(pagination.getLimit())
                 .offset(pagination.getOffset())
                 .upBy("id")
+                .initialize()
                 .filter();
 
         SearchResult<CommonCourt> searchResult = databaseSearchService.search(searchFilter);

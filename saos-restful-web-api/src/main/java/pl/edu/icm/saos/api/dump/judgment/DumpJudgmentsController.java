@@ -63,6 +63,7 @@ public class DumpJudgmentsController {
                 .startDate(startDate)
                 .endDate(endDate)
                 .upBy(FieldsNames.JUDGMENT_DATE)
+                .initialize()
                 .filter();
 
         SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
