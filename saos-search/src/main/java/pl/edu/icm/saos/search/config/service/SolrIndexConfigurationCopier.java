@@ -1,12 +1,9 @@
 package pl.edu.icm.saos.search.config.service;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.Properties;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -14,14 +11,13 @@ import org.springframework.stereotype.Component;
 
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 import pl.edu.icm.saos.search.config.model.SolrConfigurationException;
+import pl.edu.icm.saos.search.util.SearchIOUtils;
+import pl.edu.icm.saos.search.util.SolrConstants;
 
 @Component
 public class SolrIndexConfigurationCopier {
     
     private static Logger log = LoggerFactory.getLogger(SolrIndexConfigurationCopier.class);
-    
-    private static final String INDEX_CONF_DIR_NAME = "conf";
-
 
     public void copyIndexConfiguration(IndexConfiguration indexConfiguration, String configurationPath) {
         log.info("Copying configuration files for index with name {}", indexConfiguration.getName());
@@ -31,13 +27,17 @@ public class SolrIndexConfigurationCopier {
         File indexDir = new File(confHomeDir, indexConfiguration.getInstanceDir());
         createDirectory(indexDir);
         
-        File indexConfDir = new File(indexDir, INDEX_CONF_DIR_NAME);
+        if (indexConfiguration.isCreateIndexPropertyFile()) {
+            createIndexPropertyFile(indexDir, indexConfiguration);
+        }
+        
+        File indexConfDir = new File(indexDir, SolrConstants.INDEX_CONFIG_DIRECTORY_NAME);
         createDirectory(indexConfDir);
         
         for (Resource configurationFile : indexConfiguration.getConfigurationFiles()) {
             File targetFile = new File(indexConfDir, configurationFile.getFilename());
             try {
-                copyResource(configurationFile, targetFile);
+                SearchIOUtils.copyResource(configurationFile, targetFile);
             } catch (IOException e) {
                 throw new SolrConfigurationException("Unable to create configuration file " + targetFile.getAbsolutePath() + 
                         " for " + indexConfiguration.getName() + " index", e);
@@ -45,23 +45,29 @@ public class SolrIndexConfigurationCopier {
         }
     }
     
+    protected void createIndexPropertyFile(File indexDir, IndexConfiguration indexConfiguration) {
+        File targetFile = new File(indexDir, SolrConstants.INDEX_PROPERTIES_FILENAME);
+        
+        Properties indexProperties = new Properties();
+        indexProperties.put("name", indexConfiguration.getName());
+        
+        try {
+            SearchIOUtils.copyProperties(indexProperties, targetFile);
+        } catch (IOException e) {
+            throw new SolrConfigurationException("Unable to create configuration file " + targetFile.getAbsolutePath() + 
+                    " for " + indexConfiguration.getName() + " index", e);
+        }
+    }
+    
     private void createDirectory(File directory) {
 
         if (!directory.exists()) {
-            if (!directory.mkdir()) {
+            if (!directory.mkdirs()) {
                 throw new SolrConfigurationException("Unable to create directory " + directory.getAbsolutePath());
             }
         } else if (directory.isFile()) {
             throw new SolrConfigurationException("Found file at location " + directory.getAbsolutePath() + " but expected a directory");
         }
     }
-    
-    private void copyResource(Resource source, File target) throws IOException {
-        target.createNewFile();
-        InputStream inputStream = source.getInputStream();
-        OutputStream outputStream = new FileOutputStream(target);
-        IOUtils.copy(inputStream, outputStream);
-        inputStream.close();
-        outputStream.close();
-    }
+
 }

@@ -1,6 +1,7 @@
 
 dependencies {
     testCompile project(path:':saos-common', configuration:'testArtifacts')
+    testCompile lib.'org.apache.solr:solr-core'
     
     compile lib.'org.springframework:spring-context'
     compile lib.'org.springframework.batch:spring-batch-core'

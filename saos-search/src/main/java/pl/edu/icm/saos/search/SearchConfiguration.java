@@ -12,6 +12,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
+import pl.edu.icm.saos.search.config.service.IndexReloader;
+import pl.edu.icm.saos.search.config.service.SolrIndexReloader;
 
 /**
  * @author madryk
@@ -29,8 +31,8 @@ public class SearchConfiguration {
     
     @Bean
     public SolrServer solrServer() {
-        log.info("== SOLR SERVER URL: " + environment.getProperty("solr.index.url") + "  == ");
         String solrServerUrl = environment.getProperty("solr.index.url");
+        log.info("== SOLR SERVER URL: " + solrServerUrl + "  == ");
         
         HttpSolrServer solrServer = new HttpSolrServer(solrServerUrl);
 
@@ -38,10 +40,18 @@ public class SearchConfiguration {
     }
     
     @Bean
+    public IndexReloader indexReloader() {
+        SolrIndexReloader indexReloader = new SolrIndexReloader();
+        indexReloader.setSolrServer(solrServer());
+        return indexReloader;
+    }
+    
+    @Bean
     public SolrServer solrJudgmentsServer() {
         String solrServerUrl = environment.getProperty("solr.index.url");
         
-        HttpSolrServer solrServer = new HttpSolrServer(solrServerUrl + "/judgments");
+        IndexConfiguration judgmentsConfiguration = judgmentsIndexConfiguration();
+        HttpSolrServer solrServer = new HttpSolrServer(solrServerUrl + "/" + judgmentsConfiguration.getName());
         
         return solrServer;
     }

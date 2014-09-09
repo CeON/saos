@@ -10,25 +10,25 @@ import org.apache.solr.common.params.CoreAdminParams.CoreAdminAction;
 import org.apache.solr.common.util.NamedList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
+
+import com.google.common.base.Preconditions;
 
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 import pl.edu.icm.saos.search.config.model.SolrConfigurationException;
 
-@Service
-public class SolrIndexReloader {
+/**
+ * @author madryk
+ */
+public class SolrIndexReloader implements IndexReloader {
     
     private static Logger log = LoggerFactory.getLogger(SolrIndexReloader.class);
     
-    @Autowired
-    @Qualifier("solrServer")
-    SolrServer solrServer;
+    private SolrServer solrServer;
 
 
     public void reloadIndex(IndexConfiguration indexConfiguration) {
-
+        Preconditions.checkNotNull(solrServer);
+        
         boolean indexExists = checkIndexExists(indexConfiguration);
 
         if (indexExists) {
@@ -70,5 +70,9 @@ public class SolrIndexReloader {
         } catch (SolrServerException | IOException e) {
             throw new SolrConfigurationException("Unable to create index with name " + indexConfiguration.getName(), e);
         }
+    }
+
+    public void setSolrServer(SolrServer solrServer) {
+        this.solrServer = solrServer;
     }
 }
