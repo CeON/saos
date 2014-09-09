@@ -119,7 +119,7 @@ public class ParametersExtractorTest {
         int day = 5;
 
         //when
-        LocalDate actual = parametersExtractor.extractLocalDate(year + "-" + month + "-" + day, "");
+        LocalDate actual = parametersExtractor.extractLocalDate(year + "-" + "0"+month + "-" + "0"+day, "");
 
         //then
         assertEquals(new LocalDate(year, month, day), actual);

@@ -14,6 +14,7 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.removeStart;
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
@@ -26,7 +27,7 @@ public class ParametersExtractor {
 
     private static final Splitter DATE_SPLITTER = Splitter.on("-").trimResults().omitEmptyStrings();
 
-    private static final Pattern DATE_PATTERN = Pattern.compile("^[1-9]\\d{3}-(1[0-2]|[1-9])-([1-9]|[1-2]\\d|3[0-1])$");
+    private static final Pattern DATE_PATTERN = Pattern.compile("^[1-9]\\d{3}-(1[0-2]|0[1-9])-(0[1-9]|[1-2]\\d|3[0-1])$");
 
     private int defaultLimit = 20; //TODO move into properties file
     private int maxLimit = 100; //TODO move into properties file
@@ -67,6 +68,7 @@ public class ParametersExtractor {
         List<Integer> integers = DATE_SPLITTER
                 .splitToList(value)
                 .stream()
+                .map(s -> removeStart(s, "0"))
                 .map(Integer::valueOf)
                 .collect(Collectors.toList())
                 ;
