@@ -21,7 +21,7 @@ public class SolrLoader implements ApplicationListener<ContextRefreshedEvent> {
     SolrIndexConfigurationCopier indexConfigurationCopier;
     
     @Autowired
-    SolrIndexReloader indexReloader;
+    IndexReloader indexReloader;
     
     @Autowired List<IndexConfiguration> indexesConfiguration;
 
@@ -32,7 +32,7 @@ public class SolrLoader implements ApplicationListener<ContextRefreshedEvent> {
     private String configurationPath;
 
     public void load() {
-        
+
         for (IndexConfiguration indexConfiguration : indexesConfiguration) {
             if (copyConfiguration && StringUtils.isNotBlank(configurationPath)) {
                 indexConfigurationCopier.copyIndexConfiguration(indexConfiguration, configurationPath);
@@ -46,4 +46,5 @@ public class SolrLoader implements ApplicationListener<ContextRefreshedEvent> {
     public void onApplicationEvent(ContextRefreshedEvent event) {
         load();
     }
+    
 }

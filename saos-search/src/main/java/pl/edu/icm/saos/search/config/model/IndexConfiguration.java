@@ -15,6 +15,8 @@ public class IndexConfiguration {
     
     private String instanceDir;
     
+    private boolean createIndexPropertyFile;
+    
     private List<Resource> configurationFiles = new LinkedList<>();
 
 
@@ -34,6 +36,14 @@ public class IndexConfiguration {
         this.instanceDir = instanceDir;
     }
     
+    public boolean isCreateIndexPropertyFile() {
+        return createIndexPropertyFile;
+    }
+
+    public void setCreateIndexPropertyFile(boolean createIndexPropertyFile) {
+        this.createIndexPropertyFile = createIndexPropertyFile;
+    }
+
     public void addConfigurationFile(Resource configurationFile) {
         configurationFiles.add(configurationFile);
     }
