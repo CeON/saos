@@ -8,13 +8,8 @@
 	
 	<fieldset id="search-fieldset" >
 	
-		<div class="form-group">
-			<label for="input-search-all" class="col-sm-2 control-label"><spring:message code="search.field.all" />:</label>
-		    <div class="col-sm-7">
-		      <input type="text" class="form-control" id="input-search-all" placeholder="<spring:message code="search.field.all" />">
-		    </div>
-	    </div>
-	    
+		<saos:formFieldText labelName="input-search-all" labelText="search.field.all" />
+    
 	    <ul>
 	    	<li>
 	    		<a id="search-more-fields" href="#" ><spring:message code="search.form.morefields" /></a>
@@ -23,12 +18,7 @@
 	    
 	    <div id="advance-form">
 	    
-	    	<div class="form-group">
-			    <label for="input-search-casenumber" class="col-sm-2 control-label"><spring:message code="search.field.casenumber" />:</label>
-			    <div class="col-sm-4">
-			      <input type="text" class="form-control" id="input-search-casenumber" placeholder="<spring:message code="search.field.casenumber" />">
-			    </div>
-		    </div>
+   			<saos:formFieldText labelName="input-search-casenumber" labelText="search.field.casenumber" />
 		    
 		    <div class="form-group">
 			    <label for="datepicker_from" class="col-sm-2 control-label"><spring:message code="search.field.date" />:</label>
@@ -41,21 +31,10 @@
 			    </div>
 		    </div>
 		    
-		    <div class="form-group">
-   		    	<label for="input-search-court" class="col-sm-2 control-label"><spring:message code="search.field.court" />:</label>
-			    <div class="col-sm-7">
-			      <input type="text" class="form-control" id="input-search-court" placeholder="<spring:message code="search.field.court" />">
-			    </div>
-			    
-		    </div>
-		    
-		    <div class="form-group">
-   		    	<label for="input-search-court" class="col-sm-2 control-label"><spring:message code="search.field.division" />:</label>
-			    <div class="col-sm-7">
-			      <input type="text" class="form-control" id="input-search-court" placeholder="<spring:message code="search.field.division" />">
-			    </div>
-			    
-		    </div>
+		    <saos:formFieldText labelName="input-search-court" labelText="search.field.court" />
+
+		    <saos:formFieldText labelName="input-search-division" labelText="search.field.division" />
+
 		    
 		    <div class="form-group">
 		    	<label for="input-search-all" class="col-sm-2 control-label"><spring:message code="search.field.judgmenttype" />:</label>
@@ -71,33 +50,14 @@
 			    </div>
 		    </div>
 		    
-		    <div class="form-group">
-			    <label for="input-search-judge" class="col-sm-2 control-label"><spring:message code="search.field.judge" />:</label>
-			    <div class="col-sm-7">
-			      <input type="text" class="form-control" id="input-search-judge" placeholder="<spring:message code="search.field.judge" />">
-			    </div>
-		    </div>
+		    <saos:formFieldText labelName="input-search-judge" labelText="search.field.judge" />
 		    
-		    <div class="form-group">
-			    <label for="input-search-keywords" class="col-sm-2 control-label"><spring:message code="search.field.keywords" />:</label>
-			    <div class="col-sm-7">
-			      <input type="text" class="form-control" id="input-search-keywords" placeholder="<spring:message code="search.field.keywords" />">
-			    </div>
-		    </div>
+		    <saos:formFieldText labelName="input-search-keywords" labelText="search.field.keywords" />
 		    
-		    <div class="form-group">
-			    <label for="input-search-legalbases" class="col-sm-2 control-label"><spring:message code="search.field.legalbases" />:</label>
-			    <div class="col-sm-7">
-			      <input type="text" class="form-control" id="input-search-legalbases" placeholder="<spring:message code="search.field.legalbases" />">
-			    </div>
-		    </div>
+		    <saos:formFieldText labelName="input-search-legalbases" labelText="search.field.legalbases" />
 		     
-		     <div class="form-group">
-			    <label for="input-search-referencedregulations" class="col-sm-2 control-label"><spring:message code="search.field.referencedregulations" />:</label>
-			    <div class="col-sm-7">
-			      <input type="text" class="form-control" id="input-search-referencedregulations" placeholder="<spring:message code="search.field.referencedregulations" />">
-			    </div> 
-		    </div>
+		    <saos:formFieldText labelName="input-search-referencedregulations" labelText="search.field.referencedregulations" />
+		     
 	    </div>
 	
 		<ul class="display-none" >
@@ -112,12 +72,8 @@
 		    </div>
    		</div>
 	
-	
 	</fieldset>
-	
-	
-    
-	
+
 	  
 	</form>
 </div>

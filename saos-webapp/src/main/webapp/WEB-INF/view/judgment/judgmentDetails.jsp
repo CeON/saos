@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
+<c:set var="isCCJudgment" value="${judgment.instanceOfCommonCourtJudgment}" />
+
 <div class="container judgment-page block">
 	
 	<!-- 
@@ -23,7 +25,7 @@
 				<div class="" >
 					<div class="label-title" ><spring:message code="judgment.court" />:</div>
 					<div class="desc" >
-						<c:if test="${!empty judgment.courtDivision}" >
+						<c:if test="${isCCJudgment && !empty judgment.courtDivision}" >
 							<c:out value="${judgment.courtDivision.court.name}" />
 						</c:if>
 					</div>
@@ -33,7 +35,7 @@
 				<div class="" >
 					<div class="label-title" ><spring:message code="judgment.division" />:</div>
 					<div class="desc" >
-						<c:if test="${!empty judgment.courtDivision}" >
+						<c:if test="${isCCJudgment && !empty judgment.courtDivision}" >
 							<c:out value="${judgment.courtDivision.name}" />
 						</c:if>
 					</div>
@@ -73,7 +75,7 @@
 			
 		</ul>
 	
-		<c:if test="${!empty judgment.keywords}" >
+		<c:if test="${isCCJudgment && !empty judgment.keywords}" >
 			<h4><spring:message code="judgment.keywords" />:</h4>
 			<div class="keywords">	
 				<c:forEach items="${judgment.keywords}" var="keyword" >

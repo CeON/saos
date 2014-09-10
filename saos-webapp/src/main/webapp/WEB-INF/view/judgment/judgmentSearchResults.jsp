@@ -7,11 +7,11 @@
 	
 	<div class="judgment-filter block row" >
 		<h3><spring:message code="judgment.results.header" /></h3>
-		<div>Znaleziono <strong>4</strong> orzeczenia </div>
-		<div>Sortuj po: 
+		<div><spring:message code="judgment.results.foundNumber" arguments="${fn:length(judgments)}" /></div>
+		<div><spring:message code="judgment.results.sortBy" />: 
 			<select>
-			<option>dacie</option>
-			<option>trafności</option>
+			<option><spring:message code="judgment.results.sort.date" /></option>
+			<option><spring:message code="judgment.results.sort.accuracy" /></option>
 			</select>		
 		</div>
 	</div>
@@ -39,7 +39,7 @@
 					
 					<!--  <h4>Słowa kluczowe:</h4>  -->
 					
-					<c:if test="${!empty judgment.keywords}" >
+					<c:if test="${judgment.instanceOfCommonCourtJudgment && !empty judgment.keywords}" >
 						<div class="keywords">	
 							<c:forEach items="${judgment.keywords}" var="keyword" >
 								<div class="keyword"><c:out value="${keyword.phrase}" /></div>
