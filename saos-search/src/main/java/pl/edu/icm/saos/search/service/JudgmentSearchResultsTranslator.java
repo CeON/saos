@@ -67,18 +67,30 @@ public class JudgmentSearchResultsTranslator implements SearchResultsTranslator<
     }
     
     private String fetchValue(SolrDocument doc, JudgmentIndexField field) {
-        return (String)doc.getFirstValue(field.getFieldName());
+        Object value = doc.getFirstValue(field.getFieldName());
+        if (value == null) {
+            return null;
+        }
+        return (String) value;
     }
     
     private Date fetchDateValue(SolrDocument doc, JudgmentIndexField field) {
-        return (Date)doc.getFirstValue(field.getFieldName());
+        Object value = doc.getFirstValue(field.getFieldName());
+        if (value == null) {
+            return null;
+        }
+        return (Date) value;
     }
     
     private List<String> fetchValues(SolrDocument doc, JudgmentIndexField field) {
         Collection<Object> values = doc.getFieldValues(field.getFieldName());
         List<String> valuesList = new ArrayList<String>();
+        
+        if (values == null) {
+            return valuesList;
+        }
         for (Object val : values) {
-            valuesList.add((String)val);
+            valuesList.add((String) val);
         }
         return valuesList;
     }
