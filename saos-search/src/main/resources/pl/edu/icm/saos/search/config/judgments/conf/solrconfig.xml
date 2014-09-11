@@ -120,7 +120,9 @@
   </requestHandler>
 
   <requestHandler name="/update" class="solr.UpdateRequestHandler">
-
+     <lst name="defaults">
+       <str name="update.chain">html-strip-content</str>
+     </lst>
   </requestHandler>
 
 
@@ -257,6 +259,14 @@
       </boundaryScanner>
     </highlighting>
   </searchComponent>
+  
+  <updateRequestProcessorChain name="html-strip-content">
+    <processor class="solr.HTMLStripFieldUpdateProcessorFactory">
+      <str name="fieldName">content</str>
+    </processor>
+    <processor class="solr.LogUpdateProcessorFactory" />
+    <processor class="solr.RunUpdateProcessorFactory" />
+  </updateRequestProcessorChain> 
     
 
   <!-- Legacy config for the admin interface -->
