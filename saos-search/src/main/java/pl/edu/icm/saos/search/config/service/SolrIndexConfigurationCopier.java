@@ -14,26 +14,29 @@ import pl.edu.icm.saos.search.config.model.SolrConfigurationException;
 import pl.edu.icm.saos.search.util.SearchIOUtils;
 import pl.edu.icm.saos.search.util.SolrConstants;
 
+/**
+ * @author madryk
+ */
 @Component
 public class SolrIndexConfigurationCopier {
-    
+
     private static Logger log = LoggerFactory.getLogger(SolrIndexConfigurationCopier.class);
 
     public void copyIndexConfiguration(IndexConfiguration indexConfiguration, String configurationPath) {
         log.info("Copying configuration files for index with name {}", indexConfiguration.getName());
-        
+
         File confHomeDir = new File(configurationPath);
-        
+
         File indexDir = new File(confHomeDir, indexConfiguration.getInstanceDir());
         createDirectory(indexDir);
-        
+
         if (indexConfiguration.isCreateIndexPropertyFile()) {
             createIndexPropertyFile(indexDir, indexConfiguration);
         }
-        
+
         File indexConfDir = new File(indexDir, SolrConstants.INDEX_CONFIG_DIRECTORY_NAME);
         createDirectory(indexConfDir);
-        
+
         for (Resource configurationFile : indexConfiguration.getConfigurationFiles()) {
             File targetFile = new File(indexConfDir, configurationFile.getFilename());
             try {
@@ -44,13 +47,24 @@ public class SolrIndexConfigurationCopier {
             }
         }
     }
-    
+
+    public void cleanupIndexConfiguration(IndexConfiguration indexConfiguration, String configurationPath) {
+        if (indexConfiguration.isPersistent()) {
+            return;
+        }
+        log.info("Cleaning configuration files and data for index with name {}", indexConfiguration.getName());
+
+        File confHomeDir = new File(configurationPath);
+        File indexDir = new File(confHomeDir, indexConfiguration.getInstanceDir());
+        SearchIOUtils.removeDirectoryRecursive(indexDir);
+    }
+
     protected void createIndexPropertyFile(File indexDir, IndexConfiguration indexConfiguration) {
         File targetFile = new File(indexDir, SolrConstants.INDEX_PROPERTIES_FILENAME);
-        
+
         Properties indexProperties = new Properties();
         indexProperties.put("name", indexConfiguration.getName());
-        
+
         try {
             SearchIOUtils.copyProperties(indexProperties, targetFile);
         } catch (IOException e) {
@@ -58,7 +72,7 @@ public class SolrIndexConfigurationCopier {
                     " for " + indexConfiguration.getName() + " index", e);
         }
     }
-    
+
     private void createDirectory(File directory) {
 
         if (!directory.exists()) {
