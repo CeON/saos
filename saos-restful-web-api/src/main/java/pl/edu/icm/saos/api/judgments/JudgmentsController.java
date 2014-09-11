@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.icm.saos.api.exceptions.WrongRequestParameterException;
+import pl.edu.icm.saos.api.judgments.extractors.JudgmentsParametersExtractor;
+import pl.edu.icm.saos.api.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.search.ApiSearchService;
-import pl.edu.icm.saos.api.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.parameters.RequestParameters;
 import pl.edu.icm.saos.api.search.ElementsSearchResults;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
@@ -21,6 +21,7 @@ import java.util.Map;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.judgments.extractors.JudgmentsParametersExtractor.inputParameters;
 
 
 /**
@@ -34,12 +35,11 @@ public class JudgmentsController {
     private JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder;
 
     @Autowired
-    private ApiSearchService<Judgment> apiSearchService;
+    private ApiSearchService<Judgment, JudgmentsParameters> apiSearchService;
 
     @Autowired
-    private ParametersExtractor parametersExtractor;
+    private JudgmentsParametersExtractor parametersExtractor;
 
-    private final String DEFAULT_OFFSET = "0";
 
     public JudgmentsController() {
     }
@@ -48,12 +48,34 @@ public class JudgmentsController {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showJudgments(
             @RequestParam(value = LIMIT, required = false, defaultValue = "0") int limit,
-            @RequestParam(value = OFFSET, required = false, defaultValue = DEFAULT_OFFSET) int offset,
-            @RequestParam(value = EXPAND, required = false) String expand
+            @RequestParam(value = OFFSET, required = false, defaultValue = "0") int offset,
+            @RequestParam(value = ALL, required = false) String all,
+            @RequestParam(value = COURT_NAME, required = false) String courtName,
+            @RequestParam(value = LEGAL_BASE, required = false) String legalBase,
+            @RequestParam(value = REFERENCED_REGULATION, required = false) String referencedRegulation,
+            @RequestParam(value = JUDGE_NAME, required = false) String judgeName,
+            @RequestParam(value = KEYWORD, required = false) String keyword,
+            @RequestParam(value = JUDGMENT_DATE_FROM, required = false) String judgmentDateFrom,
+            @RequestParam(value = JUDGMENT_DATE_TO, required = false) String judgmentDateTo
+
     ) throws WrongRequestParameterException {
 
-        RequestParameters requestParameters = parametersExtractor.extractRequestParameter(expand, limit, offset);
-        ElementsSearchResults<Judgment> searchResults = apiSearchService.performSearch(requestParameters);
+        JudgmentsParameters judgmentsParameters = parametersExtractor.extractFrom(inputParameters()
+                        .all(all)
+                        .courtName(courtName)
+                        .judgeName(judgeName)
+                        .keyword(keyword)
+                        .legalBase(legalBase)
+                        .referencedRegulation(referencedRegulation)
+                        .limit(limit)
+                        .offset(offset)
+                        .judgmentDateFrom(judgmentDateFrom)
+                        .judgmentDateTo(judgmentDateTo)
+        );
+
+
+
+        ElementsSearchResults<Judgment, JudgmentsParameters>  searchResults = apiSearchService.performSearch(judgmentsParameters);
 
         Map<String, Object> representation = listSuccessRepresentationBuilder.build(searchResults,
                  linkTo(JudgmentsController.class).toUriComponentsBuilder());
@@ -71,11 +93,11 @@ public class JudgmentsController {
         this.listSuccessRepresentationBuilder = listSuccessRepresentationBuilder;
     }
 
-    public void setApiSearchService(ApiSearchService<Judgment> apiSearchService) {
+    public void setApiSearchService(ApiSearchService<Judgment, JudgmentsParameters> apiSearchService) {
         this.apiSearchService = apiSearchService;
     }
 
-    public void setParametersExtractor(ParametersExtractor parametersExtractor) {
+    public void setParametersExtractor(JudgmentsParametersExtractor parametersExtractor) {
         this.parametersExtractor = parametersExtractor;
     }
 }

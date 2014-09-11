@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
+import pl.edu.icm.saos.api.parameters.RequestParameters;
 import pl.edu.icm.saos.api.search.ApiSearchService;
 import pl.edu.icm.saos.api.search.ElementsSearchResults;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
@@ -40,8 +41,8 @@ public class CourtsControllerTest {
     static class TestConfiguration {
 
         @Bean(name = "mockCourtsSearchService")
-        public ApiSearchService<CommonCourt> courtApiSearchService(){
-            return requestParameters -> new ElementsSearchResults<>(requestParameters, Arrays.asList(createCommonCourt()));
+        public ApiSearchService<CommonCourt,RequestParameters> courtApiSearchService(){
+            return requestParameters -> new ElementsSearchResults<>( Arrays.asList(createCommonCourt()), requestParameters);
         }
     }
 
@@ -54,7 +55,7 @@ public class CourtsControllerTest {
 
     @Autowired
     @Qualifier("mockCourtsSearchService")
-    private ApiSearchService<CommonCourt> searchService;
+    private ApiSearchService<CommonCourt,RequestParameters> searchService;
 
     @Autowired
     private CourtsListSuccessRepresentationBuilder successRepresentationBuilder;
@@ -73,7 +74,7 @@ public class CourtsControllerTest {
 
 
     @Test
-    public void itShouldShowAllBasicsCourtsFields() throws Exception {
+    public void showCourts__it_should_show_all_basics_courts_fields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(COURTS_PATH)
                 .param(LIMIT, "2")
@@ -86,7 +87,7 @@ public class CourtsControllerTest {
     }
 
     @Test
-    public void itShouldShowRequestParameters() throws Exception {
+    public void showCourts__it_should_show_request_parameters() throws Exception {
         //given
         int limit = 11;
         int offset = 5;

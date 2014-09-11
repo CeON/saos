@@ -30,7 +30,7 @@ public class CourtsController {
     private ParametersExtractor parametersExtractor;
 
     @Autowired
-    private ApiSearchService<CommonCourt> searchService;
+    private ApiSearchService<CommonCourt,RequestParameters> searchService;
 
     @Autowired
     private CourtsListSuccessRepresentationBuilder successRepresentationBuilder;
@@ -46,12 +46,12 @@ public class CourtsController {
 
         Pagination pagination = parametersExtractor.extractAndValidatePagination(limit, offset);
 
-        ElementsSearchResults<CommonCourt> results = searchService.performSearch(new RequestParameters(null, pagination));
+        ElementsSearchResults<CommonCourt,RequestParameters> results = searchService.performSearch(new RequestParameters(null, pagination));
 
         Map<String, Object> representation = successRepresentationBuilder.build(results);
 
 
-        return new ResponseEntity<Map<String, Object>>(representation, HttpStatus.OK);
+        return new ResponseEntity<>(representation, HttpStatus.OK);
     }
 
 
@@ -61,7 +61,7 @@ public class CourtsController {
         this.parametersExtractor = parametersExtractor;
     }
 
-    public void setSearchService(ApiSearchService<CommonCourt> searchService) {
+    public void setSearchService(ApiSearchService<CommonCourt,RequestParameters> searchService) {
         this.searchService = searchService;
     }
 

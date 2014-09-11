@@ -32,7 +32,7 @@ public class CourtsListSuccessRepresentationBuilder {
     private LinksBuilder linksBuilder;
 
 
-    public Map<String, Object> build(ElementsSearchResults<CommonCourt> searchResults){
+    public Map<String, Object> build(ElementsSearchResults<CommonCourt,RequestParameters> searchResults){
         SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
 
         builder.items(courtAssembler.toItemsList(searchResults.getElements()));
