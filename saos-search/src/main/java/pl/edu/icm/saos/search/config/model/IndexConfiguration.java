@@ -12,11 +12,13 @@ import org.springframework.core.io.Resource;
 public class IndexConfiguration {
 
     private String name;
-    
+
     private String instanceDir;
-    
+
     private boolean createIndexPropertyFile;
-    
+
+    private boolean persistent = true;
+
     private List<Resource> configurationFiles = new LinkedList<>();
 
 
@@ -35,9 +37,17 @@ public class IndexConfiguration {
     public void setInstanceDir(String instanceDir) {
         this.instanceDir = instanceDir;
     }
-    
+
     public boolean isCreateIndexPropertyFile() {
         return createIndexPropertyFile;
+    }
+
+    public boolean isPersistent() {
+        return persistent;
+    }
+
+    public void setPersistent(boolean persistent) {
+        this.persistent = persistent;
     }
 
     public void setCreateIndexPropertyFile(boolean createIndexPropertyFile) {

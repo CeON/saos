@@ -9,7 +9,7 @@ import pl.edu.icm.saos.search.config.service.IndexReloader;
  * @author madryk
  */
 public class EmbeddedSolrIndexReloader implements IndexReloader {
-
+    
     private CoreContainer coreContainer;
     
     @Override
