@@ -1,16 +1,21 @@
 package pl.edu.icm.saos.api.judgments.transformers;
 
-import com.google.common.base.Preconditions;
-import org.joda.time.LocalDate;
-import org.springframework.stereotype.Service;
-import pl.edu.icm.saos.api.builders.BuildersFactory;
-import pl.edu.icm.saos.api.transformers.SearchResultApiTransformer;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.search.model.JudgmentSearchResult;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourt;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourtDivision;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourtJudgmentWrapper;
 
 import java.util.stream.Collectors;
 
-import static pl.edu.icm.saos.api.builders.BuildersFactory.*;
+import org.joda.time.LocalDate;
+import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.api.builders.BuildersFactory;
+import pl.edu.icm.saos.api.transformers.SearchResultApiTransformer;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.search.model.JudgmentSearchResult;
+
+import com.google.common.base.Preconditions;
 
 /**
  * @author pavtel
@@ -23,7 +28,7 @@ public class JudgmentSearchResultApiTransformer implements SearchResultApiTransf
         Preconditions.checkNotNull(element, "element can't be null");
 
         Judgment judgment = commonCourtJudgmentWrapper(Integer.parseInt(element.getId()))
-                .caseNumber(element.getSignature())
+                .courtCases(element.getCaseNumbers().stream().map(caseNumber->new CourtCase(caseNumber)).collect(Collectors.toList()))
                 .judgmentType(Judgment.JudgmentType.valueOf(element.getJudgmentType()))
                 .judgmentDate(new LocalDate(element.getJudgmentDate()))
                 .division(commonCourtDivision(10) //TODO add division id field into JudgmentSearchResult and use it here

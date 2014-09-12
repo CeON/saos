@@ -1,12 +1,14 @@
 package pl.edu.icm.saos.api.builders;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
+
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
-
-import java.util.List;
 
 /**
  * @author pavtel
@@ -16,8 +18,8 @@ public class CommonCourtJudgmentBuilder extends CommonCourtJudgment {
         setId(id);
     }
 
-    public CommonCourtJudgmentBuilder caseNumber(String caseNumber){
-        setCaseNumber(caseNumber);
+    public CommonCourtJudgmentBuilder courtCases(List<CourtCase> courtCases){
+        courtCases.stream().forEach(this::addCourtCase);
         return this;
     }
 

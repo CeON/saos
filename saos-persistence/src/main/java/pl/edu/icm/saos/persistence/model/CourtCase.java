@@ -11,7 +11,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.apache.commons.lang3.StringUtils;
+
 import pl.edu.icm.saos.persistence.common.DataObject;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Court case
@@ -28,9 +32,12 @@ public class CourtCase extends DataObject {
     private String caseNumber;
     
     
-    public CourtCase() {}
+    @SuppressWarnings("unused") // for hibernate
+    private CourtCase() {}
+    
     
     public CourtCase(String caseNumber) {
+        Preconditions.checkArgument(!StringUtils.isBlank(caseNumber));
         this.caseNumber = caseNumber;
     }
     
@@ -60,7 +67,9 @@ public class CourtCase extends DataObject {
     
     //------------------------ SETTERS --------------------------
     
-    public void setCaseNumber(String caseNumber) {
+    /** for hibernate only */
+    @SuppressWarnings("unused")
+    private void setCaseNumber(String caseNumber) {
         this.caseNumber = caseNumber;
     }
 

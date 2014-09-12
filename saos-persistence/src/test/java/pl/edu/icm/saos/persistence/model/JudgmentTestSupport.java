@@ -1,16 +1,20 @@
 package pl.edu.icm.saos.persistence.model;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
+import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.mockito.stubbing.OngoingStubbing;
 
+import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
 import com.google.common.collect.Lists;
@@ -22,18 +26,101 @@ public abstract class JudgmentTestSupport {
 	
 	private Map<String, Judge> JudgesMap = new HashMap<String, Judge>(); 
 	
-	private String[] JudgeNames = {"Zbigniew", "Roman", "Agata Zaj¹c"};
+	private String[] JudgeNames = {"Zbigniew", "Roman", "Agata Zajï¿½c"};
 	
 	private Map<String, JudgmentReferencedRegulation> referencedRegulationsMap = new HashMap<String, JudgmentReferencedRegulation>(); 
 	
 	private String[] referencedRegualtionText = {"Lorem ipsum", "nihil novi", ""};
 	
 	
+	private static final String[] COURT_CASE_NUMBERS = {"1234", "XSV 123/223"};
+	
+	private static final CourtCase[] COURT_CASES = {new CourtCase(COURT_CASE_NUMBERS[0]),
+	                                                new CourtCase(COURT_CASE_NUMBERS[1])};
+	
+	
 	public void before() {
-		initializeJudges();
+	    initializeCourtCases();
+        initializeJudges();
 		initializeRegulations();
 	}
 
+	
+	@Test
+	public void getCourtCase_Found() {
+	    for (int i = 0; i < COURT_CASES.length; i++) {
+	        assertTrue(COURT_CASES[i] == judgment.getCourtCase(COURT_CASE_NUMBERS[i]));
+	    }
+	}
+	
+	@Test
+    public void getCourtCase_NotFound() {
+        assertNull(judgment.getCourtCase(COURT_CASE_NUMBERS[0]+"non-existent case no"));
+    }
+    
+	@Test
+    public void containsCourtCase_False() {
+        assertFalse(judgment.containsCourtCase(COURT_CASE_NUMBERS[0]+"non-existent case no"));
+    }
+	
+	@Test
+    public void containsCourtCase_True() {
+        assertTrue(judgment.containsCourtCase(COURT_CASE_NUMBERS[0]));
+    }
+	
+	@Test
+	public void isSingleCourtCase_True() {
+	    judgment.removeAllCourtCases();
+	    judgment.addCourtCase(COURT_CASES[0]);
+	    assertTrue(judgment.isSingleCourtCase());
+	}
+	
+	
+	@Test
+    public void isSingleCourtCase_False() {
+        assertFalse(judgment.isSingleCourtCase());
+    }
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+    public void addCourtCase_Duplicate() {
+        judgment.addCourtCase(COURT_CASES[0]);
+    }
+    
+	
+	@Test(expected=NullPointerException.class)
+    public void addCourtCase_NullCourtCase() {
+        judgment.addCourtCase(null);
+    }
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+    public void addCourtCase_BlankCourtCaseNumber() {
+	    CourtCase courtCase = new CourtCase("sss");
+	    ReflectionFieldSetter.setField(courtCase, "caseNumber", "   ");
+        judgment.addCourtCase(courtCase);
+    }
+	
+	@Test
+    public void addCourtCase_OK_Added() {
+        CourtCase courtCase = new CourtCase(COURT_CASE_NUMBERS[0]+ "new ");
+        judgment.addCourtCase(courtCase);
+    }
+	
+	@Test
+	public void getCaseNumbers() {
+	    assertThat(judgment.getCaseNumbers(), Matchers.containsInAnyOrder(COURT_CASE_NUMBERS));
+	}
+	
+	
+	@Test
+    public void getCaseNumbers_Empty() {
+	    judgment.removeAllCourtCases();
+        assertNotNull(judgment.getCaseNumbers());
+        assertEquals(0, judgment.getCaseNumbers().size());
+    }
+	
+	
 	@Test
 	public void getJudges_NotFound() {
 		assertEquals(0, judgment.getJudges(JudgeRole.REASONS_FOR_JUDGMENT_AUTHOR).size());
@@ -104,6 +191,15 @@ public abstract class JudgmentTestSupport {
 		assertTrue(judgment.containsReferencedRegulation(referencedRegulationsMap.get(referencedRegualtionText[0])));
 		assertTrue(judgment.containsReferencedRegulation(referencedRegulationsMap.get(referencedRegualtionText[1])));
 		assertTrue(judgment.containsReferencedRegulation(referencedRegulationsMap.get(referencedRegualtionText[2])));
+	}
+	
+	
+	//------------------------ PRIVATE --------------------------
+	
+	private void initializeCourtCases() {
+	    for (CourtCase courtCase : COURT_CASES) {
+	        judgment.addCourtCase(courtCase);
+	    }
 	}
 	
 	

@@ -1,24 +1,27 @@
 package pl.edu.icm.saos.api.judgments.transformers;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
+
 import pl.edu.icm.saos.api.transformers.SearchResultApiTransformer;
+import pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.search.model.JudgmentSearchResult;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
+import com.google.common.collect.Lists;
 
 public class JudgmentSearchResultApiTransformerTest {
 
@@ -37,7 +40,7 @@ public class JudgmentSearchResultApiTransformerTest {
         LocalDate judgmentDate = new LocalDate(JC.DATE_YEAR, JC.DATE_MONTH, JC.DATE_DAY);
 
         JudgmentSearchResult searchResult = new JudgmentSearchResult();
-        searchResult.setSignature(JC.CASE_NUMBER);
+        searchResult.setCaseNumbers(Lists.newArrayList(JC.CASE_NUMBER));
         searchResult.setCourtDivisionName(JC.DIVISION_NAME);
         searchResult.setCourtName(JC.COURT_NAME);
         searchResult.setId(String.valueOf(JC.JUDGMENT_ID));
@@ -55,7 +58,7 @@ public class JudgmentSearchResultApiTransformerTest {
         CommonCourtJudgment ccJudgment = (CommonCourtJudgment) judgment;
 
         assertThat(judgment.getId(), is(JC.JUDGMENT_ID));
-        assertThat(judgment.getCaseNumber(), is(JC.CASE_NUMBER));
+        assertThat(judgment.getCaseNumbers(), containsInAnyOrder(JC.CASE_NUMBER));
         assertThat(judgment.getJudgmentDate(), is(judgmentDate));
         assertThat(judgment.getJudgmentType(), is(Judgment.JudgmentType.SENTENCE));
 

@@ -33,7 +33,7 @@ public abstract class FieldsDefinition {
 
     public static CommonCourtJudgment createCommonJudgment(){
         CommonCourtJudgment judgment = commonCourtJudgmentWrapper(JC.JUDGMENT_ID);
-        judgment.addCourtCase(CourtCaseBuilder.create().withCaseNumber(JC.CASE_NUMBER).build());
+        judgment.addCourtCase(CourtCaseBuilder.create(JC.CASE_NUMBER).build());
         judgment.setDecision(JC.DECISION);
 
         judgment.addLegalBase(JC.FIRST_LEGAL_BASE);

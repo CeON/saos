@@ -229,7 +229,7 @@ public abstract class Judgment extends IndexableObject {
     
     public void addCourtCase(CourtCase courtCase) {
         Preconditions.checkNotNull(courtCase);
-        Preconditions.checkNotNull(courtCase.getCaseNumber());
+        Preconditions.checkArgument(!StringUtils.isBlank(courtCase.getCaseNumber()));
         Preconditions.checkArgument(!containsCourtCase(courtCase.getCaseNumber()));
         
         courtCase.setJudgment(this);
@@ -252,10 +252,14 @@ public abstract class Judgment extends IndexableObject {
     }
     
     
-    public boolean removeCourtCase(CourtCase courtCase) {
-        return courtCases.remove(courtCase);
+    public void removeCourtCase(CourtCase courtCase) {
+        courtCases.remove(courtCase);
     }
     
+    
+    public void removeAllCourtCases() {
+        courtCases.clear();
+    }
     
     
     public void addJudge(Judge judge) { 
