@@ -14,6 +14,7 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
 
 /**
@@ -43,13 +44,13 @@ public class OptimisticLockingTest extends PersistenceTestSupport {
         
         CommonCourtJudgment ccJudgmentDb = ccJudgmentRepository.findOne(ccJudgment.getId());
         Assert.assertEquals(0, ccJudgmentDb.getVer());
-        ccJudgmentDb.setCaseNumber("111");
+        ccJudgmentDb.setTextContent("bleble");
         entityManager.persist(ccJudgmentDb);
         entityManager.flush();
         
         Assert.assertEquals(1, ccJudgmentDb.getVer());
         
-        ccJudgment.setCaseNumber("2222");
+        ccJudgment.addCourtCase(new CourtCase("2222"));
         CommonCourtJudgment ccJudgmentFromSession = entityManager.merge(ccJudgment);
         Assert.assertTrue(ccJudgmentDb == ccJudgmentFromSession);
         Assert.assertEquals(0, ccJudgmentDb.getVer());

@@ -10,7 +10,9 @@
 	 -->
 	
 	<h4><span><spring:message code="judgment.${fn:toLowerCase(judgment.judgmentType)}" /></h2>
-	<h2><c:out value="${judgment.caseNumber}" escapeXml="false" /></h2>
+	<h2>
+	   <saos:caseNumber items="${judgment.caseNumbers}"/>
+	</h2>
 	
 	<div class="col-md-12" >
 	

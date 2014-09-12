@@ -1,14 +1,14 @@
 package pl.edu.icm.saos.api.utils;
 
-import pl.edu.icm.saos.api.search.ApiSearchService;
-import pl.edu.icm.saos.api.parameters.RequestParameters;
-import pl.edu.icm.saos.api.search.ElementsSearchResults;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.Judgment;
+import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonJudgment;
 
 import java.util.Arrays;
 
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonJudgment;
+import pl.edu.icm.saos.api.parameters.RequestParameters;
+import pl.edu.icm.saos.api.search.ApiSearchService;
+import pl.edu.icm.saos.api.search.ElementsSearchResults;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
  * @author pavtel

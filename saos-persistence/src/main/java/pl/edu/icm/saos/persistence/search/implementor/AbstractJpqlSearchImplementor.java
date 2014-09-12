@@ -1,15 +1,14 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.icm.saos.persistence.search.dto.SearchFilter;
-
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+
+import pl.edu.icm.saos.persistence.search.dto.SearchFilter;
 
 /**
  * A {@link SearchImplementor} hql abstract implementation. It is recommended to use it as a base class for classes that perform specific paging searches using the hql query language.
@@ -27,9 +26,9 @@ public abstract class AbstractJpqlSearchImplementor<X extends SearchFilter, T> e
    
     @Override
     protected List<T> executeQuery(String query, Map<String, Object> parametersMap, int first, int limit) {
-        if(parametersMap == null)
+        if(parametersMap == null) {
             parametersMap = Collections.emptyMap();
-
+        }
 
         Query queryObject = entityManager.createQuery(query);
 

@@ -137,7 +137,8 @@ public class SourceCcJudgmentConverterTest {
         CommonCourtJudgment judgment = sourceCcJudgmentConverter.convertJudgment(sJudgment);
         JudgmentSourceInfo sourceInfo = judgment.getSourceInfo();
         assertSourceInfo(sJudgment, sourceInfo);
-        assertEquals(sJudgment.getSignature(), judgment.getCaseNumber());
+        assertTrue(judgment.isSingleCourtCase());
+        assertEquals(sJudgment.getSignature(), judgment.getCaseNumbers().get(0));
         assertEquals(sJudgment.getDepartmentId(), judgment.getCourtDivision().getCode());
         assertEquals(sJudgment.getDecision(), judgment.getDecision());
         assertEquals(sJudgment.getLegalBases(), judgment.getLegalBases());

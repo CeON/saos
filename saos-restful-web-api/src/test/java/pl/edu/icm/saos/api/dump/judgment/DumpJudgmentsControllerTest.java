@@ -1,5 +1,23 @@
 package pl.edu.icm.saos.api.dump.judgment;
 
+import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_END_DATE;
+import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_START_DATE;
+import static pl.edu.icm.saos.api.ApiConstants.LIMIT;
+import static pl.edu.icm.saos.api.ApiConstants.OFFSET;
+import static pl.edu.icm.saos.api.utils.Constansts.DATE_FORMAT;
+import static pl.edu.icm.saos.api.utils.Constansts.DUMP_JUDGMENTS_PATH;
+import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonJudgment;
+
+import java.util.Arrays;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,9 +33,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.utils.FieldsDefinition;
+import pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -25,22 +45,6 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
-
-import java.util.Arrays;
-
-import static org.hamcrest.Matchers.emptyIterable;
-import static org.hamcrest.Matchers.iterableWithSize;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.utils.Constansts.*;
-
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonJudgment;
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {DumpJudgmentsControllerTest.TestConfiguration.class})
@@ -102,7 +106,8 @@ public class DumpJudgmentsControllerTest {
         String pathPrefix = "$.items.[0]";
         actions
                 .andExpect(jsonPath(pathPrefix + ".id").value(FieldsDefinition.JC.JUDGMENT_ID))
-                .andExpect(jsonPath(pathPrefix+".caseNumber").value(FieldsDefinition.JC.CASE_NUMBER))
+                .andExpect(jsonPath(pathPrefix+".courtCases").value(iterableWithSize(1)))
+                .andExpect(jsonPath(pathPrefix+".courtCases.[0].caseNumber").value(FieldsDefinition.JC.CASE_NUMBER))
                 .andExpect(jsonPath(pathPrefix+".judgmentType").value(Judgment.JudgmentType.SENTENCE.name()))
 
 

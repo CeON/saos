@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -42,6 +43,7 @@ public class JudgmentIndexingProcessor extends JudgmentIndexingProcessorBase imp
         SolrInputDocument doc = new SolrInputDocument();
         
         processIds(doc, item);
+        processCourtCases(doc, item);
         processJudges(doc, item);
         processJudgmentSpecificFields(doc, item);
         
@@ -68,7 +70,14 @@ public class JudgmentIndexingProcessor extends JudgmentIndexingProcessorBase imp
     protected void processIds(SolrInputDocument doc, Judgment item) {
         addField(doc, JudgmentIndexField.ID, UUID.randomUUID().toString());
         addField(doc, JudgmentIndexField.DATABASE_ID, String.valueOf(item.getId()));
-        addField(doc, JudgmentIndexField.SIGNATURE, item.getCaseNumber());
+    }
+    
+    
+    protected void processCourtCases(SolrInputDocument doc, Judgment item) {
+        for (CourtCase courtCase : item.getCourtCases()) {
+            addField(doc, JudgmentIndexField.CASE_NUMBER, courtCase.getCaseNumber());
+        }
+        
     }
     
     protected void processJudges(SolrInputDocument doc, Judgment item) {

@@ -176,7 +176,8 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         Judgment j = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment.getSourceId());
         CommonCourtJudgment judgment = judgmentRepository.findOneAndInitialize(j.getId());
         assertNotNull(judgment);
-        assertEquals(rJudgment.getCaseNumber(), judgment.getCaseNumber());
+        assertTrue(judgment.isSingleCourtCase());
+        assertEquals(rJudgment.getCaseNumber(), judgment.getCaseNumbers().get(0));
         //assertEquals(rJudgment.getPublicationDate(), judgment.getSourceInfo().getPublicationDate());
         assertEquals(JudgmentType.DECISION, judgment.getJudgmentType());
         assertEquals(1, judgment.getCourtReporters().size());
@@ -208,7 +209,8 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         Judgment j = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment.getSourceId());
         CommonCourtJudgment judgment = judgmentRepository.findOneAndInitialize(j.getId());
         assertNotNull(judgment);
-        assertEquals(rJudgment.getCaseNumber(), judgment.getCaseNumber());
+        assertTrue(judgment.isSingleCourtCase());
+        assertEquals(rJudgment.getCaseNumber(), judgment.getCaseNumbers().get(0));
         assertEquals(rJudgment.getPublicationDate(), judgment.getSourceInfo().getPublicationDate());
         assertEquals(JudgmentType.SENTENCE, judgment.getJudgmentType());
         assertEquals(1, judgment.getCourtReporters().size());

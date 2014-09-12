@@ -14,6 +14,8 @@ import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
 
+import com.google.common.base.Preconditions;
+
 /**
  * @author Łukasz Dumiszewski
  */
@@ -69,7 +71,9 @@ class CcjProcessingService {
     
 
     private CommonCourtJudgment findRelatedJudgment(CommonCourtJudgment ccReasoningJudgment) {
-        List<CommonCourtJudgment> ccJudgments = ccJudgmentRepository.findBySourceCodeAndCaseNumber(ccReasoningJudgment.getSourceInfo().getSourceCode(), ccReasoningJudgment.getCaseNumber());
+        Preconditions.checkArgument(ccReasoningJudgment.isSingleCourtCase());
+        
+        List<CommonCourtJudgment> ccJudgments = ccJudgmentRepository.findBySourceCodeAndCaseNumber(ccReasoningJudgment.getSourceInfo().getSourceCode(), ccReasoningJudgment.getCaseNumbers().get(0));
         if (ccJudgments != null && ccJudgments.size() == 1) {
             return ccJudgments.get(0);
         }

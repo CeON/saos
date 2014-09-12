@@ -1,11 +1,24 @@
 package pl.edu.icm.saos.persistence.search;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.FieldsNames;
@@ -17,12 +30,6 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.search.dto.CommonCourtSearchFilter;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Category(SlowTest.class)
@@ -57,7 +64,8 @@ public class DatabaseSearchServiceImplTest extends PersistenceTestSupport{
         CommonCourtJudgment actualJudgment = (CommonCourtJudgment) judgment;
 
         assertThat("judgment source ", actualJudgment.getSourceInfo(), is(ccJudgment.getSourceInfo()));
-        assertThat("case number",actualJudgment.getCaseNumber(), is(ccJudgment.getCaseNumber()));
+        assertThat("actual judgment court cases should not be null", actualJudgment.getCourtCases(), not(nullValue()));
+        assertThat("case numbers",actualJudgment.getCourtCases(), containsListInAnyOrder(ccJudgment.getCourtCases()));
         assertThat("creation date", actualJudgment.getCreationDate(), is(ccJudgment.getCreationDate()));
         assertThat("division id should be not null", actualJudgment.getCourtDivision().getId(), notNullValue());
         assertThat("division id ", actualJudgment.getCourtDivision().getId(), is(ccJudgment.getCourtDivision().getId()));
@@ -121,7 +129,9 @@ public class DatabaseSearchServiceImplTest extends PersistenceTestSupport{
         List<Judgment> actualJudgments = searchResult.getResultRecords();
 
         assertThat(actualJudgments, iterableWithSize(1));
-        assertThat(actualJudgments.get(0).getCaseNumber(), is(givenJudgment.getCaseNumber()));
+        
+        
+        assertThat(actualJudgments.get(0).getCaseNumbers(), containsListInAnyOrder(givenJudgment.getCaseNumbers()));
     }
 
 
@@ -184,7 +194,8 @@ public class DatabaseSearchServiceImplTest extends PersistenceTestSupport{
     }
 
     private static <T extends Judgment> List<String> toCaseNumbers(List<T> judgments){
-        return judgments.stream().map(Judgment::getCaseNumber).collect(Collectors.toList());
+        return judgments.stream().flatMap(j -> j.getCaseNumbers().stream()).collect(Collectors.toList());
+        
     }
 
     private static List<String> toCodes(List<CommonCourt> courts){

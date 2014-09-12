@@ -6,7 +6,7 @@ import java.util.List;
 public class JudgmentSearchResult extends Searchable {
 
     private String id;
-    private String signature;
+    private List<String> caseNumbers;
     private String judgmentType;
     private Date judgmentDate;
     
@@ -24,11 +24,11 @@ public class JudgmentSearchResult extends Searchable {
     public void setId(String id) {
         this.id = id;
     }
-    public String getSignature() {
-        return signature;
+    public List<String> getCaseNumbers() {
+        return caseNumbers;
     }
-    public void setSignature(String signature) {
-        this.signature = signature;
+    public void setCaseNumbers(List<String> caseNumbers) {
+        this.caseNumbers = caseNumbers;
     }
     public String getJudgmentType() {
         return judgmentType;

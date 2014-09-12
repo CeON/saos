@@ -1,11 +1,30 @@
 package pl.edu.icm.saos.api.utils;
 
 
+import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourt;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourtDivision;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourtDivisionType;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourtJudgmentWrapper;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.judge;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.judgmentReasoning;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.judgmentReferencedRegulation;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.judgmentSourceInfo;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.keyword;
+import static pl.edu.icm.saos.api.builders.BuildersFactory.lawJournalEntry;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import pl.edu.icm.saos.persistence.model.*;
 
-import static pl.edu.icm.saos.api.builders.BuildersFactory.*;
+import pl.edu.icm.saos.api.builders.CourtCaseBuilder;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.SourceCode;
 
 /**
  * @author pavtel
@@ -14,7 +33,7 @@ public abstract class FieldsDefinition {
 
     public static CommonCourtJudgment createCommonJudgment(){
         CommonCourtJudgment judgment = commonCourtJudgmentWrapper(JC.JUDGMENT_ID);
-        judgment.setCaseNumber(JC.CASE_NUMBER);
+        judgment.addCourtCase(CourtCaseBuilder.create().withCaseNumber(JC.CASE_NUMBER).build());
         judgment.setDecision(JC.DECISION);
 
         judgment.addLegalBase(JC.FIRST_LEGAL_BASE);
@@ -164,7 +183,6 @@ public abstract class FieldsDefinition {
     }
 
 
-
     public static final class JC {
         public static final int JUDGMENT_ID = 333;
         public static final String CASE_NUMBER = "00112233";
@@ -259,6 +277,7 @@ public abstract class FieldsDefinition {
 
 
     }
+
 
 
 }

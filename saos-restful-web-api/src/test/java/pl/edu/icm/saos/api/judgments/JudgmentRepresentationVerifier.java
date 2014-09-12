@@ -1,15 +1,16 @@
 package pl.edu.icm.saos.api.judgments;
 
-import org.springframework.test.web.servlet.ResultActions;
-import pl.edu.icm.saos.api.utils.FieldsDefinition;
-import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judgment;
-
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static pl.edu.icm.saos.api.utils.Constansts.JUDGMENTS_PATH;
+
+import org.springframework.test.web.servlet.ResultActions;
+
+import pl.edu.icm.saos.api.utils.FieldsDefinition;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
  * @author pavtel
@@ -20,7 +21,8 @@ public class JudgmentRepresentationVerifier {
     public static void verifyBasicFields(ResultActions actions, String pathPrefix) throws Exception{
         actions
                 .andExpect(jsonPath(pathPrefix+".href").value(endsWith(JUDGMENTS_PATH+"/"+ FieldsDefinition.JC.JUDGMENT_ID)))
-                .andExpect(jsonPath(pathPrefix+".caseNumber").value(FieldsDefinition.JC.CASE_NUMBER))
+                .andExpect(jsonPath(pathPrefix+".courtCases").value(iterableWithSize(1)))
+                .andExpect(jsonPath(pathPrefix+".courtCases.[0].caseNumber").value(FieldsDefinition.JC.CASE_NUMBER))
                 .andExpect(jsonPath(pathPrefix+".judgmentType").value(Judgment.JudgmentType.SENTENCE.name()))
 
 

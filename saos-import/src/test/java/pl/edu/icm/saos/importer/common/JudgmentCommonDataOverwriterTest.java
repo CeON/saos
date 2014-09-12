@@ -1,10 +1,12 @@
 package pl.edu.icm.saos.importer.common;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
@@ -13,6 +15,7 @@ import org.junit.experimental.categories.Category;
 import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
 import pl.edu.icm.saos.common.testcommon.category.FastTest;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -56,19 +59,21 @@ public class JudgmentCommonDataOverwriterTest {
     
     
     @Test
-    public void overwriteJudgment_CaseNumber() {
+    public void overwriteJudgment_CourtCases() {
         Judgment oldJudgment = createJudgment();
-        oldJudgment.setCaseNumber("123XD");
+        oldJudgment.addCourtCase(new CourtCase("123XD"));
+        oldJudgment.addCourtCase(new CourtCase("123"));
         
         Judgment newJudgment = createJudgment();
-        String newCaseNumber = "cxcxcxcxcxcxc";
-        newJudgment.setCaseNumber(newCaseNumber);
+        String newCaseNumber1 = "cxcxcxcxcxcxc";
+        newJudgment.addCourtCase(new CourtCase(newCaseNumber1));
+        String newCaseNumber2 = "123";
+        newJudgment.addCourtCase(new CourtCase(newCaseNumber2));
         
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
         
-        assertEquals(newCaseNumber, oldJudgment.getCaseNumber());
-        assertEquals(newCaseNumber, newJudgment.getCaseNumber());
-        
+        assertThat(newJudgment.getCaseNumbers(), Matchers.containsInAnyOrder(newCaseNumber1, newCaseNumber2));
+        assertThat(oldJudgment.getCaseNumbers(), Matchers.containsInAnyOrder(newCaseNumber1, newCaseNumber2));
     }
     
     

@@ -39,9 +39,9 @@ public class JudgmentSearchResultsTranslator implements SearchResultsTranslator<
         JudgmentSearchResult result = new JudgmentSearchResult();
         
         String databaseId = fetchValue(document, JudgmentIndexField.DATABASE_ID);
-        String signature = fetchValue(document, JudgmentIndexField.SIGNATURE);
         result.setId(databaseId);
-        result.setSignature(signature);
+        List<String> caseNumbers = fetchValues(document, JudgmentIndexField.CASE_NUMBER);
+        result.setCaseNumbers(caseNumbers);
         
         String judgmentType = fetchValue(document, JudgmentIndexField.JUDGMENT_TYPE);
         result.setJudgmentType(judgmentType);
