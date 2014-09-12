@@ -25,6 +25,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.config.TestsConfig;
+import pl.edu.icm.saos.api.judgments.extractors.JudgmentsParametersExtractor;
+import pl.edu.icm.saos.api.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.search.ApiSearchService;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
@@ -45,7 +47,7 @@ public class JudgmentsControllerTest {
     static class TestConfiguration {
 
         @Bean(name = "mockJudgmentApiSearchService")
-        public ApiSearchService<Judgment> judgmentApiSearchService(){
+        public ApiSearchService<Judgment, JudgmentsParameters> judgmentApiSearchService(){
             return new TrivialApiSearchService();
         }
 
@@ -58,12 +60,13 @@ public class JudgmentsControllerTest {
     @Autowired
     private JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder;
 
-    @Autowired
-    private ParametersExtractor parametersExtractor;
 
     @Autowired
     @Qualifier("mockJudgmentApiSearchService")
-    private ApiSearchService<Judgment> apiSearchService;
+    private ApiSearchService<Judgment, JudgmentsParameters> apiSearchService;
+
+    @Autowired
+    private JudgmentsParametersExtractor parametersExtractor;
 
 
 
@@ -82,7 +85,7 @@ public class JudgmentsControllerTest {
     //*** END CONFIGURATION ***
 
     @Test
-    public void itShouldShowAllBasicsJudgmentsFields() throws Exception {
+    public void showJudgments__it_should_show_all_basics_judgments_fields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
                 .param(LIMIT, "2")
@@ -118,24 +121,43 @@ public class JudgmentsControllerTest {
 
 
     @Test
-    public void itShouldShowRequestParameters() throws Exception {
+    public void showJudgments__it_should_show_request_parameters() throws Exception {
         //given
         int limit = 11;
         int offset = 5;
-        String expand = ALL;
+        String allValue = "someAllValue";
+        String judgmentDateFrom = "2010-01-21";
+        String judgmentDateTo = "2020-10-13";
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
                 .param(LIMIT, String.valueOf(limit))
                 .param(OFFSET, String.valueOf(offset))
-                .param(EXPAND, expand)
+                .param(ALL, allValue)
+                .param(COURT_NAME, JC.COURT_NAME)
+                .param(LEGAL_BASE, JC.FIRST_LEGAL_BASE)
+                .param(REFERENCED_REGULATION, JC.FIRST_REFERENCED_REGULATION_TEXT)
+                .param(JUDGE_NAME, JC.SECOND_JUDGE_NAME)
+                .param(KEYWORD, JC.SECOND_KEYWORD)
+                .param(JUDGMENT_DATE_FROM, judgmentDateFrom)
+                .param(JUDGMENT_DATE_TO, judgmentDateTo)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
+        String prefix = "$.queryTemplate";
+
         actions
-                .andExpect(jsonPath("$.queryTemplate.limit").value(limit))
-                .andExpect(jsonPath("$.queryTemplate.offset").value(offset))
-                .andExpect(jsonPath("$.queryTemplate.expand").value(expand))
+                .andExpect(jsonPath(prefix+".all").value(allValue))
+                .andExpect(jsonPath(prefix+".courtName").value(JC.COURT_NAME))
+                .andExpect(jsonPath(prefix+".legalBase").value(JC.FIRST_LEGAL_BASE))
+                .andExpect(jsonPath(prefix+".referencedRegulation").value(JC.FIRST_REFERENCED_REGULATION_TEXT))
+                .andExpect(jsonPath(prefix+".judgeName").value(JC.SECOND_JUDGE_NAME))
+                .andExpect(jsonPath(prefix+".keyword").value(JC.SECOND_KEYWORD))
+                .andExpect(jsonPath(prefix+".judgmentDateFrom").value(judgmentDateFrom))
+                .andExpect(jsonPath(prefix+".judgmentDateTo").value(judgmentDateTo))
+                .andExpect(jsonPath(prefix+".limit").value(limit))
+                .andExpect(jsonPath(prefix+".offset").value(offset))
+
         ;
     }
 }

@@ -1,25 +1,24 @@
 package pl.edu.icm.saos.api.search;
 
-import pl.edu.icm.saos.api.parameters.RequestParameters;
-import pl.edu.icm.saos.persistence.model.Judgment;
+
 
 import java.util.List;
 
 /**
  * @author pavtel
  */
-public class ElementsSearchResults<T> {
-
-    private RequestParameters requestParameters;
+public class ElementsSearchResults<T, S> {
 
     private List<? extends T> elements;
 
-    public ElementsSearchResults(RequestParameters requestParameters, List<? extends T> elements) {
-        this.requestParameters = requestParameters;
+    private S requestParameters;
+
+    public ElementsSearchResults( List<? extends T> elements, S requestParameters) {
         this.elements = elements;
+        this.requestParameters = requestParameters;
     }
 
-    public RequestParameters getRequestParameters() {
+    public S getRequestParameters() {
         return requestParameters;
     }
 
