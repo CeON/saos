@@ -9,7 +9,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.DbCleaner;
 
 
 /**
@@ -21,7 +20,7 @@ import pl.edu.icm.saos.persistence.DbCleaner;
 public abstract class BatchTestSupport {
     
     @Autowired
-    private DbCleaner dbCleaner;
+    private BatchDbCleaner dbCleaner;
     
     
     
