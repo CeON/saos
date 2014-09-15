@@ -5,6 +5,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
@@ -30,7 +31,7 @@ public abstract class AbstractJudgmentConverter<JUDGMENT extends Judgment, SOURC
 
         JUDGMENT judgment = createNewJudgment();
        
-        judgment.setCaseNumber(extractCaseNumber(sourceJudgment));
+        convertCourtCases(judgment, sourceJudgment);
         
         judgment.setJudgmentDate(extractJudgmentDate(sourceJudgment));
         
@@ -69,7 +70,7 @@ public abstract class AbstractJudgmentConverter<JUDGMENT extends Judgment, SOURC
     
     protected abstract JUDGMENT createNewJudgment();
     
-    protected abstract String extractCaseNumber(SOURCE_JUDGMENT sourceJudgment);
+    protected abstract List<CourtCase> extractCourtCases(SOURCE_JUDGMENT sourceJudgment);
 
     protected abstract String extractTextContent(SOURCE_JUDGMENT sourceJudgment);
     
@@ -150,6 +151,16 @@ public abstract class AbstractJudgmentConverter<JUDGMENT extends Judgment, SOURC
         return judgmentSource;
     }
 
+    
+    private void convertCourtCases(JUDGMENT judgment, SOURCE_JUDGMENT sourceJudgment) {
+        List<CourtCase> courtCases = extractCourtCases(sourceJudgment);
+        for (CourtCase courtCase : courtCases) {
+            if(!judgment.containsCourtCase(courtCase.getCaseNumber())) {
+                judgment.addCourtCase(courtCase);
+            }
+        }
+    }
+    
     private void convertJudges(JUDGMENT judgment, SOURCE_JUDGMENT sourceJudgment) {
         List<Judge> judges = extractJudges(sourceJudgment);
         for (Judge judge : judges) {

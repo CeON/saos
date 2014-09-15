@@ -22,6 +22,7 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -45,7 +46,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         Assert.assertEquals(0, judgmentRepository.count());
         
         CommonCourtJudgment judgment = new CommonCourtJudgment();
-        judgment.setCaseNumber("222");
+        judgment.addCourtCase(new CourtCase("222"));
         judgmentRepository.save(judgment);
         
         Assert.assertEquals(1, judgmentRepository.count());
@@ -87,7 +88,22 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
         createCcJudgment(SourceCode.ADMINISTRATIVE_COURT, "1", "AAA1");
         
-        List<Judgment> ccJudgments = judgmentRepository.findBySourceCodeAndCaseNumber(SourceCode.COMMON_COURT, ccJudgment1.getCaseNumber());
+        List<Judgment> ccJudgments = judgmentRepository.findBySourceCodeAndCaseNumber(SourceCode.COMMON_COURT, ccJudgment1.getCaseNumbers().get(0));
+        assertEquals(1, ccJudgments.size());
+        assertEquals(ccJudgment1.getId(), ccJudgments.get(0).getId());
+      
+    }
+    
+    @Test
+    public void findBySourceCodeAndCaseNumber_FOUND_MultiCases() {
+        CommonCourtJudgment ccJudgment1 = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
+        createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
+        createCcJudgment(SourceCode.ADMINISTRATIVE_COURT, "1", "AAA1");
+        
+        ccJudgment1.addCourtCase(new CourtCase("BBB1"));
+        
+        List<Judgment> ccJudgments = judgmentRepository.findBySourceCodeAndCaseNumber(SourceCode.COMMON_COURT, ccJudgment1.getCaseNumbers().get(0));
         assertEquals(1, ccJudgments.size());
         assertEquals(ccJudgment1.getId(), ccJudgments.get(0).getId());
       
@@ -176,7 +192,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         sourceInfo.setSourceCode(sourceCode);
         sourceInfo.setSourceJudgmentId(sourceJudgmentId);
         ccJudgment.setSourceInfo(sourceInfo);
-        ccJudgment.setCaseNumber(caseNumber);
+        ccJudgment.addCourtCase(new CourtCase(caseNumber));
         judgmentRepository.save(ccJudgment);
         return ccJudgment;
     }

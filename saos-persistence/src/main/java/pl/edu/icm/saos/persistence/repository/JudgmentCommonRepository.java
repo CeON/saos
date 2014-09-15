@@ -25,7 +25,7 @@ public interface JudgmentCommonRepository<T extends Judgment> extends IndexableO
      * Does not return a single judgment because there is no certainty that judgment case numbers are always unique <br/>
      * 
      */
-    @Query("select j from #{#entityName} j where j.caseNumber=:caseNumber and j.sourceInfo.sourceCode=:sourceCode")
+    @Query("select j from #{#entityName} j join j.courtCases_ courtCase where courtCase.caseNumber=:caseNumber and j.sourceInfo.sourceCode=:sourceCode")
     List<T> findBySourceCodeAndCaseNumber(@Param("sourceCode") SourceCode sourceCode, @Param("caseNumber") String caseNumber);
 
     

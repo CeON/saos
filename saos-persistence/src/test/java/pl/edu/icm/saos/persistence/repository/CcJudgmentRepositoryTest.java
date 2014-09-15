@@ -16,6 +16,7 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -69,7 +70,7 @@ public class CcJudgmentRepositoryTest  extends PersistenceTestSupport {
         createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
         createCcJudgment(SourceCode.ADMINISTRATIVE_COURT, "1", "AAA1");
         
-        List<CommonCourtJudgment> ccJudgments = ccJudgmentRepository.findBySourceCodeAndCaseNumber(SourceCode.COMMON_COURT, ccJudgment1.getCaseNumber());
+        List<CommonCourtJudgment> ccJudgments = ccJudgmentRepository.findBySourceCodeAndCaseNumber(SourceCode.COMMON_COURT, ccJudgment1.getCaseNumbers().get(0));
         assertEquals(1, ccJudgments.size());
         assertEquals(ccJudgment1.getId(), ccJudgments.get(0).getId());
       
@@ -83,7 +84,7 @@ public class CcJudgmentRepositoryTest  extends PersistenceTestSupport {
         sourceInfo.setSourceCode(sourceCode);
         sourceInfo.setSourceJudgmentId(sourceJudgmentId);
         ccJudgment.setSourceInfo(sourceInfo);
-        ccJudgment.setCaseNumber(caseNumber);
+        ccJudgment.addCourtCase(new CourtCase(caseNumber));
         ccJudgmentRepository.save(ccJudgment);
         return ccJudgment;
     }

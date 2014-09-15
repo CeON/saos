@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.persistence.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
@@ -30,7 +31,6 @@ import org.joda.time.LocalDate;
 import org.springframework.util.ObjectUtils;
 
 import pl.edu.icm.saos.common.visitor.Visitor;
-import pl.edu.icm.saos.persistence.common.DataObject;
 import pl.edu.icm.saos.persistence.common.IndexableObject;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
@@ -65,9 +65,10 @@ public abstract class Judgment extends IndexableObject {
     
     private JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
     
-    // sentence
-    private String caseNumber;
     private LocalDate judgmentDate;
+    
+    private List<CourtCase> courtCases = Lists.newArrayList();
+    
     private List<Judge> judges = Lists.newArrayList();
     private List<String> courtReporters = Lists.newArrayList(); 
     private String decision; 
@@ -99,11 +100,6 @@ public abstract class Judgment extends IndexableObject {
         return sourceInfo;
     }
     
-    /** pl. sygnatura sprawy */
-    @Column(nullable=false)
-    public String getCaseNumber() {
-        return caseNumber;
-    }
 
     /** pl. data orzeczenia */
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
@@ -192,8 +188,78 @@ public abstract class Judgment extends IndexableObject {
         return textContent;
     }
 
+    @OneToMany(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL)
+    private List<CourtCase> getCourtCases_() {
+        return courtCases;
+    }
     
+    @Transient
+    public List<String> getCaseNumbers() {
+        return ImmutableList.copyOf(getCourtCases_().stream().map(CourtCase::getCaseNumber).collect(Collectors.toList()));    
+    }
+    
+    @Transient
+    public List<CourtCase> getCourtCases() {
+        return ImmutableList.copyOf(getCourtCases_());
+    }
+
+      
+    @Transient
+    public boolean isInstanceOfCommonCourtJudgment(){
+        return this instanceof CommonCourtJudgment;
+    }
+
+    @Transient
+    public boolean isInstanceOfAdministrativeCourtJudgment(){
+        return this instanceof AdministrativeCourtJudgment;
+    }
+
+    @Transient
+    public boolean isInstanceOfSupremeCourtJudgment(){
+        return this instanceof SupremeCourtJudgment;
+    }
+    
+
     //------------------------ LOGIC --------------------------
+    
+    @Transient
+    public boolean isSingleCourtCase() {
+        return getCourtCases_().size() == 1;
+    }
+    
+    public void addCourtCase(CourtCase courtCase) {
+        Preconditions.checkNotNull(courtCase);
+        Preconditions.checkArgument(!StringUtils.isBlank(courtCase.getCaseNumber()));
+        Preconditions.checkArgument(!containsCourtCase(courtCase.getCaseNumber()));
+        
+        courtCase.setJudgment(this);
+        this.courtCases.add(courtCase);
+    }
+    
+    
+    public CourtCase getCourtCase(String caseNumber) {
+        for (CourtCase courtCase : this.courtCases) {
+            if (courtCase.getCaseNumber().equals(caseNumber)) {
+                return courtCase;
+            }
+        }
+        return null;
+    }
+    
+    
+    public boolean containsCourtCase(String caseNumber) {
+        return getCourtCase(caseNumber) != null;
+    }
+    
+    
+    public void removeCourtCase(CourtCase courtCase) {
+        courtCases.remove(courtCase);
+    }
+    
+    
+    public void removeAllCourtCases() {
+        courtCases.clear();
+    }
     
     
     public void addJudge(Judge judge) { 
@@ -246,8 +312,6 @@ public abstract class Judgment extends IndexableObject {
     public void removeJudge(Judge judge) {
         judges.remove(judge);
     }
-    
-    
     
     
     public void addLegalBase(String legalBase) {
@@ -314,6 +378,10 @@ public abstract class Judgment extends IndexableObject {
             judge.accept(visitor);
         }
         
+        for (CourtCase courtCase : getCourtCases_()) {
+            courtCase.accept(visitor);
+        }
+        
         if (reasoning != null) {
             reasoning.accept(visitor);
         }
@@ -327,9 +395,7 @@ public abstract class Judgment extends IndexableObject {
     
     //------------------------ SETTERS --------------------------
     
-    public void setCaseNumber(String caseNumber) {
-        this.caseNumber = caseNumber;
-    }
+    
 
     public void setJudgmentDate(LocalDate judgmentDate) {
         this.judgmentDate = judgmentDate;
@@ -377,27 +443,17 @@ public abstract class Judgment extends IndexableObject {
     public void setSourceInfo(JudgmentSourceInfo sourceInfo) {
         this.sourceInfo = sourceInfo;
     }
+    
+    @SuppressWarnings("unused") /** for hibernate only */
+    private void setCourtCases_(List<CourtCase> courtCases) {
+        this.courtCases = courtCases;
+    }
 
     @SuppressWarnings("unused") /** for hibernate only */
     private void setReferencedRegulations_(List<JudgmentReferencedRegulation> referencedRegulations) {
         this.referencedRegulations = referencedRegulations;
     }
 
-    @Transient
-    public boolean isInstanceOfCommonCourtJudgment(){
-        return this instanceof CommonCourtJudgment;
-    }
-
-    @Transient
-    public boolean isInstanceOfAdministrativeCourtJudgment(){
-        return this instanceof AdministrativeCourtJudgment;
-    }
-
-    @Transient
-    public boolean isInstanceOfSupremeCourtJudgment(){
-        return this instanceof SupremeCourtJudgment;
-    }
-    
     
     //------------------------ HashCode & Equals --------------------------
     
@@ -428,14 +484,20 @@ public abstract class Judgment extends IndexableObject {
         return true;
     }
 
+    
+    //------------------------ toString --------------------------
+    
     @Override
     public String toString() {
-        return "Judgment [sourceInfo=" + sourceInfo + ", caseNumber="
-                + caseNumber + ", judgmentDate=" + judgmentDate + ", judges="
-                + judges + ", decision=" + decision + ", judgmentType="
-                + judgmentType + "]";
+        return "Judgment [sourceInfo=" + sourceInfo + ", judgmentDate="
+                + judgmentDate + ", courtCases=" + courtCases + ", judges="
+                + judges + ", courtReporters=" + courtReporters
+                + ", legalBases=" + legalBases + ", referencedRegulations="
+                + referencedRegulations + ", judgmentType=" + judgmentType
+                + "]";
     }
 
+    
 
     
 }

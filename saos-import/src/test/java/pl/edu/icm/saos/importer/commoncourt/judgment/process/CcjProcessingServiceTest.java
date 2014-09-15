@@ -18,6 +18,7 @@ import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
 
@@ -145,11 +146,11 @@ public class CcjProcessingServiceTest {
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
         ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
         ccJudgment.getSourceInfo().setSourceJudgmentId("1232345");
-        ccJudgment.setCaseNumber("12122dsdcsc");
+        ccJudgment.addCourtCase(new CourtCase("12122dsdcsc"));
         ccJudgment.setCourtDivision(new CommonCourtDivision());
         
         when(sourceCcJudgmentConverter.convertJudgment(Mockito.isA(SourceCcJudgment.class))).thenReturn(ccJudgment);
-        when(ccJudgmentRepository.findBySourceCodeAndCaseNumber(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getCaseNumber()))).thenReturn(null);
+        when(ccJudgmentRepository.findBySourceCodeAndCaseNumber(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getCaseNumbers().get(0)))).thenReturn(null);
         
         //------------------ method invocation -----------------------
         
@@ -165,7 +166,7 @@ public class CcjProcessingServiceTest {
             verify(sourceCcJudgmentConverter).convertJudgment(argSourceCcJudgment.capture());
             assertTrue(sourceCcJudgment == argSourceCcJudgment.getValue());
             
-            verify(ccJudgmentRepository).findBySourceCodeAndCaseNumber(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getCaseNumber()));
+            verify(ccJudgmentRepository).findBySourceCodeAndCaseNumber(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getCaseNumbers().get(0)));
             
             
             verifyZeroInteractions(judgmentOverwriter, ccjReasoningMerger);
@@ -183,16 +184,16 @@ public class CcjProcessingServiceTest {
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
         ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
         ccJudgment.getSourceInfo().setSourceJudgmentId("1232345");
-        ccJudgment.setCaseNumber("12122dsdcsc");
+        ccJudgment.addCourtCase(new CourtCase("12122dsdcsc"));
         
         
         CommonCourtJudgment relatedJudgment = new CommonCourtJudgment();
         relatedJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
         relatedJudgment.getSourceInfo().setSourceJudgmentId("2341232345");
-        relatedJudgment.setCaseNumber("12122dsdcsc");
+        relatedJudgment.addCourtCase(new CourtCase("12122dsdcsc"));
         
         when(sourceCcJudgmentConverter.convertJudgment(Mockito.isA(SourceCcJudgment.class))).thenReturn(ccJudgment);
-        when(ccJudgmentRepository.findBySourceCodeAndCaseNumber(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getCaseNumber()))).thenReturn(Lists.newArrayList(relatedJudgment));
+        when(ccJudgmentRepository.findBySourceCodeAndCaseNumber(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getCaseNumbers().get(0)))).thenReturn(Lists.newArrayList(relatedJudgment));
         
         //------------------ method invocation -----------------------
         
@@ -207,7 +208,7 @@ public class CcjProcessingServiceTest {
         verify(sourceCcJudgmentConverter).convertJudgment(argSourceCcJudgment.capture());
         assertTrue(sourceCcJudgment == argSourceCcJudgment.getValue());
         
-        verify(ccJudgmentRepository).findBySourceCodeAndCaseNumber(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getCaseNumber()));
+        verify(ccJudgmentRepository).findBySourceCodeAndCaseNumber(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getCaseNumbers().get(0)));
         
         
         ArgumentCaptor<CommonCourtJudgment> argRelatedJudgment = ArgumentCaptor.forClass(CommonCourtJudgment.class);

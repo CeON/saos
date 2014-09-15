@@ -17,6 +17,7 @@ import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
@@ -100,8 +101,8 @@ class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJud
     }
 
     @Override
-    protected String extractCaseNumber(SourceCcJudgment sourceJudgment) {
-        return sourceJudgment.getSignature();
+    protected List<CourtCase> extractCourtCases(SourceCcJudgment sourceJudgment) {
+        return Lists.newArrayList(new CourtCase(sourceJudgment.getSignature()));
     }
         
     @Override

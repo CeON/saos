@@ -6,7 +6,7 @@ public class JudgmentCriteria implements Criteria {
     
     private String all;
     
-    private String signature;
+    private String caseNumber;
     
     private Date dateFrom;
     private Date dateTo;
@@ -33,11 +33,11 @@ public class JudgmentCriteria implements Criteria {
         this.all = all;
         return this;
     }
-    public String getSignature() {
-        return signature;
+    public String getCaseNumber() {
+        return caseNumber;
     }
-    public JudgmentCriteria setSignature(String signature) {
-        this.signature = signature;
+    public JudgmentCriteria setCaseNumber(String caseNumber) {
+        this.caseNumber = caseNumber;
         return this;
     }
     public Date getDateFrom() {

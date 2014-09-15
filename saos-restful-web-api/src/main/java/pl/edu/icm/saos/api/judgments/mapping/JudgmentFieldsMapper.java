@@ -1,17 +1,63 @@
 package pl.edu.icm.saos.api.judgments.mapping;
 
+import static pl.edu.icm.saos.api.ApiConstants.CASE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.CODE;
+import static pl.edu.icm.saos.api.ApiConstants.COURT;
+import static pl.edu.icm.saos.api.ApiConstants.COURT_CASES;
+import static pl.edu.icm.saos.api.ApiConstants.COURT_REPORTERS;
+import static pl.edu.icm.saos.api.ApiConstants.DECISION;
+import static pl.edu.icm.saos.api.ApiConstants.DIVISION;
+import static pl.edu.icm.saos.api.ApiConstants.HREF;
+import static pl.edu.icm.saos.api.ApiConstants.ID;
+import static pl.edu.icm.saos.api.ApiConstants.JOURNAL_ENTRY;
+import static pl.edu.icm.saos.api.ApiConstants.JOURNAL_NO;
+import static pl.edu.icm.saos.api.ApiConstants.JOURNAL_TITLE;
+import static pl.edu.icm.saos.api.ApiConstants.JOURNAL_YEAR;
+import static pl.edu.icm.saos.api.ApiConstants.JUDGES;
+import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_DATE;
+import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_ID;
+import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_TYPE;
+import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_URL;
+import static pl.edu.icm.saos.api.ApiConstants.KEYWORDS;
+import static pl.edu.icm.saos.api.ApiConstants.LEGAL_BASES;
+import static pl.edu.icm.saos.api.ApiConstants.NAME;
+import static pl.edu.icm.saos.api.ApiConstants.PUBLICATION_DATE;
+import static pl.edu.icm.saos.api.ApiConstants.PUBLISHER;
+import static pl.edu.icm.saos.api.ApiConstants.REASONING;
+import static pl.edu.icm.saos.api.ApiConstants.REFERENCED_REGULATIONS;
+import static pl.edu.icm.saos.api.ApiConstants.REVISER;
+import static pl.edu.icm.saos.api.ApiConstants.SOURCE;
+import static pl.edu.icm.saos.api.ApiConstants.SPECIAL_ROLES;
+import static pl.edu.icm.saos.api.ApiConstants.SUMMARY;
+import static pl.edu.icm.saos.api.ApiConstants.TEXT;
+import static pl.edu.icm.saos.api.ApiConstants.TEXT_CONTENT;
+import static pl.edu.icm.saos.api.ApiConstants.TYPE;
+
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import pl.edu.icm.saos.api.links.LinksBuilder;
 import pl.edu.icm.saos.api.mapping.FieldsMapper;
-import pl.edu.icm.saos.persistence.model.*;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static pl.edu.icm.saos.api.ApiConstants.*;
+import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 
 /** {@inheritDoc}
  * @author pavtel
@@ -52,7 +98,7 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
             item.put(HREF, linksBuilder.urlToJudgment(element.getId()));
         }
 
-        item.put(CASE_NUMBER, element.getCaseNumber());
+        item.put(COURT_CASES, toListOfCourtCaseMaps(element.getCourtCases()));
         item.put(JUDGMENT_TYPE, element.getJudgmentType());
         item.put(JUDGMENT_DATE, toString(element.getJudgmentDate()));
         item.put(JUDGES, toListOfMaps(element.getJudges()));
@@ -102,7 +148,7 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
     public Map<String, Object> toMap(Judgment element, boolean expandAll) {
         Map<String, Object> item = new LinkedHashMap<>();
 
-        item.put(CASE_NUMBER, element.getCaseNumber());
+        item.put(COURT_CASES, toListOfCourtCaseMaps(element.getCourtCases()));
         item.put(JUDGMENT_TYPE, element.getJudgmentType());
         item.put(SOURCE, toMap(element.getSourceInfo()));
         item.put(JUDGMENT_DATE, toString(element.getJudgmentDate()));
@@ -231,6 +277,23 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
             map.put(NAME, judge.getName());
             map.put(SPECIAL_ROLES, judgeRoles);
 
+            list.add(map);
+        }
+
+        return list;
+
+    }
+    
+    private List<Map<String, Object>> toListOfCourtCaseMaps(List<CourtCase> courtCases) {
+        if(courtCases == null) {
+            courtCases = Collections.emptyList();
+        }
+        
+        List<Map<String, Object>> list = new LinkedList<>();
+
+        for(CourtCase courtCase : courtCases){
+            Map<String, Object> map = new LinkedHashMap<>();
+            map.put(CASE_NUMBER, courtCase.getCaseNumber());
             list.add(map);
         }
 

@@ -1,5 +1,8 @@
 package pl.edu.icm.saos.persistence.common;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
@@ -9,13 +12,21 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.persistence.model.*;
+import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
+import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.SourceCode;
 
 import com.google.common.collect.Lists;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Łukasz Dumiszewski
@@ -29,7 +40,7 @@ public class TestJudgmentFactory {
     
     public static CommonCourtJudgment createSimpleCcJudgment() {
         CommonCourtJudgment judgment = new CommonCourtJudgment();
-        judgment.setCaseNumber(RandomStringUtils.randomAlphanumeric(10));
+        judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphanumeric(10)));
         return judgment;
     }
 
@@ -109,7 +120,7 @@ public class TestJudgmentFactory {
     @Transactional
     public CommonCourtJudgment createFullCcJudgment(boolean save) {
         CommonCourtJudgment judgment = new CommonCourtJudgment();
-        judgment.setCaseNumber(RandomStringUtils.randomAlphanumeric(10));
+        judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphanumeric(10)));
         judgment.addCourtReporter("Adam Nowak");
         judgment.addCourtReporter("Jan Kowalski");
         Judge judge = new Judge();
@@ -189,21 +200,22 @@ public class TestJudgmentFactory {
     @Transactional
     public List<CommonCourtJudgment> createSimpleCcJudgments(boolean save){
         CommonCourtJudgment firstJudgment = new CommonCourtJudgment();
-        firstJudgment.setCaseNumber("A");
+        
+        firstJudgment.addCourtCase(new CourtCase("A"));
         firstJudgment.setJudgmentDate(new LocalDate(10000000000L));
 
         CommonCourtJudgment secondJudgment = new CommonCourtJudgment();
-        secondJudgment.setCaseNumber("B");
+        secondJudgment.addCourtCase(new CourtCase("B"));
         secondJudgment.setJudgmentDate(new LocalDate(20000000000L));
 
 
         CommonCourtJudgment thirdJudgment = new CommonCourtJudgment();
-        thirdJudgment.setCaseNumber("C");
+        thirdJudgment.addCourtCase(new CourtCase("C"));
         thirdJudgment.setJudgmentDate(new LocalDate(30000000000L));
 
 
         CommonCourtJudgment fourthJudgment = new CommonCourtJudgment();
-        fourthJudgment.setCaseNumber("D");
+        fourthJudgment.addCourtCase(new CourtCase("D"));
         fourthJudgment.setJudgmentDate(new LocalDate(40000000000L));
 
 
@@ -219,4 +231,6 @@ public class TestJudgmentFactory {
         return Arrays.asList(firstJudgment, secondJudgment, thirdJudgment, fourthJudgment);
     }
 
+    
+   
 }

@@ -48,7 +48,7 @@ public class JudgmentSearchQueryFactory implements SearchQueryFactory<JudgmentCr
         sb.append(transformSingleCriterion(JudgmentIndexField.KEYWORD, criteria.getKeyword()));
         sb.append(transformSingleCriterion(JudgmentIndexField.LEGAL_BASE, criteria.getLegalBase()));
         sb.append(transformSingleCriterion(JudgmentIndexField.REFERENCED_REGULATION, criteria.getReferencedRegulation()));
-        sb.append(transformSingleCriterion(JudgmentIndexField.SIGNATURE, criteria.getSignature()));
+        sb.append(transformSingleCriterion(JudgmentIndexField.CASE_NUMBER, criteria.getCaseNumber()));
         return sb.toString().trim();
     }
     

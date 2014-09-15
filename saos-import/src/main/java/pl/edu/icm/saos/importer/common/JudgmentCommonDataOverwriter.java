@@ -2,6 +2,7 @@ package pl.edu.icm.saos.importer.common;
 
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
@@ -21,7 +22,7 @@ public class JudgmentCommonDataOverwriter implements JudgmentOverwriter<Judgment
         Preconditions.checkNotNull(newJudgment);
         
         
-        oldJudgment.setCaseNumber(newJudgment.getCaseNumber());
+        overwriteCourtCases(oldJudgment, newJudgment);
         oldJudgment.setJudgmentDate(newJudgment.getJudgmentDate());
         overwriteCourtReporters(oldJudgment, newJudgment);
         oldJudgment.setDecision(newJudgment.getDecision());
@@ -116,6 +117,20 @@ public class JudgmentCommonDataOverwriter implements JudgmentOverwriter<Judgment
         }
     }
     
+    
+    private void overwriteCourtCases(Judgment oldJudgment, Judgment newJudgment) {
+        for (CourtCase courtCase : oldJudgment.getCourtCases()) {
+            if (!newJudgment.containsCourtCase(courtCase.getCaseNumber())) {
+                oldJudgment.removeCourtCase(courtCase);
+            }
+        }
+        for (CourtCase courtCase : newJudgment.getCourtCases()) {
+            CourtCase newCourtCase = new CourtCase(courtCase.getCaseNumber());
+            if (!oldJudgment.containsCourtCase(newCourtCase.getCaseNumber())) {
+                oldJudgment.addCourtCase(newCourtCase); 
+            } 
+        }
+    }
        
    
 }

@@ -3,7 +3,7 @@ package pl.edu.icm.saos.search.config.model;
 public enum JudgmentIndexField {
     ID("id"),
     DATABASE_ID("databaseId"),
-    SIGNATURE("signature"),
+    CASE_NUMBER("caseNumber"),
     TITLE("title"),
     
     JUDGMENT_DATE("judgmentDate"),
