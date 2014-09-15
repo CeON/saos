@@ -13,7 +13,7 @@ import pl.edu.icm.saos.api.builders.BuildersFactory;
 import pl.edu.icm.saos.api.transformers.SearchResultApiTransformer;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 
 import com.google.common.base.Preconditions;
 

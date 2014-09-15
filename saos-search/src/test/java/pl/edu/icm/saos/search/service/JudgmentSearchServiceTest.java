@@ -9,7 +9,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.search.SearchTestConfiguration;
-import pl.edu.icm.saos.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.search.service.JudgmentSearchService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={ SearchTestConfiguration.class })

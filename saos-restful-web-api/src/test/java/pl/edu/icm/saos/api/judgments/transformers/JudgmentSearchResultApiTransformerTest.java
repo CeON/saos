@@ -19,7 +19,7 @@ import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 
 import com.google.common.collect.Lists;
 

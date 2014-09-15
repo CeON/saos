@@ -7,9 +7,10 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.junit.Assert;
 import org.junit.Test;
 
-import pl.edu.icm.saos.search.model.JudgmentCriteria;
-import pl.edu.icm.saos.search.model.Paging;
-import pl.edu.icm.saos.search.model.Sorting;
+import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.search.model.Paging;
+import pl.edu.icm.saos.search.search.model.Sorting;
+import pl.edu.icm.saos.search.search.service.JudgmentSearchQueryFactory;
 
 public class JudgmentSearchQueryFactoryTest {
 

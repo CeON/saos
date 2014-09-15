@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.search.service;
+package pl.edu.icm.saos.search.search.service;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -8,23 +8,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.search.model.JudgmentCriteria;
-import pl.edu.icm.saos.search.model.JudgmentSearchResult;
-import pl.edu.icm.saos.search.model.Paging;
-import pl.edu.icm.saos.search.model.SearchResults;
+import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.model.Paging;
+import pl.edu.icm.saos.search.search.model.SearchResults;
 
 @Service
 public class JudgmentSearchService implements SearchService<JudgmentSearchResult, JudgmentCriteria> {
     
     @Autowired
     @Qualifier("solrJudgmentsServer")
-    SolrServer solrServer;
+    private SolrServer solrServer;
     
     @Autowired
-    JudgmentSearchQueryFactory queryFactory;
+    private JudgmentSearchQueryFactory queryFactory;
     
     @Autowired
-    JudgmentSearchResultsTranslator resultsTranslator;
+    private JudgmentSearchResultsTranslator resultsTranslator;
 
     @Override
     public SearchResults<JudgmentSearchResult> search(JudgmentCriteria query,

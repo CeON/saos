@@ -20,12 +20,13 @@ import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 public class SolrLoader implements ApplicationListener<ApplicationContextEvent> {
 
     @Autowired
-    SolrIndexConfigurationCopier indexConfigurationCopier;
+    private SolrIndexConfigurationCopier indexConfigurationCopier;
 
     @Autowired
-    IndexReloader indexReloader;
+    private IndexReloader indexReloader;
 
-    @Autowired List<IndexConfiguration> indexesConfiguration;
+    @Autowired
+    private List<IndexConfiguration> indexesConfiguration;
 
     @Value("${solr.index.configuration.copy}")
     private boolean copyConfiguration = false;

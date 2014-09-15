@@ -3,7 +3,7 @@ package pl.edu.icm.saos.api.transformers;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import pl.edu.icm.saos.search.model.Searchable;
+import pl.edu.icm.saos.search.search.model.Searchable;
 
 
 /**

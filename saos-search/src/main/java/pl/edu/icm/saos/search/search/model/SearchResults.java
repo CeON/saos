@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.search.model;
+package pl.edu.icm.saos.search.search.model;
 
 import java.util.LinkedList;
 import java.util.List;

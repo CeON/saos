@@ -15,12 +15,12 @@ import pl.edu.icm.saos.api.search.ApiSearchService;
 import pl.edu.icm.saos.api.search.ElementsSearchResults;
 import pl.edu.icm.saos.api.transformers.SearchResultApiTransformer;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.search.model.JudgmentCriteria;
-import pl.edu.icm.saos.search.model.JudgmentSearchResult;
-import pl.edu.icm.saos.search.model.Paging;
-import pl.edu.icm.saos.search.model.SearchResults;
-import pl.edu.icm.saos.search.model.Sorting;
-import pl.edu.icm.saos.search.service.SearchService;
+import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.model.Paging;
+import pl.edu.icm.saos.search.search.model.SearchResults;
+import pl.edu.icm.saos.search.search.model.Sorting;
+import pl.edu.icm.saos.search.search.service.SearchService;
 
 import com.google.common.base.Preconditions;
 

@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.search.model;
+package pl.edu.icm.saos.search.search.model;
 
 import pl.edu.icm.saos.search.util.SolrConstants;
 

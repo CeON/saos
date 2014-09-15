@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.search.service;
+package pl.edu.icm.saos.search.search.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,8 +11,8 @@ import org.apache.solr.common.SolrDocumentList;
 import org.springframework.stereotype.Component;
 
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
-import pl.edu.icm.saos.search.model.JudgmentSearchResult;
-import pl.edu.icm.saos.search.model.SearchResults;
+import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.model.SearchResults;
 
 @Component
 public class JudgmentSearchResultsTranslator implements SearchResultsTranslator<JudgmentSearchResult> {

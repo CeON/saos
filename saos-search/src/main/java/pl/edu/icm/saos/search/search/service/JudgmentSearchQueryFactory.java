@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.search.service;
+package pl.edu.icm.saos.search.search.service;
 
 import java.util.Date;
 
@@ -9,10 +9,10 @@ import org.apache.solr.client.solrj.util.ClientUtils;
 import org.springframework.stereotype.Component;
 
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
-import pl.edu.icm.saos.search.model.JudgmentCriteria;
-import pl.edu.icm.saos.search.model.Paging;
-import pl.edu.icm.saos.search.model.Sorting;
-import pl.edu.icm.saos.search.model.Sorting.Direction;
+import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.search.model.Paging;
+import pl.edu.icm.saos.search.search.model.Sorting;
+import pl.edu.icm.saos.search.search.model.Sorting.Direction;
 import pl.edu.icm.saos.search.util.SearchDateTimeUtils;
 import pl.edu.icm.saos.search.util.SolrConstants;
 
