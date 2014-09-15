@@ -51,12 +51,12 @@ public class DbCleaner {
     }
     
     
-    private void deleteAll(Class<?> clazz) {
+    public void deleteAll(Class<?> clazz) {
         Query query = entityManager.createQuery("delete from " + clazz.getName());
         query.executeUpdate();
     }
     
-    private void deleteAllSql(String tableName) {
+    public void deleteAllSql(String tableName) {
         Query query = entityManager.createNativeQuery("delete from " + tableName);
         query.executeUpdate();
     }
