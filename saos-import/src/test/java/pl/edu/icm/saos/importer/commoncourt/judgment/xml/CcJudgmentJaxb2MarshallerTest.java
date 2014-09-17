@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.xml;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.StringReader;
 
@@ -87,7 +88,7 @@ public class CcJudgmentJaxb2MarshallerTest {
                                         "Ustawa z dnia 17 grudnia 1998 r. o emeryturach i rentach z Funduszu Ubezpieczeń Społecznych"), judgment.getReferences());
         assertEquals(Lists.newArrayList("art. 88 ust. 1 ustawy z dnia 26 stycznia 1982 r. Karta Nauczyciela"), judgment.getLegalBases());
         assertEquals("Magdalena Krucka", judgment.getRecorder());
-        assertEquals("", judgment.getDecision());
+        assertNull(judgment.getDecision());
         assertEquals("Katarzyna Gulanowska", judgment.getReviser());
         assertEquals("Katarzyna Gulanowska", judgment.getPublisher());
         log.info("\n{}",judgment);
