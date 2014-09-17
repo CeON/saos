@@ -3,7 +3,10 @@ package pl.edu.icm.saos.importer.commoncourt;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.batch.item.xml.StaxEventItemReader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +19,8 @@ import org.springframework.web.client.RestTemplate;
 
 import pl.edu.icm.saos.common.xml.XmlTagContentExtractor;
 import pl.edu.icm.saos.importer.commoncourt.court.XmlCommonCourt;
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDateFormatter;
+import pl.edu.icm.saos.importer.commoncourt.judgment.xml.CcJaxbJodaDateTimeAdapter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 
 import com.google.common.collect.Lists;
@@ -26,6 +31,9 @@ import com.google.common.collect.Lists;
 @Configuration
 public class CommonCourtImportConfiguration {
 
+    @Autowired
+    private CcjImportDateFormatter ccjImportDateFormatter;
+    
     @Value("${import.commonCourt.connection.timeout}")
     private int ccImportConnectionTimeoutMs = 1000;
     
@@ -69,6 +77,11 @@ public class CommonCourtImportConfiguration {
         return new StringHttpMessageConverter(Charset.forName("UTF-8"));
     }
     
+    
+    @PostConstruct
+    public void postConstruct() {
+        CcJaxbJodaDateTimeAdapter.setCcjImportDateFormatter(ccjImportDateFormatter);
+    }
     
     
     //------------------------ CommonCourtImporter --------------------------
