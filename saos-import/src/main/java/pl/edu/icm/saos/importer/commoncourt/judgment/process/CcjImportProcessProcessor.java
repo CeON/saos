@@ -19,9 +19,16 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
 
     private static Logger log = LoggerFactory.getLogger(CcjImportProcessProcessor.class);
     
+    
     private RawSourceCcJudgmentConverter rawSourceCcJudgmentConverter;
+    
     private CcjProcessingService ccjProcessingService;
+    
     private RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository;
+    
+    
+    
+    
     
     @Override
     public CommonCourtJudgment process(RawSourceCcJudgment rawJudgment) throws Exception {
@@ -30,23 +37,10 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
         // in case of skipping items due errors, see more detailed explanation: https://github.com/CeON/saos/issues/22
         rawJudgment = rawSourceCcJudgmentRepository.findOne(rawJudgment.getId());
         
-        boolean onlyReasoning = rawJudgment.isJustReasons();
-        
         SourceCcJudgment sourceCcJudgment = rawSourceCcJudgmentConverter.convertSourceCcJudgment(rawJudgment);
-        log.debug("process: \n {}", sourceCcJudgment);
+        log.trace("process: \n {}", sourceCcJudgment);
         
-        /* (1) if processed judgment contains only reasons for judgment */
-        
-        CommonCourtJudgment ccJudgment = null;
-        
-        if (onlyReasoning) {
-            ccJudgment = ccjProcessingService.processReasoningJudgment(sourceCcJudgment);
-        }
-        
-        /* (2) if processed judgment is 'normal' judgment */
-        else {
-            ccJudgment = ccjProcessingService.processNormalJudgment(sourceCcJudgment);
-        }
+        CommonCourtJudgment ccJudgment = ccjProcessingService.processJudgment(sourceCcJudgment);
         
         markProcessingOk(rawJudgment);
         

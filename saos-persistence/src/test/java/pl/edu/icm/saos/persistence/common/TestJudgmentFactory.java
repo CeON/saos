@@ -20,13 +20,10 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
-import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.SourceCode;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski
@@ -123,9 +120,7 @@ public class TestJudgmentFactory {
         judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphanumeric(10)));
         judgment.addCourtReporter("Adam Nowak");
         judgment.addCourtReporter("Jan Kowalski");
-        Judge judge = new Judge();
-        judge.setName("Monkey Donkey");
-        judge.setSpecialRoles(Lists.newArrayList(JudgeRole.PRESIDING_JUDGE));
+        Judge judge = new Judge("Monkey Donkey", JudgeRole.PRESIDING_JUDGE);
         judgment.addJudge(judge);
 
         judgment.setDecision("judgment decision");
@@ -168,19 +163,6 @@ public class TestJudgmentFactory {
         judgment.setSourceInfo(sourceInfo);
         
         
-        JudgmentReasoning reasoning = new JudgmentReasoning();
-        judgment.setReasoning(reasoning);
-        reasoning.setJudgment(judgment);
-        reasoning.setText("Reasoning of the judgment");
-        JudgmentSourceInfo reasoningSourceInfo = new JudgmentSourceInfo();
-        reasoningSourceInfo.setPublisher("J Publisher");
-        reasoningSourceInfo.setPublicationDate(new DateTime());
-        reasoningSourceInfo.setReviser("J Reviser");
-        reasoningSourceInfo.setSourceCode(SourceCode.COMMON_COURT);
-        reasoningSourceInfo.setSourceJudgmentId("1234565");
-        reasoningSourceInfo.setSourceJudgmentUrl("http://sssss/sssss/pl");
-        reasoning.setSourceInfo(reasoningSourceInfo);
-        
         judgment.addLegalBase("ABC");
         judgment.addLegalBase("BCA");
 
@@ -191,7 +173,6 @@ public class TestJudgmentFactory {
             entityManager.persist(division);
             entityManager.persist(entry);
             entityManager.persist(judgment);
-            entityManager.persist(reasoning);
             entityManager.flush();
         }
         return judgment;

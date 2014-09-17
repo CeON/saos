@@ -18,11 +18,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.google.common.base.Objects;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 /**
@@ -63,12 +65,14 @@ public class Judge extends DataObject {
     
     public Judge(String name, JudgeRole... specialRoles) {
         super();
+        Preconditions.checkArgument(!StringUtils.isBlank(name));
         this.name = name;
         this.specialRoles = Lists.newArrayList(specialRoles);
     }
     
 
-    public Judge() {
+    @SuppressWarnings("unused") // for hibernate
+    private Judge() {
         super();
     }
 

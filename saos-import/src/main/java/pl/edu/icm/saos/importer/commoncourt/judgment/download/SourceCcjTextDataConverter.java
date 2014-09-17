@@ -32,7 +32,6 @@ class SourceCcjTextDataConverter {
         
         rJudgment.setCaseNumber(sourceCcJudgment.getSignature());
         rJudgment.setSourceId(sourceCcJudgment.getId());
-        rJudgment.setJustReasons(sourceCcJudgment.getTypes().size()==1 && sourceCcJudgment.getTypes().get(0).equalsIgnoreCase("REASON"));
         rJudgment.setPublicationDate(sourceCcJudgment.getPublicationDate());
         rJudgment.setDataMd5(DigestUtils.md5Hex(rJudgment.getTextMetadata() + rJudgment.getTextContent()));
         

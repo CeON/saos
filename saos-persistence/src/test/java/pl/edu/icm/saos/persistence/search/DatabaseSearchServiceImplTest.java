@@ -78,8 +78,6 @@ public class DatabaseSearchServiceImplTest extends PersistenceTestSupport{
         assertThat("legal bases", actualJudgment.getLegalBases(), containsListInAnyOrder(ccJudgment.getLegalBases()));
         assertThat("referenced regulation", actualJudgment.getReferencedRegulations(), containsListInAnyOrder(ccJudgment.getReferencedRegulations()));
 
-        assertThat("reasoning text",actualJudgment.getReasoning().getText(), is(ccJudgment.getReasoning().getText()));
-        assertThat("reasoning source", actualJudgment.getReasoning().getSourceInfo(), is(ccJudgment.getReasoning().getSourceInfo()));
     }
 
     @Test

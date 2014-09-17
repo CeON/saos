@@ -51,12 +51,13 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
         //Preconditions.checkNotNull(publicationDateFrom);
         
         if (CollectionUtils.isEmpty(judgmentIds)) {
-            log.debug("reading next {} judgments...", pageSize);
+            log.debug("trying to read next {} judgments...", pageSize);
             judgmentIds = new LinkedList<String>(sourceCcjExternalRepository.findJudgmentIds(pageNo, pageSize, publicationDateFrom));
-            log.debug("{} judgments have been read", pageNo*pageSize + judgmentIds.size());
+            log.debug("{} judgments have been read", judgmentIds.size());
             if (CollectionUtils.isEmpty(judgmentIds)) {
                 return null;
             }
+            log.debug("all judgments read so far: {}", pageNo*pageSize + judgmentIds.size());
             pageNo++;
             
         }

@@ -119,7 +119,6 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         dbJudgment.getReferencedRegulations().size();
         dbJudgment.getReferencedRegulations().get(0).getLawJournalEntry().getTitle();
         dbJudgment.getCourtReporters().size();
-        dbJudgment.getReasoning().getSourceInfo().getSourceCode();
         dbJudgment.getLegalBases().size();
         
     }

@@ -9,7 +9,6 @@ import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
-import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -39,7 +38,7 @@ public abstract class AbstractJudgmentConverter<JUDGMENT extends Judgment, SOURC
         
         judgment.setDecision(extractDecision(sourceJudgment));
         
-        judgment.setSummary(extractThesis(sourceJudgment));
+        judgment.setSummary(extractSummary(sourceJudgment));
         
         convertLegalBases(judgment, sourceJudgment);
         
@@ -53,11 +52,7 @@ public abstract class AbstractJudgmentConverter<JUDGMENT extends Judgment, SOURC
         
         convertJudges(judgment, sourceJudgment);
         
-        JudgmentReasoning reasoning = extractReasoning(sourceJudgment);
-        reasoning.setJudgment(judgment);
-        judgment.setReasoning(reasoning);
-        
-        
+                
         extractSpecific(judgment, sourceJudgment);
         
         
@@ -80,8 +75,6 @@ public abstract class AbstractJudgmentConverter<JUDGMENT extends Judgment, SOURC
     
     protected abstract String extractReviser(SOURCE_JUDGMENT sourceJudgment);
     
-    protected abstract String extractReasoningText(SOURCE_JUDGMENT sourceJudgment);
-
     protected abstract List<Judge> extractJudges(SOURCE_JUDGMENT sourceJudgment);
 
     protected abstract List<JudgmentReferencedRegulation> extractReferencedRegulations(SOURCE_JUDGMENT sourceJudgment);
@@ -90,7 +83,7 @@ public abstract class AbstractJudgmentConverter<JUDGMENT extends Judgment, SOURC
 
     protected abstract List<String> extractLegalBases(SOURCE_JUDGMENT sourceJudgment);
 
-    protected abstract String extractThesis(SOURCE_JUDGMENT sourceJudgment);
+    protected abstract String extractSummary(SOURCE_JUDGMENT sourceJudgment);
 
     protected abstract String extractDecision(SOURCE_JUDGMENT sourceJudgment);
 
@@ -107,39 +100,9 @@ public abstract class AbstractJudgmentConverter<JUDGMENT extends Judgment, SOURC
     protected abstract void extractSpecific(JUDGMENT judgment, SOURCE_JUDGMENT sourceJudgment);
 
     
-    
-    /**
-     * uses: {@link #extractPublicationDate(Object)}
-     */
-    protected DateTime extractReasoningPublicationDate(SOURCE_JUDGMENT sourceJudgment) {
-        return extractPublicationDate(sourceJudgment);
-    }
-    
-    /**
-     * uses: {@link #extractPublisher(Object)}
-     */
-    protected String extractReasoningPublisher(SOURCE_JUDGMENT sourceJudgment) {
-        return extractPublisher(sourceJudgment);
-    }
-    
-    /**
-     * uses: {@link #extractReviser(Object)}
-     */
-    protected String extractReasoningReviser(SOURCE_JUDGMENT sourceJudgment) {
-        return extractReviser(sourceJudgment);
-    }
-    
-    
     //------------------------ PRIVATE --------------------------
     
-    private JudgmentReasoning extractReasoning(SOURCE_JUDGMENT sourceJudgment) {
-        JudgmentReasoning reasoning = new JudgmentReasoning(); 
-        reasoning.setText(extractReasoningText(sourceJudgment));
-        reasoning.setSourceInfo(extractSourceInfo(sourceJudgment));
-        return reasoning;
-    }
-
-    
+        
     private JudgmentSourceInfo extractSourceInfo(SOURCE_JUDGMENT sourceJudgment) {
         JudgmentSourceInfo judgmentSource = new JudgmentSourceInfo();
         judgmentSource.setSourceJudgmentId(extractSourceJudgmentId(sourceJudgment));

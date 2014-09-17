@@ -12,14 +12,12 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -59,7 +57,11 @@ public abstract class Judgment extends IndexableObject {
         /** pl. uchwała */
         RESOLUTION,
         /** pl. wyrok */
-        SENTENCE
+        SENTENCE,
+        /** pl. uzasadnienie, 
+         * the common court judgment data provider sometimes gives the judgment and reasons as
+           two separate entities. */
+        REASONS
         
     }
     
@@ -75,8 +77,6 @@ public abstract class Judgment extends IndexableObject {
     
     private String summary;
     
-    private JudgmentReasoning reasoning; 
-
     private String textContent;
     
     private List<String> legalBases = Lists.newArrayList();
@@ -138,12 +138,6 @@ public abstract class Judgment extends IndexableObject {
     /** ruling summary, pl. teza */
     public String getSummary() {
         return summary;
-    }
-
-    /** reasons for judgment, pl. uzasadnienie */
-    @OneToOne(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL, fetch = FetchType.LAZY)
-    public JudgmentReasoning getReasoning() {
-        return reasoning;
     }
 
     /** pl. podstawy prawne */
@@ -330,6 +324,7 @@ public abstract class Judgment extends IndexableObject {
     
 
     public void addCourtReporter(String courtReporter) {
+        Preconditions.checkArgument(!StringUtils.isBlank(courtReporter));
         Preconditions.checkArgument(!containsCourtReporter(courtReporter));
         
         this.courtReporters.add(courtReporter);
@@ -382,10 +377,6 @@ public abstract class Judgment extends IndexableObject {
             courtCase.accept(visitor);
         }
         
-        if (reasoning != null) {
-            reasoning.accept(visitor);
-        }
-        
         for (JudgmentReferencedRegulation regulation : getReferencedRegulations()) {
             regulation.accept(visitor);
         }
@@ -418,13 +409,6 @@ public abstract class Judgment extends IndexableObject {
 
     public void setSummary(String summary) {
         this.summary = summary;
-    }
-
-    public void setReasoning(JudgmentReasoning reasoning) {
-        if (reasoning != null) {
-            reasoning.setJudgment(this);
-        }
-        this.reasoning = reasoning;
     }
 
     @SuppressWarnings("unused") /** for hibernate */

@@ -70,7 +70,9 @@ subprojects {
         'com.google.guava:guava' :'com.google.guava:guava:17.0',
         'org.powermock:powermock-api-mockito' :'org.powermock:powermock-api-mockito:1.5.5',
         'org.powermock:powermock-module-junit4' :'org.powermock:powermock-module-junit4:1.5.5',
-
+        'com.googlecode.catch-exception:catch-exception':'com.googlecode.catch-exception:catch-exception:1.2.0',
+        'org.assertj:assertj-core':'org.assertj:assertj-core:1.6.1',
+        
         'org.springframework.hateoas' : 'org.springframework.hateoas:spring-hateoas:0.15.0.RELEASE',
         'com.fasterxml.jackson.core:jackson-core' : 'com.fasterxml.jackson.core:jackson-core:2.4.1',
         'com.fasterxml.jackson.core:jackson-annotations' : 'com.fasterxml.jackson.core:jackson-annotations:2.4.1',
@@ -90,17 +92,18 @@ subprojects {
             exclude module: 'hamcrest-core'
         }
         testCompile lib.'org.springframework:spring-test'
-        compile lib.'org.slf4j:slf4j-api'
-        //compile lib.'org.slf4j:slf4j-simple'
-        compile lib.'ch.qos.logback:logback-classic'
-        compile lib.'org.codehaus.groovy:groovy-all'
         testCompile (lib.'org.mockito:mockito-core') {
             exclude module: 'hamcrest-core'
         }
         testCompile lib.'org.hamcrest:hamcrest-library'
+        testCompile lib.'com.googlecode.catch-exception:catch-exception'
+        testCompile lib.'org.assertj:assertj-core'
         compile lib.'com.google.guava:guava'
         compile lib.'commons-collections:commons-collections'
-                
+        compile lib.'org.slf4j:slf4j-api'
+        compile lib.'ch.qos.logback:logback-classic'
+        compile lib.'org.codehaus.groovy:groovy-all'
+        
     }
 
     version = '0.0.1-SNAPSHOT'

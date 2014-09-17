@@ -25,10 +25,6 @@ public class BuildersFactory {
         return new JudgmentSourceInfoBuilder(sourceCode);
     }
 
-    public static JudgmentReasoningBuilder judgmentReasoning(String text){
-        return new JudgmentReasoningBuilder(text);
-    }
-
     public static CommonCourtDivisionBuilder commonCourtDivision(int divisionId){
         return new CommonCourtDivisionBuilder(divisionId);
     }

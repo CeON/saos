@@ -1,7 +1,6 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -55,8 +54,6 @@ public class SourceCcJudgmentConverterTest {
     
     private LawJournalEntryExtractor lawJournalEntryExtractor = mock(LawJournalEntryExtractor.class);
     
-    private CcjReasoningExtractor ccjReasoningExtractor = mock(CcjReasoningExtractor.class);
-    
     
     private SourceCcJudgment sJudgment;
     
@@ -72,8 +69,6 @@ public class SourceCcJudgmentConverterTest {
     private List<LawJournalEntry> lawJournalEntries;
     private List<String> themePhrases;
     private List<CcJudgmentKeyword> keywords;
-    private final String reasoningText = "Reasons for judgment...";
-    private final String contentTextWithoutReasoning = "Sentence...";
       
     @Before
     public void before() {
@@ -83,8 +78,7 @@ public class SourceCcJudgmentConverterTest {
         sourceCcJudgmentConverter.setCommonCourtRepository(commonCourtRepository);
         sourceCcJudgmentConverter.setLawJournalEntryCreator(lawJournalEntryCreator);
         sourceCcJudgmentConverter.setLawJournalEntryExtractor(lawJournalEntryExtractor);
-        sourceCcJudgmentConverter.setCcjReasoningExtractor(ccjReasoningExtractor);
-    
+        
         court.setCode("15050505");
         when(commonCourtRepository.findOneByCode(Mockito.eq(COURT_ID))).thenReturn(court);
         
@@ -110,8 +104,6 @@ public class SourceCcJudgmentConverterTest {
         sJudgment = createSourceJudgment();
         
         
-        when(ccjReasoningExtractor.removeReasoningText(Mockito.eq(sJudgment.getTextContent()))).thenReturn(contentTextWithoutReasoning);
-        when(ccjReasoningExtractor.extractReasoningText(Mockito.eq(sJudgment.getTextContent()))).thenReturn(reasoningText);
         
          
     }
@@ -149,9 +141,7 @@ public class SourceCcJudgmentConverterTest {
         assertReferencedRegulations(judgment);
         assertKeywords(judgment);
         assertEquals(JudgmentType.SENTENCE, judgment.getJudgmentType());
-        assertEquals(contentTextWithoutReasoning, judgment.getTextContent());
-        assertNotNull(judgment.getReasoning());
-        assertReasoning(judgment);
+        assertEquals(sJudgment.getTextContent(), judgment.getTextContent());
         
     }
     
@@ -191,18 +181,19 @@ public class SourceCcJudgmentConverterTest {
     public void convertJudgment_REASON_ONLY_TYPE() {
         
         sJudgment.setTypes(Lists.newArrayList("reason"));
-        assertNull(sourceCcJudgmentConverter.convertJudgment(sJudgment).getJudgmentType());
+        assertEquals(JudgmentType.REASONS, sourceCcJudgmentConverter.convertJudgment(sJudgment).getJudgmentType());
     }
 
+    @Test
+    public void convertJudgment_RECORDER_NULL() {
+        
+        sJudgment.setRecorder(null);
+        assertEquals(0, sourceCcJudgmentConverter.convertJudgment(sJudgment).getCourtReporters().size());
+    }
    
     //------------------------ PRIVATE --------------------------
 
-    private void assertReasoning(CommonCourtJudgment judgment) {
-        assertEquals(reasoningText, judgment.getReasoning().getText());
-        JudgmentSourceInfo sourceInfo = judgment.getReasoning().getSourceInfo();
-        assertSourceInfo(sJudgment, sourceInfo);
-    }
-
+   
     private void assertSourceInfo(SourceCcJudgment sJudgment, JudgmentSourceInfo sourceInfo) {
         assertEquals(sJudgment.getId(), sourceInfo.getSourceJudgmentId());
         assertEquals(sJudgment.getPublicationDate(), sourceInfo.getPublicationDate());

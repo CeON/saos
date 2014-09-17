@@ -27,7 +27,7 @@ public interface RawSourceCcJudgmentRepository extends JpaRepository<RawSourceCc
      * Finds all {@link RawSourceCcJudgment}s that are not marked as processed ({@link RawSourceCcJudgment#isProcessed()})
      * and have not been already processed by the given import process ({@link RawSourceCcJudgment#getImportProcessId()}).
      */
-    @Query("select rJudgment from RawSourceCcJudgment rJudgment where rJudgment.processed=false order by justReasons, publicationDate, id")
+    @Query("select rJudgment from RawSourceCcJudgment rJudgment where rJudgment.processed=false order by publicationDate, id")
     Page<RawSourceCcJudgment> findNotProcessed(Pageable pageable);
     
     List<RawSourceCcJudgment> findBySourceIdAndProcessed(String sourceJudgmentId, boolean processed);

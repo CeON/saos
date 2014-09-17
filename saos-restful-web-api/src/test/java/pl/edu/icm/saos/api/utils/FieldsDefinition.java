@@ -6,7 +6,6 @@ import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourtDivision;
 import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourtDivisionType;
 import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourtJudgmentWrapper;
 import static pl.edu.icm.saos.api.builders.BuildersFactory.judge;
-import static pl.edu.icm.saos.api.builders.BuildersFactory.judgmentReasoning;
 import static pl.edu.icm.saos.api.builders.BuildersFactory.judgmentReferencedRegulation;
 import static pl.edu.icm.saos.api.builders.BuildersFactory.judgmentSourceInfo;
 import static pl.edu.icm.saos.api.builders.BuildersFactory.keyword;
@@ -21,7 +20,6 @@ import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -43,17 +41,6 @@ public abstract class FieldsDefinition {
         judgment.addCourtReporter(JC.SECOND_COURT_REPORTER);
 
         judgment.setSummary(JC.SUMMARY);
-
-        JudgmentReasoning judgmentReasoning = judgmentReasoning(JC.REASONING_TEXT)
-                .sourceInfo(
-                        judgmentSourceInfo(SourceCode.COMMON_COURT)
-                        .sourceJudgmentId(JC.REASONING_JUDGMENT_ID)
-                        .sourceJudgmentUrl(JC.REASONING_JUDGMENT_URL)
-                        .publicationDate(new DateTime(JC.REASONING_PUBLICATION_DATE_IN_MILLISECONDS))
-                        .publisher(JC.REASONING_PUBLISHER)
-                        .reviser(JC.REASONING_REVISER)
-                );
-        judgment.setReasoning(judgmentReasoning);
 
         judgment.setJudgmentType(Judgment.JudgmentType.SENTENCE);
 
@@ -215,15 +202,6 @@ public abstract class FieldsDefinition {
 
         public static final String SUMMARY = "Apelacja jest bezzasadna";
 
-        public static final String REASONING_TEXT = "Prezes Urzedu Komunikacji Elektronicznej (dalej Prezes UKE, pozwany)" +
-                " na podstawie art. 28 ust. 1 w zw. z art. 30 i art. 17 ustawy z dn. 16.07.2004r. Prawo telekomunikacyjne " +
-                "(Dz. U. nr 171, poz. 1800 ze zm., dalej Pt) oraz art. 104  1 kpa w zw. z art. 206 ust. 1 Pt po rozpatrzeniu " +
-                "wniosku (...) sp. z o.o. z/s w W. (dalej (...), powod) o wydanie decyzji zmieniajacej Umowe o Polaczeniu Sieci " +
-                "i wzajemnych zasadach rozliczen (dalej Umowa) zawarta w dniu 18.03.2005r. pomiedzy (...) a (...) sp. z o.o. z/s " +
-                "w W. (dalej (...), zainteresowany) w zakresie zmiany stawki z tytulu zakanczania polaczen glosowych w publicznej " +
-                "ruchomej sieci telefonicznej (...) (dalej stawka (...)) zgodnie z decyzja Prezesa UKE z dn. 22.10.2008r. nr (...) " +
-                "(dalej Decyzja (...) 2008) decyzja z dn. 13.02.2009r. nr (...) zmienil w Zalaczniku Finansowym Umowy Rozdzial 2, ";
-
         public static final String TEXT_CONTENT = "some text content";
 
         public static final int DATE_YEAR = 2011;
@@ -239,13 +217,6 @@ public abstract class FieldsDefinition {
         public static final String SOURCE_PUBLISHER = "Grazyna Magryta-Golaszewska";
         public static final String SOURCE_REVISER = "Mariola Baran";
         public static final long SOURCE_PUBLICATION_DATE_IN_MILLISECONDS = 12849384939383L;
-
-        public static final String REASONING_JUDGMENT_ID = "150505050004027_VIII_GC_000050_2014_Uz_2014-04-16_002";
-        public static final String REASONING_JUDGMENT_URL = "http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=150505050004027_VIII_GC_000050_2014_Uz_2014-04-16_002";
-        public static final String REASONING_PUBLISHER = "Agnieszka Grusza";
-        public static final String REASONING_REVISER = "Marek Gruszka";
-        public static final long REASONING_PUBLICATION_DATE_IN_MILLISECONDS = 73L;
-
 
         public static final int DIVISION_ID = 444;
         public static final String DIVISION_NAME = "I Wydzial Cywilny";

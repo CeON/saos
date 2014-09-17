@@ -1,16 +1,16 @@
 package pl.edu.icm.saos.api.builders;
 
-import pl.edu.icm.saos.persistence.model.Judge;
-
 import java.util.Arrays;
+
+import pl.edu.icm.saos.persistence.model.Judge;
 
 /**
  * @author pavtel
  */
 public class JudgeBuilder extends Judge {
 
-    JudgeBuilder(String name){
-        setName(name);
+    JudgeBuilder(String name, JudgeRole ... judgeRoles){
+        super(name, judgeRoles);
     }
 
     public JudgeBuilder judgesRoles(JudgeRole ... judgeRoles){

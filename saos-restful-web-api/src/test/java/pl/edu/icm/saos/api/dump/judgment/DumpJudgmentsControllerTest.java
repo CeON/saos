@@ -58,7 +58,7 @@ public class DumpJudgmentsControllerTest {
 
         @Bean(name = "mockDatabaseSearchService")
         public DatabaseSearchService databaseSearchService(){
-            SearchResult searchResult = new SearchResult<Judgment>
+            SearchResult<Object> searchResult = new SearchResult<Object>
                     (Arrays.asList(createCommonJudgment()), 1, 0,1);
 
             DatabaseSearchService databaseSearchService = mock(DatabaseSearchService.class);
@@ -138,13 +138,6 @@ public class DumpJudgmentsControllerTest {
                 .andExpect(jsonPath(pathPrefix + ".decision").value(JC.DECISION))
                 .andExpect(jsonPath(pathPrefix+".summary").value(JC.SUMMARY))
                 .andExpect(jsonPath(pathPrefix+".textContent").value(JC.TEXT_CONTENT))
-
-                .andExpect(jsonPath(pathPrefix + ".reasoning.text").value(JC.REASONING_TEXT))
-                .andExpect(jsonPath(pathPrefix + ".reasoning.judgmentUrl").value(JC.REASONING_JUDGMENT_URL))
-                .andExpect(jsonPath(pathPrefix+".reasoning.judgmentId").value(JC.REASONING_JUDGMENT_ID))
-                .andExpect(jsonPath(pathPrefix+".reasoning.publicationDate").value(new DateTime(JC.REASONING_PUBLICATION_DATE_IN_MILLISECONDS).toString(DATE_FORMAT)))
-                .andExpect(jsonPath(pathPrefix + ".reasoning.publisher").value(JC.REASONING_PUBLISHER))
-                .andExpect(jsonPath(pathPrefix+".reasoning.reviser").value(JC.REASONING_REVISER))
 
                 .andExpect(jsonPath(pathPrefix + ".legalBases").value(iterableWithSize(2)))
                 .andExpect(jsonPath(pathPrefix+".legalBases.[0]").value(JC.FIRST_LEGAL_BASE))
