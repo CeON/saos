@@ -6,11 +6,13 @@ import java.io.StringReader;
 
 import javax.xml.transform.stream.StreamSource;
 
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
@@ -30,16 +32,26 @@ public class CcJudgmentJaxb2MarshallerTest {
     
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
     
+    private CcjImportDateFormatter ccjImportDateFormatter = Mockito.mock(CcjImportDateFormatter.class);
+    
+    private static final String JUDGMENT_DATE_STR = "2012-01-26 00:00:00.0 CET";
+    private static final LocalDate JUDGMENT_DATE = new LocalDate(2012,01,26);
+    
+    private static final String PUBLICATION_DATE_STR = "2013-04-12 01:01:05.0 CEST";
+    private static final DateTime PUBLICATION_DATE = new LocalDateTime(2013,04,12,01,01,05).toDateTime(DateTimeZone.forID("UTC"));
+    
     @Before
     public void before() {
+        CcJaxbJodaDateTimeAdapter.setCcjImportDateFormatter(ccjImportDateFormatter);
+        Mockito.when(ccjImportDateFormatter.parse(PUBLICATION_DATE_STR)).thenReturn(PUBLICATION_DATE);
         marshaller.setClassesToBeBound(SourceCcJudgment.class);
     }
     
     String judgmentXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
                             "<judgement id=\"155000000001521_III_AUa_001639_2011_Uz_2012-01-26_001\">" +
                                  "<signature>III AUa 1639/11</signature>" +
-                                 "<date>2012-01-26 00:00:00.0 CET</date>" +
-                                 "<publicationDate>2013-04-12 01:01:05.0 CEST</publicationDate>"+
+                                 "<date>"+JUDGMENT_DATE_STR+"</date>" +
+                                 "<publicationDate>"+PUBLICATION_DATE_STR+"</publicationDate>"+
                                  "<courtId>15500000</courtId>"+
                                  "<departmentId>1521</departmentId>"+
                                  "<type>SENTENCE, REASON</type>"+
@@ -74,8 +86,8 @@ public class CcJudgmentJaxb2MarshallerTest {
         SourceCcJudgment judgment = (SourceCcJudgment)marshaller.unmarshal(new StreamSource(new StringReader(judgmentXml)));
         assertEquals("155000000001521_III_AUa_001639_2011_Uz_2012-01-26_001", judgment.getId());
         assertEquals("III AUa 1639/11", judgment.getSignature());
-        assertEquals(new LocalDate(2012,1,26), judgment.getJudgmentDate());
-        assertEquals(new LocalDateTime(2013,04,12,01,01,05).toDateTime(DateTimeZone.forID(CcjImportDateFormatter.DEFAULT_IMPORT_TIME_ZONE_ID)).withZone(judgment.getPublicationDate().getZone()), judgment.getPublicationDate());
+        assertEquals(JUDGMENT_DATE, judgment.getJudgmentDate());
+        assertEquals(PUBLICATION_DATE, judgment.getPublicationDate());
         assertEquals("15500000", judgment.getCourtId());
         assertEquals("1521", judgment.getDepartmentId());
         assertEquals(Lists.newArrayList("SENTENCE", "REASON"), judgment.getTypes());
