@@ -77,8 +77,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     
     
     private static final int ALL_RAW_JUDGMENTS_COUNT = 22;
-    private static final int REASONS_WITHOUT_RELATED_JUDGMENTS_COUNT = 15;
-    private static final int RAW_JUDGMENTS_ELIGIBLE_TO_PROCESS_COUNT = ALL_RAW_JUDGMENTS_COUNT - REASONS_WITHOUT_RELATED_JUDGMENTS_COUNT;
+    
     
     @Before
     public void before() throws Exception {
@@ -117,8 +116,8 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         //--- job execution ---
         
         JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
-        int expectedSkipCount = REASONS_WITHOUT_RELATED_JUDGMENTS_COUNT + rJudgmentsWithoutDivisionCount + rJudgmentsWithoutCourtCount - 1; // -1 because rJugment with id=12906 is among reasons without related judgments and is a judgment without court
-        int expectedWriteCount = RAW_JUDGMENTS_ELIGIBLE_TO_PROCESS_COUNT - rJudgmentsWithoutDivisionCount - rJudgmentsWithoutCourtCount + 1; // +1 for the same reasons as above
+        int expectedSkipCount = rJudgmentsWithoutDivisionCount + rJudgmentsWithoutCourtCount;
+        int expectedWriteCount = ALL_RAW_JUDGMENTS_COUNT - rJudgmentsWithoutDivisionCount - rJudgmentsWithoutCourtCount;
         assertJobExecution(execution, expectedSkipCount, expectedWriteCount);
         
         //--- assertions ----
@@ -128,7 +127,6 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         assertEquals(0, findRawJudgments("where processingDate is null").size());
         
         assertEquals(expectedSkipCount, findRawJudgments("where processingStatus = '" + ImportProcessingStatus.SKIPPED.name() +"'").size());
-        assertEquals(REASONS_WITHOUT_RELATED_JUDGMENTS_COUNT - rJudgmentsWithoutCourtCount, findRawJudgments("where processingStatus = '" + ImportProcessingStatus.SKIPPED.name() +"' and processingSkipReason = '" + ImportProcessingSkipReason.RELATED_JUDGMENT_NOT_FOUND.name() + "'").size());
         assertEquals(expectedWriteCount, findRawJudgments("where processingStatus = '" + ImportProcessingStatus.OK.name() +"'").size());
         
         // no court division found
@@ -139,7 +137,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         assertSkipped(12906, ImportProcessingSkipReason.COURT_NOT_FOUND);
         
         // processedOk
-        assertEquals(expectedWriteCount-1, judgmentRepository.count()); // 4 judgments and 1 reasons (merged)
+        assertEquals(expectedWriteCount, judgmentRepository.count()); 
         
         assertProcessedOk(9435);
         assertProcessedOk(9436);
@@ -159,7 +157,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         
         // first execution
         JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
-        assertJobExecution(execution, REASONS_WITHOUT_RELATED_JUDGMENTS_COUNT, RAW_JUDGMENTS_ELIGIBLE_TO_PROCESS_COUNT);
+        assertJobExecution(execution, 0, ALL_RAW_JUDGMENTS_COUNT);
         
         assertJudgment_1420();
         
@@ -175,7 +173,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         // and second execution
         
         execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
-        assertJobExecution(execution, REASONS_WITHOUT_RELATED_JUDGMENTS_COUNT, 1); // one judgment to process again
+        assertJobExecution(execution, 0, 1); // one judgment to process again
         
         // assert
         
@@ -239,7 +237,6 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         CommonCourtDivision courtDivision = ccDivisionRepository.findOneByCourtIdAndCode(court.getId(), "0001003");
         assertEquals(courtDivision.getId(), judgment.getCourtDivision().getId());
         assertTrue(judgment.getTextContent().contains("SSO Katarzyna Oleksiak"));
-        assertTrue(judgment.getReasoning().getText().contains("oddalił powództwo w pozostałym zakresie (pkt II) oraz zasądził"));
     }
     
 
@@ -273,15 +270,8 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         assertEquals(ImportProcessingStatus.OK, rJudgment.getProcessingStatus());
         assertNull(rJudgment.getProcessingSkipReason());
         assertEquals(true, rJudgment.isProcessed());
-        if (!rJudgment.isJustReasons()) {
-            assertNotNull(judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment.getSourceId()));
-        } else {
-            List<Judgment> mergedJudgments = judgmentRepository.findBySourceCodeAndCaseNumber(SourceCode.COMMON_COURT, rJudgment.getCaseNumber());
-            assertEquals(1, mergedJudgments.size());
-            Judgment mergedJudgment = judgmentRepository.findOneAndInitialize(mergedJudgments.get(0).getId());
-            assertEquals(rJudgment.getSourceId(), mergedJudgment.getReasoning().getSourceInfo().getSourceJudgmentId());
-            
-        }
+        assertNotNull(judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment.getSourceId()));
+        
     }
     
     private List<RawSourceCcJudgment> findRawJudgments(String condition) {

@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
 /**
+ * A DTO for holding law journal data
+ * 
  * @author Łukasz Dumiszewski
  */
 

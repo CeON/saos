@@ -29,7 +29,7 @@ public class EntityManagerTest extends PersistenceTestSupport {
         
         assertNumberOfJudgesInDb(0);
         
-        Judge judge = new Judge();
+        Judge judge = new Judge("John");
         entityManager.persist(judge);
         
         assertNumberOfJudgesInDb(1);

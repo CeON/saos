@@ -1,5 +1,20 @@
 package pl.edu.icm.saos.api.judgments;
 
+import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.judgments.JudgmentRepresentationVerifier.verifyBasicFields;
+import static pl.edu.icm.saos.api.utils.Constansts.COURT_PATH;
+import static pl.edu.icm.saos.api.utils.Constansts.DATE_FORMAT;
+import static pl.edu.icm.saos.api.utils.Constansts.DIVISION_PATH;
+import static pl.edu.icm.saos.api.utils.Constansts.JUDGMENT_PATH;
+import static pl.edu.icm.saos.api.utils.Constansts.PARENT_COURT_PATH;
+import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonJudgment;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,21 +30,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import pl.edu.icm.saos.api.config.TestsConfig;
+import pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
-
-import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.iterableWithSize;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.utils.Constansts.*;
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.*;
-import static pl.edu.icm.saos.api.judgments.JudgmentRepresentationVerifier.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -100,13 +106,6 @@ public class JudgmentControllerTest {
                 .andExpect(jsonPath("$.data.decision").value(JC.DECISION))
                 .andExpect(jsonPath("$.data.summary").value(JC.SUMMARY))
                 .andExpect(jsonPath("$.data.textContent").value(JC.TEXT_CONTENT))
-
-                .andExpect(jsonPath("$.data.reasoning.text").value(JC.REASONING_TEXT))
-                .andExpect(jsonPath("$.data.reasoning.judgmentUrl").value(JC.REASONING_JUDGMENT_URL))
-                .andExpect(jsonPath("$.data.reasoning.judgmentId").value(JC.REASONING_JUDGMENT_ID))
-                .andExpect(jsonPath("$.data.reasoning.publicationDate").value(new DateTime(JC.REASONING_PUBLICATION_DATE_IN_MILLISECONDS).toString(DATE_FORMAT)))
-                .andExpect(jsonPath("$.data.reasoning.publisher").value(JC.REASONING_PUBLISHER))
-                .andExpect(jsonPath("$.data.reasoning.reviser").value(JC.REASONING_REVISER))
 
                 .andExpect(jsonPath("$.data.legalBases").value(iterableWithSize(2)))
                 .andExpect(jsonPath("$.data.legalBases.[0]").value(JC.FIRST_LEGAL_BASE))

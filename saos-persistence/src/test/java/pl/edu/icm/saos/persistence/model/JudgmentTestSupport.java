@@ -17,7 +17,8 @@ import org.junit.Test;
 import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
-import com.google.common.collect.Lists;
+import com.googlecode.catchexception.CatchException;
+import com.googlecode.catchexception.apis.CatchExceptionAssertJ;
 
 public abstract class JudgmentTestSupport {
 
@@ -39,10 +40,13 @@ public abstract class JudgmentTestSupport {
 	                                                new CourtCase(COURT_CASE_NUMBERS[1])};
 	
 	
+	private static final String[] COURT_REPORTERS = {"Jan Nowak", "Adam Z"};
+	
 	public void before() {
 	    initializeCourtCases();
         initializeJudges();
 		initializeRegulations();
+		initializeCourtReporters();
 	}
 
 	
@@ -193,6 +197,30 @@ public abstract class JudgmentTestSupport {
 		assertTrue(judgment.containsReferencedRegulation(referencedRegulationsMap.get(referencedRegualtionText[2])));
 	}
 	
+	@Test
+	public void addCourtReporter_Null() {
+        assertEquals(COURT_REPORTERS.length, judgment.getCourtReporters().size());
+	    CatchExceptionAssertJ.when(judgment).addCourtReporter(null);
+        CatchExceptionAssertJ.then(CatchException.caughtException()).isInstanceOf(IllegalArgumentException.class);
+        assertEquals(COURT_REPORTERS.length, judgment.getCourtReporters().size());
+	}
+	
+	@Test
+    public void addCourtReporter_SameExists() {
+        assertEquals(COURT_REPORTERS.length, judgment.getCourtReporters().size());
+        CatchExceptionAssertJ.when(judgment).addCourtReporter(judgment.getCourtReporters().get(0));
+        CatchExceptionAssertJ.then(CatchException.caughtException()).isInstanceOf(IllegalArgumentException.class);
+        assertEquals(COURT_REPORTERS.length, judgment.getCourtReporters().size());
+    }
+    
+	
+	@Test
+    public void addCourtReporter_OK() {
+        assertEquals(COURT_REPORTERS.length, judgment.getCourtReporters().size());
+        judgment.addCourtReporter(judgment.getCourtReporters().get(0)+"NEW");
+        assertEquals(COURT_REPORTERS.length+1, judgment.getCourtReporters().size());
+    }
+    
 	
 	//------------------------ PRIVATE --------------------------
 	
@@ -204,24 +232,14 @@ public abstract class JudgmentTestSupport {
 	
 	
 	private void initializeJudges() {
-		List<JudgeRole> judgeRolesEmpty = Lists.newArrayList();
-		List<JudgeRole> judgeRolesOne = Lists.newArrayList();
-		List<JudgeRole> judgeRolesTwo = Lists.newArrayList();
 		
-		judgeRolesOne.add(JudgeRole.REPORTING_JUDGE);
-		
-		judgeRolesTwo.add(JudgeRole.PRESIDING_JUDGE);
-		judgeRolesTwo.add(JudgeRole.REPORTING_JUDGE);
-		
-		createAndAssignJudge(JudgeNames[0], judgeRolesEmpty);
-		createAndAssignJudge(JudgeNames[1], judgeRolesOne);
-		createAndAssignJudge(JudgeNames[2], judgeRolesTwo);
+		createAndAssignJudge(JudgeNames[0]);
+		createAndAssignJudge(JudgeNames[1], JudgeRole.REPORTING_JUDGE);
+		createAndAssignJudge(JudgeNames[2], JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE);
 	}
 
-	private void createAndAssignJudge(String judgeName, List<JudgeRole> roles) {
-		Judge judge = new Judge();
-		judge.setName(judgeName);
-		judge.setSpecialRoles(roles);
+	private void createAndAssignJudge(String judgeName, JudgeRole... roles) {
+		Judge judge = new Judge(judgeName, roles);
 		judgment.addJudge(judge);
 		JudgesMap.put(judgeName, judge);
 	}
@@ -240,5 +258,11 @@ public abstract class JudgmentTestSupport {
 		jreferencedRegulation.setLawJournalEntry(lawJournalEntry);
 		judgment.addReferencedRegulation(jreferencedRegulation);
 		referencedRegulationsMap.put(rawText, jreferencedRegulation);
+	}
+	
+	private void initializeCourtReporters() {
+	    for (String reporter : COURT_REPORTERS) {
+	        judgment.addCourtReporter(reporter);
+	    }
 	}
 }

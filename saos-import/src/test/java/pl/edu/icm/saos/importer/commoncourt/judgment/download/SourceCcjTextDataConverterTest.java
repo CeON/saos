@@ -11,8 +11,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentTextData;
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcjTextDataConverter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgmentMarshaller;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
@@ -87,7 +85,6 @@ public class SourceCcjTextDataConverterTest {
         assertEquals(caseNumber, rJudgment.getCaseNumber());
         assertEquals(publicationDate, rJudgment.getPublicationDate());
         assertFalse(StringUtils.isEmpty(rJudgment.getDataMd5()));
-        assertEquals(justReasons, rJudgment.isJustReasons());
     }
     
 }

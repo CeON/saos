@@ -35,7 +35,7 @@ public class RawSourceCcjProcessFlagUpdaterTest extends PersistenceTestSupport {
         RawSourceCcJudgment rJudgment1 = createAndSaveRawSourceCcJudgment(null, true);
         RawSourceCcJudgment rJudgment2 = createAndSaveRawSourceCcJudgment(null, true);
         RawSourceCcJudgment rJudgment3 = createAndSaveRawSourceCcJudgment(ImportProcessingSkipReason.COURT_DIVISION_NOT_FOUND, false);
-        RawSourceCcJudgment rJudgment4 = createAndSaveRawSourceCcJudgment(ImportProcessingSkipReason.RELATED_JUDGMENT_NOT_FOUND, false);
+        RawSourceCcJudgment rJudgment4 = createAndSaveRawSourceCcJudgment(ImportProcessingSkipReason.COURT_NOT_FOUND, false);
         RawSourceCcJudgment rJudgment5 = createAndSaveRawSourceCcJudgment(null, false);
         
         ccjProcessFlagUpdater.markProcessedAllEligible();

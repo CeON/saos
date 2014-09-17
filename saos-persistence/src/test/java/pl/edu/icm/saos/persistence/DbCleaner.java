@@ -14,7 +14,6 @@ import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
@@ -39,7 +38,6 @@ public class DbCleaner {
         deleteAll(CcJudgmentKeyword.class);
         deleteAll(Judge.class);
         deleteAllSql("judgment_legal_bases");
-        deleteAll(JudgmentReasoning.class);
         deleteAll(CourtCase.class);
         deleteAll(Judgment.class);
         deleteAll(CommonCourtDivision.class);

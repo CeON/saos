@@ -40,7 +40,6 @@ public class RawSourceCcJudgment extends DataObject {
     private ImportProcessingSkipReason processingSkipReason;
     private String textMetadata;
     private String textContent;
-    private boolean justReasons;
     private String sourceUrl;
     private String contentSourceUrl;
     private String dataMd5;
@@ -63,15 +62,6 @@ public class RawSourceCcJudgment extends DataObject {
         return textContent;
     }  
     
-    /**
-     * If true then the data represents only reasons for judgment, not the judgment itself. <br/>
-     * The common court judgment data provider sometimes gives the judgment and reasons as
-     * two separate entities. The SAOS import process merges them into one. 
-     */
-    @Column(columnDefinition=ColumnDefinitionConst.BOOLEAN_NOT_NULL_DEFUALT_FALSE)
-    public boolean isJustReasons() {
-        return justReasons;
-    }
     
     /**
      * Id of the judgment in source system 
@@ -155,7 +145,7 @@ public class RawSourceCcJudgment extends DataObject {
     
     //------------------------ SETTERS --------------------------
     
-    
+    @SuppressWarnings(value="unused") // for hibernate
     private void setProcessed(boolean processed) {
         this.processed = processed;
     }
@@ -170,10 +160,6 @@ public class RawSourceCcJudgment extends DataObject {
 
     public void setTextContent(String textContent) {
         this.textContent = textContent;
-    }
-
-    public void setJustReasons(boolean justReasons) {
-        this.justReasons = justReasons;
     }
 
     public void setSourceId(String sourceId) {
@@ -251,8 +237,7 @@ public class RawSourceCcJudgment extends DataObject {
                 + caseNumber + ", publicationDate=" + publicationDate
                 + ", processingDate=" + processingDate + ", processed="
                 + processed + ", processingStatus=" + processingStatus
-                + ", processingSkipReason=" + processingSkipReason + ", justReasons="
-                + justReasons + ", sourceUrl=" + sourceUrl
+                + ", processingSkipReason=" + processingSkipReason + " , sourceUrl=" + sourceUrl
                 + ", contentSourceUrl=" + contentSourceUrl + ", dataMd5="
                 + dataMd5 
                 + "]";

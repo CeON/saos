@@ -47,7 +47,6 @@ class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJud
     
     private LawJournalEntryExtractor lawJournalEntryExtractor;
     
-    private CcjReasoningExtractor ccjReasoningExtractor;
     
     
     
@@ -81,7 +80,7 @@ class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJud
     }
 
     @Override
-    protected String extractThesis(SourceCcJudgment sourceJudgment) {
+    protected String extractSummary(SourceCcJudgment sourceJudgment) {
         return sourceJudgment.getThesis();
     }
 
@@ -92,6 +91,9 @@ class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJud
 
     @Override
     protected ArrayList<String> extractCourtReporters(SourceCcJudgment sourceJudgment) {
+        if (StringUtils.isBlank(sourceJudgment.getRecorder())) {
+            return Lists.newArrayList();
+        }
         return Lists.newArrayList(sourceJudgment.getRecorder());
     }
 
@@ -107,12 +109,7 @@ class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJud
         
     @Override
     protected String extractTextContent(SourceCcJudgment sourceJudgment) {
-        return ccjReasoningExtractor.removeReasoningText(sourceJudgment.getTextContent());
-    }
-    
-    @Override
-    protected String extractReasoningText(SourceCcJudgment sourceJudgment) {
-        return ccjReasoningExtractor.extractReasoningText(sourceJudgment.getTextContent());
+        return sourceJudgment.getTextContent();
     }
     
     
@@ -180,7 +177,7 @@ class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJud
             judges.add(new Judge(sourceJudgment.getChairman(), JudgeRole.PRESIDING_JUDGE));
         }
         for (String judgeName : sourceJudgment.getJudges()) {
-            if (!StringUtils.equalsIgnoreCase(sourceJudgment.getChairman(), judgeName)) {
+            if (!StringUtils.isBlank(judgeName) && !StringUtils.equalsIgnoreCase(sourceJudgment.getChairman(), judgeName)) {
                 judges.add(new Judge(judgeName));
             }
         }
@@ -214,7 +211,7 @@ class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJud
         }
         
         if (sjTypes.contains("REASON")) {
-            return null;
+            return JudgmentType.REASONS;
         }
         
         throw new CcjImportProcessSkippableException("no proper judgment type found in judgment " + sourceJudgment, ImportProcessingSkipReason.UNKNOWN_JUDGMENT_TYPE);
@@ -277,8 +274,5 @@ class SourceCcJudgmentConverter extends AbstractJudgmentConverter<CommonCourtJud
         this.lawJournalEntryExtractor = lawJournalEntryExtractor;
     }
 
-    @Autowired
-    public void setCcjReasoningExtractor(CcjReasoningExtractor ccjReasoningExtractor) {
-        this.ccjReasoningExtractor = ccjReasoningExtractor;
-    }
+    
 }

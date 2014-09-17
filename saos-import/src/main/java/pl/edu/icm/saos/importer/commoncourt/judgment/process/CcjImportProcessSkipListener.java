@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 
@@ -54,14 +53,9 @@ public class CcjImportProcessSkipListener implements SkipListener<RawSourceCcJud
     
     private void logSkipReason(RawSourceCcJudgment rJudgment, CcjImportProcessSkippableException e) {
         
-        if (e.getSkipReason()==ImportProcessingSkipReason.RELATED_JUDGMENT_NOT_FOUND) {
-            log.warn("skipping: " + rJudgment);
-            log.warn("skip reason: " + e.getMessage());
-        }
-        else {
-            log.error("skipping: " + rJudgment);
-            log.error("skip reason: " + e.getMessage());
-        }
+        log.error("skipping: " + rJudgment);
+        log.error("skip reason: " + e.getMessage());
+        
     }
 
     

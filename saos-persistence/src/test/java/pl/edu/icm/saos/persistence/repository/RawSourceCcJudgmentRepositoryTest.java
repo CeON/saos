@@ -82,7 +82,6 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
     public void findNotProcessed_PAGE_FOUND() {
         
         RawSourceCcJudgment rJudgment0 = createAndSaveRawSourceCcJudgment(new DateTime(2013, 11, 20, 22, 13, 1), false);
-        rJudgment0.setJustReasons(true);
         rawSourceCcJudgmentRepository.save(rJudgment0);
         
         RawSourceCcJudgment rJudgment1 = createAndSaveRawSourceCcJudgment(new DateTime(2014, 06, 20, 23, 13, 2, 2), false);
@@ -95,9 +94,9 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
         assertEquals(3, rJudgmentPage.getContent().size());
         assertFalse(rJudgmentPage.getContent().contains(rJudgment2));
         
-        assertEquals(rJudgment3, rJudgmentPage.getContent().get(0));
-        assertEquals(rJudgment1, rJudgmentPage.getContent().get(1));
-        assertEquals(rJudgment0, rJudgmentPage.getContent().get(2));
+        assertEquals(rJudgment0, rJudgmentPage.getContent().get(0));
+        assertEquals(rJudgment3, rJudgmentPage.getContent().get(1));
+        assertEquals(rJudgment1, rJudgmentPage.getContent().get(2));
         
         
     }
@@ -107,7 +106,6 @@ public class RawSourceCcJudgmentRepositoryTest extends PersistenceTestSupport {
     public void findNotProcessed_PAGE_NOT_FOUND() {
         
         RawSourceCcJudgment rJudgment0 = createAndSaveRawSourceCcJudgment(new DateTime(2013, 11, 20, 22, 13, 1), false);
-        rJudgment0.setJustReasons(true);
         rawSourceCcJudgmentRepository.save(rJudgment0);
         
         createAndSaveRawSourceCcJudgment(new DateTime(2014, 06, 20, 23, 13, 2, 2), false);

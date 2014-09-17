@@ -10,9 +10,14 @@ import org.apache.commons.lang3.StringUtils;
 
 public class StringTrimAdapter extends XmlAdapter<String, String> {
     
+    /** Trims the given value. Returns null if value is empty after trimming. */
     @Override
     public String unmarshal(String value) throws Exception {
-        return StringUtils.trim(value);
+        value = StringUtils.trim(value);
+        if ("".equals(value)) {
+            return null;
+        }
+        return value;
     }
     
     @Override

@@ -23,7 +23,6 @@ import static pl.edu.icm.saos.api.ApiConstants.LEGAL_BASES;
 import static pl.edu.icm.saos.api.ApiConstants.NAME;
 import static pl.edu.icm.saos.api.ApiConstants.PUBLICATION_DATE;
 import static pl.edu.icm.saos.api.ApiConstants.PUBLISHER;
-import static pl.edu.icm.saos.api.ApiConstants.REASONING;
 import static pl.edu.icm.saos.api.ApiConstants.REFERENCED_REGULATIONS;
 import static pl.edu.icm.saos.api.ApiConstants.REVISER;
 import static pl.edu.icm.saos.api.ApiConstants.SOURCE;
@@ -54,7 +53,6 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentReasoning;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
@@ -119,11 +117,6 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
         item.put(SUMMARY, element.getSummary());
         item.put(TEXT_CONTENT, element.getTextContent());
 
-        JudgmentReasoning judgmentReasoning = element.getReasoning();
-        Map<String, Object> reasoning = toMap(judgmentReasoning.getSourceInfo());
-        reasoning.put(TEXT, judgmentReasoning.getText());
-
-        item.put(REASONING, reasoning);
         item.put(LEGAL_BASES, toSimpleList(element.getLegalBases()));
         item.put(REFERENCED_REGULATIONS, toListOfMapsFromJRR(element.getReferencedRegulations()));
 
@@ -158,11 +151,6 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
         item.put(SUMMARY, element.getSummary());
         item.put(TEXT_CONTENT, element.getTextContent());
 
-        JudgmentReasoning judgmentReasoning = element.getReasoning();
-        Map<String, Object> reasoning = toMap(judgmentReasoning.getSourceInfo());
-        reasoning.put(TEXT, judgmentReasoning.getText());
-
-        item.put(REASONING, reasoning);
         item.put(LEGAL_BASES, toSimpleList(element.getLegalBases()));
         item.put(REFERENCED_REGULATIONS, toListOfMapsFromJRR(element.getReferencedRegulations()));
 

@@ -4,11 +4,11 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski
@@ -32,8 +32,6 @@ public class JudgmentCommonDataOverwriter implements JudgmentOverwriter<Judgment
         oldJudgment.setTextContent(newJudgment.getTextContent());
         
         OverwriterUtils.overwriteSourceInfo(oldJudgment.getSourceInfo(), newJudgment.getSourceInfo());
-        
-        OverwriterUtils.overwriteReasoning(oldJudgment, newJudgment);
         
         overwriteJudges(oldJudgment, newJudgment);
         
@@ -105,9 +103,7 @@ public class JudgmentCommonDataOverwriter implements JudgmentOverwriter<Judgment
             }
         }
         for (Judge judge : newJudgment.getJudges()) {
-            Judge nJudge = new Judge();
-            nJudge.setName(judge.getName());
-            nJudge.setSpecialRoles(Lists.newArrayList(judge.getSpecialRoles()));
+            Judge nJudge = new Judge(judge.getName(), judge.getSpecialRoles().toArray(new JudgeRole[1]));
             if (!oldJudgment.containsJudge(nJudge.getName())) {
                 oldJudgment.addJudge(nJudge);    
             } else {
