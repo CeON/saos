@@ -19,5 +19,8 @@ dependencies {
     }
     compile(lib.'pl.edu.icm.ceon:ceon-search-core') {
          exclude group: 'org.springframework', module:'spring-web'
+         exclude group: 'org.apache.solr', module:'solr-core'
+         exclude group: 'org.apache.solr', module:'solr-solrj'
+         exclude group: 'org.apache.lucene', module:'lucene-core'
     }
 }
