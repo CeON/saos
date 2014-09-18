@@ -24,6 +24,7 @@ public abstract class JudgmentIndexingProcessorBase {
         if (!field.isPostfixAllowed()) {
             log.warn("Trying to index field [{}] with postfix [{}], but field is not marked as dynamic. Ommiting.",
                     field.getFieldName(), fieldPostfix);
+            return;
         }
         if (StringUtils.isNotBlank(value)) {
             doc.addField(field.getFieldName() + IndexFieldsConstants.FIELD_SEPARATOR + fieldPostfix, value);

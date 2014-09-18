@@ -63,4 +63,26 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
         }
     }
 
+    public void setIndexConfigurationCopier(
+            SolrIndexConfigurationCopier indexConfigurationCopier) {
+        this.indexConfigurationCopier = indexConfigurationCopier;
+    }
+
+    public void setIndexReloader(IndexReloader indexReloader) {
+        this.indexReloader = indexReloader;
+    }
+
+    public void setIndexesConfiguration(
+            List<IndexConfiguration> indexesConfiguration) {
+        this.indexesConfiguration = indexesConfiguration;
+    }
+
+    public void setCopyConfiguration(boolean copyConfiguration) {
+        this.copyConfiguration = copyConfiguration;
+    }
+
+    public void setConfigurationPath(String configurationPath) {
+        this.configurationPath = configurationPath;
+    }
+
 }

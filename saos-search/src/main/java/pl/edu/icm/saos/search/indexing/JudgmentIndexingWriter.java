@@ -24,4 +24,9 @@ public class JudgmentIndexingWriter implements ItemWriter<SolrInputDocument> {
         solrServer.commit();
     }
 
+
+    public void setSolrServer(SolrServer solrServer) {
+        this.solrServer = solrServer;
+    }
+
 }

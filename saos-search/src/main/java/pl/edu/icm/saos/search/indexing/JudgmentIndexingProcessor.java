@@ -104,4 +104,13 @@ public class JudgmentIndexingProcessor extends JudgmentIndexingProcessorBase imp
         }
     }
 
+    public void setCcJudgmentRepository(JudgmentRepository ccJudgmentRepository) {
+        this.ccJudgmentRepository = ccJudgmentRepository;
+    }
+
+    public void setCcJudgmentIndexingProcessor(
+            CcJudgmentIndexingProcessor ccJudgmentIndexingProcessor) {
+        this.ccJudgmentIndexingProcessor = ccJudgmentIndexingProcessor;
+    }
+
 }
