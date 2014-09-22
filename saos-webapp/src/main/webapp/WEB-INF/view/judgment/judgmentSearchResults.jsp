@@ -17,6 +17,8 @@
 	</div>
 
 
+
+
 	<c:forEach var="judgment" items="${judgments}" >
 	
 		<div class="judgment row" >

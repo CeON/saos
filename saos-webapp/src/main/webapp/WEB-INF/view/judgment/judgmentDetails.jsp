@@ -4,12 +4,8 @@
 <c:set var="isCCJudgment" value="${judgment.instanceOfCommonCourtJudgment}" />
 
 <div class="container judgment-page block">
-	
-	<!-- 
-	<div>Powrót do listy rezultatów</div>
-	 -->
-	
-	<h4><span><spring:message code="judgment.${fn:toLowerCase(judgment.judgmentType)}" /></h2>
+
+	<h4><span><spring:message code="judgment.${fn:toLowerCase(judgment.judgmentType)}" /></span></h4>
 	<h2><c:out value="${judgment.caseNumber}" escapeXml="false" /></h2>
 	
 	<div class="col-md-12" >
@@ -127,7 +123,6 @@
 		    </div>
 		  </div>
 		</div><!-- Modal end -->
-
 		
 	</div>
 	

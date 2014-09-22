@@ -8,6 +8,9 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.data.web.config.SpringDataWebConfiguration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -18,7 +21,7 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 @Configuration
 @ComponentScan (basePackages = {"pl.edu.icm.saos.webapp", "pl.edu.icm.saos.api"})
 @EnableWebMvc
-public class WebappConfiguration extends WebMvcConfigurerAdapter {
+public class WebappConfiguration extends SpringDataWebConfiguration {
 
     
     
@@ -61,6 +64,14 @@ public class WebappConfiguration extends WebMvcConfigurerAdapter {
         PropertiesFactoryBean versionProperties = new PropertiesFactoryBean();
         versionProperties.setLocation(new ClassPathResource("saos.version.properties"));
         return versionProperties;
+    }
+    
+    @Bean
+    public PageableHandlerMethodArgumentResolver pageableResolver() {
+        PageableHandlerMethodArgumentResolver pageableResolver = new PageableHandlerMethodArgumentResolver(sortResolver());
+        pageableResolver.setOneIndexedParameters(true);
+        pageableResolver.setMaxPageSize(100);
+        return pageableResolver;
     }
 
 }
