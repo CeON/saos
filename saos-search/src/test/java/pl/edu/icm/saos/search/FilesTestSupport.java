@@ -1,12 +1,12 @@
 package pl.edu.icm.saos.search;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
-
-import pl.edu.icm.saos.search.util.SearchIOUtils;
 
 import com.google.common.io.Files;
 
@@ -18,9 +18,9 @@ public class FilesTestSupport {
     private List<File> createdTemporaryDirectories = new ArrayList<File>();
     
     @After
-    public void cleanup() {
+    public void cleanup() throws IOException {
         for (File dir : createdTemporaryDirectories) {
-            SearchIOUtils.removeDirectoryRecursive(dir);
+            FileUtils.deleteDirectory(dir);
         }
         createdTemporaryDirectories.clear();
     }

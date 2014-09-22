@@ -24,7 +24,6 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
 
     private static Logger log = LoggerFactory.getLogger(JudgmentIndexingReader.class);
 
-    @Autowired
     private JudgmentRepository judgmentRepository;
     
     private int pageSize = 20;
@@ -64,6 +63,10 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
     public void close() throws ItemStreamException {
     }
 
+    
+    //------------------------ SETTERS --------------------------
+    
+    @Autowired
     public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
         this.judgmentRepository = judgmentRepository;
     }

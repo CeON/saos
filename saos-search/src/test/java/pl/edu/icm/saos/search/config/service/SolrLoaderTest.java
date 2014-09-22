@@ -16,6 +16,8 @@ import com.google.common.collect.Lists;
  * @author madryk
  */
 public class SolrLoaderTest {
+    
+    private final static String CONFIGURATION_PATH = "/some/path";
 
     private SolrLoader solrLoader = new SolrLoader();
     
@@ -29,7 +31,7 @@ public class SolrLoaderTest {
     
     @Before
     public void setUp() {
-        solrLoader.setConfigurationPath("some/path");
+        solrLoader.setConfigurationPath(CONFIGURATION_PATH);
         solrLoader.setCopyConfiguration(true);
         solrLoader.setIndexesConfiguration(Lists.newArrayList(firstIndexConfiguration, secondIndexConfiguration));
         
@@ -42,8 +44,8 @@ public class SolrLoaderTest {
         
         solrLoader.load();
         
-        verify(indexConfigurationCopier).copyIndexConfiguration(firstIndexConfiguration, "some/path");
-        verify(indexConfigurationCopier).copyIndexConfiguration(secondIndexConfiguration, "some/path");
+        verify(indexConfigurationCopier).copyIndexConfiguration(firstIndexConfiguration, CONFIGURATION_PATH);
+        verify(indexConfigurationCopier).copyIndexConfiguration(secondIndexConfiguration, CONFIGURATION_PATH);
         
         verify(indexReloader).reloadIndex(firstIndexConfiguration);
         verify(indexReloader).reloadIndex(secondIndexConfiguration);
@@ -69,8 +71,8 @@ public class SolrLoaderTest {
         
         solrLoader.shutdown();
         
-        verify(indexConfigurationCopier).cleanupIndexConfiguration(firstIndexConfiguration, "some/path");
-        verify(indexConfigurationCopier).cleanupIndexConfiguration(secondIndexConfiguration, "some/path");
+        verify(indexConfigurationCopier).cleanupIndexConfiguration(firstIndexConfiguration, CONFIGURATION_PATH);
+        verify(indexConfigurationCopier).cleanupIndexConfiguration(secondIndexConfiguration, CONFIGURATION_PATH);
         verifyNoMoreInteractions(indexConfigurationCopier);
         verifyZeroInteractions(indexReloader);
     }

@@ -7,6 +7,6 @@ import pl.edu.icm.saos.search.search.model.Searchable;
 
 public interface SearchService<S extends Searchable, C extends Criteria> {
     
-    SearchResults<S> search(C query, Paging paging);
+    SearchResults<S> search(C criteria, Paging paging);
     
 }

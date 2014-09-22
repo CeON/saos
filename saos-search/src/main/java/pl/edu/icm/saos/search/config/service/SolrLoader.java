@@ -19,14 +19,11 @@ import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 @Service
 public class SolrLoader implements ApplicationListener<ApplicationContextEvent> {
 
-    @Autowired
     private SolrIndexConfigurationCopier indexConfigurationCopier;
 
-    @Autowired
     private IndexReloader indexReloader;
 
-    @Autowired
-    private List<IndexConfiguration> indexesConfiguration;
+    private List<IndexConfiguration> indexesConfigurations;
 
     @Value("${solr.index.configuration.copy}")
     private boolean copyConfiguration = false;
@@ -34,9 +31,10 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
     @Value("${solr.index.configuration.home}")
     private String configurationPath;
 
+    
     public void load() {
 
-        for (IndexConfiguration indexConfiguration : indexesConfiguration) {
+        for (IndexConfiguration indexConfiguration : indexesConfigurations) {
             if (copyConfiguration && StringUtils.isNotBlank(configurationPath)) {
                 indexConfigurationCopier.copyIndexConfiguration(indexConfiguration, configurationPath);
             }
@@ -47,7 +45,7 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
 
     public void shutdown() {
 
-        for (IndexConfiguration indexConfiguration : indexesConfiguration) {
+        for (IndexConfiguration indexConfiguration : indexesConfigurations) {
             if (copyConfiguration && StringUtils.isNotBlank(configurationPath)) {
                 indexConfigurationCopier.cleanupIndexConfiguration(indexConfiguration, configurationPath);
             }
@@ -63,18 +61,24 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
         }
     }
 
+    
+    //------------------------ SETTERS --------------------------
+    
+    @Autowired
     public void setIndexConfigurationCopier(
             SolrIndexConfigurationCopier indexConfigurationCopier) {
         this.indexConfigurationCopier = indexConfigurationCopier;
     }
 
+    @Autowired
     public void setIndexReloader(IndexReloader indexReloader) {
         this.indexReloader = indexReloader;
     }
 
+    @Autowired
     public void setIndexesConfiguration(
             List<IndexConfiguration> indexesConfiguration) {
-        this.indexesConfiguration = indexesConfiguration;
+        this.indexesConfigurations = indexesConfiguration;
     }
 
     public void setCopyConfiguration(boolean copyConfiguration) {

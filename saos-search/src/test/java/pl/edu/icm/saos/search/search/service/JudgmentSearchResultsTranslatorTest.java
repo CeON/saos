@@ -8,8 +8,10 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.util.NamedList;
+import org.junit.Before;
 import org.junit.Test;
 
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 
@@ -19,6 +21,13 @@ import pl.edu.icm.saos.search.search.model.SearchResults;
 public class JudgmentSearchResultsTranslatorTest {
 
     private JudgmentSearchResultsTranslator resultsTranslator = new JudgmentSearchResultsTranslator();
+    
+    private SolrFieldFetcher<JudgmentIndexField> fieldFetcher = new SolrFieldFetcher<JudgmentIndexField>();
+    
+    @Before
+    public void setUp() {
+        resultsTranslator.setFieldFetcher(fieldFetcher);
+    }
     
     @Test
     public void translate() {
@@ -91,6 +100,8 @@ public class JudgmentSearchResultsTranslatorTest {
         Assert.assertTrue(result.getJudges().contains("Adam Nowak"));
     }
     
+    
+    //------------------------ PRIVATE --------------------------
     
     private SolrDocument fetchBasicDocument(String id, String databaseId, String content) {
         SolrDocument doc = new SolrDocument();

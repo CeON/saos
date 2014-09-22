@@ -17,6 +17,8 @@ public class Paging {
         this.sort = sort;
     }
 
+    //------------------------ GETTERS --------------------------
+    
     public int getPageNumber() {
         return pageNumber;
     }

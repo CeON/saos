@@ -4,10 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 import pl.edu.icm.saos.search.config.model.SolrConfigurationException;
@@ -17,7 +18,7 @@ import pl.edu.icm.saos.search.util.SolrConstants;
 /**
  * @author madryk
  */
-@Component
+@Service
 public class SolrIndexConfigurationCopier {
 
     private static Logger log = LoggerFactory.getLogger(SolrIndexConfigurationCopier.class);
@@ -56,10 +57,13 @@ public class SolrIndexConfigurationCopier {
 
         File confHomeDir = new File(configurationPath);
         File indexDir = new File(confHomeDir, indexConfiguration.getInstanceDir());
-        SearchIOUtils.removeDirectoryRecursive(indexDir);
+        FileUtils.deleteQuietly(indexDir);
     }
 
-    protected void createIndexPropertyFile(File indexDir, IndexConfiguration indexConfiguration) {
+
+    //------------------------ PRIVATE --------------------------
+    
+    private void createIndexPropertyFile(File indexDir, IndexConfiguration indexConfiguration) {
         File targetFile = new File(indexDir, SolrConstants.INDEX_PROPERTIES_FILENAME);
 
         Properties indexProperties = new Properties();

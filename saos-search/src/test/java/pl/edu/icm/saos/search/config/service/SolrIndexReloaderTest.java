@@ -63,7 +63,7 @@ public class SolrIndexReloaderTest {
         SolrRequest actualReloadRequest = solrRequestArg.getAllValues().get(1);
         
         assertStatusRequest(actualCheckRequest);
-        assertReloadRequest(actualReloadRequest, "indexName");
+        assertReloadRequest(actualReloadRequest, EXISTING_INDEX_NAME);
         
     }
     
@@ -90,6 +90,8 @@ public class SolrIndexReloaderTest {
         assertCreateRequest(actualCreateRequest, NOT_EXISTING_INDEX_NAME, "indexDirectory");
     }
 
+    
+    //------------------------ PRIVATE: SOLR RESPONSES --------------------------
 
     private NamedList<Object> buildCheckStatusResponse() {
         XMLResponseParser parser = new XMLResponseParser();
@@ -133,6 +135,9 @@ public class SolrIndexReloaderTest {
         return response;
     }
     
+    
+    //------------------------ PRIVATE: ASSERTS --------------------------
+    
     private void assertStatusRequest(SolrRequest request) {
         SolrParams solrParams = request.getParams();
         
@@ -154,6 +159,9 @@ public class SolrIndexReloaderTest {
         Assert.assertEquals(indexDir, solrParams.get("instanceDir"));
         
     }
+    
+    
+    //------------------------ PRIVATE: ARGUMENTS MATCHERS --------------------------
     
     private static class IsCheckStatusMatcher extends ArgumentMatcher<SolrRequest> {
      

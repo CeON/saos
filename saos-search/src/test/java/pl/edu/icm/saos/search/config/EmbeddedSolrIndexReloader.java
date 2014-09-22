@@ -17,6 +17,9 @@ public class EmbeddedSolrIndexReloader implements IndexReloader {
         coreContainer.load();
     }
 
+    
+    //------------------------ SETTERS --------------------------
+    
     public void setCoreContainer(CoreContainer coreContainer) {
         this.coreContainer = coreContainer;
     }

@@ -1,8 +1,12 @@
 package pl.edu.icm.saos.search;
 
 import static junit.framework.Assert.*;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 
@@ -34,5 +38,23 @@ public class FilesAssert {
         assertTrue(actual.isFile());
         String fileContent = FileUtils.readFileToString(actual, "utf-8");
         assertEquals(expectedContent, fileContent);
+    }
+    
+    public static void assertPropertyFile(File actual, Properties properties) throws IOException {
+        assertTrue(actual.exists());
+        assertTrue(actual.isFile());
+        
+        Properties actualProperties = new Properties();
+        InputStream is = null;
+        try {
+            is = new FileInputStream(actual);
+            actualProperties.load(is);
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+        }
+        
+        assertEquals(properties, actualProperties);
     }
 }

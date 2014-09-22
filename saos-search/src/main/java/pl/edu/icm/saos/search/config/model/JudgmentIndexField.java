@@ -1,6 +1,6 @@
 package pl.edu.icm.saos.search.config.model;
 
-public enum JudgmentIndexField {
+public enum JudgmentIndexField implements IndexField {
     ID("id"),
     DATABASE_ID("databaseId"),
     CASE_NUMBER("caseNumber"),
@@ -18,28 +18,19 @@ public enum JudgmentIndexField {
     COURT_DIVISION_NAME("courtDivisionName"),
     
     JUDGE("judge"),
-    JUDGE_WITH_ROLE("judgeWithRole", true),
+    JUDGE_WITH_ROLE("judgeWithRole"),
     
     KEYWORD("keyword"),
     CONTENT("content");
     
     private String fieldName;
-    private boolean allowDynamicPostfix = false;
+    
     
     private JudgmentIndexField(String fieldName) {
         this.fieldName = fieldName;
     }
     
-    private JudgmentIndexField(String fieldName, boolean allowDynamicPostfix) {
-        this.fieldName = fieldName;
-        this.allowDynamicPostfix = allowDynamicPostfix;
-    }
-    
     public String getFieldName() {
         return fieldName;
-    }
-    
-    public boolean isPostfixAllowed() {
-        return allowDynamicPostfix;
     }
 }

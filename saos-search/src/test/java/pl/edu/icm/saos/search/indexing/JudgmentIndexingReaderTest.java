@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
@@ -50,7 +51,6 @@ public class JudgmentIndexingReaderTest {
         assertNull(judgment);
     }
     
-    @SuppressWarnings("unchecked")
     @Test
     public void read_FOUND() throws UnexpectedInputException, ParseException, NonTransientResourceException, Exception {
         Judgment firstJudgment = createCcJudgment(1);
@@ -61,7 +61,9 @@ public class JudgmentIndexingReaderTest {
         Page<Judgment> secondPage = new PageImpl<Judgment>(Lists.newArrayList(thirdJudgment), new PageRequest(1, 1), 3);
         Page<Judgment> thirdPage = new PageImpl<Judgment>(Lists.newArrayList());
         
-        when(judgmentRepository.findAllToIndex(any(Pageable.class))).thenReturn(firstPage, secondPage, thirdPage);
+        @SuppressWarnings({ "unused", "unchecked" })
+        OngoingStubbing<Page<Judgment>> thenReturn = 
+            when(judgmentRepository.findAllToIndex(any(Pageable.class))).thenReturn(firstPage, secondPage, thirdPage);
 
         
         Judgment actualFirst = judgmentIndexingReader.read();
@@ -85,6 +87,8 @@ public class JudgmentIndexingReaderTest {
         assertNull(actualFourth);
     }
     
+    
+    //------------------------ PRIVATE --------------------------
     
     private CommonCourtJudgment createCcJudgment(int id) {
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
