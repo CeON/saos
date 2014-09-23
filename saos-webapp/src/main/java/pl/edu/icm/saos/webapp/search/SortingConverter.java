@@ -18,6 +18,8 @@ public class SortingConverter {
 
 	private final String RELEVANCE = "RELEVANCE";
 	
+	private final Sorting.Direction defaultDirection = Sorting.Direction.ASC;
+	
 	public Sorting convert(Sort sort) {
 		Iterator<Order> order = sort.iterator();
 		
@@ -25,7 +27,7 @@ public class SortingConverter {
 		if (order.hasNext()) {
 			Order next = order.next(); 
 			String property = next.getProperty();
-
+			
 			if (!property.equals(RELEVANCE)) {
 				return new Sorting(JudgmentIndexField.valueOf(property).getFieldName(),
 									convertDirection(next.getDirection()));
@@ -35,11 +37,15 @@ public class SortingConverter {
 		return Sorting.relevanceSorting();
 	}
 
-	private Sorting.Direction convertDirection(Sort.Direction direction) {		
-		if (direction.toString().equalsIgnoreCase("desc")) {
-			return Sorting.Direction.DESC;
+	private Sorting.Direction convertDirection(Sort.Direction direction) {	
+		if (direction != null) {
+			if (direction == Sort.Direction.DESC) {
+				return Sorting.Direction.DESC;
+			} else {
+				return Sorting.Direction.ASC;
+			}
 		} else {
-			return Sorting.Direction.ASC;
+			return defaultDirection;
 		}
 	}
 }

@@ -23,7 +23,7 @@ public class SortingConverterTest {
 	public void setUp() {
 		
 	}
-	
+
 	@Test
 	public void convert() {
 		Sorting sorting = new Sorting(fieldName, Sorting.Direction.ASC);
@@ -44,6 +44,14 @@ public class SortingConverterTest {
 		Sort sort = new Sort(order);
 		
 		assertEquals(Sorting.relevanceSorting().getFieldName(), sortingConverter.convert(sort).getFieldName());
+	}
+	
+	@Test
+	public void convert_noDirection() {
+		Order order = new Order(null, fieldName);
+		Sort sort = new Sort(order);
+
+		assertEquals(Sorting.Direction.ASC, sortingConverter.convert(sort).getDirection());
 	}
 
 }
