@@ -27,10 +27,16 @@ public class SortingConverter {
 		if (order.hasNext()) {
 			Order next = order.next(); 
 			String property = next.getProperty();
+			String fieldName = "";
+			
+			try {
+				fieldName = JudgmentIndexField.valueOf(property).getFieldName();
+			} catch (IllegalArgumentException e) {
+				return Sorting.relevanceSorting();
+			}
 			
 			if (!property.equals(RELEVANCE)) {
-				return new Sorting(JudgmentIndexField.valueOf(property).getFieldName(),
-									convertDirection(next.getDirection()));
+				return new Sorting(fieldName, convertDirection(next.getDirection()));
 			}
 		} 
 		
