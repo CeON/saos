@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Error's view representation.
  * @author pavtel
  */
 public class ErrorRepresentation {

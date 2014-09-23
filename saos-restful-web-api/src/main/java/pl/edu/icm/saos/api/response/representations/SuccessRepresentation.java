@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Success's view representation.
  * @author pavtel
  */
 public class SuccessRepresentation {

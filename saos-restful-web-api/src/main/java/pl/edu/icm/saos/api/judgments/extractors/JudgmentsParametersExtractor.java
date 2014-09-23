@@ -10,13 +10,27 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
  * @author pavtel
+ * Extract and validate request parameters.
  */
 @Component
 public class JudgmentsParametersExtractor {
 
+    //***** fields **********
+
     @Autowired
     private ParametersExtractor parametersExtractor;
 
+    //***** END fields ********
+
+
+    //******* business methods ************
+
+    /**
+     * Set default values ( if necessary), validate and extract request parameters
+     * @param inParameters parameters to process.
+     * @return JudgmentsParameters which contains all valid parameters values
+     * @throws WrongRequestParameterException
+     */
     public JudgmentsParameters extractFrom(InputParametersBuilder inParameters) throws WrongRequestParameterException {
         JudgmentsParameters outParameters = new JudgmentsParameters();
 
@@ -60,7 +74,10 @@ public class JudgmentsParametersExtractor {
     }
 
 
+    //******* END business methods **************
 
+
+    //******** utils *************
 
     public static InputParametersBuilder inputParameters(){
         return new InputParametersBuilder();
@@ -132,6 +149,8 @@ public class JudgmentsParametersExtractor {
         }
 
     }
+
+    //******* END utils **********
 
     //*** setters ***
     public void setParametersExtractor(ParametersExtractor parametersExtractor) {

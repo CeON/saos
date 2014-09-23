@@ -15,18 +15,28 @@ import java.util.Map;
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
+ * Provides functionality for building success object view for single court.
+ * Success object can be easily serialized as json.
  * @author pavtel
  */
 @Component
 public class SingleCourtSuccessRepresentationBuilder {
 
+    //******* fields ***********
     @Autowired
     private CourtAssembler courtAssembler;
 
     @Autowired
     private LinksBuilder linksBuilder;
+    //******* END fields **********
 
 
+    //******* business methods ***********
+    /**
+     * Constructs, from court, the success view representation (representation details: {@link pl.edu.icm.saos.api.response.representations.SuccessRepresentation SuccessRepresentation})
+     * @param court to process.
+     * @return map - success representation
+     */
     public Map<String, Object> build(CommonCourt court){
         SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
 
@@ -49,7 +59,7 @@ public class SingleCourtSuccessRepresentationBuilder {
 
         return links;
     }
-
+    //********** END business methods ********
 
     //*** setters ****
     public void setCourtAssembler(CourtAssembler courtAssembler) {

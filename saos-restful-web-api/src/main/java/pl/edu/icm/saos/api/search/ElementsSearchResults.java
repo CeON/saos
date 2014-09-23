@@ -5,6 +5,8 @@ package pl.edu.icm.saos.api.search;
 import java.util.List;
 
 /**
+ * Search result container consisting form search parameters S (requestParameters)
+ * and result (elements of type T)
  * @author pavtel
  */
 public class ElementsSearchResults<T, S> {

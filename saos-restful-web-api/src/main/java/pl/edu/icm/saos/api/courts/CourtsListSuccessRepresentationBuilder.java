@@ -20,18 +20,28 @@ import java.util.Map;
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
+ * Provides functionality for building success object view for list of courts. Success object can be easily serialized as json.
  * @author pavtel
  */
 @Component
 public class CourtsListSuccessRepresentationBuilder {
 
+    //****** fields *********
     @Autowired
     private CourtAssembler courtAssembler;
 
     @Autowired
     private LinksBuilder linksBuilder;
 
+    //******* END fields *********
 
+
+    //******** business methods ****************
+    /**
+     * Constructs, from searchResults,  the success view representation (representation details: {@link pl.edu.icm.saos.api.response.representations.SuccessRepresentation SuccessRepresentation}).
+     * @param searchResults to process.
+     * @return map - success representation
+     */
     public Map<String, Object> build(ElementsSearchResults<CommonCourt,RequestParameters> searchResults){
         SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
 
@@ -88,6 +98,8 @@ public class CourtsListSuccessRepresentationBuilder {
 
         return queryTemplate;
     }
+
+    //********* END business methods *************
 
 
     // *** setters ***

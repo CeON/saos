@@ -6,8 +6,11 @@ import pl.edu.icm.saos.api.parameters.Pagination;
 
 /**
  * @author pavtel
+ * Container of processed request's parameters.
  */
 public class JudgmentsParameters {
+
+    //******* fields **************
 
     private Pagination pagination;
     private String all;
@@ -19,6 +22,10 @@ public class JudgmentsParameters {
     private LocalDate judgmentDateFrom;
     private LocalDate judgmentDateTo;
 
+    //********* END fields ***********
+
+
+    //*********** setters and getters ************
     public Pagination getPagination() {
         return pagination;
     }
@@ -90,6 +97,9 @@ public class JudgmentsParameters {
     public void setJudgmentDateTo(LocalDate judgmentDateTo) {
         this.judgmentDateTo = judgmentDateTo;
     }
+
+    //*********** END setters and getters ***********
+
 
     @Override
     public String toString() {

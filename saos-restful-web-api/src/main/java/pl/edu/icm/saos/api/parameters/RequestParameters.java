@@ -3,18 +3,24 @@ package pl.edu.icm.saos.api.parameters;
 import com.google.common.base.Objects;
 
 /**
+ * Represents request parameters
  * @author pavtel
  */
 public class RequestParameters {
 
+    //********* fields ******
     private JoinedParameter expandParameter;
     private Pagination pagination;
+    //******* END fields ********
 
+    //******** constructors ********
     public RequestParameters(JoinedParameter expandParameter, Pagination pagination) {
         this.expandParameter = expandParameter;
         this.pagination = pagination;
     }
+    //********* END constructors **********
 
+    //********* getters ***********
     public JoinedParameter getExpandParameter() {
         return expandParameter;
     }
@@ -22,6 +28,7 @@ public class RequestParameters {
     public Pagination getPagination() {
         return pagination;
     }
+    //************ END getters **************
 
     @Override
     public String toString() {
