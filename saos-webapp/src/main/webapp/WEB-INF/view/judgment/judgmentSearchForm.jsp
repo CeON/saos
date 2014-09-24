@@ -35,9 +35,15 @@
 			    </div>
 		    </div>
 		    
+		    <saosSearch:courtSelect items="${courts}" selectedCourt="${judgmentCriteriaForm.courtId }" path="courtId" labelName="input-search-court" labelText="search.field.court" />
+		    
+		    <%--
 		    <saos:formFieldText path="courtName" labelName="input-search-court" labelText="search.field.court" />
+			 
 
 		    <saos:formFieldText path="courtId" labelName="input-search-division" labelText="search.field.division" />
+		    
+		    --%>
 		    
 		    <div class="form-group">
 		    	<label for="input-search-all" class="col-sm-2 control-label"><spring:message code="search.field.judgmenttype" />:</label>

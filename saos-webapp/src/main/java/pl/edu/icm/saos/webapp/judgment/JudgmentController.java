@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
@@ -27,9 +29,13 @@ public class JudgmentController {
 
     @Autowired
 	private JudgmentRepository judgmentRepository;
+
+    @Autowired
+    private CommonCourtRepository commonCourtRepository;
     
     @Autowired
     private JudgmentsWebSearchService judgmentsWebSearchService;
+
 
     @RequestMapping(value="/search", method=RequestMethod.GET)
     public String searchJudgment(Model model) {
@@ -49,7 +55,10 @@ public class JudgmentController {
 		model.addAttribute("pageable", pageable);
 		model.addAttribute("resultSearch", resultSearchResults);
 		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
-		model.addAttribute("totalPages", (int)Math.ceil(((double)resultSearchResults.getTotalResults())/((double)pageable.getPageSize())));
+		
+		countPages(resultSearchResults.getTotalResults(), pageable.getPageSize(), model);
+		
+		addCommonCourtsToModel(model);
 		
 		return "searchResults";
 	}
@@ -64,21 +73,15 @@ public class JudgmentController {
 	}
 	
 
-	/* REMOVE 
-	 * Old search results - judgment list with mock items
-	 * */
-	@RequestMapping("/results_MOCK")
-	public String JudgmentResults(ModelMap model) {
-		
-		List<Judgment> judgments = new ArrayList<Judgment>();
-		judgments.add(judgmentRepository.findOneAndInitialize(1));
-		judgments.add(judgmentRepository.findOneAndInitialize(2));
-		judgments.add(judgmentRepository.findOneAndInitialize(3));
-		judgments.add(judgmentRepository.findOneAndInitialize(4));
-		
-		model.addAttribute("judgments", judgments);
-		
-		return "results";
+
+	/************ PRIVATE ************/
+	
+	private void countPages(long totalResults, int pageSize, ModelMap model) {
+		model.addAttribute("totalPages", (int)Math.ceil(((double)totalResults)/((double)pageSize)));
+	}
+	
+	private void addCommonCourtsToModel(ModelMap model) {
+		model.addAttribute("courts", commonCourtRepository.findAll());
 	}
 	
 }
