@@ -16,5 +16,7 @@ contextPath = '${pageContext.request.contextPath}';
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/searchForm.js"></script>
-
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/searchFilters.js"></script>
+ 
+ 
 <script type="text/javascript" src="${contextPath}/static/javascript/saos-common.js"></script>

@@ -4,14 +4,10 @@
 <c:set var="isCCJudgment" value="${judgment.instanceOfCommonCourtJudgment}" />
 
 <div class="container judgment-page block">
-	
-	<!-- 
-	<div>Powrót do listy rezultatów</div>
-	 -->
-	
+
 	<h4><span><spring:message code="judgment.${fn:toLowerCase(judgment.judgmentType)}" /></h2>
-	<h2>
-	   <saos:caseNumber items="${judgment.caseNumbers}"/>
+	<h2>		
+		<saos:caseNumber items="${judgment.caseNumbers}"/>
 	</h2>
 	
 	<div class="col-md-12" >
@@ -120,7 +116,7 @@
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h4 class="modal-title" id="myModalLabel"><spring:message code="judgment.full.header" /> <c:out value="${judgment.caseNumber}" /></h4>
+		        <h4 class="modal-title" id="myModalLabel"><spring:message code="judgment.full.header" /> </h4>
 		      </div>
 		      <div class="modal-body">
 		      	<c:out value="${judgment.textContent}" escapeXml="false" />
@@ -129,7 +125,6 @@
 		    </div>
 		  </div>
 		</div><!-- Modal end -->
-
 		
 	</div>
 	
