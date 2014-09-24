@@ -24,7 +24,7 @@
 			<div class="row" >
 				<div class="col-md-8">
 					<div class="type" ><span><spring:message code="judgment.results.${fn:toLowerCase(judgment.judgmentType)}" /></span></div>
-					<div class="case-number"><a href="${contextPath}/result/${judgment.id}"><c:out value="${judgment.caseNumber}" /></a></div>
+					<div class="case-number"><a href="${contextPath}/result/${judgment.id}"></a></div>
 					
 					<div class="date"><span><spring:message code="judgment.results.date" />:</span><c:out value="${judgment.judgmentDate}" /></div>
 					<div class="court"><c:out value="${judgment.courtDivision.court.name}" /> - <c:out value="${judgment.courtDivision.name}" /></div>

@@ -48,6 +48,10 @@
         <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentSearchResults.jsp" />
     </definition>
     
+    <definition name="searchResults" extends="template">
+        <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentResults.jsp" />
+    </definition>
+    
     <definition name="content" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/template/content.jsp" />
     </definition>

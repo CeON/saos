@@ -2,4 +2,4 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-<saos:searchForm></saos:searchForm>
+<%@ include file="judgmentSearchForm.jsp" %>

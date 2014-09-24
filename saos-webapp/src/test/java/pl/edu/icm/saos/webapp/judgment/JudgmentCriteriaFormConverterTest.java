@@ -1,0 +1,28 @@
+package pl.edu.icm.saos.webapp.judgment;
+
+import java.util.Date;
+
+import org.junit.Test;
+import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+
+/**
+ * @author £ukasz Pawe³czak
+ *
+ */
+public class JudgmentCriteriaFormConverterTest {
+
+	JudgmentCriteriaFormConverter judgmentCriteriaFormConverter = new JudgmentCriteriaFormConverter();
+	
+	@Test
+	public void convert() {
+		JudgmentCriteriaForm judgmentCriteriaForm = TestJudgmentCriteriaFormFactory.createCriteriaForm();
+		Date testDate = TestJudgmentCriteriaFormFactory.createDate();
+		
+		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
+		
+		JudgmentCriteriaFormAssertion.assertJudgmentCriteriaStrings(judgmentCriteriaForm, judgmentCriteria);
+		JudgmentCriteriaFormAssertion.assertJudgmentCriteriaDates(judgmentCriteria, testDate);
+		
+	}
+
+}
