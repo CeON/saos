@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.persistence.common;
 
 /**
- * @author £ukasz Pawe≥czak
+ * @author ≈Åukasz Pawe≈Çczak
  */
 public class FormatConst {
 

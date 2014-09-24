@@ -10,7 +10,7 @@ import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.Sorting;
 
 /**
- * @author £ukasz Pawe≥czak
+ * @author ≈Åukasz Pawe≈Çczak
  *
  */
 public class SortingConverterTest {
