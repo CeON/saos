@@ -7,4 +7,5 @@
 <%@ taglib  prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib  prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib  prefix="saos" tagdir="/WEB-INF/tags"%>
+<%@ taglib  prefix="saosSearch" tagdir="/WEB-INF/tags/search"%>
 
