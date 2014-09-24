@@ -7,6 +7,8 @@ import org.springframework.core.io.Resource;
 
 
 /**
+ * Informations about index configuration
+ * 
  * @author madryk
  */
 public class IndexConfiguration {

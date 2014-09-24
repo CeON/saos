@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.search.config.model;
 
 /**
+ * Thrown when application was unable to prepare solr instance
+ * 
  * @author madryk
  */
 public class SolrConfigurationException extends RuntimeException {

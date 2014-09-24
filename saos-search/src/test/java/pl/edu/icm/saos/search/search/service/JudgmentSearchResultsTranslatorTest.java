@@ -77,6 +77,9 @@ public class JudgmentSearchResultsTranslatorTest {
         doc.addField("courtDivisionId", "0000503");
         doc.addField("courtDivisionName", "I Wydział Cywilny");
         
+        doc.addField("keyword", "some keyword");
+        doc.addField("keyword", "some other keyword");
+        
         doc.addField("judge", "Jan Kowalski");
         doc.addField("judge", "Adam Nowak");
         doc.addField("judgeWithRole_#_PRESIDING_JUDGE", "Jan Kowalski");
@@ -94,6 +97,10 @@ public class JudgmentSearchResultsTranslatorTest {
         
         Assert.assertEquals("Sąd Apelacyjny w Krakowie", result.getCourtName());
         Assert.assertEquals("I Wydział Cywilny", result.getCourtDivisionName());
+        
+        Assert.assertEquals(2, result.getKeywords().size());
+        Assert.assertTrue(result.getKeywords().contains("some keyword"));
+        Assert.assertTrue(result.getKeywords().contains("some other keyword"));
         
         Assert.assertEquals(2, result.getJudges().size());
         Assert.assertTrue(result.getJudges().contains("Jan Kowalski"));

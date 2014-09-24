@@ -1,9 +1,10 @@
 package pl.edu.icm.saos.search.search.service;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.solr.common.SolrDocument;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,10 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.search.config.model.IndexField;
 
 /**
+ * Retrieves index values from {@link SolrDocument}
+ * 
  * @author madryk
- * @param <F>
+ * @param <F> types of fields that can be fetched
  */
 @Service
 public class SolrFieldFetcher<F extends IndexField> {
@@ -35,14 +38,13 @@ public class SolrFieldFetcher<F extends IndexField> {
     
     public List<String> fetchValues(SolrDocument doc, F field) {
         Collection<Object> values = doc.getFieldValues(field.getFieldName());
-        List<String> valuesList = new ArrayList<String>();
         
         if (values == null) {
-            return valuesList;
+            return Collections.emptyList();
         }
-        for (Object val : values) {
-            valuesList.add((String) val);
-        }
-        return valuesList;
+        
+        return values.stream()
+                .map(val -> (String) val)
+                .collect(Collectors.toList()) ;
     }
 }

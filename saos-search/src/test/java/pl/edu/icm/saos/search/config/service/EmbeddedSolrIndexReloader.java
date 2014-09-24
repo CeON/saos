@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.search.config;
+package pl.edu.icm.saos.search.config.service;
 
 import org.apache.solr.core.CoreContainer;
 

@@ -10,8 +10,10 @@ import pl.edu.icm.saos.search.config.model.IndexFieldsConstants;
 import pl.edu.icm.saos.search.util.SearchDateTimeUtils;
 
 /**
+ * Service for adding index fields into {@link SolrInputDocument}
+ * 
  * @author madryk
- * @param <F>
+ * @param <F> types of fields that can be added
  */
 @Service
 public class SolrFieldAdder<F extends IndexField> {

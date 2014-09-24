@@ -3,9 +3,13 @@ package pl.edu.icm.saos.search.search.model;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Result of searching judgments
+ * 
+ * @author madryk
+ */
 public class JudgmentSearchResult extends Searchable {
 
-    private String id;
     private List<String> caseNumbers;
     private String judgmentType;
     private Date judgmentDate;
@@ -19,10 +23,7 @@ public class JudgmentSearchResult extends Searchable {
 
 
     //------------------------ GETTERS --------------------------
-    
-    public String getId() {
-        return id;
-    }
+
     public List<String> getCaseNumbers() {
         return caseNumbers;
     }
@@ -51,9 +52,6 @@ public class JudgmentSearchResult extends Searchable {
     
     //------------------------ SETTERS --------------------------
     
-    public void setId(String id) {
-        this.id = id;
-    }
     public void setCaseNumbers(List<String> caseNumbers) {
         this.caseNumbers = caseNumbers;
     }

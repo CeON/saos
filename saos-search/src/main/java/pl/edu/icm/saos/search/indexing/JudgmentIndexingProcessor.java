@@ -14,6 +14,11 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
+/**
+ * Batch processor for indexing all judgments
+ * 
+ * @author madryk
+ */
 @Service
 public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrInputDocument> {
     

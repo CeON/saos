@@ -1,10 +1,14 @@
 package pl.edu.icm.saos.search.config.model;
 
+/**
+ * Fields of judgment index
+ * 
+ * @author madryk
+ */
 public enum JudgmentIndexField implements IndexField {
     ID("id"),
     DATABASE_ID("databaseId"),
     CASE_NUMBER("caseNumber"),
-    TITLE("title"),
     
     JUDGMENT_DATE("judgmentDate"),
     JUDGMENT_TYPE("judgmentType"),

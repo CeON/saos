@@ -10,24 +10,26 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 
-import pl.edu.icm.saos.search.FilesTestSupport;
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
+
+import com.google.common.io.Files;
 
 /**
  * @author madryk
  */
-public class SolrIndexConfigurationCopierTest extends FilesTestSupport {
+public class SolrIndexConfigurationCopierTest {
 
     private SolrIndexConfigurationCopier indexConfigurationCopier = new SolrIndexConfigurationCopier();
     
     
     @Test
     public void copyIndexConfiguration() throws IOException {
-        File tmpDir = super.createTempDir();
+        File tmpDir = Files.createTempDir();
         NamedByteArrayResource firstResource = new NamedByteArrayResource("some resource content".getBytes(), "filename.txt");
         NamedByteArrayResource secondResource = new NamedByteArrayResource("some other resource content".getBytes(), "secondFilename.txt");
         IndexConfiguration indexConfiguration = createIndexConfiguration("indexName", "indexDirectory", firstResource, secondResource);
@@ -37,11 +39,12 @@ public class SolrIndexConfigurationCopierTest extends FilesTestSupport {
         assertIndexConfStructure(tmpDir, "indexDirectory");
         assertIndexConfFile(tmpDir, "indexDirectory", "filename.txt", "some resource content");
         assertIndexConfFile(tmpDir, "indexDirectory", "secondFilename.txt", "some other resource content");
+        FileUtils.deleteDirectory(tmpDir);
     }
     
     @Test
     public void copyIndexConfiguration_WITH_PROPERTY_FILE() throws IOException {
-        File tmpDir = super.createTempDir();
+        File tmpDir = Files.createTempDir();
         IndexConfiguration indexConfiguration = createIndexConfiguration("indexName", "indexDirectory");
         indexConfiguration.setCreateIndexPropertyFile(true);
         
@@ -49,11 +52,12 @@ public class SolrIndexConfigurationCopierTest extends FilesTestSupport {
         
         assertIndexConfStructure(tmpDir, "indexDirectory");
         assertIndexPropertiesFile(tmpDir, "indexDirectory", "indexName");
+        FileUtils.deleteDirectory(tmpDir);
     }
     
     @Test
-    public void cleanupIndexConfiguration() {
-        File tmpDir = super.createTempDir();
+    public void cleanupIndexConfiguration() throws IOException {
+        File tmpDir = Files.createTempDir();
         NamedByteArrayResource firstResource = new NamedByteArrayResource("some resource content".getBytes(), "filename.txt");
         IndexConfiguration indexConfiguration = createIndexConfiguration("indexName", "indexDirectory", firstResource);
         indexConfiguration.setPersistent(false);
@@ -64,6 +68,7 @@ public class SolrIndexConfigurationCopierTest extends FilesTestSupport {
         
         
         assertEmptyDirectory(tmpDir);
+        FileUtils.deleteDirectory(tmpDir);
     }
     
     

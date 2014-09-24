@@ -2,7 +2,12 @@ package pl.edu.icm.saos.search.search.model;
 
 import java.util.Date;
 
-public class JudgmentCriteria implements Criteria {
+/**
+ * Criteria for searching judgments
+ * 
+ * @author madryk
+ */
+public class JudgmentCriteria extends Criteria {
     
     private String all;
     

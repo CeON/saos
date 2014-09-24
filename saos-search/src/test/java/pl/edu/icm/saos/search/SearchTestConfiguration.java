@@ -1,7 +1,5 @@
 package pl.edu.icm.saos.search;
 
-import java.io.IOException;
-
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
 import org.apache.solr.core.CoreContainer;
@@ -13,9 +11,9 @@ import org.springframework.core.io.ClassPathResource;
 
 import pl.edu.icm.saos.common.CommonTestConfiguration;
 import pl.edu.icm.saos.persistence.PersistenceConfiguration;
-import pl.edu.icm.saos.search.config.CoreContainerFactory;
-import pl.edu.icm.saos.search.config.EmbeddedSolrIndexReloader;
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
+import pl.edu.icm.saos.search.config.service.CoreContainerFactory;
+import pl.edu.icm.saos.search.config.service.EmbeddedSolrIndexReloader;
 import pl.edu.icm.saos.search.config.service.IndexReloader;
 
 /**
@@ -36,7 +34,7 @@ public class SearchTestConfiguration extends CommonTestConfiguration {
 
     @Bean
     @Autowired
-    public IndexReloader indexReloader(CoreContainerFactory coreContainerFactory) throws IOException {
+    public IndexReloader indexReloader(CoreContainerFactory coreContainerFactory) {
         EmbeddedSolrIndexReloader indexReloader = new EmbeddedSolrIndexReloader();
         indexReloader.setCoreContainer(coreContainerFactory.fetchCoreContainer());
         return indexReloader;
@@ -44,7 +42,7 @@ public class SearchTestConfiguration extends CommonTestConfiguration {
 
     @Bean
     @Autowired
-    public SolrServer solrJudgmentsServer(CoreContainerFactory coreContainerFactory) throws IOException {
+    public SolrServer solrJudgmentsServer(CoreContainerFactory coreContainerFactory) {
         IndexConfiguration judgmentsConfiguration = judgmentsIndexConfiguration();
         CoreContainer coreContainer = coreContainerFactory.fetchCoreContainer();
         EmbeddedSolrServer solrServer = new EmbeddedSolrServer(coreContainer, judgmentsConfiguration.getName());
