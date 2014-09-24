@@ -25,12 +25,14 @@ import static pl.edu.icm.saos.api.judgments.extractors.JudgmentsParametersExtrac
 
 
 /**
+ * Provides functionality for constructing view for list of judgments.
  * @author pavtel
  */
 @Controller
 @RequestMapping("/api/judgments")
 public class JudgmentsController {
 
+    //******* fields *************
     @Autowired
     private JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder;
 
@@ -40,10 +42,10 @@ public class JudgmentsController {
     @Autowired
     private JudgmentsParametersExtractor parametersExtractor;
 
+    //*********** END fields ***************
 
-    public JudgmentsController() {
-    }
 
+    //******** business methods ***************
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showJudgments(
@@ -84,6 +86,8 @@ public class JudgmentsController {
 
         return new ResponseEntity<>(representation, httpHeaders, HttpStatus.OK);
     }
+
+    //*********** END business methods **************
 
 
 

@@ -11,12 +11,14 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
+ * Provides functionality for links creation for linked data.
  * @author pavtel
  */
 @Component("linksBuilder")
 public class LinksBuilder {
 
 
+    //********** business methods ************
     public String urlToJudgment(int judgmentId){
         return urlToElement(JudgmentController.class, judgmentId);
     }
@@ -64,6 +66,8 @@ public class LinksBuilder {
     private Link linkFor(Class<?> controller, String elementId, String relName){
         return linkTo(controller, elementId).withRel(relName);
     }
+
+    //*********** END business methods ************
 
 
 }

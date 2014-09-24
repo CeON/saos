@@ -1,28 +1,12 @@
 package pl.edu.icm.saos.api.utils;
 
 
-import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourt;
-import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourtDivision;
-import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourtDivisionType;
-import static pl.edu.icm.saos.api.builders.BuildersFactory.commonCourtJudgmentWrapper;
-import static pl.edu.icm.saos.api.builders.BuildersFactory.judge;
-import static pl.edu.icm.saos.api.builders.BuildersFactory.judgmentReferencedRegulation;
-import static pl.edu.icm.saos.api.builders.BuildersFactory.judgmentSourceInfo;
-import static pl.edu.icm.saos.api.builders.BuildersFactory.keyword;
-import static pl.edu.icm.saos.api.builders.BuildersFactory.lawJournalEntry;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import pl.edu.icm.saos.persistence.builder.CourtCaseBuilder;
+import pl.edu.icm.saos.persistence.model.*;
 
-import pl.edu.icm.saos.api.builders.CourtCaseBuilder;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
-import pl.edu.icm.saos.persistence.model.SourceCode;
+import static pl.edu.icm.saos.persistence.builder.BuildersFactory.*;
 
 /**
  * @author pavtel
@@ -30,7 +14,7 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
 public abstract class FieldsDefinition {
 
     public static CommonCourtJudgment createCommonJudgment(){
-        CommonCourtJudgment judgment = commonCourtJudgmentWrapper(JC.JUDGMENT_ID);
+        CommonCourtJudgment judgment = commonCourtJudgmentWrapper(JC.JUDGMENT_ID).build();
         judgment.addCourtCase(CourtCaseBuilder.create(JC.CASE_NUMBER).build());
         judgment.setDecision(JC.DECISION);
 
@@ -52,8 +36,8 @@ public abstract class FieldsDefinition {
                         .title(JC.FIRST_REFERENCED_REGULATION_TITLE)
                         .year(JC.FIRST_REFERENCED_REGULATION_YEAR)
                         .journalNo(JC.FIRST_REFERENCED_REGULATION_JOURNAL_NO)
-                        .entry(JC.FIRST_REFERENCED_REGULATION_ENTRY)
-                );
+                        .entry(JC.FIRST_REFERENCED_REGULATION_ENTRY).build()
+                ).build();
 
         JudgmentReferencedRegulation secondJudgmentReferencedRegulation = judgmentReferencedRegulation()
                 .rawText(JC.SECOND_REFERENCED_REGULATION_TEXT)
@@ -62,8 +46,8 @@ public abstract class FieldsDefinition {
                         .title(JC.SECOND_REFERENCED_REGULATION_TITLE)
                         .year(JC.SECOND_REFERENCED_REGULATION_YEAR)
                         .journalNo(JC.SECOND_REFERENCED_REGULATION_JOURNAL_NO)
-                        .entry(JC.SECOND_REFERENCED_REGULATION_ENTRY)
-                );
+                        .entry(JC.SECOND_REFERENCED_REGULATION_ENTRY).build()
+                ).build();
 
         JudgmentReferencedRegulation thirdJudgmentReferencedRegulation = judgmentReferencedRegulation()
                 .rawText(JC.THIRD_REFERENCED_REGULATION_TEXT)
@@ -72,8 +56,8 @@ public abstract class FieldsDefinition {
                         .title(JC.THIRD_REFERENCED_REGULATION_TITLE)
                         .year(JC.THIRD_REFERENCED_REGULATION_YEAR)
                         .journalNo(JC.THIRD_REFERENCED_REGULATION_JOURNAL_NO)
-                        .entry(JC.THIRD_REFERENCED_REGULATION_ENTRY)
-                );
+                        .entry(JC.THIRD_REFERENCED_REGULATION_ENTRY).build()
+                ).build();
 
         judgment.addReferencedRegulation(judgmentReferencedRegulation);
         judgment.addReferencedRegulation(secondJudgmentReferencedRegulation);
@@ -89,14 +73,17 @@ public abstract class FieldsDefinition {
         judgment.addJudge(
                 judge(JC.PRESIDING_JUDGE_NAME)
                 .judgesRoles(Judge.JudgeRole.PRESIDING_JUDGE)
+                .build()
         );
 
         judgment.addJudge(
                 judge(JC.SECOND_JUDGE_NAME)
+                .build()
         );
 
         judgment.addJudge(
                 judge(JC.THIRD_JUDGE_NAME)
+                .build()
         );
 
 
@@ -106,6 +93,7 @@ public abstract class FieldsDefinition {
                 .publisher(JC.SOURCE_PUBLISHER)
                 .reviser(JC.SOURCE_REVISER)
                 .publicationDate(new DateTime(JC.SOURCE_PUBLICATION_DATE_IN_MILLISECONDS))
+                .build()
                 ;
 
         judgment.setSourceInfo(judgmentSourceInfo);
@@ -137,8 +125,9 @@ public abstract class FieldsDefinition {
                                                 commonCourt(JC.COURT_PARENT_ID)
                                                         .name(JC.COURT_PARENT_NAME)
                                                         .type(JC.COURT_PARENT_TYPE)
-                                        )
-                        );
+                                                        .build()
+                                        ).build()
+                        ).build();
     }
 
     private static CommonCourtDivision createSecondCommonDivision(){
@@ -146,8 +135,8 @@ public abstract class FieldsDefinition {
                 commonCourtDivision(JC.SECOND_DIVISION_ID)
                         .code(JC.SECOND_DIVISION_CODE)
                         .name(JC.SECOND_DIVISION_NAME)
-                        .type(commonCourtDivisionType(JC.SECOND_DIVISION_TYPE_NAME, JC.SECOND_DIVISION_TYPE_CODE)
-                        )
+                        .type(commonCourtDivisionType(JC.SECOND_DIVISION_TYPE_NAME, JC.SECOND_DIVISION_TYPE_CODE))
+                        .build()
                         ;
     }
 
@@ -161,11 +150,13 @@ public abstract class FieldsDefinition {
                                 commonCourt(JC.COURT_PARENT_ID)
                                         .name(JC.COURT_PARENT_NAME)
                                         .type(JC.COURT_PARENT_TYPE)
+                                        .build()
                         )
                         .divisions(
                                 createCommonDivision(),
                                 createSecondCommonDivision()
                         )
+                        .build()
                 ;
     }
 
