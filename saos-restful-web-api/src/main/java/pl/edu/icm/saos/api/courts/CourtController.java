@@ -15,18 +15,24 @@ import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import java.util.Map;
 
 /**
+ * Provides functionality for constructing view for single court.
  * @author pavtel
  */
 @Controller
 @RequestMapping("/api/courts/{courtId}")
 public class CourtController {
 
+    //******** fields ***********
     @Autowired
     private CommonCourtRepository courtRepository;
 
     @Autowired
     private SingleCourtSuccessRepresentationBuilder singleCourtSuccessRepresentationBuilder;
 
+    //********* END fields ***********
+
+
+    //***** business methods *************
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showCourt(@PathVariable("courtId") int courtId){
@@ -35,8 +41,10 @@ public class CourtController {
 
         Map<String, Object> representation = singleCourtSuccessRepresentationBuilder.build(court);
 
-        return new ResponseEntity<Map<String, Object>>(representation, HttpStatus.OK);
+        return new ResponseEntity<>(representation, HttpStatus.OK);
     }
+
+    //******* END business methods ***************
 
 
     //*** setters ****

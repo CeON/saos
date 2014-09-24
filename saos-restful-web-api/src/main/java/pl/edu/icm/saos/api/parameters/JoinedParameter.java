@@ -1,23 +1,30 @@
 package pl.edu.icm.saos.api.parameters;
 
+import com.google.common.base.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
-import com.google.common.base.Objects;
 
 /**
+ * Class represent request's 'joined' parameter:
+ * if /someBaseUrl?paramName=valA,valB then joinedValue = "valA,valB" and values = [valA,valB]
  * @author pavtel
  */
 public class JoinedParameter {
 
+    //****** fields *******
     private String joinedValue;
     private List<String> values;
+    //****** END fields ********
 
+    //******* constructors *********
     public JoinedParameter(String joinedValue, List<String> values) {
         this.joinedValue = joinedValue;
         this.values = values;
     }
+    //******** END constructors *********
 
+    //******** getters **********
     public String getJoinedValue() {
         return joinedValue;
     }
@@ -25,7 +32,9 @@ public class JoinedParameter {
     public List<String> getValues() {
         return values;
     }
+    //***** END getters **********
 
+    //********** business methods **********
     public boolean isEmpty(){
         return StringUtils.isBlank(joinedValue);
     }
@@ -37,6 +46,7 @@ public class JoinedParameter {
     public boolean containsValue(String value){
         return values.contains(value);
     }
+    //************ END business methods **********
 
     @Override
     public String toString() {

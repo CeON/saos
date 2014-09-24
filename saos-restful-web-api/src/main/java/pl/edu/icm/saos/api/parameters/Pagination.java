@@ -4,14 +4,19 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 /**
+ * Represent pagination.
  * @author pavtel
  */
 public class Pagination {
 
+    //******** fields *******
     private final int limit;
 
     private final int offset;
 
+    //******* END fields ********
+
+    //***** constructors *******
     public Pagination(int limit, int offset) {
         Preconditions.checkArgument(limit > 0, "limit should be positive");
         Preconditions.checkArgument(offset >= 0, "offset can't be negative");
@@ -19,6 +24,9 @@ public class Pagination {
         this.limit = limit;
         this.offset = offset;
     }
+    //********* END constructors *********
+
+    //******** getters *********
 
     public int getLimit() {
         return limit;
@@ -28,6 +36,9 @@ public class Pagination {
         return offset;
     }
 
+    //********** END getters ***********
+
+    //********** business methods ***********
     public boolean hasPrevious(){
         return offset > 0;
     }
@@ -47,6 +58,8 @@ public class Pagination {
         else
             return new Pagination(limit, 0);
     }
+
+    //************ END business methods ************
 
     @Override
     public String toString() {

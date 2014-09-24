@@ -4,6 +4,7 @@ package pl.edu.icm.saos.api.response.representations;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
+ * ErrorData details representation
  * @author pavtel
  */
 public class ErrorData {

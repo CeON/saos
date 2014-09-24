@@ -7,24 +7,36 @@ import pl.edu.icm.saos.api.links.LinksBuilder;
 import pl.edu.icm.saos.api.mapping.FieldsMapper;
 import pl.edu.icm.saos.api.response.representations.SuccessRepresentation;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import static pl.edu.icm.saos.api.ApiConstants.*;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static pl.edu.icm.saos.api.ApiConstants.COURT;
+
 /**
+ * Provides functionality for building success object view for single division.
+ * Success object can be easily serialized as json.
  * @author pavtel
  */
 @Component
 public class DivisionSuccessRepresentationBuilder {
 
+    //******* fields *********
     @Autowired
     private FieldsMapper<CommonCourtDivision> divisionFieldsMapper;
 
     @Autowired
     private LinksBuilder linksBuilder;
+    //******* END fields **********
 
+
+    //******** business methods ***********
+    /**
+     * From division constructs the success view representation (representation details: {@link pl.edu.icm.saos.api.response.representations.SuccessRepresentation SuccessRepresentation})
+     * @param division to process.
+     * @return map - success representation
+     */
     public Map<String, Object> build(CommonCourtDivision division){
         SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
 
@@ -40,6 +52,8 @@ public class DivisionSuccessRepresentationBuilder {
 
         return Arrays.asList(divisionLink, courtLink);
     }
+
+    //********* END business methods ************
 
 
     //*** setters ***

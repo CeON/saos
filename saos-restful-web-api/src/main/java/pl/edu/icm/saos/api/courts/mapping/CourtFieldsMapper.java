@@ -11,12 +11,14 @@ import java.util.Map;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
-/**
+/** {@inheritDoc}
  * @author pavtel
+ * Converts {@link pl.edu.icm.saos.persistence.model.CommonCourt CommonCourt's} fields.
  */
 @Component("commonCourtFieldsMapper")
 public class CourtFieldsMapper implements FieldsMapper<CommonCourt> {
 
+    //******** fields *************
     @Autowired
     private LinksBuilder linksBuilder;
 
@@ -28,8 +30,11 @@ public class CourtFieldsMapper implements FieldsMapper<CommonCourt> {
         return item;
     }
 
+    //********* END fields **************
 
 
+
+    //********* business methods ***************
     @Override
     public Map<String, Object> fieldsToMap(CommonCourt court, boolean useIdInsteadOfLinks) {
         Map<String, Object> item = new LinkedHashMap<>();
@@ -75,6 +80,8 @@ public class CourtFieldsMapper implements FieldsMapper<CommonCourt> {
 
         return item;
     }
+
+    //************* END business methods *****************
 
 
     //*** setters ***

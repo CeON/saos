@@ -18,11 +18,13 @@ import static org.apache.commons.lang3.StringUtils.removeStart;
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
+ * Provides functionality for extracting request parameters.
  * @author pavtel
  */
 @Component("parametersExtractor")
 public class ParametersExtractor {
 
+    //********* fields *********
     private static final Splitter SPLITTER = Splitter.on(",").trimResults().omitEmptyStrings();
 
     private static final Splitter DATE_SPLITTER = Splitter.on("-").trimResults().omitEmptyStrings();
@@ -32,16 +34,16 @@ public class ParametersExtractor {
     private int defaultLimit = 20; //TODO move into properties file
     private int maxLimit = 100; //TODO move into properties file
 
-    public ParametersExtractor() {
-    }
+    //********** END fields **********
 
-    public RequestParameters extractRequestParameter(String expandValue, int limit, int offset) throws WrongRequestParameterException {
-        Pagination pagination = extractAndValidatePagination(limit, offset);
-        JoinedParameter expandParameter = extractJoinedParameter(expandValue);
+    //************* business methods **********
 
-        return new RequestParameters(expandParameter, pagination);
-    }
-
+    /**
+     * Extracts 'joined' request parameter.
+     * If paramValue="valA,ValB", then joinedParameter=JoinedParameter("valA,valB", ["valA", "valB"])
+     * @param parameterValue to process.
+     * @return joinedParameter
+     */
     public JoinedParameter extractJoinedParameter(String parameterValue){
         String joinedValue = StringUtils.trimToEmpty(parameterValue);
 
@@ -57,6 +59,13 @@ public class ParametersExtractor {
     }
 
 
+    /**
+     * Extracts date in the format "yyyy-MM-DD" into {@link org.joda.time.LocalDate localDate}.
+     * @param value date to process in the format "yyyy-MM-DD".
+     * @param paramName used for exception.
+     * @return localDate representation of value.
+     * @throws WrongRequestParameterException if value has incorrect format.
+     */
     public LocalDate extractLocalDate(String value, String paramName) throws WrongRequestParameterException {
         if(value == null || StringUtils.isBlank(value))
             return null;
@@ -83,6 +92,14 @@ public class ParametersExtractor {
         return localDate;
     }
 
+
+    /**
+     * Constructs Pagination object (sets default values for offset and limit if necessary)
+     * @param limit to process.
+     * @param offset to process.
+     * @return pagination
+     * @throws WrongRequestParameterException if limit and offset values are incorrect.
+     */
     public Pagination extractAndValidatePagination(int limit, int offset) throws WrongRequestParameterException {
         int currentLimit = normalizeAndValidateLimit(limit);
         int currentOffset = normalizeAndValidateOffset(offset);
@@ -116,6 +133,8 @@ public class ParametersExtractor {
     private int normalizeLimit(int limit){
         return limit != 0 ? limit : defaultLimit;
     }
+
+    //******* END business methods **********
 
 
     // ******** setters ******

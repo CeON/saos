@@ -1,68 +1,26 @@
 package pl.edu.icm.saos.api.judgments.mapping;
 
-import static pl.edu.icm.saos.api.ApiConstants.CASE_NUMBER;
-import static pl.edu.icm.saos.api.ApiConstants.CODE;
-import static pl.edu.icm.saos.api.ApiConstants.COURT;
-import static pl.edu.icm.saos.api.ApiConstants.COURT_CASES;
-import static pl.edu.icm.saos.api.ApiConstants.COURT_REPORTERS;
-import static pl.edu.icm.saos.api.ApiConstants.DECISION;
-import static pl.edu.icm.saos.api.ApiConstants.DIVISION;
-import static pl.edu.icm.saos.api.ApiConstants.HREF;
-import static pl.edu.icm.saos.api.ApiConstants.ID;
-import static pl.edu.icm.saos.api.ApiConstants.JOURNAL_ENTRY;
-import static pl.edu.icm.saos.api.ApiConstants.JOURNAL_NO;
-import static pl.edu.icm.saos.api.ApiConstants.JOURNAL_TITLE;
-import static pl.edu.icm.saos.api.ApiConstants.JOURNAL_YEAR;
-import static pl.edu.icm.saos.api.ApiConstants.JUDGES;
-import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_DATE;
-import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_ID;
-import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_TYPE;
-import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_URL;
-import static pl.edu.icm.saos.api.ApiConstants.KEYWORDS;
-import static pl.edu.icm.saos.api.ApiConstants.LEGAL_BASES;
-import static pl.edu.icm.saos.api.ApiConstants.NAME;
-import static pl.edu.icm.saos.api.ApiConstants.PUBLICATION_DATE;
-import static pl.edu.icm.saos.api.ApiConstants.PUBLISHER;
-import static pl.edu.icm.saos.api.ApiConstants.REFERENCED_REGULATIONS;
-import static pl.edu.icm.saos.api.ApiConstants.REVISER;
-import static pl.edu.icm.saos.api.ApiConstants.SOURCE;
-import static pl.edu.icm.saos.api.ApiConstants.SPECIAL_ROLES;
-import static pl.edu.icm.saos.api.ApiConstants.SUMMARY;
-import static pl.edu.icm.saos.api.ApiConstants.TEXT;
-import static pl.edu.icm.saos.api.ApiConstants.TEXT_CONTENT;
-import static pl.edu.icm.saos.api.ApiConstants.TYPE;
-
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import pl.edu.icm.saos.api.links.LinksBuilder;
 import pl.edu.icm.saos.api.mapping.FieldsMapper;
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
-import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.*;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /** {@inheritDoc}
  * @author pavtel
+ * Converts {@link pl.edu.icm.saos.persistence.model.Judgment Judgment's} fields.
  */
 @Component("judgmentFieldsMapper")
 public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
 
+    //******** fields **********
     private static final String DATE_FORMAT = "YYYY-MM-dd";
 
     @Autowired
@@ -70,10 +28,11 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
 
     @Autowired
     private FieldsMapper<CommonCourtDivision> divisionFieldsMapper;
+    //********* END fields **********
 
 
-
-
+    //******** business methods *************
+    @Override
     public Map<String, Object> basicFieldsToMap(Judgment element){
         Map<String, Object> item = new LinkedHashMap<>();
         item.putAll(commonFieldsToMap(element));
@@ -138,53 +97,6 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
     }
 
 
-    public Map<String, Object> toMap(Judgment element, boolean expandAll) {
-        Map<String, Object> item = new LinkedHashMap<>();
-
-        item.put(COURT_CASES, toListOfCourtCaseMaps(element.getCourtCases()));
-        item.put(JUDGMENT_TYPE, element.getJudgmentType());
-        item.put(SOURCE, toMap(element.getSourceInfo()));
-        item.put(JUDGMENT_DATE, toString(element.getJudgmentDate()));
-        item.put(JUDGES, toListOfMaps(element.getJudges()));
-        item.put(COURT_REPORTERS, toSimpleList(element.getCourtReporters()));
-        item.put(DECISION, element.getDecision());
-        item.put(SUMMARY, element.getSummary());
-        item.put(TEXT_CONTENT, element.getTextContent());
-
-        item.put(LEGAL_BASES, toSimpleList(element.getLegalBases()));
-        item.put(REFERENCED_REGULATIONS, toListOfMapsFromJRR(element.getReferencedRegulations()));
-
-
-        if(expandAll) {
-            item.putAll(mapOptionalFields(element));
-        }
-
-
-        return item;
-    }
-
-    private Map<String, Object> mapOptionalFields(Judgment element){
-        Map<String , Object> map = new LinkedHashMap<>();
-        if (element instanceof CommonCourtJudgment) {
-            CommonCourtJudgment commonJudgment = (CommonCourtJudgment) element;
-            Map<String, Object> commonJudgmentFields = toMapCommonJudgmentFields(commonJudgment);
-
-            map.putAll(commonJudgmentFields);
-        }
-        return map;
-    }
-
-    private Map<String, Object> toMapCommonJudgmentFields(CommonCourtJudgment commonJudgment) {
-        Map<String, Object> item = new LinkedHashMap<>();
-
-        CommonCourtDivision division = commonJudgment.getCourtDivision();
-        item.put(DIVISION, toMap(division));
-        item.put(KEYWORDS, toListFromKeywords(commonJudgment.getKeywords()));
-
-        return item;
-
-    }
-
     private List<String> toListFromKeywords(List<CcJudgmentKeyword> keywords) {
         if(keywords == null)
             keywords = Collections.emptyList();
@@ -194,28 +106,6 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
                 .collect(Collectors.toList());
 
         return list;
-    }
-
-    private Map<String, Object> toMap(CommonCourtDivision division) {
-        Map<String, Object> item = new LinkedHashMap<>();
-        item.put(NAME, division.getName());
-        item.put(CODE, division.getCode());
-        item.put(TYPE, division.getType().getName());
-
-        item.put(COURT, toMap(division.getCourt()));
-
-        return item;
-    }
-
-    private Map<String, Object> toMap(CommonCourt court) {
-        Map<String, Object> item = new LinkedHashMap<>();
-
-        item.put(CODE, court.getCode());
-        item.put(NAME, court.getName());
-        item.put(TYPE, court.getType());
-
-        return item;
-
     }
 
     private List<Map<String, Object>> toListOfMapsFromJRR(List<JudgmentReferencedRegulation> referencedRegulations) {
@@ -317,6 +207,8 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
             return localDate.toString(DATE_FORMAT);
         }
     }
+
+    //******** END business methods ****************
 
 
 

@@ -16,18 +16,24 @@ import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import java.util.Map;
 
 /**
+ * Provides functionality for constructing view for single division.
  * @author pavtel
  */
 @Controller
 @RequestMapping("/api/divisions/{divisionId}")
 public class DivisionController {
 
+    //******** fields *********
     @Autowired
     private CcDivisionRepository ccDivisionRepository;
 
     @Autowired
     private DivisionSuccessRepresentationBuilder divisionSuccessRepresentationBuilder;
 
+    //********* END fields ***********
+
+
+    //******** business methods ************
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showDivision(@PathVariable("divisionId") int divisionId){
@@ -41,6 +47,7 @@ public class DivisionController {
 
         return new ResponseEntity<>(representation, httpHeaders, HttpStatus.OK);
     }
+    //*********** END business methods ********
 
 
     //*** setters ***

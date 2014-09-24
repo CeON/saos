@@ -18,17 +18,28 @@ import java.util.*;
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
+ * Provides functionality for building success object view for list of judgments. Success object can be easily serialized as json.
  * @author pavtel
  */
 @Component("judgmentsListSuccessRepresentationBuilder")
 public class JudgmentsListSuccessRepresentationBuilder {
 
+    //******** fields *************
+
     @Autowired
     private JudgmentAssembler judgmentAssembler;
 
-    public JudgmentsListSuccessRepresentationBuilder() {
-    }
+    //********** END fields **********
 
+
+    //************* business methods **************
+
+    /**
+     * Constructs, from searchResults, the success view representation (representation details: {@link pl.edu.icm.saos.api.response.representations.SuccessRepresentation SuccessRepresentation}).
+     * @param searchResults to process.
+     * @param uriComponentsBuilder used for create links in {@link pl.edu.icm.saos.api.response.representations.SuccessRepresentation success} object.
+     * @return map - success representation
+     */
     public Map<String, Object> build(ElementsSearchResults<Judgment, JudgmentsParameters> searchResults, UriComponentsBuilder uriComponentsBuilder){
         SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
         builder.links(toLinks(searchResults.getRequestParameters(), uriComponentsBuilder, true)); //TODO calculate hasMore value
@@ -138,5 +149,12 @@ public class JudgmentsListSuccessRepresentationBuilder {
         } else {
             return str;
         }
+    }
+
+    //******* END business methods **********
+
+    //******** setters **********
+    public void setJudgmentAssembler(JudgmentAssembler judgmentAssembler) {
+        this.judgmentAssembler = judgmentAssembler;
     }
 }

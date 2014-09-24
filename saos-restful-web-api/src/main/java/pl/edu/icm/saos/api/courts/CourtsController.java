@@ -20,12 +20,14 @@ import static pl.edu.icm.saos.api.ApiConstants.LIMIT;
 import static pl.edu.icm.saos.api.ApiConstants.OFFSET;
 
 /**
+ * Provides functionality for constructing view for list of courts.
  * @author pavtel
  */
 @Controller
 @RequestMapping("/api/courts")
 public class CourtsController {
 
+    // ******** fields *********
     @Autowired
     private ParametersExtractor parametersExtractor;
 
@@ -36,6 +38,11 @@ public class CourtsController {
     private CourtsListSuccessRepresentationBuilder successRepresentationBuilder;
 
     private final String DEFAULT_OFFSET = "0";
+
+    //*********** END fields *************
+
+
+    //********* business methods **************
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
@@ -53,6 +60,8 @@ public class CourtsController {
 
         return new ResponseEntity<>(representation, HttpStatus.OK);
     }
+
+    //*********** END business methods ************
 
 
     //*** setters ***

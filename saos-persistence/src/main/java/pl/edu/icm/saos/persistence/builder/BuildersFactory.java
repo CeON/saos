@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.api.builders;
+package pl.edu.icm.saos.persistence.builder;
 
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
