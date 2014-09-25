@@ -204,7 +204,8 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
         if(localDate == null){
             return "";
         } else {
-            return localDate.toString(DATE_FORMAT);
+            //we use plusDays(1) because of https://jadira.atlassian.net/browse/JDF-26
+            return localDate.plusDays(1).toString(DATE_FORMAT);
         }
     }
 

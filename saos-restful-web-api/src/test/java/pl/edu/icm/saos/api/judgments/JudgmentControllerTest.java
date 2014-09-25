@@ -1,20 +1,5 @@
 package pl.edu.icm.saos.api.judgments;
 
-import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.iterableWithSize;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.judgments.JudgmentRepresentationVerifier.verifyBasicFields;
-import static pl.edu.icm.saos.api.utils.Constansts.COURT_PATH;
-import static pl.edu.icm.saos.api.utils.Constansts.DATE_FORMAT;
-import static pl.edu.icm.saos.api.utils.Constansts.DIVISION_PATH;
-import static pl.edu.icm.saos.api.utils.Constansts.JUDGMENT_PATH;
-import static pl.edu.icm.saos.api.utils.Constansts.PARENT_COURT_PATH;
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonJudgment;
-
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,12 +15,22 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+
+import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.judgments.JudgmentRepresentationVerifier.verifyBasicFields;
+import static pl.edu.icm.saos.api.utils.Constansts.*;
+import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonJudgment;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -83,7 +78,7 @@ public class JudgmentControllerTest {
     }
 
     @Test
-    public void itShouldShowAllJudgmentsFields() throws Exception {
+    public void it_should_show_all_judgments_fields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENT_PATH)
                 .accept(MediaType.APPLICATION_JSON));
