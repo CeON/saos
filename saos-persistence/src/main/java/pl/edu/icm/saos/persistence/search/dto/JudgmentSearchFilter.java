@@ -1,7 +1,6 @@
 package pl.edu.icm.saos.persistence.search.dto;
 
 import org.joda.time.LocalDate;
-import pl.edu.icm.saos.persistence.common.DataObject;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
@@ -31,7 +30,11 @@ public class JudgmentSearchFilter extends DatabaseSearchFilter<Judgment> {
             return this;
         }
 
-
+        @Override
+        public JudgmentSearchFilter filter() {
+            upBy("id");
+            return instance;
+        }
     }
 
     public static Builder builder(){

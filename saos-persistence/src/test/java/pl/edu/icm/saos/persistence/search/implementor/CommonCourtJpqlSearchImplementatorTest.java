@@ -75,7 +75,6 @@ public class CommonCourtJpqlSearchImplementatorTest extends PersistenceTestSuppo
         CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
                 .limit(limit)
                 .offset(offset)
-                .upBy("id")
                 .filter();
 
 
