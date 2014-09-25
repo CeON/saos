@@ -1,29 +1,18 @@
 package pl.edu.icm.saos.persistence.common;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.chrono.ISOChronology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.*;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
-import pl.edu.icm.saos.persistence.model.LawJournalEntry;
-import pl.edu.icm.saos.persistence.model.SourceCode;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Łukasz Dumiszewski
@@ -118,6 +107,9 @@ public class TestJudgmentFactory {
     public CommonCourtJudgment createFullCcJudgment(boolean save) {
         CommonCourtJudgment judgment = new CommonCourtJudgment();
         judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphanumeric(10)));
+
+        judgment.setJudgmentDate(new LocalDate(2020, 10, 24 , ISOChronology.getInstanceUTC()));
+
         judgment.addCourtReporter("Adam Nowak");
         judgment.addCourtReporter("Jan Kowalski");
         Judge judge = new Judge("Monkey Donkey", JudgeRole.PRESIDING_JUDGE);
