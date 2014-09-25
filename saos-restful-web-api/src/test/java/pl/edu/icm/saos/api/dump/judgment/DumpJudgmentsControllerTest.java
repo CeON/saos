@@ -1,23 +1,5 @@
 package pl.edu.icm.saos.api.dump.judgment;
 
-import static org.hamcrest.Matchers.emptyIterable;
-import static org.hamcrest.Matchers.iterableWithSize;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_END_DATE;
-import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_START_DATE;
-import static pl.edu.icm.saos.api.ApiConstants.LIMIT;
-import static pl.edu.icm.saos.api.ApiConstants.OFFSET;
-import static pl.edu.icm.saos.api.utils.Constansts.DATE_FORMAT;
-import static pl.edu.icm.saos.api.utils.Constansts.DUMP_JUDGMENTS_PATH;
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonJudgment;
-
-import java.util.Arrays;
-
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +15,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.utils.FieldsDefinition;
@@ -45,6 +26,21 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
+
+import java.util.Arrays;
+
+import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.utils.Constansts.DATE_FORMAT;
+import static pl.edu.icm.saos.api.utils.Constansts.DUMP_JUDGMENTS_PATH;
+import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonJudgment;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {DumpJudgmentsControllerTest.TestConfiguration.class})
@@ -103,6 +99,8 @@ public class DumpJudgmentsControllerTest {
 
         //then
 
+        int ONE_DAY = 1;
+
         String pathPrefix = "$.items.[0]";
         actions
                 .andExpect(jsonPath(pathPrefix + ".id").value(FieldsDefinition.JC.JUDGMENT_ID))
@@ -111,7 +109,8 @@ public class DumpJudgmentsControllerTest {
                 .andExpect(jsonPath(pathPrefix+".judgmentType").value(Judgment.JudgmentType.SENTENCE.name()))
 
 
-                .andExpect(jsonPath(pathPrefix + ".judgmentDate").value(JC.DATE_YEAR + "-" + JC.DATE_MONTH + "-" + JC.DATE_DAY))
+                //we use plus ONE day because of https://jadira.atlassian.net/browse/JDF-26
+                .andExpect(jsonPath(pathPrefix + ".judgmentDate").value(JC.DATE_YEAR + "-" + JC.DATE_MONTH + "-" + (JC.DATE_DAY+ONE_DAY)))
 
                 .andExpect(jsonPath(pathPrefix + ".judges").isArray())
                 .andExpect(jsonPath(pathPrefix+".judges").value(iterableWithSize(3)))

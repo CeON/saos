@@ -6,6 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.springframework.stereotype.Component;
 import pl.edu.icm.saos.api.exceptions.WrongRequestParameterException;
+import pl.edu.icm.saos.api.utils.DatesFactory;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,7 +16,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.removeStart;
-import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.ApiConstants.LIMIT;
+import static pl.edu.icm.saos.api.ApiConstants.OFFSET;
 
 /**
  * Provides functionality for extracting request parameters.
@@ -87,7 +89,7 @@ public class ParametersExtractor {
         int day = integers.get(2);
 
 
-        LocalDate localDate = new LocalDate(year, month, day);
+        LocalDate localDate = DatesFactory.warsawLocalDate(year, month, day);
 
         return localDate;
     }
