@@ -18,6 +18,11 @@ public class CommonCourtSearchFilter extends DatabaseSearchFilter<CommonCourt> {
             return this;
         }
 
+        @Override
+        public CommonCourtSearchFilter filter() {
+            upBy("id");
+            return instance;
+        }
     }
 
     public static Builder builder(){
