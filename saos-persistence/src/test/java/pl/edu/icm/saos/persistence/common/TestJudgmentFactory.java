@@ -182,14 +182,14 @@ public class TestJudgmentFactory {
         secondJudgment.setJudgmentDate(new LocalDate(20000000000L));
 
 
-        CommonCourtJudgment thirdJudgment = new CommonCourtJudgment();
-        thirdJudgment.addCourtCase(new CourtCase("C"));
-        thirdJudgment.setJudgmentDate(new LocalDate(30000000000L));
-
-
         CommonCourtJudgment fourthJudgment = new CommonCourtJudgment();
         fourthJudgment.addCourtCase(new CourtCase("D"));
         fourthJudgment.setJudgmentDate(new LocalDate(40000000000L));
+
+
+        CommonCourtJudgment thirdJudgment = new CommonCourtJudgment();
+        thirdJudgment.addCourtCase(new CourtCase("C"));
+        thirdJudgment.setJudgmentDate(new LocalDate(30000000000L));
 
 
         if(save){

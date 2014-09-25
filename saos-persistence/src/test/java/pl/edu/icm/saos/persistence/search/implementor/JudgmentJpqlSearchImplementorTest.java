@@ -14,6 +14,7 @@ import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -128,9 +129,53 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
 
         assertThat(actualJudgments, iterableWithSize(1));
 
-
         assertThat(actualJudgments.get(0).getCaseNumbers(), containsListInAnyOrder(givenJudgment.getCaseNumbers()));
     }
+
+
+    @Test
+    public void search__it_should_find_judgments_sorted_by_id_up(){
+        //given
+        List<CommonCourtJudgment> judgments = testJudgmentFactory.createSimpleCcJudgments(true);
+        sortByCaseNumberDown(judgments);
+
+        List<Integer> sortedJudgmentsIds = sort(extractIds(judgments));
+
+
+        JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+        //when
+        SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        List<Judgment> actualJudgments = searchResult.getResultRecords();
+
+        List<Integer> judgmentsIds = actualJudgments.stream()
+                .map(Judgment::getId)
+                .collect(Collectors.toList());
+
+        assertThat(judgmentsIds, is(sortedJudgmentsIds));
+
+    }
+
+    private static List<Integer> extractIds(List<? extends Judgment> judgments){
+        return judgments.stream()
+                .map(Judgment::getId)
+                .collect(Collectors.toList());
+    }
+
+    private static <T extends Comparable<? super T>> List<T> sort(List<T> list){
+        Collections.sort(list);
+        return list;
+    }
+
+    private static void sortByCaseNumberDown(List<? extends Judgment> judgments){
+        judgments.sort( (first, second) ->
+                -first.getCourtCases().get(0).getCaseNumber().compareTo(second.getCourtCases().get(0).getCaseNumber())
+        );
+    }
+
 
     private static <T extends Judgment> List<String> toCaseNumbers(List<T> judgments){
         return judgments.stream().flatMap(j -> j.getCaseNumbers().stream()).collect(Collectors.toList());
