@@ -1,5 +1,10 @@
 package pl.edu.icm.saos.search.search.model;
 
-public interface Criteria {
+/**
+ * Search criteria for {@link SearchService}
+ * 
+ * @author madryk
+ */
+public abstract class Criteria {
 
 }

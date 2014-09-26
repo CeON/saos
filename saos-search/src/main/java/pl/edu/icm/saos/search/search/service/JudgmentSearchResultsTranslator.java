@@ -1,22 +1,23 @@
 package pl.edu.icm.saos.search.search.service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 
-@Component
+@Service
 public class JudgmentSearchResultsTranslator implements SearchResultsTranslator<JudgmentSearchResult> {
 
+    private SolrFieldFetcher<JudgmentIndexField> fieldFetcher;
+    
     @Override
     public SearchResults<JudgmentSearchResult> translate(QueryResponse response) {
         SolrDocumentList documents = response.getResults();
@@ -38,61 +39,40 @@ public class JudgmentSearchResultsTranslator implements SearchResultsTranslator<
     protected JudgmentSearchResult translateSingle(SolrDocument document) {
         JudgmentSearchResult result = new JudgmentSearchResult();
         
-        String databaseId = fetchValue(document, JudgmentIndexField.DATABASE_ID);
+        String databaseId = fieldFetcher.fetchValue(document, JudgmentIndexField.DATABASE_ID);
         result.setId(databaseId);
-        List<String> caseNumbers = fetchValues(document, JudgmentIndexField.CASE_NUMBER);
+        List<String> caseNumbers = fieldFetcher.fetchValues(document, JudgmentIndexField.CASE_NUMBER);
         result.setCaseNumbers(caseNumbers);
         
-        String judgmentType = fetchValue(document, JudgmentIndexField.JUDGMENT_TYPE);
+        String judgmentType = fieldFetcher.fetchValue(document, JudgmentIndexField.JUDGMENT_TYPE);
         result.setJudgmentType(judgmentType);
         
-        Date judgmentDate = fetchDateValue(document, JudgmentIndexField.JUDGMENT_DATE);
+        Date judgmentDate = fieldFetcher.fetchDateValue(document, JudgmentIndexField.JUDGMENT_DATE);
         result.setJudgmentDate(judgmentDate);
         
-        String court = fetchValue(document, JudgmentIndexField.COURT_NAME);
-        String courtDivision = fetchValue(document, JudgmentIndexField.COURT_DIVISION_NAME);
+        String court = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_NAME);
+        String courtDivision = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_DIVISION_NAME);
         result.setCourtName(court);
         result.setCourtDivisionName(courtDivision);
         
-        List<String> judges = fetchValues(document, JudgmentIndexField.JUDGE);
+        List<String> judges = fieldFetcher.fetchValues(document, JudgmentIndexField.JUDGE);
         result.setJudges(judges);
         
-        List<String> keywords = fetchValues(document, JudgmentIndexField.KEYWORD);
+        List<String> keywords = fieldFetcher.fetchValues(document, JudgmentIndexField.KEYWORD);
         result.setKeywords(keywords);
         
-        String content = fetchValue(document, JudgmentIndexField.CONTENT);
+        String content = fieldFetcher.fetchValue(document, JudgmentIndexField.CONTENT);
         result.setContent(content);
         
         return result;
     }
+
     
-    private String fetchValue(SolrDocument doc, JudgmentIndexField field) {
-        Object value = doc.getFirstValue(field.getFieldName());
-        if (value == null) {
-            return null;
-        }
-        return (String) value;
-    }
+    //------------------------ SETTERS --------------------------
     
-    private Date fetchDateValue(SolrDocument doc, JudgmentIndexField field) {
-        Object value = doc.getFirstValue(field.getFieldName());
-        if (value == null) {
-            return null;
-        }
-        return (Date) value;
-    }
-    
-    private List<String> fetchValues(SolrDocument doc, JudgmentIndexField field) {
-        Collection<Object> values = doc.getFieldValues(field.getFieldName());
-        List<String> valuesList = new ArrayList<String>();
-        
-        if (values == null) {
-            return valuesList;
-        }
-        for (Object val : values) {
-            valuesList.add((String) val);
-        }
-        return valuesList;
+    @Autowired
+    public void setFieldFetcher(SolrFieldFetcher<JudgmentIndexField> fieldFetcher) {
+        this.fieldFetcher = fieldFetcher;
     }
 
 }

@@ -12,9 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class JudgmentIndexingWriter implements ItemWriter<SolrInputDocument> {
 
-    @Autowired
-    @Qualifier("solrJudgmentsServer")
     private SolrServer solrServer;
+    
     
     @Override
     public void write(List<? extends SolrInputDocument> items) throws Exception {
@@ -22,6 +21,15 @@ public class JudgmentIndexingWriter implements ItemWriter<SolrInputDocument> {
             solrServer.add(item);
         }
         solrServer.commit();
+    }
+
+    
+    //------------------------ SETTERS --------------------------
+    
+    @Autowired
+    @Qualifier("solrJudgmentsServer")
+    public void setSolrServer(SolrServer solrServer) {
+        this.solrServer = solrServer;
     }
 
 }

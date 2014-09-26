@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.util.ClientUtils;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
@@ -16,7 +16,7 @@ import pl.edu.icm.saos.search.search.model.Sorting.Direction;
 import pl.edu.icm.saos.search.util.SearchDateTimeUtils;
 import pl.edu.icm.saos.search.util.SolrConstants;
 
-@Component
+@Service
 public class JudgmentSearchQueryFactory implements SearchQueryFactory<JudgmentCriteria> {
 
     @Override
@@ -38,7 +38,10 @@ public class JudgmentSearchQueryFactory implements SearchQueryFactory<JudgmentCr
         return query;
     }
     
-    protected String transformCriteria(JudgmentCriteria criteria) {
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private String transformCriteria(JudgmentCriteria criteria) {
         StringBuilder sb = new StringBuilder();
         sb.append(transformSingleCriterion(JudgmentIndexField.CONTENT, criteria.getAll()));
         sb.append(transformSingleCriterion(JudgmentIndexField.COURT_ID, criteria.getCourtId()));
@@ -88,7 +91,7 @@ public class JudgmentSearchQueryFactory implements SearchQueryFactory<JudgmentCr
     
     
     
-    protected void applyPaging(SolrQuery query, Paging paging) {
+    private void applyPaging(SolrQuery query, Paging paging) {
         if (paging == null) {
             return;
         }
@@ -96,7 +99,7 @@ public class JudgmentSearchQueryFactory implements SearchQueryFactory<JudgmentCr
         query.setRows(paging.getPageSize());
     }
     
-    protected void applySorting(SolrQuery query, Sorting sorting) {
+    private void applySorting(SolrQuery query, Sorting sorting) {
         if (sorting == null || StringUtils.isBlank(sorting.getFieldName())) {
             return;
         }

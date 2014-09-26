@@ -17,6 +17,9 @@ public class Sorting {
         this.direction = direction;
     }
 
+    
+    //------------------------ GETTERS --------------------------
+    
     public String getFieldName() {
         return fieldName;
     }
@@ -24,6 +27,9 @@ public class Sorting {
     public Direction getDirection() {
         return direction;
     }
+    
+    
+    //------------------------ HELPER --------------------------
     
     public static Sorting relevanceSorting() {
         return new Sorting(SolrConstants.RELEVANCE_SORT_NAME, Direction.DESC);

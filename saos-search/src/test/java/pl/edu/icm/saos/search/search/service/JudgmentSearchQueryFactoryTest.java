@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.search.service;
+package pl.edu.icm.saos.search.search.service;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -12,6 +12,9 @@ import pl.edu.icm.saos.search.search.model.Paging;
 import pl.edu.icm.saos.search.search.model.Sorting;
 import pl.edu.icm.saos.search.search.service.JudgmentSearchQueryFactory;
 
+/**
+ * @author madryk
+ */
 public class JudgmentSearchQueryFactoryTest {
 
     private final static Date FIRST_DATE = new Date(1396310400000L); // 2014-04-01
