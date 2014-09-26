@@ -1,6 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
+<script type="text/javascript" >
+$(document).ready(function() {
+	$("#select-court").courtDivisionSelect({
+		divisionId: "select-division",
+		divisionUrl: contextPath + "/search/division/"
+	});	
+});
+</script>
+
 <form:form id="searchForm" class="form-horizontal" role="form" modelAttribute="judgmentCriteriaForm" action="${contextPath}/results" method="GET">
 
 <div class="container search-form block">
@@ -35,15 +44,9 @@
 			    </div>
 		    </div>
 		    
-		    <saosSearch:courtSelect items="${courts}" selectedCourt="${judgmentCriteriaForm.courtId }" path="courtId" labelName="input-search-court" labelText="search.field.court" />
+		    <saosSearch:courtSelect items="${courts}" selectedItem="${judgmentCriteriaForm.courtId }" path="courtId" id="select-court" labelName="input-search-court" labelText="search.field.court" />
 		    
-		    <%--
-		    <saos:formFieldText path="courtName" labelName="input-search-court" labelText="search.field.court" />
-			 
-
-		    <saos:formFieldText path="courtId" labelName="input-search-division" labelText="search.field.division" />
-		    
-		    --%>
+		    <saosSearch:courtSelect items="${divisions}" selectedItem="${judgmentCriteriaForm.divisionId }" path="divisionId" id="select-division" labelName="input-search-division" labelText="search.field.division" />
 		    
 		    <div class="form-group">
 		    	<label for="input-search-all" class="col-sm-2 control-label"><spring:message code="search.field.judgmenttype" />:</label>

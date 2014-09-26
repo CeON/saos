@@ -1,5 +1,9 @@
+/*
+ * @author Łukasz Pawełczak
+ */
 var SearchFilters = {
 		
+		pageSize: "#searchPageSize",
 		sorting: "#searchSorting",
 		direction: "#searchSortingDirection",
 		form: "#searchForm",
@@ -10,7 +14,7 @@ var SearchFilters = {
 		},
 		
 		assigPageSize: function() {
-			$("#searchPageSize").change(function() {
+			$(SearchFilters.pageSize).change(function() {
 				SearchFilters.submitForm();
 			});
 		},

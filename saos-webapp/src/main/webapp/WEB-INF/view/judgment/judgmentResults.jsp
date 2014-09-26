@@ -24,3 +24,5 @@
 	</c:if>
 
 </div>
+
+<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
