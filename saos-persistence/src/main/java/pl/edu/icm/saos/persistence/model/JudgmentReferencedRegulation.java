@@ -83,7 +83,7 @@ public class JudgmentReferencedRegulation extends DataObject {
     
     @Override
     public String toString() {
-        return "ReferencedRegulation [judgment=" + judgment + ", rawText="
+        return "ReferencedRegulation [rawText="
                 + rawText + ", lawJournalEntry=" + lawJournalEntry + ", id="
                 + id + "]";
     }

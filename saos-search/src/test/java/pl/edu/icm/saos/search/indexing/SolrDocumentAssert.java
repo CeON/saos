@@ -1,7 +1,6 @@
 package pl.edu.icm.saos.search.indexing;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,16 +37,20 @@ public class SolrDocumentAssert {
         assertEquals(fieldValue, field.getValue());
     }
     
+    public static void assertFieldValues(SolrInputDocument doc, String fieldName, Collection<String> fieldValues) {
+        assertFieldValues(doc, fieldName, fieldValues.toArray(new String[] { }));
+    }
+    
     public static void assertFieldValues(SolrInputDocument doc, String fieldName, String ... fieldValues) {
         Collection<String> fieldNames = doc.getFieldNames();
         
-        assertTrue(fieldNames.contains(fieldName));
+        assertTrue("Document doesn't contain field with name " + fieldName, fieldNames.contains(fieldName));
         
         SolrInputField field = doc.getField(fieldName);
         assertEquals(fieldValues.length, field.getValueCount());
         Collection<Object> values = field.getValues();
         for (String expectedVal : fieldValues) {
-            assertTrue(values.contains(expectedVal));
+            assertTrue("Field with name " + fieldName + " doesn't contain value " + expectedVal, values.contains(expectedVal));
         }
     }
 

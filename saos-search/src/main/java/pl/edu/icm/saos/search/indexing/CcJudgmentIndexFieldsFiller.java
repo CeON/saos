@@ -20,13 +20,16 @@ public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller<Commo
         fillCourt(doc, judgment);
     }
     
-    protected void fillKeywords(SolrInputDocument doc, CommonCourtJudgment item) {
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private void fillKeywords(SolrInputDocument doc, CommonCourtJudgment item) {
         for (CcJudgmentKeyword keyword : item.getKeywords()) {
             fieldAdder.addField(doc, JudgmentIndexField.KEYWORD, keyword.getPhrase());
         }
     }
 
-    protected void fillCourt(SolrInputDocument doc, CommonCourtJudgment item) {
+    private void fillCourt(SolrInputDocument doc, CommonCourtJudgment item) {
         if (item.getCourtDivision() == null) {
             return;
         }

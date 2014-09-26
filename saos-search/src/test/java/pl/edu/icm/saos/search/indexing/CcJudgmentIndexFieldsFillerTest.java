@@ -40,7 +40,7 @@ public class CcJudgmentIndexFieldsFillerTest {
         CommonCourtJudgment ccJudgment = createCommonCourtJudgment(1, null, Lists.newArrayList(firstKeyword, secondKeyword));
         
         SolrInputDocument doc = new SolrInputDocument();
-        ccJudgmentIndexingProcessor.fillKeywords(doc, ccJudgment);
+        ccJudgmentIndexingProcessor.fillFields(doc, ccJudgment);
         
         assertFieldValues(doc, "keyword", "some keyword", "some other keyword");
     }
@@ -52,7 +52,7 @@ public class CcJudgmentIndexFieldsFillerTest {
         CommonCourtJudgment ccJudgment = createCommonCourtJudgment(1, ccDivision, Lists.newArrayList());
         
         SolrInputDocument doc = new SolrInputDocument();
-        ccJudgmentIndexingProcessor.fillCourt(doc, ccJudgment);
+        ccJudgmentIndexingProcessor.fillFields(doc, ccJudgment);
         
         
         assertFieldValue(doc, "courtType", "APPEAL");
