@@ -1,10 +1,9 @@
 package pl.edu.icm.saos.webapp.division;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Pawełczak
@@ -20,13 +19,9 @@ public final class SimpleDivisionConverter {
 	}
 	
 	public static List<SimpleDivision> convertDivisions(List<CommonCourtDivision> ccDivisions) {
-		List<SimpleDivision> simpleDivisions = Lists.newArrayList();
-		
-		for (CommonCourtDivision ccDivision : ccDivisions) {
-			simpleDivisions.add(convert(ccDivision));
-		}
-		
-		return simpleDivisions;
+		return ccDivisions.stream()
+			.map(ccDivision -> convert(ccDivision))
+			.collect(Collectors.toList());
 	}
 	
 	
