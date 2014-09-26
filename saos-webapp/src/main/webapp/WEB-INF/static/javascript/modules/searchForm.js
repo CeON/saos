@@ -1,3 +1,6 @@
+/*
+ * @author Łukasz Pawełczak
+ */
 var SearchForm = {
 
 	buttonMore: "#search-more-fields",

@@ -24,6 +24,7 @@ public class JudgmentCriteriaForm {
     
     private String courtId;
     private String courtName;
+    private String divisionId;
     
     private String judgeName;
     
@@ -54,6 +55,10 @@ public class JudgmentCriteriaForm {
 	
 	public String getCourtName() {
 		return courtName;
+	}
+	
+	public String getDivisionId() {
+		return divisionId;
 	}
 	
 	public String getJudgeName() {
@@ -97,6 +102,10 @@ public class JudgmentCriteriaForm {
 	public void setCourtName(String courtName) {
 		this.courtName = courtName;
 	}
+	
+	public void setDivisionId(String divisionId) {
+		this.divisionId = divisionId;
+	}
 
 	public void setJudgeName(String judgeName) {
 		this.judgeName = judgeName;
@@ -113,6 +122,7 @@ public class JudgmentCriteriaForm {
 	public void setReferencedRegulation(String referencedRegulation) {
 		this.referencedRegulation = referencedRegulation;
 	}
+
 
         
 }
