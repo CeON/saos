@@ -2,6 +2,7 @@ package pl.edu.icm.saos.persistence.search.implementor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
@@ -54,10 +55,10 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
         initializeCourtReporters(judgmentIds);
         initializeLegalBases(judgmentIds);
         initializeReferencedRegulationsAndTheirLawJournalEntries(judgmentIds, searchResult);
+
+        initializeCommonCourtKeywords(judgmentIds);
+
     }
-
-
-
 
     //------------------------ PRIVATE --------------------------
 
@@ -83,6 +84,10 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
         if(!regulationsIds.isEmpty()){
             setIdsParameterAndExecuteQuery(lawJournalEntriesQuery(), extractReferencedRegulationsIds(searchResult));
         }
+    }
+
+    private void initializeCommonCourtKeywords(List<Integer> judgmentIds) {
+        setIdsParameterAndExecuteQuery(commonCourtsKeywordsQuery(), judgmentIds);
     }
 
 
@@ -120,12 +125,19 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
         return jpql.toString();
     }
 
+    private String commonCourtsKeywordsQuery(){
+        StringBuilder jpql = new StringBuilder(" select judgment from "+ CommonCourtJudgment.class.getName()+" judgment join fetch judgment.keywords_ keyword where judgment.id in (:ids)");
+        return jpql.toString();
+    }
+
     private void setIdsParameterAndExecuteQuery(String query, List<Integer> ids){
         Query queryObject = entityManager.createQuery(query);
         queryObject.setParameter("ids", ids);
 
         queryObject.getResultList();
     }
+
+
 
     
     private List<Integer> extractJudgmentIds(SearchResult<Judgment> searchResult) {

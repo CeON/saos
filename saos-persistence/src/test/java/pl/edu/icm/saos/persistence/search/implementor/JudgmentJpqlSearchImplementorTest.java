@@ -1,12 +1,8 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
 import org.joda.time.LocalDate;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -32,13 +28,7 @@ import static org.hamcrest.Matchers.*;
  */
 @Category(SlowTest.class)
 public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
-
-    @Before
-    public void setUp(){
-        Logger hib = (Logger) LoggerFactory.getLogger("org.hibernate");
-        hib.setLevel(Level.ALL);
-    }
-
+    
 
     @Autowired
     private TestJudgmentFactory testJudgmentFactory;
@@ -51,7 +41,6 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         //given
         CommonCourtJudgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
-//                .initialize()
                 .filter();
 
         //when
@@ -75,7 +64,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         assertThat("judges", actualJudgment.getJudges(), containsListInAnyOrder(ccJudgment.getJudges()));
 
         //TODO keywords to new "search list"
-//        assertThat("keywords", actualJudgment.getKeywords(), containsListInAnyOrder(ccJudgment.getKeywords()));
+        assertThat("keywords", actualJudgment.getKeywords(), containsListInAnyOrder(ccJudgment.getKeywords()));
 
 
         assertThat("court reporters", actualJudgment.getCourtReporters(), containsListInAnyOrder(ccJudgment.getCourtReporters()));
