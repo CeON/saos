@@ -1,32 +1,93 @@
 package pl.edu.icm.saos.search.indexing;
 
-import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValue;
 import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.test.util.ReflectionTestUtils;
+import org.junit.runner.RunWith;
 
+import pl.edu.icm.saos.persistence.builder.BuildersFactory;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.search.StringListMap;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 import com.google.common.collect.Lists;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 /**
  * @author madryk
  */
+@RunWith(DataProviderRunner.class)
 public class CcJudgmentIndexFieldsFillerTest {
 
     private CcJudgmentIndexFieldsFiller ccJudgmentIndexingProcessor = new CcJudgmentIndexFieldsFiller();
     
     private SolrFieldAdder<JudgmentIndexField> fieldAdder = new SolrFieldAdder<JudgmentIndexField>();
+    
+    @DataProvider
+    public static Object[][] ccJudgmentsFieldsData() {
+        
+        // basic
+        CommonCourtJudgment basicJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
+                .textContent("some content")
+                .build();
+        Map<String, List<String>> basicFields = StringListMap.of(new String[][] {
+                { "databaseId", "1" },
+                { "content", "some content" }
+        });
+        
+        
+        // keywords
+        CcJudgmentKeyword firstKeyword = new CcJudgmentKeyword("some keyword");
+        CcJudgmentKeyword secondKeyword = new CcJudgmentKeyword("some other keyword");
+        CommonCourtJudgment keywordsJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
+                .keywords(Lists.newArrayList(firstKeyword, secondKeyword))
+                .build();
+        Map<String, List<String>> keywordsFields = StringListMap.of(new String[][] {
+                { "keyword", "some keyword", "some other keyword" },
+        });
+        System.out.println(keywordsFields);
+        
+        
+        // common court
+        CommonCourt commonCourt = BuildersFactory.commonCourt(1)
+                .code("15200000")
+                .name("Sąd Apelacyjny w Krakowie")
+                .type(CommonCourtType.APPEAL)
+                .build();
+        CommonCourtDivision commonCourtDivision = BuildersFactory.commonCourtDivision(1)
+                .code("0000503")
+                .name("I Wydział Cywilny")
+                .court(commonCourt)
+                .build();
+        CommonCourtJudgment commonCourtJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
+                .division(commonCourtDivision)
+                .build();
+        Map<String, List<String>> commonCourtFields = StringListMap.of(new String[][] {
+                { "courtType", "APPEAL" },
+                { "courtId", "15200000" },
+                { "courtName", "Sąd Apelacyjny w Krakowie" },
+                { "courtDivisionId", "0000503" },
+                { "courtDivisionName", "I Wydział Cywilny" },
+        });
+        
+        
+        return new Object[][] {
+                { basicJudgment, basicFields },
+                { keywordsJudgment, keywordsFields },
+                { commonCourtJudgment, commonCourtFields },
+        };
+    }
     
     @Before
     public void setUp() {
@@ -34,94 +95,12 @@ public class CcJudgmentIndexFieldsFillerTest {
     }
     
     @Test
-    public void fillKeywords() {
-        CcJudgmentKeyword firstKeyword = new CcJudgmentKeyword("some keyword");
-        CcJudgmentKeyword secondKeyword = new CcJudgmentKeyword("some other keyword");
-        CommonCourtJudgment ccJudgment = createCommonCourtJudgment(1, null, Lists.newArrayList(firstKeyword, secondKeyword));
-        
+    @UseDataProvider("ccJudgmentsFieldsData")
+    public void fillFields(CommonCourtJudgment givenJudgment, Map<String, List<String>> expectedFields) {
         SolrInputDocument doc = new SolrInputDocument();
-        ccJudgmentIndexingProcessor.fillFields(doc, ccJudgment);
+        ccJudgmentIndexingProcessor.fillFields(doc, givenJudgment);
         
-        assertFieldValues(doc, "keyword", "some keyword", "some other keyword");
+        expectedFields.forEach((fieldName, fieldValues) -> assertFieldValues(doc, fieldName, fieldValues)); 
     }
-    
-    @Test
-    public void fillCourt() {
-        CommonCourt commonCourt = createCommonCourt(1, "15200000", "Sąd Apelacyjny w Krakowie", CommonCourtType.APPEAL);
-        CommonCourtDivision ccDivision = createCommonCourtDivision(1, "0000503", "I Wydział Cywilny", commonCourt);
-        CommonCourtJudgment ccJudgment = createCommonCourtJudgment(1, ccDivision, Lists.newArrayList());
-        
-        SolrInputDocument doc = new SolrInputDocument();
-        ccJudgmentIndexingProcessor.fillFields(doc, ccJudgment);
-        
-        
-        assertFieldValue(doc, "courtType", "APPEAL");
 
-        assertFieldValue(doc, "courtId", "15200000");
-        assertFieldValue(doc, "courtName", "Sąd Apelacyjny w Krakowie");
-
-        assertFieldValue(doc, "courtDivisionId", "0000503");
-        assertFieldValue(doc, "courtDivisionName", "I Wydział Cywilny");
-    }
-    
-    @Test
-    public void fillFields() {
-        CommonCourt commonCourt = createCommonCourt(1, "15200000", "Sąd Apelacyjny w Krakowie", CommonCourtType.APPEAL);
-        CommonCourtDivision ccDivision = createCommonCourtDivision(1, "0000503", "I Wydział Cywilny", commonCourt);
-        CcJudgmentKeyword firstKeyword = new CcJudgmentKeyword("some keyword");
-        
-        CommonCourtJudgment ccJudgment = createCommonCourtJudgment(1, ccDivision, Lists.newArrayList(firstKeyword));
-        
-        
-        SolrInputDocument doc = new SolrInputDocument();
-        ccJudgmentIndexingProcessor.fillFields(doc, ccJudgment);
-        
-        
-        assertFieldValues(doc, "keyword", "some keyword");
-        
-        assertFieldValue(doc, "courtType", "APPEAL");
-
-        assertFieldValue(doc, "courtId", "15200000");
-        assertFieldValue(doc, "courtName", "Sąd Apelacyjny w Krakowie");
-
-        assertFieldValue(doc, "courtDivisionId", "0000503");
-        assertFieldValue(doc, "courtDivisionName", "I Wydział Cywilny");
-    }
-    
-    
-    //------------------------ PRIVATE --------------------------
-    
-    private CommonCourt createCommonCourt(int id, String code, String name, CommonCourtType type) {
-        CommonCourt commonCourt = new CommonCourt();
-        
-        ReflectionTestUtils.setField(commonCourt, "id", id);
-        commonCourt.setCode(code);
-        commonCourt.setName(name);
-        commonCourt.setType(type);
-        
-        return commonCourt;
-    }
-    
-    private CommonCourtDivision createCommonCourtDivision(int id, String code, String name, CommonCourt commonCourt) {
-        CommonCourtDivision ccDivision = new CommonCourtDivision();
-        
-        ReflectionTestUtils.setField(ccDivision, "id", id);
-        ccDivision.setCode(code);
-        ccDivision.setName(name);
-        ccDivision.setCourt(commonCourt);
-        
-        return ccDivision;
-    }
-    
-    private CommonCourtJudgment createCommonCourtJudgment(int id, CommonCourtDivision division, List<CcJudgmentKeyword> keywords) {
-        CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
-        
-        ReflectionTestUtils.setField(ccJudgment, "id", id);
-        for (CcJudgmentKeyword keyword : keywords) {
-            ccJudgment.addKeyword(keyword);
-        }
-        ccJudgment.setCourtDivision(division);
-        
-        return ccJudgment;
-    }
 }
