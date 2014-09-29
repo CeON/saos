@@ -75,14 +75,6 @@ public abstract class DatabaseSearchFilter<D extends DataObject> extends SearchF
             return self();
         }
 
-        /**
-         * Requests that the result objects should be initialized before returning it to client.
-         * @return this builder
-         */
-        public B initialize() {
-            instance.setInitialize(true);
-            return self();
-        }
 
         /**
          * Requests that the results are sorted in ascending order on the values of the specified property.
