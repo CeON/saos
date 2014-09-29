@@ -9,7 +9,6 @@ import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
  * @author Łukasz Pawełczak
  */
 public final class SimpleDivisionConverter {
-
 	
 	public static SimpleDivision convert(CommonCourtDivision commonCourtDivision) {
 		SimpleDivision simpleDivision = new SimpleDivision();
@@ -23,6 +22,5 @@ public final class SimpleDivisionConverter {
 			.map(ccDivision -> convert(ccDivision))
 			.collect(Collectors.toList());
 	}
-	
-	
+
 }

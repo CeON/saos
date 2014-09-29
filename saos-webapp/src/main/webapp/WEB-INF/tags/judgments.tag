@@ -36,12 +36,6 @@
 				</c:if>
 			</div>
 			
-			<%--
-			<div class="col-md-4">
-				<div class="accuracy" >99%</div>
-			</div>
-			 --%>
-			
 		</div>
 		
 		<div class="row">

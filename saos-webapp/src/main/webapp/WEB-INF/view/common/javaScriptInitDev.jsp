@@ -17,6 +17,6 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/searchForm.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/searchFilters.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/courtDivisionSelect.js"></script>
-
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/search/settingsToolTip.js"></script>
  
 <script type="text/javascript" src="${contextPath}/static/javascript/saos-common.js"></script>
