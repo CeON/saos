@@ -24,12 +24,11 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
 
     private static Logger log = LoggerFactory.getLogger(JudgmentIndexingReader.class);
 
-    @Autowired
     private JudgmentRepository judgmentRepository;
     
     private int pageSize = 20;
     private int pageNo = 0;
-    private Queue<Judgment> judgments;
+    private Queue<Judgment> judgments = Lists.newLinkedList();
     
     @Override
     public void open(ExecutionContext executionContext)
@@ -62,6 +61,14 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
 
     @Override
     public void close() throws ItemStreamException {
+    }
+
+    
+    //------------------------ SETTERS --------------------------
+    
+    @Autowired
+    public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
+        this.judgmentRepository = judgmentRepository;
     }
 
 }

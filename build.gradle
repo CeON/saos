@@ -72,6 +72,7 @@ subprojects {
         'org.powermock:powermock-module-junit4' :'org.powermock:powermock-module-junit4:1.5.5',
         'com.googlecode.catch-exception:catch-exception':'com.googlecode.catch-exception:catch-exception:1.2.0',
         'org.assertj:assertj-core':'org.assertj:assertj-core:1.6.1',
+        'com.tngtech.java:junit-dataprovider':'com.tngtech.java:junit-dataprovider:1.9.2',
         
         'org.springframework.hateoas' : 'org.springframework.hateoas:spring-hateoas:0.15.0.RELEASE',
         'com.fasterxml.jackson.core:jackson-core' : 'com.fasterxml.jackson.core:jackson-core:2.4.1',
@@ -98,6 +99,7 @@ subprojects {
         testCompile lib.'org.hamcrest:hamcrest-library'
         testCompile lib.'com.googlecode.catch-exception:catch-exception'
         testCompile lib.'org.assertj:assertj-core'
+        testCompile lib.'com.tngtech.java:junit-dataprovider'
         compile lib.'com.google.guava:guava'
         compile lib.'commons-collections:commons-collections'
         compile lib.'org.slf4j:slf4j-api'

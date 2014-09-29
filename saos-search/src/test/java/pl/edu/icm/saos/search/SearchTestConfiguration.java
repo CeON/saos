@@ -1,11 +1,16 @@
 package pl.edu.icm.saos.search;
 
 import java.io.IOException;
+import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.apache.solr.core.ConfigSolr;
 import org.apache.solr.core.CoreContainer;
+import org.apache.solr.core.SolrResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
@@ -13,10 +18,12 @@ import org.springframework.core.io.ClassPathResource;
 
 import pl.edu.icm.saos.common.CommonTestConfiguration;
 import pl.edu.icm.saos.persistence.PersistenceConfiguration;
-import pl.edu.icm.saos.search.config.CoreContainerFactory;
-import pl.edu.icm.saos.search.config.EmbeddedSolrIndexReloader;
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
+import pl.edu.icm.saos.search.config.model.SolrConfigurationException;
+import pl.edu.icm.saos.search.config.service.EmbeddedSolrIndexReloader;
 import pl.edu.icm.saos.search.config.service.IndexReloader;
+import pl.edu.icm.saos.search.config.service.SolrIndexReloader;
+import pl.edu.icm.saos.search.util.SolrConstants;
 
 /**
  * @author madryk
@@ -30,23 +37,49 @@ public class SearchTestConfiguration extends CommonTestConfiguration {
     private Environment environment;
 
     @Bean
-    public SolrServer solrServer() {
-        return null;
+    @Autowired
+    public SolrServer solrServer(CoreContainer coreContainer) {
+        
+        EmbeddedSolrServer solrServer = new EmbeddedSolrServer(coreContainer, "admin");
+        return solrServer;
+    }
+    
+    @Bean
+    public CoreContainer coreContainer() {
+        CoreContainer coreContainer;
+        ClassPathResource solrConfFile = new ClassPathResource(CONF_BASE_CLASSPATH + "/" + SolrConstants.SOLR_CONFIG_FILENAME);
+        String solrHome = environment.getProperty("solr.index.configuration.home");
+        
+        SolrResourceLoader loader = new SolrResourceLoader(solrHome);
+        
+        try (InputStream solrConfStream = solrConfFile.getInputStream()) {
+            ConfigSolr cs = ConfigSolr.fromInputStream(loader, solrConfStream);
+            coreContainer = new CoreContainer(loader, cs);
+        } catch (IOException e) {
+            IOUtils.closeQuietly(loader);
+            throw new SolrConfigurationException("Unable to read solr.xml file", e);
+        }
+        
+        return coreContainer;
     }
 
     @Bean
     @Autowired
-    public IndexReloader indexReloader(CoreContainerFactory coreContainerFactory) throws IOException {
-        EmbeddedSolrIndexReloader indexReloader = new EmbeddedSolrIndexReloader();
-        indexReloader.setCoreContainer(coreContainerFactory.fetchCoreContainer());
-        return indexReloader;
+    public IndexReloader indexReloader(CoreContainer coreContainer, @Qualifier("solrServer") SolrServer solrServer) {
+//        EmbeddedSolrIndexReloader indexReloader = new EmbeddedSolrIndexReloader();
+//        indexReloader.setCoreContainer(coreContainer);
+        
+        SolrIndexReloader sir = new SolrIndexReloader();
+        sir.setSolrServer(solrServer);
+        return sir;
+        
+//        return indexReloader;
     }
 
     @Bean
     @Autowired
-    public SolrServer solrJudgmentsServer(CoreContainerFactory coreContainerFactory) throws IOException {
+    public SolrServer solrJudgmentsServer(CoreContainer coreContainer) {
         IndexConfiguration judgmentsConfiguration = judgmentsIndexConfiguration();
-        CoreContainer coreContainer = coreContainerFactory.fetchCoreContainer();
         EmbeddedSolrServer solrServer = new EmbeddedSolrServer(coreContainer, judgmentsConfiguration.getName());
         return solrServer;
     }

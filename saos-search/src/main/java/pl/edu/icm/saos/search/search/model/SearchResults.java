@@ -9,10 +9,14 @@ public class SearchResults<S extends Searchable> {
     
     private long totalResults;
 
+    
+    //------------------------ LOGIC --------------------------
 
     public void addResult(S result) {
         results.add(result);
     }
+    
+    //------------------------ GETTERS --------------------------
     
     public List<S> getResults() {
         return results;
@@ -22,6 +26,9 @@ public class SearchResults<S extends Searchable> {
         return totalResults;
     }
 
+    
+    //------------------------ SETTERS --------------------------
+    
     public void setTotalResults(long totalResults) {
         this.totalResults = totalResults;
     }

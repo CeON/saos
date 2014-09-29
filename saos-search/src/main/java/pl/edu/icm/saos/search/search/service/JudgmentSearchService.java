@@ -27,10 +27,10 @@ public class JudgmentSearchService implements SearchService<JudgmentSearchResult
     private JudgmentSearchResultsTranslator resultsTranslator;
 
     @Override
-    public SearchResults<JudgmentSearchResult> search(JudgmentCriteria query,
+    public SearchResults<JudgmentSearchResult> search(JudgmentCriteria criteria,
             Paging paging) {
 
-        SolrQuery solrQuery = queryFactory.createQuery(query, paging);
+        SolrQuery solrQuery = queryFactory.createQuery(criteria, paging);
         
         QueryResponse response = null;
         try {

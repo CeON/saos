@@ -7,6 +7,8 @@ import org.springframework.core.io.Resource;
 
 
 /**
+ * Informations about index configuration
+ * 
  * @author madryk
  */
 public class IndexConfiguration {
@@ -22,20 +24,21 @@ public class IndexConfiguration {
     private List<Resource> configurationFiles = new LinkedList<>();
 
 
+    //------------------------ LOGIC --------------------------
+    
+    public void addConfigurationFile(Resource configurationFile) {
+        configurationFiles.add(configurationFile);
+    }
+    
+    
+    //------------------------ GETTERS --------------------------
+    
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getInstanceDir() {
         return instanceDir;
-    }
-
-    public void setInstanceDir(String instanceDir) {
-        this.instanceDir = instanceDir;
     }
 
     public boolean isCreateIndexPropertyFile() {
@@ -46,6 +49,21 @@ public class IndexConfiguration {
         return persistent;
     }
 
+    public List<Resource> getConfigurationFiles() {
+        return configurationFiles;
+    }
+
+
+    //------------------------ SETTERS --------------------------
+    
+    public void setName(String name) {
+        this.name = name;
+    }
+    
+    public void setInstanceDir(String instanceDir) {
+        this.instanceDir = instanceDir;
+    }
+    
     public void setPersistent(boolean persistent) {
         this.persistent = persistent;
     }
@@ -53,17 +71,8 @@ public class IndexConfiguration {
     public void setCreateIndexPropertyFile(boolean createIndexPropertyFile) {
         this.createIndexPropertyFile = createIndexPropertyFile;
     }
-
-    public void addConfigurationFile(Resource configurationFile) {
-        configurationFiles.add(configurationFile);
-    }
-
-    public List<Resource> getConfigurationFiles() {
-        return configurationFiles;
-    }
-
+    
     public void setConfigurationFiles(List<Resource> configurationFiles) {
         this.configurationFiles = configurationFiles;
     }
-
 }

@@ -46,10 +46,29 @@ public class CommonCourtJudgmentBuilder {
         return this;
     }
 
+    public CommonCourtJudgmentBuilder referencedRegulations(List<JudgmentReferencedRegulation> referencedRegulations) {
+        referencedRegulations.stream()
+                .forEach(element::addReferencedRegulation);
+
+        return this;
+    }
+
+    public CommonCourtJudgmentBuilder legalBases(List<String> legalBases) {
+        legalBases.stream()
+                .forEach(element::addLegalBase);
+
+        return this;
+    }
+
     public CommonCourtJudgmentBuilder keywords(List<CcJudgmentKeyword> keywords){
         keywords.stream()
                 .forEach(element::addKeyword);
 
+        return this;
+    }
+
+    public CommonCourtJudgmentBuilder textContent(String textContent) {
+        element.setTextContent(textContent);
         return this;
     }
 

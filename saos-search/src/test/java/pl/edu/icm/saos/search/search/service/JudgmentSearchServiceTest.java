@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.search.service;
+package pl.edu.icm.saos.search.search.service;
 
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -12,6 +12,9 @@ import pl.edu.icm.saos.search.SearchTestConfiguration;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.service.JudgmentSearchService;
 
+/**
+ * @author madryk
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={ SearchTestConfiguration.class })
 @Category(SlowTest.class)
@@ -22,6 +25,6 @@ public class JudgmentSearchServiceTest {
     
     @Test
     public void shouldSearch() {
-        judgmentSearchService.search(new JudgmentCriteria("sss"), null);
+        judgmentSearchService.search(new JudgmentCriteria(""), null);
     }
 }

@@ -38,7 +38,10 @@ public class SolrIndexReloader implements IndexReloader {
         }
     }
     
-    protected boolean checkIndexExists(IndexConfiguration indexConfiguration) {
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private boolean checkIndexExists(IndexConfiguration indexConfiguration) {
         CoreAdminResponse cores = null;
         
         try {
@@ -54,7 +57,7 @@ public class SolrIndexReloader implements IndexReloader {
         return indexStatus != null;
     }
     
-    protected void reloadIndex(String indexName) {
+    private void reloadIndex(String indexName) {
         log.info("Reloading solr index with name {}", indexName);
         try {
             CoreAdminRequest.reloadCore(indexName, solrServer);
@@ -63,7 +66,7 @@ public class SolrIndexReloader implements IndexReloader {
         }
     }
     
-    protected void createIndex(IndexConfiguration indexConfiguration) {
+    private void createIndex(IndexConfiguration indexConfiguration) {
         log.info("Creating solr index with name {}", indexConfiguration.getName());
         try {
             CoreAdminRequest.createCore(indexConfiguration.getName(), indexConfiguration.getInstanceDir(), solrServer);
@@ -72,6 +75,9 @@ public class SolrIndexReloader implements IndexReloader {
         }
     }
 
+    
+    //------------------------ SETTERS --------------------------
+    
     public void setSolrServer(SolrServer solrServer) {
         this.solrServer = solrServer;
     }
