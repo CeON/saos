@@ -1,6 +1,5 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.download;
 
-import java.nio.charset.Charset;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -14,8 +13,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -79,35 +76,7 @@ class SourceCcjExternalRepository {
         
         return sourceCcJudgmentTextData;
     }
-
-
-
     
-    
-    public static void main(String[] args) {
-        SourceCcjExternalRepository repo = new SourceCcjExternalRepository();
-        repo.setXmlTagContentExtractor(new XmlTagContentExtractor());
-        SourceCcJudgmentUrlFactory sourceCcJudgmentUrlFactory = new SourceCcJudgmentUrlFactory();
-        sourceCcJudgmentUrlFactory.setCcJudgmentListSourceUrl("http://orzeczenia.ms.gov.pl/ncourt-api/judgements");
-        sourceCcJudgmentUrlFactory.setCcJudgmentDetailsSourceUrl("http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details");
-        sourceCcJudgmentUrlFactory.setCcJudgmentContentSourceUrl("http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content");
-        repo.setSourceCcJudgmentUrlFactory(sourceCcJudgmentUrlFactory);
-        RestTemplate restTemplate = new RestTemplate();
-        List<HttpMessageConverter<?>> converters = Lists.newArrayList();
-        converters.add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
-        restTemplate.setMessageConverters(converters);
-        repo.setRestTemplate(restTemplate);
-        //Set<String> judgments = repo.findJudgmentIds(1, new LocalDate("2014-06-04").toDate());
-        //Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
-        //marshaller.setClassesToBeBound(SourceCcJudgment.class);          
-        //repo.setRawCcJudgmentMarshaller(marshaller);
-        //repo.setCcJudgmentDetailsSourceUrl("http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details");
-        SourceCcJudgmentTextData judgment = repo.findJudgment("155000000001521_III_AUa_001639_2011_Uz_2012-01-26_001");
-        System.out.println(judgment.getMetadata() + "\n\n");
-        System.out.println(judgment.getContent());
-        
-    }
-
     
     
     //------------------------ PRIVATE --------------------------
