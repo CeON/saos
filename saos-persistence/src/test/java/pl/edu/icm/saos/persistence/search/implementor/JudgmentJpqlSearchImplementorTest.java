@@ -1,8 +1,12 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.Logger;
 import org.joda.time.LocalDate;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -20,8 +24,6 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.iterableWithSize;
 
 /**
  * Tests integration  between
@@ -30,6 +32,13 @@ import static org.hamcrest.Matchers.iterableWithSize;
  */
 @Category(SlowTest.class)
 public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
+
+    @Before
+    public void setUp(){
+        Logger hib = (Logger) LoggerFactory.getLogger("org.hibernate");
+        hib.setLevel(Level.ALL);
+    }
+
 
     @Autowired
     private TestJudgmentFactory testJudgmentFactory;
