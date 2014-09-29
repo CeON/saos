@@ -63,12 +63,12 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         assertThat("division id ", actualJudgment.getCourtDivision().getId(), is(ccJudgment.getCourtDivision().getId()));
         assertThat("judges", actualJudgment.getJudges(), containsListInAnyOrder(ccJudgment.getJudges()));
 
-        //TODO keywords to new "search list"
         assertThat("keywords", actualJudgment.getKeywords(), containsListInAnyOrder(ccJudgment.getKeywords()));
 
 
         assertThat("court reporters", actualJudgment.getCourtReporters(), containsListInAnyOrder(ccJudgment.getCourtReporters()));
         assertThat("decision" , actualJudgment.getDecision(), is(ccJudgment.getDecision()));
+        assertThat("judges", actualJudgment.getJudges(), containsListInAnyOrder(ccJudgment.getJudges()));
 
 
         //we should use plusDays(1), because of strange conversion:
