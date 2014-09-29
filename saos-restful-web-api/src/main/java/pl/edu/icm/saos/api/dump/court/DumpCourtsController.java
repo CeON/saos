@@ -1,6 +1,5 @@
 package pl.edu.icm.saos.api.dump.court;
 
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,18 +13,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.icm.saos.api.exceptions.WrongRequestParameterException;
 import pl.edu.icm.saos.api.parameters.Pagination;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
-import pl.edu.icm.saos.persistence.common.FieldsNames;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.CommonCourtSearchFilter;
-import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
 import java.util.Map;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.ApiConstants.LIMIT;
+import static pl.edu.icm.saos.api.ApiConstants.OFFSET;
 
 /**
  * @author pavtel
@@ -58,8 +55,6 @@ public class DumpCourtsController {
         CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
                 .limit(pagination.getLimit())
                 .offset(pagination.getOffset())
-                .upBy("id")
-                .initialize()
                 .filter();
 
         SearchResult<CommonCourt> searchResult = databaseSearchService.search(searchFilter);

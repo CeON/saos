@@ -40,7 +40,6 @@ public class CommonCourtJpqlSearchImplementatorTest extends PersistenceTestSuppo
         CommonCourt commonCourt = testJudgmentFactory.createFullCommonCourt(true);
 
         CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
-                .initialize()
                 .filter();
 
         //when

@@ -20,8 +20,6 @@ import java.util.stream.Collectors;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.iterableWithSize;
 
 /**
  * Tests integration  between
@@ -30,6 +28,7 @@ import static org.hamcrest.Matchers.iterableWithSize;
  */
 @Category(SlowTest.class)
 public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
+    
 
     @Autowired
     private TestJudgmentFactory testJudgmentFactory;
@@ -42,7 +41,6 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         //given
         CommonCourtJudgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
-                .initialize()
                 .filter();
 
         //when
@@ -63,10 +61,15 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         assertThat("creation date", actualJudgment.getCreationDate(), is(ccJudgment.getCreationDate()));
         assertThat("division id should be not null", actualJudgment.getCourtDivision().getId(), notNullValue());
         assertThat("division id ", actualJudgment.getCourtDivision().getId(), is(ccJudgment.getCourtDivision().getId()));
+        assertThat("judges", actualJudgment.getJudges(), containsListInAnyOrder(ccJudgment.getJudges()));
+
         assertThat("keywords", actualJudgment.getKeywords(), containsListInAnyOrder(ccJudgment.getKeywords()));
+
+
         assertThat("court reporters", actualJudgment.getCourtReporters(), containsListInAnyOrder(ccJudgment.getCourtReporters()));
         assertThat("decision" , actualJudgment.getDecision(), is(ccJudgment.getDecision()));
         assertThat("judges", actualJudgment.getJudges(), containsListInAnyOrder(ccJudgment.getJudges()));
+
 
         //we should use plusDays(1), because of strange conversion:
         // localDate (without TZ) ->  sql.Date (with TZ) ->  dbs (as yyyy-MM-DD) ->  sql.Date (with TZ) ->  localDate (without TZ)
