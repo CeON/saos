@@ -10,7 +10,6 @@ import org.apache.solr.core.ConfigSolr;
 import org.apache.solr.core.CoreContainer;
 import org.apache.solr.core.SolrResourceLoader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
@@ -22,7 +21,6 @@ import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 import pl.edu.icm.saos.search.config.model.SolrConfigurationException;
 import pl.edu.icm.saos.search.config.service.EmbeddedSolrIndexReloader;
 import pl.edu.icm.saos.search.config.service.IndexReloader;
-import pl.edu.icm.saos.search.config.service.SolrIndexReloader;
 import pl.edu.icm.saos.search.util.SolrConstants;
 
 /**
@@ -39,9 +37,7 @@ public class SearchTestConfiguration extends CommonTestConfiguration {
     @Bean
     @Autowired
     public SolrServer solrServer(CoreContainer coreContainer) {
-        
-        EmbeddedSolrServer solrServer = new EmbeddedSolrServer(coreContainer, "admin");
-        return solrServer;
+        return null;
     }
     
     @Bean
@@ -65,15 +61,10 @@ public class SearchTestConfiguration extends CommonTestConfiguration {
 
     @Bean
     @Autowired
-    public IndexReloader indexReloader(CoreContainer coreContainer, @Qualifier("solrServer") SolrServer solrServer) {
-//        EmbeddedSolrIndexReloader indexReloader = new EmbeddedSolrIndexReloader();
-//        indexReloader.setCoreContainer(coreContainer);
-        
-        SolrIndexReloader sir = new SolrIndexReloader();
-        sir.setSolrServer(solrServer);
-        return sir;
-        
-//        return indexReloader;
+    public IndexReloader indexReloader(CoreContainer coreContainer) {
+        EmbeddedSolrIndexReloader indexReloader = new EmbeddedSolrIndexReloader();
+        indexReloader.setCoreContainer(coreContainer);        
+        return indexReloader;
     }
 
     @Bean
