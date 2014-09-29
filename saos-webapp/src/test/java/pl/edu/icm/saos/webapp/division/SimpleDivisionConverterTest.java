@@ -40,8 +40,8 @@ public class SimpleDivisionConverterTest {
 		List<SimpleDivision> convertedSimpleDivisions = SimpleDivisionConverter.convertDivisions(ccDivisions);
 		
 		assertEquals(2, convertedSimpleDivisions.size());
-		assertTrue(divisionNames[0] == convertedSimpleDivisions.get(0).getName());
-		assertTrue(divisionNames[1] == convertedSimpleDivisions.get(1).getName());
+		assertEquals(divisionNames[0], convertedSimpleDivisions.get(0).getName());
+		assertEquals(divisionNames[1], convertedSimpleDivisions.get(1).getName());
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ public class SimpleDivisionConverterTest {
 		SimpleDivision simpleDivision = SimpleDivisionConverter.convert(ccDivision);
 		
 		assertNotNull(simpleDivision);
-		assertTrue(divisionNames[0] == simpleDivision.getName());
+		assertEquals(divisionNames[0], simpleDivision.getName());
 	}
 	
 }
