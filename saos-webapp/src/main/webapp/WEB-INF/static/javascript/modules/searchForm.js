@@ -1,4 +1,7 @@
 /*
+ * Module created for search form. It enables switching between
+ * simple and advance form mode. 
+ * 
  * @author Łukasz Pawełczak
  */
 var SearchForm = {

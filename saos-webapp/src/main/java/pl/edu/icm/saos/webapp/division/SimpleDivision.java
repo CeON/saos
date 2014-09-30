@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.webapp.division;
 
 /**
+ * Simple division DTO for use with ajax in search form select 
+ * 
  * @author Łukasz Pawełczak
  */
 public class SimpleDivision {

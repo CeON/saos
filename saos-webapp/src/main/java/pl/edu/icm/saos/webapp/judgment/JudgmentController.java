@@ -44,6 +44,8 @@ public class JudgmentController {
     @Autowired
     private JudgmentsWebSearchService judgmentsWebSearchService;
 
+    @Autowired
+    private SimpleDivisionConverter simpleDivisionConverter;
 
     @RequestMapping(value="/search", method=RequestMethod.GET)
     public String searchJudgment(Model model) {
@@ -64,7 +66,7 @@ public class JudgmentController {
 		model.addAttribute("resultSearch", resultSearchResults);
 		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
 		
-		countPages(resultSearchResults.getTotalResults(), pageable.getPageSize(), model);
+		addTotalNumberOfPagesToModel(resultSearchResults.getTotalResults(), pageable.getPageSize(), model);
 		
 		addCommonCourtsToModel(judgmentCriteriaForm, model);
 		
@@ -89,7 +91,7 @@ public class JudgmentController {
 	
 	/************ PRIVATE ************/
 	
-	private void countPages(long totalResults, int pageSize, ModelMap model) {
+	private void addTotalNumberOfPagesToModel(long totalResults, int pageSize, ModelMap model) {
 		model.addAttribute("totalPages", (int)Math.ceil(((double)totalResults)/((double)pageSize)));
 	}
 	
@@ -110,6 +112,6 @@ public class JudgmentController {
 			return Lists.newArrayList();
 		} 
 		
-		return SimpleDivisionConverter.convertDivisions(ccDivisionRepository.findAllByCourtId(intCourtId));
+		return simpleDivisionConverter.convertDivisions(ccDivisionRepository.findAllByCourtId(intCourtId));
 	}
 }

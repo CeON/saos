@@ -1,4 +1,6 @@
 /*
+ * Module for displaying settings tooltip box. Clicking on $button show/hide $box.
+ * 
  * @author Łukasz Pawełczak
  */
 var SearchSettingsToolTip = (function() {

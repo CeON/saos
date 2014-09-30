@@ -1,4 +1,7 @@
 /*
+ * This module connects two fields (court & division) i search form. When user selects
+ * court, fields in division select are generated.
+ * 
  * @author Łukasz Pawełczak
  */
 var CourtDivisionSelect = (function() {
@@ -30,6 +33,7 @@ var CourtDivisionSelect = (function() {
 		});
 	},
 	
+	/* Get divisions by court id and fill element 'select' divisions with received items */
 	changeCourt = function() {
 		var selectedDivision = $court.find("option:selected").attr("value");
 		
