@@ -1,10 +1,15 @@
 package pl.edu.icm.saos.search.search.service;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.*;
+
 
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
@@ -17,12 +22,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
 
+
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.search.SearchTestConfiguration;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 
+
+import com.google.common.collect.Lists;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
@@ -49,31 +57,31 @@ public class JudgmentSearchServiceTest {
     public static Object[][] searchResultsCountData() {
         
         return new Object[][] {
-            { 2, new JudgmentCriteriaBuilder("content").build() },
-            { 0, new JudgmentCriteriaBuilder("other").build() },
+            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder("content").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder("other").build() },
             
-            { 0, new JudgmentCriteriaBuilder().withKeyword("przestępstwo").build() },
-            { 1, new JudgmentCriteriaBuilder().withKeyword("przestępstwo przeciwko wolności").build() },
-            { 1, new JudgmentCriteriaBuilder().withKeyword("Przestępstwo Przeciwko Wolności").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withKeyword("przestępstwo").build() },
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withKeyword("przestępstwo przeciwko wolności").build() },
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withKeyword("Przestępstwo Przeciwko Wolności").build() },
             
-            { 1, new JudgmentCriteriaBuilder().withJudgeName("Jacek Witkowski").build() },
-            { 1, new JudgmentCriteriaBuilder().withJudgeName("Witkowski").build() },
-            { 1, new JudgmentCriteriaBuilder().withJudgeName("Elżbieta Kunecka").build() },
-            { 0, new JudgmentCriteriaBuilder().withJudgeName("Adam Nowak").build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withJudgeName("Jacek Witkowski").build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withJudgeName("Witkowski").build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withJudgeName("Elżbieta Kunecka").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withJudgeName("Adam Nowak").build() },
             
-            { 1, new JudgmentCriteriaBuilder().withLegalBase("art. 227 kk").build() },
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withLegalBase("art. 227 kk").build() },
             
-            { 2, new JudgmentCriteriaBuilder().withReferencedRegulation("kodeks").build() },
-            { 1, new JudgmentCriteriaBuilder().withReferencedRegulation("1964").build() },
-            { 2, new JudgmentCriteriaBuilder().withReferencedRegulation("ustawa").build() },
+            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withReferencedRegulation("kodeks").build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withReferencedRegulation("1964").build() },
+            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withReferencedRegulation("ustawa").build() },
             
-            { 1, new JudgmentCriteriaBuilder().withCaseNumber("XV K 792/13").build() },
-            { 0, new JudgmentCriteriaBuilder().withCaseNumber("XV").build() },
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCaseNumber("XV K 792/13").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCaseNumber("XV").build() },
             
-            { 1, new JudgmentCriteriaBuilder().withCourtId("15500000").build() },
-            { 0, new JudgmentCriteriaBuilder().withCourtId("15505000").build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCourtId("15500000").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCourtId("15505000").build() },
             
-            { 1, new JudgmentCriteriaBuilder().withCourtName("Sąd Apelacyjny we Wrocławiu").build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCourtName("Sąd Apelacyjny we Wrocławiu").build() },
             
         };
     }
@@ -91,11 +99,60 @@ public class JudgmentSearchServiceTest {
     
     @Test
     @UseDataProvider("searchResultsCountData")
-    public void search_CHECK_RESULTS_COUNT(int expectedResultsCount, JudgmentCriteria criteria) {
+    public void search_CHECK_RESULTS_COUNT(List<Integer> expectedResultsIds, JudgmentCriteria criteria) {
         SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
         
+        int expectedResultsCount = expectedResultsIds.size();
         assertEquals(expectedResultsCount, results.getTotalResults());
+        expectedResultsIds.forEach(id -> assertContainsResultWithId(results, String.valueOf(id)));
     }
+    
+    private void assertContainsResultWithId(SearchResults<JudgmentSearchResult> results, String id) {
+        
+        for (JudgmentSearchResult result : results.getResults()) {
+            if (StringUtils.equals(id, result.getId())) {
+                return;
+            }
+        }
+        fail("results doesn't contain judgment with id " + id);
+    }
+    
+    public void search_CHECK_RESULT() {
+        JudgmentCriteria criteria = new JudgmentCriteriaBuilder().withCaseNumber("III AUa 271/12").build();
+        
+        SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
+        
+        assertEquals(1, results.getTotalResults());
+        assertEquals(1, results.getResults().size());
+        
+        JudgmentSearchResult result = results.getResults().get(0);
+        assertEquals("41808", result.getId());
+        
+        assertEquals(1, result.getCaseNumbers().size());
+        assertEquals("III AUa 271/12", result.getCaseNumbers().get(0));
+        assertEquals("SENTENCE", result.getJudgmentType());
+        
+        @SuppressWarnings("deprecation")
+        Date expectedDate = new Date(2012, 5, 15);
+        assertEquals(expectedDate, result.getJudgmentDate());
+        
+        assertEquals(3, result.getJudges().size());
+        assertTrue(result.getJudges().contains("Jacek Witkowski"));
+        assertTrue(result.getJudges().contains("Elżbieta Kunecka"));
+        assertTrue(result.getJudges().contains("Irena Różańska-Dorosz"));
+        
+        assertEquals("Sąd Apelacyjny we Wrocławiu", result.getCourtName());
+        assertEquals("III Wydział Pracy i Ubezpieczeń Społecznych", result.getCourtDivisionName());
+        
+        assertEquals(1, result.getKeywords().size());
+        assertEquals("zwrot nienależnie pobranych świadczeń z ubezpieczenia", result.getKeywords().get(0));
+        
+        assertEquals("this is content", result.getContent());
+        
+    }
+    
+    
+    //------------------------ PRIVATE --------------------------
     
     private void indexJudgments() throws SolrServerException, IOException {
         judgmentsServer.add(fetchFirstDoc());
