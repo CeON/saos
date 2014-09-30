@@ -99,7 +99,6 @@ public class DumpJudgmentsControllerTest {
 
         //then
 
-        int ONE_DAY = 1;
 
         String pathPrefix = "$.items.[0]";
         actions
@@ -109,8 +108,7 @@ public class DumpJudgmentsControllerTest {
                 .andExpect(jsonPath(pathPrefix+".judgmentType").value(Judgment.JudgmentType.SENTENCE.name()))
 
 
-                //we use plus ONE day because of https://jadira.atlassian.net/browse/JDF-26
-                .andExpect(jsonPath(pathPrefix + ".judgmentDate").value(JC.DATE_YEAR + "-" + JC.DATE_MONTH + "-" + (JC.DATE_DAY+ONE_DAY)))
+                .andExpect(jsonPath(pathPrefix + ".judgmentDate").value(JC.DATE_YEAR + "-" + JC.DATE_MONTH + "-" + JC.DATE_DAY))
 
                 .andExpect(jsonPath(pathPrefix + ".judges").isArray())
                 .andExpect(jsonPath(pathPrefix+".judges").value(iterableWithSize(3)))

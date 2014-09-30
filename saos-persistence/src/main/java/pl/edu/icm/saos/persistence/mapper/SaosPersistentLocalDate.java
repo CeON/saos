@@ -8,6 +8,7 @@ import org.joda.time.LocalDate;
 import java.sql.Date;
 
 /**
+ * Persist {@link LocalDate} via Hibernate.
  * @author pavtel
  */
 public class SaosPersistentLocalDate  extends AbstractParameterizedUserType<LocalDate, Date, LocalDateDateColumnMapper> implements ParameterizedType, IntegratorConfiguredType {

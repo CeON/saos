@@ -70,10 +70,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         assertThat("decision" , actualJudgment.getDecision(), is(ccJudgment.getDecision()));
 
 
-        //we should use plusDays(1), because of strange conversion:
-        // localDate (without TZ) ->  sql.Date (with TZ) ->  dbs (as yyyy-MM-DD) ->  sql.Date (with TZ) ->  localDate (without TZ)
-        //see https://jadira.atlassian.net/browse/JDF-26 for explanation
-        assertThat("judgment date", actualJudgment.getJudgmentDate().plusDays(1), is(ccJudgment.getJudgmentDate()));
+        assertThat("judgment date", actualJudgment.getJudgmentDate(), is(ccJudgment.getJudgmentDate()));
 
         assertThat("judgment type", actualJudgment.getJudgmentType(), is(ccJudgment.getJudgmentType()));
         assertThat("legal bases", actualJudgment.getLegalBases(), containsListInAnyOrder(ccJudgment.getLegalBases()));
