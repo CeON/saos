@@ -1,4 +1,6 @@
 /*
+ * Module for enables usage of search filters.
+ * 
  * @author Łukasz Pawełczak
  */
 var SearchFilters = {
@@ -13,12 +15,14 @@ var SearchFilters = {
 			SearchFilters.assignSort();
 		},
 		
+		/* Page size change automatically submits search form. */
 		assigPageSize: function() {
 			$(SearchFilters.pageSize).change(function() {
 				SearchFilters.submitForm();
 			});
 		},
 		
+		/* Sorting method change automatically submits search form with new criteria. */
 		assignSort: function() {
 			$(SearchFilters.sorting + ", " + SearchFilters.direction).change(function() {
 				var $sort = $(SearchFilters.sorting),

@@ -1,14 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
-<script type="text/javascript" >
-$(document).ready(function() {
-	$("#select-court").courtDivisionSelect({
-		divisionId: "select-division",
-		divisionUrl: contextPath + "/search/division/"
-	});	
-});
-</script>
 
 <form:form id="searchForm" class="form-horizontal" role="form" modelAttribute="judgmentCriteriaForm" action="${contextPath}/results" method="GET">
 
@@ -96,13 +88,19 @@ $(document).ready(function() {
 		<c:set var="lastItem" value="${resultsNo}" />
 	</c:if>
 
-	<h3><spring:message code="judgment.results.header" /></h3>
+	<h3><spring:message code="judgment.results.header" /><span><spring:message code="judgment.results.info" arguments="${resultsNo}" /></span></h3>
 	
+	<div class="search-settings" id="search-settings" >
+		
+	</div>
+	
+	<%--
 	<c:if test="${resultsNo > 0}" >
-		<div><spring:message code="judgment.results.pagination.info" arguments="${(pageNo)*pageSize+1},${lastItem}, ${resultsNo}" /></div>
+		<div><spring:message code="judgment.results.pagination.info" arguments="${(pageNo)*pageSize+1}, ${lastItem}, ${resultsNo}" /></div>
 	</c:if>
+	 --%>
 	
-	<div class="filter-box" >
+	<div class="settings-box" id="settings-box" >
 		<div class="" >
 			<div class="label"><spring:message code="judgment.results.sort.pageSize" />:</div>
 			<select id="searchPageSize" name="size">
@@ -124,8 +122,6 @@ $(document).ready(function() {
 			<input id="searchSortingDirection" type="checkbox" value="checked" <c:if test="${sortDirection == 'ASC'}"> checked="checked" </c:if> />
 		</div>
 	</div>		
-				
-	<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
 		
 </div>
 

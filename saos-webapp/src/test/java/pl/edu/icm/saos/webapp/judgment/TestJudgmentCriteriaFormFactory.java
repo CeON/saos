@@ -12,8 +12,8 @@ public final class TestJudgmentCriteriaFormFactory {
 
 	
 	@SuppressWarnings("deprecation")
-	private static Date date = new Date(114, 0, 2);
-	private static LocalDate localDate = new LocalDate(2014, 1, 2);
+	private static Date date[] = {new Date(114, 0, 2), new Date(115, 2, 22)};
+	private static LocalDate localDate[] = {new LocalDate(2014, 1, 2), new LocalDate(2015, 3, 22)};
 	
 	public static JudgmentCriteriaForm createCriteriaForm() {
 		
@@ -22,8 +22,8 @@ public final class TestJudgmentCriteriaFormFactory {
 		judgmentCriteriaForm.setAll("I threw a stone at my neighbor.");
 		judgmentCriteriaForm.setSignature("Sig. 1.4");
 		
-		judgmentCriteriaForm.setDateFrom(localDate);
-		judgmentCriteriaForm.setDateTo(localDate);
+		judgmentCriteriaForm.setDateFrom(localDate[0]);
+		judgmentCriteriaForm.setDateTo(localDate[1]);
 		
 		judgmentCriteriaForm.setCourtId("12");
 		judgmentCriteriaForm.setCourtName("Sąd Apelacyjny w Białymstoku");
@@ -36,7 +36,7 @@ public final class TestJudgmentCriteriaFormFactory {
 		return judgmentCriteriaForm;
 	}
 	
-	public static Date createDate() {
+	public static Date[] createDate() {
 		return date;
 	}
 	

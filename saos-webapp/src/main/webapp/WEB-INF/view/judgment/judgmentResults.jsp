@@ -11,11 +11,9 @@
 
 <%@ include file="judgmentSearchForm.jsp" %>
 
-<div class="container judgment-list">
+<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
 
-	<div class="block" >
-		
-	</div>
+<div class="container judgment-list">
 	
 	<saos:judgments items="${judgments}" />
 
