@@ -2,6 +2,9 @@ package pl.edu.icm.saos.search.search.model;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 /**
  * Criteria for searching judgments
  * 
@@ -109,4 +112,11 @@ public class JudgmentCriteria extends Criteria {
         return this;
     }
     
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+    }
 }

@@ -77,9 +77,9 @@
    
    <field name="courtType" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtId" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="courtName" type="string" indexed="false" stored="true" multiValued="false" />
+   <field name="courtName" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtDivisionId" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="courtDivisionName" type="string" indexed="false" stored="true" multiValued="false" />
+   <field name="courtDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
    
    <field name="judge" type="text_general" indexed="true" stored="true" multiValued="true" />
    <dynamicField name="judgeWithRole*" type="text_general" indexed="true" stored="true" multiValued="true" />
@@ -97,7 +97,7 @@
    
  <copyField source="judgeWithRole*" dest="judge" />
 
- <uniqueKey>id</uniqueKey>
+ <uniqueKey>databaseId</uniqueKey>
  
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
