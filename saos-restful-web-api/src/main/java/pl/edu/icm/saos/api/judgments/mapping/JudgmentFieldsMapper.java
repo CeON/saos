@@ -1,10 +1,9 @@
 package pl.edu.icm.saos.api.judgments.mapping;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.edu.icm.saos.api.links.LinksBuilder;
+import pl.edu.icm.saos.api.mapping.DateMapping;
 import pl.edu.icm.saos.api.mapping.FieldsMapper;
 import pl.edu.icm.saos.persistence.model.*;
 
@@ -20,8 +19,9 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 @Component("judgmentFieldsMapper")
 public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
 
-    //******** fields **********
-    private static final String DATE_FORMAT = "YYYY-MM-dd";
+
+    @Autowired
+    private DateMapping dateMapping;
 
     @Autowired
     private LinksBuilder linksBuilder;
@@ -57,7 +57,7 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
 
         item.put(COURT_CASES, toListOfCourtCaseMaps(element.getCourtCases()));
         item.put(JUDGMENT_TYPE, element.getJudgmentType());
-        item.put(JUDGMENT_DATE, toString(element.getJudgmentDate()));
+        item.put(JUDGMENT_DATE, dateMapping.toString(element.getJudgmentDate()));
         item.put(JUDGES, toListOfMaps(element.getJudges()));
 
         return item;
@@ -187,26 +187,13 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
         item.put(JUDGMENT_ID, info.getSourceJudgmentId());
         item.put(PUBLISHER, info.getPublisher());
         item.put(REVISER, info.getReviser());
-        item.put(PUBLICATION_DATE, toString(info.getPublicationDate()));
+        item.put(PUBLICATION_DATE, dateMapping.toString(info.getPublicationDate()));
 
         return item;
     }
 
-    private String toString(DateTime dateTime){
-        if(dateTime == null){
-            return "";
-        }else{
-            return dateTime.toString(DATE_FORMAT);
-        }
-    }
 
-    private String toString(LocalDate localDate){
-        if(localDate == null){
-            return "";
-        } else {
-            return localDate.toString();
-        }
-    }
+
 
     //******** END business methods ****************
 

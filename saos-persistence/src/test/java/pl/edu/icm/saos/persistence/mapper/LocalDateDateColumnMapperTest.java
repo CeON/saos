@@ -4,7 +4,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.sql.Date;
@@ -94,7 +93,7 @@ public class LocalDateDateColumnMapperTest {
     }
 
 
-    @Ignore("important enable only on local machine, because change globally default time zone, as java.sql.Date use default time zone")
+
     @Test
     public void test_for_different_default_timeZones(){
         //given
@@ -106,6 +105,7 @@ public class LocalDateDateColumnMapperTest {
 
     private void assertTimeZones(String timeZoneName){
         //given
+        //change globally default time zone but we assume that tests run in separate JVM, java.sql.Date use default time zone
         TimeZone.setDefault(TimeZone.getTimeZone(timeZoneName));
         LocalDate localDate = new LocalDate(YEAR, MONTH, DAY);
 
