@@ -1,11 +1,11 @@
 package pl.edu.icm.saos.search.search.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +47,7 @@ public class JudgmentSearchResultsTranslator implements SearchResultsTranslator<
         String judgmentType = fieldFetcher.fetchValue(document, JudgmentIndexField.JUDGMENT_TYPE);
         result.setJudgmentType(judgmentType);
         
-        Date judgmentDate = fieldFetcher.fetchDateValue(document, JudgmentIndexField.JUDGMENT_DATE);
+        LocalDate judgmentDate = fieldFetcher.fetchDateValue(document, JudgmentIndexField.JUDGMENT_DATE);
         result.setJudgmentDate(judgmentDate);
         
         String court = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_NAME);

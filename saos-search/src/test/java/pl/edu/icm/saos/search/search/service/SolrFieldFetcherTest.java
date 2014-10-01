@@ -1,13 +1,16 @@
 package pl.edu.icm.saos.search.search.service;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+
 import java.util.Date;
 import java.util.List;
 
 import org.apache.solr.common.SolrDocument;
+import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
-import static junit.framework.Assert.*;
 
 /**
  * @author madryk
@@ -32,9 +35,10 @@ public class SolrFieldFetcherTest {
         Date date = new Date(1396310400000L); // 2014-04-01
         doc.addField("judgmentDate", date);
         
-        Date actualDate = fieldFetcher.fetchDateValue(doc, JudgmentIndexField.JUDGMENT_DATE);
+        LocalDate actualDate = fieldFetcher.fetchDateValue(doc, JudgmentIndexField.JUDGMENT_DATE);
         
-        assertEquals(date, actualDate);
+        LocalDate expectedDate = new LocalDate(2014, 4, 1);
+        assertEquals(expectedDate, actualDate);
     }
     
     @Test

@@ -1,9 +1,5 @@
 package pl.edu.icm.saos.webapp.judgment;
 
-import java.util.Date;
-
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
@@ -27,23 +23,11 @@ public class JudgmentCriteriaFormConverter {
 		judgmentCriteria.setLegalBase(element.getLegalBase());
 		judgmentCriteria.setReferencedRegulation(element.getReferencedRegulation());
 
-		LocalDate dateFrom = element.getDateFrom();
-		LocalDate dateTo = element.getDateTo();
+		judgmentCriteria.setDateFrom(element.getDateFrom());
+		judgmentCriteria.setDateTo(element.getDateTo());
 		
-		
-		if (dateFrom != null) {
-			judgmentCriteria.setDateFrom(convertDate(dateFrom));
-		}
-		
-		if (dateTo != null) {
-			judgmentCriteria.setDateTo(convertDate(dateTo));
-		}
 		
 		return judgmentCriteria;
-	}
-	
-	private Date convertDate(LocalDate localDate) {
-		return localDate.toDateTimeAtStartOfDay(DateTimeZone.getDefault()).toDate();
 	}
 	
 	

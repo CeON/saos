@@ -8,6 +8,7 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.util.NamedList;
+import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -92,7 +93,7 @@ public class JudgmentSearchResultsTranslatorTest {
         Assert.assertEquals(1, result.getCaseNumbers().size());
         Assert.assertTrue(result.getCaseNumbers().contains("AAAB1A"));
         
-        Assert.assertEquals(calendar.getTime(), result.getJudgmentDate());
+        Assert.assertEquals(new LocalDate(2014, 10, 7), result.getJudgmentDate());
         Assert.assertEquals("SENTENCE", result.getJudgmentType());
         
         Assert.assertEquals("Sąd Apelacyjny w Krakowie", result.getCourtName());

@@ -2,8 +2,6 @@ package pl.edu.icm.saos.webapp.judgment;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Date;
-
 import org.junit.Test;
 
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
@@ -19,7 +17,6 @@ public class JudgmentCriteriaFormConverterTest {
 	@Test
 	public void convert() {
 		JudgmentCriteriaForm judgmentCriteriaForm = TestJudgmentCriteriaFormFactory.createCriteriaForm();
-		Date testDate[] = TestJudgmentCriteriaFormFactory.createDate();
 		
 		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
 		
@@ -35,8 +32,8 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getReferencedRegulation(), judgmentCriteria.getReferencedRegulation());
 		
 		
-		assertEquals(judgmentCriteria.getDateFrom(), testDate[0]);
-		assertEquals(judgmentCriteria.getDateTo(), testDate[1]);
+		assertEquals(judgmentCriteriaForm.getDateFrom(), judgmentCriteria.getDateFrom());
+		assertEquals(judgmentCriteriaForm.getDateTo(), judgmentCriteria.getDateTo());
 		
 	}
 

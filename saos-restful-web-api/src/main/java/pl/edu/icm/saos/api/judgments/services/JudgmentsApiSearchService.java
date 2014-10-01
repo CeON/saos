@@ -1,22 +1,26 @@
 package pl.edu.icm.saos.api.judgments.services;
 
-import com.google.common.base.Preconditions;
-import org.joda.time.LocalDate;
+import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.ID;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import pl.edu.icm.saos.api.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.parameters.Pagination;
 import pl.edu.icm.saos.api.search.ApiSearchService;
 import pl.edu.icm.saos.api.search.ElementsSearchResults;
 import pl.edu.icm.saos.api.transformers.SearchResultApiTransformer;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.search.search.model.*;
+import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.model.Paging;
+import pl.edu.icm.saos.search.search.model.SearchResults;
+import pl.edu.icm.saos.search.search.model.Sorting;
 import pl.edu.icm.saos.search.search.service.SearchService;
 
-import java.util.Date;
-import java.util.List;
-
-import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.ID;
+import com.google.common.base.Preconditions;
 
 /**
  * {@inheritDoc}
@@ -66,18 +70,10 @@ public class JudgmentsApiSearchService implements ApiSearchService<Judgment, Jud
         criteria.setLegalBase(params.getLegalBase());
         criteria.setKeyword(params.getKeyword());
 
-        criteria.setDateFrom(toDate(params.getJudgmentDateFrom()));
-        criteria.setDateTo(toDate(params.getJudgmentDateTo()));
+        criteria.setDateFrom(params.getJudgmentDateFrom());
+        criteria.setDateTo(params.getJudgmentDateTo());
 
         return criteria;
-    }
-
-    private Date toDate(LocalDate localDate){
-        if(localDate == null){
-            return null;
-        } else {
-            return localDate.toDate();
-        }
     }
 
     //******* END business methods ***********

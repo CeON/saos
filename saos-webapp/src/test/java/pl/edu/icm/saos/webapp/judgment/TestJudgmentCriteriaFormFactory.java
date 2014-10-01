@@ -1,7 +1,5 @@
 package pl.edu.icm.saos.webapp.judgment;
 
-import java.util.Date;
-
 import org.joda.time.LocalDate;
 
 /**
@@ -10,9 +8,7 @@ import org.joda.time.LocalDate;
  */
 public final class TestJudgmentCriteriaFormFactory {
 
-	
-	@SuppressWarnings("deprecation")
-	private static Date date[] = {new Date(114, 0, 2), new Date(115, 2, 22)};
+
 	private static LocalDate localDate[] = {new LocalDate(2014, 1, 2), new LocalDate(2015, 3, 22)};
 	
 	public static JudgmentCriteriaForm createCriteriaForm() {
@@ -35,9 +31,5 @@ public final class TestJudgmentCriteriaFormFactory {
 		
 		return judgmentCriteriaForm;
 	}
-	
-	public static Date[] createDate() {
-		return date;
-	}
-	
+
 }

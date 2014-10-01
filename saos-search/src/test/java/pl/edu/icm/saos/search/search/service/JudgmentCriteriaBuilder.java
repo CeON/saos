@@ -1,6 +1,6 @@
 package pl.edu.icm.saos.search.search.service;
 
-import java.util.Date;
+import org.joda.time.LocalDate;
 
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
@@ -30,17 +30,17 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
-    public JudgmentCriteriaBuilder withDateFrom(Date dateFrom) {
+    public JudgmentCriteriaBuilder withDateFrom(LocalDate dateFrom) {
         criteria.setDateFrom(dateFrom);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withDateTo(Date dateTo) {
+    public JudgmentCriteriaBuilder withDateTo(LocalDate dateTo) {
         criteria.setDateTo(dateTo);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withDateRange(Date dateFrom, Date dateTo) {
+    public JudgmentCriteriaBuilder withDateRange(LocalDate dateFrom, LocalDate dateTo) {
         criteria.setDateFrom(dateFrom);
         criteria.setDateTo(dateTo);
         return this;

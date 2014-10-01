@@ -1,18 +1,18 @@
 package pl.edu.icm.saos.search.search.service;
 
-import static junit.framework.Assert.*;
-
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
+import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -22,13 +22,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
 
-
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.search.SearchTestConfiguration;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
-
 
 import com.google.common.collect.Lists;
 import com.tngtech.java.junit.dataprovider.DataProvider;
@@ -59,6 +57,10 @@ public class JudgmentSearchServiceTest {
         return new Object[][] {
             { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder("content").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder("other").build() },
+            
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withDateRange(new LocalDate(2012, 5, 15), new LocalDate(2012, 5, 15)).build() },
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withDateFrom(new LocalDate(2014, 9, 3)).build() },
+            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withDateTo(new LocalDate(2014, 9, 3)).build() },
             
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withKeyword("przestępstwo").build() },
             { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withKeyword("przestępstwo przeciwko wolności").build() },
@@ -107,16 +109,7 @@ public class JudgmentSearchServiceTest {
         expectedResultsIds.forEach(id -> assertContainsResultWithId(results, String.valueOf(id)));
     }
     
-    private void assertContainsResultWithId(SearchResults<JudgmentSearchResult> results, String id) {
-        
-        for (JudgmentSearchResult result : results.getResults()) {
-            if (StringUtils.equals(id, result.getId())) {
-                return;
-            }
-        }
-        fail("results doesn't contain judgment with id " + id);
-    }
-    
+    @Test
     public void search_CHECK_RESULT() {
         JudgmentCriteria criteria = new JudgmentCriteriaBuilder().withCaseNumber("III AUa 271/12").build();
         
@@ -126,14 +119,13 @@ public class JudgmentSearchServiceTest {
         assertEquals(1, results.getResults().size());
         
         JudgmentSearchResult result = results.getResults().get(0);
-        assertEquals("41808", result.getId());
+        assertEquals("1961", result.getId());
         
         assertEquals(1, result.getCaseNumbers().size());
         assertEquals("III AUa 271/12", result.getCaseNumbers().get(0));
         assertEquals("SENTENCE", result.getJudgmentType());
         
-        @SuppressWarnings("deprecation")
-        Date expectedDate = new Date(2012, 5, 15);
+        LocalDate expectedDate = new LocalDate(2012, 5, 15);
         assertEquals(expectedDate, result.getJudgmentDate());
         
         assertEquals(3, result.getJudges().size());
@@ -153,6 +145,16 @@ public class JudgmentSearchServiceTest {
     
     
     //------------------------ PRIVATE --------------------------
+    
+    private void assertContainsResultWithId(SearchResults<JudgmentSearchResult> results, String id) {
+        
+        for (JudgmentSearchResult result : results.getResults()) {
+            if (StringUtils.equals(id, result.getId())) {
+                return;
+            }
+        }
+        fail("results doesn't contain judgment with id " + id);
+    }
     
     private void indexJudgments() throws SolrServerException, IOException {
         judgmentsServer.add(fetchFirstDoc());

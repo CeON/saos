@@ -1,7 +1,8 @@
 package pl.edu.icm.saos.search.search.model;
 
-import java.util.Date;
 import java.util.List;
+
+import org.joda.time.LocalDate;
 
 /**
  * Result of searching judgments
@@ -12,7 +13,7 @@ public class JudgmentSearchResult extends Searchable {
 
     private List<String> caseNumbers;
     private String judgmentType;
-    private Date judgmentDate;
+    private LocalDate judgmentDate;
     
     private String courtName;
     private String courtDivisionName;
@@ -30,7 +31,7 @@ public class JudgmentSearchResult extends Searchable {
     public String getJudgmentType() {
         return judgmentType;
     }
-    public Date getJudgmentDate() {
+    public LocalDate getJudgmentDate() {
         return judgmentDate;
     }
     public String getCourtName() {
@@ -58,7 +59,7 @@ public class JudgmentSearchResult extends Searchable {
     public void setJudgmentType(String judgmentType) {
         this.judgmentType = judgmentType;
     }
-    public void setJudgmentDate(Date judgmentDate) {
+    public void setJudgmentDate(LocalDate judgmentDate) {
         this.judgmentDate = judgmentDate;
     }
     public void setCourtName(String courtName) {

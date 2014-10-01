@@ -1,24 +1,23 @@
 package pl.edu.icm.saos.search.search.service;
 
 import java.text.ParseException;
-import java.util.Date;
 
 import org.apache.solr.client.solrj.SolrQuery;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.Paging;
 import pl.edu.icm.saos.search.search.model.Sorting;
-import pl.edu.icm.saos.search.search.service.JudgmentSearchQueryFactory;
 
 /**
  * @author madryk
  */
 public class JudgmentSearchQueryFactoryTest {
 
-    private final static Date FIRST_DATE = new Date(1396310400000L); // 2014-04-01
-    private final static Date SECOND_DATE = new Date(1401580800000L); // 2014-06-01
+    private final static LocalDate FIRST_DATE = new LocalDate(2014, 4, 1);
+    private final static LocalDate SECOND_DATE = new LocalDate(2014, 6, 1);
     
     private JudgmentSearchQueryFactory queryFactory = new JudgmentSearchQueryFactory();
     

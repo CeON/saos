@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.solr.common.SolrDocument;
+import org.joda.time.LocalDate;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.config.model.IndexField;
@@ -28,12 +29,13 @@ public class SolrFieldFetcher<F extends IndexField> {
         return (String) value;
     }
     
-    public Date fetchDateValue(SolrDocument doc, F field) {
+    public LocalDate fetchDateValue(SolrDocument doc, F field) {
         Object value = doc.getFirstValue(field.getFieldName());
         if (value == null) {
             return null;
         }
-        return (Date) value;
+        Date dateValue = (Date) value;
+        return new LocalDate(dateValue.getTime());
     }
     
     public List<String> fetchValues(SolrDocument doc, F field) {

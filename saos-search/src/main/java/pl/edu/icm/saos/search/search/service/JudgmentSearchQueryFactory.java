@@ -1,11 +1,10 @@
 package pl.edu.icm.saos.search.search.service;
 
-import java.util.Date;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
 import org.apache.solr.client.solrj.util.ClientUtils;
+import org.joda.time.LocalDate;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
@@ -62,7 +61,7 @@ public class JudgmentSearchQueryFactory implements SearchQueryFactory<JudgmentCr
         return " +" + field.getFieldName() + ":" + ClientUtils.escapeQueryChars(value);
     }
     
-    private String transformDateRangeCriterion(JudgmentIndexField field, Date from, Date to) {
+    private String transformDateRangeCriterion(JudgmentIndexField field, LocalDate from, LocalDate to) {
         if (from == null && to == null) {
             return StringUtils.EMPTY;
         }

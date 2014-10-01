@@ -1,6 +1,6 @@
 package pl.edu.icm.saos.search.search.model;
 
-import java.util.Date;
+import org.joda.time.LocalDate;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -16,8 +16,8 @@ public class JudgmentCriteria extends Criteria {
     
     private String caseNumber;
     
-    private Date dateFrom;
-    private Date dateTo;
+    private LocalDate dateFrom;
+    private LocalDate dateTo;
     
     private String courtId;
     private String courtName;
@@ -43,10 +43,10 @@ public class JudgmentCriteria extends Criteria {
     public String getCaseNumber() {
         return caseNumber;
     }
-    public Date getDateFrom() {
+    public LocalDate getDateFrom() {
         return dateFrom;
     }
-    public Date getDateTo() {
+    public LocalDate getDateTo() {
         return dateTo;
     }
     public String getCourtId() {
@@ -79,11 +79,11 @@ public class JudgmentCriteria extends Criteria {
         this.caseNumber = caseNumber;
         return this;
     }
-    public JudgmentCriteria setDateFrom(Date dateFrom) {
+    public JudgmentCriteria setDateFrom(LocalDate dateFrom) {
         this.dateFrom = dateFrom;
         return this;
     }
-    public JudgmentCriteria setDateTo(Date dateTo) {
+    public JudgmentCriteria setDateTo(LocalDate dateTo) {
         this.dateTo = dateTo;
         return this;
     }
