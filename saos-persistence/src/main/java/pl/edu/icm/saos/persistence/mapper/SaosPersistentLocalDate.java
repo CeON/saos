@@ -11,6 +11,6 @@ import java.sql.Date;
  * Persist {@link LocalDate} via Hibernate.
  * @author pavtel
  */
-public class SaosPersistentLocalDate  extends AbstractParameterizedUserType<LocalDate, Date, LocalDateDateColumnMapper> implements ParameterizedType, IntegratorConfiguredType {
+public class SaosPersistentLocalDate  extends AbstractParameterizedUserType<LocalDate, Date, LocalDateToSqlDateColumnMapper> implements ParameterizedType, IntegratorConfiguredType {
     private static final long serialVersionUID = 3837989592585803621L;
 }

@@ -14,7 +14,7 @@ import java.util.TimeZone;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class LocalDateDateColumnMapperTest {
+public class LocalDateToSqlDateColumnMapperTest {
 
     private static final int YEAR = 2020;
     private static final int MONTH = 10;
@@ -22,12 +22,12 @@ public class LocalDateDateColumnMapperTest {
     private static final int ZERO = 0;
 
 
-    private LocalDateDateColumnMapper dateColumnMapper;
+    private LocalDateToSqlDateColumnMapper dateColumnMapper;
 
 
     @Before
     public void setUp(){
-        dateColumnMapper = new LocalDateDateColumnMapper();
+        dateColumnMapper = new LocalDateToSqlDateColumnMapper();
     }
 
     @Test

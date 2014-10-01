@@ -11,7 +11,7 @@ import java.sql.Date;
  * {@link java.sql.Date Date}.
  * @author pavtel
  */
-public class LocalDateDateColumnMapper extends AbstractDateColumnMapper<LocalDate> {
+public class LocalDateToSqlDateColumnMapper extends AbstractDateColumnMapper<LocalDate> {
 
 
     private static final long serialVersionUID = 2127346033716569296L;
