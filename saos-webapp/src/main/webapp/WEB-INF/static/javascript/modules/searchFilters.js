@@ -1,5 +1,5 @@
 /*
- * Module for enables usage of search filters.
+ * Module that enables usage of search filters like: page size and sorting method.
  * 
  * @author Łukasz Pawełczak
  */

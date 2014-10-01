@@ -28,7 +28,7 @@ $(document).ready(function() {
     
     
     /*** Search form show more fields ***/
-    SearchForm.init();
+    SearchFormMode.init();
     SearchFilters.init();
     
     //Search form - init select court & division

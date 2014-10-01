@@ -14,7 +14,7 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/modernizr.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/bootstrap.min.js"></script>
 
-<script type="text/javascript" src="${contextPath}/static/javascript/modules/searchForm.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/searchFormMode.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/searchFilters.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/courtDivisionSelect.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/settingsToolTip.js"></script>
