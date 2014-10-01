@@ -43,13 +43,10 @@
 		    <div class="form-group">
 		    	<label for="input-search-all" class="col-sm-2 control-label"><spring:message code="search.field.judgmenttype" />:</label>
    			    <div class="col-sm-6">
-			      <div class="checkbox">
-		    	      <input type="checkbox" value="" >
-		    	      <label><spring:message code="search.judgmenttype.decision" /></label>
-		        	  <input type="checkbox" value="" >
-		        	  <label><spring:message code="search.judgmenttype.resolution" /></label>
-         	          <input type="checkbox" value="" >
-         	          <label><spring:message code="search.judgmenttype.sentence" /></label>
+		    	  <div class="checkbox">
+	      	
+         	        <saos:enumCheckBox path="judgmentType" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" prefix="search.judgmenttype" />
+         	        
 			      </div>
 			    </div>
 		    </div>

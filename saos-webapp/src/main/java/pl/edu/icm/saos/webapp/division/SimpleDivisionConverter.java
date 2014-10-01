@@ -3,6 +3,8 @@ package pl.edu.icm.saos.webapp.division;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 
 /**
@@ -10,6 +12,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
  * 
  * @author Łukasz Pawełczak
  */
+@Service
 public class SimpleDivisionConverter {
 	
 	
