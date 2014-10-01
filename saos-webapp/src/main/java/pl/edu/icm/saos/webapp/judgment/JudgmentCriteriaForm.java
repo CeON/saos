@@ -26,12 +26,15 @@ public class JudgmentCriteriaForm {
     private String courtName;
     private String divisionId;
     
+    private String judgmentType;
+    
     private String judgeName;
     
     private String keyword;
     private String legalBase;
     private String referencedRegulation;
     
+    /*** Getters ***/
     
     public String getAll() {
 		return all;
@@ -59,6 +62,10 @@ public class JudgmentCriteriaForm {
 	
 	public String getDivisionId() {
 		return divisionId;
+	}
+	
+	public String getJudgmentType() {
+		return judgmentType;
 	}
 	
 	public String getJudgeName() {
@@ -107,6 +114,10 @@ public class JudgmentCriteriaForm {
 		this.divisionId = divisionId;
 	}
 
+	public void setJudgmentType(String judgmentType) {
+		this.judgmentType = judgmentType;
+	}
+	
 	public void setJudgeName(String judgeName) {
 		this.judgeName = judgeName;
 	}
@@ -122,7 +133,6 @@ public class JudgmentCriteriaForm {
 	public void setReferencedRegulation(String referencedRegulation) {
 		this.referencedRegulation = referencedRegulation;
 	}
-
 
         
 }
