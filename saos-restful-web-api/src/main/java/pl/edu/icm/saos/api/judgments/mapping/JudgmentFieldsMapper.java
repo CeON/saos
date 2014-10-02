@@ -57,7 +57,7 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
 
         item.put(COURT_CASES, toListOfCourtCaseMaps(element.getCourtCases()));
         item.put(JUDGMENT_TYPE, element.getJudgmentType());
-        item.put(JUDGMENT_DATE, dateMapping.toStringInISO8601Format(element.getJudgmentDate()));
+        item.put(JUDGMENT_DATE, dateMapping.toISO8601Format(element.getJudgmentDate()));
         item.put(JUDGES, toListOfMaps(element.getJudges()));
 
         return item;
@@ -187,7 +187,7 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
         item.put(JUDGMENT_ID, info.getSourceJudgmentId());
         item.put(PUBLISHER, info.getPublisher());
         item.put(REVISER, info.getReviser());
-        item.put(PUBLICATION_DATE, dateMapping.toStringInISO8601Format(info.getPublicationDate()));
+        item.put(PUBLICATION_DATE, dateMapping.toISO8601Format(info.getPublicationDate()));
 
         return item;
     }

@@ -3,6 +3,9 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'eclipse-wtp' /** without this wtp does not upload dependant projects, http://stackoverflow.com/questions/23697438/gradle-groovy-project-dependent-on-java-project*/
+    apply plugin: 'groovy'
+
+
 
     sourceCompatibility = 1.8
 
@@ -80,7 +83,9 @@ subprojects {
         'com.fasterxml.jackson.core:jackson-databind' : 'com.fasterxml.jackson.core:jackson-databind:2.4.1',
         'com.jayway.jsonpath:json-path' : 'com.jayway.jsonpath:json-path:0.9.1',
         'com.jayway.jsonpath:json-path-assert' : 'com.jayway.jsonpath:json-path-assert:0.9.1',
-        'org.hamcrest:hamcrest-library' : 'org.hamcrest:hamcrest-library:1.3'
+        'org.hamcrest:hamcrest-library' : 'org.hamcrest:hamcrest-library:1.3',
+        'org.codehaus.groovy:groovy-all' : 'org.codehaus.groovy:groovy-all:2.3.7',
+        'org.spockframework:spock-core' : 'org.spockframework:spock-core:0.7-groovy-2.0'
 
         
     ]
@@ -98,6 +103,8 @@ subprojects {
         testCompile lib.'com.googlecode.catch-exception:catch-exception'
         testCompile lib.'org.assertj:assertj-core'
         testCompile lib.'com.tngtech.java:junit-dataprovider'
+        testCompile lib.'org.codehaus.groovy:groovy-all'
+        testCompile lib.'org.spockframework:spock-core'
         compile lib.'com.google.guava:guava'
         compile lib.'commons-collections:commons-collections'
         compile lib.'org.slf4j:slf4j-api'
