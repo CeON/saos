@@ -3,8 +3,8 @@ package pl.edu.icm.saos.persistence.search.dto;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.edu.icm.ceon.search.model.query.Order;
 import pl.edu.icm.saos.persistence.common.DataObject;
+import pl.edu.icm.saos.persistence.search.model.Order;
 
 import java.io.Serializable;
 import java.util.ArrayList;
