@@ -2,7 +2,7 @@ package pl.edu.icm.saos.api.mapping;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Provides functionality for mapping {@link org.joda.time.LocalDate LocalDate}
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * to string in format yyyy-MM-dd
  * @author pavtel
  */
-@Component
+@Service
 public class DateMapping {
 
     private static final String DATE_FORMAT = "yyyy-MM-dd";
@@ -20,7 +20,7 @@ public class DateMapping {
      * @param dateTime value to process, can be null
      * @return never null
      */
-    public String toString(DateTime dateTime){
+    public String toStringInISO8601Format(DateTime dateTime){
         if(dateTime == null){
             return "";
         }else{
@@ -33,7 +33,7 @@ public class DateMapping {
      * @param localDate value to process, can be null
      * @return never null
      */
-    public String toString(LocalDate localDate){
+    public String toStringInISO8601Format(LocalDate localDate){
         if(localDate == null){
             return "";
         } else {

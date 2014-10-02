@@ -24,48 +24,48 @@ public class DateMappingTest {
     }
 
     @Test
-    public void toString_LocalDate__it_should_return_correct_value(){
+    public void toStringInISO8601Format_LocalDate__it_should_return_correct_value(){
         //given
         LocalDate localDate = new LocalDate(YEAR, MONTH, DAY);
 
         //when
-        String actual = dateMapping.toString(localDate);
+        String actual = dateMapping.toStringInISO8601Format(localDate);
 
         //then
         assertThat(actual, is("2020-01-07"));
     }
 
     @Test
-    public void toString_LocalDate__it_should_return_empty_value_for_null(){
+    public void toStringInISO8601Format_LocalDate__it_should_return_empty_value_for_null(){
         //given
         LocalDate localDate = null;
 
         //when
-        String actual = dateMapping.toString(localDate);
+        String actual = dateMapping.toStringInISO8601Format(localDate);
 
         //then
         assertThat(actual, isEmptyString());
     }
 
     @Test
-    public void toString_DateTime__it_should_return_correct_value(){
+    public void toStringInISO8601Format_DateTime__it_should_return_correct_value(){
         //given
         DateTime dateTime = new DateTime(YEAR, MONTH, DAY, 10, 20, 30, 400);
 
         //when
-        String actual = dateMapping.toString(dateTime);
+        String actual = dateMapping.toStringInISO8601Format(dateTime);
 
         //then
         assertThat(actual, is("2020-01-07"));
     }
 
     @Test
-    public void toString_DateTime__it_should_return_empty_value_for_null(){
+    public void toStringInISO8601Format_DateTime__it_should_return_empty_value_for_null(){
         //given
         DateTime dateTime = null;
 
         //when
-        String actual = dateMapping.toString(dateTime);
+        String actual = dateMapping.toStringInISO8601Format(dateTime);
 
         //then
         assertThat(actual, isEmptyString());
