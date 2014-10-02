@@ -4,16 +4,14 @@ import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
-import pl.edu.icm.ceon.search.model.query.Order;
 import pl.edu.icm.saos.persistence.common.DataObject;
 import pl.edu.icm.saos.persistence.common.InitializingVisitor;
 import pl.edu.icm.saos.persistence.search.dto.DatabaseSearchFilter;
 import pl.edu.icm.saos.persistence.search.dto.SearchFilter;
+import pl.edu.icm.saos.persistence.search.model.Order;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
-import javax.persistence.EntityManager;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;

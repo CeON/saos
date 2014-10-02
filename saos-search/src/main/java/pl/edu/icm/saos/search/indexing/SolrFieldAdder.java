@@ -1,10 +1,9 @@
 package pl.edu.icm.saos.search.indexing;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.joda.time.LocalDate;
 import org.springframework.stereotype.Service;
-
 import pl.edu.icm.saos.search.config.model.IndexField;
 import pl.edu.icm.saos.search.config.model.IndexFieldsConstants;
 import pl.edu.icm.saos.search.util.SearchDateTimeUtils;
