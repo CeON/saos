@@ -1,7 +1,6 @@
 package pl.edu.icm.saos.persistence.model.importer;
 
 import javax.persistence.Cacheable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,9 +14,6 @@ import javax.persistence.UniqueConstraint;
 
 import org.joda.time.DateTime;
 
-import pl.edu.icm.saos.persistence.common.ColumnDefinitionConst;
-import pl.edu.icm.saos.persistence.common.DataObject;
-
 /**
  * Judgment raw data received (during the import process) from the common court judgment source
  * 
@@ -29,13 +25,11 @@ import pl.edu.icm.saos.persistence.common.DataObject;
 @Entity
 @Cacheable(true)
 @SequenceGenerator(name = "seq_raw_source_cc_judgment", allocationSize = 1, sequenceName = "seq_raw_source_cc_judgment")
-public class RawSourceCcJudgment extends DataObject {
+public class RawSourceCcJudgment extends RawSourceJudgment {
     
     private String sourceId;
     private String caseNumber;
     private DateTime publicationDate;
-    private DateTime processingDate;
-    private boolean processed = false;
     private ImportProcessingStatus processingStatus;
     private ImportProcessingSkipReason processingSkipReason;
     private String textMetadata;
@@ -98,21 +92,12 @@ public class RawSourceCcJudgment extends DataObject {
         return dataMd5;
     }
 
-    /** Is completely processed? (and is not supposed to be processed again) */
-    @Column(columnDefinition=ColumnDefinitionConst.BOOLEAN_NOT_NULL_DEFUALT_FALSE)
-    public boolean isProcessed() {
-        return processed;
-    }
     
     @Enumerated(EnumType.STRING)
     public ImportProcessingStatus getProcessingStatus() {
         return processingStatus;
     }
 
-    public DateTime getProcessingDate() {
-        return processingDate;
-    }
-    
     
     @Enumerated(EnumType.STRING)
     public ImportProcessingSkipReason getProcessingSkipReason() {
@@ -145,15 +130,6 @@ public class RawSourceCcJudgment extends DataObject {
     
     //------------------------ SETTERS --------------------------
     
-    @SuppressWarnings(value="unused") // for hibernate
-    private void setProcessed(boolean processed) {
-        this.processed = processed;
-    }
-
-    private void setProcessingDate(DateTime processingDate) {
-        this.processingDate = processingDate;
-    }
-
     public void setTextMetadata(String textMetadata) {
         this.textMetadata = textMetadata;
     }
@@ -235,8 +211,8 @@ public class RawSourceCcJudgment extends DataObject {
     public String toString() {
         return "RawSourceCcJudgment [id=" + getId() + ", ver=" + getVer() + ", sourceId=" + sourceId + ", caseNumber="
                 + caseNumber + ", publicationDate=" + publicationDate
-                + ", processingDate=" + processingDate + ", processed="
-                + processed + ", processingStatus=" + processingStatus
+                + ", processingDate=" + getProcessingDate() + ", processed="
+                + isProcessed() + ", processingStatus=" + processingStatus
                 + ", processingSkipReason=" + processingSkipReason + " , sourceUrl=" + sourceUrl
                 + ", contentSourceUrl=" + contentSourceUrl + ", dataMd5="
                 + dataMd5 

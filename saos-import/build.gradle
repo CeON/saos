@@ -15,5 +15,6 @@ dependencies {
         compile lib.'org.springframework:spring-oxm'
         compile lib.'org.springframework:spring-web'
         compile lib.'commons-codec:commons-codec'
+        compile lib.'com.fasterxml.jackson.core:jackson-databind'
         
 }
