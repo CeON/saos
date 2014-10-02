@@ -20,7 +20,7 @@ public class DateMapping {
      * @param dateTime value to process, can be null
      * @return never null
      */
-    public String toStringInISO8601Format(DateTime dateTime){
+    public String toISO8601Format(DateTime dateTime){
         if(dateTime == null){
             return "";
         }else{
@@ -33,7 +33,7 @@ public class DateMapping {
      * @param localDate value to process, can be null
      * @return never null
      */
-    public String toStringInISO8601Format(LocalDate localDate){
+    public String toISO8601Format(LocalDate localDate){
         if(localDate == null){
             return "";
         } else {
