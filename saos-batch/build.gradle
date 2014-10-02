@@ -12,6 +12,7 @@ dependencies {
     compile lib.'commons-collections:commons-collections'
     compile lib.'org.springframework.batch:spring-batch-core'
     compile lib.'org.springframework:spring-webmvc'
+    compile lib.'javax.servlet:javax.servlet-api'
     
     compile(lib.'org.springframework.batch:spring-batch-admin-manager') {
         exclude group: 'net.sf.ehcache', module: 'ehcache-core'
