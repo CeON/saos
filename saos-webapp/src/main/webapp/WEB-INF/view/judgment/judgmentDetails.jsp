@@ -16,7 +16,7 @@
 			<li>
 				<div class="" >
 					<div class="label-title" ><spring:message code="judgment.date" />:</div>
-					<div class="desc" ><c:out value="${judgment.judgmentDate}" /></div>
+					<div class="desc" ><joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}"/></div>
 				</div>
 			</li>
 			<li>

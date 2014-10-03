@@ -17,7 +17,7 @@
 					</a>
 				</div>
 				
-				<div class="date"><span><spring:message code="judgment.results.date" />:</span><c:out value="${judgment.judgmentDate}" /></div>
+				<div class="date"><span><spring:message code="judgment.results.date" />:</span><joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}"/></div>
 				<div class="court"><c:out value="${judgment.courtName}" /> - <c:out value="${judgment.courtDivisionName}" /></div>
 				
 				<div class="judges" >
