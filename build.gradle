@@ -24,6 +24,9 @@ subprojects {
         'org.apache.commons:commons-lang3' :'org.apache.commons:commons-lang3:3.3.2',
         'commons-collections:commons-collections' :'commons-collections:commons-collections:3.2.1',
         'commons-codec:commons-codec' :'commons-codec:commons-codec:1.9',
+        'commons-io:commons-io':'commons-io:commons-io:2.4',
+        'org.apache.commons:commons-compress':'org.apache.commons:commons-compress:1.8.1',
+        
         'joda-time:joda-time' :'joda-time:joda-time:2.3',
         'joda-time:joda-time-jsptags' :'joda-time:joda-time-jsptags:1.1.1',
         
