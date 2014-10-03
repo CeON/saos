@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.edu.icm.saos.api.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.api.exceptions.WrongRequestParameterException;
 import pl.edu.icm.saos.api.parameters.Pagination;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
@@ -31,7 +32,7 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
  */
 @Controller
 @RequestMapping("/api/dump/judgments")
-public class DumpJudgmentsController {
+public class DumpJudgmentsController extends ControllersEntityExceptionHandler{
 
     @Autowired
     private ParametersExtractor parametersExtractor;
