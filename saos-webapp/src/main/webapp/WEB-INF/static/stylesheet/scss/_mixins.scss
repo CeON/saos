@@ -1,0 +1,21 @@
+@mixin border-grey() {
+	border: {
+		color: $grey-border;
+		style: solid;
+		width: 1px;
+	}
+}
+
+@mixin hover-underline() {
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+@mixin underline-text() {
+	cursor: pointer;
+	
+	&:hover {
+		text-decoration: underline;
+	}
+}

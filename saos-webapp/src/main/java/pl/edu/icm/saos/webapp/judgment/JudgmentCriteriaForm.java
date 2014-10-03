@@ -26,7 +26,7 @@ public class JudgmentCriteriaForm {
     private String courtName;
     private String divisionId;
     
-    private String judgmentType;
+    private String[] judgmentType;
     
     private String judgeName;
     
@@ -64,7 +64,7 @@ public class JudgmentCriteriaForm {
 		return divisionId;
 	}
 	
-	public String getJudgmentType() {
+	public String[] getJudgmentType() {
 		return judgmentType;
 	}
 	
@@ -114,7 +114,7 @@ public class JudgmentCriteriaForm {
 		this.divisionId = divisionId;
 	}
 
-	public void setJudgmentType(String judgmentType) {
+	public void setJudgmentType(String[] judgmentType) {
 		this.judgmentType = judgmentType;
 	}
 	

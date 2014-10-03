@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-<form:form id="searchForm" class="form-horizontal" role="form" modelAttribute="judgmentCriteriaForm" action="${contextPath}/results" method="GET">
+<form:form id="search-form" class="form-horizontal" role="form" modelAttribute="judgmentCriteriaForm" action="${contextPath}/results" method="GET">
 
 <div class="container search-form block">
 
@@ -44,9 +44,7 @@
 		    	<label for="input-search-all" class="col-sm-2 control-label"><spring:message code="search.field.judgmenttype" />:</label>
    			    <div class="col-sm-6">
 		    	  <div class="checkbox">
-	      	
-         	        <saos:enumCheckBox path="judgmentType" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" prefix="search.judgmenttype" />
-         	        
+         	        <saos:enumCheckBox path="judgmentType" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" prefix="judgment.judgmenttype" />
 			      </div>
 			    </div>
 		    </div>

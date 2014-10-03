@@ -60,13 +60,13 @@ public class JudgmentController {
 			@SortDefault(sort="JUDGMENT_DATE") Pageable pageable,
 			ModelMap model, HttpServletRequest request) {
 
-		SearchResults<JudgmentSearchResult> resultSearchResults = judgmentsWebSearchService.search(judgmentCriteriaForm, pageable);
+		SearchResults<JudgmentSearchResult> searchResults = judgmentsWebSearchService.search(judgmentCriteriaForm, pageable);
 
 		model.addAttribute("pageable", pageable);
-		model.addAttribute("resultSearch", resultSearchResults);
+		model.addAttribute("resultSearch", searchResults);
 		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
 		
-		addTotalNumberOfPagesToModel(resultSearchResults.getTotalResults(), pageable.getPageSize(), model);
+		addTotalNumberOfPagesToModel(searchResults.getTotalResults(), pageable.getPageSize(), model);
 		
 		addCommonCourtsToModel(judgmentCriteriaForm, model);
 		

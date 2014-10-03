@@ -9,6 +9,8 @@ var SearchFormMode = {
 	buttonMore: "#search-more-fields",
 	buttonLess: "#search-less-fields",
 	form: "#advance-form",
+	
+	easing: "linear",
 
 	init: function() {
 		SearchFormMode.assign();
@@ -27,7 +29,7 @@ var SearchFormMode = {
 	show: function() {		
 		SearchFormMode.hideButton(SearchFormMode.getButtonMore());
 		
-		SearchFormMode.getForm().slideDown({easing: "linear", complete: function() {
+		SearchFormMode.getForm().slideDown({easing: SearchFormMode.easing, complete: function() {
 			SearchFormMode.showButton(SearchFormMode.getButtonLess());
 		} });
 	},
@@ -35,7 +37,7 @@ var SearchFormMode = {
 	hide: function() {
 		SearchFormMode.hideButton(SearchFormMode.getButtonLess());
 
-		SearchFormMode.getForm().slideUp({easing: "linear", complete: function() {
+		SearchFormMode.getForm().slideUp({easing: SearchFormMode.easing, complete: function() {
 			SearchFormMode.showButton(SearchFormMode.getButtonMore());
 		} });
 	},
