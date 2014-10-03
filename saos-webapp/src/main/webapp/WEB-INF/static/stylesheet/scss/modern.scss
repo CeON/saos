@@ -11,13 +11,13 @@ $white: #fafafa;
 
 $footer-height: 5em;
 
+@import "_mixins.scss";
+
+
 * {
 	margin: 0;
 }
 
-body {
-	/*background: url("http://subtlepatterns.com/patterns/debut_light.png") repeat scroll 0 0 rgba(0, 0, 0, 0);*/
-}
 
 html, body {
 	font-family: 'Noto Sans', sans-serif;
@@ -138,19 +138,6 @@ form.search {
 		width: 400px;
 	}
 
-	/*
-	input[type="text"] {
-		border-color: rgb(200, 200, 200);
-		border-width: 1px;
-		border-style: solid;
-		border-radius: 2px;
-		box-shadow: none;
-		color: #818283;
-		font-style: italic;
-		font-weight: 300;
-		padding: 6px 10px;
-	}*/
-
 }
 
 .navbar-default {
@@ -201,10 +188,6 @@ form.search {
 	margin-top: 30px;
 	margin-bottom: 0px;
 	
-	> div {
-		/*border: 2px solid $panel-color;*/
-	}
-	
 	.item-desc {
 		background: $white;
 		border: 1px solid #e6e6e6;
@@ -227,12 +210,10 @@ form.search {
 	
 		.block {
 			background: $sand;
-			/*background: $light;*/
 			border-radius: 75px;
 			height: 150px;
 			margin: 10px auto 20px;
 			width: 150px;
-		
 		}
 		
 		.item-title {
@@ -281,12 +262,10 @@ form.search {
 		background: #e8e8e8;
 		background-image: url("../../image/banners/stats.png");
 		background-repeat: no-repeat;
-		/*border: 2px solid $panel-color;*/
 		border-top: 0px;	
 		height: 320px;
 		position: relative;
 		width: 100%; 
-		
 		
 		.block-info {
 			background: $orange;
@@ -332,12 +311,9 @@ form.search {
 				&:hover, &.active {
 					border-color: $orange;
 				}
-				
 			}
 		}
-	
 	}
-
 }
 
 .advert-partners {
@@ -373,10 +349,8 @@ form.search {
 
 .search-form {
 	background: none repeat scroll 0 0 #fff;
-    border: 0px solid #e0e0e0;
     margin-top: 30px;
     padding: 0 40px;
-    
 	
 	input {
 		border-radius: 2px;
@@ -439,17 +413,9 @@ form.search {
 		border: {
 			color: $grey-border;
 			style: solid;
-			width: 0px 0px 1px 0px;
+			width: 0px 0px 0px 0px;
 		}
-		padding: 15px 40px 20px;
-	
-	
-	/*  Wagla modification
-		background: none repeat scroll 0 0 #fff;
-	    border: 1px solid $grey-border;
-	    margin-top: 30px;
-	    padding: 15px 40px 20px;
-	*/
+		padding: 15px 30px 0px;
 	
 		.case-number {
 			color: #0176c3;
@@ -458,19 +424,26 @@ form.search {
 		}
 		
 		.type {
-			color: #aaa;
+			bottom: -3px;
+			color: #888;
+			display: inline-block;
 			font-size: 11px;
 			position: relative;
-			bottom: -3px;
-			
-			span {
-				text-transform: uppercase;
-			}
+			text-transform: uppercase;
+			@include underline-text();
 		}
 		
-		.court {
+		.date {
+			@include underline-text();
+		}
+		
+		.court-desc {
 			font-style: italic;
 			font-size: 14px;
+		}
+		
+		.court, .division {
+			@include underline-text();
 		}
 		
 		.judges {
@@ -486,6 +459,15 @@ form.search {
 			&:hover {
 				border-bottom: 1px solid #333;
 			}
+		}
+		
+		.extract {
+			border: {
+				color: $grey-border;
+				style: solid;
+				width: 0px 0px 1px 0px;
+			}
+			padding: 0px 0px 15px;
 		}
 	}
 }
@@ -583,7 +565,7 @@ form.search {
 	
 	.settings-box {
 		background: #fff;
-		border: 1px solid $grey-border;
+		@include border-grey();
 		display: none;
 		padding: 10px 20px;
 		position: absolute;
@@ -598,7 +580,7 @@ form.search {
 	padding-top: 0px;
 
 	h4 {
-		border-bottom: 1px solid #e0e0e0;
+		@include border-grey();
 		font-size: 20px;
 	    font-weight: 300;
 	    margin-bottom: 10px;
@@ -634,7 +616,6 @@ form.search {
 		.desc {
 			margin-left: 170px;
 		}
-	
 	}
 	
 	.referencedRegulations {
@@ -655,7 +636,7 @@ form.search {
 	}
 	
 	.page-block {
-		border: 1px solid $grey-border;
+		@include border-grey();
 		border-radius: 2px;
 		font-size: 0.8em;
 		margin: 0px 2px;
@@ -667,8 +648,35 @@ form.search {
 			background: #efefef;
 		}	
 	}
+}
+
+.filter-box {
+	@include border-grey();
+    border-radius: 5px;
+    font-size: 0.9em;
+    margin: 40px 0 0;
+    min-height: 250px;
+    padding: 10px 5px;
+
+	p {
+		text-decoration: underline;
+	}
 	
+	.filter-item {
+		@include border-grey();
+		color: $blue;
+		padding: 4px 6px;
+		
+	}
 	
-	
+	.remove-button {
+		cursor: pointer;
+		float: right;
+		margin: 0px 0px 0px 5px;
+		
+		&:hover {
+			color: #666;
+		}
+	}
 }
 

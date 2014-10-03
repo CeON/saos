@@ -35,10 +35,10 @@ var CourtDivisionSelect = (function() {
 	
 	/* Get divisions by court id and fill element 'select' divisions with received items */
 	changeCourt = function() {
-		var selectedDivision = $court.find("option:selected").attr("value");
+		var selectedCourtId = $court.find("option:selected").attr("value");
 		
-		if (selectedDivision !== "") {
-			$.ajax(divisionUrl + selectedDivision)
+		if (selectedCourtId !== "") {
+			$.ajax(divisionUrl + selectedCourtId)
 			 .done(function(data) {
 				 var options = prepareOption("", ""),
 				 	i = 0,
@@ -56,8 +56,8 @@ var CourtDivisionSelect = (function() {
 		}
 	},
 	
-	prepareOption = function(id, name) {
-		return "<option value='" + id + "' >" + name + "</option>";
+	prepareOption = function(id, name) { 
+		return "<option content='" + name + "' value='" + id + "' >" + name + "</option>";
 	};
 	
 	space.run = function($this, source) {

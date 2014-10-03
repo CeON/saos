@@ -1,40 +1,40 @@
 /*
- * Module that enables usage of search filters like: page size and sorting method.
+ * Module that enables usage of search criteria like: page size and sorting method.
  * 
  * @author Łukasz Pawełczak
  */
-var SearchFilters = {
+var SearchCriteria = {
 		
 		pageSize: "#searchPageSize",
 		sorting: "#searchSorting",
 		direction: "#searchSortingDirection",
-		form: "#searchForm",
+		form: "#search-form",
 		
 		init: function() {
-			SearchFilters.assigPageSize();
-			SearchFilters.assignSort();
+			SearchCriteria.assigPageSize();
+			SearchCriteria.assignSort();
 		},
 		
 		/* Page size change automatically submits search form. */
 		assigPageSize: function() {
-			$(SearchFilters.pageSize).change(function() {
-				SearchFilters.submitForm();
+			$(SearchCriteria.pageSize).change(function() {
+				SearchCriteria.submitForm();
 			});
 		},
 		
 		/* Sorting method change automatically submits search form with new criteria. */
 		assignSort: function() {
-			$(SearchFilters.sorting + ", " + SearchFilters.direction).change(function() {
-				var $sort = $(SearchFilters.sorting),
+			$(SearchCriteria.sorting + ", " + SearchCriteria.direction).change(function() {
+				var $sort = $(SearchCriteria.sorting),
 					value = $sort.find(":selected").attr("value"),
-					checked = $(SearchFilters.direction + ":checked").length;
+					checked = $(SearchCriteria.direction + ":checked").length;
 				
 				$sort.find(":selected").attr("value", value + "," + (checked > 0 ? "asc" : "desc"));
-				SearchFilters.submitForm();
+				SearchCriteria.submitForm();
 			});
 		},
 		
 		submitForm: function() {
-			$(SearchFilters.form).submit();
+			$(SearchCriteria.form).submit();
 		},
 };

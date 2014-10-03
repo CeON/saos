@@ -14,13 +14,21 @@
 <saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
 
 <div class="container judgment-list">
+
+	<div class="col-md-9">	
 	
-	<saos:judgments items="${judgments}" />
-
-	<c:if test="${resultsNo == 0}">
-		<spring:message code="judgment.results.noRecords" />
-	</c:if>
-
+		<saos:judgments items="${judgments}" />
+	
+		<c:if test="${resultsNo == 0}">
+			<spring:message code="judgment.results.noRecords" />
+		</c:if>
+	
+	</div>
+	
+	<div class="col-md-3">
+		<saos:filterBox enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" ></saos:filterBox>	
+	</div>
+	
 </div>
 
 <saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
