@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.edu.icm.saos.api.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.api.exceptions.WrongRequestParameterException;
 import pl.edu.icm.saos.api.judgments.extractors.JudgmentsParametersExtractor;
 import pl.edu.icm.saos.api.judgments.parameters.JudgmentsParameters;
@@ -30,7 +31,7 @@ import static pl.edu.icm.saos.api.judgments.extractors.JudgmentsParametersExtrac
  */
 @Controller
 @RequestMapping("/api/judgments")
-public class JudgmentsController {
+public class JudgmentsController extends ControllersEntityExceptionHandler {
 
     //******* fields *************
     @Autowired

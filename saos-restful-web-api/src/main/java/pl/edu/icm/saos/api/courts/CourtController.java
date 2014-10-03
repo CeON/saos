@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.edu.icm.saos.api.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 
@@ -20,7 +21,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/api/courts/{courtId}")
-public class CourtController {
+public class CourtController extends ControllersEntityExceptionHandler {
 
     //******** fields ***********
     @Autowired
