@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.icm.saos.api.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.api.exceptions.WrongRequestParameterException;
 import pl.edu.icm.saos.api.parameters.Pagination;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
@@ -25,7 +26,7 @@ import static pl.edu.icm.saos.api.ApiConstants.OFFSET;
  */
 @Controller
 @RequestMapping("/api/courts")
-public class CourtsController {
+public class CourtsController extends ControllersEntityExceptionHandler{
 
     // ******** fields *********
     @Autowired
