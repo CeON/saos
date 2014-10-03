@@ -3,11 +3,14 @@ package pl.edu.icm.saos.api.judgments.transformers;
 
 
 import com.google.common.base.Preconditions;
+
 import org.joda.time.LocalDate;
 import org.springframework.stereotype.Service;
+
 import pl.edu.icm.saos.api.transformers.SearchResultApiTransformer;
 import pl.edu.icm.saos.persistence.builder.BuildersFactory;
 import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 
@@ -34,15 +37,17 @@ public class JudgmentSearchResultApiTransformer implements SearchResultApiTransf
                 .courtCases(element.getCaseNumbers().stream().map(CourtCase::new).collect(Collectors.toList()))
                 .judgmentType(Judgment.JudgmentType.valueOf(element.getJudgmentType()))
                 .judgmentDate(new LocalDate(element.getJudgmentDate()))
-                .division(commonCourtDivision(10) //TODO add division id field into JudgmentSearchResult and use it here
+                .division(commonCourtDivision(element.getCourtDivisionId())
+                                .code(element.getCourtDivisionCode())
                                 .name(element.getCourtDivisionName())
-                                .court(commonCourt(100) //TODO add court id field into JudgmentSearchResult and use it here
+                                .court(commonCourt(element.getCourtId())
+                                                .code(element.getCourtCode())
                                                 .name(element.getCourtName()).build()
                                 ).build()
                 )
                 .judges(
                         element.getJudges().stream()
-                                .map((name) -> judge(name).build())
+                                .map((judge) -> judge(judge.getName()).judgesRoles(judge.getSpecialRoles().stream().toArray(JudgeRole[]::new)).build())
                                 .collect(Collectors.toList())
                 )
                 .keywords(

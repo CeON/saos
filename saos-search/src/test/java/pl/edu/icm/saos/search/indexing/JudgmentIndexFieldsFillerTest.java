@@ -59,14 +59,18 @@ public class JudgmentIndexFieldsFillerTest {
         
         
         // judges
-        Judge firstJudge = new Judge("Jan Kowalski", JudgeRole.PRESIDING_JUDGE);
-        Judge secondJudge = new Judge("Adam Nowak");
+        Judge firstJudge = new Judge("Jan Kowalski", JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE);
+        Judge secondJudge = new Judge("Jacek Zieliński", JudgeRole.REPORTING_JUDGE);
+        Judge thirdJudge =  new Judge("Adam Nowak");
         Judgment judgesJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
-                .judges(Lists.newArrayList(firstJudge, secondJudge))
+                .judges(Lists.newArrayList(firstJudge, secondJudge, thirdJudge))
                 .build();
         Map<String, List<String>> judgesFields = StringListMap.of(new String[][] {
-                { "judge", "Adam Nowak" },
-                { "judgeWithRole_#_PRESIDING_JUDGE", "Jan Kowalski" }
+                { "judge", "Jan Kowalski|PRESIDING_JUDGE|REPORTING_JUDGE", "Jacek Zieliński|REPORTING_JUDGE", "Adam Nowak" },
+                { "judgeName", "Jan Kowalski", "Jacek Zieliński", "Adam Nowak" },
+                { "judgeWithRole_#_PRESIDING_JUDGE", "Jan Kowalski" },
+                { "judgeWithRole_#_REPORTING_JUDGE", "Jan Kowalski", "Jacek Zieliński" },
+                { "judgeWithRole_#_NO_ROLE", "Adam Nowak" }
         });
         
         
@@ -134,7 +138,7 @@ public class JudgmentIndexFieldsFillerTest {
             {
                 BuildersFactory.commonCourtJudgmentWrapper(1)
                     .courtCases(Lists.newArrayList(new CourtCase("ABC1A")))
-                    .judges(Lists.newArrayList(secondJudge))
+                    .judges(Lists.newArrayList(thirdJudge))
                     .legalBases(Lists.newArrayList("art 1023 kc"))
                     .referencedRegulations(Lists.newArrayList(firstReferencedRegulation))
                     .judgmentDate(new LocalDate(2014, 9, 4))
@@ -146,6 +150,8 @@ public class JudgmentIndexFieldsFillerTest {
                     {"databaseId", "1"},
                     {"caseNumber", "ABC1A"},
                     {"judge", "Adam Nowak"},
+                    {"judgeName", "Adam Nowak"},
+                    {"judgeWithRole_#_NO_ROLE", "Adam Nowak"},
                     {"legalBases", "art 1023 kc"},
                     {"referencedRegulations", "Ustawa 1"},
                     {"judgmentDate", "2014-09-04T00:00:00Z"},

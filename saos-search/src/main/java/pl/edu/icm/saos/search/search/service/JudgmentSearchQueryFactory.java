@@ -43,14 +43,25 @@ public class JudgmentSearchQueryFactory implements SearchQueryFactory<JudgmentCr
     private String transformCriteria(JudgmentCriteria criteria) {
         StringBuilder sb = new StringBuilder();
         sb.append(transformSingleCriterion(JudgmentIndexField.CONTENT, criteria.getAll()));
-        sb.append(transformSingleCriterion(JudgmentIndexField.COURT_ID, criteria.getCourtId()));
+        sb.append(transformSingleCriterion(JudgmentIndexField.COURT_TYPE,
+                (criteria.getCourtType() == null) ? null : criteria.getCourtType().name()));
+        sb.append(transformSingleCriterion(JudgmentIndexField.COURT_ID,
+                (criteria.getCourtId() == null) ? null : String.valueOf(criteria.getCourtId())));
+        sb.append(transformSingleCriterion(JudgmentIndexField.COURT_CODE, criteria.getCourtCode()));
         sb.append(transformSingleCriterion(JudgmentIndexField.COURT_NAME, criteria.getCourtName()));
+        sb.append(transformSingleCriterion(JudgmentIndexField.COURT_DIVISION_ID,
+                (criteria.getCourtDivisionId() == null) ? null : String.valueOf(criteria.getCourtDivisionId())));
+        sb.append(transformSingleCriterion(JudgmentIndexField.COURT_DIVISION_CODE, criteria.getCourtDivisionCode()));
+        sb.append(transformSingleCriterion(JudgmentIndexField.COURT_DIVISION_NAME, criteria.getCourtDivisionName()));
         sb.append(transformDateRangeCriterion(JudgmentIndexField.JUDGMENT_DATE, criteria.getDateFrom(), criteria.getDateTo()));
-        sb.append(transformSingleCriterion(JudgmentIndexField.JUDGE, criteria.getJudgeName()));
+        sb.append(transformSingleCriterion(JudgmentIndexField.JUDGMENT_TYPE,
+                (criteria.getJudgmentType() == null) ? null : criteria.getJudgmentType().name()));
+        sb.append(transformSingleCriterion(JudgmentIndexField.JUDGE_NAME, criteria.getJudgeName()));
         sb.append(transformSingleCriterion(JudgmentIndexField.KEYWORD, criteria.getKeyword()));
         sb.append(transformSingleCriterion(JudgmentIndexField.LEGAL_BASE, criteria.getLegalBase()));
         sb.append(transformSingleCriterion(JudgmentIndexField.REFERENCED_REGULATION, criteria.getReferencedRegulation()));
         sb.append(transformSingleCriterion(JudgmentIndexField.CASE_NUMBER, criteria.getCaseNumber()));
+        
         return sb.toString().trim();
     }
     

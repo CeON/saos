@@ -23,7 +23,7 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getAll(), judgmentCriteria.getAll());
 		assertEquals(judgmentCriteriaForm.getSignature(), judgmentCriteria.getCaseNumber());
 
-		assertEquals(judgmentCriteriaForm.getCourtId(), judgmentCriteria.getCourtId());
+		assertEquals(Integer.valueOf(judgmentCriteriaForm.getCourtId()), judgmentCriteria.getCourtId());
 		assertEquals(judgmentCriteriaForm.getCourtName(), judgmentCriteria.getCourtName());
 		
 		assertEquals(judgmentCriteriaForm.getJudgeName(), judgmentCriteria.getJudgeName());

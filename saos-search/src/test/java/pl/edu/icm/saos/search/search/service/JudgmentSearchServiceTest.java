@@ -23,7 +23,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.search.SearchTestConfiguration;
+import pl.edu.icm.saos.search.search.model.JudgeResult;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
@@ -80,11 +84,27 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCaseNumber("XV K 792/13").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCaseNumber("XV").build() },
             
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCourtId("15500000").build() },
-            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCourtId("15505000").build() },
+            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.SENTENCE).build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.DECISION).build() },
+            
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCourtType(CommonCourtType.DISTRICT).build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCourtType(CommonCourtType.APPEAL).build() },
+            
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCourtId(36).build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCourtId(37).build() },
+
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCourtCode("15500000").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCourtCode("15505000").build() },
             
             { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCourtName("Sąd Apelacyjny we Wrocławiu").build() },
             
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withDivisionId(3).build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withDivisionId(4).build() },
+            
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withDivisionCode("0001521").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withDivisionCode("0001522").build() },
+            
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withDivisionName("III Wydział Pracy i Ubezpieczeń Społecznych").build() },
         };
     }
     
@@ -129,11 +149,17 @@ public class JudgmentSearchServiceTest {
         assertEquals(expectedDate, result.getJudgmentDate());
         
         assertEquals(3, result.getJudges().size());
-        assertTrue(result.getJudges().contains("Jacek Witkowski"));
-        assertTrue(result.getJudges().contains("Elżbieta Kunecka"));
-        assertTrue(result.getJudges().contains("Irena Różańska-Dorosz"));
+        assertTrue(result.getJudges().contains(new JudgeResult("Jacek Witkowski", JudgeRole.PRESIDING_JUDGE)));
+        assertTrue(result.getJudges().contains(new JudgeResult("Elżbieta Kunecka")));
+        assertTrue(result.getJudges().contains(new JudgeResult("Irena Różańska-Dorosz")));
         
+        
+        assertEquals(Integer.valueOf(1), result.getCourtId());
+        assertEquals("15500000", result.getCourtCode());
         assertEquals("Sąd Apelacyjny we Wrocławiu", result.getCourtName());
+        
+        assertEquals(Integer.valueOf(3), result.getCourtDivisionId());
+        assertEquals("0001521", result.getCourtDivisionCode());
         assertEquals("III Wydział Pracy i Ubezpieczeń Społecznych", result.getCourtDivisionName());
         
         assertEquals(1, result.getKeywords().size());
@@ -184,11 +210,15 @@ public class JudgmentSearchServiceTest {
         doc.addField("referencedRegulations", thirdRR);
         
         doc.addField("courtType", "DISTRICT");
-        doc.addField("courtId", "15050505"); // id: 36
+        doc.addField("courtId", "36");
+        doc.addField("courtCode", "15050505");
         doc.addField("courtName", "Sąd Rejonowy w Białymstoku");
-        doc.addField("courtDivisionId", "0007506"); // id: 213
+        doc.addField("courtDivisionId", "213");
+        doc.addField("courtDivisionCode", "0007506");
         doc.addField("courtDivisionName", "XV Wydział Karny");
         
+        doc.addField("judge", "Marcin Kęska|PRESIDING_JUDGE");
+        doc.addField("judgeName", "Marcin Kęska");
         doc.addField("judgeWithRole_#_PRESIDING_JUDGE", "Marcin Kęska");
         
         doc.addField("keyword", "przestępstwo przeciwko wolności");
@@ -207,9 +237,15 @@ public class JudgmentSearchServiceTest {
         doc.addField("judgmentDate", "2012-05-15T00:00:00Z");
         doc.addField("judgmentType", "SENTENCE");
 
-        doc.addField("judgeWithRole_#_PRESIDING_JUDGE", "Jacek Witkowski");
+        doc.addField("judge", "Jacek Witkowski|PRESIDING_JUDGE");
         doc.addField("judge", "Elżbieta Kunecka");
         doc.addField("judge", "Irena Różańska-Dorosz");
+        doc.addField("judgeName", "Jacek Witkowski");
+        doc.addField("judgeName", "Elżbieta Kunecka");
+        doc.addField("judgeName", "Irena Różańska-Dorosz");
+        doc.addField("judgeWithRole_#_PRESIDING_JUDGE", "Jacek Witkowski");
+        doc.addField("judgeWithRole_#_NO_ROLE", "Elżbieta Kunecka");
+        doc.addField("judgeWithRole_#_NO_ROLE", "Irena Różańska-Dorosz");
         
         String firstRR = "Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296 - art. 385)"; // id: 6810
         String secondRR = "Dekret z dnia 8 października 1946 r. - Prawo spadkowe (Dz. U. z 1946 r. Nr 60, poz. 328 - )"; // id: 6811
@@ -221,9 +257,11 @@ public class JudgmentSearchServiceTest {
         doc.addField("referencedRegulations", fourthRR);
         
         doc.addField("courtType", "APPEAL");
-        doc.addField("courtId", "15500000"); // id: 1
+        doc.addField("courtId", "1");
+        doc.addField("courtCode", "15500000");
         doc.addField("courtName", "Sąd Apelacyjny we Wrocławiu");
-        doc.addField("courtDivisionId", "0001521"); // id: 3
+        doc.addField("courtDivisionId", "3");
+        doc.addField("courtDivisionCode", "0001521");
         doc.addField("courtDivisionName", "III Wydział Pracy i Ubezpieczeń Społecznych");
         
         doc.addField("keyword", "zwrot nienależnie pobranych świadczeń z ubezpieczenia");

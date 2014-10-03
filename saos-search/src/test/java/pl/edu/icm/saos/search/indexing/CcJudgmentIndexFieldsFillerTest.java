@@ -56,16 +56,15 @@ public class CcJudgmentIndexFieldsFillerTest {
         Map<String, List<String>> keywordsFields = StringListMap.of(new String[][] {
                 { "keyword", "some keyword", "some other keyword" },
         });
-        System.out.println(keywordsFields);
         
         
         // common court
-        CommonCourt commonCourt = BuildersFactory.commonCourt(1)
+        CommonCourt commonCourt = BuildersFactory.commonCourt(123)
                 .code("15200000")
                 .name("Sąd Apelacyjny w Krakowie")
                 .type(CommonCourtType.APPEAL)
                 .build();
-        CommonCourtDivision commonCourtDivision = BuildersFactory.commonCourtDivision(1)
+        CommonCourtDivision commonCourtDivision = BuildersFactory.commonCourtDivision(816)
                 .code("0000503")
                 .name("I Wydział Cywilny")
                 .court(commonCourt)
@@ -75,9 +74,11 @@ public class CcJudgmentIndexFieldsFillerTest {
                 .build();
         Map<String, List<String>> commonCourtFields = StringListMap.of(new String[][] {
                 { "courtType", "APPEAL" },
-                { "courtId", "15200000" },
+                { "courtId", "123" },
+                { "courtCode", "15200000" },
                 { "courtName", "Sąd Apelacyjny w Krakowie" },
-                { "courtDivisionId", "0000503" },
+                { "courtDivisionId", "816" },
+                { "courtDivisionCode", "0000503" },
                 { "courtDivisionName", "I Wydział Cywilny" },
         });
         

@@ -16,7 +16,9 @@ public class JudgmentCriteriaFormConverter {
 		
 		judgmentCriteria.setAll(element.getAll());
 		judgmentCriteria.setCaseNumber(element.getSignature());
-		judgmentCriteria.setCourtId(element.getCourtId());
+		try {
+		    judgmentCriteria.setCourtId(Integer.valueOf(element.getCourtId()));
+		} catch (NumberFormatException e) { }
 		judgmentCriteria.setCourtName(element.getCourtName());
 		judgmentCriteria.setJudgeName(element.getJudgeName());
 		judgmentCriteria.setKeyword(element.getKeyword());
