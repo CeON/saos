@@ -39,10 +39,12 @@ public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller<Commo
 
         fieldAdder.addField(doc, JudgmentIndexField.COURT_TYPE, court.getType().name());
 
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_ID, court.getCode());
+        fieldAdder.addField(doc, JudgmentIndexField.COURT_ID, String.valueOf(court.getId()));
+        fieldAdder.addField(doc, JudgmentIndexField.COURT_CODE, court.getCode());
         fieldAdder.addField(doc, JudgmentIndexField.COURT_NAME, court.getName());
 
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_DIVISION_ID, division.getCode());
+        fieldAdder.addField(doc, JudgmentIndexField.COURT_DIVISION_ID, String.valueOf(division.getId()));
+        fieldAdder.addField(doc, JudgmentIndexField.COURT_DIVISION_CODE, division.getCode());
         fieldAdder.addField(doc, JudgmentIndexField.COURT_DIVISION_NAME, division.getName());
     }
 }

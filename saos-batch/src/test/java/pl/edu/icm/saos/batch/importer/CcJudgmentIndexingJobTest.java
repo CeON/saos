@@ -36,6 +36,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
@@ -114,7 +115,16 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         assertSolrDocumentValues(doc, JudgmentIndexField.CASE_NUMBER.getFieldName(), "caseNumber" + i);
         assertSolrDocumentValues(doc, JudgmentIndexField.JUDGMENT_TYPE.getFieldName(), "SENTENCE");
         
-        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE.getFieldName(), "judgeName" + i);
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE.getFieldName(),
+                "judgeName" + i + "|PRESIDING_JUDGE|REPORTING_JUDGE", "judgeNameWithoutRole" + i);
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_NAME .getFieldName(), "judgeName" + i, "judgeNameWithoutRole" + i);
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_WITH_ROLE.getFieldName() + "_#_PRESIDING_JUDGE",
+                "judgeName" + i);
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_WITH_ROLE.getFieldName() + "_#_REPORTING_JUDGE",
+                "judgeName" + i);
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_WITH_ROLE.getFieldName() + "_#_NO_ROLE",
+                "judgeNameWithoutRole" + i);
+        
         assertSolrDocumentValues(doc, JudgmentIndexField.LEGAL_BASE.getFieldName(), "legalBase" + i);
         assertSolrDocumentValues(doc, JudgmentIndexField.REFERENCED_REGULATION.getFieldName(), "referencedRegulation" + i);
         assertSolrDocumentValues(doc, JudgmentIndexField.KEYWORD.getFieldName(), "keyword" + i);
@@ -158,7 +168,8 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
             ccJudgment.setJudgmentType(JudgmentType.SENTENCE);
             ccJudgment.addCourtCase(new CourtCase("caseNumber" + i));
             
-            ccJudgment.addJudge(new Judge("judgeName" + i));
+            ccJudgment.addJudge(new Judge("judgeName" + i, JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE));
+            ccJudgment.addJudge(new Judge("judgeNameWithoutRole" + i));
             
             ccJudgment.addLegalBase("legalBase" + i);
             JudgmentReferencedRegulation referencedRegulation = new JudgmentReferencedRegulation();

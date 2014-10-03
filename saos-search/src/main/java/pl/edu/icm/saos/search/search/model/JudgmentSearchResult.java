@@ -15,10 +15,14 @@ public class JudgmentSearchResult extends Searchable {
     private String judgmentType;
     private LocalDate judgmentDate;
     
+    private Integer courtId;
+    private String courtCode;
     private String courtName;
+    private Integer courtDivisionId;
+    private String courtDivisionCode;
     private String courtDivisionName;
     
-    private List<String> judges;
+    private List<JudgeResult> judges;
     private List<String> keywords;
     private String content;
 
@@ -34,13 +38,25 @@ public class JudgmentSearchResult extends Searchable {
     public LocalDate getJudgmentDate() {
         return judgmentDate;
     }
+    public Integer getCourtId() {
+        return courtId;
+    }
+    public String getCourtCode() {
+        return courtCode;
+    }
     public String getCourtName() {
         return courtName;
+    }
+    public Integer getCourtDivisionId() {
+        return courtDivisionId;
+    }
+    public String getCourtDivisionCode() {
+        return courtDivisionCode;
     }
     public String getCourtDivisionName() {
         return courtDivisionName;
     }
-    public List<String> getJudges() {
+    public List<JudgeResult> getJudges() {
         return judges;
     }
     public List<String> getKeywords() {
@@ -62,13 +78,25 @@ public class JudgmentSearchResult extends Searchable {
     public void setJudgmentDate(LocalDate judgmentDate) {
         this.judgmentDate = judgmentDate;
     }
+    public void setCourtId(Integer courtId) {
+        this.courtId = courtId;
+    }
+    public void setCourtCode(String courtCode) {
+        this.courtCode = courtCode;
+    }
     public void setCourtName(String courtName) {
         this.courtName = courtName;
+    }
+    public void setCourtDivisionId(Integer courtDivisionId) {
+        this.courtDivisionId = courtDivisionId;
+    }
+    public void setCourtDivisionCode(String courtDivisionCode) {
+        this.courtDivisionCode = courtDivisionCode;
     }
     public void setCourtDivisionName(String courtDivisionName) {
         this.courtDivisionName = courtDivisionName;
     }
-    public void setJudges(List<String> judges) {
+    public void setJudges(List<JudgeResult> judges) {
         this.judges = judges;
     }
     public void setKeywords(List<String> keywords) {
@@ -77,5 +105,5 @@ public class JudgmentSearchResult extends Searchable {
     public void setContent(String content) {
         this.content = content;
     }
-    
+
 }

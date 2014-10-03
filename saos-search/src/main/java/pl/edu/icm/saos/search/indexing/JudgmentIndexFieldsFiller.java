@@ -2,6 +2,7 @@ package pl.edu.icm.saos.search.indexing;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,12 +49,13 @@ public class JudgmentIndexFieldsFiller<J extends Judgment> {
         for (Judge judge : item.getJudges()) {
             List<JudgeRole> roles = judge.getSpecialRoles();
             
+            fieldAdder.addFieldWithAttributes(doc, JudgmentIndexField.JUDGE, judge.getName(),
+                    roles.stream().map(JudgeRole::name).collect(Collectors.toList()));
+            fieldAdder.addField(doc, JudgmentIndexField.JUDGE_NAME, judge.getName());
             if (roles.isEmpty()) {
-                fieldAdder.addField(doc, JudgmentIndexField.JUDGE, judge.getName());
+                fieldAdder.addField(doc, JudgmentIndexField.JUDGE_WITH_ROLE, "NO_ROLE", judge.getName());
             } else {
-                for (JudgeRole role : roles) {
-                    fieldAdder.addField(doc, JudgmentIndexField.JUDGE_WITH_ROLE, role.name(), judge.getName());
-                }
+                roles.forEach(role -> fieldAdder.addField(doc, JudgmentIndexField.JUDGE_WITH_ROLE, role.name(), judge.getName()));
             }
         }
     }

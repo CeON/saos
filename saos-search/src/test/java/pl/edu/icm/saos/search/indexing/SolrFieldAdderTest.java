@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
+import com.google.common.collect.Lists;
+
 /**
  * @author madryk
  */
@@ -42,6 +44,23 @@ public class SolrFieldAdderTest {
         fieldAdder.addField(doc, JudgmentIndexField.JUDGE_WITH_ROLE, "PRESIDING_JUDGE", "Jan Kowalski");
         
         assertSingleField(doc, "judgeWithRole_#_PRESIDING_JUDGE", "Jan Kowalski");
+    }
+    
+    public void addFieldWithAttributes() {
+        SolrInputDocument doc = new SolrInputDocument();
+        
+        fieldAdder.addFieldWithAttributes(doc, JudgmentIndexField.JUDGE, "Jan Kowalski",
+                Lists.newArrayList("PRESIDING_JUDGE", "REPORTING_JUDGE"));
+        
+        assertSingleField(doc, "judge", "Jan Kowalski|PRESIDING_JUDGE|REPORTING_JUDGE");
+    }
+    
+    public void addFieldWithAttributes_NO_ATTRIBUTES() {
+        SolrInputDocument doc = new SolrInputDocument();
+        
+        fieldAdder.addFieldWithAttributes(doc, JudgmentIndexField.JUDGE, "Jan Kowalski", Lists.newArrayList());
+        
+        assertSingleField(doc, "judge", "Jan Kowalski");
     }
     
     @Test

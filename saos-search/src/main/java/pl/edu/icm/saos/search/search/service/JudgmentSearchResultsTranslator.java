@@ -2,6 +2,7 @@ package pl.edu.icm.saos.search.search.service;
 
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
@@ -9,7 +10,11 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
+
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+import pl.edu.icm.saos.search.search.model.JudgeResult;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 
@@ -50,12 +55,26 @@ public class JudgmentSearchResultsTranslator implements SearchResultsTranslator<
         LocalDate judgmentDate = fieldFetcher.fetchDateValue(document, JudgmentIndexField.JUDGMENT_DATE);
         result.setJudgmentDate(judgmentDate);
         
+        Integer courtId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.COURT_ID);
+        String courtCode = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_CODE);
         String court = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_NAME);
-        String courtDivision = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_DIVISION_NAME);
-        result.setCourtName(court);
-        result.setCourtDivisionName(courtDivision);
         
-        List<String> judges = fieldFetcher.fetchValues(document, JudgmentIndexField.JUDGE);
+        result.setCourtId(courtId);
+        result.setCourtCode(courtCode);
+        result.setCourtName(court);
+
+        Integer courtDivisionId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.COURT_DIVISION_ID);
+        String courtDivisionCode = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_DIVISION_CODE);
+        String courtDivision = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_DIVISION_NAME);
+        
+        result.setCourtDivisionId(courtDivisionId);
+        result.setCourtDivisionCode(courtDivisionCode);
+        result.setCourtDivisionName(courtDivision);
+                
+        List<JudgeResult> judges = Lists.newArrayList();
+        List<Pair<String, List<JudgeRole>>> judgesWithRoleAttributes = 
+                fieldFetcher.fetchValuesWithEnumedAttributes(document, JudgmentIndexField.JUDGE, JudgeRole.class);
+        judgesWithRoleAttributes.forEach(p -> judges.add(new JudgeResult(p.getLeft(), p.getRight().toArray(new JudgeRole[0]))));
         result.setJudges(judges);
         
         List<String> keywords = fieldFetcher.fetchValues(document, JudgmentIndexField.KEYWORD);

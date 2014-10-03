@@ -77,11 +77,14 @@
    
    <field name="courtType" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtId" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="courtCode" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtName" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtDivisionId" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="courtDivisionCode" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
    
-   <field name="judge" type="text_general" indexed="true" stored="true" multiValued="true" />
+   <field name="judge" type="string" indexed="false" stored="true" multiValued="true" />
+   <field name="judgeName" type="text_general" indexed="true" stored="true" multiValued="true" />
    <dynamicField name="judgeWithRole*" type="text_general" indexed="true" stored="true" multiValued="true" />
    
    <field name="keyword" type="text_keyword" indexed="true" stored="true" multiValued="true" />
@@ -95,7 +98,6 @@
         unknown fields indexed and/or stored by default --> 
    <!--dynamicField name="*" type="ignored" multiValued="true" /-->
    
- <copyField source="judgeWithRole*" dest="judge" />
 
  <uniqueKey>databaseId</uniqueKey>
  

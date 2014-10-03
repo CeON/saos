@@ -48,7 +48,7 @@ public class JudgmentSearchQueryFactoryTest {
 
         SolrQuery solrQuery = queryFactory.createQuery(criteria, null);
 
-        Assert.assertEquals("+courtName:word1 +judge:word2", solrQuery.getQuery());
+        Assert.assertEquals("+courtName:word1 +judgeName:word2", solrQuery.getQuery());
     }
     
     @Test
@@ -80,6 +80,16 @@ public class JudgmentSearchQueryFactoryTest {
         SolrQuery solrQuery = queryFactory.createQuery(criteria, null);
 
         Assert.assertEquals("+judgmentDate:[2014-04-01T00:00:00Z TO 2014-06-01T23:59:59Z]", solrQuery.getQuery());
+    }
+    
+    @Test
+    public void shouldCreateQueryWithJudgeName() {
+        JudgmentCriteria criteria = new JudgmentCriteria(null)
+            .setJudgeName("Adam Nowak");
+
+        SolrQuery solrQuery = queryFactory.createQuery(criteria, null);
+
+        Assert.assertEquals("+judgeName:Adam\\ Nowak", solrQuery.getQuery());
     }
     
     @Test

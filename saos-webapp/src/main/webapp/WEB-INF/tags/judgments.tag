@@ -23,7 +23,7 @@
 				<div class="judges" >
 					<span><spring:message code="judgment.results.judges" />:</span>
 					<c:forEach items="${judgment.judges}" var="judge" >
-						<div class="judge"><c:out value="${judge}" /></div>
+						<div class="judge"><c:out value="${judge.name}" /></div>
 					</c:forEach>	
 				</div>
 				

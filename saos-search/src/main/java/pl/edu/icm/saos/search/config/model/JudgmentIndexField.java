@@ -17,11 +17,14 @@ public enum JudgmentIndexField implements IndexField {
     
     COURT_TYPE("courtType"),
     COURT_ID("courtId"),
+    COURT_CODE("courtCode"),
     COURT_NAME("courtName"),
     COURT_DIVISION_ID("courtDivisionId"),
+    COURT_DIVISION_CODE("courtDivisionCode"),
     COURT_DIVISION_NAME("courtDivisionName"),
     
     JUDGE("judge"),
+    JUDGE_NAME("judgeName"),
     JUDGE_WITH_ROLE("judgeWithRole"),
     
     KEYWORD("keyword"),

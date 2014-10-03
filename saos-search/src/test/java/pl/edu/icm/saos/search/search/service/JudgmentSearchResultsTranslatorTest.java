@@ -12,7 +12,9 @@ import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+import pl.edu.icm.saos.search.search.model.JudgeResult;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 
@@ -73,17 +75,19 @@ public class JudgmentSearchResultsTranslatorTest {
         doc.addField("referencedRegulations", "Ustawa 2");
         
         doc.addField("courtType", "APPEAL");
-        doc.addField("courtId", "15200000");
+        doc.addField("courtId", "123");
+        doc.addField("courtCode", "15200000");
         doc.addField("courtName", "Sąd Apelacyjny w Krakowie");
-        doc.addField("courtDivisionId", "0000503");
+        doc.addField("courtDivisionId", "816");
+        doc.addField("courtDivisionCode", "0000503");
         doc.addField("courtDivisionName", "I Wydział Cywilny");
         
         doc.addField("keyword", "some keyword");
         doc.addField("keyword", "some other keyword");
         
-        doc.addField("judge", "Jan Kowalski");
+        doc.addField("judge", "Jan Kowalski|PRESIDING_JUDGE|REPORTING_JUDGE");
+        doc.addField("judge", "Jacek Zieliński|REPORTING_JUDGE");
         doc.addField("judge", "Adam Nowak");
-        doc.addField("judgeWithRole_#_PRESIDING_JUDGE", "Jan Kowalski");
         
         
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
@@ -96,16 +100,22 @@ public class JudgmentSearchResultsTranslatorTest {
         Assert.assertEquals(new LocalDate(2014, 10, 7), result.getJudgmentDate());
         Assert.assertEquals("SENTENCE", result.getJudgmentType());
         
+        Assert.assertEquals(Integer.valueOf(123), result.getCourtId());
+        Assert.assertEquals("15200000", result.getCourtCode());
         Assert.assertEquals("Sąd Apelacyjny w Krakowie", result.getCourtName());
+
+        Assert.assertEquals(Integer.valueOf(816), result.getCourtDivisionId());
+        Assert.assertEquals("0000503", result.getCourtDivisionCode());
         Assert.assertEquals("I Wydział Cywilny", result.getCourtDivisionName());
         
         Assert.assertEquals(2, result.getKeywords().size());
         Assert.assertTrue(result.getKeywords().contains("some keyword"));
         Assert.assertTrue(result.getKeywords().contains("some other keyword"));
         
-        Assert.assertEquals(2, result.getJudges().size());
-        Assert.assertTrue(result.getJudges().contains("Jan Kowalski"));
-        Assert.assertTrue(result.getJudges().contains("Adam Nowak"));
+        Assert.assertEquals(3, result.getJudges().size());
+        Assert.assertTrue(result.getJudges().contains(new JudgeResult("Jan Kowalski", JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE)));
+        Assert.assertTrue(result.getJudges().contains(new JudgeResult("Jacek Zieliński", JudgeRole.REPORTING_JUDGE)));
+        Assert.assertTrue(result.getJudges().contains(new JudgeResult("Adam Nowak")));
     }
     
     

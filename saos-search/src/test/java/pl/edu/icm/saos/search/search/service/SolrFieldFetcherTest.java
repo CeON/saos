@@ -6,10 +6,12 @@ import static junit.framework.Assert.assertTrue;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.solr.common.SolrDocument;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 /**
@@ -27,6 +29,16 @@ public class SolrFieldFetcherTest {
         String actual = fieldFetcher.fetchValue(doc, JudgmentIndexField.JUDGE);
         
         assertEquals("Jan Kowalski", actual);
+    }
+    
+    @Test
+    public void fetchIntValue() {
+        SolrDocument doc = new SolrDocument();
+        doc.addField("courtId", "123");
+        
+        Integer actual = fieldFetcher.fetchIntValue(doc, JudgmentIndexField.COURT_ID);
+        
+        assertEquals(Integer.valueOf(123), actual);
     }
     
     @Test
@@ -52,6 +64,65 @@ public class SolrFieldFetcherTest {
         assertEquals(2, actual.size());
         assertTrue(actual.contains("Jan Kowalski"));
         assertTrue(actual.contains("Adam Nowak"));
+    }
+    
+    @Test
+    public void fetchValues_FIELD_WITH_POSTFIX() {
+        SolrDocument doc = new SolrDocument();
+        doc.addField("judgeWithRole_#_PRESIDING_JUDGE", "Jan Kowalski");
+        doc.addField("judgeWithRole_#_PRESIDING_JUDGE", "Jan Nowak");
+        doc.addField("judgeWithRole_#_REPORTING_JUDGE", "Adam Nowak");
+        
+        List<String> actual = fieldFetcher.fetchValues(doc, JudgmentIndexField.JUDGE_WITH_ROLE, "PRESIDING_JUDGE");
+        
+        assertEquals(2, actual.size());
+        assertTrue(actual.contains("Jan Kowalski"));
+        assertTrue(actual.contains("Jan Nowak"));
+    }
+    
+    @Test
+    public void fetchValuesWithAttributes() {
+        SolrDocument doc = new SolrDocument();
+        doc.addField("judge", "Jan Kowalski|PRESIDING_JUDGE|REPORTING_JUDGE");
+        doc.addField("judge", "Adam Nowak|PRESIDING_JUDGE|UNKNOWN_ROLE");
+        
+        List<Pair<String, List<String>>> actual = fieldFetcher.fetchValuesWithAttributes(doc, JudgmentIndexField.JUDGE);
+        
+        assertEquals(2, actual.size());
+        Pair<String, List<String>> actualFirstJudge = actual.get(0);
+        Pair<String, List<String>> actualSecondJudge = actual.get(1);
+        
+        assertEquals("Jan Kowalski", actualFirstJudge.getLeft());
+        assertEquals(2, actualFirstJudge.getRight().size());
+        assertTrue(actualFirstJudge.getRight().contains("PRESIDING_JUDGE"));
+        assertTrue(actualFirstJudge.getRight().contains("REPORTING_JUDGE"));
+        
+        assertEquals("Adam Nowak", actualSecondJudge.getLeft());
+        assertEquals(2, actualSecondJudge.getRight().size());
+        assertTrue(actualSecondJudge.getRight().contains("PRESIDING_JUDGE"));
+        assertTrue(actualSecondJudge.getRight().contains("UNKNOWN_ROLE"));
+    }
+    
+    @Test
+    public void fetchValuesWithEnumedAttributes() {
+        SolrDocument doc = new SolrDocument();
+        doc.addField("judge", "Jan Kowalski|PRESIDING_JUDGE|REPORTING_JUDGE");
+        doc.addField("judge", "Adam Nowak|PRESIDING_JUDGE|UNKNOWN_ROLE");
+        
+        List<Pair<String, List<JudgeRole>>> actual = fieldFetcher.fetchValuesWithEnumedAttributes(doc, JudgmentIndexField.JUDGE, JudgeRole.class);
+        
+        assertEquals(2, actual.size());
+        Pair<String, List<JudgeRole>> actualFirstJudge = actual.get(0);
+        Pair<String, List<JudgeRole>> actualSecondJudge = actual.get(1);
+        
+        assertEquals("Jan Kowalski", actualFirstJudge.getLeft());
+        assertEquals(2, actualFirstJudge.getRight().size());
+        assertTrue(actualFirstJudge.getRight().contains(JudgeRole.PRESIDING_JUDGE));
+        assertTrue(actualFirstJudge.getRight().contains(JudgeRole.REPORTING_JUDGE));
+        
+        assertEquals("Adam Nowak", actualSecondJudge.getLeft());
+        assertEquals(1, actualSecondJudge.getRight().size());
+        assertTrue(actualSecondJudge.getRight().contains(JudgeRole.PRESIDING_JUDGE));
     }
     
 }
