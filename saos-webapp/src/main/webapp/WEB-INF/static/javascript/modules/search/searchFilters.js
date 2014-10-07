@@ -11,7 +11,8 @@ var SearchFilters = (function(){
 		
 		filterItemClass = "filter-item",
 		removeButtonClass = "remove-button",
-		assignedField = "assignedField",
+		assignedField = "data-assigned-field",
+		dataJudgmentType = "data-judgment-type",
 		
 		parentContainer = ".judgment-list",
 		
@@ -73,7 +74,7 @@ var SearchFilters = (function(){
 									$searchFormField.each(function() {
 										var $this = $(this);
 										
-										filterValue = $thisButton.attr("judgmenttype");
+										filterValue = $thisButton.attr(dataJudgmentType);
 
 										if($this.val() === filterValue) {
 											$this.prop('checked', true);

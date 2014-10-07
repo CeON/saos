@@ -26,7 +26,7 @@
 	</div>
 	
 	<div class="col-md-3">
-		<saos:filterBox enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" ></saos:filterBox>	
+		<saos:filterBox ></saos:filterBox>	
 	</div>
 	
 </div>
