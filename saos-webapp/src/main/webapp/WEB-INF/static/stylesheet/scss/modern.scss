@@ -373,7 +373,7 @@ form.search {
 	
 	ul {
 		list-style: none;
-		padding-left: 0px;
+		padding-left: 26px;
 		padding-bottom: 20px;
 		
 		a {
@@ -415,7 +415,11 @@ form.search {
 			style: solid;
 			width: 0px 0px 0px 0px;
 		}
-		padding: 15px 30px 0px;
+		padding: 0px 30px 0px;
+	
+		> .row {
+			padding: 15px 0px 0px;
+		}
 	
 		.case-number {
 			color: #0176c3;
@@ -435,6 +439,7 @@ form.search {
 		
 		.date {
 			@include underline-text();
+			margin-left: 4px;
 		}
 		
 		.court-desc {
@@ -467,13 +472,29 @@ form.search {
 				style: solid;
 				width: 0px 0px 1px 0px;
 			}
+			margin: 10px 0px 0px;
 			padding: 0px 0px 15px;
+			
+			em {
+				background: lighten($sand, 10%);
+				font: {
+					weight: bold;
+				}
+				padding: 0px 2px;
+			}
+		}
+		
+		&:first-child > .row {
+			@include border-grey();
+			border: {
+				width: 0px 0px 0px;
+			}
 		}
 	}
 }
 
 .keywords {
-	margin: 10px 0px;
+	margin: 10px 0px 0px;
 
 	.keyword {
 		background: $grey;
@@ -652,21 +673,52 @@ form.search {
 
 .filter-box {
 	@include border-grey();
-    border-radius: 5px;
-    font-size: 0.9em;
-    margin: 40px 0 0;
+	background: #fff;
+    border-radius: 0px;
+    font: {
+    	size: 0.9em;
+    	}
+    margin: 20px 0 0;
     min-height: 250px;
-    padding: 10px 5px;
 
 	p {
-		text-decoration: underline;
+		background: #fff;
+		margin: 0px;
+		padding: 10px 5px;
+	
+		&:first-child {
+			background: #eee;
+			border: 0px dotted $grey-border;
+			border-width: 0px 0px 1px 0px;
+			font: {
+				size: 1em;
+			}
+			padding: 10px;
+			text-transform: uppercase;
+		}
+	}
+	
+	> div {
+		
 	}
 	
 	.filter-item {
+		background: #eee;
 		@include border-grey();
-		color: $blue;
+		border: {
+			width: 1px 0px 1px;
+		}
+		font-size: 0.85em;
 		padding: 4px 6px;
 		
+		.remove-button {
+			background: {
+				image: url("../../image/icons/x-2.png");
+			}
+			display: block;
+			height: 16px;
+			width: 16px;
+		}
 	}
 	
 	.remove-button {
@@ -676,6 +728,33 @@ form.search {
 		
 		&:hover {
 			color: #666;
+		}
+	}
+	
+	.clear-button {
+		@include border-grey();
+		background: #eee;
+		border-radius: 2px;
+		cursor: pointer;
+		display: inline-block;
+		margin: 4px 0px 0px 5px;
+		padding: 4px 24px 4px 4px;
+		position: relative;
+		
+		&:before {
+			background-image: url("../../image/icons/x-2.png");
+		    content: "";
+		    cursor: pointer;
+		    display: block;
+		    height: 16px;
+		    position: absolute;
+		    right: 3px;
+		    top: 5px;
+		    width: 16px;
+		}
+		
+		&:hover {
+			background: lighten(#eee, 2%);
 		}
 	}
 }

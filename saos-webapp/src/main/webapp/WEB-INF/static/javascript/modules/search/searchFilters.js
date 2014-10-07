@@ -16,7 +16,7 @@ var SearchFilters = (function(){
 		
 		parentContainer = ".judgment-list",
 		
-		removeButtonBaseShape = "<span>X</span>",
+		removeButtonBaseShape = "<span></span>",
 		
 		filters = [{button: "", searchfield: "", filterfield: ""}],
 				   
