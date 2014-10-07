@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 import pl.edu.icm.saos.importer.simple.supremecourt.judgment.download.ScjImportDownloadProcessor;
 import pl.edu.icm.saos.importer.simple.supremecourt.judgment.download.ScjImportDownloadReader;
+import pl.edu.icm.saos.importer.simple.supremecourt.judgment.download.ScjImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.simple.supremecourt.judgment.download.ScjImportDownloadWriter;
 import pl.edu.icm.saos.persistence.model.importer.SimpleRawSourceScJudgment;
 
@@ -42,6 +43,9 @@ public class SimpleScjImportJobConfiguration {
     @Autowired
     private ScjImportDownloadReader scjImportDownloadReader;
     
+    @Autowired
+    private ScjImportDownloadStepExecutionListener scjImportDownloadStepExecutionListener;
+    
     
     
     @Bean
@@ -57,6 +61,7 @@ public class SimpleScjImportJobConfiguration {
             .reader(scjImportDownloadReader)
             .processor(scjImportDownloadProcessor)
             .writer(scjImportDownloadWriter)
+            .listener(scjImportDownloadStepExecutionListener)
             .build();
     } 
 }
