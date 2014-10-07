@@ -17,6 +17,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
+import pl.edu.icm.saos.persistence.model.importer.SimpleRawSourceScJudgment;
 
 /**
  * @author Łukasz Dumiszewski
@@ -45,7 +46,7 @@ public class DbCleaner {
         deleteAll(CommonCourt.class);
         
         deleteAll(RawSourceCcJudgment.class);
-        
+        deleteAll(SimpleRawSourceScJudgment.class);
     }
     
     
