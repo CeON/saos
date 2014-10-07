@@ -9,7 +9,7 @@
 		<div class="row" >
 				<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
 					<c:set var="lowerCaseJudgmentType" value="${fn:toLowerCase(judgment.judgmentType)}" />
-					<div class="type" judgmenttype="${lowerCaseJudgmentType}" ><spring:message code="judgment.judgmenttype.${fn:toLowerCase(judgment.judgmentType)}" /></div>
+					<div class="type" data-judgment-type="${lowerCaseJudgmentType}" ><spring:message code="judgment.judgmenttype.${fn:toLowerCase(judgment.judgmentType)}" /></div>
 				</c:if>
 				<div class="case-number">
 					<a href="${contextPath}/result/${judgment.id}">
@@ -35,7 +35,7 @@
 					</div>
 				</c:if>
 
-				<div class="extract">[26] Les activités de soutien au programme OLO, l'accompagnement de personnes à l'hôpital, les paniers de Noël, la popote roulante, le centre de jour ont comme cause principale   […]   Celles-ci sont le soutien au programme OLO, l'accompagnement de personnes à l'hôpital, les paniers de Noël, la popote roulante et le centre de jour.  […]   De plus, le Cercle s'occupe de recueillir des fonds pour le programme OLO (oeuf/lait/orange) pour les femmes enceintes;</div>
+				<div class="extract">[26] Les activités de soutien au programme <em>OLO</em>, l'accompagnement de personnes à l'hôpital, les paniers de Noël, la popote roulante, le centre de jour ont comme cause principale   […]   Celles-ci sont le soutien au programme <em>OLO</em>, l'accompagnement de personnes à l'hôpital, les paniers de Noël, la popote roulante et le centre de jour.  […]   De plus, le Cercle s'occupe de recueillir des fonds pour le programme <em>OLO</em> (oeuf/lait/orange) pour les femmes enceintes;</div>
 				
 		</div>
 
