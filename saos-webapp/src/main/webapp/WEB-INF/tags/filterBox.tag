@@ -5,21 +5,17 @@
 <div class="filter-box">
 	<p><spring:message code="judgment.results.filter.header" /></p>
 	
-	<div id="clearAllFilters"><spring:message code="judgment.results.filter.clearAll" /></div>
+	<p id="clearAllFilters" class="clear-button" ><spring:message code="judgment.results.filter.clearAll" /></p>
 	
-	<p><spring:message code="judgment.results.filter.court" /></p>
-	<div class="filter-item" id="filter-court" data-assigned-field="select-court" ><c:out value="${judgmentCriteriaForm.courtId}" /></div>
+	<saos:filterField assignedField="select-court" label="judgment.results.filter.court" filterValue="${judgmentCriteriaForm.courtId}" id="filter-court"></saos:filterField>
 	
-	<p><spring:message code="judgment.results.filter.division" /></p>
-	<div class="filter-item" id="filter-division" data-assigned-field="select-division" ><c:out value="${judgmentCriteriaForm.divisionId}" /></div>
+	<saos:filterField assignedField="select-division" label="judgment.results.filter.division" filterValue="${judgmentCriteriaForm.divisionId}" id="filter-division"></saos:filterField>
+
+	<saos:filterField assignedField="input-search-judge" label="judgment.results.filter.judge" filterValue="${judgmentCriteriaForm.judgeName}" id="filter-judge"></saos:filterField>
 	
-	<div><spring:message code="judgment.results.filter.judge" /></div>
-	<div class="filter-item" id="filter-judge" data-assigned-field="input-search-judge" ><c:out value="${judgmentCriteriaForm.judgeName}" /></div>
-	
-	<div><spring:message code="judgment.results.filter.keywords" /></div>
-	<div class="filter-item" id="filter-keyword" data-assigned-field="input-search-keywords"><c:out value="${judgmentCriteriaForm.keyword}" /></div>
-	
-	<div><spring:message code="judgment.results.filter.judgmenttype" /></div>
+	<saos:filterField assignedField="input-search-keywords" label="judgment.results.filter.keywords" filterValue="${judgmentCriteriaForm.keyword}" id="filter-keyword"></saos:filterField>
+	 
+	<p><spring:message code="judgment.results.filter.judgmenttype" />:</p>
 		<c:if test="${!empty judgmentCriteriaForm.judgmentType}">
 			<c:forEach var="enumValue" items="${enumJudgmentType}" varStatus="status">
 				<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
@@ -33,10 +29,15 @@
 			</c:forEach>
 		</c:if>
 	
-	<div><spring:message code="judgment.results.filter.date" /></div>
+	<p><spring:message code="judgment.results.filter.date" />:</p>
 	
-	<spring:message code="judgment.results.filter.date.from" />:<div class="filter-item" id="filter-date-from" data-assigned-field="datepicker_from"><c:out value="${judgmentCriteriaForm.dateFrom}" /></div>
-	<spring:message code="judgment.results.filter.date.to" />:<div class="filter-item" id="filter-date-to" data-assigned-field="datepicker_to"><c:out value="${judgmentCriteriaForm.dateTo}" /></div>
+	<c:if test="${!empty judgmentCriteriaForm.dateFrom && judgmentCriteriaForm.dateFrom !=  ''}" >
+		<spring:message code="judgment.results.filter.date.from" />:<div class="filter-item" id="filter-date-from" data-assigned-field="datepicker_from"><c:out value="${judgmentCriteriaForm.dateFrom}" /></div>
+	</c:if>
+	
+	<c:if test="${!empty judgmentCriteriaForm.dateTo && judgmentCriteriaForm.dateTo !=  ''}" >
+		<spring:message code="judgment.results.filter.date.to" />:<div class="filter-item" id="filter-date-to" data-assigned-field="datepicker_to"><c:out value="${judgmentCriteriaForm.dateTo}" /></div>
+	</c:if>
 		
 </div>
 
