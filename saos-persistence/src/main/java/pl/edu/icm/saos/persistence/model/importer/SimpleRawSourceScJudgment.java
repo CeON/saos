@@ -1,12 +1,14 @@
 package pl.edu.icm.saos.persistence.model.importer;
 
 import javax.persistence.Cacheable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
 
 /**
  * Judgment raw data received imported from the json files generated locally from supreme common court judgment
@@ -38,7 +40,7 @@ public class SimpleRawSourceScJudgment extends RawSourceJudgment {
         return id;
     }
 
-    
+    @Column(nullable=false)
     public String getJsonContent() {
         return jsonContent;
     }

@@ -74,9 +74,9 @@ public class ScjImportProcessReaderTest {
         List<Integer> rJudgmentIds = Lists.newArrayList(12, 123, 45);
         Whitebox.setInternalState(scjImportProcessReader, "rJudgmentIds", new LinkedList<Integer>(rJudgmentIds));
         
-        SimpleRawSourceScJudgment rJudgment0 = createSimpleRawSourceScJudgment(rJudgmentIds.get(0), "123e3dsfc");
-        SimpleRawSourceScJudgment rJudgment1 = createSimpleRawSourceScJudgment(rJudgmentIds.get(1), "ABC=123e3dsfc");
-        SimpleRawSourceScJudgment rJudgment2 = createSimpleRawSourceScJudgment(rJudgmentIds.get(2), "DEF+123e3dsfc");
+        SimpleRawSourceScJudgment rJudgment0 = createSimpleRawSourceScJudgment(rJudgmentIds.get(0));
+        SimpleRawSourceScJudgment rJudgment1 = createSimpleRawSourceScJudgment(rJudgmentIds.get(1));
+        SimpleRawSourceScJudgment rJudgment2 = createSimpleRawSourceScJudgment(rJudgmentIds.get(2));;
 
         when(rawJudgmentRepository.getOne(Mockito.eq(rJudgmentIds.get(0)))).thenReturn(rJudgment0);
         when(rawJudgmentRepository.getOne(Mockito.eq(rJudgmentIds.get(1)))).thenReturn(rJudgment1);
@@ -115,9 +115,9 @@ public class ScjImportProcessReaderTest {
         }
     }
     
-    private SimpleRawSourceScJudgment createSimpleRawSourceScJudgment(int rJudgmentId, String content) {
+    private SimpleRawSourceScJudgment createSimpleRawSourceScJudgment(int rJudgmentId) {
         SimpleRawSourceScJudgment rJudgment = new SimpleRawSourceScJudgment();
-        rJudgment.setJsonContent(content);
+        rJudgment.setJsonContent(""+rJudgmentId);
         Whitebox.setInternalState(rJudgment, "id", rJudgmentId);
         return rJudgment;
         
