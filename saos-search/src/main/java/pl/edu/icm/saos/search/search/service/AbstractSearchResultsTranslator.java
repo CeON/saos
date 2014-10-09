@@ -26,10 +26,7 @@ public abstract class AbstractSearchResultsTranslator<S extends Searchable> impl
             SolrDocument document = documents.get(i);
             S result = translateSingle(document);
             
-            if (response.getHighlighting() != null && response.getHighlighting().containsKey(result.getId())) {
-                Map<String, List<String>> documentHighlighting = response.getHighlighting().get(result.getId());
-                applyHighlighting(documentHighlighting, result);
-            }
+            checkAndApplyHighlighting(response.getHighlighting(), result);
             
             results.addResult(result);
         }
@@ -52,4 +49,15 @@ public abstract class AbstractSearchResultsTranslator<S extends Searchable> impl
      * @param result 
      */
     protected abstract void applyHighlighting(Map<String, List<String>> documentHighlighting, S result);
+    
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private void checkAndApplyHighlighting(Map<String, Map<String, List<String>>> highlighting, S result) {
+        
+        if (highlighting != null && highlighting.containsKey(result.getId())) {
+            Map<String, List<String>> documentHighlighting = highlighting.get(result.getId());
+            applyHighlighting(documentHighlighting, result);
+        }
+    }
 }

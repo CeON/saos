@@ -12,7 +12,6 @@ import pl.edu.icm.saos.search.search.model.HighlightingParams;
 import pl.edu.icm.saos.search.search.model.Paging;
 import pl.edu.icm.saos.search.search.model.Sorting;
 import pl.edu.icm.saos.search.search.model.Sorting.Direction;
-import pl.edu.icm.saos.search.util.SolrConstants;
 
 /**
  * Base class for creating {@link SolrQuery}.
@@ -30,16 +29,10 @@ public abstract class AbstractSearchQueryFactory<C extends Criteria> implements 
         SolrQuery query = new SolrQuery();
         
         String queryString = transformCriteria(criteria);
-        if (StringUtils.isEmpty(queryString)) {
-            query.setQuery(SolrConstants.DEFAULT_QUERY);
-        } else {
-            query.setQuery(queryString);
-        }
+        query.setQuery(queryString);
         
         applyPaging(query, paging);
-        if (paging != null) {
-            applySorting(query, paging.getSort());
-        }
+        applySorting(query, paging);
         applyHighlighting(query);
         
         return query;
@@ -63,7 +56,12 @@ public abstract class AbstractSearchQueryFactory<C extends Criteria> implements 
         query.setRows(paging.getPageSize());
     }
     
-    private void applySorting(SolrQuery query, Sorting sorting) {
+    private void applySorting(SolrQuery query, Paging paging) {
+        if (paging == null) {
+            return;
+        }
+        
+        Sorting sorting = paging.getSort();
         if (sorting == null || StringUtils.isBlank(sorting.getFieldName())) {
             return;
         }

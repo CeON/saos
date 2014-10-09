@@ -25,9 +25,12 @@ public class JudgmentSearchQueryFactoryTest {
     
     private SolrCriterionTransformer<JudgmentIndexField> criterionTransformer = new SolrCriterionTransformer<JudgmentIndexField>();
     
+    private TestCommonSearchQueryFactory testCommonSearchQueryFactory = new TestCommonSearchQueryFactory();
+    
     @Before
     public void setUp() {
         queryFactory.setCriterionTransformer(criterionTransformer);
+        queryFactory.setHighlightParams(testCommonSearchQueryFactory.generateHighlighting());
     }
     
     @Test
@@ -130,4 +133,13 @@ public class JudgmentSearchQueryFactoryTest {
 
         Assert.assertEquals("score desc", solrQuery.getSortField());
     }
+    
+    @Test
+    public void createQuery_HIGHLIGHTING() {
+        SolrQuery solrQuery = queryFactory.createQuery(new JudgmentCriteria(), null);
+        
+        testCommonSearchQueryFactory.assertHighlighting(solrQuery);
+    }
+    
+
 }

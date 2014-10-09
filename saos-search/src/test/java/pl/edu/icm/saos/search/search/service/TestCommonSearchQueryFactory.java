@@ -5,25 +5,13 @@ import static junit.framework.Assert.assertTrue;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.common.params.HighlightParams;
-import org.junit.Before;
-import org.junit.Test;
 
 import pl.edu.icm.saos.search.search.model.HighlightingFieldParams;
 import pl.edu.icm.saos.search.search.model.HighlightingParams;
-import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
-import pl.edu.icm.saos.search.search.model.Paging;
-import pl.edu.icm.saos.search.search.model.Sorting;
-import pl.edu.icm.saos.search.search.model.Sorting.Direction;
 
-/**
- * @author madryk
- */
-public class AbstractSearchQueryFactoryTest {
+public class TestCommonSearchQueryFactory {
 
-    private TestSearchQueryFactory searchQueryFactory = new TestSearchQueryFactory();
-    
-    @Before
-    public void setUp() {
+    public HighlightingParams generateHighlighting() {
         HighlightingParams highlightParams = new HighlightingParams();
         highlightParams.addParam(HighlightParams.SIMPLE_PRE, "<highlight>");
         highlightParams.addParam(HighlightParams.SIMPLE_POST, "</highlight>");
@@ -38,31 +26,10 @@ public class AbstractSearchQueryFactoryTest {
         secondFieldHighlightParams.addParam(HighlightParams.SNIPPETS, "5");
         highlightParams.addFieldParams(secondFieldHighlightParams);
         
-        searchQueryFactory.setHighlightParams(highlightParams);
+        return highlightParams;
     }
     
-    @Test
-    public void createQUERY_PAGING() {
-        SolrQuery query = searchQueryFactory.createQuery(new JudgmentCriteria(), new Paging(2, 20));
-        
-        assertEquals(Integer.valueOf(40), query.getStart());
-        assertEquals(Integer.valueOf(20), query.getRows());
-    }
-    
-    @Test
-    public void createQuery_SORTING() {
-        Sorting sorting = new Sorting("judgmentDate", Direction.ASC);
-        Paging paging = new Paging(0, 10, sorting);
-        
-        SolrQuery query = searchQueryFactory.createQuery(new JudgmentCriteria(), paging);
-        
-        assertEquals("judgmentDate asc", query.getSortField());
-    }
-    
-    @Test
-    public void createQuery_HIGHLIGHTING() {
-        SolrQuery query = searchQueryFactory.createQuery(new JudgmentCriteria(), new Paging(0, 10));
-        
+    public void assertHighlighting(SolrQuery query) {
         assertTrue(query.getHighlight());
         assertEquals("<highlight>", query.getHighlightSimplePre());
         assertEquals("</highlight>", query.getHighlightSimplePost());
@@ -76,17 +43,5 @@ public class AbstractSearchQueryFactoryTest {
         
         assertEquals("200", query.getFieldParam("secondContent", HighlightParams.FRAGSIZE));
         assertEquals("5", query.getFieldParam("secondContent", HighlightParams.SNIPPETS));
-    }
-    
-    
-    //------------------------ PRIVATE --------------------------
-    
-    private class TestSearchQueryFactory extends AbstractSearchQueryFactory<JudgmentCriteria> {
-
-        @Override
-        protected String transformCriteria(JudgmentCriteria criteria) {
-            return null;
-        }
-        
     }
 }

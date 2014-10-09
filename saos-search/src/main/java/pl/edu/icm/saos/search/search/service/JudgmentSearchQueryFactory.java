@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.HighlightingParams;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.util.SolrConstants;
 
 import com.google.common.collect.Lists;
 
@@ -45,9 +46,11 @@ public class JudgmentSearchQueryFactory extends AbstractSearchQueryFactory<Judgm
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.REFERENCED_REGULATION, criteria.getReferencedRegulation()));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CASE_NUMBER, criteria.getCaseNumber()));
         
-        return list.stream()
+        String criteriaString = list.stream()
                 .filter(x -> StringUtils.isNotEmpty(x))
                 .collect(Collectors.joining(" "));
+        
+        return StringUtils.isNotEmpty(criteriaString) ? criteriaString : SolrConstants.DEFAULT_QUERY;
     }
     
 
