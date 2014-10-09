@@ -36,26 +36,30 @@
 			    </div>
 		    </div>
 		    
-		    <saosSearch:courtSelect items="${courts}" selectedItem="${judgmentCriteriaForm.courtId }" path="courtId" id="select-court" labelName="input-search-court" labelText="search.field.court" />
-		    
-		    <saosSearch:courtSelect items="${divisions}" selectedItem="${judgmentCriteriaForm.divisionId }" path="divisionId" id="select-division" labelName="input-search-division" labelText="search.field.division" />
-		    
-		    <div class="form-group">
-		    	<label for="input-search-all" class="col-sm-2 control-label"><spring:message code="search.field.judgmenttype" />:</label>
-   			    <div class="col-sm-6">
-		    	  <div class="checkbox">
-         	        <saos:enumCheckBox path="judgmentType" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" prefix="judgment.judgmenttype" />
-			      </div>
-			    </div>
-		    </div>
-		    
 		    <saos:formFieldText path="judgeName" labelName="input-search-judge" labelText="search.field.judge" />
 		    
 		    <saos:formFieldText path="keyword" labelName="input-search-keywords" labelText="search.field.keywords" />
 		    
-		    <saos:formFieldText path="legalBase" labelName="input-search-legalbases" labelText="search.field.legalbases" />
+		    <div class="form-group">
+			    <label class="col-sm-2 control-label"><spring:message code="search.field.courttype" />:</label>
+			    <div class="col-sm-7">
+			    	<form:radiobutton path="courtType" id="radio-all" value="all" />
+			    	<label for="radio-all" ><spring:message code="judgment.courttype.all" /></label>
+			    	<saos:enumRadio path="courtType" enumType="pl.edu.icm.saos.webapp.judgment.CourtType" prefix="judgment.courttype" />
+			    </div>
+		    </div>
+		    
+		    <div id="all-fields" class="fields-container" >
+		    	
+		    </div>
+		    
+		    <div id="common-court-fields" class="fields-container" >
+			    <%@ include file="ccJudgmentSearchForm.jsp" %>
+		    </div>
 		     
-		    <saos:formFieldText path="referencedRegulation" labelName="input-search-referencedregulations" labelText="search.field.referencedregulations" />
+		    <div id="supreme-court-fields" class="fields-container" >
+		    	<%@ include file="scJudgmentSearchForm.jsp" %>
+		    </div>
 		     
 	    </div>
 	

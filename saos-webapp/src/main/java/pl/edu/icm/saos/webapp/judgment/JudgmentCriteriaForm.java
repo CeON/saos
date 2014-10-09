@@ -22,15 +22,14 @@ public class JudgmentCriteriaForm {
     @DateTimeFormat(pattern=FormatConst.DATE_FORMAT_PATTERN)
     private LocalDate dateTo;
     
+    private String judgeName;
+    private String keyword;
+    private String courtType;
+    
     private String courtId;
     private String courtName;
     private String divisionId;
-    
     private String[] judgmentType;
-    
-    private String judgeName;
-    
-    private String keyword;
     private String legalBase;
     private String referencedRegulation;
     
@@ -52,6 +51,18 @@ public class JudgmentCriteriaForm {
 		return dateTo;
 	}
 	
+	public String getJudgeName() {
+		return judgeName;
+	}
+	
+	public String getKeyword() {
+		return keyword;
+	}
+	
+	public String getCourtType() {
+		return courtType;
+	}
+	
 	public String getCourtId() {
 		return courtId;
 	}
@@ -66,14 +77,6 @@ public class JudgmentCriteriaForm {
 	
 	public String[] getJudgmentType() {
 		return judgmentType;
-	}
-	
-	public String getJudgeName() {
-		return judgeName;
-	}
-	
-	public String getKeyword() {
-		return keyword;
 	}
 	
 	public String getLegalBase() {
@@ -101,7 +104,19 @@ public class JudgmentCriteriaForm {
 	public void setDateTo(LocalDate dateTo) {
 		this.dateTo = dateTo;
 	}
+	
+	public void setJudgeName(String judgeName) {
+		this.judgeName = judgeName;
+	}
 
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public void setCourtType(String courtType) {
+		this.courtType = courtType;
+	}
+	
 	public void setCourtId(String courtId) {
 		this.courtId = courtId;
 	}
@@ -117,14 +132,6 @@ public class JudgmentCriteriaForm {
 	public void setJudgmentType(String[] judgmentType) {
 		this.judgmentType = judgmentType;
 	}
-	
-	public void setJudgeName(String judgeName) {
-		this.judgeName = judgeName;
-	}
-
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
 
 	public void setLegalBase(String legalBase) {
 		this.legalBase = legalBase;
@@ -133,7 +140,6 @@ public class JudgmentCriteriaForm {
 	public void setReferencedRegulation(String referencedRegulation) {
 		this.referencedRegulation = referencedRegulation;
 	}
-
         
 }
 
