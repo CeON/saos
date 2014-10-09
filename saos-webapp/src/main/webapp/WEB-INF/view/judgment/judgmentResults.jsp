@@ -26,7 +26,7 @@
 	</div>
 	
 	<div class="col-md-3">
-		<saos:filterBox ></saos:filterBox>	
+		<%@ include file="filterBox.jsp" %>
 	</div>
 	
 </div>

@@ -15,6 +15,6 @@
 
 <c:forEach var="enumValue" items="${enumItemsToShow}">
 	<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
-	<form:checkbox path="${path}" value="${lowerCaseEnumValue}" id="checkbox-${lowerCaseEnumValue}" ></form:checkbox>
-	<label for="checkbox-${lowerCaseEnumValue}" ><spring:message code="${prefix}.${lowerCaseEnumValue}" /></label>
+	<form:radiobutton path="${path}" value="${lowerCaseEnumValue}" id="radio-${lowerCaseEnumValue}" />
+	<label for="radio-${lowerCaseEnumValue}" ><spring:message code="${prefix}.${lowerCaseEnumValue}" /></label>
 </c:forEach>
