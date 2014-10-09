@@ -264,6 +264,14 @@
     <processor class="solr.HTMLStripFieldUpdateProcessorFactory">
       <str name="fieldName">content</str>
     </processor>
+    <processor class="solr.RegexReplaceProcessorFactory">
+      <str name="fieldName">content</str>
+      <str name="pattern">\s+</str>
+      <str name="replacement"> </str>
+    </processor>
+    <processor class="solr.TrimFieldUpdateProcessorFactory">
+      <str name="fieldName">content</str>
+    </processor>
     <processor class="solr.LogUpdateProcessorFactory" />
     <processor class="solr.RunUpdateProcessorFactory" />
   </updateRequestProcessorChain> 

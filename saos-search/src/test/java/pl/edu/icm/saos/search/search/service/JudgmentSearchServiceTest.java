@@ -1,13 +1,13 @@
 package pl.edu.icm.saos.search.search.service;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+import static junit.framework.Assert.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -19,6 +19,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
 
@@ -40,12 +41,14 @@ import com.tngtech.java.junit.dataprovider.UseDataProvider;
 /**
  * @author madryk
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
 @RunWith(DataProviderRunner.class)
 @ContextConfiguration(classes={ SearchTestConfiguration.class })
 @Category(SlowTest.class)
 public class JudgmentSearchServiceTest {
 
+    private final static String CONTENT_FIELD_FILE_1961 = "contentField1961.txt";
+    private final static String CONTENT_FIELD_FILE_41808 = "contentField41808.txt";
+    
     private TestContextManager testContextManager;
     
     @Autowired
@@ -59,7 +62,7 @@ public class JudgmentSearchServiceTest {
     public static Object[][] searchResultsCountData() {
         
         return new Object[][] {
-            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder("content").build() },
+            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder("następuje").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder("other").build() },
             
             { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withDateRange(new LocalDate(2012, 5, 15), new LocalDate(2012, 5, 15)).build() },
@@ -165,8 +168,30 @@ public class JudgmentSearchServiceTest {
         assertEquals(1, result.getKeywords().size());
         assertEquals("zwrot nienależnie pobranych świadczeń z ubezpieczenia", result.getKeywords().get(0));
         
-        assertEquals("this is content", result.getContent());
         
+        assertTrue(result.getContent().contains("W IMIENIU RZECZYPOSPOLITEJ POLSKIEJ"));
+        assertTrue(result.getContent().contains("SSA Irena Różańska-Dorosz (spr.)"));
+        assertTrue(result.getContent().contains("o zwrot nienależnie pobranego świadczenia"));
+        assertFalse(result.getContent().contains("<p>"));
+        assertFalse(result.getContent().contains("</p>"));
+        assertFalse(result.getContent().contains("anon-block"));
+        assertTrue(result.getContent().length() <= 800);
+    }
+    
+    @Test
+    public void search_CHECK_HIGHLIGHTING() {
+        JudgmentCriteria criteria = new JudgmentCriteria("świadków");
+        
+        SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
+        
+        assertEquals(1, results.getTotalResults());
+        assertEquals(1, results.getResults().size());
+        
+        JudgmentSearchResult result = results.getResults().get(0);
+        assertEquals("41808", result.getId());
+        
+        assertEquals(4, StringUtils.countMatches(result.getContent(), "<em>świadków</em>"));
+        assertEquals(3, StringUtils.countMatches(result.getContent(), " ... "));
     }
     
     
@@ -189,7 +214,7 @@ public class JudgmentSearchServiceTest {
         judgmentsServer.commit();
     }
     
-    private SolrInputDocument fetchFirstDoc() {
+    private SolrInputDocument fetchFirstDoc() throws IOException {
         SolrInputDocument doc = new SolrInputDocument();
         doc.addField("id", UUID.randomUUID());
         doc.addField("databaseId", "41808");
@@ -223,12 +248,15 @@ public class JudgmentSearchServiceTest {
         
         doc.addField("keyword", "przestępstwo przeciwko wolności");
         doc.addField("keyword", "przestępstwo przeciwko porządkowi publicznemu");
-        doc.addField("content", "some content");
+        
+        try (InputStream inputStream = new ClassPathResource(CONTENT_FIELD_FILE_41808).getInputStream()) {
+            doc.addField("content", IOUtils.toString(inputStream));
+        }
         
         return doc;
     }
     
-    private SolrInputDocument fetchSecondDoc() {
+    private SolrInputDocument fetchSecondDoc() throws IOException {
         SolrInputDocument doc = new SolrInputDocument();
         doc.addField("id", UUID.randomUUID());
         doc.addField("databaseId", "1961");
@@ -265,7 +293,11 @@ public class JudgmentSearchServiceTest {
         doc.addField("courtDivisionName", "III Wydział Pracy i Ubezpieczeń Społecznych");
         
         doc.addField("keyword", "zwrot nienależnie pobranych świadczeń z ubezpieczenia");
-        doc.addField("content", "this is content");
+        
+        
+        try (InputStream inputStream = new ClassPathResource(CONTENT_FIELD_FILE_1961).getInputStream()) {
+            doc.addField("content", IOUtils.toString(inputStream));
+        }
         
         return doc;
     }

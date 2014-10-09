@@ -5,8 +5,10 @@ import java.text.ParseException;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.Paging;
 import pl.edu.icm.saos.search.search.model.Sorting;
@@ -20,6 +22,13 @@ public class JudgmentSearchQueryFactoryTest {
     private final static LocalDate SECOND_DATE = new LocalDate(2014, 6, 1);
     
     private JudgmentSearchQueryFactory queryFactory = new JudgmentSearchQueryFactory();
+    
+    private SolrCriterionTransformer<JudgmentIndexField> criterionTransformer = new SolrCriterionTransformer<JudgmentIndexField>();
+    
+    @Before
+    public void setUp() {
+        queryFactory.setCriterionTransformer(criterionTransformer);
+    }
     
     @Test
     public void shouldCreateQueryWithAllField() {
