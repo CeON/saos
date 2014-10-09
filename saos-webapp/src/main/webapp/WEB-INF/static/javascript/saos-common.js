@@ -59,5 +59,13 @@ $(document).ready(function() {
     });
     
     
-    ChangeCourtType.run();
+    ChangeCourtType.run({
+    	fields: [{fields: "#all-fields", button: "#radio-all"},
+		          {fields: "#common-court-fields", button: "#radio-common"},
+		          {fields: "#supreme-court-fields", button: "#radio-supreme"}],
+		          
+		fieldsContainer: ".fields-container",
+		radioName: "courtType",
+		parentContainer: "#search-form"
+    });
 });

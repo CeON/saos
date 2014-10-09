@@ -6,16 +6,29 @@
 var ChangeCourtType = (function() {
 	
 	var space = {},
-		fields = [{fields: "#all-fields", button: "#radio-all"},
-		          {fields: "#common-court-fields", button: "#radio-common"},
-		          {fields: "#supreme-court-fields", button: "#radio-supreme"}],
+		fields = [{fields: "", button: ""}],
 		          
-		fieldsContainer = ".fields-container",
-		radioName = "courtType",
-		parentContainer = "#search-form",
+		fieldsContainer = "",
+		radioName = "",
+		parentContainer = "",
 	
 	init = function(source) {
 		
+		if (source.fields !== "") {
+			fields = source.fields;
+		}
+		
+		if (source.fieldsContainer !== "") {
+			fieldsContainer = source.fieldsContainer;
+		}
+		
+		if (source.radioName !== "") {
+			radioName = source.radioName;
+		}
+		
+		if (source.parentContainer !== "") {
+			parentContainer = source.parentContainer;
+		}
 	},
 	
 	showSelectedFields = function() {
@@ -52,12 +65,12 @@ var ChangeCourtType = (function() {
 	
 	/* Selecting target court type clears form fields specified for others court types */ 
 	clearFields = function($fieldsContainer) {
-		$fieldsContainer.find(":input").each(function() {
+		$fieldsContainer.find("input, select").each(function() {
 			$(this)
-			  .not(':button, :submit, :reset, :hidden')
-			  .val('')
-			  .removeAttr('checked')
-			  .removeAttr('selected');
+				.val('')
+				.removeAttr('checked')
+				.removeAttr('selected')
+				.trigger("change");
 		});
 	};
 	
