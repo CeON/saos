@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.batch.importer;
+package pl.edu.icm.saos.batch.indexer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -35,11 +35,10 @@ import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
+import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
@@ -59,16 +58,10 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
     private JudgmentRepository judgmentRepository;
     
     @Autowired
-    private TestCommonCourtsGenerator commonCourtsGenerator;
-    
-    @Autowired
-    private CcDivisionRepository divisionRepository;
-    
-    @Autowired
     @Qualifier("solrJudgmentsServer")
     private SolrServer judgmentsSolrServer;
     
-    private final static int ALL_JUDGMENTS_COUNT = 15; // TODO: change to value higher than JudgmentIndexingReader.pageSize when fixed task #121 https://github.com/CeON/saos/issues/121
+    private final static int ALL_JUDGMENTS_COUNT = 34;
     
     private Map<Integer, Integer> idMapping;
     

@@ -7,7 +7,10 @@ import static org.mockito.Mockito.*;
 import org.apache.solr.common.SolrInputDocument;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
@@ -17,18 +20,21 @@ import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 /**
  * @author madryk
  */
+@RunWith(MockitoJUnitRunner.class)
 public class JudgmentIndexingProcessorTest {
 
     private JudgmentIndexingProcessor judgmentIndexingProcessor = new JudgmentIndexingProcessor();
     
-    private CcJudgmentIndexFieldsFiller ccJudgmentIndexFieldsFiller = mock(CcJudgmentIndexFieldsFiller.class);
+    @Mock
+    private CcJudgmentIndexFieldsFiller ccJudgmentIndexFieldsFiller;
     
-    private JudgmentRepository judgmentRepository = mock(JudgmentRepository.class);
+    @Mock
+    private JudgmentRepository judgmentRepository;
     
     @Before
     public void setUp() {
         judgmentIndexingProcessor.setCcJudgmentRepository(judgmentRepository);
-        judgmentIndexingProcessor.setCcJudgmentIndexingProcessor(ccJudgmentIndexFieldsFiller);
+        judgmentIndexingProcessor.setCcJudgmentIndexFieldsFiller(ccJudgmentIndexFieldsFiller);
         judgmentIndexingProcessor.init();
     }
     
@@ -50,4 +56,17 @@ public class JudgmentIndexingProcessorTest {
         assertTrue(argCapture.getValue().isIndexed());
     }
     
+    @Test(expected=RuntimeException.class)
+    public void process_UNKNOWN_JUDGMENT() throws Exception {
+        UnknownJudgment judgment = new UnknownJudgment();
+        
+        judgmentIndexingProcessor.process(judgment);
+    }
+    
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private class UnknownJudgment extends Judgment {
+        
+    }
 }
