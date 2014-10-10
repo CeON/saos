@@ -68,4 +68,10 @@ $(document).ready(function() {
 		radioName: "courtType",
 		parentContainer: "#search-form"
     });
+    
+    $("#filter-box").filterBox({
+    	removeAllButton: "#clearAllFilters",
+    	noFiltersMessage: "#no-filters",
+    	filterField: ".filter-item"
+    });
 });

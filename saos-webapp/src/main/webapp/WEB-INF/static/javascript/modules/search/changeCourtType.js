@@ -64,7 +64,24 @@ var ChangeCourtType = (function() {
 	},
 	
 	/* Selecting target court type clears form fields specified for others court types */ 
-	clearFields = function($fieldsContainer) {
+	clearFields = function($targetContainer) {
+		var i = 0,
+			length = fields.length;
+		
+		for (i; i < length; i += 1) {
+			var $fieldContainer = $(fields[i].fields);
+			
+			$($fieldContainer).each(function() {
+				if ($fieldContainer.attr("id") !== $targetContainer.attr("id")) {
+					clearField($fieldContainer);
+				}
+			})
+		}
+		
+	},
+	
+	
+	clearField = function($fieldsContainer) {
 		$fieldsContainer.find("input, select").each(function() {
 			$(this)
 				.val('')

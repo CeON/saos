@@ -679,7 +679,7 @@ form.search {
     	size: 0.9em;
     	}
     margin: 20px 0 0;
-    min-height: 250px;
+    padding: 0px 0px 8px 0px;
 
 	p {
 		background: #fff;
@@ -710,6 +710,7 @@ form.search {
 		}
 		font-size: 0.85em;
 		padding: 4px 6px;
+		position: relative;
 		
 		.remove-button {
 			background: {
@@ -717,7 +718,29 @@ form.search {
 			}
 			display: block;
 			height: 16px;
+			position: absolute;
+			right: 6px;
 			width: 16px;
+			top: 4px;
+			z-index: 10;
+			
+			&:hover {
+				background: {
+					image: url("../../image/icons/x-2.png");
+				}	
+			}
+		}
+		
+		.long-text {
+			background: #eee;
+			box-shadow: 0px 0px 0px 1px $grey-border;
+			display: block;
+			left: 0px;
+			padding: 4px 24px 4px 6px;
+			position: absolute;
+			top: 0px;
+			width: 100%;	
+			z-index: 9;
 		}
 	}
 	
@@ -736,10 +759,11 @@ form.search {
 		background: #eee;
 		border-radius: 2px;
 		cursor: pointer;
-		display: inline-block;
+		display: none;
 		margin: 4px 0px 0px 5px;
 		padding: 4px 24px 4px 4px;
 		position: relative;
+		text-transform: uppercase;
 		
 		&:before {
 			background-image: url("../../image/icons/x-2.png");

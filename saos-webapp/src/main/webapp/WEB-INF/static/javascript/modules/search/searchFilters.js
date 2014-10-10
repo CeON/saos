@@ -158,13 +158,14 @@ var SearchFilters = (function(){
 			var $filterItem = $(this);
 			
 			if ($filterItem.text().trim() !== "") {
+				
 				var $removeFilterButton = $(removeButtonBaseShape),
 					$assignedFieldId = $("#" + $filterItem.attr(assignedField));
 				
 				if ($assignedFieldId.is("select")) {
 					var selectedItemValue = $assignedFieldId.find("[value='" + $filterItem.text().trim() + "']").text();
 					
-					$filterItem.text(selectedItemValue);
+					$filterItem.find("div").text(selectedItemValue);
 				}
 				
 				$removeFilterButton.click(function() {
