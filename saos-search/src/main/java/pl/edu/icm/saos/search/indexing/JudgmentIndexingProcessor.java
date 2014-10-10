@@ -24,7 +24,7 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     
     private JudgmentRepository ccJudgmentRepository;
     
-    private CcJudgmentIndexFieldsFiller ccJudgmentIndexFieldsFillerProcessor;
+    private CcJudgmentIndexFieldsFiller ccJudgmentIndexFieldsFiller;
     
     private Map<Class<? extends Judgment>, JudgmentIndexFieldsFiller<? extends Judgment>> judgmentIndexFieldsFillers = new HashMap<>();
     
@@ -32,7 +32,7 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     @PostConstruct
     public void init() {
         judgmentIndexFieldsFillers = new HashMap<>();
-        judgmentIndexFieldsFillers.put(CommonCourtJudgment.class, ccJudgmentIndexFieldsFillerProcessor);
+        judgmentIndexFieldsFillers.put(CommonCourtJudgment.class, ccJudgmentIndexFieldsFiller);
     }
     
     @Override
@@ -57,6 +57,8 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
                     (JudgmentIndexFieldsFiller<Judgment>)judgmentIndexFieldsFillers.get(item.getClass());
             
             judgmentSpecificProcessor.fillFields(doc, item);
+        } else {
+            throw new RuntimeException("Unable to process judgment type: " + item.getClass());
         }
     }
 
@@ -69,9 +71,9 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     }
 
     @Autowired
-    public void setCcJudgmentIndexingProcessor(
-            CcJudgmentIndexFieldsFiller ccJudgmentIndexingProcessor) {
-        this.ccJudgmentIndexFieldsFillerProcessor = ccJudgmentIndexingProcessor;
+    public void setCcJudgmentIndexFieldsFiller(
+            CcJudgmentIndexFieldsFiller ccJudgmentIndexFieldsFiller) {
+        this.ccJudgmentIndexFieldsFiller = ccJudgmentIndexFieldsFiller;
     }
 
 }

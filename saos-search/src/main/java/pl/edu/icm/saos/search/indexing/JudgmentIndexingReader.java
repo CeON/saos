@@ -27,26 +27,29 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
     private JudgmentRepository judgmentRepository;
     
     private int pageSize = 20;
-    private int pageNo = 0;
+    private boolean allRead = false;
     private Queue<Judgment> judgments = Lists.newLinkedList();
     
     @Override
     public void open(ExecutionContext executionContext)
             throws ItemStreamException {
         judgments = Lists.newLinkedList();
+        allRead = false;
     }
 
     @Override
     public Judgment read() throws Exception,
             UnexpectedInputException, ParseException,
             NonTransientResourceException {
-        if (judgments.isEmpty()) {
-            judgments = Lists.newLinkedList(judgmentRepository.findAllToIndex(new PageRequest(pageNo, pageSize)).getContent());
+        if (judgments.isEmpty() && !allRead) {
+            judgments = Lists.newLinkedList(judgmentRepository.findAllToIndex(new PageRequest(0, pageSize)).getContent());
+            if (judgments.size() < pageSize) {
+                allRead = true;
+            }
             if (judgments.isEmpty()) {
                 return null;
             }
             log.debug("Read {} judgments for indexing", judgments.size());
-            pageNo++;
         }
         
         Judgment commonCourtJudgment = judgments.poll();
@@ -65,6 +68,10 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
 
     
     //------------------------ SETTERS --------------------------
+    
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
     
     @Autowired
     public void setJudgmentRepository(JudgmentRepository judgmentRepository) {

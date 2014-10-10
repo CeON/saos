@@ -9,9 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 public class JudgmentIndexFieldsFiller<J extends Judgment> {

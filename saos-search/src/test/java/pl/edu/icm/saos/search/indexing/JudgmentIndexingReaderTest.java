@@ -39,6 +39,7 @@ public class JudgmentIndexingReaderTest {
     @Before
     public void setUp() {
          judgmentIndexingReader.setJudgmentRepository(judgmentRepository);
+         judgmentIndexingReader.setPageSize(2);
     }
     
     @Test
@@ -58,7 +59,7 @@ public class JudgmentIndexingReaderTest {
         Judgment thirdJudgment = createCcJudgment(3);
         
         Page<Judgment> firstPage = new PageImpl<Judgment>(Lists.newArrayList(firstJudgment, secondJudgment), new PageRequest(0, 2), 3);
-        Page<Judgment> secondPage = new PageImpl<Judgment>(Lists.newArrayList(thirdJudgment), new PageRequest(1, 1), 3);
+        Page<Judgment> secondPage = new PageImpl<Judgment>(Lists.newArrayList(thirdJudgment), new PageRequest(0, 1), 1);
         Page<Judgment> thirdPage = new PageImpl<Judgment>(Lists.newArrayList());
         
         @SuppressWarnings({ "unused", "unchecked" })
@@ -67,7 +68,7 @@ public class JudgmentIndexingReaderTest {
 
         
         Judgment actualFirst = judgmentIndexingReader.read();
-        Judgment actualSecond = judgmentIndexingReader.read();        
+        Judgment actualSecond = judgmentIndexingReader.read();
         Judgment actualThird = judgmentIndexingReader.read();
         Judgment actualFourth = judgmentIndexingReader.read();
         
@@ -77,9 +78,11 @@ public class JudgmentIndexingReaderTest {
         
         Pageable firstPageRequestArg = pageArgCapture.getAllValues().get(0);
         assertEquals(0, firstPageRequestArg.getPageNumber());
+        assertEquals(2, firstPageRequestArg.getPageSize());
         
         Pageable secondPageRequestArg = pageArgCapture.getAllValues().get(1);
-        assertEquals(1, secondPageRequestArg.getPageNumber());
+        assertEquals(0, secondPageRequestArg.getPageNumber());
+        assertEquals(2, secondPageRequestArg.getPageSize());
         
         assertEquals(firstJudgment.getId(), actualFirst.getId());
         assertEquals(secondJudgment.getId(), actualSecond.getId());
