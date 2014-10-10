@@ -18,6 +18,14 @@ import pl.edu.icm.saos.search.config.service.IndexReloader;
 import pl.edu.icm.saos.search.config.service.SolrIndexReloader;
 import pl.edu.icm.saos.search.search.model.HighlightingFieldParams;
 import pl.edu.icm.saos.search.search.model.HighlightingParams;
+import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.service.CriteriaTransformer;
+import pl.edu.icm.saos.search.search.service.SearchQueryFactory;
+import pl.edu.icm.saos.search.search.service.SearchQueryFactoryImpl;
+import pl.edu.icm.saos.search.search.service.SearchResultTranslator;
+import pl.edu.icm.saos.search.search.service.SearchResultsTranslator;
+import pl.edu.icm.saos.search.search.service.SearchResultsTranslatorImpl;
 
 /**
  * @author madryk
@@ -77,6 +85,29 @@ public class SearchConfiguration {
     }
     
     @Bean
+    @Autowired
+    public SearchQueryFactory<JudgmentCriteria> judgmentQueryFactory(
+            CriteriaTransformer<JudgmentCriteria> judgmentCriteriaTransformer, HighlightingParams judgmentsHighlightParams) {
+        SearchQueryFactoryImpl<JudgmentCriteria> queryFactory = new SearchQueryFactoryImpl<JudgmentCriteria>();
+        
+        queryFactory.setCriteriaTransformer(judgmentCriteriaTransformer);
+        queryFactory.setHighlightParams(judgmentsHighlightParams);
+        
+        return queryFactory;
+    }
+    
+    @Bean
+    @Autowired
+    public SearchResultsTranslator<JudgmentSearchResult> judgmentSearchResultsTranslator(
+            SearchResultTranslator<JudgmentSearchResult> judgmentResultTranslator) {
+        SearchResultsTranslatorImpl<JudgmentSearchResult> resultsTranslator = new SearchResultsTranslatorImpl<JudgmentSearchResult>();
+        
+        resultsTranslator.setSearchResultTranslator(judgmentResultTranslator);
+        
+        return resultsTranslator;
+    }
+    
+    @Bean
     public HighlightingParams judgmentsHighlightParams() {
         HighlightingParams params = new HighlightingParams();
         
@@ -93,4 +124,5 @@ public class SearchConfiguration {
         
         return params;
     }
+    
 }

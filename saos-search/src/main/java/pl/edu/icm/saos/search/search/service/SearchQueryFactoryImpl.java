@@ -14,13 +14,14 @@ import pl.edu.icm.saos.search.search.model.Sorting;
 import pl.edu.icm.saos.search.search.model.Sorting.Direction;
 
 /**
- * Base class for creating {@link SolrQuery}.
- * It handles paging, sorting and highlighting
+ * Creates {@link SolrQuery} based on criteria and paging
  * @author madryk
  * @param <C> type of criteria that is supported
  */
-public abstract class AbstractSearchQueryFactory<C extends Criteria> implements SearchQueryFactory<C> {
+public class SearchQueryFactoryImpl<C extends Criteria> implements SearchQueryFactory<C> {
 
+    private CriteriaTransformer<C> criteriaTransformer;
+    
     private HighlightingParams highlightParams;
     
     
@@ -28,7 +29,7 @@ public abstract class AbstractSearchQueryFactory<C extends Criteria> implements 
     public SolrQuery createQuery(C criteria, Paging paging) {
         SolrQuery query = new SolrQuery();
         
-        String queryString = transformCriteria(criteria);
+        String queryString = criteriaTransformer.transformCriteria(criteria);
         query.setQuery(queryString);
         
         applyPaging(query, paging);
@@ -37,13 +38,6 @@ public abstract class AbstractSearchQueryFactory<C extends Criteria> implements 
         
         return query;
     }
-    
-    /**
-     * Creates part of solr query that depends on criteria  
-     * @param criteria
-     * @return
-     */
-    protected abstract String transformCriteria(C criteria);
     
     
     //------------------------ PRIVATE --------------------------
@@ -91,8 +85,13 @@ public abstract class AbstractSearchQueryFactory<C extends Criteria> implements 
 
 
     //------------------------ SETTERS --------------------------
+
+    public void setCriteriaTransformer(CriteriaTransformer<C> criteriaTransformer) {
+        this.criteriaTransformer = criteriaTransformer;
+    }
     
     public void setHighlightParams(HighlightingParams highlightParams) {
         this.highlightParams = highlightParams;
     }
+
 }

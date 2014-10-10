@@ -3,30 +3,27 @@ package pl.edu.icm.saos.search.search.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.solr.client.solrj.SolrQuery;
 import org.jadira.usertype.spi.utils.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
-import pl.edu.icm.saos.search.search.model.HighlightingParams;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.util.SolrConstants;
 
 import com.google.common.collect.Lists;
 
 /**
- * Creates {@link SolrQuery} based on {@link JudgmentCriteria}
+ * Creates part of solr query that depends on {@link JudgmentCriteria}
  * @author madryk
  */
 @Service
-public class JudgmentSearchQueryFactory extends AbstractSearchQueryFactory<JudgmentCriteria> {
+public class JudgmentCriteriaTransformer implements CriteriaTransformer<JudgmentCriteria> {
 
     private SolrCriterionTransformer<JudgmentIndexField> criterionTransformer;
     
     @Override
-    protected String transformCriteria(JudgmentCriteria criteria) {
+    public String transformCriteria(JudgmentCriteria criteria) {
         List<String> list = Lists.newLinkedList();
         
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CONTENT, criteria.getAll()));
@@ -55,13 +52,6 @@ public class JudgmentSearchQueryFactory extends AbstractSearchQueryFactory<Judgm
     
 
     //------------------------ SETTERS --------------------------
-
-    @Override
-    @Autowired
-    @Qualifier("judgmentsHighlightParams")
-    public void setHighlightParams(HighlightingParams highlightParams) {
-        super.setHighlightParams(highlightParams);
-    }
 
     @Autowired
     public void setCriterionTransformer(

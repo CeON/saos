@@ -11,12 +11,15 @@ import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.search.search.model.Searchable;
 
 /**
- * Base class for translating solr response into search results
+ * Translates solr response into search results
  * @author madryk
  * @param <S> type of single result
  */
-public abstract class AbstractSearchResultsTranslator<S extends Searchable> implements SearchResultsTranslator<S> {
+public class SearchResultsTranslatorImpl<S extends Searchable> implements SearchResultsTranslator<S> {
 
+    private SearchResultTranslator<S> searchResultTranslator;
+    
+    
     @Override
     public SearchResults<S> translate(QueryResponse response) {
         SolrDocumentList documents = response.getResults();
@@ -24,7 +27,7 @@ public abstract class AbstractSearchResultsTranslator<S extends Searchable> impl
         
         for (int i=0; i<documents.size(); ++i) {
             SolrDocument document = documents.get(i);
-            S result = translateSingle(document);
+            S result = searchResultTranslator.translateSingle(document);
             
             checkAndApplyHighlighting(response.getHighlighting(), result);
             
@@ -35,20 +38,6 @@ public abstract class AbstractSearchResultsTranslator<S extends Searchable> impl
         
         return results;
     }
-
-    /**
-     * Translate document provided by Solr into result
-     * @param document
-     * @return
-     */
-    protected abstract S translateSingle(SolrDocument document);
-    
-    /**
-     * Applies highlighting into result based on associated documentHighlighting
-     * @param documentHighlighting
-     * @param result 
-     */
-    protected abstract void applyHighlighting(Map<String, List<String>> documentHighlighting, S result);
     
     
     //------------------------ PRIVATE --------------------------
@@ -57,7 +46,15 @@ public abstract class AbstractSearchResultsTranslator<S extends Searchable> impl
         
         if (highlighting != null && highlighting.containsKey(result.getId())) {
             Map<String, List<String>> documentHighlighting = highlighting.get(result.getId());
-            applyHighlighting(documentHighlighting, result);
+            searchResultTranslator.applyHighlighting(documentHighlighting, result);
         }
+    }
+
+    
+    //------------------------ SETTERS --------------------------
+    
+    public void setSearchResultTranslator(
+            SearchResultTranslator<S> searchResultTranslator) {
+        this.searchResultTranslator = searchResultTranslator;
     }
 }

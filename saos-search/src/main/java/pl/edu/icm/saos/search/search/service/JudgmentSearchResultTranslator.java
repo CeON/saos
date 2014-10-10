@@ -17,11 +17,11 @@ import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import com.google.common.collect.Lists;
 
 /**
- * Translates solr response into search results of {@link JudgmentSearchResult}
+ * Translates document provided by Solr into {@link JudgmentSearchResult}
  * @author madryk
  */
 @Service
-public class JudgmentSearchResultsTranslator extends AbstractSearchResultsTranslator<JudgmentSearchResult> {
+public class JudgmentSearchResultTranslator implements SearchResultTranslator<JudgmentSearchResult> {
 
     private SolrFieldFetcher<JudgmentIndexField> fieldFetcher;
     
@@ -29,7 +29,7 @@ public class JudgmentSearchResultsTranslator extends AbstractSearchResultsTransl
     
     
     @Override
-    protected JudgmentSearchResult translateSingle(SolrDocument document) {
+    public JudgmentSearchResult translateSingle(SolrDocument document) {
         JudgmentSearchResult result = new JudgmentSearchResult();
         
         String databaseId = fieldFetcher.fetchValue(document, JudgmentIndexField.DATABASE_ID);
@@ -75,7 +75,7 @@ public class JudgmentSearchResultsTranslator extends AbstractSearchResultsTransl
     }
     
     @Override
-    protected void applyHighlighting(Map<String, List<String>> documentHighlighting, JudgmentSearchResult result) {
+    public void applyHighlighting(Map<String, List<String>> documentHighlighting, JudgmentSearchResult result) {
         
         String highlightedContent = highlightFragmentsMerger.merge(documentHighlighting, JudgmentIndexField.CONTENT);
         result.setContent(highlightedContent);

@@ -21,10 +21,10 @@ public class JudgmentSearchService implements SearchService<JudgmentSearchResult
     private SolrServer solrServer;
     
     @Autowired
-    private JudgmentSearchQueryFactory queryFactory;
+    private SearchQueryFactory<JudgmentCriteria> queryFactory;
     
     @Autowired
-    private JudgmentSearchResultsTranslator resultsTranslator;
+    private SearchResultsTranslator<JudgmentSearchResult> resultsTranslator;
 
     @Override
     public SearchResults<JudgmentSearchResult> search(JudgmentCriteria criteria,
