@@ -36,9 +36,20 @@
 			    </div>
 		    </div>
 		    
-		    <saos:formFieldText path="judgeName" labelName="input-search-judge" labelText="search.field.judge" />
+		    <div class="form-group">
+				<label class="col-sm-2 control-label"><spring:message code="search.field.judgmenttype" />:</label>
+			    <div class="col-sm-6">
+				  <div class="checkbox">
+			   	        <saos:enumCheckBox path="judgmentType" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" prefix="judgment.judgmenttype" />
+			   </div>
+			 </div>
+			</div>
 		    
-		    <saos:formFieldText path="keyword" labelName="input-search-keywords" labelText="search.field.keywords" />
+		    <saos:formFieldText path="judgeName" labelName="input-search-judge" labelText="search.field.judge" />
+		    		    
+			<saos:formFieldText path="legalBase" labelName="input-search-legalbases" labelText="search.field.legalbases" />
+			 
+			<saos:formFieldText path="referencedRegulation" labelName="input-search-referencedregulations" labelText="search.field.referencedregulations" />
 		    
 		    <div class="form-group">
 			    <label class="col-sm-2 control-label"><spring:message code="search.field.courttype" />:</label>
