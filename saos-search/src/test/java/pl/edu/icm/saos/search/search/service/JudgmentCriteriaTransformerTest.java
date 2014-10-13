@@ -28,7 +28,7 @@ public class JudgmentCriteriaTransformerTest {
     }
     
     @Test
-    public void shouldCreateQueryWithAllField() {
+    public void transformCriteria_ALL_CRITERION() {
         JudgmentCriteria criteria = new JudgmentCriteria("word");
         
         String solrQuery = queryFactory.transformCriteria(criteria);
@@ -37,7 +37,7 @@ public class JudgmentCriteriaTransformerTest {
     }
     
     @Test
-    public void shouldCreateQueryWithSingleField() {
+    public void transformCriteria_SINGLE_CRITERION() {
         JudgmentCriteria criteria = new JudgmentCriteria()
             .setKeyword("word");
 
@@ -47,7 +47,7 @@ public class JudgmentCriteriaTransformerTest {
     }
     
     @Test
-    public void shouldCreateQuryWithTwoFields() {
+    public void transformCriteria_TWO_CRITERIA() {
         JudgmentCriteria criteria = new JudgmentCriteria()
             .setCourtName("word1")
             .setJudgeName("word2");
@@ -58,7 +58,7 @@ public class JudgmentCriteriaTransformerTest {
     }
     
     @Test
-    public void shouldCreateQueryWithFromDate() throws ParseException {
+    public void transformCriteria_DATE_FROM() throws ParseException {
         JudgmentCriteria criteria = new JudgmentCriteria()
             .setDateFrom(FIRST_DATE);
 
@@ -68,7 +68,7 @@ public class JudgmentCriteriaTransformerTest {
     }
     
     @Test
-    public void shouldCreateQueryWithToDate() throws ParseException {
+    public void transformCriteria_DATE_TO() throws ParseException {
         JudgmentCriteria criteria = new JudgmentCriteria(null)
             .setDateTo(FIRST_DATE);
         
@@ -78,7 +78,7 @@ public class JudgmentCriteriaTransformerTest {
     }
     
     @Test
-    public void shouldCreateQueryWithDateRange() throws ParseException {
+    public void transformCriteria_DATE_RANGE() throws ParseException {
         JudgmentCriteria criteria = new JudgmentCriteria()
             .setDateFrom(FIRST_DATE)
             .setDateTo(SECOND_DATE);
@@ -89,7 +89,7 @@ public class JudgmentCriteriaTransformerTest {
     }
     
     @Test
-    public void shouldCreateQueryWithJudgeName() {
+    public void transformCriteria_JUDGE_NAME() {
         JudgmentCriteria criteria = new JudgmentCriteria(null)
             .setJudgeName("Adam Nowak");
 
@@ -99,7 +99,7 @@ public class JudgmentCriteriaTransformerTest {
     }
     
     @Test
-    public void shouldTakeSearchAllQueryWhenNoCriteria() {
+    public void transformCriteria_NO_CRITERIA() {
         JudgmentCriteria criteria = new JudgmentCriteria(" ");
         
         String solrQuery = queryFactory.transformCriteria(criteria);
