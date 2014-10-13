@@ -1,9 +1,6 @@
 package pl.edu.icm.saos.search.config.service;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,15 +22,18 @@ public class SolrLoaderTest {
     
     private IndexReloader indexReloader = mock(IndexReloader.class);
     
+    private SolrHomeLocationPolicy solrHomeLocationPolicy = mock(SolrHomeLocationPolicy.class);
+    
     private IndexConfiguration firstIndexConfiguration = new IndexConfiguration();
     
     private IndexConfiguration secondIndexConfiguration = new IndexConfiguration();
     
     @Before
     public void setUp() {
-        solrLoader.setConfigurationPath(CONFIGURATION_PATH);
+        when(solrHomeLocationPolicy.getSolrHome()).thenReturn(CONFIGURATION_PATH); 
+        solrLoader.setSolrHomeLocationPolicy(solrHomeLocationPolicy);
         solrLoader.setCopyConfiguration(true);
-        solrLoader.setIndexesConfiguration(Lists.newArrayList(firstIndexConfiguration, secondIndexConfiguration));
+        solrLoader.setIndexesConfigurations(Lists.newArrayList(firstIndexConfiguration, secondIndexConfiguration));
         
         solrLoader.setIndexConfigurationCopier(indexConfigurationCopier);
         solrLoader.setIndexReloader(indexReloader);
@@ -73,6 +73,7 @@ public class SolrLoaderTest {
         
         verify(indexConfigurationCopier).cleanupIndexConfiguration(firstIndexConfiguration, CONFIGURATION_PATH);
         verify(indexConfigurationCopier).cleanupIndexConfiguration(secondIndexConfiguration, CONFIGURATION_PATH);
+        verify(solrHomeLocationPolicy).cleanup();
         verifyNoMoreInteractions(indexConfigurationCopier);
         verifyZeroInteractions(indexReloader);
     }
@@ -83,6 +84,7 @@ public class SolrLoaderTest {
         
         solrLoader.shutdown();
         
+        verify(solrHomeLocationPolicy).cleanup();
         verifyZeroInteractions(indexConfigurationCopier, indexReloader);
     }
 }
