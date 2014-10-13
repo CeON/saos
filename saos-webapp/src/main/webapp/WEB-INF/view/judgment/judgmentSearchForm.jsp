@@ -54,7 +54,7 @@
 		    <div class="form-group">
 			    <label class="col-sm-2 control-label"><spring:message code="search.field.courttype" />:</label>
 			    <div class="col-sm-7">
-			    	<form:radiobutton path="courtType" id="radio-all" value="all" />
+			    	<form:radiobutton path="courtType" id="radio-all" value="all" checked="true" />
 			    	<label for="radio-all" ><spring:message code="judgment.courttype.all" /></label>
 			    	<saos:enumRadio path="courtType" enumType="pl.edu.icm.saos.webapp.judgment.CourtType" prefix="judgment.courttype" />
 			    </div>
@@ -83,6 +83,7 @@
 		<div class="form-group">
 		    <div class="col-sm-offset-2 col-sm-10">
 		      <button type="submit" class="btn btn-primary button button-blue"><spring:message code="search.button.search" /></button>
+		      <button type="reset" class="btn btn-primary button button-blue"><spring:message code="search.button.reset" /></button>
 		    </div>
    		</div>
 	

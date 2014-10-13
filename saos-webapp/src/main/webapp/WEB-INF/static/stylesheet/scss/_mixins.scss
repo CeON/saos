@@ -19,3 +19,12 @@
 		text-decoration: underline;
 	}
 }
+
+@mixin filter-button() {
+	background: #eee;
+	cursor: pointer;
+	
+	&:hover {
+		background: lighten(#eee, 20%);
+	}
+}
