@@ -1,0 +1,99 @@
+<p>Sygn. akt III AUa 271/12</p>
+    
+    <div>
+      <h2>WYROK</h2>
+      <h5>W IMIENIU RZECZYPOSPOLITEJ POLSKIEJ</h5>
+      <p>Dnia 17 maja 2012 r.</p>
+      
+      <p>Sąd Apelacyjny we Wrocławiu Wydział III</p>
+      <p>Sąd Pracy i Ubezpieczeń Społecznych</p>
+      <p>w składzie:</p>
+      <table>
+        <tr>
+          <td>
+            <p>Przewodniczący:</p>
+          </td>
+          <td>
+            <p>SSA Jacek Witkowski</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Sędziowie:</p>
+          </td>
+          <td>
+            <p>SSA Irena Różańska-Dorosz (spr.)</p>
+            <p>SSA Elżbieta Kunecka</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Protokolant:</p>
+          </td>
+          <td>
+            <p>Magdalena Krucka</p>
+          </td>
+        </tr>
+      </table>
+      <p>po rozpoznaniu w dniu 17 maja 2012 r. we Wrocławiu</p>
+      <p>sprawy z wniosku <span class="anon-block"> Banku (...) S.A.</span>
+</p>
+      <p>przeciwko  Zakładowi Ubezpieczeń Społecznych Oddział w <span class="anon-block">C.</span>
+</p>
+      <p>o zwrot nienależnie pobranego świadczenia</p>
+      <p>na skutek apelacji <span class="anon-block"> Banku (...) S.A.</span>
+</p>
+      <p>od wyroku Sądu Okręgowego Sądu Pracy i Ubezpieczeń Społecznych we Wrocławiu</p>
+      <p>z dnia 12 grudnia 2011 r. sygn. akt IX U 1823/11</p>
+      
+        
+        <p>I. 
+        <strong>
+<!-- -->
+            <em>
+<!-- -->oddala apelację, </em>
+          </strong>
+</p>
+      
+      
+        
+        <p>II. 
+        <strong>
+<!-- -->
+            <em>
+<!-- -->zasądza od wnioskodawcy na rzecz strony pozwanej kwotę 120 zł tytułem zwrotu kosztów zastępstwa procesowego w postępowaniu apelacyjnym. </em>
+          </strong>
+</p>
+      
+    </div>
+    <div>
+      <h2>UZASADNIENIE</h2>
+      <p>Wyrokiem z dnia 12 grudnia 2011 r. Sąd Okręgowy we Wrocławiu oddalił odwołanie <span class="anon-block"> Banku (...) S.A.</span> od decyzji Zakładu Ubezpieczeń Społecznych Oddział w <span class="anon-block">C.</span> zobowiązującej wnioskodawcę do zwrotu nienależnie wypłaconego świadczenia za okres od 1 czerwca 2011 r. do 30 czerwca 2011 r. w kwocie 435 zł.</p>
+      <p>Rozstrzygnięcie to Sąd oparł o następująco ustalony stan faktyczny:</p>
+      <p>
+<span class="anon-block">H. S.</span>, <span class="anon-block">urodzona w dniu (...)</span> pobierała emeryturę kolejową z ZUS Oddział w <span class="anon-block">C.</span> w terminie 1-go dnia każdego miesiąca. Zgodnie ze zleceniem <span class="anon-block">H. S.</span> emerytura w kwocie 898,71 zł była przekazywana na konto bankowe prowadzone przez <span class="anon-block"> Bank (...) S.A.</span> we <span class="anon-block">W.</span>. W dniu 28 maja 2011 r. <span class="anon-block">H. S.</span> zmarła. Przed dniem 1 czerwca 2011 r. ZUS Oddział w <span class="anon-block">C.</span> przelał na rachunek bankowy w <span class="anon-block"> Banku (...) S.A.</span> kwotę emerytury w wysokości 898,71 zł za miesiąc czerwiec 2011 r. W dniu 2 czerwca 2011 r. do ZUS Oddział w <span class="anon-block">C.</span> wpłynął wniosek o wypłatę zasiłku pogrzebowego po zmarłej <span class="anon-block">H. S.</span>.</p>
+      <p>W dniu 27 czerwca 2011 r. organ rentowy wysłał do <span class="anon-block"> Banku (...)</span> pismo, w którym poinformował o zgonie uprawnionej do emerytury oraz zażądał zwrotu emerytury przekazanej za miesiąc czerwiec 2011 r.</p>
+      <p>
+<span class="anon-block"> Bank (...)</span> poinformował, że w dniu 2 czerwca 2011 r. z rachunku zmarłej dokonano przelewu w formie polecenia zapłaty w kwocie 435,98 zł na rzecz <span class="anon-block"> banku (...)</span> z siedzibą w <span class="anon-block">K.</span>. Natomiast pozostałą część emerytury w kwocie 462,73 zł w dniu 11 lipca 2011 r. zwrócił do ZUS Oddział w <span class="anon-block">C.</span>.</p>
+      <p>W tak ustalonym stanie faktycznym Sąd Okręgowy uznał odwołanie za nieuzasadnione. W ocenie Sądu wypłata dokonana po śmierci posiadacza rachunku na podstawie dyspozycji złożonych przez właścicielkę rachunku za jej życia nie stanowi wypłaty dokonanej „innej uprawnionej osobie”, o której mowa w <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19971400939" title="Ustawa z dnia 29 sierpnia 1997 r. - Prawo bankowe - Dz. U. z 1997 r. Nr 140, poz. 939 (art. 55;art. 55 ust. 3)">art. 55 ust. 3 ustawy – Prawo Bankowe</a>, bowiem w dacie śmierci właścicielki rachunku umocowanie wygasło, zgodnie z <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 101;art. 101 § 2)">art. 101 § 2 kc.</a> Bank nie miał zatem podstaw do wykonania dyspozycji w postaci zleceń stałych po śmierci <span class="anon-block">H. S.</span>. Bank powinien zwrócić przekazaną przez organ rentowy kwotę świadczenia niezależnie od tego, czy wiedział o śmierci posiadacza rachunku oraz niezależnie od tego, czy dokonał operacji związanych z dyspozycjami posiadacza rachunku lub innych osób uprawnionych, gdy nie wiedział po śmierci posiadacza rachunku. Zaskarżona decyzja jest zatem prawidłowa.</p>
+      <p>Apelację od wyroku złożył <span class="anon-block"> Bank (...) S.A.</span> zarzucając naruszenie prawa materialnego, w szczególności <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19971400939" title="Ustawa z dnia 29 sierpnia 1997 r. - Prawo bankowe - Dz. U. z 1997 r. Nr 140, poz. 939 (art. 55;art. 55 ust. 3)">art. 55 ust. 3 ustawy Prawo Bankowe</a> poprzez jego niewłaściwe zastosowanie i w konsekwencji uznanie, iż realizacja przez wnioskodawcę polecenia zapłaty po śmierci posiadacza rachunku nie zwalnia go z obowiązku wypłaty z rachunku kwoty przekazanego przez organ rentowy świadczenia za okres po śmierci posiadacza oraz <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19971400939" title="Ustawa z dnia 29 sierpnia 1997 r. - Prawo bankowe - Dz. U. z 1997 r. Nr 140, poz. 939 (art. 56)">art. 56</a> poprzez jego niewłaściwe zastosowanie i przyjęcie, iż przepis ten, poza spadkobiercami ustawowymi i testamentowymi określa krąg „osób uprawnionych” do wypłaty z rachunku po śmierci posiadacza.</p>
+      <p>Wskazując na powyższe zarzuty skarżący wniósł o zmianę zaskarżonego wyroku przez uwzględnienie jego odwołania, ewentualnie jego uchylenie i przekazanie sprawy do ponownego rozpoznania Sądowi I instancji.</p>
+      <p>Organ rentowy w odpowiedzi na apelację wniósł o jej oddalenie.</p>
+      <p>
+<strong>
+<!-- -->
+          <em>
+<!-- -->Sąd Apelacyjny zważył, co następuje:</em>
+        </strong>
+</p>
+      <p>Apelacja wnioskodawcy jest bezzasadna, ponieważ wyrok Sądu Okręgowego odpowiada prawu.</p>
+      <p>Stan faktyczny sprawy pozostawał bezspornym, sporna była natomiast interpretacja prawa, a w szczególności wykładania <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19971400939" title="Ustawa z dnia 29 sierpnia 1997 r. - Prawo bankowe - Dz. U. z 1997 r. Nr 140, poz. 939 (art. 55;art. 55 ust. 3;art. 56)">art. 55 ust. 3 i art. 56 ustawy z 29 sierpnia 1997 r. Prawo bankowe</a> i zawartego tam sformułowania „inne osoby uprawnione”.</p>
+      <p>Trafnie wskazuje Sąd Okręgowy, że z chwilą śmierci wygasają wszelkie zawarte za życia umowy cywilnoprawne i ich realizacja, jak w niniejszej sprawie nie znajduje uzasadnienia prawnego.</p>
+      <p>W ocenie Sądu Apelacyjnego, osobami uprawnionymi do wypłaty po śmierci dysponenta rachunku bankowego są spadkobiercy ustawowi lub testamentowi <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19460600328" title="Dekret z dnia 8 października 1946 r. - Prawo spadkowe - Dz. U. z 1946 r. Nr 60, poz. 328 ()">prawa spadkowego</a> oraz osoby uprawnione z tzw. „zapisu bankowego” uregulowanego w <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19971400939" title="Ustawa z dnia 29 sierpnia 1997 r. - Prawo bankowe - Dz. U. z 1997 r. Nr 140, poz. 939 (art. 56)">art. 56 Prawa bankowego</a>. Posiadacz rachunku oszczędnościowego, rachunku oszczędnościowo-rozliczeniowego lub rachunku terminowej lokaty oszczędnościowej może polecić pisemnie bankowi dokonanie - po swojej śmierci - wypłaty z rachunku wskazanym przez siebie osobom: małżonkowi, wstępnym, zstępnym lub rodzeństwu określonej kwoty pieniężnej (dyspozycja wkładem na wypadek śmierci).</p>
+      <p>
+<span class="anon-block">H. S.</span> takiej dyspozycji nie wydała, a więc po jej śmierci do momentu zgłoszenia się spadkobierców nie było osób uprawnionych do wypłaty środków pieniężnych z nienależnie wypłaconej emerytury.</p>
+      <p>Nie ulega wątpliwości, że <span class="anon-block"> Bank (...)</span> takim uprawnionym nie jest.</p>
+      <p>Zatem organ rentowy ma podstawę do realizacji swych uprawnień z art. 138a ustawy o emeryturach i rentach z FUS oraz <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19971400939" title="Ustawa z dnia 29 sierpnia 1997 r. - Prawo bankowe - Dz. U. z 1997 r. Nr 140, poz. 939 (art. 55;art. 55 ust. 1;art. 55 ust. 1 pkt. 2)">art. 55 ust. 1 pkt 2 prawa bankowego</a>. Podkreślić przy tym należy, że art. 138a statuuje obowiązek banku zwrotu kwoty świadczeń przekazanych na rachunek w banku lub spółdzielczej kasie oszczędnościowo-kredytowej za miesiące następujące po miesiącu, w którym nastąpiła śmierć świadczeniobiorcy. Obowiązek ten ma charakter bezwzględny i nie są przewidziane żadne okoliczności zwalniające z jego stosowania. Bank powinien więc zwrócić przekazane przez organ rentowy kwoty świadczeń, niezależnie od tego, czy wiedział, czy nie wiedział o śmierci posiadacza rachunku oraz niezależnie od tego, czy wykonał jakieś operacje związane ze złożonymi dyspozycjami posiadacza lub innych osób uprawnionych, gdy nie wiedział o śmierci posiadacza rachunku.</p>
+      <p>Mając powyższe na uwadze, uznając argumentację i zarzuty zawarte w apelacji za nieuzasadnione, Sąd Apelacyjny oddalił apelację na podstawie <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 385)">art. 385 kpc</a>.</p>
+      <p>R.S.</p>
+    </div>

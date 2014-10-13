@@ -1,26 +1,20 @@
 package pl.edu.icm.saos.search.util;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
-import org.joda.time.format.ISODateTimeFormat;
+import org.joda.time.format.DateTimeFormat;
 
 public class SearchDateTimeUtils {
 
+    private final static String ISO_DATE_PATTERN = "yyyy-MM-dd'T'00:00:00'Z'";
+    private final static String ISO_DATE_PATTERN_END_OF_DAY = "yyyy-MM-dd'T'23:59:59'Z'";
+    
     private SearchDateTimeUtils() {}
     
     public static String convertDateToISOString(LocalDate localDate) {
-        return ISODateTimeFormat.dateTimeNoMillis()
-                .withZoneUTC()
-                .print(localDate.toDateTimeAtStartOfDay(DateTimeZone.UTC));
+        return localDate.toString(DateTimeFormat.forPattern(ISO_DATE_PATTERN));
     }
     
     public static String convertDateToISOStringAtEndOfDay(LocalDate date) {
-        DateTime dateTime = date.toDateTime(new LocalTime(23, 59, 59), DateTimeZone.UTC);
-        
-        return ISODateTimeFormat.dateTimeNoMillis()
-                .withZoneUTC()
-                .print(dateTime);
+        return date.toString(DateTimeFormat.forPattern(ISO_DATE_PATTERN_END_OF_DAY));
     }
 }

@@ -2,6 +2,7 @@ package pl.edu.icm.saos.search;
 
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
+import org.apache.solr.common.params.HighlightParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,19 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.config.service.IndexReloader;
 import pl.edu.icm.saos.search.config.service.SolrIndexReloader;
+import pl.edu.icm.saos.search.search.model.HighlightingFieldParams;
+import pl.edu.icm.saos.search.search.model.HighlightingParams;
+import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.service.CriteriaTransformer;
+import pl.edu.icm.saos.search.search.service.SearchQueryFactory;
+import pl.edu.icm.saos.search.search.service.SearchQueryFactoryImpl;
+import pl.edu.icm.saos.search.search.service.SearchResultTranslator;
+import pl.edu.icm.saos.search.search.service.SearchResultsTranslator;
+import pl.edu.icm.saos.search.search.service.SearchResultsTranslatorImpl;
 
 /**
  * @author madryk
@@ -71,4 +83,46 @@ public class SearchConfiguration {
         
         return judgmentsIndex;
     }
+    
+    @Bean
+    @Autowired
+    public SearchQueryFactory<JudgmentCriteria> judgmentQueryFactory(
+            CriteriaTransformer<JudgmentCriteria> judgmentCriteriaTransformer, HighlightingParams judgmentsHighlightParams) {
+        SearchQueryFactoryImpl<JudgmentCriteria> queryFactory = new SearchQueryFactoryImpl<JudgmentCriteria>();
+        
+        queryFactory.setCriteriaTransformer(judgmentCriteriaTransformer);
+        queryFactory.setHighlightParams(judgmentsHighlightParams);
+        
+        return queryFactory;
+    }
+    
+    @Bean
+    @Autowired
+    public SearchResultsTranslator<JudgmentSearchResult> judgmentSearchResultsTranslator(
+            SearchResultTranslator<JudgmentSearchResult> judgmentResultTranslator) {
+        SearchResultsTranslatorImpl<JudgmentSearchResult> resultsTranslator = new SearchResultsTranslatorImpl<JudgmentSearchResult>();
+        
+        resultsTranslator.setSearchResultTranslator(judgmentResultTranslator);
+        
+        return resultsTranslator;
+    }
+    
+    @Bean
+    public HighlightingParams judgmentsHighlightParams() {
+        HighlightingParams params = new HighlightingParams();
+        
+        params.addParam(HighlightParams.SIMPLE_PRE, "<em>");
+        params.addParam(HighlightParams.SIMPLE_POST, "</em>");
+        params.addParam(HighlightParams.MERGE_CONTIGUOUS_FRAGMENTS, "true");
+        
+        HighlightingFieldParams contentFieldParams = new HighlightingFieldParams(JudgmentIndexField.CONTENT.getFieldName());
+        contentFieldParams.addParam(HighlightParams.FRAGSIZE, "200");
+        contentFieldParams.addParam(HighlightParams.SNIPPETS, "4");
+        contentFieldParams.addParam(HighlightParams.ALTERNATE_FIELD, "content");
+        contentFieldParams.addParam(HighlightParams.ALTERNATE_FIELD_LENGTH, "800");
+        params.addFieldParams(contentFieldParams);
+        
+        return params;
+    }
+    
 }

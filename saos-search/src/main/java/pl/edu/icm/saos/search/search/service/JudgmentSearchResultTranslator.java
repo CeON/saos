@@ -1,47 +1,35 @@
 package pl.edu.icm.saos.search.search.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrDocumentList;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.JudgeResult;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
-import pl.edu.icm.saos.search.search.model.SearchResults;
 
+import com.google.common.collect.Lists;
+
+/**
+ * Translates document provided by Solr into {@link JudgmentSearchResult}
+ * @author madryk
+ */
 @Service
-public class JudgmentSearchResultsTranslator implements SearchResultsTranslator<JudgmentSearchResult> {
+public class JudgmentSearchResultTranslator implements SearchResultTranslator<JudgmentSearchResult> {
 
     private SolrFieldFetcher<JudgmentIndexField> fieldFetcher;
     
-    @Override
-    public SearchResults<JudgmentSearchResult> translate(QueryResponse response) {
-        SolrDocumentList documents = response.getResults();
-        SearchResults<JudgmentSearchResult> results = new SearchResults<JudgmentSearchResult>();
-        
-        
-        for (int i=0; i<documents.size(); ++i) {
-            SolrDocument document = documents.get(i);
-            JudgmentSearchResult result = translateSingle(document);
-            
-            results.addResult(result);
-        }
-        
-        results.setTotalResults(documents.getNumFound());
-        
-        return results;
-    }
+    private SolrHighlightFragmentsMerger<JudgmentIndexField> highlightFragmentsMerger;
     
-    protected JudgmentSearchResult translateSingle(SolrDocument document) {
+    
+    @Override
+    public JudgmentSearchResult translateSingle(SolrDocument document) {
         JudgmentSearchResult result = new JudgmentSearchResult();
         
         String databaseId = fieldFetcher.fetchValue(document, JudgmentIndexField.DATABASE_ID);
@@ -85,6 +73,13 @@ public class JudgmentSearchResultsTranslator implements SearchResultsTranslator<
         
         return result;
     }
+    
+    @Override
+    public void applyHighlighting(Map<String, List<String>> documentHighlighting, JudgmentSearchResult result) {
+        
+        String highlightedContent = highlightFragmentsMerger.merge(documentHighlighting, JudgmentIndexField.CONTENT);
+        result.setContent(highlightedContent);
+    }
 
     
     //------------------------ SETTERS --------------------------
@@ -92,6 +87,12 @@ public class JudgmentSearchResultsTranslator implements SearchResultsTranslator<
     @Autowired
     public void setFieldFetcher(SolrFieldFetcher<JudgmentIndexField> fieldFetcher) {
         this.fieldFetcher = fieldFetcher;
+    }
+
+    @Autowired
+    public void setHighlightFragmentsMerger(
+            SolrHighlightFragmentsMerger<JudgmentIndexField> highlightFragmentsMerger) {
+        this.highlightFragmentsMerger = highlightFragmentsMerger;
     }
 
 }
