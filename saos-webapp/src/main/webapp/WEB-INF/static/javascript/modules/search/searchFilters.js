@@ -18,7 +18,7 @@ var SearchFilters = (function(){
 		
 		removeButtonBaseShape = "<span></span>",
 		
-		filters = [{button: "", searchfield: "", filterfield: ""}],
+		filters = [{button: "", searchfield: "", filterfield: "", selectFormType: ""}],
 				   
 		
 		advanceFilter = {button: "", searchfield: "", filterfield: "", url : "",
@@ -54,8 +54,7 @@ var SearchFilters = (function(){
 		}
 	},
 	
-	
-	/* Add filters to basic fields that corresponds to input, select and checkbox */
+	/* Add filters to fields that corresponds to input, select and checkbox */
 	assignAddFilter = function() {
 		var i = 0,
 			length = filters.length;
@@ -65,8 +64,9 @@ var SearchFilters = (function(){
 				var $thisButton = $(this),
 					filterValue = $thisButton.text(),
 					$searchFormField = $(filters[i].searchfield),
+					$selectFormType = $(filters[i].selectFormType), 
 					$filterField = $("#" + filters[i].filterfield);
-				 
+								 
 				$thisButton.click(
 						(function() {
 							if ($searchFormField.is("input[type='checkbox']")) {
@@ -80,21 +80,22 @@ var SearchFilters = (function(){
 											$this.prop('checked', true);
 											$this.trigger("change");
 											
-											submitForm(); //send form only if checkbox has changed value
+											selectFormType($selectFormType);
+											submitForm(); //send form only if checkbox value has changed
 										}
 									});
 								};
 							} else if($searchFormField.is("input")) {
 								return function() {
 									$searchFormField.val(filterValue);
-									//$filterField.text(filterValue);
+									selectFormType($selectFormType);
 									submitForm();
 								};
 							} else if($searchFormField.is("select")) {
 								return function() {
 									$searchFormField.find("option[content='" + filterValue + "']").attr('selected', 'selected');
 									$searchFormField.trigger("change");
-									//$filterField.text(filterValue);
+									selectFormType($selectFormType);
 									submitForm();
 								};
 							}
@@ -102,6 +103,19 @@ var SearchFilters = (function(){
 				);
 
 			});
+		}
+	},
+	
+	/* If filter field is assigned to specified court type,
+	 * selecting filter process must also select corresponding court type.
+	 */
+	selectFormType = function($selectFormType) {
+		if ($selectFormType.length > 0) {
+			$("." + $selectFormType.attr("name")).each(function() {
+				$(this).removeAttr('checked');
+			});
+
+			$selectFormType.prop('checked', true).trigger('change');
 		}
 	},
 	
@@ -113,6 +127,7 @@ var SearchFilters = (function(){
 		
 		$(parentContainer + " " + advanceFilter.button).each(function() {
 			var $thisButton = $(this),
+				$selectFormType = $(advanceFilter.selectFormType), 
 				divisionName = $thisButton.text();
 			
 			$thisButton.click(function() {
@@ -143,6 +158,7 @@ var SearchFilters = (function(){
 						 $(advanceFilter.searchfield).prepend($("<option selected='selected' value='" + id + "' ></option>"));
 					 }
 					 
+					 selectFormType($selectFormType);
 					 submitForm();
 				 })
 				 .fail(function() {});
@@ -180,6 +196,7 @@ var SearchFilters = (function(){
 		});
 	},
 	
+	/* Clear target field e.g. input select */
 	clearField = function($field) {
 		if ($field.is("input")) {
 			$field.attr("value", "");
@@ -188,11 +205,6 @@ var SearchFilters = (function(){
 				  .val("")
 				  .trigger("change");
 		}
-	},
-	
-	
-	createRemoveFilterButton = function() {
-		
 	},
 	
 	/* Button to remove all previous selected filters */
