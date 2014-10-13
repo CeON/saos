@@ -21,6 +21,7 @@ import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 import pl.edu.icm.saos.search.config.model.SolrConfigurationException;
 import pl.edu.icm.saos.search.config.service.EmbeddedSolrIndexReloader;
 import pl.edu.icm.saos.search.config.service.IndexReloader;
+import pl.edu.icm.saos.search.config.service.SolrHomeLocationPolicy;
 import pl.edu.icm.saos.search.util.SolrConstants;
 
 /**
@@ -41,10 +42,11 @@ public class SearchTestConfiguration extends CommonTestConfiguration {
     }
     
     @Bean
-    public CoreContainer coreContainer() {
+    @Autowired
+    public CoreContainer coreContainer(SolrHomeLocationPolicy solrHomeLocationPolicy) {
         CoreContainer coreContainer;
         ClassPathResource solrConfFile = new ClassPathResource(CONF_BASE_CLASSPATH + "/" + SolrConstants.SOLR_CONFIG_FILENAME);
-        String solrHome = environment.getProperty("solr.index.configuration.home");
+        String solrHome = solrHomeLocationPolicy.fetchSolrHome();
         
         SolrResourceLoader loader = new SolrResourceLoader(solrHome);
         

@@ -2,7 +2,6 @@ package pl.edu.icm.saos.search.config.service;
 
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
@@ -19,6 +18,8 @@ import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 @Service
 public class SolrLoader implements ApplicationListener<ApplicationContextEvent> {
 
+    private SolrHomeLocationPolicy solrHomeLocationPolicy;
+
     private SolrIndexConfigurationCopier indexConfigurationCopier;
 
     private IndexReloader indexReloader;
@@ -28,15 +29,12 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
     @Value("${solr.index.configuration.copy}")
     private boolean copyConfiguration = false;
 
-    @Value("${solr.index.configuration.home}")
-    private String configurationPath;
-
     
     public void load() {
 
         for (IndexConfiguration indexConfiguration : indexesConfigurations) {
-            if (copyConfiguration && StringUtils.isNotBlank(configurationPath)) {
-                indexConfigurationCopier.copyIndexConfiguration(indexConfiguration, configurationPath);
+            if (copyConfiguration) {
+                indexConfigurationCopier.copyIndexConfiguration(indexConfiguration, solrHomeLocationPolicy.fetchSolrHome());
             }
 
             indexReloader.reloadIndex(indexConfiguration);
@@ -46,10 +44,11 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
     public void shutdown() {
 
         for (IndexConfiguration indexConfiguration : indexesConfigurations) {
-            if (copyConfiguration && StringUtils.isNotBlank(configurationPath)) {
-                indexConfigurationCopier.cleanupIndexConfiguration(indexConfiguration, configurationPath);
+            if (copyConfiguration) {
+                indexConfigurationCopier.cleanupIndexConfiguration(indexConfiguration, solrHomeLocationPolicy.fetchSolrHome());
             }
         }
+        solrHomeLocationPolicy.cleanup();
     }
 
     @Override
@@ -63,7 +62,13 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
 
     
     //------------------------ SETTERS --------------------------
-    
+
+    @Autowired
+    public void setSolrHomeLocationPolicy(
+            SolrHomeLocationPolicy solrHomeLocationPolicy) {
+        this.solrHomeLocationPolicy = solrHomeLocationPolicy;
+    }
+
     @Autowired
     public void setIndexConfigurationCopier(
             SolrIndexConfigurationCopier indexConfigurationCopier) {
@@ -76,17 +81,14 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
     }
 
     @Autowired
-    public void setIndexesConfiguration(
-            List<IndexConfiguration> indexesConfiguration) {
-        this.indexesConfigurations = indexesConfiguration;
+    public void setIndexesConfigurations(
+            List<IndexConfiguration> indexesConfigurations) {
+        this.indexesConfigurations = indexesConfigurations;
     }
 
     public void setCopyConfiguration(boolean copyConfiguration) {
         this.copyConfiguration = copyConfiguration;
     }
 
-    public void setConfigurationPath(String configurationPath) {
-        this.configurationPath = configurationPath;
-    }
 
 }
