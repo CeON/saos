@@ -2,6 +2,8 @@ package pl.edu.icm.saos.search.config.service;
 
 import java.io.File;
 
+import javax.annotation.PostConstruct;
+
 import org.jadira.usertype.spi.utils.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,31 +14,25 @@ import com.google.common.io.Files;
 
 /**
  * Controls creation of solr home folder.
- * When solr home in no longer needed then {@link #cleanup()} should be called.
+ * When solr home is no longer needed then {@link #cleanup()} should be called.
  * @author madryk
  */
 @Service
 public class SolrHomeLocationPolicy {
-
+    
     @Value("${solr.index.configuration.home:}")
-    private String configurationPath;
+    private  String configurationPath;
     
     private File solrHome;
     
-    
-    public String fetchSolrHome() {
-        if (solrHome != null) {
-            return solrHome.getAbsolutePath();
-        }
-        
+    @PostConstruct
+    public void initialize() {
         if (StringUtils.isEmpty(configurationPath)) {
             solrHome = Files.createTempDir();
-            return solrHome.getAbsolutePath();
         } else {
             solrHome = new File(configurationPath);
             createDirectory(solrHome);
         }
-        return configurationPath;
     }
     
     public void cleanup() {
@@ -59,8 +55,15 @@ public class SolrHomeLocationPolicy {
     
     
     //------------------------ SETTERS --------------------------
-    
+
     public void setConfigurationPath(String configurationPath) {
         this.configurationPath = configurationPath;
+    }
+    
+    
+    //------------------------ GETTERS --------------------------
+
+    public String getSolrHome() {
+        return solrHome.getAbsolutePath();
     }
 }

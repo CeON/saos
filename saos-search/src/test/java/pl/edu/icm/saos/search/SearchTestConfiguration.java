@@ -46,7 +46,7 @@ public class SearchTestConfiguration extends CommonTestConfiguration {
     public CoreContainer coreContainer(SolrHomeLocationPolicy solrHomeLocationPolicy) {
         CoreContainer coreContainer;
         ClassPathResource solrConfFile = new ClassPathResource(CONF_BASE_CLASSPATH + "/" + SolrConstants.SOLR_CONFIG_FILENAME);
-        String solrHome = solrHomeLocationPolicy.fetchSolrHome();
+        String solrHome = solrHomeLocationPolicy.getSolrHome();
         
         SolrResourceLoader loader = new SolrResourceLoader(solrHome);
         

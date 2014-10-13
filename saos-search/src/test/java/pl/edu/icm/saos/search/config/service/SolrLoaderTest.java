@@ -30,7 +30,7 @@ public class SolrLoaderTest {
     
     @Before
     public void setUp() {
-        when(solrHomeLocationPolicy.fetchSolrHome()).thenReturn(CONFIGURATION_PATH); 
+        when(solrHomeLocationPolicy.getSolrHome()).thenReturn(CONFIGURATION_PATH); 
         solrLoader.setSolrHomeLocationPolicy(solrHomeLocationPolicy);
         solrLoader.setCopyConfiguration(true);
         solrLoader.setIndexesConfigurations(Lists.newArrayList(firstIndexConfiguration, secondIndexConfiguration));

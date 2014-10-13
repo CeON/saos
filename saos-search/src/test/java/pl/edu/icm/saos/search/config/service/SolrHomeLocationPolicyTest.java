@@ -15,16 +15,16 @@ import static junit.framework.Assert.*;
  * @author madryk
  */
 public class SolrHomeLocationPolicyTest {
-
-    private SolrHomeLocationPolicy solrHomeLocationPolicy = new SolrHomeLocationPolicy();
     
     @Test
-    public void fetchSolrHome_TEMPORARY() throws IOException {
+    public void initialize_TEMPORARY() throws IOException {
         // given
+        SolrHomeLocationPolicy solrHomeLocationPolicy = new SolrHomeLocationPolicy();
         solrHomeLocationPolicy.setConfigurationPath(null);
         
-        // when fetchSolrHome
-        String actualSolrHomePath = solrHomeLocationPolicy.fetchSolrHome();
+        // when
+        solrHomeLocationPolicy.initialize();
+        String actualSolrHomePath = solrHomeLocationPolicy.getSolrHome();
         File actualSolrHome = new File(actualSolrHomePath);
         
         // then
@@ -33,33 +33,59 @@ public class SolrHomeLocationPolicyTest {
         assertTrue(FileUtils.directoryContains(javaTmpDir, actualSolrHome));
         
         
-        // when cleanup
-        solrHomeLocationPolicy.cleanup();
-        // then
-        assertFalse(actualSolrHome.exists());
+        FileUtils.deleteQuietly(actualSolrHome);
     }
     
     @Test
-    public void fetchSolrHome_CUSTOM() throws IOException {
+    public void initialize_CUSTOM() throws IOException {
         // given
+        SolrHomeLocationPolicy solrHomeLocationPolicy = new SolrHomeLocationPolicy();
         File solrCustomHome = Files.createTempDir();
-        File solrHomeContentFile = new File(solrCustomHome, "someFile");
-        solrHomeContentFile.createNewFile();
         solrHomeLocationPolicy.setConfigurationPath(solrCustomHome.getAbsolutePath());
         
-        // when fetchSolrHome
-        String actualSolrHomePath = solrHomeLocationPolicy.fetchSolrHome();
-        File actualSolrHome = new File(actualSolrHomePath);
+        // when
+        solrHomeLocationPolicy.initialize();
+        String actualSolrHomePath = solrHomeLocationPolicy.getSolrHome();
         
         // then
         assertEquals(solrCustomHome.getAbsolutePath(), actualSolrHomePath);
         
         
-        // when cleanup not empty
-        solrHomeLocationPolicy.cleanup();
-        // then
-        assertTrue(actualSolrHome.exists());
-        
         FileUtils.deleteQuietly(solrCustomHome);
+    }
+    
+    @Test
+    public void cleanup_EMPTY() {
+        // given
+        SolrHomeLocationPolicy solrHomeLocationPolicy = new SolrHomeLocationPolicy();
+        solrHomeLocationPolicy.setConfigurationPath(null);
+        solrHomeLocationPolicy.initialize();
+        String solrHomePath = solrHomeLocationPolicy.getSolrHome();
+        
+        // when
+        solrHomeLocationPolicy.cleanup();
+        
+        // then
+        assertFalse(new File(solrHomePath).exists());
+    }
+    
+    @Test
+    public void cleanup_NOT_EMPTY() throws IOException {
+        // given
+        SolrHomeLocationPolicy solrHomeLocationPolicy = new SolrHomeLocationPolicy();
+        solrHomeLocationPolicy.setConfigurationPath(null);
+        solrHomeLocationPolicy.initialize();
+        
+        File solrHome = new File(solrHomeLocationPolicy.getSolrHome());
+        File solrHomeContentFile = new File(solrHome, "someFile");
+        solrHomeContentFile.createNewFile();
+        
+        // when
+        solrHomeLocationPolicy.cleanup();
+        
+        // then
+        assertTrue(solrHome.exists());
+        
+        FileUtils.deleteQuietly(solrHome);
     }
 }

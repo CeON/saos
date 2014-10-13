@@ -34,7 +34,7 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
 
         for (IndexConfiguration indexConfiguration : indexesConfigurations) {
             if (copyConfiguration) {
-                indexConfigurationCopier.copyIndexConfiguration(indexConfiguration, solrHomeLocationPolicy.fetchSolrHome());
+                indexConfigurationCopier.copyIndexConfiguration(indexConfiguration, solrHomeLocationPolicy.getSolrHome());
             }
 
             indexReloader.reloadIndex(indexConfiguration);
@@ -45,7 +45,7 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
 
         for (IndexConfiguration indexConfiguration : indexesConfigurations) {
             if (copyConfiguration) {
-                indexConfigurationCopier.cleanupIndexConfiguration(indexConfiguration, solrHomeLocationPolicy.fetchSolrHome());
+                indexConfigurationCopier.cleanupIndexConfiguration(indexConfiguration, solrHomeLocationPolicy.getSolrHome());
             }
         }
         solrHomeLocationPolicy.cleanup();
