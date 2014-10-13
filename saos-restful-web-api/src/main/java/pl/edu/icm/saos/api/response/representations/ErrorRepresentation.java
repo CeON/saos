@@ -14,7 +14,7 @@ public class ErrorRepresentation {
         public static final String ERROR_KEY = "error";
     }
 
-    private Map<String, Object> representation = new LinkedHashMap<String, Object>();
+    private Map<String, Object> representation = new LinkedHashMap<>();
 
     public ErrorRepresentation(Builder builder) {
         representation.put(CS.ERROR_KEY, builder.errorData);
@@ -27,23 +27,28 @@ public class ErrorRepresentation {
     public static class Builder {
         private ErrorData errorData = new ErrorData();
 
-        public Builder status(String status){
-            errorData.status = status;
+        public Builder httpStatus(String httpStatus){
+            errorData.httpStatus = httpStatus;
             return this;
         }
 
-        public Builder code(String code){
-            errorData.code = code;
+        public Builder name(String name){
+            errorData.name = name;
             return this;
         }
 
-        public Builder property(String property){
-            errorData.property = property;
+        public Builder propertyName(String propertyName){
+            errorData.propertyName = propertyName;
             return this;
         }
 
         public Builder message(String message){
             errorData.message=message;
+            return this;
+        }
+
+        public Builder moreInfo(String moreInfo){
+            errorData.moreInfo = moreInfo;
             return this;
         }
 

@@ -1,8 +1,8 @@
 package pl.edu.icm.saos.api.exceptions;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import pl.edu.icm.saos.api.exceptions.status.ErrorStatus;
 import pl.edu.icm.saos.api.response.representations.ErrorRepresentation;
 
 import java.util.Map;
@@ -14,31 +14,32 @@ public class ControllersEntityExceptionHandler {
 
 
     //----------- BUSINESS METHODS -------------------
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler(ElementDoesNotExistException.class)
     public ResponseEntity<Map<String, Object>> handelIllegalArgumentError(Exception ex){
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        ErrorStatus errorStatus = ErrorStatus.ELEMENT_DOES_NOT_EXIST_ERROR;
 
-        ErrorRepresentation.Builder errorRepresentation = create(httpStatus, ILLEGAL_ARGUMENT_ERROR_CODE, ex);
-        return createErrorResponse(errorRepresentation, httpStatus);
+        ErrorRepresentation.Builder errorRepresentation = create(errorStatus , ex);
+
+        return createErrorResponse(errorRepresentation, errorStatus);
     }
 
     @ExceptionHandler(WrongRequestParameterException.class)
     public ResponseEntity<Map<String, Object>> handleWrongRequestParameterError(WrongRequestParameterException ex){
-        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
+        ErrorStatus errorStatus = ErrorStatus.WRONG_REQUEST_PARAMETER_ERROR;
 
-        ErrorRepresentation.Builder builder = create(httpStatus, WRONG_REQUEST_PARAMETER_ERROR_CODE, ex);
-        builder.property(ex.getParameterName());
+        ErrorRepresentation.Builder builder = create(errorStatus, ex);
+        builder.propertyName(ex.getParameterName());
 
-        return createErrorResponse(builder, httpStatus);
+        return createErrorResponse(builder, errorStatus);
     }
 
     @ExceptionHandler({RuntimeException.class, Exception.class})
     public ResponseEntity<Map<String, Object>> handleGeneralError(Exception ex) {
-        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        ErrorStatus errorStatus = ErrorStatus.GENERAL_INTERNAL_ERROR;
 
-        ErrorRepresentation.Builder builder = create(httpStatus, GENERAL_ERROR_CODE, ex);
+        ErrorRepresentation.Builder builder = create(errorStatus, ex);
 
-        return createErrorResponse(builder, httpStatus);
+        return createErrorResponse(builder, errorStatus);
     }
 
 
@@ -46,24 +47,24 @@ public class ControllersEntityExceptionHandler {
 
 
     //----------- PRIVATE ----------------------------
-    private ErrorRepresentation.Builder create(HttpStatus httpStatus, String code, Exception e){
+    private static final String ERRORS_DOCUMENTATION_SITE = "http://www.example.com/errors/"; //TODO move into property file
+
+    private ErrorRepresentation.Builder create(ErrorStatus errorStatus, Exception ex){
         ErrorRepresentation.Builder builder = new ErrorRepresentation.Builder();
-        builder.status(String.valueOf(httpStatus.value()))
-                .code(code)
-                .message(e.getMessage());
+        builder.httpStatus(errorStatus.httpStatusValue())
+                .message(ex.getMessage())
+                .name(errorStatus.errorName())
+                .moreInfo(ERRORS_DOCUMENTATION_SITE+errorStatus.linkSuffix());
+
         return builder;
     }
 
-    private ResponseEntity<Map<String, Object>> createErrorResponse(ErrorRepresentation.Builder builder, HttpStatus httpStatus){
+    private ResponseEntity<Map<String, Object>> createErrorResponse(ErrorRepresentation.Builder builder, ErrorStatus errorStatus){
         Map<String, Object> representation = builder.build();
-        return new ResponseEntity<>(representation, httpStatus);
+        return new ResponseEntity<>(representation, errorStatus.httpStatus());
     }
     //----------- END PRIVATE --------------------------
 
 
 
-    //----------- CONSTANTS ---------------------
-    public static final String ILLEGAL_ARGUMENT_ERROR_CODE = "40011";
-    public static final String WRONG_REQUEST_PARAMETER_ERROR_CODE = "40012";
-    public static final String GENERAL_ERROR_CODE = "50011";
 }

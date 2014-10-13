@@ -13,7 +13,7 @@ import spock.lang.Specification
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
-import static pl.edu.icm.saos.api.exceptions.ControllersEntityExceptionHandler.*;
+import static pl.edu.icm.saos.api.exceptions.status.ErrorStatus.*;
 /**
  * @author pavtel
  */
@@ -23,7 +23,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
 
 
 
-    def "should return error's representation for IllegalArgumentException"(){
+    def "should return error's representation for IllegalArgumentException (General internal error)"(){
         given:
             def exceptionMsg = "same illegal operation message"
             def specialController = new SpecialController(){
@@ -40,12 +40,13 @@ class ControllersEntityExceptionHandlerTest extends Specification {
 
 
         then:
-            actions.andExpect(status().isBadRequest())
+            actions.andExpect(status().isInternalServerError())
 
             def content = contentAsJson(actions)
-            content.error.status == "400"
-            content.error.code == ILLEGAL_ARGUMENT_ERROR_CODE
+            content.error.httpStatus == "500"
+            content.error.name == GENERAL_INTERNAL_ERROR.errorName()
             content.error.message == exceptionMsg
+            content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.linkSuffix()
     }
 
     def "should return error's representation for WrongRequestParameterException"(){
@@ -68,10 +69,12 @@ class ControllersEntityExceptionHandlerTest extends Specification {
             actions.andExpect(status().isBadRequest())
 
             def content = contentAsJson(actions)
-            content.error.status == "400"
-            content.error.code == WRONG_REQUEST_PARAMETER_ERROR_CODE
-            content.error.property == paramName
+            content.error.httpStatus == "400"
+            content.error.name == WRONG_REQUEST_PARAMETER_ERROR.errorName()
             content.error.message.contains message
+            content.error.moreInfo.endsWith WRONG_REQUEST_PARAMETER_ERROR.linkSuffix()
+            content.error.propertyName == paramName
+
     }
 
     def "should return error's representation for Exception"(){
@@ -93,9 +96,37 @@ class ControllersEntityExceptionHandlerTest extends Specification {
             actions.andExpect(status().isInternalServerError())
 
             def content = contentAsJson(actions)
-            content.error.status == "500"
-            content.error.code == GENERAL_ERROR_CODE
+            content.error.httpStatus == "500"
+            content.error.name == GENERAL_INTERNAL_ERROR.errorName()
             content.error.message == exceptionMsg
+            content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.linkSuffix()
+    }
+
+    def "should return error's representation for ElementDoesNotExistException"(){
+        given:
+            def exceptionMsg = "Element ... "
+            def elementId = 111
+            def specialController = new SpecialController(){
+                @Override
+                def ResponseEntity<Map<String, Object>> execute(){
+                    throw new ElementDoesNotExistException(exceptionMsg, elementId)
+                }
+            }
+            MockMvc mockMvc = standaloneSetup(specialController).build()
+
+        when:
+            ResultActions actions = mockMvc.perform(get(PATH)
+                    .accept(MediaType.APPLICATION_JSON))
+
+        then:
+            actions.andExpect(status().isNotFound())
+
+            def content = contentAsJson(actions)
+            content.error.httpStatus == "404"
+            content.error.name == ELEMENT_DOES_NOT_EXIST_ERROR.errorName
+            content.error.message.contains exceptionMsg
+            content.error.message.contains elementId.toString()
+            content.error.moreInfo.endsWith ELEMENT_DOES_NOT_EXIST_ERROR.linkSuffix
     }
 
 
