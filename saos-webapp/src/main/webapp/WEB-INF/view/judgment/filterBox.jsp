@@ -24,7 +24,6 @@
 		</div>
 	</c:if>
 
-	<saos:filterField assignedField="input-search-judge" label="judgment.results.filter.judge" filterValue="${judgmentCriteriaForm.judgeName}" id="filter-judge"></saos:filterField>
 	
 	<%-- Judgment type --%> 
 	<c:if test="${!empty judgmentCriteriaForm.judgmentType}">
@@ -40,6 +39,22 @@
 			</c:forEach>
 		</c:forEach>
 	</c:if>
+	
+	<saos:filterField assignedField="input-search-judge" label="judgment.results.filter.judge" filterValue="${judgmentCriteriaForm.judgeName}" id="filter-judge"></saos:filterField>
+	
+	<saos:filterField assignedField="input-search-legalbases" label="judgment.results.filter.legalbases" filterValue="${judgmentCriteriaForm.legalBase}" id="filter-legal-base"></saos:filterField>
+	
+	<saos:filterField assignedField="input-search-referencedregulations" label="judgment.results.filter.referencedregulations" filterValue="${judgmentCriteriaForm.referencedRegulation}" id="filter-referenced-regulations"></saos:filterField>
+	
+	<%--Court type --%>
+	<c:if test="${!empty judgmentCriteriaForm.courtType && judgmentCriteriaForm.courtType != 'all' }">
+		<p><spring:message code="judgment.results.filter.courtType" />:</p>
+		<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(judgmentCriteriaForm.courtType)}" />
+		<div class="filter-item" id="filter-court-type" data-assigned-field="radio-court-${lowerCaseEnumValue}">
+			<div><spring:message code="judgment.results.filter.${fn:toLowerCase(lowerCaseEnumValue)}" /></div>
+		</div>
+	</c:if>
+	
 	
 	<saos:filterField assignedField="select-court" label="judgment.results.filter.court" filterValue="${judgmentCriteriaForm.courtId}" id="filter-court"></saos:filterField>
 	
