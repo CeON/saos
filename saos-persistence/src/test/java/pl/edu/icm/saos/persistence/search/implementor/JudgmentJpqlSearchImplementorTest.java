@@ -9,6 +9,7 @@ import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.FieldsNames;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
@@ -62,6 +63,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         assertThat("division id should be not null", actualJudgment.getCourtDivision().getId(), notNullValue());
         assertThat("division id ", actualJudgment.getCourtDivision().getId(), is(ccJudgment.getCourtDivision().getId()));
         assertThat("judges", actualJudgment.getJudges(), containsListInAnyOrder(ccJudgment.getJudges()));
+        assertThat("judge role", actualJudgment.getJudges().get(0).getSpecialRoles().get(0), is(Judge.JudgeRole.PRESIDING_JUDGE));
 
         assertThat("keywords", actualJudgment.getKeywords(), containsListInAnyOrder(ccJudgment.getKeywords()));
 
