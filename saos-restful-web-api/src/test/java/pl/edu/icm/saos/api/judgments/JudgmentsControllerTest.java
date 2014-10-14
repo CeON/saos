@@ -1,14 +1,6 @@
 package pl.edu.icm.saos.api.judgments;
 
 
-import static org.hamcrest.Matchers.endsWith;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.ApiConstants.*;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -23,24 +15,30 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.api.judgments.extractors.JudgmentsParametersExtractor;
 import pl.edu.icm.saos.api.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.search.ApiSearchService;
-import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.api.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
 import pl.edu.icm.saos.api.utils.TrivialApiSearchService;
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
+import static org.hamcrest.Matchers.endsWith;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.judgments.JudgmentRepresentationVerifier.verifyBasicFields;
 import static pl.edu.icm.saos.api.utils.Constansts.*;
-import static pl.edu.icm.saos.api.judgments.JudgmentRepresentationVerifier.*;
+import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  JudgmentsControllerTest.TestConfiguration.class)
 @Category(SlowTest.class)
 public class JudgmentsControllerTest {
+
+    private static final int TOTAL_RESULTS_VALUE = 23;
 
     @Configuration
     @Import(TestsConfig.class)
@@ -48,7 +46,7 @@ public class JudgmentsControllerTest {
 
         @Bean(name = "mockJudgmentApiSearchService")
         public ApiSearchService<Judgment, JudgmentsParameters> judgmentApiSearchService(){
-            return new TrivialApiSearchService();
+            return new TrivialApiSearchService(TOTAL_RESULTS_VALUE);
         }
 
     }
@@ -159,5 +157,64 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath(prefix+".offset").value(offset))
 
         ;
+    }
+
+    @Test
+    public void showJudgments__it_should_show_info() throws Exception {
+
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        String prefix = "$.info";
+
+        actions
+                .andExpect(jsonPath(prefix+".totalResults").value(is(TOTAL_RESULTS_VALUE)))
+                ;
+    }
+
+    @Test
+    public void showJudgments__it_should_not_show_next_link() throws Exception {
+        //given
+        int limit = 2;
+        int offset = TOTAL_RESULTS_VALUE - limit;
+
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(LIMIT, String.valueOf(limit))
+                .param(OFFSET, String.valueOf(offset))
+                .accept(MediaType.APPLICATION_JSON)
+        );
+
+        //then
+        String prefix = "$.links";
+
+        actions
+                .andExpect(jsonPath(prefix + "[?(@.rel==next)].href[0]").doesNotExist())
+                ;
+    }
+
+    @Test
+    public void showJudgments__it_should_show_next_link() throws Exception {
+        //given
+        int limit = 2;
+        int nrOfElementsOnTheNextPage = 3;
+        int offset = TOTAL_RESULTS_VALUE - limit  - nrOfElementsOnTheNextPage;
+
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(LIMIT, String.valueOf(limit))
+                .param(OFFSET, String.valueOf(offset))
+        );
+
+        //then
+        String prefix = "$.links";
+
+        actions
+                .andExpect((jsonPath(prefix + "[?(@.rel==next)].href[0]").exists()))
+        ;
+
     }
 }
