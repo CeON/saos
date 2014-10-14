@@ -42,15 +42,19 @@ public class JudgmentsListSuccessRepresentationBuilder {
      */
     public Map<String, Object> build(ElementsSearchResults<Judgment, JudgmentsParameters> searchResults, UriComponentsBuilder uriComponentsBuilder){
         SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
-        builder.links(toLinks(searchResults.getRequestParameters(), uriComponentsBuilder, true)); //TODO calculate hasMore value
+        builder.links(toLinks(searchResults, uriComponentsBuilder));
         builder.items(toItems(searchResults.getElements()));
         builder.queryTemplate(toQueryTemplate(searchResults.getRequestParameters()));
+        builder.info(toInfo(searchResults));
 
         return builder.build();
     }
 
-    private List<Link> toLinks(JudgmentsParameters requestParameters, UriComponentsBuilder uriComponentsBuilder, boolean hasMore) {
+
+
+    private List<Link> toLinks(ElementsSearchResults<Judgment, JudgmentsParameters> searchResults , UriComponentsBuilder uriComponentsBuilder) {
         List<Link> links = new LinkedList<>();
+        JudgmentsParameters requestParameters = searchResults.getRequestParameters();
 
         Pagination pagination = requestParameters.getPagination();
 
@@ -60,7 +64,7 @@ public class JudgmentsListSuccessRepresentationBuilder {
             links.add(buildLink(pagination.getPrevious(), requestParameters, Link.REL_PREVIOUS, uriComponentsBuilder));
         }
 
-        if(hasMore){
+        if(pagination.hasNextIn(searchResults.getTotalResults())){
             links.add(buildLink(pagination.getNext(), requestParameters, Link.REL_NEXT, uriComponentsBuilder));
         }
 
@@ -133,6 +137,12 @@ public class JudgmentsListSuccessRepresentationBuilder {
         queryTemplate.put(JUDGMENT_DATE_TO, toString(params.getJudgmentDateTo()));
 
         return queryTemplate;
+    }
+
+    private Object toInfo(ElementsSearchResults<Judgment, JudgmentsParameters> searchResults) {
+        Map<String, Object> info = new LinkedHashMap<>();
+        info.put(TOTAL_RESULTS, searchResults.getTotalResults());
+        return info;
     }
 
     private String toString(LocalDate localDate) {

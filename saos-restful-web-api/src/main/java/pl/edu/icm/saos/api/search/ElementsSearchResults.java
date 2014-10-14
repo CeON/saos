@@ -15,6 +15,8 @@ public class ElementsSearchResults<T, S> {
 
     private S requestParameters;
 
+    private long totalResults;
+
     public ElementsSearchResults( List<? extends T> elements, S requestParameters) {
         this.elements = elements;
         this.requestParameters = requestParameters;
@@ -26,5 +28,14 @@ public class ElementsSearchResults<T, S> {
 
     public List<? extends T> getElements() {
         return elements;
+    }
+
+    public ElementsSearchResults<T,S> totalResults(long totalResults){
+        this.totalResults = totalResults;
+        return this;
+    }
+
+    public long getTotalResults() {
+        return totalResults;
     }
 }
