@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.edu.icm.saos.api.exceptions.ControllersEntityExceptionHandler;
+import pl.edu.icm.saos.api.exceptions.ElementDoesNotExistException;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
@@ -21,7 +23,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/api/judgments/{judgmentId}")
-public class JudgmentController {
+public class JudgmentController extends ControllersEntityExceptionHandler{
 
     //******** fields ****************
 
@@ -38,9 +40,12 @@ public class JudgmentController {
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> showJudgment(@PathVariable("judgmentId") int judgmentId){
+    public ResponseEntity<Map<String, Object>> showJudgment(@PathVariable("judgmentId") int judgmentId) throws ElementDoesNotExistException {
 
         Judgment judgment = judgmentRepository.findOneAndInitialize(judgmentId);
+        if(judgment == null){
+            throw new ElementDoesNotExistException("Judgment", judgmentId);
+        }
 
         Map<String, Object> representation = singleJudgmentSuccessRepresentationBuilder.build(judgment);
 

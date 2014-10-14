@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.edu.icm.saos.api.exceptions.ControllersEntityExceptionHandler;
+import pl.edu.icm.saos.api.exceptions.ElementDoesNotExistException;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 
@@ -21,7 +23,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/api/divisions/{divisionId}")
-public class DivisionController {
+public class DivisionController extends ControllersEntityExceptionHandler{
 
     //******** fields *********
     @Autowired
@@ -36,9 +38,12 @@ public class DivisionController {
     //******** business methods ************
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> showDivision(@PathVariable("divisionId") int divisionId){
+    public ResponseEntity<Map<String, Object>> showDivision(@PathVariable("divisionId") int divisionId) throws ElementDoesNotExistException {
 
         CommonCourtDivision division = ccDivisionRepository.findOne(divisionId);
+        if(division == null){
+            throw new ElementDoesNotExistException("Division", divisionId);
+        }
 
         Map<String, Object> representation = divisionSuccessRepresentationBuilder.build(division);
 

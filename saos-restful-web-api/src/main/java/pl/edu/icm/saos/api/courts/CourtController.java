@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import pl.edu.icm.saos.api.exceptions.ControllersEntityExceptionHandler;
+import pl.edu.icm.saos.api.exceptions.ElementDoesNotExistException;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 
@@ -20,7 +22,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/api/courts/{courtId}")
-public class CourtController {
+public class CourtController extends ControllersEntityExceptionHandler {
 
     //******** fields ***********
     @Autowired
@@ -35,9 +37,12 @@ public class CourtController {
     //***** business methods *************
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> showCourt(@PathVariable("courtId") int courtId){
+    public ResponseEntity<Map<String, Object>> showCourt(@PathVariable("courtId") int courtId) throws ElementDoesNotExistException {
 
         CommonCourt court = courtRepository.findOne(courtId);
+        if(court == null){
+            throw new ElementDoesNotExistException("Court", courtId);
+        }
 
         Map<String, Object> representation = singleCourtSuccessRepresentationBuilder.build(court);
 

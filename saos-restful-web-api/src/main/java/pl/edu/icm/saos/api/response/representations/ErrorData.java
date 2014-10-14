@@ -9,20 +9,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ErrorData {
 
-    @JsonProperty("status")
-    public String status;
+    @JsonProperty("httpStatus")
+    public String httpStatus;
 
-    @JsonProperty("code")
-    public String code;
+    @JsonProperty("name")
+    public String name;
 
-    @JsonProperty("property")
-    public String property;
+    @JsonProperty("propertyName")
+    public String propertyName;
 
     @JsonProperty("message")
     public String message;
-
-    @JsonProperty("developerMessage")
-    public String developerMessage;
 
     @JsonProperty("moreInfo")
     public String moreInfo;
