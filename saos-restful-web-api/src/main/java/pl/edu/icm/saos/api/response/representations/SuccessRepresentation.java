@@ -22,6 +22,7 @@ public class SuccessRepresentation {
         public static final String ITEMS = "items";
         public static final String QUERY_TEMPLATE = "queryTemplate";
         public static final String TEMPLATE = "template";
+        public static final String INFO = "info";
     }
 
     private SuccessRepresentation(Builder builder) {
@@ -42,6 +43,10 @@ public class SuccessRepresentation {
         if(builder.template != null){
            representation.put(CS.TEMPLATE, builder.template);
         }
+
+        if(builder.info != null){
+            representation.put(CS.INFO, builder.info);
+        }
     }
 
     private Map<String, Object> getRepresentation() {
@@ -55,9 +60,15 @@ public class SuccessRepresentation {
         private boolean showItems = false;
         private Object queryTemplate;
         private Object template;
+        private Object info;
 
         public Builder links(List<Link> links){
             this.links = links;
+            return this;
+        }
+
+        public Builder info(Object info){
+            this.info = info;
             return this;
         }
 
