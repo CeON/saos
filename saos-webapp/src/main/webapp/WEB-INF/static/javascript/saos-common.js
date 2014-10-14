@@ -47,13 +47,13 @@ $(document).ready(function() {
     	parentContainer: ".judgment-list",
     	
     	filters: [{button: ".judge", searchfield: "#input-search-judge", filterfield: "filter-judge"},
-		           {button: ".keyword", searchfield: "#input-search-keywords", filterfield: "filter-keyword"},
+		           {button: ".keyword", searchfield: "#input-search-keywords", filterfield: "filter-keyword", selectFormType: "#radio-common"},
 		           {button: ".type", searchfield: "[name='judgmentType']", filterfield: "filter-judgment-type"},
 		           {button: ".date", searchfield: "#datepicker_from, #datepicker_to", filterfield: "filter-judgment-date-from"},
-				   {button: ".court", searchfield: "#select-court", filterfield: "filter-court"}],
+				   {button: ".court", searchfield: "#select-court", filterfield: "filter-court", selectFormType: "#radio-common"}],
 				   
 		
-		advanceFilter: {button: ".division", searchfield: "#select-division", filterfield: "filter-division",
+		advanceFilter: {button: ".division", searchfield: "#select-division", filterfield: "filter-division", selectFormType: "#radio-common",
 						url: contextPath + "/search/division/",
 						parent : {button: ".court", searchfield: "#select-court", filterfield: "filter-court"}},
     });

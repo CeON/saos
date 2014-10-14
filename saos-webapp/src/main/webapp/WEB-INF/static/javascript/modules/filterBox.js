@@ -18,23 +18,25 @@ var FilterBox = (function() {
 	
 	init = function($this, source) {
 		
-		if ($this !== "") {
+		
+		if ($this !== "" && $this !== undefined) {
 			$parent = $this;
 		}
 		
-		if (source.removeAllButton !== "") {
+		if (source.removeAllButton !== "" && source.removeAllButton !== undefined) {
 			$removeAllButton = $(source.removeAllButton);
 		}
 		
-		if (source.noFiltersMessage !== "") {
+		if (source.noFiltersMessage !== "" && source.noFiltersMessage !== undefined) {
 			$noFiltersMessage = $(source.noFiltersMessage);
 		}
 		
-		if (source.filterField !== "") {
+		
+		if (source.filterField !== "" && source.filterField !== undefined) {
 			filterField = source.filterField;
 		}
 		
-		if (source.maxLetters !== "") {
+		if (source.maxLetters !== "" && source.maxLetters !== undefined) {
 			MAXLETTERS = source.maxLetters;
 		}
 
@@ -54,7 +56,7 @@ var FilterBox = (function() {
 		$parent.find(filterField).each(function() {
 			var $this = $(this),
 				text = $this.find("div").text();
-
+			
 			if (text.length > MAXLETTERS) {
 				$this
 					.attr(dataFullText, text)
