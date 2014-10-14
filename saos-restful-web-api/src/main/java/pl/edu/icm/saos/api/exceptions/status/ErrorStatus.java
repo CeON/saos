@@ -22,7 +22,7 @@ public enum  ErrorStatus {
      * Represents situation when element with given id does not exist.
      * For example judgment with id '-134';
      */
-    ELEMENT_DOES_NOT_EXIST_ERROR(HttpStatus.NOT_FOUND, "ELEMENT DOES NOT EXISTS");
+    ELEMENT_DOES_NOT_EXIST_ERROR(HttpStatus.NOT_FOUND, "ELEMENT DOES NOT EXIST");
 
     private HttpStatus httpStatus;
     private String errorName;

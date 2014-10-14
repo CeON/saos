@@ -3,6 +3,7 @@ package pl.edu.icm.saos.persistence.search.implementor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
@@ -56,7 +57,7 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
         List<Integer> judgmentIds = extractJudgmentIds(searchResult);
 
         initializeCourtCases(judgmentIds);
-        initializeJudges(judgmentIds);
+        initializeJudgesAndTheirRoles(judgmentIds, searchResult);
         initializeCourtReporters(judgmentIds);
         initializeLegalBases(judgmentIds);
         initializeReferencedRegulationsAndTheirLawJournalEntries(judgmentIds, searchResult);
@@ -72,9 +73,12 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
         setIdsParameterAndExecuteQuery(courtCasesQuery(), judgmentIds);
     }
 
-    private void initializeJudges(List<Integer> judgmentIds){
-        setIdsParameterAndExecuteQuery(judgesQuery(), judgmentIds);
+    private void initializeJudgesAndTheirRoles(List<Integer> judgmentIds, SearchResult<Judgment> searchResult){
+        setIdsParameterAndExecuteQuery(judgesQuery(), judgmentIds); //important initialize judges before their roles
+        List<Integer> judgesIds = extractJudgesIds(searchResult);
+        setIdsParameterAndExecuteQuery(judgesRolesQuery(), judgesIds);
     }
+
 
     private void initializeCourtReporters(List<Integer> judgmentIds){
         setIdsParameterAndExecuteQuery(courtReportersQuery(), judgmentIds);
@@ -105,6 +109,11 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
 
     private String judgesQuery(){
         StringBuilder jpql = new StringBuilder(" select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.judges_  judge where judgment.id in (:ids) ");
+        return jpql.toString();
+    }
+
+    private String judgesRolesQuery(){
+        StringBuilder jpql = new StringBuilder(" select judge from " + Judge.class.getName() + " judge join fetch judge.specialRoles role where judge.id in (:ids)");
         return jpql.toString();
     }
 
@@ -156,6 +165,15 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
                 .map(r -> r.getId())
                 .collect(Collectors.toList());
     }
+
+    private List<Integer> extractJudgesIds(SearchResult<Judgment> searchResult) {
+        return searchResult.getResultRecords().stream()
+                .flatMap(j -> j.getJudges().stream())
+                .map( jud -> jud.getId())
+                .collect(Collectors.toList());
+    }
+
+
 
     private  String appendConditions(JudgmentSearchFilter searchFilter, StringBuilder jpql) {
         jpql.append(" where 1=1 ");
