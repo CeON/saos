@@ -46,7 +46,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
             content.error.httpStatus == "500"
             content.error.name == GENERAL_INTERNAL_ERROR.errorName()
             content.error.message == exceptionMsg
-            content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.linkSuffix()
+            content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.name()
     }
 
     def "should return error's representation for WrongRequestParameterException"(){
@@ -72,7 +72,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
             content.error.httpStatus == "400"
             content.error.name == WRONG_REQUEST_PARAMETER_ERROR.errorName()
             content.error.message.contains message
-            content.error.moreInfo.endsWith WRONG_REQUEST_PARAMETER_ERROR.linkSuffix()
+            content.error.moreInfo.endsWith WRONG_REQUEST_PARAMETER_ERROR.name()
             content.error.propertyName == paramName
 
     }
@@ -99,7 +99,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
             content.error.httpStatus == "500"
             content.error.name == GENERAL_INTERNAL_ERROR.errorName()
             content.error.message == exceptionMsg
-            content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.linkSuffix()
+            content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.name()
     }
 
     def "should return error's representation for ElementDoesNotExistException"(){
@@ -126,7 +126,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
             content.error.name == ELEMENT_DOES_NOT_EXIST_ERROR.errorName
             content.error.message.contains exceptionMsg
             content.error.message.contains elementId.toString()
-            content.error.moreInfo.endsWith ELEMENT_DOES_NOT_EXIST_ERROR.linkSuffix
+            content.error.moreInfo.endsWith ELEMENT_DOES_NOT_EXIST_ERROR.name()
     }
 
 

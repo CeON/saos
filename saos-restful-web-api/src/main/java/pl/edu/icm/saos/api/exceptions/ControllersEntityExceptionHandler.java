@@ -54,7 +54,7 @@ public class ControllersEntityExceptionHandler {
         builder.httpStatus(errorStatus.httpStatusValue())
                 .message(ex.getMessage())
                 .name(errorStatus.errorName())
-                .moreInfo(ERRORS_DOCUMENTATION_SITE+errorStatus.linkSuffix());
+                .moreInfo(ERRORS_DOCUMENTATION_SITE+errorStatus.name());
 
         return builder;
     }

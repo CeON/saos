@@ -10,28 +10,26 @@ public enum  ErrorStatus {
     /**
      * Represents internal server error
      */
-    GENERAL_INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL ERROR", "50011"),
+    GENERAL_INTERNAL_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL ERROR"),
 
     /**
      * Represents situation when some of the request parameter had wrong value.
      * For example parameter 'pageLimit' has too big value.
      */
-    WRONG_REQUEST_PARAMETER_ERROR(HttpStatus.BAD_REQUEST, "WRONG REQUEST PARAMETER", "40011"),
+    WRONG_REQUEST_PARAMETER_ERROR(HttpStatus.BAD_REQUEST, "WRONG REQUEST PARAMETER"),
 
     /**
      * Represents situation when element with given id does not exist.
      * For example judgment with id '-134';
      */
-    ELEMENT_DOES_NOT_EXIST_ERROR(HttpStatus.NOT_FOUND, "ELEMENT DOES NOT EXISTS", "40411");
+    ELEMENT_DOES_NOT_EXIST_ERROR(HttpStatus.NOT_FOUND, "ELEMENT DOES NOT EXISTS");
 
     private HttpStatus httpStatus;
     private String errorName;
-    private String linkSuffix;
 
-    ErrorStatus(HttpStatus httpStatus, String errorName, String linkSuffix) {
+    ErrorStatus(HttpStatus httpStatus, String errorName) {
         this.httpStatus = httpStatus;
         this.errorName = errorName;
-        this.linkSuffix = linkSuffix;
     }
 
     public HttpStatus httpStatus() {
@@ -46,7 +44,4 @@ public enum  ErrorStatus {
         return errorName;
     }
 
-    public String linkSuffix() {
-        return linkSuffix;
-    }
 }
