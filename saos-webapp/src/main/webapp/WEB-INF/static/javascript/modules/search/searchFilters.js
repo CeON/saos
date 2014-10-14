@@ -54,7 +54,7 @@ var SearchFilters = (function(){
 		}
 	},
 	
-	/* Add filters to fields that corresponds to input, select and checkbox */
+	/* Add filters to fields that correspond to input, select and checkbox */
 	assignAddFilter = function() {
 		var i = 0,
 			length = filters.length;
