@@ -47,13 +47,13 @@ $(document).ready(function() {
     	parentContainer: ".judgment-list",
     	
     	filters: [{button: ".judge", searchfield: "#input-search-judge", filterfield: "filter-judge"},
-		           {button: ".keyword", searchfield: "#input-search-keywords", filterfield: "filter-keyword", selectFormType: "#radio-common"},
+		           {button: ".keyword", searchfield: "#input-search-keywords", filterfield: "filter-keyword", selectFormType: "#radio-court-common"},
 		           {button: ".type", searchfield: "[name='judgmentType']", filterfield: "filter-judgment-type"},
 		           {button: ".date", searchfield: "#datepicker_from, #datepicker_to", filterfield: "filter-judgment-date-from"},
-				   {button: ".court", searchfield: "#select-court", filterfield: "filter-court", selectFormType: "#radio-common"}],
+				   {button: ".court", searchfield: "#select-court", filterfield: "filter-court", selectFormType: "#radio-court-common"}],
 				   
 		
-		advanceFilter: {button: ".division", searchfield: "#select-division", filterfield: "filter-division", selectFormType: "#radio-common",
+		advanceFilter: {button: ".division", searchfield: "#select-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
 						url: contextPath + "/search/division/",
 						parent : {button: ".court", searchfield: "#select-court", filterfield: "filter-court"}},
     });
@@ -61,8 +61,8 @@ $(document).ready(function() {
     
     ChangeCourtType.run({
     	fields: [{fields: "#all-fields", button: "#radio-all"},
-		          {fields: "#common-court-fields", button: "#radio-common"},
-		          {fields: "#supreme-court-fields", button: "#radio-supreme"}],
+		          {fields: "#common-court-fields", button: "#radio-court-common"},
+		          {fields: "#supreme-court-fields", button: "#radio-court-supreme"}],
 		          
 		fieldsContainer: ".fields-container",
 		radioName: "courtType",
@@ -72,6 +72,8 @@ $(document).ready(function() {
     $("#filter-box").filterBox({
     	removeAllButton: "#clearAllFilters",
     	noFiltersMessage: "#no-filters",
-    	filterField: ".filter-item"
+    	filterField: ".filter-item",
+    	resultList: ".judgment-list > div:first-child",
+    	buttonHide: "#filter-hide"
     });
 });
