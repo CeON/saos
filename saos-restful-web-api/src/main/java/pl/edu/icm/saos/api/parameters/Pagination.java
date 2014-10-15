@@ -10,53 +10,54 @@ import com.google.common.base.Preconditions;
 public class Pagination {
 
     //******** fields *******
-    private final int limit;
+    private final int pageSize;
 
-    private final int offset;
+    private final int pageNumber;
 
     //******* END fields ********
 
     //***** constructors *******
-    public Pagination(int limit, int offset) {
-        Preconditions.checkArgument(limit > 0, "limit should be positive");
-        Preconditions.checkArgument(offset >= 0, "offset can't be negative");
+    public Pagination(int pageSize, int pageNumber) {
+        Preconditions.checkArgument(pageSize > 0, "pageSize should be positive");
+        Preconditions.checkArgument(pageNumber >= 0, "pageNumber can't be negative");
 
-        this.limit = limit;
-        this.offset = offset;
+        this.pageSize = pageSize;
+        this.pageNumber = pageNumber;
     }
     //********* END constructors *********
 
     //******** getters *********
 
-    public int getLimit() {
-        return limit;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public int getOffset() {
-        return offset;
+    public int getPageNumber() {
+        return pageNumber;
     }
 
     //********** END getters ***********
 
     //********** business methods ***********
     public boolean hasPrevious(){
-        return offset > 0;
+        return pageNumber > 0;
     }
 
     public boolean hasNextIn(long allElementCount){
-        return limit+offset<allElementCount;
+        return (pageNumber+1)*pageSize<allElementCount;
     }
 
     public Pagination getNext(){
-        return new Pagination(limit, offset+limit);
+        return new Pagination(pageSize, pageNumber+1);
     }
 
     public Pagination getPrevious(){
-        int difference = offset - limit;
-        if(difference>0)
-            return new Pagination(limit, difference);
-        else
-            return new Pagination(limit, 0);
+        int previousPageNumber = pageNumber - 1;
+        if(previousPageNumber<0){
+            return new Pagination(pageSize, 0);
+        } else {
+            return new Pagination(pageSize, previousPageNumber);
+        }
     }
 
     //************ END business methods ************
@@ -64,8 +65,8 @@ public class Pagination {
     @Override
     public String toString() {
         return Objects.toStringHelper(Pagination.class)
-                .add("limit", limit)
-                .add("offset", offset)
+                .add("pageSize", pageSize)
+                .add("pageNumber", pageNumber)
                 .toString();
     }
 
@@ -73,7 +74,7 @@ public class Pagination {
     public boolean equals(Object obj) {
         if(obj instanceof Pagination){
             Pagination other = (Pagination) obj;
-            return limit == other.limit && offset == other.offset;
+            return pageSize == other.pageSize && pageNumber == other.pageNumber;
         }
 
         return false;
@@ -81,6 +82,6 @@ public class Pagination {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(limit, offset);
+        return Objects.hashCode(pageSize, pageNumber);
     }
 }

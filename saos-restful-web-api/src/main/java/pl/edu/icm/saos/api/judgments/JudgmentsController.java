@@ -50,8 +50,8 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showJudgments(
-            @RequestParam(value = LIMIT, required = false, defaultValue = "0") int limit,
-            @RequestParam(value = OFFSET, required = false, defaultValue = "0") int offset,
+            @RequestParam(value = PAGE_SIZE, required = false, defaultValue = "0") int pageSize,
+            @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = "0") int pageNumber,
             @RequestParam(value = ALL, required = false) String all,
             @RequestParam(value = COURT_NAME, required = false) String courtName,
             @RequestParam(value = LEGAL_BASE, required = false) String legalBase,
@@ -70,8 +70,8 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
                         .keyword(keyword)
                         .legalBase(legalBase)
                         .referencedRegulation(referencedRegulation)
-                        .limit(limit)
-                        .offset(offset)
+                        .pageSize(pageSize)
+                        .pageNumber(pageNumber)
                         .judgmentDateFrom(judgmentDateFrom)
                         .judgmentDateTo(judgmentDateTo)
         );

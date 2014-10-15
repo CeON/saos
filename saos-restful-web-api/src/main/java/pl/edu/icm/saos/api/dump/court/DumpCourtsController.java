@@ -22,8 +22,8 @@ import pl.edu.icm.saos.persistence.search.result.SearchResult;
 import java.util.Map;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static pl.edu.icm.saos.api.ApiConstants.LIMIT;
-import static pl.edu.icm.saos.api.ApiConstants.OFFSET;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
 
 /**
  * @author pavtel
@@ -45,17 +45,17 @@ public class DumpCourtsController extends ControllersEntityExceptionHandler {
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showCourts(
-            @RequestParam(value = LIMIT, required = false, defaultValue = "0") int limit,
-            @RequestParam(value = OFFSET, required = false, defaultValue = "0") int offset
+            @RequestParam(value = PAGE_SIZE, required = false, defaultValue = "0") int pageSize,
+            @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = "0") int pageNumber
     ) throws WrongRequestParameterException {
 
-        Pagination pagination = parametersExtractor.extractAndValidatePagination(limit, offset);
+        Pagination pagination = parametersExtractor.extractAndValidatePagination(pageSize, pageNumber);
 
 
 
         CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
-                .limit(pagination.getLimit())
-                .offset(pagination.getOffset())
+                .limit(pagination.getPageSize())
+                .offset(pagination.getPageNumber())
                 .filter();
 
         SearchResult<CommonCourt> searchResult = databaseSearchService.search(searchFilter);

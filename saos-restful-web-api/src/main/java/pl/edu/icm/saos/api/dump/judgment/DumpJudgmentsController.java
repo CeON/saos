@@ -47,20 +47,20 @@ public class DumpJudgmentsController extends ControllersEntityExceptionHandler{
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showJudgments(
-            @RequestParam(value = LIMIT, required = false, defaultValue = "0") int limit,
-            @RequestParam(value = OFFSET, required = false, defaultValue = "0") int offset,
+            @RequestParam(value = PAGE_SIZE, required = false, defaultValue = "0") int pageSize,
+            @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = "0") int pageNumber,
             @RequestParam(value = JUDGMENT_START_DATE, required = false) String judgmentStartDate,
             @RequestParam(value = JUDGMENT_END_DATE, required = false) String judgmentEndDate
     ) throws WrongRequestParameterException {
 
-        Pagination pagination = parametersExtractor.extractAndValidatePagination(limit, offset);
+        Pagination pagination = parametersExtractor.extractAndValidatePagination(pageSize, pageNumber);
 
         LocalDate startDate = parametersExtractor.extractLocalDate(judgmentStartDate, JUDGMENT_START_DATE);
         LocalDate endDate = parametersExtractor.extractLocalDate(judgmentEndDate, JUDGMENT_END_DATE);
 
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
-                .limit(pagination.getLimit())
-                .offset(pagination.getOffset())
+                .limit(pagination.getPageSize())
+                .offset(pagination.getPageNumber())
                 .startDate(startDate)
                 .endDate(endDate)
                 .upBy(FieldsNames.JUDGMENT_DATE)

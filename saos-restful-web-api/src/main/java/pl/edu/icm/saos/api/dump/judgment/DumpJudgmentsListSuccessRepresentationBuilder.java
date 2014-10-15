@@ -61,8 +61,8 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
     private Link buildLink(Pagination pagination, String startDate, String endDate, String relName, UriComponentsBuilder uriComponentsBuilder) {
 
         uriComponentsBuilder
-                .replaceQueryParam(LIMIT, pagination.getLimit())
-                .replaceQueryParam(OFFSET, pagination.getOffset());
+                .replaceQueryParam(PAGE_SIZE, pagination.getPageSize())
+                .replaceQueryParam(PAGE_NUMBER, pagination.getPageNumber());
 
         if(StringUtils.isNotBlank(startDate)){
             uriComponentsBuilder.replaceQueryParam(JUDGMENT_START_DATE, startDate);
@@ -83,8 +83,8 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
     private Object toQueryTemplate(Pagination pagination, String startDate, String endDate) {
         Map<String, Object> queryTemplate = new LinkedHashMap<String, Object>();
 
-        queryTemplate.put(OFFSET, pagination.getOffset());
-        queryTemplate.put(LIMIT, pagination.getLimit());
+        queryTemplate.put(PAGE_NUMBER, pagination.getPageNumber());
+        queryTemplate.put(PAGE_SIZE, pagination.getPageSize());
         queryTemplate.put(JUDGMENT_START_DATE, StringUtils.trimToEmpty(startDate));
         queryTemplate.put(JUDGMENT_END_DATE, StringUtils.trimToEmpty(endDate));
 

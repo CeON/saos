@@ -23,4 +23,8 @@ public class DatesFactory {
         return new LocalDate(year, month, day, warsawChronology());
     }
 
+    public static LocalDate utcLocalDate(int year, int month, int day){
+        return new LocalDate(year, month, day, utcChronology());
+    }
+
 }

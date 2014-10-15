@@ -75,8 +75,8 @@ public class JudgmentsListSuccessRepresentationBuilder {
     private Link buildLink(Pagination pagination,  JudgmentsParameters params, String relName, UriComponentsBuilder uriComponentsBuilder) {
 
         uriComponentsBuilder
-                .replaceQueryParam(LIMIT, pagination.getLimit())
-                .replaceQueryParam(OFFSET, pagination.getOffset());
+                .replaceQueryParam(PAGE_SIZE, pagination.getPageSize())
+                .replaceQueryParam(PAGE_NUMBER, pagination.getPageNumber());
 
         if(StringUtils.isNotBlank(params.getAll())){
             uriComponentsBuilder.replaceQueryParam(ALL, params.getAll());
@@ -123,8 +123,8 @@ public class JudgmentsListSuccessRepresentationBuilder {
         Map<String, Object> queryTemplate = new LinkedHashMap<String, Object>();
 
         Pagination pagination = params.getPagination();
-        queryTemplate.put(OFFSET, pagination.getOffset());
-        queryTemplate.put(LIMIT, pagination.getLimit());
+        queryTemplate.put(PAGE_NUMBER, pagination.getPageNumber());
+        queryTemplate.put(PAGE_SIZE, pagination.getPageSize());
 
         queryTemplate.put(ALL, removeNull(params.getAll()));
         queryTemplate.put(LEGAL_BASE, removeNull(params.getLegalBase()));
