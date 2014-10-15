@@ -1,12 +1,10 @@
 package pl.edu.icm.saos.persistence.repository;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +14,12 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.collect.Lists;
-
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Ĺ�ukasz Dumiszewski
@@ -86,12 +84,14 @@ public class CcDivisionRepositoryTest extends PersistenceTestSupport {
     
     
     private void initializeTests() {
+        court.setCode("23");
     	commonCourtMap.put("23", court);
     	commonCourtRepository.save(court);
         
         courtDivisions.add(createAndSaveCCDivision("23", court));
         courtDivisions.add(createAndSaveCCDivision("24", court));
         
+        courtEmpty.setCode("25");
         commonCourtMap.put("25", courtEmpty);
     	commonCourtRepository.save(courtEmpty);
     }

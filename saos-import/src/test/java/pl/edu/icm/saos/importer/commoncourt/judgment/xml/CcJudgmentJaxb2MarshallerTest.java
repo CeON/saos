@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDateFormatter;
+import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 
 import com.google.common.collect.Lists;
 
@@ -33,7 +33,7 @@ public class CcJudgmentJaxb2MarshallerTest {
     
     private Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
     
-    private CcjImportDateFormatter ccjImportDateFormatter = Mockito.mock(CcjImportDateFormatter.class);
+    private ImportDateTimeFormatter ccjImportDateTimeFormatter = Mockito.mock(ImportDateTimeFormatter.class);
     
     private static final String JUDGMENT_DATE_STR = "2012-01-26 00:00:00.0 CET";
     private static final LocalDate JUDGMENT_DATE = new LocalDate(2012,01,26);
@@ -43,8 +43,8 @@ public class CcJudgmentJaxb2MarshallerTest {
     
     @Before
     public void before() {
-        CcJaxbJodaDateTimeAdapter.setCcjImportDateFormatter(ccjImportDateFormatter);
-        Mockito.when(ccjImportDateFormatter.parse(PUBLICATION_DATE_STR)).thenReturn(PUBLICATION_DATE);
+        CcJaxbJodaDateTimeAdapter.setCcjImportDateTimeFormatter(ccjImportDateTimeFormatter);
+        Mockito.when(ccjImportDateTimeFormatter.parse(PUBLICATION_DATE_STR)).thenReturn(PUBLICATION_DATE);
         marshaller.setClassesToBeBound(SourceCcJudgment.class);
     }
     

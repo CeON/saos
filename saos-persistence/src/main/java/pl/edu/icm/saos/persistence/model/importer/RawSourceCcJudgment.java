@@ -27,7 +27,6 @@ import org.joda.time.DateTime;
 @SequenceGenerator(name = "seq_raw_source_cc_judgment", allocationSize = 1, sequenceName = "seq_raw_source_cc_judgment")
 public class RawSourceCcJudgment extends RawSourceJudgment {
     
-    private String sourceId;
     private String caseNumber;
     private DateTime publicationDate;
     private ImportProcessingStatus processingStatus;
@@ -57,13 +56,6 @@ public class RawSourceCcJudgment extends RawSourceJudgment {
     }  
     
     
-    /**
-     * Id of the judgment in source system 
-     */
-    public String getSourceId() {
-        return sourceId;
-    }
-
     public String getCaseNumber() {
         return caseNumber;
     }
@@ -138,10 +130,6 @@ public class RawSourceCcJudgment extends RawSourceJudgment {
         this.textContent = textContent;
     }
 
-    public void setSourceId(String sourceId) {
-        this.sourceId = sourceId;
-    }
-
     public void setCaseNumber(String caseNumber) {
         this.caseNumber = caseNumber;
     }
@@ -181,7 +169,7 @@ public class RawSourceCcJudgment extends RawSourceJudgment {
         int result = 1;
         result = prime * result + ((dataMd5 == null) ? 0 : dataMd5.hashCode());
         result = prime * result
-                + ((sourceId == null) ? 0 : sourceId.hashCode());
+                + ((getSourceId() == null) ? 0 : getSourceId().hashCode());
         return result;
     }
 
@@ -199,17 +187,17 @@ public class RawSourceCcJudgment extends RawSourceJudgment {
                 return false;
         } else if (!dataMd5.equals(other.dataMd5))
             return false;
-        if (sourceId == null) {
-            if (other.sourceId != null)
+        if (getSourceId() == null) {
+            if (other.getSourceId() != null)
                 return false;
-        } else if (!sourceId.equals(other.sourceId))
+        } else if (!getSourceId().equals(other.getSourceId()))
             return false;
         return true;
     }
 
     @Override
     public String toString() {
-        return "RawSourceCcJudgment [id=" + getId() + ", ver=" + getVer() + ", sourceId=" + sourceId + ", caseNumber="
+        return "RawSourceCcJudgment [id=" + getId() + ", ver=" + getVer() + ", sourceId=" + getSourceId() + ", caseNumber="
                 + caseNumber + ", publicationDate=" + publicationDate
                 + ", processingDate=" + getProcessingDate() + ", processed="
                 + isProcessed() + ", processingStatus=" + processingStatus

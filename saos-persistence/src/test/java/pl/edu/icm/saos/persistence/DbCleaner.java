@@ -16,8 +16,11 @@ import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
-import pl.edu.icm.saos.persistence.model.importer.SimpleRawSourceScJudgment;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
 /**
  * @author Łukasz Dumiszewski
@@ -40,13 +43,18 @@ public class DbCleaner {
         deleteAll(Judge.class);
         deleteAllSql("judgment_legal_bases");
         deleteAll(CourtCase.class);
+        
+        deleteAll(SupremeCourtChamberDivision.class);
+        deleteAll(SupremeCourtChamber.class);
+        deleteAll(SupremeCourtJudgmentForm.class);
+        
         deleteAll(Judgment.class);
         deleteAll(CommonCourtDivision.class);
         deleteAll(CommonCourtDivisionType.class);
         deleteAll(CommonCourt.class);
         
         deleteAll(RawSourceCcJudgment.class);
-        deleteAll(SimpleRawSourceScJudgment.class);
+        deleteAll(RawSourceScJudgment.class);
     }
     
     

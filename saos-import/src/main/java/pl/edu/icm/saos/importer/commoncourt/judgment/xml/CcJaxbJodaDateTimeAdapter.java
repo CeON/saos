@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.joda.time.DateTime;
 
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDateFormatter;
+import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 
 import com.google.common.base.Preconditions;
 
@@ -18,31 +18,31 @@ import com.google.common.base.Preconditions;
  */
 public class CcJaxbJodaDateTimeAdapter extends XmlAdapter<String, DateTime> {
 
-    private static CcjImportDateFormatter ccjImportDateFormatter;
+    private static ImportDateTimeFormatter ccjImportDateTimeFormatter;
     
     public CcJaxbJodaDateTimeAdapter() {
-        Preconditions.checkState(ccjImportDateFormatter!=null, "ccjImportDateFormatter has not been set");
+        Preconditions.checkState(ccjImportDateTimeFormatter!=null, "ccjImportDateFormatter has not been set");
     }
     
     public DateTime unmarshal(String xmlDate) throws Exception {
-        return ccjImportDateFormatter.parse(xmlDate);
+        return ccjImportDateTimeFormatter.parse(xmlDate);
     }
 
     public String marshal(DateTime dateTime) throws Exception {
-        return ccjImportDateFormatter.format(dateTime);
+        return ccjImportDateTimeFormatter.format(dateTime);
     }
 
     
     //------------------------ GETTERS --------------------------
     
-    static CcjImportDateFormatter getCcjImportDateFormatter() {
-        return ccjImportDateFormatter;
+    static ImportDateTimeFormatter getCcjImportDateTimeFormatter() {
+        return ccjImportDateTimeFormatter;
     }
     
     //------------------------ SETTERS --------------------------
     
-    public static void setCcjImportDateFormatter(CcjImportDateFormatter ccjImportDateFormatter) {
-        CcJaxbJodaDateTimeAdapter.ccjImportDateFormatter = ccjImportDateFormatter;
+    public static void setCcjImportDateTimeFormatter(ImportDateTimeFormatter ccjImportDateTimeFormatter) {
+        CcJaxbJodaDateTimeAdapter.ccjImportDateTimeFormatter = ccjImportDateTimeFormatter;
     }
 
     

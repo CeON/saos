@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.ImportTestSupport;
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDateFormatter;
+import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 
 /**
  * @author Łukasz Dumiszewski
@@ -17,12 +17,12 @@ import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDateForma
 public class CcJaxbJodaDateTimeAdapterTest extends ImportTestSupport {
 
     @Autowired
-    private CcjImportDateFormatter ccjImportDateFormatter;
+    private ImportDateTimeFormatter ccjImportDateTimeFormatter;
     
     
     @Test
     public void testAutowiring() {
-        assertTrue(ccjImportDateFormatter==CcJaxbJodaDateTimeAdapter.getCcjImportDateFormatter());
+        assertTrue(ccjImportDateTimeFormatter==CcJaxbJodaDateTimeAdapter.getCcjImportDateTimeFormatter());
     }
     
 }

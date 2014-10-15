@@ -18,10 +18,14 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.client.RestTemplate;
 
 import pl.edu.icm.saos.common.xml.XmlTagContentExtractor;
+import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
+import pl.edu.icm.saos.importer.common.JudgmentConverter;
+import pl.edu.icm.saos.importer.common.JudgmentConverterImpl;
 import pl.edu.icm.saos.importer.commoncourt.court.XmlCommonCourt;
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDateFormatter;
+import pl.edu.icm.saos.importer.commoncourt.judgment.process.SourceCcJudgmentExtractor;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.CcJaxbJodaDateTimeAdapter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 
 import com.google.common.collect.Lists;
 
@@ -31,8 +35,6 @@ import com.google.common.collect.Lists;
 @Configuration
 public class CommonCourtImportConfiguration {
 
-    @Autowired
-    private CcjImportDateFormatter ccjImportDateFormatter;
     
     @Value("${import.commonCourt.connection.timeout}")
     private int ccImportConnectionTimeoutMs = 1000;
@@ -40,6 +42,8 @@ public class CommonCourtImportConfiguration {
     @Value("${import.commonCourt.read.timeout}")
     private int ccImportReadTimeoutMs = 1000;
     
+    @Autowired 
+    private SourceCcJudgmentExtractor judgmentDataExtractor;
     
     //-------------------------- CommonCourt judgment importer --------------------------
     
@@ -77,10 +81,25 @@ public class CommonCourtImportConfiguration {
         return new StringHttpMessageConverter(Charset.forName("UTF-8"));
     }
     
+    @Bean
+    public ImportDateTimeFormatter ccjImportDateTimeFormatter() {
+        System.out.println("=====================ccjImportDateTimeFormatter");
+        ImportDateTimeFormatter importDateTimeFormatter = new ImportDateTimeFormatter();
+        importDateTimeFormatter.setImportDatePattern("yyyy-MM-dd HH:mm:ss.S");
+        return importDateTimeFormatter;
+    }
+    
+    @Bean
+    public JudgmentConverter<CommonCourtJudgment, SourceCcJudgment> sourceCcJudgmentConverter() {
+        System.out.println("=====================sourceCcJudgmentConverter");
+        JudgmentConverterImpl<CommonCourtJudgment, SourceCcJudgment> judgmentConverter = new JudgmentConverterImpl<>();
+        judgmentConverter.setJudgmentDataExtractor(judgmentDataExtractor);
+        return judgmentConverter;
+    }
     
     @PostConstruct
     public void postConstruct() {
-        CcJaxbJodaDateTimeAdapter.setCcjImportDateFormatter(ccjImportDateFormatter);
+        CcJaxbJodaDateTimeAdapter.setCcjImportDateTimeFormatter(ccjImportDateTimeFormatter());
     }
     
     
