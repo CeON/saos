@@ -3,9 +3,7 @@
 <spring:eval expression="T(pl.edu.icm.saos.persistence.model.Judgment.JudgmentType).values()" var="enumJudgmentType" scope="page"/>
 
 <div class="filter-box" id="filter-box">
-	<p><spring:message code="judgment.results.filter.header" /></p>
-	
-	<p id="clearAllFilters" class="clear-button" ><spring:message code="judgment.results.filter.clearAll" /></p>
+	<p><spring:message code="judgment.results.filter.header" /><span id="filter-hide" class="filter-hide"></span></p>
 	
 	<saos:filterField assignedField="input-search-all" label="judgment.results.filter.all" filterValue="${judgmentCriteriaForm.all}" id="filter-all"></saos:filterField>
 	
@@ -61,6 +59,8 @@
 	<saos:filterField assignedField="select-division" label="judgment.results.filter.division" filterValue="${judgmentCriteriaForm.divisionId}" id="filter-division"></saos:filterField>
 	
 	<saos:filterField assignedField="input-search-keywords" label="judgment.results.filter.keywords" filterValue="${judgmentCriteriaForm.keyword}" id="filter-keyword"></saos:filterField>
+		
+	<p id="clearAllFilters" class="clear-button" ><spring:message code="judgment.results.filter.clearAll" /></p>
 		
 	<p id="no-filters" >
 		<spring:message code="judgment.results.filter.nofilters" />

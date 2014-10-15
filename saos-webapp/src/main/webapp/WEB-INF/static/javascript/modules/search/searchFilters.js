@@ -21,7 +21,7 @@ var SearchFilters = (function(){
 		filters = [{button: "", searchfield: "", filterfield: "", selectFormType: ""}],
 				   
 		
-		advanceFilter = {button: "", searchfield: "", filterfield: "", url : "",
+		advanceFilter = {button: "", searchfield: "", filterfield: "", selectFormType: "", url : "",
 						parent : {button: "", searchfield: "", filterfield: ""}},
 		
 		
@@ -77,25 +77,25 @@ var SearchFilters = (function(){
 										filterValue = $thisButton.attr(dataJudgmentType);
 
 										if($this.val() === filterValue) {
+											selectFormType($selectFormType);
 											$this.prop('checked', true);
 											$this.trigger("change");
 											
-											selectFormType($selectFormType);
 											submitForm(); //send form only if checkbox value has changed
 										}
 									});
 								};
 							} else if($searchFormField.is("input")) {
 								return function() {
-									$searchFormField.val(filterValue);
 									selectFormType($selectFormType);
+									$searchFormField.val(filterValue);
 									submitForm();
 								};
 							} else if($searchFormField.is("select")) {
 								return function() {
+									selectFormType($selectFormType);
 									$searchFormField.find("option[content='" + filterValue + "']").attr('selected', 'selected');
 									$searchFormField.trigger("change");
-									selectFormType($selectFormType);
 									submitForm();
 								};
 							}
@@ -109,13 +109,20 @@ var SearchFilters = (function(){
 	/* If filter field is assigned to specified court type,
 	 * selecting filter process must also select corresponding court type.
 	 */
-	selectFormType = function($selectFormType) {
+	selectFormType = function($selectFormType, triggerChange) {
 		if ($selectFormType.length > 0) {
-			$("." + $selectFormType.attr("name")).each(function() {
-				$(this).removeAttr('checked');
-			});
-
-			$selectFormType.prop('checked', true).trigger('change');
+			
+			if ($selectFormType.is(":checked") !== true) {
+				$("." + $selectFormType.attr("name")).each(function() {
+					$(this).removeAttr('checked');
+				});
+	
+				$selectFormType.prop('checked', true);
+				
+				if (!(triggerChange !== undefined && triggerChange === false)) {
+					$selectFormType.trigger('change');
+				}
+			} 
 		}
 	},
 	
@@ -135,11 +142,15 @@ var SearchFilters = (function(){
 					selectedCourtId = "";
 					
 				
-				clearField($(advanceFilter.parent.searchfield));
-				selectedCourtId = $(advanceFilter.parent.searchfield).find("option[content='" + selectedCourt + "']")
+				selectFormType($selectFormType, false);
+				//clearField($(advanceFilter.parent.searchfield));
+				selectedCourtId = $(advanceFilter.parent.searchfield)
+													.find("option[content='" + selectedCourt + "']")
 													.attr('selected', 'selected')
 													.val();
-				$(advanceFilter.searchfield).removeAttr("disabled").removeAttr("selected");
+				$(advanceFilter.searchfield)
+					.removeAttr("disabled")
+					.removeAttr("selected");
 
 				$.ajax(advanceFilter.url + selectedCourtId)
 				 .done(function(data) {
@@ -158,7 +169,6 @@ var SearchFilters = (function(){
 						 $(advanceFilter.searchfield).prepend($("<option selected='selected' value='" + id + "' ></option>"));
 					 }
 					 
-					 selectFormType($selectFormType);
 					 submitForm();
 				 })
 				 .fail(function() {});
