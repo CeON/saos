@@ -35,7 +35,7 @@ public class JudgmentsParametersExtractor {
         JudgmentsParameters outParameters = new JudgmentsParameters();
 
         outParameters.setPagination(
-                parametersExtractor.extractAndValidatePagination(inParameters.limit, inParameters.offset)
+                parametersExtractor.extractAndValidatePagination(inParameters.pageSize, inParameters.pageNumber)
         );
 
         if(StringUtils.isNotBlank(inParameters.all)){
@@ -87,8 +87,8 @@ public class JudgmentsParametersExtractor {
         private InputParametersBuilder() {
         }
 
-        private int limit;
-        private int offset;
+        private int pageSize;
+        private int pageNumber;
         private String all;
         private String courtName;
         private String legalBase;
@@ -98,13 +98,13 @@ public class JudgmentsParametersExtractor {
         private String judgmentDateFrom;
         private String judgmentDateTo;
 
-        public InputParametersBuilder limit(int limit){
-            this.limit = limit;
+        public InputParametersBuilder pageSize(int pageSize){
+            this.pageSize = pageSize;
             return this;
         }
 
-        public InputParametersBuilder offset(int offset){
-            this.offset = offset;
+        public InputParametersBuilder pageNumber(int pageNumber){
+            this.pageNumber = pageNumber;
             return this;
         }
 

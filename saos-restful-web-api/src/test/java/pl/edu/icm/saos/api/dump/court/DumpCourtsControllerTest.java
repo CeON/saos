@@ -18,14 +18,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.api.parameters.ParametersExtractor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.CommonCourtSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
 import java.util.Arrays;
-
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -33,11 +30,11 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.utils.Constansts.*;
-
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonCourt;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+import static pl.edu.icm.saos.api.utils.Constansts.DUMP_COURTS_PATH;
 import static pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
+import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonCourt;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {DumpCourtsControllerTest.TestConfiguration.class})
@@ -50,7 +47,7 @@ public class DumpCourtsControllerTest {
 
         @Bean(name = "mockDatabaseSearchService")
         public DatabaseSearchService databaseSearchService(){
-            SearchResult searchResult = new SearchResult<CommonCourt>
+            SearchResult searchResult = new SearchResult<>
                     (Arrays.asList(createCommonCourt()), 1, 0,1);
 
             DatabaseSearchService databaseSearchService = mock(DatabaseSearchService.class);
@@ -123,19 +120,19 @@ public class DumpCourtsControllerTest {
     @Test
     public void it_should_show_request_parameters() throws Exception {
         //given
-        int limit = 11;
-        int offset = 5;
+        int pageSize = 11;
+        int pageNumber = 5;
 
         //when
         ResultActions actions = mockMvc.perform(get(DUMP_COURTS_PATH)
-                .param(LIMIT, String.valueOf(limit))
-                .param(OFFSET, String.valueOf(offset))
+                .param(PAGE_SIZE, String.valueOf(pageSize))
+                .param(PAGE_NUMBER, String.valueOf(pageNumber))
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
         actions
-                .andExpect(jsonPath("$.queryTemplate.limit").value(limit))
-                .andExpect(jsonPath("$.queryTemplate.offset").value(offset))
+                .andExpect(jsonPath("$.queryTemplate.pageSize").value(pageSize))
+                .andExpect(jsonPath("$.queryTemplate.pageNumber").value(pageNumber))
         ;
     }
 

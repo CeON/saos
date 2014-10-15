@@ -169,23 +169,23 @@ public class DumpJudgmentsControllerTest {
     @Test
     public void it_should_show_request_parameters() throws Exception {
         //given
-        int limit = 11;
-        int offset = 5;
+        int pageSize = 11;
+        int pageNumber = 5;
         String judgmentStartDate = "2011-11-10";
         String judgmentEndDate = "2014-10-25";
 
         //when
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param(LIMIT, String.valueOf(limit))
-                .param(OFFSET, String.valueOf(offset))
+                .param(PAGE_SIZE, String.valueOf(pageSize))
+                .param(PAGE_NUMBER, String.valueOf(pageNumber))
                 .param(JUDGMENT_START_DATE, judgmentStartDate)
                 .param(JUDGMENT_END_DATE, judgmentEndDate)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
         actions
-                .andExpect(jsonPath("$.queryTemplate.limit").value(limit))
-                .andExpect(jsonPath("$.queryTemplate.offset").value(offset))
+                .andExpect(jsonPath("$.queryTemplate.pageSize").value(pageSize))
+                .andExpect(jsonPath("$.queryTemplate.pageNumber").value(pageNumber))
                 .andExpect(jsonPath("$.queryTemplate.judgmentStartDate").value(judgmentStartDate))
                 .andExpect(jsonPath("$.queryTemplate.judgmentEndDate").value(judgmentEndDate))
         ;

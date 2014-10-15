@@ -25,8 +25,7 @@ import java.util.Arrays;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.ApiConstants.LIMIT;
-import static pl.edu.icm.saos.api.ApiConstants.OFFSET;
+import static pl.edu.icm.saos.api.ApiConstants.*;
 import static pl.edu.icm.saos.api.utils.Constansts.COURTS_PATH;
 import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonCourt;
 
@@ -77,8 +76,8 @@ public class CourtsControllerTest {
     public void showCourts__it_should_show_all_basics_courts_fields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(COURTS_PATH)
-                .param(LIMIT, "2")
-                .param(OFFSET, "1")
+                .param(PAGE_SIZE, "2")
+                .param(PAGE_NUMBER, "1")
                 .accept(MediaType.APPLICATION_JSON));
         //then
 
@@ -89,19 +88,19 @@ public class CourtsControllerTest {
     @Test
     public void showCourts__it_should_show_request_parameters() throws Exception {
         //given
-        int limit = 11;
-        int offset = 5;
+        int pageSize = 11;
+        int pageNumber = 5;
 
         //when
         ResultActions actions = mockMvc.perform(get(COURTS_PATH)
-                .param(LIMIT, String.valueOf(limit))
-                .param(OFFSET, String.valueOf(offset))
+                .param(PAGE_SIZE, String.valueOf(pageSize))
+                .param(PAGE_NUMBER, String.valueOf(pageNumber))
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
         actions
-                .andExpect(jsonPath("$.queryTemplate.limit").value(limit))
-                .andExpect(jsonPath("$.queryTemplate.offset").value(offset))
+                .andExpect(jsonPath("$.queryTemplate.pageSize").value(pageSize))
+                .andExpect(jsonPath("$.queryTemplate.pageNumber").value(pageNumber))
         ;
     }
 

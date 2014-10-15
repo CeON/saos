@@ -63,8 +63,8 @@ public class DumpCourtsListSuccessRepresentationBuilder {
     private Link buildLink(Pagination pagination,  String relName, UriComponentsBuilder uriComponentsBuilder) {
 
         uriComponentsBuilder
-                .replaceQueryParam(LIMIT, pagination.getLimit())
-                .replaceQueryParam(OFFSET, pagination.getOffset());
+                .replaceQueryParam(PAGE_SIZE, pagination.getPageSize())
+                .replaceQueryParam(PAGE_NUMBER, pagination.getPageNumber());
 
 
         String path = uriComponentsBuilder.build().encode().toUriString();
@@ -78,8 +78,8 @@ public class DumpCourtsListSuccessRepresentationBuilder {
     private Object toQueryTemplate(Pagination pagination) {
         Map<String, Object> queryTemplate = new LinkedHashMap<>();
 
-        queryTemplate.put(OFFSET, pagination.getOffset());
-        queryTemplate.put(LIMIT, pagination.getLimit());
+        queryTemplate.put(PAGE_NUMBER, pagination.getPageNumber());
+        queryTemplate.put(PAGE_SIZE, pagination.getPageSize());
 
         return queryTemplate;
     }
