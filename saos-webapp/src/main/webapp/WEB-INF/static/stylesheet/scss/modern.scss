@@ -1,23 +1,12 @@
-$light: #e7e7e7;
-$grey: #eee;
-$grey-border: #e0e0e0;
-$grey-darker: darken($grey, 3%);
-$sand: rgba(255, 212, 100, 0.95);
-$blue: #238ed2; /*rgba(19, 82, 162, 1);*/
-$orange: rgba(242, 105, 100, 0.9);
-$panel-color: rgba(51, 51, 51, 1);
-$text: #222;
-$white: #fafafa;
+/*** Modern view styles ***/
 
-$footer-height: 5em;
-
+@import "_constans.scss";
 @import "_mixins.scss";
 
 
 * {
 	margin: 0;
 }
-
 
 html, body {
 	font-family: 'Noto Sans', sans-serif;
@@ -143,14 +132,10 @@ form.search {
 .navbar-default {
 	margin-bottom: 0px;
 	
-	
 	.navbar-nav {
-		
 		
 		li a {
 			border: 0px solid $panel-color;
-			
-			
 		}
 		
 		li a, li .active {
@@ -194,7 +179,6 @@ form.search {
 		font-size: 17px;
 		line-height: 1.5em;
 		padding: 10px 50px;
-		
 	}
 }
 
@@ -247,9 +231,7 @@ form.search {
 			background-repeat: no-repeat;
 			cursor: pointer;
 		}
-	
 	}
-
 }
 
 .spinner {
@@ -301,12 +283,12 @@ form.search {
 			list-style: none;
 			
 			li {
-			border: 4px solid #333;
-			cursor: pointer;
-			display: inline-block;
-			height: 16px;
-			margin: 5px 10px;
-			width: 16px;
+				border: 4px solid #333;
+				cursor: pointer;
+				display: inline-block;
+				height: 16px;
+				margin: 5px 10px;
+				width: 16px;
 			
 				&:hover, &.active {
 					border-color: $orange;
@@ -428,13 +410,13 @@ form.search {
 		}
 		
 		.type {
+			@include underline-text();
 			bottom: -3px;
 			color: #888;
 			display: inline-block;
 			font-size: 11px;
 			position: relative;
 			text-transform: uppercase;
-			@include underline-text();
 		}
 		
 		.date {
@@ -472,7 +454,7 @@ form.search {
 				style: solid;
 				width: 0px 0px 1px 0px;
 			}
-			margin: 10px 0px 0px;
+			margin: 8px 0px 0px;
 			padding: 0px 0px 15px;
 			
 			em {
@@ -503,7 +485,7 @@ form.search {
 		cursor: pointer;
 		display: inline-block;
 		font-size: 13px;
-		margin-right: 4px;
+		margin: 0px 4px 4px 0px;
 		padding: 4px 8px;
 		
 		&:hover {
@@ -564,6 +546,40 @@ form.search {
 	
 	}
 	
+	.filter-box-button {
+		background: {
+			image: url("../../image/icons/filter.png");
+			repeat: no-repeat;
+			size: 16px 16px;
+		}
+		cursor: pointer;
+		height: 16px;
+		opacity: 1;
+		position: absolute;
+		right: 60px;
+		top: 20px;
+		width:16px;
+		
+		&:hover {
+			background: {
+				image: url("../../image/icons/filter-light.png");
+			}
+		}
+	}
+	
+	.fbox-button-before {
+		background: #fff;
+		content: "";
+		display: block;
+		height: 16px;
+		opacity: 1;
+		position: absolute;
+		right: 0px;
+		top: -5px;
+		width: 16px;
+		z-index: 1;
+	}
+	
 	.search-settings {
 		background: {
 			image: url("../../image/icons/settings.png");
@@ -597,7 +613,6 @@ form.search {
 }
 
 .judgment-page {
-
 	padding-top: 0px;
 
 	h4 {
@@ -663,7 +678,6 @@ form.search {
 		margin: 0px 2px;
 		padding: 3px 8px;
 		transition: all 0.2s ease 0s;
-		
 	
 		&.active, &:hover, &:active {
 			background: #efefef;
@@ -679,12 +693,12 @@ form.search {
     	size: 0.9em;
     	}
     margin: 20px 0 0;
-    padding: 0px 0px 8px 0px;
+    /*padding: 0px 0px 8px 0px;*/
 
 	p {
 		background: #fff;
 		margin: 0px;
-		padding: 10px 5px;
+		padding: 10px 10px;
 	
 		&:first-child {
 			background: #eee;
@@ -692,14 +706,39 @@ form.search {
 			border-width: 0px 0px 1px 0px;
 			font: {
 				size: 1em;
+				weight: bold;
 			}
 			padding: 10px;
 			text-transform: uppercase;
 		}
 	}
 	
+	.no-filters {
+	
+	}
+	
 	> div {
 		
+	}
+	
+	.filter-hide {
+		background: {
+			image: url("../../image/icons/arrow-up.png");
+			repeat: no-repeat;
+		}
+		cursor: pointer;
+		display: inline-block;
+		float: right;
+		height: 24px;
+	    margin-right: -4px;
+	    margin-top: -4px;
+	    width: 24px;
+	    
+	    &:hover {
+	    	background: {
+				image: url("../../image/icons/arrow-up-light.png");
+			}
+	    }
 	}
 	
 	.filter-item {
@@ -709,7 +748,7 @@ form.search {
 			width: 1px 0px 1px;
 		}
 		font-size: 0.85em;
-		padding: 4px 6px;
+		padding: 4px 10px;
 		position: relative;
 		
 		.remove-button {
@@ -736,7 +775,7 @@ form.search {
 			box-shadow: 0px 0px 0px 1px $grey-border;
 			display: block;
 			left: 0px;
-			padding: 4px 24px 4px 6px;
+			padding: 4px 24px 4px 10px;
 			position: absolute;
 			top: 0px;
 			width: 100%;	
@@ -757,11 +796,17 @@ form.search {
 	.clear-button {
 		@include border-grey();
 		@include filter-button();
-		background: #eee;
-		border-radius: 2px;
+		background: #e0e0e0;
+		border: {
+			color: $grey-border;
+			radius: 2px;
+		}
 		cursor: pointer;
 		display: none;
-		margin: 4px 0px 0px 5px;
+		font: {
+			weight: bold;
+		}
+		margin: 12px 0px 6px 5px;
 		padding: 4px 24px 4px 4px;
 		position: relative;
 		text-transform: uppercase;
@@ -779,7 +824,7 @@ form.search {
 		}
 		
 		&:hover {
-			background: lighten(#eee, 2%);
+			background: #eee;
 		}
 		
 	}

@@ -16,6 +16,14 @@ var FilterBox = (function() {
 	$noFiltersMessage= "",
 	filterField = "",
 	
+	resultList = "",
+	buttonHide = "",
+	settingsButton = "filter-box-button",
+	animationElementClass = "fbox-button-before",
+	
+	widthBase = "75%",
+	widthMax = "100%",
+	
 	init = function($this, source) {
 		
 		
@@ -31,6 +39,13 @@ var FilterBox = (function() {
 			$noFiltersMessage = $(source.noFiltersMessage);
 		}
 		
+		if (source.buttonHide !== "" && source.buttonHide !== undefined) {
+			buttonHide = (source.buttonHide);
+		}
+		
+		if (source.resultList !== "" && source.resultList !== undefined) {
+			resultList = source.resultList;
+		}
 		
 		if (source.filterField !== "" && source.filterField !== undefined) {
 			filterField = source.filterField;
@@ -78,6 +93,80 @@ var FilterBox = (function() {
 					.text(text.substr(0, MAXLETTERS) + "...");
 			}
 		});
+	},
+	
+	assignHideButton = function() {
+		$parent.find(buttonHide).click(function() {
+			hideBox();
+		});
+	},
+	
+	hideBox = function() {
+		$parent.slideUp(function() {
+			createFilterShowButton();
+			$(resultList).animate({width: widthMax}, 400);
+		});
+	},
+	
+	showBox = function() {
+		var fBoxSlideDown = function() {
+			$parent.slideDown();
+		}
+		
+		$(resultList).animate({width: widthBase}, 400, function() {});
+		hideFilterButton(fBoxSlideDown);
+	},
+	
+	
+	/* Create button "show filter box" */
+	createFilterShowButton = function() {
+		if ($("#" + settingsButton).length === 0) {
+			var $button = $("<div></div>"); 
+			
+			$button
+				.attr("id", settingsButton)
+				.addClass(settingsButton)
+				.click(function() {
+					showBox();
+				});
+			
+			$("#search-settings").before($button);
+		} 
+		
+		showFilterButton();
+	},
+	
+	/* Animation show filter button */
+	showFilterButton = function() {
+		var $button = $("#" + settingsButton),
+			$animationElement = $("<div ></div>");
+		
+		$animationElement.addClass(animationElementClass);
+		
+		$("#" + settingsButton)
+			.prepend($animationElement)
+			.css({opacity: 1});
+		
+		$button.find("." + animationElementClass).animate({opacity: 0}, 400, function() {
+			$(this).remove();
+		});
+	},
+	
+	/* Animation hide filter button */
+	hideFilterButton = function(callBack) {
+		var $button = $("#" + settingsButton),
+		$animationElement = $("<div ></div>");
+	
+		$animationElement
+			.addClass(animationElementClass)
+			.css({opacity: 0});
+		
+		$("#" + settingsButton).prepend($animationElement);
+		$button.find("." + animationElementClass).animate({opacity: 1}, 400, function() {
+			$("#" + settingsButton).css({opacity: 0});
+			$(this).remove();
+			callBack();
+		});
 	};
 	
 	
@@ -86,6 +175,7 @@ var FilterBox = (function() {
 	space.run = function($this, source) {
 		init($this, source);
 		showButtonAndMessage();
+		assignHideButton();
 		shortenFilterText();
 	};
 	
