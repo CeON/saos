@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
@@ -22,9 +23,11 @@ import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 @Service
 public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrInputDocument> {
     
-    private JudgmentRepository ccJudgmentRepository;
+    private JudgmentRepository judgmentRepository;
     
     private CcJudgmentIndexFieldsFiller ccJudgmentIndexFieldsFiller;
+    
+    private ScJudgmentIndexFieldsFiller scJudgmentIndexFieldsFiller;
     
     private Map<Class<? extends Judgment>, JudgmentIndexFieldsFiller<? extends Judgment>> judgmentIndexFieldsFillers = new HashMap<>();
     
@@ -33,6 +36,7 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     public void init() {
         judgmentIndexFieldsFillers = new HashMap<>();
         judgmentIndexFieldsFillers.put(CommonCourtJudgment.class, ccJudgmentIndexFieldsFiller);
+        judgmentIndexFieldsFillers.put(SupremeCourtJudgment.class, scJudgmentIndexFieldsFiller);
     }
     
     @Override
@@ -42,7 +46,7 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
         fillJudgmentFields(doc, item);
         
         item.markAsIndexed();
-        ccJudgmentRepository.save(item);
+        judgmentRepository.save(item);
         
         return doc;
     }
@@ -66,14 +70,20 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     //------------------------ SETTERS --------------------------
     
     @Autowired
-    public void setCcJudgmentRepository(JudgmentRepository ccJudgmentRepository) {
-        this.ccJudgmentRepository = ccJudgmentRepository;
+    public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
+        this.judgmentRepository = judgmentRepository;
     }
 
     @Autowired
     public void setCcJudgmentIndexFieldsFiller(
             CcJudgmentIndexFieldsFiller ccJudgmentIndexFieldsFiller) {
         this.ccJudgmentIndexFieldsFiller = ccJudgmentIndexFieldsFiller;
+    }
+
+    @Autowired
+    public void setScJudgmentIndexFieldsFiller(
+            ScJudgmentIndexFieldsFiller scJudgmentIndexFieldsFiller) {
+        this.scJudgmentIndexFieldsFiller = scJudgmentIndexFieldsFiller;
     }
 
 }

@@ -1,11 +1,11 @@
 package pl.edu.icm.saos.search.search.model;
 
-import org.joda.time.LocalDate;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.joda.time.LocalDate;
 
-import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
 /**
  * Criteria for searching judgments
@@ -21,7 +21,8 @@ public class JudgmentCriteria extends Criteria {
     private LocalDate dateFrom;
     private LocalDate dateTo;
     
-    private CommonCourtType courtType;
+    private CourtType courtType;
+    
     private Integer courtId;
     private String courtCode;
     private String courtName;
@@ -29,6 +30,12 @@ public class JudgmentCriteria extends Criteria {
     private Integer courtDivisionId;
     private String courtDivisionCode;
     private String courtDivisionName;
+    
+    private PersonnelType personnelType;
+    private Integer courtChamberId;
+    private String courtChamberName;
+    private Integer courtChamberDivisionId;
+    private String courtChamberDivisionName;
     
     private JudgmentType judgmentType;
     
@@ -59,7 +66,7 @@ public class JudgmentCriteria extends Criteria {
     public LocalDate getDateTo() {
         return dateTo;
     }
-    public CommonCourtType getCourtType() {
+    public CourtType getCourtType() {
         return courtType;
     }
     public Integer getCourtId() {
@@ -79,6 +86,21 @@ public class JudgmentCriteria extends Criteria {
     }    
     public String getCourtDivisionName() {
         return courtDivisionName;
+    }
+    public PersonnelType getPersonnelType() {
+        return personnelType;
+    }
+    public Integer getCourtChamberId() {
+        return courtChamberId;
+    }
+    public String getCourtChamberName() {
+        return courtChamberName;
+    }
+    public Integer getCourtChamberDivisionId() {
+        return courtChamberDivisionId;
+    }
+    public String getCourtChamberDivisionName() {
+        return courtChamberDivisionName;
     }
     public JudgmentType getJudgmentType() {
         return judgmentType;
@@ -115,7 +137,7 @@ public class JudgmentCriteria extends Criteria {
         this.dateTo = dateTo;
         return this;
     }
-    public void setCourtType(CommonCourtType courtType) {
+    public void setCourtType(CourtType courtType) {
         this.courtType = courtType;
     }
     public JudgmentCriteria setCourtId(Integer courtId) {
@@ -137,6 +159,21 @@ public class JudgmentCriteria extends Criteria {
     }
     public void setCourtDivisionName(String courtDivisionName) {
         this.courtDivisionName = courtDivisionName;
+    }
+    public void setPersonnelType(PersonnelType personnelType) {
+        this.personnelType = personnelType;
+    }
+    public void setCourtChamberId(Integer courtChamberId) {
+        this.courtChamberId = courtChamberId;
+    }
+    public void setCourtChamberName(String courtChamberName) {
+        this.courtChamberName = courtChamberName;
+    }
+    public void setCourtChamberDivisionId(Integer courtChamberDivisionId) {
+        this.courtChamberDivisionId = courtChamberDivisionId;
+    }
+    public void setCourtChamberDivisionName(String courtChamberDivisionName) {
+        this.courtChamberDivisionName = courtChamberDivisionName;
     }
     public void setJudgmentType(JudgmentType judgmentType) {
         this.judgmentType = judgmentType;

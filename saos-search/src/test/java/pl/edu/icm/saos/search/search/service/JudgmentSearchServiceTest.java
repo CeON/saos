@@ -1,6 +1,9 @@
 package pl.edu.icm.saos.search.search.service;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,14 +27,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.SearchTestConfiguration;
+import pl.edu.icm.saos.search.search.model.CourtType;
 import pl.edu.icm.saos.search.search.model.JudgeResult;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
+import pl.edu.icm.saos.search.search.model.SupremeCourtChamberResult;
 
 import com.google.common.collect.Lists;
 import com.tngtech.java.junit.dataprovider.DataProvider;
@@ -90,8 +95,10 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.SENTENCE).build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.DECISION).build() },
             
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCourtType(CommonCourtType.DISTRICT).build() },
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCourtType(CommonCourtType.APPEAL).build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withCourtType(CourtType.SUPREME).build() },
+            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withCourtType(CourtType.COMMON).build() },
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCourtType(CourtType.DISTRICT).build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCourtType(CourtType.APPEAL).build() },
             
             { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCourtId(36).build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCourtId(37).build() },
@@ -108,6 +115,23 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withDivisionCode("0001522").build() },
             
             { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withDivisionName("III Wydział Pracy i Ubezpieczeń Społecznych").build() },
+            
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withPersonnelType(PersonnelType.ONE_PERSON).build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withPersonnelType(PersonnelType.JOINED_CHAMBERS).build() },
+            
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withChamberId(13).build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withChamberId(12).build() },
+            
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withChamberName("chamber").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withChamberName("Izba Cywilna").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withChamberName("Izba Pracy").build() },
+            
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withChamberDivisionId(112).build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withChamberDivisionId(111).build() },
+            
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withChamberDivisionName("division").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withChamberDivisionName("Izba Cywilna Wydział III").build() },
+            
         };
     }
     
@@ -156,15 +180,6 @@ public class JudgmentSearchServiceTest {
         assertTrue(result.getJudges().contains(new JudgeResult("Elżbieta Kunecka")));
         assertTrue(result.getJudges().contains(new JudgeResult("Irena Różańska-Dorosz")));
         
-        
-        assertEquals(Integer.valueOf(1), result.getCourtId());
-        assertEquals("15500000", result.getCourtCode());
-        assertEquals("Sąd Apelacyjny we Wrocławiu", result.getCourtName());
-        
-        assertEquals(Integer.valueOf(3), result.getCourtDivisionId());
-        assertEquals("0001521", result.getCourtDivisionCode());
-        assertEquals("III Wydział Pracy i Ubezpieczeń Społecznych", result.getCourtDivisionName());
-        
         assertEquals(1, result.getKeywords().size());
         assertEquals("zwrot nienależnie pobranych świadczeń z ubezpieczenia", result.getKeywords().get(0));
         
@@ -176,6 +191,46 @@ public class JudgmentSearchServiceTest {
         assertFalse(result.getContent().contains("</p>"));
         assertFalse(result.getContent().contains("anon-block"));
         assertTrue(result.getContent().length() <= 800);
+    }
+    
+    @Test
+    public void search_CHECK_COMMON_COURT_RESULT() {
+        JudgmentCriteria criteria = new JudgmentCriteriaBuilder().withCaseNumber("III AUa 271/12").build();
+        
+        SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
+        
+        assertEquals(1, results.getTotalResults());
+        assertEquals(1, results.getResults().size());
+        
+        JudgmentSearchResult result = results.getResults().get(0);
+        assertEquals("1961", result.getId());
+        
+        assertEquals(Integer.valueOf(1), result.getCourtId());
+        assertEquals("15500000", result.getCourtCode());
+        assertEquals("Sąd Apelacyjny we Wrocławiu", result.getCourtName());
+        
+        assertEquals(Integer.valueOf(3), result.getCourtDivisionId());
+        assertEquals("0001521", result.getCourtDivisionCode());
+        assertEquals("III Wydział Pracy i Ubezpieczeń Społecznych", result.getCourtDivisionName());
+    }
+    
+    @Test
+    public void search_CHEKC_SUPREME_COURT_RESULT() {
+        JudgmentCriteria criteria = new JudgmentCriteriaBuilder().withCaseNumber("supremeCaseNumber").build();
+        
+        SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
+        
+        assertEquals(1, results.getTotalResults());
+        assertEquals(1, results.getResults().size());
+        
+        JudgmentSearchResult result = results.getResults().get(0);
+        assertEquals("21", result.getId());
+        
+        assertEquals("JOINED_CHAMBERS",result.getPersonnelType());
+        assertTrue(result.getCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
+        assertTrue(result.getCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));
+        assertEquals(Integer.valueOf(111), result.getCourtChamberDivisionId());
+        assertEquals("Izba Cywilna Wydział III", result.getCourtChamberDivisionName());
     }
     
     @Test
@@ -208,13 +263,14 @@ public class JudgmentSearchServiceTest {
     }
     
     private void indexJudgments() throws SolrServerException, IOException {
-        judgmentsServer.add(fetchFirstDoc());
-        judgmentsServer.add(fetchSecondDoc());
+        judgmentsServer.add(fetchFirstCcJudgmentDoc());
+        judgmentsServer.add(fetchSecondCcJudgmentDoc());
+        judgmentsServer.add(fetchScJudgmentDoc());
         
         judgmentsServer.commit();
     }
     
-    private SolrInputDocument fetchFirstDoc() throws IOException {
+    private SolrInputDocument fetchFirstCcJudgmentDoc() throws IOException {
         SolrInputDocument doc = new SolrInputDocument();
         doc.addField("id", UUID.randomUUID());
         doc.addField("databaseId", "41808");
@@ -234,6 +290,7 @@ public class JudgmentSearchServiceTest {
         doc.addField("referencedRegulations", secondRR);
         doc.addField("referencedRegulations", thirdRR);
         
+        doc.addField("courtType", "COMMON");
         doc.addField("courtType", "DISTRICT");
         doc.addField("courtId", "36");
         doc.addField("courtCode", "15050505");
@@ -256,7 +313,7 @@ public class JudgmentSearchServiceTest {
         return doc;
     }
     
-    private SolrInputDocument fetchSecondDoc() throws IOException {
+    private SolrInputDocument fetchSecondCcJudgmentDoc() throws IOException {
         SolrInputDocument doc = new SolrInputDocument();
         doc.addField("id", UUID.randomUUID());
         doc.addField("databaseId", "1961");
@@ -284,6 +341,7 @@ public class JudgmentSearchServiceTest {
         doc.addField("referencedRegulations", thirdRR);
         doc.addField("referencedRegulations", fourthRR);
         
+        doc.addField("courtType", "COMMON");
         doc.addField("courtType", "APPEAL");
         doc.addField("courtId", "1");
         doc.addField("courtCode", "15500000");
@@ -298,6 +356,28 @@ public class JudgmentSearchServiceTest {
         try (InputStream inputStream = new ClassPathResource(CONTENT_FIELD_FILE_1961).getInputStream()) {
             doc.addField("content", IOUtils.toString(inputStream));
         }
+        
+        return doc;
+    }
+    
+    private SolrInputDocument fetchScJudgmentDoc() {
+        SolrInputDocument doc = new SolrInputDocument();
+        doc.addField("id", UUID.randomUUID());
+        doc.addField("databaseId", "21");
+        doc.addField("caseNumber", "supremeCaseNumber");
+        
+        doc.addField("judgmentType", "RESOLUTION");
+        
+        doc.addField("personnelType", "JOINED_CHAMBERS");
+        doc.addField("courtType", "SUPREME");
+        doc.addField("courtChamber", "11|Izba Cywilna");
+        doc.addField("courtChamber", "12|Izba Pracy");
+        doc.addField("courtChamberId", "11");
+        doc.addField("courtChamberName", "Izba Cywilna");
+        doc.addField("courtChamberId", "12");
+        doc.addField("courtChamberName", "Izba Pracy");
+        doc.addField("courtChamberDivisionId", "111");
+        doc.addField("courtChamberDivisionName", "Izba Cywilna Wydział III");
         
         return doc;
     }

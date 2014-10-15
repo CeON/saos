@@ -8,7 +8,12 @@ import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+import pl.edu.icm.saos.search.search.model.CourtType;
 
+/**
+ * Fills {@link SolrInputDocument} with fields from {@link CommonCourtJudgment} 
+ * @author madryk
+ */
 @Service
 public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller<CommonCourtJudgment> {
     
@@ -37,6 +42,7 @@ public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller<Commo
         CommonCourt court = division.getCourt();
 
 
+        fieldAdder.addField(doc, JudgmentIndexField.COURT_TYPE, CourtType.COMMON.name());
         fieldAdder.addField(doc, JudgmentIndexField.COURT_TYPE, court.getType().name());
 
         fieldAdder.addField(doc, JudgmentIndexField.COURT_ID, String.valueOf(court.getId()));

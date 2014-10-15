@@ -32,6 +32,9 @@ import pl.edu.icm.saos.batch.BatchTestSupport;
 import pl.edu.icm.saos.batch.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
@@ -39,8 +42,16 @@ import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
+import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author madryk
@@ -58,18 +69,34 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
     private JudgmentRepository judgmentRepository;
     
     @Autowired
+    private CommonCourtRepository commonCourtRepository;
+    
+    @Autowired
+    private CcDivisionRepository ccDivisionRepository;
+    
+    @Autowired
     @Qualifier("solrJudgmentsServer")
     private SolrServer judgmentsSolrServer;
     
-    private final static int ALL_JUDGMENTS_COUNT = 34;
+    private final static int COMMON_COURT_JUDGMENTS_COUNT = 24;
+    private final static int SUPREME_COURT_JUDGMENTS_COUNT = 10;
+    private final static int ALL_JUDGMENTS_COUNT = COMMON_COURT_JUDGMENTS_COUNT + SUPREME_COURT_JUDGMENTS_COUNT;
     
-    private Map<Integer, Integer> idMapping;
+    private Map<Integer, Integer> ccIdMapping;
+    private int commonCourtId;
+    private int commonCourtDivisionId;
+    
+    private Map<Integer, Integer> scIdMapping;
+    private int firstChamberId;
+    private int secondChamberId;
+    private int chamberDivisionId;
     
     @Before
     public void setUp() throws SolrServerException, IOException, ScriptException, SQLException {
         judgmentsSolrServer.deleteByQuery("*:*");
         judgmentsSolrServer.commit();
-        generateJudgments();
+        generateCcJudgments();
+        generateScJudgments();
     }
     
     @After
@@ -81,7 +108,7 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
     @Test
     public void ccJudgmentIndexingJob() throws Exception {
         
-        Judgment firstJudgment = judgmentRepository.findOne(idMapping.get(1));
+        Judgment firstJudgment = judgmentRepository.findOne(ccIdMapping.get(1));
         firstJudgment.markAsIndexed();
         judgmentRepository.save(firstJudgment);
         
@@ -92,19 +119,64 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         
         assertAllMarkedAsIndexed();
         assertAllInIndex(ALL_JUDGMENTS_COUNT - alreadyIndexedCount);
-        assertIndexed(3);
-        assertIndexed(6);
+        assertCommonCourtJudgmentIndexed(3);
+        assertCommonCourtJudgmentIndexed(6);
+        assertSupremeCourtJudgmentIndexed(3);
+        assertSupremeCourtJudgmentIndexed(9);
         
     }
     
-    private void assertIndexed(int i) throws SolrServerException {
-        int realId = idMapping.get(i);
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private void assertCommonCourtJudgmentIndexed(int i) throws SolrServerException {
+        int realId = ccIdMapping.get(i);
         
         SolrQuery query = new SolrQuery("databaseId:" + String.valueOf(realId));
         QueryResponse response = judgmentsSolrServer.query(query);
         assertEquals(1, response.getResults().getNumFound());
         SolrDocument doc = response.getResults().get(0);
         
+        assertJudgmentIndexed(doc, i);
+        
+        assertSolrDocumentValues(doc, JudgmentIndexField.KEYWORD.getFieldName(), "keyword" + i);
+        
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE.getFieldName(), "COMMON", "APPEAL");
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_ID.getFieldName(), String.valueOf(commonCourtId));
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_NAME.getFieldName(), "courtName");
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_DIVISION_ID.getFieldName(), String.valueOf(commonCourtDivisionId));
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_DIVISION_CODE.getFieldName(), "0000");
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_DIVISION_NAME.getFieldName(), "divisionName");
+        
+    }
+    
+    private void assertSupremeCourtJudgmentIndexed(int i) throws SolrServerException {
+        int realId = scIdMapping.get(i);
+        
+        SolrQuery query = new SolrQuery("databaseId:" + String.valueOf(realId));
+        QueryResponse response = judgmentsSolrServer.query(query);
+        assertEquals(1, response.getResults().getNumFound());
+        SolrDocument doc = response.getResults().get(0);
+        
+        assertJudgmentIndexed(doc, i);
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE.getFieldName(), "SUPREME");
+        assertSolrDocumentValues(doc, JudgmentIndexField.SC_PERSONNEL_TYPE.getFieldName(), "JOINED_CHAMBERS");
+        
+        // TODO uncomment when name will be available in chamber and chamberDivision
+//        assertSolrDocumentValues(doc, JudgmentIndexField.SUPREME_COURT_CHAMBER.getFieldName(),
+//                firstChamberId + "|chamberName1", secondChamberId + "|chamberName2");
+//        assertSolrDocumentValues(doc, JudgmentIndexField.SUPREME_COURT_CHAMBER_ID.getFieldName(),
+//                String.valueOf(firstChamberId), String.valueOf(secondChamberId));
+//        assertSolrDocumentValues(doc, JudgmentIndexField.SUPREME_COURT_CHAMBER_NAME.getFieldName(),
+//                "chamberName1", "chamberName2");
+//        assertSolrDocumentValues(doc, JudgmentIndexField.SUPREME_COURT_DIVISION_ID.getFieldName(),
+//                String.valueOf(chamberDivisionId));
+//        assertSolrDocumentValues(doc, JudgmentIndexField.SUPREME_COURT_DIVISION_NAME.getFieldName(),
+//                "chamberDivisionName");
+        
+    }
+    
+    private void assertJudgmentIndexed(SolrDocument doc, int i) {
         assertSolrDocumentValues(doc, JudgmentIndexField.CASE_NUMBER.getFieldName(), "caseNumber" + i);
         assertSolrDocumentValues(doc, JudgmentIndexField.JUDGMENT_TYPE.getFieldName(), "SENTENCE");
         
@@ -120,7 +192,6 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         
         assertSolrDocumentValues(doc, JudgmentIndexField.LEGAL_BASE.getFieldName(), "legalBase" + i);
         assertSolrDocumentValues(doc, JudgmentIndexField.REFERENCED_REGULATION.getFieldName(), "referencedRegulation" + i);
-        assertSolrDocumentValues(doc, JudgmentIndexField.KEYWORD.getFieldName(), "keyword" + i);
         assertSolrDocumentValues(doc, JudgmentIndexField.CONTENT.getFieldName(), "some content " + i);
     }
     
@@ -153,27 +224,81 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         return null;
     }
     
-    private void generateJudgments() {
-        idMapping = new HashMap<Integer, Integer>();
+    private void generateCcJudgments() {
+        ccIdMapping = new HashMap<Integer, Integer>();
         
-        for (int i=0; i<ALL_JUDGMENTS_COUNT; ++i) {
+        CommonCourtDivision division = new CommonCourtDivision();
+        division.setCode("0000");
+        division.setName("divisionName");
+        
+        CommonCourt court = new CommonCourt();
+        court.setCode("00000000");
+        court.setName("courtName");
+        court.setType(CommonCourtType.APPEAL);
+        division.setCourt(court);
+        
+        commonCourtRepository.save(court);
+        ccDivisionRepository.save(division);
+        
+        commonCourtId = court.getId();
+        commonCourtDivisionId = division.getId();
+        
+        for (int i=0; i<COMMON_COURT_JUDGMENTS_COUNT; ++i) {
             CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
-            ccJudgment.setJudgmentType(JudgmentType.SENTENCE);
-            ccJudgment.addCourtCase(new CourtCase("caseNumber" + i));
-            
-            ccJudgment.addJudge(new Judge("judgeName" + i, JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE));
-            ccJudgment.addJudge(new Judge("judgeNameWithoutRole" + i));
-            
-            ccJudgment.addLegalBase("legalBase" + i);
-            JudgmentReferencedRegulation referencedRegulation = new JudgmentReferencedRegulation();
-            referencedRegulation.setRawText("referencedRegulation" + i);
-            ccJudgment.addReferencedRegulation(referencedRegulation);
+            fillJudgment(ccJudgment, i);
             
             ccJudgment.addKeyword(new CcJudgmentKeyword("keyword" + i));
-            ccJudgment.setTextContent("some content " + i);
+            ccJudgment.setCourtDivision(division);
             
             judgmentRepository.save(ccJudgment);
-            idMapping.put(i, ccJudgment.getId());
+            ccIdMapping.put(i, ccJudgment.getId());
         }
+    }
+    
+    private void generateScJudgments() {
+        scIdMapping = new HashMap<Integer, Integer>();
+        SupremeCourtChamber firstChamber = new SupremeCourtChamber();
+        SupremeCourtChamber secondChamber = new SupremeCourtChamber();
+        SupremeCourtChamberDivision division = new SupremeCourtChamberDivision();
+        division.setSupremeCourtChamber(firstChamber);
+        firstChamber.setDivisions(Lists.newArrayList(division));
+        
+        // TODO save firstChamber and secondChamber into repository
+        // scChamberRepository.save(firstChamber);
+        // scChamberRepository.save(secondChamber);
+        
+        firstChamberId = firstChamber.getId();
+        secondChamberId = secondChamber.getId();
+        chamberDivisionId = division.getId();
+        
+        for (int i=0; i<SUPREME_COURT_JUDGMENTS_COUNT; ++i) {
+            SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
+            fillJudgment(scJudgment, i);
+            
+            scJudgment.setPersonnelType(PersonnelType.JOINED_CHAMBERS);
+            judgmentRepository.save(scJudgment);
+            
+            // TODO uncomment when firstChamber and secondChamber were saved
+//            scJudgment.setSupremeCourtChamberDivision(division);
+//            scJudgment.setSupremeCourtChambers(Lists.newArrayList(firstChamber, secondChamber));
+//            judgmentRepository.save(scJudgment);
+            
+            scIdMapping.put(i, scJudgment.getId());
+        }
+    }
+    
+    private void fillJudgment(Judgment judgment, int i) {
+        judgment.setJudgmentType(JudgmentType.SENTENCE);
+        judgment.addCourtCase(new CourtCase("caseNumber" + i));
+        
+        judgment.addJudge(new Judge("judgeName" + i, JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE));
+        judgment.addJudge(new Judge("judgeNameWithoutRole" + i));
+        
+        judgment.addLegalBase("legalBase" + i);
+        JudgmentReferencedRegulation referencedRegulation = new JudgmentReferencedRegulation();
+        referencedRegulation.setRawText("referencedRegulation" + i);
+        judgment.addReferencedRegulation(referencedRegulation);
+        
+        judgment.setTextContent("some content " + i);
     }
 }
