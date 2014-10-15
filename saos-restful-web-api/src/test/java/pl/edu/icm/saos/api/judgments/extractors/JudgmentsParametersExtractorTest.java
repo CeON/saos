@@ -32,8 +32,8 @@ public class JudgmentsParametersExtractorTest {
     public void extractFrom__it_should_extract_parameters() throws Exception {
         //given
         String allValue = "some all value";
-        int limitValue = 30;
-        int offsetValue = 10;
+        int pageSizeValue = 30;
+        int pageNumberValue = 10;
 
         int fromDateYear = 2000;
         int fromDateMonth = 10;
@@ -51,8 +51,8 @@ public class JudgmentsParametersExtractorTest {
                 .judgeName(JC.THIRD_JUDGE_NAME)
                 .legalBase(JC.FIRST_LEGAL_BASE)
                 .referencedRegulation(JC.FIRST_REFERENCED_REGULATION_TEXT)
-                .limit(limitValue)
-                .offset(offsetValue)
+                .pageSize(pageSizeValue)
+                .pageNumber(pageNumberValue)
                 .judgmentDateFrom(fromDateYear+"-"+fromDateMonth+"-"+fromDateDay)
                 .judgmentDateTo(toDateYear+"-"+toDateMonth+"-"+toDateDay)
                 ;
@@ -68,7 +68,7 @@ public class JudgmentsParametersExtractorTest {
         expected.setJudgeName(JC.THIRD_JUDGE_NAME);
         expected.setLegalBase(JC.FIRST_LEGAL_BASE);
         expected.setReferencedRegulation(JC.FIRST_REFERENCED_REGULATION_TEXT);
-        expected.setPagination(new Pagination(limitValue, offsetValue));
+        expected.setPagination(new Pagination(pageSizeValue, pageNumberValue));
         expected.setJudgmentDateFrom(new LocalDate(fromDateYear, fromDateMonth, fromDateDay, europeWarsawChronology()));
         expected.setJudgmentDateTo(new LocalDate(toDateYear, toDateMonth, toDateDay, europeWarsawChronology()));
 
@@ -78,19 +78,19 @@ public class JudgmentsParametersExtractorTest {
     @Test
     public void extractFrom__it_should_set_null_values_if_parameters_not_present() throws Exception {
         //given
-        int limit = 3;
-        int offset = 0;
+        int pageSize = 3;
+        int pageNumber = 0;
 
         InputParametersBuilder inputParametersBuilder = inputParameters()
-                .limit(limit)
-                .offset(offset)
+                .pageSize(pageSize)
+                .pageNumber(pageNumber)
                 ;
 
         //when
         JudgmentsParameters actual = judgmentsParametersExtractor.extractFrom(inputParametersBuilder);
 
         //then
-        assertThat("pagination", actual.getPagination(), is(new Pagination(limit, offset)));
+        assertThat("pagination", actual.getPagination(), is(new Pagination(pageSize, pageNumber)));
         assertThat("all ", actual.getAll(), nullValue());
         assertThat("court name ", actual.getCourtName(), nullValue());
         assertThat("keyword ", actual.getKeyword(), nullValue());

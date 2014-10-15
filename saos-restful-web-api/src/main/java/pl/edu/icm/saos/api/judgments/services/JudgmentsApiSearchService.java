@@ -53,7 +53,7 @@ public class JudgmentsApiSearchService implements ApiSearchService<Judgment, Jud
 
 
     private Paging toPaging(Pagination pagination){
-        return new Paging(pagination.getOffset(), pagination.getLimit(), new Sorting(ID.getFieldName(), Sorting.Direction.ASC));
+        return new Paging(pagination.getPageNumber(), pagination.getPageSize(), new Sorting(ID.getFieldName(), Sorting.Direction.ASC));
     }
 
     private JudgmentCriteria toCriteria(JudgmentsParameters params){

@@ -86,8 +86,8 @@ public class JudgmentsControllerTest {
     public void showJudgments__it_should_show_all_basics_judgments_fields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(LIMIT, "2")
-                .param(OFFSET, "1")
+                .param(PAGE_SIZE, "2")
+                .param(PAGE_NUMBER, "1")
                 .accept(MediaType.APPLICATION_JSON));
         //then
         verifyBasicFields(actions, "$.items.[0]");
@@ -121,16 +121,16 @@ public class JudgmentsControllerTest {
     @Test
     public void showJudgments__it_should_show_request_parameters() throws Exception {
         //given
-        int limit = 11;
-        int offset = 5;
+        int pageSize = 11;
+        int pageNumber = 5;
         String allValue = "someAllValue";
         String judgmentDateFrom = "2010-01-21";
         String judgmentDateTo = "2020-10-13";
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(LIMIT, String.valueOf(limit))
-                .param(OFFSET, String.valueOf(offset))
+                .param(PAGE_SIZE, String.valueOf(pageSize))
+                .param(PAGE_NUMBER, String.valueOf(pageNumber))
                 .param(ALL, allValue)
                 .param(COURT_NAME, JC.COURT_NAME)
                 .param(LEGAL_BASE, JC.FIRST_LEGAL_BASE)
@@ -153,8 +153,8 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath(prefix+".keyword").value(JC.SECOND_KEYWORD))
                 .andExpect(jsonPath(prefix+".judgmentDateFrom").value(judgmentDateFrom))
                 .andExpect(jsonPath(prefix+".judgmentDateTo").value(judgmentDateTo))
-                .andExpect(jsonPath(prefix+".limit").value(limit))
-                .andExpect(jsonPath(prefix+".offset").value(offset))
+                .andExpect(jsonPath(prefix+".pageSize").value(pageSize))
+                .andExpect(jsonPath(prefix+".pageNumber").value(pageNumber))
 
         ;
     }
@@ -178,13 +178,13 @@ public class JudgmentsControllerTest {
     @Test
     public void showJudgments__it_should_not_show_next_link() throws Exception {
         //given
-        int limit = 2;
-        int offset = TOTAL_RESULTS_VALUE - limit;
+        int pageSize = 5;
+        int pageNumber = TOTAL_RESULTS_VALUE/pageSize;
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(LIMIT, String.valueOf(limit))
-                .param(OFFSET, String.valueOf(offset))
+                .param(PAGE_SIZE, String.valueOf(pageSize))
+                .param(PAGE_NUMBER, String.valueOf(pageNumber))
                 .accept(MediaType.APPLICATION_JSON)
         );
 
@@ -199,14 +199,15 @@ public class JudgmentsControllerTest {
     @Test
     public void showJudgments__it_should_show_next_link() throws Exception {
         //given
-        int limit = 2;
+        int pageSize = 5;
         int nrOfElementsOnTheNextPage = 3;
-        int offset = TOTAL_RESULTS_VALUE - limit  - nrOfElementsOnTheNextPage;
+        int pageNumber = (TOTAL_RESULTS_VALUE - nrOfElementsOnTheNextPage) / pageSize - 1; // minus one as page numbers start from 0
+
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(LIMIT, String.valueOf(limit))
-                .param(OFFSET, String.valueOf(offset))
+                .param(PAGE_SIZE, String.valueOf(pageSize))
+                .param(PAGE_NUMBER, String.valueOf(pageNumber))
         );
 
         //then

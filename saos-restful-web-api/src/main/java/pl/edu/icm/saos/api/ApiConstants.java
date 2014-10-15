@@ -15,10 +15,9 @@ public abstract class ApiConstants {
 
     public static final String ID = "id";
 
-    public static final String LIMIT = "limit";
-    public static final String OFFSET = "offset";
+    public static final String PAGE_SIZE = "pageSize";
+    public static final String PAGE_NUMBER = "pageNumber";
 
-    public static final String EXPAND = "expand";
     public static final String ALL = "all";
 
     public static final String CODE = "code";

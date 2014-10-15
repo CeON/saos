@@ -16,8 +16,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.removeStart;
-import static pl.edu.icm.saos.api.ApiConstants.LIMIT;
-import static pl.edu.icm.saos.api.ApiConstants.OFFSET;
+import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
  * Provides functionality for extracting request parameters.
@@ -33,8 +32,8 @@ public class ParametersExtractor {
 
     private static final Pattern DATE_PATTERN = Pattern.compile("^[1-9]\\d{3}-(1[0-2]|0[1-9])-(0[1-9]|[1-2]\\d|3[0-1])$");
 
-    private int defaultLimit = 20; //TODO move into properties file
-    private int maxLimit = 100; //TODO move into properties file
+    private int defaultPageSize = 20; //TODO move into properties file
+    private int maxPageSize = 100; //TODO move into properties file
 
     //********** END fields **********
 
@@ -89,7 +88,7 @@ public class ParametersExtractor {
         int day = integers.get(2);
 
 
-        LocalDate localDate = DatesFactory.warsawLocalDate(year, month, day);
+        LocalDate localDate = DatesFactory.utcLocalDate(year, month, day);
 
         return localDate;
     }
@@ -97,33 +96,33 @@ public class ParametersExtractor {
 
     /**
      * Constructs Pagination object (sets default values for offset and limit if necessary)
-     * @param limit to process.
-     * @param offset to process.
+     * @param pageSize to process.
+     * @param pageNumber to process.
      * @return pagination
      * @throws WrongRequestParameterException if limit and offset values are incorrect.
      */
-    public Pagination extractAndValidatePagination(int limit, int offset) throws WrongRequestParameterException {
-        int currentLimit = normalizeAndValidateLimit(limit);
-        int currentOffset = normalizeAndValidateOffset(offset);
+    public Pagination extractAndValidatePagination(int pageSize, int pageNumber) throws WrongRequestParameterException {
+        int currentPageSize = normalizeAndValidatePageSize(pageSize);
+        int currentPageNumber = normalizeAndValidatePageNumber(pageNumber);
 
 
-        return new Pagination(currentLimit, currentOffset);
+        return new Pagination(currentPageSize, currentPageNumber);
     }
 
-    private int normalizeAndValidateOffset(int offset) throws WrongRequestParameterException {
-        validate(offset, (n) -> n<0, OFFSET, "can't be negative");
+    private int normalizeAndValidatePageNumber(int pageNumber) throws WrongRequestParameterException {
+        validate(pageNumber, (n) -> n<0, PAGE_NUMBER, "can't be negative");
 
-        return offset;
+        return pageNumber;
     }
 
 
-    private int normalizeAndValidateLimit(int limit) throws WrongRequestParameterException {
-        int currentLimit = normalizeLimit(limit);
+    private int normalizeAndValidatePageSize(int pageSize) throws WrongRequestParameterException {
+        int currentPageSize = normalizePageSize(pageSize);
 
-        validate(currentLimit, (n) -> n<=0, LIMIT, "should be positive");
-        validate(currentLimit, (n) -> n>maxLimit, LIMIT, "can't be bigger than "+maxLimit);
+        validate(currentPageSize, (n) -> n<=0, PAGE_SIZE, "should be positive");
+        validate(currentPageSize, (n) -> n>maxPageSize, PAGE_SIZE, "can't be bigger than "+maxPageSize);
 
-        return currentLimit;
+        return currentPageSize;
     }
 
     private void validate(int value, Predicate<Integer> predicate, String parameterName, String exMsg) throws WrongRequestParameterException {
@@ -132,8 +131,8 @@ public class ParametersExtractor {
         }
     }
 
-    private int normalizeLimit(int limit){
-        return limit != 0 ? limit : defaultLimit;
+    private int normalizePageSize(int pageSize){
+        return pageSize != 0 ? pageSize : defaultPageSize;
     }
 
     //******* END business methods **********
@@ -141,11 +140,11 @@ public class ParametersExtractor {
 
     // ******** setters ******
 
-    public void setDefaultLimit(int defaultLimit) {
-        this.defaultLimit = defaultLimit;
+    public void setDefaultPageSize(int defaultPageSize) {
+        this.defaultPageSize = defaultPageSize;
     }
 
-    public void setMaxLimit(int maxLimit) {
-        this.maxLimit = maxLimit;
+    public void setMaxPageSize(int maxPageSize) {
+        this.maxPageSize = maxPageSize;
     }
 }
