@@ -16,12 +16,22 @@ public enum JudgmentIndexField implements IndexField {
     REFERENCED_REGULATION("referencedRegulations"),
     
     COURT_TYPE("courtType"),
+    
+    /* common court */
     COURT_ID("courtId"),
     COURT_CODE("courtCode"),
     COURT_NAME("courtName"),
     COURT_DIVISION_ID("courtDivisionId"),
     COURT_DIVISION_CODE("courtDivisionCode"),
     COURT_DIVISION_NAME("courtDivisionName"),
+    
+    /* supreme court */
+    SC_PERSONNEL_TYPE("personnelType"),
+    SC_CHAMBER("courtChamber"),
+    SC_CHAMBER_ID("courtChamberId"),
+    SC_CHAMBER_NAME("courtChamberName"),
+    SC_DIVISION_ID("courtChamberDivisionId"),
+    SC_DIVISION_NAME("courtChamberDivisionName"),
     
     JUDGE("judge"),
     JUDGE_NAME("judgeName"),

@@ -12,10 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.StringListMap;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.JudgeResult;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.model.SupremeCourtChamberResult;
 
 /**
  * @author madryk
@@ -51,12 +53,6 @@ public class JudgmentSearchResultTranslatorTest {
         doc.addField("referencedRegulations", "Ustawa 2");
         
         doc.addField("courtType", "APPEAL");
-        doc.addField("courtId", "123");
-        doc.addField("courtCode", "15200000");
-        doc.addField("courtName", "Sąd Apelacyjny w Krakowie");
-        doc.addField("courtDivisionId", "816");
-        doc.addField("courtDivisionCode", "0000503");
-        doc.addField("courtDivisionName", "I Wydział Cywilny");
         
         doc.addField("keyword", "some keyword");
         doc.addField("keyword", "some other keyword");
@@ -76,14 +72,6 @@ public class JudgmentSearchResultTranslatorTest {
         Assert.assertEquals(new LocalDate(2014, 10, 7), result.getJudgmentDate());
         Assert.assertEquals("SENTENCE", result.getJudgmentType());
         
-        Assert.assertEquals(Integer.valueOf(123), result.getCourtId());
-        Assert.assertEquals("15200000", result.getCourtCode());
-        Assert.assertEquals("Sąd Apelacyjny w Krakowie", result.getCourtName());
-
-        Assert.assertEquals(Integer.valueOf(816), result.getCourtDivisionId());
-        Assert.assertEquals("0000503", result.getCourtDivisionCode());
-        Assert.assertEquals("I Wydział Cywilny", result.getCourtDivisionName());
-        
         Assert.assertEquals(2, result.getKeywords().size());
         Assert.assertTrue(result.getKeywords().contains("some keyword"));
         Assert.assertTrue(result.getKeywords().contains("some other keyword"));
@@ -92,6 +80,48 @@ public class JudgmentSearchResultTranslatorTest {
         Assert.assertTrue(result.getJudges().contains(new JudgeResult("Jan Kowalski", JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE)));
         Assert.assertTrue(result.getJudges().contains(new JudgeResult("Jacek Zieliński", JudgeRole.REPORTING_JUDGE)));
         Assert.assertTrue(result.getJudges().contains(new JudgeResult("Adam Nowak")));
+    }
+    
+    @Test
+    public void translateSingle_COMMON_COURT() {
+        SolrDocument doc = new SolrDocument();
+        
+        doc.addField("courtId", "123");
+        doc.addField("courtCode", "15200000");
+        doc.addField("courtName", "Sąd Apelacyjny w Krakowie");
+        doc.addField("courtDivisionId", "816");
+        doc.addField("courtDivisionCode", "0000503");
+        doc.addField("courtDivisionName", "I Wydział Cywilny");
+        
+        JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
+        
+        Assert.assertEquals(Integer.valueOf(123), result.getCourtId());
+        Assert.assertEquals("15200000", result.getCourtCode());
+        Assert.assertEquals("Sąd Apelacyjny w Krakowie", result.getCourtName());
+
+        Assert.assertEquals(Integer.valueOf(816), result.getCourtDivisionId());
+        Assert.assertEquals("0000503", result.getCourtDivisionCode());
+        Assert.assertEquals("I Wydział Cywilny", result.getCourtDivisionName());
+    }
+    
+    @Test
+    public void translateSingle_SUPREME_COURT() {
+        SolrDocument doc = new SolrDocument();
+        
+        doc.addField("personnelType", PersonnelType.JOINED_CHAMBERS.name());
+        doc.addField("courtChamber", "11|Izba Cywilna");
+        doc.addField("courtChamber", "12|Izba Pracy");
+        doc.addField("courtChamberDivisionId", "111");
+        doc.addField("courtChamberDivisionName", "Izba Cywilna Wydział III");
+        
+        JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
+        
+        Assert.assertEquals("JOINED_CHAMBERS", result.getPersonnelType());
+        Assert.assertTrue(result.getCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
+        Assert.assertTrue(result.getCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));
+        Assert.assertEquals(2, result.getCourtChambers().size());
+        Assert.assertEquals(Integer.valueOf(111), result.getCourtChamberDivisionId());
+        Assert.assertEquals("Izba Cywilna Wydział III", result.getCourtChamberDivisionName());
     }
     
     @Test

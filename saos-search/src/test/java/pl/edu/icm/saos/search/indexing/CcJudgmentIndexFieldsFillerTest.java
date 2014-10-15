@@ -73,7 +73,7 @@ public class CcJudgmentIndexFieldsFillerTest {
                 .division(commonCourtDivision)
                 .build();
         Map<String, List<String>> commonCourtFields = StringListMap.of(new String[][] {
-                { "courtType", "APPEAL" },
+                { "courtType", "COMMON", "APPEAL" },
                 { "courtId", "123" },
                 { "courtCode", "15200000" },
                 { "courtName", "Sąd Apelacyjny w Krakowie" },

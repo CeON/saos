@@ -75,13 +75,21 @@
    <field name="legalBases" type="text_general" indexed="true" stored="true" multiValued="true" />
    <field name="referencedRegulations" type="text_general" indexed="true" stored="true" multiValued="true" />
    
-   <field name="courtType" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="courtType" type="string" indexed="true" stored="true" multiValued="true" />
+   
    <field name="courtId" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtCode" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtName" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtDivisionId" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtDivisionCode" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
+   
+   <field name="personnelType" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="courtChamber" type="string" indexed="false" stored="true" multiValued="true" />
+   <field name="courtChamberId" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="courtChamberName" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="courtChamberDivisionId" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="courtChamberDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
    
    <field name="judge" type="string" indexed="false" stored="true" multiValued="true" />
    <field name="judgeName" type="text_general" indexed="true" stored="true" multiValued="true" />

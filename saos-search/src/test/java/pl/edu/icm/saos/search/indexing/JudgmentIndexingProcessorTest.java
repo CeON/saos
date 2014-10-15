@@ -15,6 +15,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
@@ -29,17 +30,36 @@ public class JudgmentIndexingProcessorTest {
     private CcJudgmentIndexFieldsFiller ccJudgmentIndexFieldsFiller;
     
     @Mock
+    private ScJudgmentIndexFieldsFiller scJudgmentIndexFieldsFiller;
+    
+    @Mock
     private JudgmentRepository judgmentRepository;
     
     @Before
     public void setUp() {
-        judgmentIndexingProcessor.setCcJudgmentRepository(judgmentRepository);
+        judgmentIndexingProcessor.setJudgmentRepository(judgmentRepository);
         judgmentIndexingProcessor.setCcJudgmentIndexFieldsFiller(ccJudgmentIndexFieldsFiller);
+        judgmentIndexingProcessor.setScJudgmentIndexFieldsFiller(scJudgmentIndexFieldsFiller);
         judgmentIndexingProcessor.init();
     }
     
     @Test
-    public void process() throws Exception {
+    public void process_SUPREME_COURT_JUDGMENT() throws Exception {
+        SupremeCourtJudgment judgment = new SupremeCourtJudgment();
+        ReflectionTestUtils.setField(judgment, "id", 5);
+        
+        
+        judgmentIndexingProcessor.process(judgment);
+        
+        ArgumentCaptor<SupremeCourtJudgment> argCaptureForFill = ArgumentCaptor.forClass(SupremeCourtJudgment.class);
+        verify(scJudgmentIndexFieldsFiller, times(1)).fillFields(any(SolrInputDocument.class), argCaptureForFill.capture());
+        assertEquals(5, argCaptureForFill.getValue().getId());
+        
+        assertSaveJudgmentInRepository(5);
+    }
+    
+    @Test
+    public void process_COMMON_COURT_JUDGMENT() throws Exception {
         CommonCourtJudgment judgment = new CommonCourtJudgment();
         ReflectionTestUtils.setField(judgment, "id", 6);
         
@@ -50,10 +70,7 @@ public class JudgmentIndexingProcessorTest {
         verify(ccJudgmentIndexFieldsFiller, times(1)).fillFields(any(SolrInputDocument.class), argCaptureForFill.capture());
         assertEquals(6, argCaptureForFill.getValue().getId());
         
-        ArgumentCaptor<Judgment> argCapture = ArgumentCaptor.forClass(Judgment.class);
-        verify(judgmentRepository, times(1)).save(argCapture.capture());
-        assertEquals(6, argCapture.getValue().getId());
-        assertTrue(argCapture.getValue().isIndexed());
+        assertSaveJudgmentInRepository(6);
     }
     
     @Test(expected=RuntimeException.class)
@@ -65,6 +82,13 @@ public class JudgmentIndexingProcessorTest {
     
     
     //------------------------ PRIVATE --------------------------
+    
+    private void assertSaveJudgmentInRepository(int judgmentId) {
+        ArgumentCaptor<Judgment> argCapture = ArgumentCaptor.forClass(Judgment.class);
+        verify(judgmentRepository, times(1)).save(argCapture.capture());
+        assertEquals(judgmentId, argCapture.getValue().getId());
+        assertTrue(argCapture.getValue().isIndexed());
+    }
     
     private class UnknownJudgment extends Judgment {
         

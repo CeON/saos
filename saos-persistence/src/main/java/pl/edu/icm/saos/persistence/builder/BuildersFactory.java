@@ -48,5 +48,18 @@ public class BuildersFactory {
     public static CcJudgmentKeyword keyword(String keyword){
         return new CcJudgmentKeyword(keyword);
     }
+    
+    
+    public static SupremeCourtJudgmentBuilder supremeCourtJugmentWrapper(int id){
+        return new SupremeCourtJudgmentBuilder(id);
+    }
+    
+    public static SupremeCourtChamberBuilder supremeCourtChamber(int id) {
+        return new SupremeCourtChamberBuilder(id);
+    }
+    
+    public static SupremeCourtChamberDivisionBuilder supremeCourtChamberDivision(int id) {
+        return new SupremeCourtChamberDivisionBuilder(id);
+    }
 
 }
