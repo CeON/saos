@@ -133,6 +133,10 @@ class ControllersEntityExceptionHandlerTest extends Specification {
     @Controller
     @RequestMapping("/special")
     static class SpecialController extends ControllersEntityExceptionHandler{
+        SpecialController() {
+            setErrorDocumentationSite("http://www.example.com/errors/")
+        }
+
         @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
         @ResponseBody
         def ResponseEntity<Map<String, Object>> createView(){

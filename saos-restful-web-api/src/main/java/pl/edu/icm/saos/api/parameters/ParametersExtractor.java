@@ -4,6 +4,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import pl.edu.icm.saos.api.exceptions.WrongRequestParameterException;
 import pl.edu.icm.saos.api.utils.DatesFactory;
@@ -32,8 +33,11 @@ public class ParametersExtractor {
 
     private static final Pattern DATE_PATTERN = Pattern.compile("^[1-9]\\d{3}-(1[0-2]|0[1-9])-(0[1-9]|[1-2]\\d|3[0-1])$");
 
-    private int defaultPageSize = 20; //TODO move into properties file
-    private int maxPageSize = 100; //TODO move into properties file
+    @Value("${restful.api.default.page.size}")
+    private int defaultPageSize=20;
+
+    @Value("${restful.api.max.page.size}")
+    private int maxPageSize=100;
 
     //********** END fields **********
 
