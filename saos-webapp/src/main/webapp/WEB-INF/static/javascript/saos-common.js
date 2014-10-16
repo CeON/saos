@@ -46,6 +46,8 @@ $(document).ready(function() {
     	removeAll: "#clearAllFilters",
     	parentContainer: ".judgment-list",
     	
+    	
+    	
     	filters: [{button: ".judge", searchfield: "#input-search-judge", filterfield: "filter-judge"},
 		           {button: ".keyword", searchfield: "#input-search-keywords", filterfield: "filter-keyword", selectFormType: "#radio-court-common"},
 		           {button: ".type", searchfield: "[name='judgmentType']", filterfield: "filter-judgment-type"},
@@ -74,6 +76,7 @@ $(document).ready(function() {
     	noFiltersMessage: "#no-filters",
     	filterField: ".filter-item",
     	resultList: ".judgment-list > div:first-child",
-    	buttonHide: "#filter-hide"
+    	buttonHide: "#filter-hide",
+    	sticky: {enabled: true, topSpacing: 10}
     });
 });

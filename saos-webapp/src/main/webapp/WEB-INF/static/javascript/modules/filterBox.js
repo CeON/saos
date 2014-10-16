@@ -7,6 +7,11 @@ var FilterBox = (function() {
 
 	var space = {},
 	
+	cookieName = "saos-filterbox-show",
+	cookieTime = 30, //minutes
+	
+	sticky = {enabled: true, topSpacing: 0},
+	
 	MAXLETTERS = 30,
 	dataFullText = "data-full-text",
 	tooltipClass = "long-text",
@@ -29,6 +34,10 @@ var FilterBox = (function() {
 		
 		if ($this !== "" && $this !== undefined) {
 			$parent = $this;
+		}
+		
+		if (source.sticky !== "" && source.sticky !== undefined) {
+			sticky = source.sticky;
 		}
 		
 		if (source.removeAllButton !== "" && source.removeAllButton !== undefined) {
@@ -57,6 +66,19 @@ var FilterBox = (function() {
 
 	},
 	
+	
+	
+	/* Make box sticky */
+	stickyBox = function() {
+		if (sticky.enabled === true) {
+			var top = 30;
+			if (sticky.topSpacing !== undefined) {
+				top = sticky.topSpacing;
+			}
+			$parent.sticky({ topSpacing: top });
+		}
+	},
+	
 	/* If filter box contains at least one filter,
 	 * show button "remove all filters" and hide message "no filters". */
 	showButtonAndMessage = function() {
@@ -70,7 +92,7 @@ var FilterBox = (function() {
 	shortenFilterText = function() {
 		$parent.find(filterField).each(function() {
 			var $this = $(this),
-				text = $this.find("div").text();
+				text = $this.find("div").text().trim();
 			
 			if (text.length > MAXLETTERS) {
 				$this
@@ -90,7 +112,7 @@ var FilterBox = (function() {
 							.remove();
 					})
 					.find("div")
-					.text(text.substr(0, MAXLETTERS) + "...");
+					.text(text.substr(0, MAXLETTERS) + (text.length > MAXLETTERS + 1 ? "..." : ""));
 			}
 		});
 	},
@@ -102,6 +124,7 @@ var FilterBox = (function() {
 	},
 	
 	hideBox = function() {
+		saveCookie("false");
 		$parent.slideUp(function() {
 			createFilterShowButton();
 			$(resultList).animate({width: widthMax}, 400);
@@ -113,6 +136,7 @@ var FilterBox = (function() {
 			$parent.slideDown();
 		}
 		
+		saveCookie("true");
 		$(resultList).animate({width: widthBase}, 400, function() {});
 		hideFilterButton(fBoxSlideDown);
 	},
@@ -167,6 +191,22 @@ var FilterBox = (function() {
 			$(this).remove();
 			callBack();
 		});
+	},
+	
+	dontShowBox = function() {
+		if (readCookie() === "false") {
+			$parent.css({display: "none"});
+			$(resultList).css({width: widthMax});
+			createFilterShowButton();
+		}
+	},
+	
+	saveCookie = function(value) {
+		Cookies.create(cookieName, value, cookieTime);
+	},
+	
+	readCookie = function(value) {
+		return Cookies.read(cookieName);
 	};
 	
 	
@@ -174,6 +214,8 @@ var FilterBox = (function() {
 	
 	space.run = function($this, source) {
 		init($this, source);
+		dontShowBox();
+		stickyBox();
 		showButtonAndMessage();
 		assignHideButton();
 		shortenFilterText();

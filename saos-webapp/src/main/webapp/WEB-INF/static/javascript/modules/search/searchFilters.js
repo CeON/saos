@@ -18,8 +18,9 @@ var SearchFilters = (function(){
 		
 		removeButtonBaseShape = "<span></span>",
 		
+		fieldGroups = [{filterField: "radio-court-common", container: "#common-court-fields"}],
+		
 		filters = [{button: "", searchfield: "", filterfield: "", selectFormType: ""}],
-				   
 		
 		advanceFilter = {button: "", searchfield: "", filterfield: "", selectFormType: "", url : "",
 						parent : {button: "", searchfield: "", filterfield: ""}},
@@ -80,7 +81,6 @@ var SearchFilters = (function(){
 											selectFormType($selectFormType);
 											$this.prop('checked', true);
 											$this.trigger("change");
-											
 											submitForm(); //send form only if checkbox value has changed
 										}
 									});
@@ -141,13 +141,13 @@ var SearchFilters = (function(){
 				var selectedCourt = $thisButton.parent().find(advanceFilter.parent.button).text(),
 					selectedCourtId = "";
 					
-				
 				selectFormType($selectFormType, false);
 				//clearField($(advanceFilter.parent.searchfield));
 				selectedCourtId = $(advanceFilter.parent.searchfield)
 													.find("option[content='" + selectedCourt + "']")
 													.attr('selected', 'selected')
 													.val();
+				
 				$(advanceFilter.searchfield)
 					.removeAttr("disabled")
 					.removeAttr("selected");
@@ -176,7 +176,6 @@ var SearchFilters = (function(){
 			});
 		});
 	},
-
 	
 	/* Create buttons for target filter, clicking on it removes filter */
 	createRemoveFilterButtons = function() {
@@ -184,9 +183,9 @@ var SearchFilters = (function(){
 			var $filterItem = $(this);
 			
 			if ($filterItem.text().trim() !== "") {
-				
 				var $removeFilterButton = $(removeButtonBaseShape),
-					$assignedFieldId = $("#" + $filterItem.attr(assignedField));
+					assignedFieldValue = $filterItem.attr(assignedField),
+					$assignedFieldId = $("#" + assignedFieldValue);
 				
 				if ($assignedFieldId.is("select")) {
 					var selectedItemValue = $assignedFieldId.find("[value='" + $filterItem.text().trim() + "']").text();
@@ -195,6 +194,7 @@ var SearchFilters = (function(){
 				}
 				
 				$removeFilterButton.click(function() {
+					clearFilterGroup(assignedFieldValue);
 					clearField($assignedFieldId);
 					$filterItem.remove();
 					submitForm();
@@ -206,6 +206,18 @@ var SearchFilters = (function(){
 		});
 	},
 	
+	/* Clear group of fields e.g. common-court-fields */
+	clearFilterGroup = function(fieldId) {
+		var i = 0,
+			length = fieldGroups.length;
+		
+		for (i; i < length; i += 1) {
+			if (fieldId === fieldGroups[i].filterField) {
+				clearFieldsInContainer($(fieldGroups[i].container));
+			}
+		}
+	},
+	
 	/* Clear target field e.g. input select */
 	clearField = function($field) {
 		if ($field.is("input")) {
@@ -215,6 +227,12 @@ var SearchFilters = (function(){
 				  .val("")
 				  .trigger("change");
 		}
+	},
+	
+	clearFieldsInContainer = function($container) {
+		$container.find("input, select").each(function() {
+			clearField($(this));
+		});
 	},
 	
 	/* Button to remove all previous selected filters */

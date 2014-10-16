@@ -28,3 +28,7 @@
 		background: lighten(#eee, 20%);
 	}
 }
+
+@mixin background-image($image) {
+	background-image: url($image-src + $image);
+}
