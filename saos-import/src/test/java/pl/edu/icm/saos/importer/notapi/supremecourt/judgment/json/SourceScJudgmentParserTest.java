@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.Source;
@@ -37,11 +38,22 @@ public class SourceScJudgmentParserTest {
     private CommonValidator commonValidator;
     
     
-    private static final String jsonContent = "{\"textContent\":\"Wyrok z dnia 22 lutego 1994 r.\","+
-            "\"judges\":[{\"name\":\"Józef Iwulski\",\"function\":null,\"specialRoles\":[\"REPORTING_JUDGE\"]}, {\"name\":\"Jacek Hero\",\"function\":\"SSN\",\"specialRoles\":[\"REPORTING_JUDGE\", \"XXX\"]}]" +
-            ",\"source\":{\"sourceJudgmentPdfMD5\":\"16f3a55e22605d8b8fe26f42de45ba9c\",\"sourceJudgmentHtmlMD5\":\"220dfd859f5f6a57c8ea7739a531cd42\",\"sourceCode\":\"SUPREME_COURT\",\"sourceJudgmentId\":\"Orzeczenia1&3042\",\"sourceJudgmentUrl\":\"http://www.sn.pl/orzecznictwo/SitePages/Baza%20orzecze%C5%84.aspx?ItemID=3042&ListName=Orzeczenia1\",\"publicationDateTime\":\"2014-02-11 11:43\"},"+
-            "\"caseNumber\":\"I PRN 5/94\",\"judgmentDate\":\"1994-02-22\",\"supremeCourtJudgmentForm\":\"wyrok SN\",\"personnelType\":null,"+
-            "\"supremeCourtChambers\":[\"Izba Administracyjna, Pracy i Ubezpieczeń Społecznych\"],\"supremeCourtChamberDivision\":\"Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych Wydział I\"}";
+    private static String jsonContent = "{textContent:'Wyrok z dnia 22 lutego 1994 r.',"+
+            "judges:["
+                + "{name:'Józef Iwulski',function:null,specialRoles:['REPORTING_JUDGE']}, "
+                + "{name:'Jacek Hero',function:'SSN',specialRoles:['REPORTING_JUDGE', 'XXX']}]," 
+            + "source:"
+                + "{sourceJudgmentPdfMD5:'16f3a55e22605d8b8fe26f42de45ba9c',"
+                + "sourceJudgmentHtmlMD5:'220dfd859f5f6a57c8ea7739a531cd42',"
+                + "sourceCode:'SUPREME_COURT',sourceJudgmentId:'Orzeczenia1&3042',"
+                + "sourceJudgmentUrl:'http://www.sn.pl/orzecznictwo/SitePages/Baza%20orzecze%C5%84.aspx?ItemID=3042&ListName=Orzeczenia1',"
+                + "publicationDateTime:'2014-02-11 11:43'},"
+            + "caseNumber:'I PRN 5/94',"
+            + "judgmentDate:'1994-02-22',"
+            + "supremeCourtJudgmentForm:'wyrok SN',"
+            + "personnelType:null,"
+            + "supremeCourtChambers:['Izba Administracyjna, Pracy i Ubezpieczeń Społecznych'],"
+            + "supremeCourtChamberDivision:'Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych Wydział I'}";
 
     
 
@@ -49,6 +61,7 @@ public class SourceScJudgmentParserTest {
     public void before() {
         MockitoAnnotations.initMocks(this);
 
+        jsonContent = JsonNormalizer.normalizeJson(jsonContent);
         
         sourceScJudgmentParser.setJsonFactory(new MappingJsonFactory());
         DateTimeDeserializer.setScjImportDateTimeFormatter(dateTimeFormatter);

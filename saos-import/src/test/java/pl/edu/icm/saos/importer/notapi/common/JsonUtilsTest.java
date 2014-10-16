@@ -1,13 +1,12 @@
 package pl.edu.icm.saos.importer.notapi.common;
 
 import static org.junit.Assert.assertEquals;
+import static pl.edu.icm.saos.common.json.JsonNormalizer.normalizeJson;
 
 import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import pl.edu.icm.saos.importer.notapi.common.JsonUtils;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -35,8 +34,10 @@ public class JsonUtilsTest {
     public void nextNode_SingleElement() throws JsonParseException, IOException {
         
         // Given
-        String content = "{\"bre\":\"sss\", \"arr\":[\"1112\", \"abc\"]}";
+        String content = normalizeJson("{bre: 'sss', arr:['1112', 'abc']}");
+        
         JsonParser jsonParser = jsonFactory.createParser(content);
+        
         
         // Execute
         String nodeStr = jsonUtils.nextNode(jsonParser);
@@ -50,8 +51,9 @@ public class JsonUtilsTest {
     public void nextNode_ArrayOfElements() throws JsonParseException, IOException {
         
         // Given
-        String element1 = "{\"bre\":\"sss\", \"arr\":[\"1112\", \"abc\"]}";
-        String element2 = "{\"bre\":\"sss\", \"arr\":[\"112\", \"abc\"], \"dd\":\"dddd\"}";
+        String element1 = normalizeJson("{bre: 'sss', arr: ['1112', 'abc']}");
+        String element2 = normalizeJson("{bre: 'sss', arr: ['1112', 'abc'], dd: 'ssssxx'}");
+        
         String content = "[" + element1 +", " + element2 + "]";
         
         JsonParser jsonParser = jsonFactory.createParser(content);
