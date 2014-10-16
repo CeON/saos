@@ -18,7 +18,7 @@ var SearchFilters = (function(){
 		
 		removeButtonBaseShape = "<span></span>",
 		
-		fieldGroups = [{filterField: "radio-court-common", container: "#common-court-fields"}],
+		fieldGroups = [{filterField: "", container: ""}],
 		
 		filters = [{button: "", searchfield: "", filterfield: "", selectFormType: ""}],
 		
@@ -44,6 +44,10 @@ var SearchFilters = (function(){
 		
 		if (source.parentContainer !== "") {
 			parentContainer = source.parentContainer;
+		}
+		
+		if (source.fieldGroups !== "") {
+			fieldGroups = source.fieldGroups;
 		}
 		
 		if (source.filters !== "") {
