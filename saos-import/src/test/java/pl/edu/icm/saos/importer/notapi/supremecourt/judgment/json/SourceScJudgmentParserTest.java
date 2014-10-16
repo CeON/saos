@@ -44,7 +44,6 @@ public class SourceScJudgmentParserTest {
             "\"supremeCourtChambers\":[\"Izba Administracyjna, Pracy i Ubezpieczeń Społecznych\"],\"supremeCourtChamberDivision\":\"Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych Wydział I\"}";
 
     
-    
 
     @Before
     public void before() {
@@ -120,6 +119,7 @@ public class SourceScJudgmentParserTest {
         sourceScJudgmentParser.parse(jsonContent);
         
     }
+    
     
     
 }

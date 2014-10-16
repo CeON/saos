@@ -83,7 +83,6 @@ public class CommonCourtImportConfiguration {
     
     @Bean
     public ImportDateTimeFormatter ccjImportDateTimeFormatter() {
-        System.out.println("=====================ccjImportDateTimeFormatter");
         ImportDateTimeFormatter importDateTimeFormatter = new ImportDateTimeFormatter();
         importDateTimeFormatter.setImportDatePattern("yyyy-MM-dd HH:mm:ss.S");
         return importDateTimeFormatter;
@@ -91,7 +90,6 @@ public class CommonCourtImportConfiguration {
     
     @Bean
     public JudgmentConverter<CommonCourtJudgment, SourceCcJudgment> sourceCcJudgmentConverter() {
-        System.out.println("=====================sourceCcJudgmentConverter");
         JudgmentConverterImpl<CommonCourtJudgment, SourceCcJudgment> judgmentConverter = new JudgmentConverterImpl<>();
         judgmentConverter.setJudgmentDataExtractor(judgmentDataExtractor);
         return judgmentConverter;

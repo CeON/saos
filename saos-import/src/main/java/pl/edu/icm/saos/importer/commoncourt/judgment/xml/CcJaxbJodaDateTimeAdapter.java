@@ -25,7 +25,7 @@ public class CcJaxbJodaDateTimeAdapter extends XmlAdapter<String, DateTime> {
     }
     
     public DateTime unmarshal(String xmlDate) throws Exception {
-        return ccjImportDateTimeFormatter.parse(xmlDate);
+        return ccjImportDateTimeFormatter.parse(xmlDate.substring(0, 21));
     }
 
     public String marshal(DateTime dateTime) throws Exception {

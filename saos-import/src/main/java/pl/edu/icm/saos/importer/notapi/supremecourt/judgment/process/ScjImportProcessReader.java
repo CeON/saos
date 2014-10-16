@@ -26,7 +26,7 @@ public class ScjImportProcessReader implements ItemStreamReader<RawSourceScJudgm
 
     private static Logger log = LoggerFactory.getLogger(ScjImportProcessReader.class);
     
-    private RawSourceScJudgmentRepository simpleRawSourceScJudgmentRepository;
+    private RawSourceScJudgmentRepository rawSourceScJudgmentRepository;
     
     private LinkedList<Integer> rJudgmentIds;
     
@@ -44,14 +44,14 @@ public class ScjImportProcessReader implements ItemStreamReader<RawSourceScJudgm
             return null;
         }
         
-        return simpleRawSourceScJudgmentRepository.getOne(rJudgmentId);
+        return rawSourceScJudgmentRepository.getOne(rJudgmentId);
         
     }
     
     
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        rJudgmentIds = new LinkedList<Integer>(simpleRawSourceScJudgmentRepository.findAllNotProcessedIds());
+        rJudgmentIds = new LinkedList<Integer>(rawSourceScJudgmentRepository.findAllNotProcessedIds());
         log.debug("Number of raw source supreme court judgments to process: {}", rJudgmentIds.size());
     }
 
@@ -70,7 +70,7 @@ public class ScjImportProcessReader implements ItemStreamReader<RawSourceScJudgm
     
     @Autowired
     public void setSimpleRawSourceScJudgmentRepository(RawSourceScJudgmentRepository simpleRawSourceScJudgmentRepository) {
-        this.simpleRawSourceScJudgmentRepository = simpleRawSourceScJudgmentRepository;
+        this.rawSourceScJudgmentRepository = simpleRawSourceScJudgmentRepository;
     }
     
 }

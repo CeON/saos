@@ -29,7 +29,7 @@ public class ImportDateTimeFormatter {
      */
     public DateTime parse(String textDate) {
         
-        DateTime dateTime = fmt.withZone(DateTimeZone.forID(timeZoneId)).parseDateTime(textDate.substring(0, 21));
+        DateTime dateTime = fmt.withZone(DateTimeZone.forID(timeZoneId)).parseDateTime(textDate);
         
         // the zone should be compatible with the zone used across the application:
         if (jadiraJavaZone.equals("jvm")) {
@@ -60,5 +60,6 @@ public class ImportDateTimeFormatter {
 
     public void setImportDatePattern(String importDatePattern) {
         this.importDatePattern = importDatePattern;
+        fmt = DateTimeFormat.forPattern(importDatePattern);
     }
 }
