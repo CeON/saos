@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.api.exceptions;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.edu.icm.saos.api.exceptions.status.ErrorStatus;
@@ -11,6 +12,9 @@ import java.util.Map;
  * @author pavtel
  */
 public class ControllersEntityExceptionHandler {
+
+    @Value("${restful.api.error.documentation.site}")
+    private String errorDocumentationSite;
 
 
     //----------- BUSINESS METHODS -------------------
@@ -47,14 +51,13 @@ public class ControllersEntityExceptionHandler {
 
 
     //----------- PRIVATE ----------------------------
-    private static final String ERRORS_DOCUMENTATION_SITE = "http://www.example.com/errors/"; //TODO move into property file
 
     private ErrorRepresentation.Builder create(ErrorStatus errorStatus, Exception ex){
         ErrorRepresentation.Builder builder = new ErrorRepresentation.Builder();
         builder.httpStatus(errorStatus.httpStatusValue())
                 .message(ex.getMessage())
                 .name(errorStatus.errorName())
-                .moreInfo(ERRORS_DOCUMENTATION_SITE+errorStatus.name());
+                .moreInfo(errorDocumentationSite+errorStatus.name());
 
         return builder;
     }
@@ -66,5 +69,8 @@ public class ControllersEntityExceptionHandler {
     //----------- END PRIVATE --------------------------
 
 
-
+    //----------------- setters ----------------------
+    public void setErrorDocumentationSite(String errorDocumentationSite) {
+        this.errorDocumentationSite = errorDocumentationSite;
+    }
 }
