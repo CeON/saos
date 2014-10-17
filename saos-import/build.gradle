@@ -18,5 +18,5 @@ dependencies {
         compile lib.'com.fasterxml.jackson.core:jackson-databind'
         compile lib.'commons-io:commons-io'
         compile lib.'org.apache.commons:commons-compress'
-        
+
 }

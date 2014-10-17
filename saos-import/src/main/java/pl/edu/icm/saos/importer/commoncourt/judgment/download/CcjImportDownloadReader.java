@@ -16,6 +16,7 @@ import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 
 import com.google.common.collect.ImmutableList;
@@ -42,7 +43,7 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
     
     private RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository;
     
-    private CcjImportDateFormatter ccjImportDateFormatter;
+    private ImportDateTimeFormatter ccjImportDateTimeFormatter;
     
     
     
@@ -79,9 +80,9 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
         if (customPublicationDateFrom == null) {
             publicationDateFrom = rawSourceCcJudgmentRepository.findMaxPublicationDate();
         } else {
-            publicationDateFrom = ccjImportDateFormatter.parse(customPublicationDateFrom);
+            publicationDateFrom = ccjImportDateTimeFormatter.parse(customPublicationDateFrom);
         }
-        log.info("publication date from: {}", publicationDateFrom==null?"null":new CcjImportDateFormatter().format(publicationDateFrom));
+        log.info("publication date from: {}", publicationDateFrom==null?"null":publicationDateFrom.toString());
         
     }
 
@@ -136,8 +137,8 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
     }
 
     @Autowired
-    public void setCcjImportDateFormatter(CcjImportDateFormatter ccjImportDateFormatter) {
-        this.ccjImportDateFormatter = ccjImportDateFormatter;
+    public void setCcjImportDateTimeFormatter(ImportDateTimeFormatter ccjImportDateTimeFormatter) {
+        this.ccjImportDateTimeFormatter = ccjImportDateTimeFormatter;
     }
 
 

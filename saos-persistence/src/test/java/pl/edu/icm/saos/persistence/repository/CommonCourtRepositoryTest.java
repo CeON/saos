@@ -25,6 +25,7 @@ public class CommonCourtRepositoryTest extends PersistenceTestSupport {
         Assert.assertEquals(0, commonCourtRepository.count());
         
         CommonCourt commonCourt = new CommonCourt();
+        commonCourt.setCode("XYZ");
         commonCourtRepository.save(commonCourt);
         
         Assert.assertEquals(1, commonCourtRepository.count());

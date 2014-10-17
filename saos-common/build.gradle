@@ -1,3 +1,7 @@
 dependencies {
     compile lib.'org.springframework:spring-context'
+    compile lib.'org.hibernate:hibernate-validator'
+    compile lib.'javax.el:javax.el-api'
+    compile lib.'com.fasterxml.jackson.core:jackson-databind'
+    
 }

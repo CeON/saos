@@ -48,12 +48,17 @@ public class Judge extends DataObject {
         REPORTING_JUDGE,
         
         /** pl. autor uzasadnienia */
-        REASONS_FOR_JUDGMENT_AUTHOR
+        REASONS_FOR_JUDGMENT_AUTHOR;
+        
+        
+        
     }
     
     private Judgment judgment;
     
     private String name;
+    
+    private String function;
     
     private List<JudgeRole> specialRoles;
 
@@ -64,10 +69,14 @@ public class Judge extends DataObject {
     
     
     public Judge(String name, JudgeRole... specialRoles) {
+        this(name, Lists.newArrayList(specialRoles));
+    }
+    
+    public Judge(String name, List<JudgeRole> specialRoles) {
         super();
         Preconditions.checkArgument(!StringUtils.isBlank(name));
         this.name = name;
-        this.specialRoles = Lists.newArrayList(specialRoles);
+        this.specialRoles = specialRoles;
     }
     
 
@@ -105,6 +114,11 @@ public class Judge extends DataObject {
         return name;
     }
 
+    /** Additional function of the judge, for example SSN in Supreme Court*/
+    public String getFunction() {
+        return function;
+    }
+
 
     //------------------------ LOGIC --------------------------
     
@@ -127,7 +141,11 @@ public class Judge extends DataObject {
         this.name = name;
     }
 
-    
+    public void setFunction(String function) {
+        this.function = function;
+    }
+
+
     //------------------------ HashCode & Equals --------------------------
     
 
@@ -171,4 +189,6 @@ public class Judge extends DataObject {
                 .add("roles", specialRoles)
                 .toString();
     }
+
+   
 }

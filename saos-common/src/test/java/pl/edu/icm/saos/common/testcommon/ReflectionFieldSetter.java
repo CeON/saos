@@ -7,7 +7,7 @@ import org.springframework.util.ReflectionUtils;
 /**
  * @author Łukasz Dumiszewski
  */
-
+@Deprecated // use Powermock's Whitebox
 public final class ReflectionFieldSetter {
     
     private ReflectionFieldSetter() {
