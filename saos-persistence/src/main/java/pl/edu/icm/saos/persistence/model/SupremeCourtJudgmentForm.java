@@ -75,5 +75,13 @@ public class SupremeCourtJudgmentForm extends DataObject {
             return false;
         return true;
     }
+
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "SupremeCourtJudgmentForm [name=" + name + ", id=" + id + "]";
+    }
     
 }

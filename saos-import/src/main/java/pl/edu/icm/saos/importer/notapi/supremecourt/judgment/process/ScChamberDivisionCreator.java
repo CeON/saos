@@ -40,7 +40,7 @@ public class ScChamberDivisionCreator {
      */
     public SupremeCourtChamberDivision getOrCreateScChamberDivision(String chamberDivisionFullName) {
 
-        Preconditions.checkArgument(!StringUtils.isBlank(chamberDivisionFullName));
+        Preconditions.checkArgument(StringUtils.isNotBlank(chamberDivisionFullName));
         
         SupremeCourtChamberDivision scChamberDivision = scChamberDivisionRepository.findOneByFullName(chamberDivisionFullName);
         

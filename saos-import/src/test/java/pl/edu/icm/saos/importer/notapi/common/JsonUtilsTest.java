@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.importer.notapi.common;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static pl.edu.icm.saos.common.json.JsonNormalizer.normalizeJson;
 
 import java.io.IOException;
@@ -72,6 +73,16 @@ public class JsonUtilsTest {
         
         // Assert
         assertEquals(element2.replaceAll("\\s", ""), nodeStr);
+        
+        
+        // Execute 3. time
+        nodeStr = jsonUtils.nextNode(jsonParser);
+        
+        // Assert
+        assertNull(nodeStr);
+        
+        
+     
     }
     
     

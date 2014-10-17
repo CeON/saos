@@ -20,7 +20,10 @@ public class JsonUtils {
     
     /**  
      * Returns next node as string. The next node is a node that is an array element or the whole object
-     * in case there is one element only (not array of elements). 
+     * in case there is one element only (not array of elements).<br/>
+     * Returns null if there is no next node, for example when the traversing of array has reached an end.
+     * <br/>   
+     * 
      * @throws IllegalStateException if the jsonParser has no codec; you can use {@link MappingJsonFactory} for creating
      * parser with default codec
      * 

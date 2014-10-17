@@ -119,6 +119,15 @@ public class SupremeCourtChamberDivision extends DataObject {
             return false;
         return true;
     }
+
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "SupremeCourtChamberDivision [fullName=" + fullName + ", name="
+                + name + ", id=" + id + "]";
+    }
     
     
     

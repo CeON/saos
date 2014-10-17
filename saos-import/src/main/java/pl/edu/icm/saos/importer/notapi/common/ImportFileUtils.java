@@ -54,7 +54,7 @@ public class ImportFileUtils {
      * In case of files with extensions: gz and zip the reader is
      * built upon {@link GZIPInputStream} and {@link ZipInputStream} respectively. <br/>
      * The reader gets/reads only first zip entry in case of zip files<br/>
-     * The reader uses the encoding defined by {@link #setFileCharset(String)}
+     * The reader uses the UTF-8 encoding by default. It can be changed by {@link #setFileCharset(String)}.
      * 
      * @throws ImportException in case of any exception
      * 

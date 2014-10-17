@@ -86,4 +86,11 @@ public class SupremeCourtChamber extends DataObject {
             return false;
         return true;
     }
+
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "SupremeCourtChamber [name=" + name + ", id=" + id + "]";
+    }
 }

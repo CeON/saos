@@ -23,7 +23,7 @@ public class ScChamberCreator {
     
     
     public SupremeCourtChamber getOrCreateScChamber(String chamberName) {
-        Preconditions.checkArgument(!StringUtils.isBlank(chamberName));
+        Preconditions.checkArgument(StringUtils.isNotBlank(chamberName));
         
         SupremeCourtChamber scChamber = scChamberRepository.findOneByName(chamberName);
         if (scChamber == null) {

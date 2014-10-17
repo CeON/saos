@@ -22,6 +22,11 @@ class ScJudgmentFormCreator {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Finds {@link SupremeCourtJudgmentForm} with the given name and returns it. <br/>
+     * If no {@link SupremeCourtJudgmentForm} with this name can be found, then creates one, saves it
+     * in a datasource and returns. 
+     */
     public SupremeCourtJudgmentForm getOrCreateScJudgmentForm(String judgmentFormName) {
         Preconditions.checkArgument(!StringUtils.isBlank(judgmentFormName));
         
