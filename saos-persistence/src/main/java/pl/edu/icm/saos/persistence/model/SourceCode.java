@@ -13,6 +13,9 @@ public enum SourceCode {
     ADMINISTRATIVE_COURT, 
     
     /** pl. Sądy powszechne */
-    COMMON_COURT
+    COMMON_COURT,
+    
+    /** pl. Sąd Najwyższy */
+    SUPREME_COURT
     
 }

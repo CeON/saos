@@ -50,6 +50,8 @@ subprojects {
         'org.hibernate:hibernate-core' :'org.hibernate:hibernate-core:4.3.5.Final',
         'org.hibernate:hibernate-ehcache' :'org.hibernate:hibernate-ehcache:4.3.5.Final',
         'org.hibernate:hibernate-entitymanager' :'org.hibernate:hibernate-entitymanager:4.3.5.Final',
+        'org.hibernate:hibernate-validator':'org.hibernate:hibernate-validator:5.1.2.Final',
+        'javax.el:javax.el-api':'javax.el:javax.el-api:3.0.0',
         
         'org.apache.commons:commons-dbcp2' :'org.apache.commons:commons-dbcp2:2.0.1',
         'org.postgresql:postgresql' :'org.postgresql:postgresql:9.3-1101-jdbc41',

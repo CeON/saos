@@ -66,6 +66,7 @@ class CcjProcessingService {
     }
 
     @Autowired
+    @Qualifier("sourceCcJudgmentConverter")
     public void setSourceCcJudgmentConverter(JudgmentConverter<CommonCourtJudgment, SourceCcJudgment> sourceCcJudgmentConverter) {
         this.sourceCcJudgmentConverter = sourceCcJudgmentConverter;
     }

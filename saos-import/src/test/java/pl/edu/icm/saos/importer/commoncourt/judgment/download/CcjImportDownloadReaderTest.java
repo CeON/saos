@@ -16,7 +16,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.batch.item.ExecutionContext;
 
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDateFormatter;
+import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDownloadReader;
 import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentTextData;
 import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcjExternalRepository;
@@ -37,7 +37,7 @@ public class CcjImportDownloadReaderTest {
     
     private RawSourceCcJudgmentRepository rawSourceCcJudgmentRepository = mock(RawSourceCcJudgmentRepository.class);
     
-    private CcjImportDateFormatter ccjImportDateFormatter = mock(CcjImportDateFormatter.class);
+    private ImportDateTimeFormatter ccjImportDateTimeFormatter = mock(ImportDateTimeFormatter.class);
     
     private int pageSize = 100;
     
@@ -45,7 +45,7 @@ public class CcjImportDownloadReaderTest {
     public void before() {
         ccjImportDownloadReader.setRawSourceCcJudgmentRepository(rawSourceCcJudgmentRepository);
         ccjImportDownloadReader.setSourceCcjExternalRepository(sourceCcjExternalRepository);
-        ccjImportDownloadReader.setCcjImportDateFormatter(ccjImportDateFormatter);
+        ccjImportDownloadReader.setCcjImportDateTimeFormatter(ccjImportDateTimeFormatter);
         ccjImportDownloadReader.setPageSize(pageSize);
     }
     
@@ -59,7 +59,7 @@ public class CcjImportDownloadReaderTest {
         
         ccjImportDownloadReader.open(Mockito.mock(ExecutionContext.class));
         
-        verifyZeroInteractions(sourceCcjExternalRepository, ccjImportDateFormatter);
+        verifyZeroInteractions(sourceCcjExternalRepository, ccjImportDateTimeFormatter);
         verify(rawSourceCcJudgmentRepository).findMaxPublicationDate();
         
         assertEquals(maxPublicationDate, ccjImportDownloadReader.getPublicationDateFrom());
@@ -76,12 +76,12 @@ public class CcjImportDownloadReaderTest {
         ccjImportDownloadReader.setCustomPublicationDateFrom(customPublicationDateFrom);
         
         DateTime customPublicationDate = new DateTime(2013, 03, 03, 12, 30);
-        when(ccjImportDateFormatter.parse(customPublicationDateFrom)).thenReturn(customPublicationDate);
+        when(ccjImportDateTimeFormatter.parse(customPublicationDateFrom)).thenReturn(customPublicationDate);
         
         ccjImportDownloadReader.open(Mockito.mock(ExecutionContext.class));
         
         verifyZeroInteractions(sourceCcjExternalRepository, rawSourceCcJudgmentRepository);
-        verify(ccjImportDateFormatter).parse(Mockito.eq(customPublicationDateFrom));
+        verify(ccjImportDateTimeFormatter).parse(Mockito.eq(customPublicationDateFrom));
         
         assertEquals(customPublicationDate, ccjImportDownloadReader.getPublicationDateFrom());
         assertEquals(0, ccjImportDownloadReader.getPageNo());
@@ -182,7 +182,7 @@ public class CcjImportDownloadReaderTest {
 
     private void readerOpen(DateTime publicationDate) {
         ccjImportDownloadReader.setCustomPublicationDateFrom("22323");
-        when(ccjImportDateFormatter.parse(Mockito.anyString())).thenReturn(publicationDate);
+        when(ccjImportDateTimeFormatter.parse(Mockito.anyString())).thenReturn(publicationDate);
         
         ccjImportDownloadReader.open(Mockito.mock(ExecutionContext.class));
     }

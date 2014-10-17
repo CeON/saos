@@ -69,7 +69,7 @@ public class CommonCourt extends DataObject {
     }
     
     /** See class description */
-    @Column(unique=true)
+    @Column(unique=true, nullable=false)
     public String getCode() {
         return code;
     }

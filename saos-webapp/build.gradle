@@ -26,6 +26,7 @@ dependencies {
     compile lib.'com.fasterxml.jackson.core:jackson-core'
     testCompile lib.'com.jayway.jsonpath:json-path'
     testCompile lib.'com.jayway.jsonpath:json-path-assert'
+    providedCompile lib.'javax.el:javax.el-api'
 }
 
 buildscript {

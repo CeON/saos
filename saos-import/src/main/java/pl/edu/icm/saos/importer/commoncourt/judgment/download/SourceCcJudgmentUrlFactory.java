@@ -22,7 +22,7 @@ class SourceCcJudgmentUrlFactory {
     
     private String queryDateFromFormat = "yyyy-MM-dd";
     
-    @Value("${import.commonCourt.dates.timeZoneId}")
+    
     private String timeZoneId = "Europe/Warsaw";
     
     

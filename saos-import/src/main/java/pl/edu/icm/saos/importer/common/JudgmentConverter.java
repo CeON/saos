@@ -8,7 +8,9 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 
 public interface JudgmentConverter<JUDGMENT extends Judgment, SOURCE_JUDGMENT> {
 
-    
+    /**
+     * Converts SOURCE_JUDGMENT into JUDGMENT 
+     */
     public JUDGMENT convertJudgment(SOURCE_JUDGMENT sourceJudgment);
     
     
