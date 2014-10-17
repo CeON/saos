@@ -16,7 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.config.TestsConfig;
-import pl.edu.icm.saos.api.parameters.ParametersExtractor;
+import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.CommonCourtSearchFilter;
@@ -32,9 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
-import static pl.edu.icm.saos.api.utils.Constansts.DUMP_COURTS_PATH;
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonCourt;
+import static pl.edu.icm.saos.api.services.Constansts.DUMP_COURTS_PATH;
+import static pl.edu.icm.saos.api.services.FieldsDefinition.JC;
+import static pl.edu.icm.saos.api.services.FieldsDefinition.createCommonCourt;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {DumpCourtsControllerTest.TestConfiguration.class})

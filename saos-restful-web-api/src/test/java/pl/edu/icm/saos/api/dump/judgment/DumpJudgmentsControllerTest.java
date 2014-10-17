@@ -16,9 +16,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.config.TestsConfig;
-import pl.edu.icm.saos.api.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.utils.FieldsDefinition;
-import pl.edu.icm.saos.api.utils.FieldsDefinition.JC;
+import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
+import pl.edu.icm.saos.api.services.FieldsDefinition;
+import pl.edu.icm.saos.api.services.FieldsDefinition.JC;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -38,9 +38,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.utils.Constansts.DATE_FORMAT;
-import static pl.edu.icm.saos.api.utils.Constansts.DUMP_JUDGMENTS_PATH;
-import static pl.edu.icm.saos.api.utils.FieldsDefinition.createCommonJudgment;
+import static pl.edu.icm.saos.api.services.Constansts.DATE_FORMAT;
+import static pl.edu.icm.saos.api.services.Constansts.DUMP_JUDGMENTS_PATH;
+import static pl.edu.icm.saos.api.services.FieldsDefinition.createCommonJudgment;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {DumpJudgmentsControllerTest.TestConfiguration.class})
