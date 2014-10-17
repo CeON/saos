@@ -2,10 +2,9 @@ package pl.edu.icm.saos.api.dump.court.assemblers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.edu.icm.saos.api.mapping.FieldsMapper;
+import pl.edu.icm.saos.api.services.mapping.FieldsMapper;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import pl.edu.icm.saos.persistence.model.Judgment;
 
 import java.util.List;
 import java.util.Map;

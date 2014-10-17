@@ -6,8 +6,8 @@ import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.edu.icm.saos.api.dump.judgment.assemblers.DumpJudgmentAssembler;
-import pl.edu.icm.saos.api.parameters.Pagination;
-import pl.edu.icm.saos.api.response.representations.SuccessRepresentation;
+import pl.edu.icm.saos.api.search.parameters.Pagination;
+import pl.edu.icm.saos.api.services.representations.SuccessRepresentation;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
