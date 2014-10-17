@@ -1,5 +1,7 @@
 /*
- * Module for managing cookies
+ * Module for managing cookies. 
+ * I've added this module because jquery.cookie supports only days as time format for cookies.
+ * We want to use minutes.
  * 
  * @author Łukasz Pawełczak
  */
@@ -14,7 +16,7 @@ var Cookies = (function() {
 			var date = new Date();
 			
 			date.setTime(date.getTime() + (minutes * 60 * 1000));
-			expires = "; expires=" + date.toGMTString();
+			expires = "; expires=" + date.toUTCString();
 		}
 		
 		document.cookie = name + "=" + value + expires + "; path=/";

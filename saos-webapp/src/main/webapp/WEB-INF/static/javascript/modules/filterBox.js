@@ -10,7 +10,7 @@ var FilterBox = (function() {
 	cookieName = "saos-filterbox-show",
 	cookieTime = 30, //minutes
 	
-	sticky = {enabled: true, topSpacing: 0},
+	stickyOptions = {enabled: true, topSpacing: 0},
 	
 	MAXLETTERS = 30,
 	dataFullText = "data-full-text",
@@ -36,8 +36,8 @@ var FilterBox = (function() {
 			$parent = $this;
 		}
 		
-		if (source.sticky !== "" && source.sticky !== undefined) {
-			sticky = source.sticky;
+		if (source.stickyOptions !== "" && source.sticky !== undefined) {
+			stickyOptions = source.stickyOptions;
 		}
 		
 		if (source.removeAllButton !== "" && source.removeAllButton !== undefined) {
@@ -70,10 +70,10 @@ var FilterBox = (function() {
 	
 	/* Make box sticky */
 	stickyBox = function() {
-		if (sticky.enabled === true) {
+		if (stickyOptions.enabled === true) {
 			var top = 30;
-			if (sticky.topSpacing !== undefined) {
-				top = sticky.topSpacing;
+			if (stickyOptions.topSpacing !== undefined) {
+				top = stickyOptions.topSpacing;
 			}
 			$parent.sticky({ topSpacing: top });
 		}
