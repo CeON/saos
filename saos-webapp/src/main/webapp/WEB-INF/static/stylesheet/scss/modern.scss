@@ -212,21 +212,21 @@ form.search {
 		}
 		
 		.search {
-			background-image: url("../../image/icons/search.png");
+			@include background-image("icons/search.png");
 			background-position: 50%;
 			background-repeat: no-repeat;
 			cursor: pointer;
 		}
 		
 		.stats {
-			background-image: url("../../image/icons/chart.png");
+			@include background-image("icons/chart.png");
 			background-position: 50%;
 			background-repeat: no-repeat;
 			cursor: pointer;
 		}
 		
 		.api {
-			background-image: url("../../image/icons/computer.png");
+			@include background-image("icons/computer.png");
 			background-position: 50%;
 			background-repeat: no-repeat;
 			cursor: pointer;
@@ -241,8 +241,8 @@ form.search {
 	}
 	
 	.stage {
+		@include background-image("banners/stats.png");
 		background: #e8e8e8;
-		background-image: url("../../image/banners/stats.png");
 		background-repeat: no-repeat;
 		border-top: 0px;	
 		height: 320px;
@@ -547,8 +547,8 @@ form.search {
 	}
 	
 	.filter-box-button {
+		@include background-image("icons/filter.png");
 		background: {
-			image: url("../../image/icons/filter.png");
 			repeat: no-repeat;
 			size: 16px 16px;
 		}
@@ -561,9 +561,7 @@ form.search {
 		width:16px;
 		
 		&:hover {
-			background: {
-				image: url("../../image/icons/filter-light.png");
-			}
+			@include background-image("icons/filter-light.png");
 		}
 	}
 	
@@ -581,8 +579,8 @@ form.search {
 	}
 	
 	.search-settings {
+		@include background-image("icons/settings.png");
 		background: {
-			image: url("../../image/icons/settings.png");
 			repeat: no-repeat;
 			size: 16px 16px;
 		}
@@ -594,9 +592,7 @@ form.search {
 		width:16px;
 		
 		&:hover {
-			background: {
-				image: url("../../image/icons/settings_light.png");
-			}
+			@include background-image("icons/settings_light.png");
 		}
 	}
 	
@@ -694,6 +690,7 @@ form.search {
     	}
     margin: 20px 0 0;
     /*padding: 0px 0px 8px 0px;*/
+    width: 203px;
 
 	p {
 		background: #fff;
@@ -722,8 +719,8 @@ form.search {
 	}
 	
 	.filter-hide {
+		@include background-image("icons/arrow-up.png");
 		background: {
-			image: url("../../image/icons/arrow-up.png");
 			repeat: no-repeat;
 		}
 		cursor: pointer;
@@ -735,9 +732,7 @@ form.search {
 	    width: 24px;
 	    
 	    &:hover {
-	    	background: {
-				image: url("../../image/icons/arrow-up-light.png");
-			}
+	    	@include background-image("icons/arrow-up-light.png");
 	    }
 	}
 	
@@ -752,9 +747,7 @@ form.search {
 		position: relative;
 		
 		.remove-button {
-			background: {
-				image: url("../../image/icons/close.png");
-			}
+			@include background-image("icons/close.png");
 			display: block;
 			height: 16px;
 			position: absolute;
@@ -764,9 +757,7 @@ form.search {
 			z-index: 10;
 			
 			&:hover {
-				background: {
-					image: url("../../image/icons/close_light.png");
-				}	
+				@include background-image("icons/close_light.png");
 			}
 		}
 		
@@ -812,7 +803,7 @@ form.search {
 		text-transform: uppercase;
 		
 		&:before {
-			background-image: url("../../image/icons/close.png");
+			@include background-image("icons/close.png");
 		    content: "";
 		    cursor: pointer;
 		    display: block;

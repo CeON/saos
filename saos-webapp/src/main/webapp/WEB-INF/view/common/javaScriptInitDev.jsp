@@ -12,9 +12,11 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.blockUI.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.clipboard/jquery.clipboard.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.pseudo.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.sticky.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/modernizr.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/bootstrap.min.js"></script>
 
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/cookies.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/courtDivisionSelect.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/searchFormMode.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/searchCriteria.js"></script>

@@ -46,12 +46,13 @@ $(document).ready(function() {
     	removeAll: "#clearAllFilters",
     	parentContainer: ".judgment-list",
     	
+    	fieldGroups: [{filterField: "radio-court-common", container: "#common-court-fields"}],
+    	
     	filters: [{button: ".judge", searchfield: "#input-search-judge", filterfield: "filter-judge"},
 		           {button: ".keyword", searchfield: "#input-search-keywords", filterfield: "filter-keyword", selectFormType: "#radio-court-common"},
 		           {button: ".type", searchfield: "[name='judgmentType']", filterfield: "filter-judgment-type"},
 		           {button: ".date", searchfield: "#datepicker_from, #datepicker_to", filterfield: "filter-judgment-date-from"},
 				   {button: ".court", searchfield: "#select-court", filterfield: "filter-court", selectFormType: "#radio-court-common"}],
-				   
 		
 		advanceFilter: {button: ".division", searchfield: "#select-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
 						url: contextPath + "/search/division/",
@@ -74,6 +75,7 @@ $(document).ready(function() {
     	noFiltersMessage: "#no-filters",
     	filterField: ".filter-item",
     	resultList: ".judgment-list > div:first-child",
-    	buttonHide: "#filter-hide"
+    	buttonHide: "#filter-hide",
+    	stickyOptions: {enabled: true, topSpacing: 10}
     });
 });
