@@ -76,7 +76,10 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
     private void initializeJudgesAndTheirRoles(List<Integer> judgmentIds, SearchResult<Judgment> searchResult){
         setIdsParameterAndExecuteQuery(judgesQuery(), judgmentIds); //important initialize judges before their roles
         List<Integer> judgesIds = extractJudgesIds(searchResult);
-        setIdsParameterAndExecuteQuery(judgesRolesQuery(), judgesIds);
+        if(!judgesIds.isEmpty()){
+            setIdsParameterAndExecuteQuery(judgesRolesQuery(), judgesIds);
+        }
+
     }
 
 
