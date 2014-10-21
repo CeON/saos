@@ -70,80 +70,40 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
     //------------------------ PRIVATE --------------------------
 
     private void initializeCourtCases(List<Integer> judgmentIds){
-        setIdsParameterAndExecuteQuery(courtCasesQuery(), judgmentIds);
+        setIdsParameterAndExecuteQuery(QUERY.COURT_CASES, judgmentIds);
     }
 
     private void initializeJudgesAndTheirRoles(List<Integer> judgmentIds, SearchResult<Judgment> searchResult){
-        setIdsParameterAndExecuteQuery(judgesQuery(), judgmentIds); //important initialize judges before their roles
+        setIdsParameterAndExecuteQuery(QUERY.JUDGES, judgmentIds); //important initialize judges before their roles
         List<Integer> judgesIds = extractJudgesIds(searchResult);
-        setIdsParameterAndExecuteQuery(judgesRolesQuery(), judgesIds);
+        if(!judgesIds.isEmpty()){
+            setIdsParameterAndExecuteQuery(QUERY.JUDGES_ROLES, judgesIds);
+        }
+
     }
 
 
     private void initializeCourtReporters(List<Integer> judgmentIds){
-        setIdsParameterAndExecuteQuery(courtReportersQuery(), judgmentIds);
+        setIdsParameterAndExecuteQuery(QUERY.COURT_REPORTERS, judgmentIds);
     }
 
     private void initializeLegalBases(List<Integer> judgmentIds){
-        setIdsParameterAndExecuteQuery(legalBasesQuery(), judgmentIds);
+        setIdsParameterAndExecuteQuery(QUERY.LEGAL_BASES, judgmentIds);
     }
 
     private void initializeReferencedRegulationsAndTheirLawJournalEntries(List<Integer> judgmentIds, SearchResult<Judgment> searchResult){
-        setIdsParameterAndExecuteQuery(referencedRegulationsQuery(), judgmentIds); //important initialize regulations before their entries
+        setIdsParameterAndExecuteQuery(QUERY.REFERENCED_REGULATION, judgmentIds); //important initialize regulations before their entries
         List<Integer> regulationsIds = extractReferencedRegulationsIds(searchResult);
         if(!regulationsIds.isEmpty()){
-            setIdsParameterAndExecuteQuery(lawJournalEntriesQuery(), extractReferencedRegulationsIds(searchResult));
+            setIdsParameterAndExecuteQuery(QUERY.LAW_JOURNAL_ENTRIES, extractReferencedRegulationsIds(searchResult));
         }
     }
 
     private void initializeCommonCourtKeywords(List<Integer> judgmentIds) {
-        setIdsParameterAndExecuteQuery(commonCourtsKeywordsQuery(), judgmentIds);
+        setIdsParameterAndExecuteQuery(QUERY.COMMON_COURTS_KEYWORDS, judgmentIds);
     }
 
 
-
-    private String courtCasesQuery(){
-        StringBuilder jpql = new StringBuilder(" select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.courtCases_ courtCase where judgment.id in (:ids) ");
-        return jpql.toString();
-    }
-
-    private String judgesQuery(){
-        StringBuilder jpql = new StringBuilder(" select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.judges_  judge where judgment.id in (:ids) ");
-        return jpql.toString();
-    }
-
-    private String judgesRolesQuery(){
-        StringBuilder jpql = new StringBuilder(" select judge from " + Judge.class.getName() + " judge join fetch judge.specialRoles role where judge.id in (:ids)");
-        return jpql.toString();
-    }
-
-
-    private String courtReportersQuery(){
-        StringBuilder jpql = new StringBuilder(" select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.courtReporters_  courtReporters where judgment.id in (:ids) ");
-        return jpql.toString();
-    }
-
-
-    private String legalBasesQuery(){
-        StringBuilder jpql = new StringBuilder(" select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.legalBases_  legalBases where judgment.id in (:ids) ");
-        return jpql.toString();
-    }
-
-    private String referencedRegulationsQuery(){
-        StringBuilder jpql = new StringBuilder(" select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.referencedRegulations_  referencedRegulation where judgment.id in (:ids) ");
-        return jpql.toString();
-    }
-
-
-    private String lawJournalEntriesQuery(){
-        StringBuilder jpql = new StringBuilder(" select regulation from " + JudgmentReferencedRegulation.class.getName() + " regulation join fetch regulation.lawJournalEntry  lawJournalEntry where regulation.id in (:ids) ");
-        return jpql.toString();
-    }
-
-    private String commonCourtsKeywordsQuery(){
-        StringBuilder jpql = new StringBuilder(" select judgment from "+ CommonCourtJudgment.class.getName()+" judgment join fetch judgment.keywords_ keyword where judgment.id in (:ids)");
-        return jpql.toString();
-    }
 
     private void setIdsParameterAndExecuteQuery(String query, List<Integer> ids){
         Query queryObject = entityManager.createQuery(query);
@@ -187,5 +147,16 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
         }
 
         return jpql.toString();
+    }
+
+    private static class QUERY {
+        public static final String COURT_CASES = " select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.courtCases_ courtCase where judgment.id in (:ids) ";
+        public static final String JUDGES = " select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.judges_  judge where judgment.id in (:ids) ";
+        public static final String JUDGES_ROLES = " select judge from " + Judge.class.getName() + " judge join fetch judge.specialRoles role where judge.id in (:ids)";
+        public static final String COURT_REPORTERS = " select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.courtReporters_  courtReporters where judgment.id in (:ids) ";
+        public static final String LEGAL_BASES = " select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.legalBases_  legalBases where judgment.id in (:ids) ";
+        public static final String REFERENCED_REGULATION = " select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.referencedRegulations_  referencedRegulation where judgment.id in (:ids) ";
+        public static final String LAW_JOURNAL_ENTRIES = " select regulation from " + JudgmentReferencedRegulation.class.getName() + " regulation join fetch regulation.lawJournalEntry  lawJournalEntry where regulation.id in (:ids) ";
+        public static final String COMMON_COURTS_KEYWORDS =  " select judgment from "+ CommonCourtJudgment.class.getName()+" judgment join fetch judgment.keywords_ keyword where judgment.id in (:ids)";
     }
 }
