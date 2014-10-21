@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.api.dump.judgment;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -50,19 +51,22 @@ public class DumpJudgmentsController extends ControllersEntityExceptionHandler{
             @RequestParam(value = PAGE_SIZE, required = false, defaultValue = "0") int pageSize,
             @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = "0") int pageNumber,
             @RequestParam(value = JUDGMENT_START_DATE, required = false) String judgmentStartDate,
-            @RequestParam(value = JUDGMENT_END_DATE, required = false) String judgmentEndDate
+            @RequestParam(value = JUDGMENT_END_DATE, required = false) String judgmentEndDate,
+            @RequestParam(value = SINCE_MODIFICATION_DATE, required = false) String modificationDate
     ) throws WrongRequestParameterException {
 
         Pagination pagination = parametersExtractor.extractAndValidatePagination(pageSize, pageNumber);
 
         LocalDate startDate = parametersExtractor.extractLocalDate(judgmentStartDate, JUDGMENT_START_DATE);
         LocalDate endDate = parametersExtractor.extractLocalDate(judgmentEndDate, JUDGMENT_END_DATE);
+        DateTime sinceModificationDateTime = parametersExtractor.extractDateTime(modificationDate, SINCE_MODIFICATION_DATE);
 
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
                 .limit(pagination.getPageSize())
                 .offset(pagination.getPageNumber())
                 .startDate(startDate)
                 .endDate(endDate)
+                .sinceModificationDateTime(sinceModificationDateTime)
                 .upBy(FieldsNames.JUDGMENT_DATE)
                 .filter();
 
@@ -70,7 +74,7 @@ public class DumpJudgmentsController extends ControllersEntityExceptionHandler{
 
 
         Map<String, Object> representation = dumpJudgmentsListSuccessRepresentationBuilder
-                .build(searchResult, pagination, judgmentStartDate, judgmentEndDate, linkTo(DumpJudgmentsController.class).toUriComponentsBuilder());
+                .build(searchResult, pagination, judgmentStartDate, judgmentEndDate, modificationDate, linkTo(DumpJudgmentsController.class).toUriComponentsBuilder());
 
         HttpHeaders httpHeaders = new HttpHeaders();
 

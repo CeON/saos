@@ -1,40 +1,20 @@
 package pl.edu.icm.saos.persistence.model;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
-
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.util.ObjectUtils;
-
 import pl.edu.icm.saos.common.visitor.Visitor;
 import pl.edu.icm.saos.persistence.common.IndexableObject;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -85,6 +65,8 @@ public abstract class Judgment extends IndexableObject {
     private List<JudgmentReferencedRegulation> referencedRegulations = Lists.newArrayList();
     
     private JudgmentType judgmentType;
+
+    private DateTime modificationDate = new DateTime();
     
     //------------------------ GETTERS --------------------------
     
@@ -214,7 +196,13 @@ public abstract class Judgment extends IndexableObject {
     public boolean isInstanceOfSupremeCourtJudgment(){
         return this instanceof SupremeCourtJudgment;
     }
-    
+
+    /**
+     * @return Judgment's last modification date
+     */
+    public DateTime getModificationDate() {
+        return modificationDate;
+    }
 
     //------------------------ LOGIC --------------------------
     
@@ -383,8 +371,11 @@ public abstract class Judgment extends IndexableObject {
             regulation.accept(visitor);
         }
     }
-    
-    
+
+    @PreUpdate
+    protected void onUpdate(){
+        this.modificationDate = new DateTime();
+    }
     
     //------------------------ SETTERS --------------------------
     
@@ -438,6 +429,12 @@ public abstract class Judgment extends IndexableObject {
     @SuppressWarnings("unused") /** for hibernate only */
     private void setReferencedRegulations_(List<JudgmentReferencedRegulation> referencedRegulations) {
         this.referencedRegulations = referencedRegulations;
+    }
+
+
+    @SuppressWarnings("unused") /** for hibernate only */
+    private void setModificationDate(DateTime modificationDate) {
+        this.modificationDate = modificationDate;
     }
 
     

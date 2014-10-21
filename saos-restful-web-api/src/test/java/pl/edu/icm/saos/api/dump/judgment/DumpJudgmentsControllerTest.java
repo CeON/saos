@@ -173,6 +173,7 @@ public class DumpJudgmentsControllerTest {
         int pageNumber = 5;
         String judgmentStartDate = "2011-11-10";
         String judgmentEndDate = "2014-10-25";
+        String sinceModificationDate = "2015-10-25T13:55:18.769+02:00";
 
         //when
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
@@ -180,6 +181,7 @@ public class DumpJudgmentsControllerTest {
                 .param(PAGE_NUMBER, String.valueOf(pageNumber))
                 .param(JUDGMENT_START_DATE, judgmentStartDate)
                 .param(JUDGMENT_END_DATE, judgmentEndDate)
+                .param(SINCE_MODIFICATION_DATE, sinceModificationDate)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -188,6 +190,7 @@ public class DumpJudgmentsControllerTest {
                 .andExpect(jsonPath("$.queryTemplate.pageNumber").value(pageNumber))
                 .andExpect(jsonPath("$.queryTemplate.judgmentStartDate").value(judgmentStartDate))
                 .andExpect(jsonPath("$.queryTemplate.judgmentEndDate").value(judgmentEndDate))
+                .andExpect(jsonPath("$.queryTemplate.sinceModificationDate").value(sinceModificationDate))
         ;
     }
 

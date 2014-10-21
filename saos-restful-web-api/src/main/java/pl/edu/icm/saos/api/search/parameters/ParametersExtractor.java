@@ -3,11 +3,12 @@ package pl.edu.icm.saos.api.search.parameters;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
 import pl.edu.icm.saos.api.services.dates.DatesFactory;
+import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +18,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.removeStart;
-import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
 
 /**
  * Provides functionality for extracting request parameters.
@@ -72,7 +74,7 @@ public class ParametersExtractor {
      * @throws WrongRequestParameterException if value has incorrect format.
      */
     public LocalDate extractLocalDate(String value, String paramName) throws WrongRequestParameterException {
-        if(value == null || StringUtils.isBlank(value))
+        if(StringUtils.isBlank(value))
             return null;
 
         if(!DATE_PATTERN.matcher(value).matches()){
@@ -95,6 +97,29 @@ public class ParametersExtractor {
         LocalDate localDate = DatesFactory.utcLocalDate(year, month, day);
 
         return localDate;
+    }
+
+
+    /**
+     * Extracts dateTime in the format specified by {@link org.joda.time.format.ISODateTimeFormat#dateTimeParser() dateTimeParser}
+     * into {@link org.joda.time.DateTime DateTime}. If value is blank then return <code>null</code>.
+     * @param value to process in the format specified by {@link org.joda.time.format.ISODateTimeFormat#dateTimeParser() dateTimeParser}
+     * @param paramName used for exception message.
+     * @return dateTime representation of value.
+     * @throws WrongRequestParameterException if value has incorrect format.
+     */
+    public DateTime extractDateTime(String value, String paramName) throws WrongRequestParameterException {
+        if(StringUtils.isBlank(value)){
+            return null;
+        }
+
+        try{
+            DateTime dateTime = DateTime.parse(value);
+            return dateTime;
+        }catch (IllegalArgumentException ex){
+            throw new WrongRequestParameterException(paramName, "should have format as is described in the documentation http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTimeParser()");
+        }
+
     }
 
 

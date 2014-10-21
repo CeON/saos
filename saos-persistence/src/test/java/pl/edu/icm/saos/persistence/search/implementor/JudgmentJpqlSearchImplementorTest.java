@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -11,6 +12,7 @@ import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
@@ -36,6 +38,9 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
 
     @Autowired
     private DatabaseSearchService databaseSearchService;
+
+    @Autowired
+    private JudgmentRepository judgmentRepository;
 
     @Test
     public void search__it_should_find_judgments_with_all_basic_fields(){
@@ -79,7 +84,8 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         assertThat("referenced regulation", actualJudgment.getReferencedRegulations(), containsListInAnyOrder(ccJudgment.getReferencedRegulations()));
 
 
-
+        assertThat("last modification date should be not nul", actualJudgment.getModificationDate(), notNullValue());
+        assertThat("last modification date ", actualJudgment.getModificationDate(), is(ccJudgment.getModificationDate()));
     }
 
     @Test
@@ -157,6 +163,35 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
                 .collect(Collectors.toList());
 
         assertThat(judgmentsIds, is(sortedJudgmentsIds));
+    }
+
+    @Test
+    public void search__it_should_find_judgments_that_are_modified_after_first_search(){
+        //given
+        List<CommonCourtJudgment> judgments = testJudgmentFactory.createSimpleCcJudgments(true);
+
+        JudgmentSearchFilter simpleSearchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+
+
+        //when & then
+        SearchResult<Judgment> firstSearchResult = databaseSearchService.search(simpleSearchFilter);
+
+        assertThat("should find all elements", firstSearchResult.getResultRecords().size(), is(judgments.size()));
+
+        JudgmentSearchFilter filterWithModificationDate = JudgmentSearchFilter.builder()
+                .sinceModificationDateTime(new DateTime())
+                .filter();
+
+        Judgment judgment = judgments.get(0);
+        judgment.setDecision("some updated decision");
+        judgmentRepository.save(judgment);
+
+        SearchResult<Judgment> secondSearchResult = databaseSearchService.search(filterWithModificationDate);
+
+        assertThat("should find only one recently modified element", secondSearchResult.getResultRecords().size(), is(1));
+        assertThat("should id match", secondSearchResult.getResultRecords().get(0).getId(), is(judgment.getId()));
 
     }
 

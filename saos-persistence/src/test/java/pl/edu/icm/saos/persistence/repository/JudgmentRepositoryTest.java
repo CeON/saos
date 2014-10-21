@@ -1,12 +1,5 @@
 package pl.edu.icm.saos.persistence.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import org.hibernate.LazyInitializationException;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -17,15 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
-import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.persistence.model.*;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Łukasz Dumiszewski
@@ -180,6 +172,25 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         assertNotNull(actualJudgment.getIndexedDate());
         assertTrue(beforeIndexed.isBefore(actualJudgment.getIndexedDate()));
         assertTrue(afterIndexed.isAfter(actualJudgment.getCreationDate()));
+    }
+
+    @Test
+    public void findOne_it_should_return_correct_modification_date_value(){
+        //given
+        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        judgmentRepository.save(judgment);
+        DateTime firstModificationDate = judgment.getModificationDate();
+
+        //when
+        judgment.setDecision("some decision");
+        waitForTimeChange();
+        judgmentRepository.save(judgment);
+        DateTime secondModificationDate = judgmentRepository.findOne(judgment.getId()).getModificationDate();
+
+        //then
+        assertNotNull(firstModificationDate);
+        assertNotNull(secondModificationDate);
+        assertTrue(secondModificationDate.isAfter(firstModificationDate));
     }
     
     
