@@ -86,7 +86,7 @@ public class ScjImportProcessProcessorTest {
         verify(sourceScJudgmentParser).parse(rJudgment.getJsonContent());
         verify(sourceScJudgmentConverter).convertJudgment(sourceScJudgment);
         verify(scJudgmentRepository).findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId());
-        verify(rawSourceScJudgmentRepository).saveAndFlush(rJudgment);
+        verify(rawSourceScJudgmentRepository).save(rJudgment);
         
         verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, scJudgmentRepository);
     }
@@ -129,7 +129,7 @@ public class ScjImportProcessProcessorTest {
         verify(sourceScJudgmentConverter).convertJudgment(sourceScJudgment);
         verify(scJudgmentRepository).findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId());
         verify(judgmentOverwriter).overwriteJudgment(oldScJudgment, scJudgment);
-        verify(rawSourceScJudgmentRepository).saveAndFlush(rJudgment);
+        verify(rawSourceScJudgmentRepository).save(rJudgment);
          
         verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, scJudgmentRepository, judgmentOverwriter);
     }

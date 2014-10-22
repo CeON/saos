@@ -75,7 +75,7 @@ public class ScjImportProcessProcessor implements ItemProcessor<RawSourceScJudgm
     
     private void markProcessed(RawSourceScJudgment rJudgment) {
         rJudgment.markProcessed();
-        rawSourceScJudgmentRepository.saveAndFlush(rJudgment);
+        rawSourceScJudgmentRepository.save(rJudgment);
     }
 
 
