@@ -39,7 +39,7 @@ public class CcJudgmentJaxb2MarshallerTest {
     private static final LocalDate JUDGMENT_DATE = new LocalDate(2012,01,26);
     
     private static final String PUBLICATION_DATE_STR = "2013-04-12 01:01:05.0 CEST";
-    private static final DateTime PUBLICATION_DATE = new LocalDateTime(2013,04,12,01,01,05).toDateTime(DateTimeZone.forID("UTC"));
+    private static final DateTime PUBLICATION_DATE = new LocalDateTime(2013,04,12,01,01,05).toDateTime(DateTimeZone.UTC);
     
     @Before
     public void before() {

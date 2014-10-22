@@ -354,7 +354,7 @@ public class SourceScJudgmentExtractorTest {
 
 
     @Test
-    public void convertSpecific_SuperemeCourtChamberDivision() {
+    public void convertSpecific_SupremeCourtChamberDivision() {
         
         // given
         
@@ -379,7 +379,7 @@ public class SourceScJudgmentExtractorTest {
        
     
     @Test
-    public void convertSpecific_SuperemeCourtChamberDivision_Blank() {
+    public void convertSpecific_SupremeCourtChamberDivision_Blank() {
         
         // given
         

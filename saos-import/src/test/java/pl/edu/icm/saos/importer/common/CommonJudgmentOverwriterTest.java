@@ -186,6 +186,48 @@ public class CommonJudgmentOverwriterTest {
         
     }
     
+    
+    @Test
+    public void overwriteJudgment_Judges_NameSameRolesChanged() {
+        
+        // given
+        
+        Judgment oldJudgment = createJudgment();
+        
+        Judge annaNowakOld = new Judge("Anna Nowak", JudgeRole.PRESIDING_JUDGE);
+        Judge janNowakOld = new Judge("Jan Nowak", JudgeRole.REPORTING_JUDGE);
+        
+        oldJudgment.addJudge(janNowakOld);
+        oldJudgment.addJudge(annaNowakOld);
+        
+        Judgment newJudgment = createJudgment();
+        
+        Judge annaNowakNew = new Judge("Anna Nowak", JudgeRole.REPORTING_JUDGE);
+        Judge janNowakNew = new Judge("Jan Nowak", JudgeRole.PRESIDING_JUDGE, JudgeRole.REASONS_FOR_JUDGMENT_AUTHOR);
+
+        newJudgment.addJudge(annaNowakNew);
+        newJudgment.addJudge(janNowakNew);
+        
+        
+        // execute
+        
+        judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        
+        
+        // assert
+        
+        assertEquals(2, oldJudgment.getJudges().size());
+        assertTrue(annaNowakNew == oldJudgment.getJudge(annaNowakNew.getName()));
+        assertTrue(janNowakNew == oldJudgment.getJudge(janNowakNew.getName()));
+        
+        assertEquals(2, newJudgment.getJudges().size());
+        assertTrue(annaNowakNew == newJudgment.getJudge(annaNowakNew.getName()));
+        assertTrue(janNowakNew == newJudgment.getJudge(janNowakNew.getName()));
+        
+        
+    }
+    
+    
     @Test
     public void overwriteJudgment_CourtReporters() {
         Judgment oldJudgment = createJudgment();

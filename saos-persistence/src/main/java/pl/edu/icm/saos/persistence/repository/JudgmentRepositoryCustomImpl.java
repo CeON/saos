@@ -21,8 +21,13 @@ import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 @Service("judgmentRepositoryCustom")
 public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
 
+    
     @Autowired
     private EntityManager entityManager;
+    
+    
+    
+    //------------------------ LOGIC --------------------------
     
     @Override
     @Transactional
