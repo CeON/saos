@@ -65,7 +65,7 @@ public class ScChamberDivisionRepositoryTest extends PersistenceTestSupport {
         SupremeCourtChamberDivision division = new SupremeCourtChamberDivision();
         division.setFullName(divisionFullName);
         division.setName(divisionFullName);
-        division.setSupremeCourtChamber(scChamber);
+        division.setScChamber(scChamber);
         scChamberDivisionRepository.save(division);
         return division;
     }

@@ -332,9 +332,14 @@ public class SourceScJudgmentExtractorTest {
         when(scChamberNameNormalizer.normalize(sJudgment.getSupremeCourtChambers().get(0))).thenReturn(normalizedChamberNames.get(0));
         when(scChamberNameNormalizer.normalize(sJudgment.getSupremeCourtChambers().get(1))).thenReturn(normalizedChamberNames.get(1));
         
-        List<SupremeCourtChamber> scChambers = Lists.newArrayList(new SupremeCourtChamber(), new SupremeCourtChamber());
-        when(scChamberCreator.getOrCreateScChamber(normalizedChamberNames.get(0))).thenReturn(scChambers.get(0));
-        when(scChamberCreator.getOrCreateScChamber(normalizedChamberNames.get(1))).thenReturn(scChambers.get(1));
+        SupremeCourtChamber scChamber0 = new SupremeCourtChamber();
+        scChamber0.setName(normalizedChamberNames.get(0));
+        
+        SupremeCourtChamber scChamber1 = new SupremeCourtChamber();
+        scChamber1.setName(normalizedChamberNames.get(1));
+        
+        when(scChamberCreator.getOrCreateScChamber(normalizedChamberNames.get(0))).thenReturn(scChamber0);
+        when(scChamberCreator.getOrCreateScChamber(normalizedChamberNames.get(1))).thenReturn(scChamber1);
         
         // execute
         
@@ -343,7 +348,7 @@ public class SourceScJudgmentExtractorTest {
         
         // assert
 
-        assertThat(scJudgment.getSupremeCourtChambers(), Matchers.containsInAnyOrder(scChambers.toArray()));
+        assertThat(scJudgment.getScChambers(), Matchers.containsInAnyOrder(scChamber0, scChamber1));
     }
 
 
@@ -367,7 +372,7 @@ public class SourceScJudgmentExtractorTest {
         
         
         // assert
-        assertTrue(scJudgment.getSupremeCourtChamberDivision() == scDivision);
+        assertTrue(scJudgment.getScChamberDivision() == scDivision);
         
         
     }
@@ -388,7 +393,7 @@ public class SourceScJudgmentExtractorTest {
         
         
         // assert
-        assertNull(scJudgment.getSupremeCourtChamberDivision());
+        assertNull(scJudgment.getScChamberDivision());
         
         
     }
@@ -419,7 +424,7 @@ public class SourceScJudgmentExtractorTest {
         
         
         // assert
-        assertTrue(scJudgment.getSupremeCourtJudgmentForm() == scjForm);
+        assertTrue(scJudgment.getScJudgmentForm() == scjForm);
         
         
     }

@@ -44,7 +44,7 @@ public class CcJudgmentJaxb2MarshallerTest {
     @Before
     public void before() {
         CcJaxbJodaDateTimeAdapter.setCcjImportDateTimeFormatter(ccjImportDateTimeFormatter);
-        Mockito.when(ccjImportDateTimeFormatter.parse(PUBLICATION_DATE_STR)).thenReturn(PUBLICATION_DATE);
+        Mockito.when(ccjImportDateTimeFormatter.parse(PUBLICATION_DATE_STR.substring(0, 21))).thenReturn(PUBLICATION_DATE);
         marshaller.setClassesToBeBound(SourceCcJudgment.class);
     }
     

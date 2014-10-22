@@ -11,13 +11,17 @@ import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import com.google.common.base.Preconditions;
 
 /**
+ * Implementation of {@link JudgmentOverwriter} that overwrites all judgment data accessible from {@link Judgment}
+ * 
  * @author Łukasz Dumiszewski
  */
-@Service("judgmentCommonDataOverwriter")
-public class JudgmentCommonDataOverwriter implements JudgmentOverwriter<Judgment> {
+@Service("commonJudgmentOverwriter")
+public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
 
     
+    @Override
     public final void overwriteJudgment(Judgment oldJudgment, Judgment newJudgment) {
+        
         Preconditions.checkNotNull(oldJudgment);
         Preconditions.checkNotNull(newJudgment);
         

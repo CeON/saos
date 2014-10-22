@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.powermock.reflect.Whitebox;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
@@ -21,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.batch.BatchTestSupport;
 import pl.edu.icm.saos.batch.JobForcingExecutor;
-import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
@@ -164,7 +164,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         // preparing new rawJudgment version
         
         RawSourceCcJudgment rJudgment = rawCcJudgmentRepository.findOne(12420);
-        ReflectionFieldSetter.setField(rJudgment, "processed", false);
+        Whitebox.setInternalState(rJudgment, "processed", false);
         rJudgment.setTextMetadata(rJudgment.getTextMetadata().replace("<chairman>Katarzyna Oleksiak</chairman>", "<chairman>Anna Nowak</chairman>"));
         rJudgment.setTextMetadata(rJudgment.getTextMetadata().replace("<type>SENTENCE, REASON</type>", "<type>DECISION</type>"));
         rawCcJudgmentRepository.save(rJudgment);

@@ -40,13 +40,13 @@ public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller<Supre
     }
     
     private void fillChambers(SolrInputDocument doc, SupremeCourtJudgment judgment) {
-        SupremeCourtChamberDivision division = judgment.getSupremeCourtChamberDivision();
+        SupremeCourtChamberDivision division = judgment.getScChamberDivision();
         if (division != null) {
             fieldAdder.addField(doc, JudgmentIndexField.SC_DIVISION_ID, String.valueOf(division.getId()));
             fieldAdder.addField(doc, JudgmentIndexField.SC_DIVISION_NAME, null); // TODO fill when it will be available
         }
         
-        List<SupremeCourtChamber> chambers = judgment.getSupremeCourtChambers();
+        List<SupremeCourtChamber> chambers = judgment.getScChambers();
         if (chambers != null) {
             chambers.forEach(x -> { 
                 fieldAdder.addFieldWithAttributes(doc,

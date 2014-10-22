@@ -1,18 +1,36 @@
 package pl.edu.icm.saos.persistence.common;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.chrono.ISOChronology;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.icm.saos.persistence.model.*;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.List;
+import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 
 /**
  * @author Łukasz Dumiszewski
@@ -106,6 +124,7 @@ public class TestJudgmentFactory {
     @Transactional
     public CommonCourtJudgment createFullCcJudgment(boolean save) {
         CommonCourtJudgment judgment = new CommonCourtJudgment();
+        judgment.setJudgmentType(JudgmentType.SENTENCE);
         judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphanumeric(10)));
 
         judgment.setJudgmentDate(new LocalDate(2020, 10, 24 , ISOChronology.getInstanceUTC()));
@@ -170,6 +189,63 @@ public class TestJudgmentFactory {
         return judgment;
     }
 
+    
+    @Transactional
+    public SupremeCourtJudgment createFullScJudgment(boolean save) {
+        SupremeCourtJudgment judgment = new SupremeCourtJudgment();
+        judgment.setJudgmentType(JudgmentType.RESOLUTION);
+        
+        judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphanumeric(10)));
+
+        judgment.setJudgmentDate(new LocalDate(2020, 10, 24 , ISOChronology.getInstanceUTC()));
+
+        judgment.addCourtReporter(RandomStringUtils.randomAlphanumeric(12));
+        judgment.addCourtReporter("Jan Kowalski");
+        Judge judge = new Judge(RandomStringUtils.randomAlphanumeric(12), JudgeRole.PRESIDING_JUDGE);
+        judgment.addJudge(judge);
+
+        judgment.setDecision(RandomStringUtils.randomAlphanumeric(12));
+        
+        SupremeCourtChamber scChamber = new SupremeCourtChamber();
+        scChamber.setName(RandomStringUtils.randomAlphanumeric(12));
+        judgment.addScChamber(scChamber);
+        
+        SupremeCourtChamberDivision scChamberDivision = new SupremeCourtChamberDivision();
+        scChamberDivision.setName(RandomStringUtils.randomAlphanumeric(8));
+        scChamberDivision.setFullName(RandomStringUtils.randomAlphanumeric(15));
+        scChamberDivision.setScChamber(scChamber);
+        judgment.setScChamberDivision(scChamberDivision);
+        
+        SupremeCourtJudgmentForm scjForm = new SupremeCourtJudgmentForm();
+        scjForm.setName("uchwała 7 sędziów sądu najwyższego");
+        judgment.setScJudgmentForm(scjForm);
+        
+        judgment.setPersonnelType(PersonnelType.SEVEN_PERSON);
+        
+        JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
+        sourceInfo.setPublisher("S I Publisher");
+        sourceInfo.setPublicationDate(new DateTime());
+        sourceInfo.setReviser("S I Reviser");
+        sourceInfo.setSourceCode(SourceCode.COMMON_COURT);
+        sourceInfo.setSourceJudgmentId(RandomStringUtils.randomAlphanumeric(15));
+        sourceInfo.setSourceJudgmentUrl("http://iiiiiii/sssss/pl");
+        judgment.setSourceInfo(sourceInfo);
+        
+        
+        judgment.addLegalBase("ABC");
+        judgment.addLegalBase("BCA");
+
+        if (save) {
+            entityManager.persist(scChamber);
+            entityManager.persist(scChamberDivision);
+            entityManager.persist(scjForm);
+            entityManager.persist(judgment);
+            entityManager.flush();
+        }
+        return judgment;
+    }
+
+    
     @Transactional
     public List<CommonCourtJudgment> createSimpleCcJudgments(boolean save){
         CommonCourtJudgment firstJudgment = new CommonCourtJudgment();

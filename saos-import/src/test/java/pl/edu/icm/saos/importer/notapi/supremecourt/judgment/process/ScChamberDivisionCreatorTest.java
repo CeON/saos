@@ -121,7 +121,7 @@ public class ScChamberDivisionCreatorTest {
         
         // assert
         
-        assertTrue(scChamber == scChamberDivision.getSupremeCourtChamber());
+        assertTrue(scChamber == scChamberDivision.getScChamber());
         assertEquals(divisionFullName, scChamberDivision.getFullName());
         assertEquals(divisionName, scChamberDivision.getName());
         

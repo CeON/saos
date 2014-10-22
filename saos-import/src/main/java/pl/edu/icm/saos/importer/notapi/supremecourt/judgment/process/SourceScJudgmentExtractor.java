@@ -155,15 +155,21 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     @Override
     public void convertSpecific(SupremeCourtJudgment judgment, SourceScJudgment sourceJudgment) {
         judgment.setPersonnelType(extractPersonnelType(sourceJudgment));
-        judgment.setSupremeCourtJudgmentForm(extractSupremeCourtJudgmentForm(sourceJudgment));
-        judgment.setSupremeCourtChambers(extractSupremeCourtChambers(sourceJudgment));
-        judgment.setSupremeCourtChamberDivision(extractSupremeCourtChamberDivision(sourceJudgment));
+        judgment.setScJudgmentForm(extractSupremeCourtJudgmentForm(sourceJudgment));
+        extractSupremeCourtChambers(sourceJudgment).stream().forEach(scChamber->addScChamber(judgment, scChamber));
+        judgment.setScChamberDivision(extractSupremeCourtChamberDivision(sourceJudgment));
     }
 
     
     
     
     //------------------------ PRIVATE --------------------------
+    
+    private void addScChamber(SupremeCourtJudgment judgment, SupremeCourtChamber scChamber) {
+        if (!judgment.containsScChamber(scChamber)) {
+            judgment.addScChamber(scChamber);
+        }
+    }
     
     private PersonnelType extractPersonnelType(SourceScJudgment sourceJudgment) {
         if (sourceJudgment.getPersonnelType() == null) {

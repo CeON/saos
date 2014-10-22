@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.batch.item.xml.StaxEventItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +19,11 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.client.RestTemplate;
 
 import pl.edu.icm.saos.common.xml.XmlTagContentExtractor;
+import pl.edu.icm.saos.importer.common.DelegatingJudgmentOverwriter;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.common.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.JudgmentConverterImpl;
+import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.commoncourt.court.XmlCommonCourt;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.SourceCcJudgmentExtractor;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.CcJaxbJodaDateTimeAdapter;
@@ -44,6 +47,11 @@ public class CommonCourtImportConfiguration {
     
     @Autowired 
     private SourceCcJudgmentExtractor judgmentDataExtractor;
+    
+    @Autowired 
+    @Qualifier("ccSpecificJudgmentOverwriter")
+    private JudgmentOverwriter<CommonCourtJudgment> ccSpecificJudgmentOverwriter;
+    
     
     //-------------------------- CommonCourt judgment importer --------------------------
     
@@ -94,6 +102,15 @@ public class CommonCourtImportConfiguration {
         judgmentConverter.setJudgmentDataExtractor(judgmentDataExtractor);
         return judgmentConverter;
     }
+    
+    
+    @Bean
+    public JudgmentOverwriter<CommonCourtJudgment> ccJudgmentOverwriter() {
+        DelegatingJudgmentOverwriter<CommonCourtJudgment> ccJudgmentOverwriter = new DelegatingJudgmentOverwriter<>();
+        ccJudgmentOverwriter.setSpecificJudgmentOverwriter(ccSpecificJudgmentOverwriter);
+        return ccJudgmentOverwriter;
+    }
+    
     
     @PostConstruct
     public void postConstruct() {

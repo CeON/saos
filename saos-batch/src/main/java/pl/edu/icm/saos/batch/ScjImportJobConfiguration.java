@@ -17,6 +17,7 @@ import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.ScjImportD
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.ScjImportDownloadWriter;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessReader;
+import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessWriter;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
@@ -63,6 +64,8 @@ public class ScjImportJobConfiguration {
     @Autowired
     private ScjImportProcessWriter scjImportProcessWriter;
     
+    @Autowired
+    private ScjImportProcessStepExecutionListener scjImportProcessStepExecutionListener;
     
 
     
@@ -100,6 +103,7 @@ public class ScjImportJobConfiguration {
             .reader(scjImportProcessReader)
             .processor(scjImportProcessProcessor)
             .writer(scjImportProcessWriter)
+            .listener(scjImportProcessStepExecutionListener)
             .build();
     } 
     
