@@ -43,7 +43,7 @@ public class ScjImportProcessProcessor implements ItemProcessor<RawSourceScJudgm
     @Override
     public SupremeCourtJudgment process(RawSourceScJudgment rJudgment) {
         
-        log.trace("Processing: {}", rJudgment);
+        log.debug("Processing: {}", rJudgment);
 
         markProcessed(rJudgment);
         
@@ -57,7 +57,7 @@ public class ScjImportProcessProcessor implements ItemProcessor<RawSourceScJudgm
         
         if (oldScJudgment != null) {
             
-            log.trace("same found (rJudgmentId:{}, judgmentId: {}), updating...", rJudgment.getId(), oldScJudgment.getId());
+            log.debug("same found (rJudgmentId:{}, judgmentId: {}), updating...", rJudgment.getId(), oldScJudgment.getId());
             
             judgmentOverwriter.overwriteJudgment(oldScJudgment, scJudgment);
             
