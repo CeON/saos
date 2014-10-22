@@ -27,6 +27,8 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
+import com.google.common.collect.Lists;
+
 /**
  * @author Łukasz Dumiszewski
  */
@@ -40,6 +42,9 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Autowired
     private TestJudgmentFactory testJudgmentFactory;
+    
+    
+    
     
     @Test
     public void testSaveAndGet() {
@@ -182,6 +187,16 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         assertTrue(afterIndexed.isAfter(actualJudgment.getCreationDate()));
     }
     
+    
+    @Test
+    public void delete_JudgmentIds() {
+        Judgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
+        Judgment scJudgment = testJudgmentFactory.createFullScJudgment(true);
+        
+        judgmentRepository.delete(Lists.newArrayList(ccJudgment.getId(), scJudgment.getId()));
+        
+        
+    }
     
     //------------------------ PRIVATE --------------------------
     

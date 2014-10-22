@@ -19,14 +19,14 @@ import pl.edu.icm.saos.persistence.common.DataObject;
  * @author Łukasz Dumiszewski
  */
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(name="nameChamberUnique", columnNames={"name", "fk_supreme_court_chamber"})})
+@Table(uniqueConstraints={@UniqueConstraint(name="nameChamberUnique", columnNames={"name", "fk_sc_chamber"})})
 @Cacheable(true)
 @SequenceGenerator(name = "seq_supreme_court_chamber_div", allocationSize = 1, sequenceName = "seq_supreme_court_chamber_div")
 public class SupremeCourtChamberDivision extends DataObject {
 
     private String fullName;
     private String name;
-    private SupremeCourtChamber supremeCourtChamber;
+    private SupremeCourtChamber scChamber;
 
     
     //------------------------ GETTERS --------------------------
@@ -39,8 +39,8 @@ public class SupremeCourtChamberDivision extends DataObject {
     }
     
     @ManyToOne(optional=false)
-    public SupremeCourtChamber getSupremeCourtChamber() {
-        return supremeCourtChamber;
+    public SupremeCourtChamber getScChamber() {
+        return scChamber;
     }
 
     /**
@@ -64,8 +64,8 @@ public class SupremeCourtChamberDivision extends DataObject {
     
     //------------------------ SETTERS --------------------------
     
-    public void setSupremeCourtChamber(SupremeCourtChamber supremeCourtChamber) {
-        this.supremeCourtChamber = supremeCourtChamber;
+    public void setScChamber(SupremeCourtChamber scChamber) {
+        this.scChamber = scChamber;
     }
 
     public void setFullName(String fullName) {
@@ -88,7 +88,7 @@ public class SupremeCourtChamberDivision extends DataObject {
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime
                 * result
-                + ((supremeCourtChamber == null) ? 0 : supremeCourtChamber
+                + ((scChamber == null) ? 0 : scChamber
                         .hashCode());
         return result;
     }
@@ -112,10 +112,10 @@ public class SupremeCourtChamberDivision extends DataObject {
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (supremeCourtChamber == null) {
-            if (other.supremeCourtChamber != null)
+        if (scChamber == null) {
+            if (other.scChamber != null)
                 return false;
-        } else if (!supremeCourtChamber.equals(other.supremeCourtChamber))
+        } else if (!scChamber.equals(other.scChamber))
             return false;
         return true;
     }

@@ -44,11 +44,14 @@ public class DbCleaner {
         deleteAllSql("judgment_legal_bases");
         deleteAll(CourtCase.class);
         
-        deleteAll(SupremeCourtChamberDivision.class);
-        deleteAll(SupremeCourtChamber.class);
-        deleteAll(SupremeCourtJudgmentForm.class);
+        deleteAllSql("supreme_court_judgment_chamber");
         
         deleteAll(Judgment.class);
+        
+        deleteAll(SupremeCourtJudgmentForm.class);
+        deleteAll(SupremeCourtChamberDivision.class);
+        deleteAll(SupremeCourtChamber.class);
+        
         deleteAll(CommonCourtDivision.class);
         deleteAll(CommonCourtDivisionType.class);
         deleteAll(CommonCourt.class);

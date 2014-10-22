@@ -4,9 +4,6 @@ dependencies {
         testCompile project(path:':saos-persistence', configuration:'testArtifacts')
         compile project(':saos-persistence')
 
-        testCompile lib.'org.powermock:powermock-api-mockito'
-        testCompile lib.'org.powermock:powermock-module-junit4'
-
             
         compile lib.'commons-collections:commons-collections'
         compile lib.'org.springframework:spring-context'

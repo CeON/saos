@@ -11,8 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 /**
  * 
@@ -26,7 +30,7 @@ import pl.edu.icm.saos.persistence.common.DataObject;
 public class SupremeCourtChamber extends DataObject {
 
     private String name;
-    private List<SupremeCourtChamberDivision> divisions;
+    private List<SupremeCourtChamberDivision> divisions = Lists.newArrayList();
 
     
     //------------------------ GETTERS --------------------------
@@ -38,20 +42,34 @@ public class SupremeCourtChamber extends DataObject {
         return id;
     }
     
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="supremeCourtChamber")
-    public List<SupremeCourtChamberDivision> getDivisions() {
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="scChamber")
+    private List<SupremeCourtChamberDivision> getDivisions_() {
         return divisions;
     }
 
+    @Transient
+    public List<SupremeCourtChamberDivision> getDivisions() {
+        return ImmutableList.copyOf(getDivisions_());
+    }
+    
     @Column(unique=true, nullable=false)
     public String getName() {
         return name;
     }
 
     
+    //------------------------ LOGIC --------------------------
+    
+    public void addDivision(SupremeCourtChamberDivision division) {
+        division.setScChamber(this);
+        divisions.add(division);
+    }
+    
+    
     //------------------------ SETTERS --------------------------
     
-    public void setDivisions(List<SupremeCourtChamberDivision> divisions) {
+    @SuppressWarnings("unused") // for hibernate
+    private void setDivisions_(List<SupremeCourtChamberDivision> divisions) {
         this.divisions = divisions;
     }
 

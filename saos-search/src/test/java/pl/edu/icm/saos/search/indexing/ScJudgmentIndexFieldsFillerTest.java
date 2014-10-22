@@ -18,7 +18,6 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.StringListMap;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
-import com.google.common.collect.Lists;
 import com.tngtech.java.junit.dataprovider.DataProvider;
 import com.tngtech.java.junit.dataprovider.DataProviderRunner;
 import com.tngtech.java.junit.dataprovider.UseDataProvider;
@@ -54,12 +53,13 @@ public class ScJudgmentIndexFieldsFillerTest {
         });
 
         // chambers
-        SupremeCourtChamber firstChamber = BuildersFactory.supremeCourtChamber(11).build();
-        SupremeCourtChamber secondChamber = BuildersFactory.supremeCourtChamber(12).build();
+        SupremeCourtChamber firstChamber = BuildersFactory.supremeCourtChamber(11).name("ABC").build();
+        SupremeCourtChamber secondChamber = BuildersFactory.supremeCourtChamber(12).name("DEF").build();
         SupremeCourtChamberDivision division = BuildersFactory.supremeCourtChamberDivision(111).build();
         
         SupremeCourtJudgment chambersJudgment = BuildersFactory.supremeCourtJugmentWrapper(1)
-                .chambers(Lists.newArrayList(firstChamber, secondChamber))
+                .chamber(firstChamber)
+                .chamber(secondChamber)
                 .division(division)
                 .build();
         Map<String, List<String>> chambersFields = StringListMap.of(new String[][] {

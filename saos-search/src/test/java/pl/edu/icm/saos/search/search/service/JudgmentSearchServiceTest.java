@@ -307,7 +307,7 @@ public class JudgmentSearchServiceTest {
         doc.addField("keyword", "przestępstwo przeciwko porządkowi publicznemu");
         
         try (InputStream inputStream = new ClassPathResource(CONTENT_FIELD_FILE_41808).getInputStream()) {
-            doc.addField("content", IOUtils.toString(inputStream));
+            doc.addField("content", IOUtils.toString(inputStream, "UTF-8"));
         }
         
         return doc;
@@ -354,7 +354,7 @@ public class JudgmentSearchServiceTest {
         
         
         try (InputStream inputStream = new ClassPathResource(CONTENT_FIELD_FILE_1961).getInputStream()) {
-            doc.addField("content", IOUtils.toString(inputStream));
+            doc.addField("content", IOUtils.toString(inputStream, "UTF-8"));
         }
         
         return doc;

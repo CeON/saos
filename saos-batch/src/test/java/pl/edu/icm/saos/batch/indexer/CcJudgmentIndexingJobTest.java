@@ -51,8 +51,6 @@ import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
-import com.google.common.collect.Lists;
-
 /**
  * @author madryk
  */
@@ -260,8 +258,7 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         SupremeCourtChamber firstChamber = new SupremeCourtChamber();
         SupremeCourtChamber secondChamber = new SupremeCourtChamber();
         SupremeCourtChamberDivision division = new SupremeCourtChamberDivision();
-        division.setSupremeCourtChamber(firstChamber);
-        firstChamber.setDivisions(Lists.newArrayList(division));
+        firstChamber.addDivision(division);
         
         // TODO save firstChamber and secondChamber into repository
         // scChamberRepository.save(firstChamber);

@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.persistence.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -9,5 +11,11 @@ import pl.edu.icm.saos.persistence.model.Judgment;
  */
 public interface JudgmentRepository extends JudgmentCommonRepository<Judgment>, JpaRepository<Judgment, Integer>, JudgmentRepositoryCustom {
 
+    
+    /**
+     * Deletes fast all the {@link Judgment}s with the given ids using just a few jpql/sql queries
+     */
+    public void delete(List<Integer> judgmentIds);
+    
     
 }

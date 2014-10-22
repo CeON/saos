@@ -21,6 +21,7 @@ public class ScjImportProcessWriter implements ItemWriter<SupremeCourtJudgment> 
     @Override
     public void write(List<? extends SupremeCourtJudgment> judgments) {
         judgmentRepository.save(judgments);
+        judgmentRepository.flush();
         
     }
 

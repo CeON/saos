@@ -47,7 +47,11 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     
     private ScChamberDivisionCreator scChamberDivisionCreator;
     
-     
+    
+    
+    
+    //------------------------ LOGIC --------------------------
+    
     
     @Override
     public SupremeCourtJudgment createNewJudgment() {
@@ -155,9 +159,9 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     @Override
     public void convertSpecific(SupremeCourtJudgment judgment, SourceScJudgment sourceJudgment) {
         judgment.setPersonnelType(extractPersonnelType(sourceJudgment));
-        judgment.setSupremeCourtJudgmentForm(extractSupremeCourtJudgmentForm(sourceJudgment));
-        judgment.setSupremeCourtChambers(extractSupremeCourtChambers(sourceJudgment));
-        judgment.setSupremeCourtChamberDivision(extractSupremeCourtChamberDivision(sourceJudgment));
+        judgment.setScJudgmentForm(extractSupremeCourtJudgmentForm(sourceJudgment));
+        extractSupremeCourtChambers(sourceJudgment).stream().filter(scChamber->!judgment.containsScChamber(scChamber)).forEach(scChamber->judgment.addScChamber(scChamber));
+        judgment.setScChamberDivision(extractSupremeCourtChamberDivision(sourceJudgment));
     }
 
     
@@ -165,6 +169,7 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     
     //------------------------ PRIVATE --------------------------
     
+     
     private PersonnelType extractPersonnelType(SourceScJudgment sourceJudgment) {
         if (sourceJudgment.getPersonnelType() == null) {
             return null;
