@@ -3,7 +3,6 @@ package pl.edu.icm.saos.api.search.parameters;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -98,30 +97,6 @@ public class ParametersExtractor {
 
         return localDate;
     }
-
-
-    /**
-     * Extracts dateTime in the format specified by {@link org.joda.time.format.ISODateTimeFormat#dateTimeParser() dateTimeParser}
-     * into {@link org.joda.time.DateTime DateTime}. If value is blank then return <code>null</code>.
-     * @param value to process in the format specified by {@link org.joda.time.format.ISODateTimeFormat#dateTimeParser() dateTimeParser}
-     * @param paramName used for exception message.
-     * @return dateTime representation of value.
-     * @throws WrongRequestParameterException if value has incorrect format.
-     */
-    public DateTime extractDateTime(String value, String paramName) throws WrongRequestParameterException {
-        if(StringUtils.isBlank(value)){
-            return null;
-        }
-
-        try{
-            DateTime dateTime = DateTime.parse(value);
-            return dateTime;
-        }catch (IllegalArgumentException ex){
-            throw new WrongRequestParameterException(paramName, "should have format as is described in the documentation http://joda-time.sourceforge.net/apidocs/org/joda/time/format/ISODateTimeFormat.html#dateTimeParser()");
-        }
-
-    }
-
 
     /**
      * Constructs Pagination object (sets default values for offset and limit if necessary)

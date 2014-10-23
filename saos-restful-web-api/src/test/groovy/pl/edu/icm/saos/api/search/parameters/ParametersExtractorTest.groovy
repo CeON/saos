@@ -1,10 +1,8 @@
 package pl.edu.icm.saos.api.search.parameters
 
-import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException
 import spock.lang.Specification
-
 /**
  * @author pavtel
  */
@@ -138,46 +136,5 @@ class ParametersExtractorTest extends Specification {
         then:
             actual == null
     }
-
-    def "it should return null for blank dateTime representation"(){
-        given:
-            def blankValue = ""
-
-        when:
-            def actual = parametersExtractor.extractDateTime(blankValue, "some param name")
-
-        then:
-            actual == null
-    }
-
-    def "it should return correct value of dateTime"(){
-        given:
-            DateTime dateTime = new DateTime()
-
-        when:
-            def actual = parametersExtractor.extractDateTime(dateTime.toString(), "some param name")
-
-        then:
-            dateTime == actual
-    }
-
-    def "it should throw WrongRequestParameterException if dateTime format is incorrect"(){
-        given:
-            def incorrectValueFormat = "20ZXY-#dew"
-
-        when:
-            parametersExtractor.extractDateTime(incorrectValueFormat, "some param name")
-
-        then:
-            thrown(WrongRequestParameterException)
-    }
-
-
-
-
-
-
-
-
 
 }
