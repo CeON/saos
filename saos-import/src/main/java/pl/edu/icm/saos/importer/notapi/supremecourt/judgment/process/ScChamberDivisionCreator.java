@@ -25,6 +25,7 @@ public class ScChamberDivisionCreator {
 
     private ScChamberDivisionNameExtractor scChamberDivisionNameExtractor;
 
+    
     //------------------------ LOGIC --------------------------
 
     /**
@@ -73,7 +74,7 @@ public class ScChamberDivisionCreator {
         scChamberDivision = new SupremeCourtChamberDivision();
         scChamberDivision.setFullName(chamberDivisionFullName);
         scChamberDivision.setName(scChamberDivisionNameExtractor.extractDivisionName(chamberDivisionFullName));
-        scChamberDivision.setSupremeCourtChamber(scChamber);
+        scChamberDivision.setScChamber(scChamber);
         scChamberDivisionRepository.saveAndFlush(scChamberDivision);
         return scChamberDivision;
     }

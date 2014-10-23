@@ -33,7 +33,7 @@ public abstract class DataObject {
     } 
     
     /**
-     * timestamp utworzenia rekordu
+     * record creation timestamp 
      */
     public DateTime getCreationDate() {
         return creationDate;

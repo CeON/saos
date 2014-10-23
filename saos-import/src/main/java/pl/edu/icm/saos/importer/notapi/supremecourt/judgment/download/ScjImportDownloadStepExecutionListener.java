@@ -24,7 +24,7 @@ public class ScjImportDownloadStepExecutionListener implements StepExecutionList
     
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        log.info("Deleting all raw source supreme court judgments");
+        log.debug("Deleting all raw source supreme court judgments");
         rJudgmentRepository.deleteAll();
         rJudgmentRepository.flush();
     }

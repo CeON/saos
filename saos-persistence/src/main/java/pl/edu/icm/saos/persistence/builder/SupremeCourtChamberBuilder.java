@@ -1,7 +1,5 @@
 package pl.edu.icm.saos.persistence.builder;
 
-import java.util.List;
-
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 
@@ -19,8 +17,13 @@ public class SupremeCourtChamberBuilder {
         
     }
     
-    public SupremeCourtChamberBuilder divisions(List<SupremeCourtChamberDivision> divisions) {
-        element.setDivisions(divisions);
+    public SupremeCourtChamberBuilder division(SupremeCourtChamberDivision division) {
+        element.addDivision(division);
+        return this;
+    }
+    
+    public SupremeCourtChamberBuilder name(String name) {
+        element.setName(name);
         return this;
     }
     

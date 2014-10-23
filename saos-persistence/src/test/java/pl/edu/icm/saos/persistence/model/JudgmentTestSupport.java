@@ -13,8 +13,8 @@ import java.util.Map;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.powermock.reflect.Whitebox;
 
-import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
 import com.googlecode.catchexception.CatchException;
@@ -101,7 +101,7 @@ public abstract class JudgmentTestSupport {
 	@Test(expected=IllegalArgumentException.class)
     public void addCourtCase_BlankCourtCaseNumber() {
 	    CourtCase courtCase = new CourtCase("sss");
-	    ReflectionFieldSetter.setField(courtCase, "caseNumber", "   ");
+	    Whitebox.setInternalState(courtCase, "caseNumber", "   ");
         judgment.addCourtCase(courtCase);
     }
 	

@@ -11,8 +11,8 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.powermock.reflect.Whitebox;
 
-import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
 import pl.edu.icm.saos.common.testcommon.category.FastTest;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
@@ -29,9 +29,9 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 @Category(FastTest.class)
-public class JudgmentCommonDataOverwriterTest {
+public class CommonJudgmentOverwriterTest {
 
-    private JudgmentCommonDataOverwriter judgmentOverwriter = new JudgmentCommonDataOverwriter();
+    private CommonJudgmentOverwriter judgmentOverwriter = new CommonJudgmentOverwriter();
  
     
     @Test
@@ -40,14 +40,14 @@ public class JudgmentCommonDataOverwriterTest {
         int oldId = 132;
         int oldVer = 12;
         DateTime oldCreationDate = new DateTime(2012, 12, 12, 12, 12);
-        ReflectionFieldSetter.setField(oldJudgment, "id", oldId);
-        ReflectionFieldSetter.setField(oldJudgment, "ver", oldVer);
-        ReflectionFieldSetter.setField(oldJudgment, "creationDate", oldCreationDate);
+        Whitebox.setInternalState(oldJudgment, "id", oldId);
+        Whitebox.setInternalState(oldJudgment, "ver", oldVer);
+        Whitebox.setInternalState(oldJudgment, "creationDate", oldCreationDate);
         
         Judgment newJudgment = createJudgment();
-        ReflectionFieldSetter.setField(newJudgment, "id", oldId + 10);
-        ReflectionFieldSetter.setField(newJudgment, "ver", oldVer + 10);
-        ReflectionFieldSetter.setField(newJudgment, "creationDate", oldCreationDate.plusDays(12));
+        Whitebox.setInternalState(newJudgment, "id", oldId + 10);
+        Whitebox.setInternalState(newJudgment, "ver", oldVer + 10);
+        Whitebox.setInternalState(newJudgment, "creationDate", oldCreationDate.plusDays(12));
         
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
         
@@ -185,6 +185,48 @@ public class JudgmentCommonDataOverwriterTest {
         assertTrue(newJudgment.containsJudge("Szymon W"));
         
     }
+    
+    
+    @Test
+    public void overwriteJudgment_Judges_NameSameRolesChanged() {
+        
+        // given
+        
+        Judgment oldJudgment = createJudgment();
+        
+        Judge annaNowakOld = new Judge("Anna Nowak", JudgeRole.PRESIDING_JUDGE);
+        Judge janNowakOld = new Judge("Jan Nowak", JudgeRole.REPORTING_JUDGE);
+        
+        oldJudgment.addJudge(janNowakOld);
+        oldJudgment.addJudge(annaNowakOld);
+        
+        Judgment newJudgment = createJudgment();
+        
+        Judge annaNowakNew = new Judge("Anna Nowak", JudgeRole.REPORTING_JUDGE);
+        Judge janNowakNew = new Judge("Jan Nowak", JudgeRole.PRESIDING_JUDGE, JudgeRole.REASONS_FOR_JUDGMENT_AUTHOR);
+
+        newJudgment.addJudge(annaNowakNew);
+        newJudgment.addJudge(janNowakNew);
+        
+        
+        // execute
+        
+        judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        
+        
+        // assert
+        
+        assertEquals(2, oldJudgment.getJudges().size());
+        assertTrue(annaNowakNew == oldJudgment.getJudge(annaNowakNew.getName()));
+        assertTrue(janNowakNew == oldJudgment.getJudge(janNowakNew.getName()));
+        
+        assertEquals(2, newJudgment.getJudges().size());
+        assertTrue(annaNowakNew == newJudgment.getJudge(annaNowakNew.getName()));
+        assertTrue(janNowakNew == newJudgment.getJudge(janNowakNew.getName()));
+        
+        
+    }
+    
     
     @Test
     public void overwriteJudgment_CourtReporters() {

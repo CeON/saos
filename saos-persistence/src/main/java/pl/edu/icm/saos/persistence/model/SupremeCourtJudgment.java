@@ -11,7 +11,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 /**
  * @author Łukasz Dumiszewski
  */
@@ -35,10 +39,10 @@ public class SupremeCourtJudgment extends Judgment {
                             JOINED_CHAMBERS
                             }
     
-    private SupremeCourtJudgmentForm supremeCourtJudgmentForm;
+    private SupremeCourtJudgmentForm scJudgmentForm;
     private PersonnelType personnelType;
-    private SupremeCourtChamberDivision supremeCourtChamberDivision;
-    private List<SupremeCourtChamber> supremeCourtChambers;
+    private SupremeCourtChamberDivision scChamberDivision;
+    private List<SupremeCourtChamber> scChambers = Lists.newArrayList();
     
     
     //------------------------ GETTERS --------------------------
@@ -48,8 +52,8 @@ public class SupremeCourtJudgment extends Judgment {
      * It is not going to be needed, because very likely it can be composed of {@link #getJudgmentType()} and {@link #getPersonnelType()}
      * */
     @ManyToOne
-    public SupremeCourtJudgmentForm getSupremeCourtJudgmentForm() {
-        return supremeCourtJudgmentForm;
+    public SupremeCourtJudgmentForm getScJudgmentForm() {
+        return scJudgmentForm;
     }
     
     @Enumerated(EnumType.STRING)
@@ -58,35 +62,59 @@ public class SupremeCourtJudgment extends Judgment {
     }
     
     @ManyToOne
-    public SupremeCourtChamberDivision getSupremeCourtChamberDivision() {
-        return supremeCourtChamberDivision;
+    public SupremeCourtChamberDivision getScChamberDivision() {
+        return scChamberDivision;
     }
     
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "supreme_court_judgment_chamber",
-            joinColumns = {@JoinColumn(name = "fk_judgment", nullable = false, updatable = false) }, 
-            inverseJoinColumns = {@JoinColumn(name = "fk_chamber", nullable = false, updatable = false) })
-    public List<SupremeCourtChamber> getSupremeCourtChambers() {
-        return supremeCourtChambers;
+            joinColumns = {@JoinColumn(name = "fk_judgment", nullable = false, updatable = true) }, 
+            inverseJoinColumns = {@JoinColumn(name = "fk_chamber", nullable = false, updatable = true) })
+    private List<SupremeCourtChamber> getScChambers_() {
+        return scChambers;
+    }
+    
+    @Transient
+    public List<SupremeCourtChamber> getScChambers() {
+        return ImmutableList.copyOf(getScChambers_());
+    }
+    
+    
+    //------------------------ LOGIC --------------------------
+    
+    
+    public boolean containsScChamber(SupremeCourtChamber scChamber) {
+        return scChambers.contains(scChamber);
+    }
+    
+    public void addScChamber(SupremeCourtChamber scChamber) {
+        Preconditions.checkArgument(!containsScChamber(scChamber));
+        
+        scChambers.add(scChamber);
+    }
+    
+    public void removeScChamber(SupremeCourtChamber scChamber) {
+        scChambers.remove(scChamber);
     }
     
     
     //------------------------ SETTERS --------------------------
     
-    public void setSupremeCourtJudgmentForm(SupremeCourtJudgmentForm supremeCourtJudgmentForm) {
-        this.supremeCourtJudgmentForm = supremeCourtJudgmentForm;
+    public void setScJudgmentForm(SupremeCourtJudgmentForm scJudgmentForm) {
+        this.scJudgmentForm = scJudgmentForm;
     }
 
     public void setPersonnelType(PersonnelType personnelType) {
         this.personnelType = personnelType;
     }
 
-    public void setSupremeCourtChamberDivision(SupremeCourtChamberDivision supremeCourtChamberDivision) {
-        this.supremeCourtChamberDivision = supremeCourtChamberDivision;
+    public void setScChamberDivision(SupremeCourtChamberDivision scChamberDivision) {
+        this.scChamberDivision = scChamberDivision;
     }
 
-    public void setSupremeCourtChambers(List<SupremeCourtChamber> supremeCourtChambers) {
-        this.supremeCourtChambers = supremeCourtChambers;
+    @SuppressWarnings("unused") // for hibernate
+    private void setScChambers_(List<SupremeCourtChamber> supremeCourtChambers) {
+        this.scChambers = supremeCourtChambers;
     }
     
 }

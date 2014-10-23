@@ -41,6 +41,12 @@ public abstract class RawSourceJudgment extends DataObject {
     }
 
 
+    //------------------------ LOGIC --------------------------
+    
+    public void markProcessed() {
+        setProcessed(true);
+        setProcessingDate(new DateTime());
+    }
 
         
     //------------------------ SETTERS --------------------------

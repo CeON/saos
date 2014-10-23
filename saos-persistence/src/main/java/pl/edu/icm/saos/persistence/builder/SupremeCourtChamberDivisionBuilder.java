@@ -17,7 +17,7 @@ public class SupremeCourtChamberDivisionBuilder {
     }
     
     public SupremeCourtChamberDivisionBuilder chamber(SupremeCourtChamber chamber) {
-        element.setSupremeCourtChamber(chamber);
+        element.setScChamber(chamber);
         return this;
     }
     

@@ -109,6 +109,9 @@ subprojects {
         testCompile lib.'com.tngtech.java:junit-dataprovider'
         testCompile lib.'org.codehaus.groovy:groovy-all'
         testCompile lib.'org.spockframework:spock-core'
+        testCompile lib.'org.powermock:powermock-api-mockito'
+        testCompile lib.'org.powermock:powermock-module-junit4'
+
         compile lib.'com.google.guava:guava'
         compile lib.'commons-collections:commons-collections'
         compile lib.'org.slf4j:slf4j-api'
