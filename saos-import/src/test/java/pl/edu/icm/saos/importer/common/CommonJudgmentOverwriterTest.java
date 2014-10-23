@@ -217,12 +217,16 @@ public class CommonJudgmentOverwriterTest {
         // assert
         
         assertEquals(2, oldJudgment.getJudges().size());
-        assertTrue(annaNowakNew == oldJudgment.getJudge(annaNowakNew.getName()));
-        assertTrue(janNowakNew == oldJudgment.getJudge(janNowakNew.getName()));
+        assertTrue(annaNowakOld == oldJudgment.getJudge(annaNowakNew.getName()));
+        assertTrue(janNowakOld == oldJudgment.getJudge(janNowakNew.getName()));
+        assertThat(oldJudgment.getJudge(annaNowakNew.getName()).getSpecialRoles(), Matchers.containsInAnyOrder(JudgeRole.REPORTING_JUDGE));
+        assertThat(oldJudgment.getJudge(janNowakNew.getName()).getSpecialRoles(), Matchers.containsInAnyOrder(JudgeRole.PRESIDING_JUDGE, JudgeRole.REASONS_FOR_JUDGMENT_AUTHOR));
         
         assertEquals(2, newJudgment.getJudges().size());
         assertTrue(annaNowakNew == newJudgment.getJudge(annaNowakNew.getName()));
         assertTrue(janNowakNew == newJudgment.getJudge(janNowakNew.getName()));
+        assertThat(newJudgment.getJudge(annaNowakNew.getName()).getSpecialRoles(), Matchers.containsInAnyOrder(JudgeRole.REPORTING_JUDGE));
+        assertThat(newJudgment.getJudge(janNowakNew.getName()).getSpecialRoles(), Matchers.containsInAnyOrder(JudgeRole.PRESIDING_JUDGE, JudgeRole.REASONS_FOR_JUDGMENT_AUTHOR));
         
         
     }
