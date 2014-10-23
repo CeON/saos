@@ -1,14 +1,18 @@
 package pl.edu.icm.saos.api.search.judgments.parameters;
 
 import com.google.common.base.Objects;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
+import static org.springframework.format.annotation.DateTimeFormat.ISO;
 
 /**
  * @author pavtel
  * Container of processed request's parameters.
  */
 public class JudgmentsParameters {
+
 
     //******* fields **************
 
@@ -19,86 +23,51 @@ public class JudgmentsParameters {
     private String referencedRegulation;
     private String judgeName;
     private String keyword;
+    @DateTimeFormat(iso = ISO.DATE)
     private LocalDate judgmentDateFrom;
+    @DateTimeFormat(iso = ISO.DATE)
     private LocalDate judgmentDateTo;
 
-    //********* END fields ***********
+
+    //------------------------ GETTERS --------------------------
 
 
-    //*********** setters and getters ************
     public Pagination getPagination() {
         return pagination;
-    }
-
-    public void setPagination(Pagination pagination) {
-        this.pagination = pagination;
     }
 
     public String getAll() {
         return all;
     }
 
-    public void setAll(String all) {
-        this.all = all;
-    }
-
     public String getCourtName() {
         return courtName;
-    }
-
-    public void setCourtName(String courtName) {
-        this.courtName = courtName;
     }
 
     public String getLegalBase() {
         return legalBase;
     }
 
-    public void setLegalBase(String legalBase) {
-        this.legalBase = legalBase;
-    }
-
     public String getReferencedRegulation() {
         return referencedRegulation;
-    }
-
-    public void setReferencedRegulation(String referencedRegulation) {
-        this.referencedRegulation = referencedRegulation;
     }
 
     public String getJudgeName() {
         return judgeName;
     }
 
-    public void setJudgeName(String judgeName) {
-        this.judgeName = judgeName;
-    }
-
     public String getKeyword() {
         return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
     }
 
     public LocalDate getJudgmentDateFrom() {
         return judgmentDateFrom;
     }
 
-    public void setJudgmentDateFrom(LocalDate judgmentDateFrom) {
-        this.judgmentDateFrom = judgmentDateFrom;
-    }
-
     public LocalDate getJudgmentDateTo() {
         return judgmentDateTo;
     }
 
-    public void setJudgmentDateTo(LocalDate judgmentDateTo) {
-        this.judgmentDateTo = judgmentDateTo;
-    }
-
-    //*********** END setters and getters ***********
 
 
     @Override
@@ -144,5 +113,44 @@ public class JudgmentsParameters {
         return Objects.hashCode(pagination, all, courtName,
                 legalBase, referencedRegulation, judgeName,
                 keyword, judgmentDateFrom, judgmentDateTo);
+    }
+
+    //------------------------ SETTERS --------------------------
+
+
+    public void setPagination(Pagination pagination) {
+        this.pagination = pagination;
+    }
+
+    public void setAll(String all) {
+        this.all = StringUtils.trimToNull(all);
+    }
+
+    public void setCourtName(String courtName) {
+        this.courtName = StringUtils.trimToNull(courtName);
+    }
+
+    public void setLegalBase(String legalBase) {
+        this.legalBase = StringUtils.trimToNull(legalBase);
+    }
+
+    public void setReferencedRegulation(String referencedRegulation) {
+        this.referencedRegulation = StringUtils.trimToNull(referencedRegulation);
+    }
+
+    public void setJudgeName(String judgeName) {
+        this.judgeName = StringUtils.trimToNull(judgeName);
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = StringUtils.trimToNull(keyword);
+    }
+
+    public void setJudgmentDateFrom(LocalDate judgmentDateFrom) {
+        this.judgmentDateFrom = judgmentDateFrom;
+    }
+
+    public void setJudgmentDateTo(LocalDate judgmentDateTo) {
+        this.judgmentDateTo = judgmentDateTo;
     }
 }

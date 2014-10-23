@@ -10,12 +10,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.format.support.DefaultFormattingConversionService;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.config.TestsConfig;
+import pl.edu.icm.saos.api.formatter.SaosDateTimeFormatterFactory;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.FieldsDefinition;
 import pl.edu.icm.saos.api.services.FieldsDefinition.JC;
@@ -62,7 +65,6 @@ public class DumpJudgmentsControllerTest {
 
             return databaseSearchService;
         }
-
     }
 
     @Autowired
@@ -86,9 +88,13 @@ public class DumpJudgmentsControllerTest {
         dumpJudgmentsController.setDumpJudgmentsListSuccessRepresentationBuilder(dumpJudgmentsListSuccessRepresentationBuilder);
         dumpJudgmentsController.setParametersExtractor(parametersExtractor);
 
+        FormattingConversionService conversionService = new DefaultFormattingConversionService();
+        conversionService.addFormatterForFieldAnnotation(new SaosDateTimeFormatterFactory());
 
         mockMvc = standaloneSetup(dumpJudgmentsController)
+                .setConversionService(conversionService)
                 .build();
+
     }
 
     @Test
@@ -173,8 +179,8 @@ public class DumpJudgmentsControllerTest {
         int pageNumber = 5;
         String judgmentStartDate = "2011-11-10";
         String judgmentEndDate = "2014-10-25";
-        String sinceModificationDate = "2015-10-25T13:55:18.769+02:00";
 
+        String sinceModificationDate = "2015-10-25T13:55:18.769";
         //when
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
                 .param(PAGE_SIZE, String.valueOf(pageSize))

@@ -3,10 +3,12 @@ package pl.edu.icm.saos.api.dump.judgment;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.edu.icm.saos.api.dump.judgment.assemblers.DumpJudgmentAssembler;
+import pl.edu.icm.saos.api.dump.judgment.parameters.RequestDumpJudgmentsParameters;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
+import pl.edu.icm.saos.api.services.dates.DateMapping;
 import pl.edu.icm.saos.api.services.representations.SuccessRepresentation;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
@@ -21,15 +23,23 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 /**
  * @author pavtel
  */
-@Component
+@Service
 public class DumpJudgmentsListSuccessRepresentationBuilder {
 
     @Autowired
     private DumpJudgmentAssembler dumpJudgmentAssembler;
 
+    @Autowired
+    private DateMapping dateMapping;
 
-    public Map<String, Object> build(SearchResult<Judgment> searchResult, Pagination pagination, String startDate, String endDate, String modificationDate, UriComponentsBuilder uriComponentsBuilder){
+
+    //------------------------ LOGIC --------------------------
+    public Map<String, Object> build(SearchResult<Judgment> searchResult, Pagination pagination, RequestDumpJudgmentsParameters requestDumpJudgmentsParameters, UriComponentsBuilder uriComponentsBuilder){
         SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
+        String startDate = dateMapping.toISO8601Format(requestDumpJudgmentsParameters.getJudgmentStartDate());
+        String endDate = dateMapping.toISO8601Format(requestDumpJudgmentsParameters.getJudgmentEndDate());
+        String modificationDate = dateMapping.toStringWithZoneUTC(requestDumpJudgmentsParameters.getSinceModificationDate());
+
         builder.links(toLinks(pagination, startDate, endDate, modificationDate, uriComponentsBuilder, searchResult.isMoreRecordsExist()));
         builder.items(toItems(searchResult.getResultRecords()));
         builder.queryTemplate(toQueryTemplate(pagination, startDate, endDate, modificationDate));
@@ -39,6 +49,7 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
 
 
 
+    //------------------------ PRIVATE --------------------------
     private List<Link> toLinks(Pagination pagination, String startDate, String endDate, String modificationDate, UriComponentsBuilder uriComponentsBuilder, boolean hasMore) {
         List<Link> links = new LinkedList<>();
 
@@ -96,8 +107,12 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
         return queryTemplate;
     }
 
-    //*** setters ***
+    //------------------------ SETTERS --------------------------
     public void setDumpJudgmentAssembler(DumpJudgmentAssembler dumpJudgmentAssembler) {
         this.dumpJudgmentAssembler = dumpJudgmentAssembler;
+    }
+
+    public void setDateMapping(DateMapping dateMapping) {
+        this.dateMapping = dateMapping;
     }
 }

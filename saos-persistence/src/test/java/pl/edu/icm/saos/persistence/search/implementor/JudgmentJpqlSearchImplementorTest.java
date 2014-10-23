@@ -84,7 +84,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         assertThat("referenced regulation", actualJudgment.getReferencedRegulations(), containsListInAnyOrder(ccJudgment.getReferencedRegulations()));
 
 
-        assertThat("last modification date should be not nul", actualJudgment.getModificationDate(), notNullValue());
+        assertThat("last modification date should not null", actualJudgment.getModificationDate(), notNullValue());
         assertThat("last modification date ", actualJudgment.getModificationDate(), is(ccJudgment.getModificationDate()));
     }
 

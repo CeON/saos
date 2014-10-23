@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.api.services.exceptions;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +14,9 @@ import java.util.Map;
  * @author pavtel
  */
 public class ControllersEntityExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(ControllersEntityExceptionHandler.class);
+
 
     @Value("${restful.api.error.documentation.site}")
     private String errorDocumentationSite;
@@ -39,6 +44,8 @@ public class ControllersEntityExceptionHandler {
 
     @ExceptionHandler({RuntimeException.class, Exception.class})
     public ResponseEntity<Map<String, Object>> handleGeneralError(Exception ex) {
+        ex.printStackTrace();
+
         ErrorStatus errorStatus = ErrorStatus.GENERAL_INTERNAL_ERROR;
 
         ErrorRepresentation.Builder builder = create(errorStatus, ex);
