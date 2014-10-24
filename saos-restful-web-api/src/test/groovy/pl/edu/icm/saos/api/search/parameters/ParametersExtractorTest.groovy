@@ -3,7 +3,6 @@ package pl.edu.icm.saos.api.search.parameters
 import org.joda.time.LocalDate
 import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException
 import spock.lang.Specification
-
 /**
  * @author pavtel
  */
@@ -137,13 +136,5 @@ class ParametersExtractorTest extends Specification {
         then:
             actual == null
     }
-
-
-
-
-
-
-
-
 
 }

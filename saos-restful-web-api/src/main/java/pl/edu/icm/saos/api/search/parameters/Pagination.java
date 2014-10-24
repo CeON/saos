@@ -9,6 +9,8 @@ import com.google.common.base.Preconditions;
  */
 public class Pagination {
 
+    public static final String DEFAULT_PAGE_SIZE="20";
+
     //******** fields *******
     private final int pageSize;
 
@@ -38,7 +40,7 @@ public class Pagination {
 
     //********** END getters ***********
 
-    //********** business methods ***********
+    //------------------------ LOGIC --------------------------
     public boolean hasPrevious(){
         return pageNumber > 0;
     }
@@ -60,7 +62,11 @@ public class Pagination {
         }
     }
 
-    //************ END business methods ************
+    public int getOffset(){
+        return pageNumber * pageSize;
+    }
+
+
 
     @Override
     public String toString() {

@@ -29,7 +29,7 @@ import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
  * @author pavtel
  */
 @Controller
-@RequestMapping("/api/courts")
+@RequestMapping("/api/search/courts")
 public class CourtsController extends ControllersEntityExceptionHandler{
 
     // ******** fields *********
@@ -42,7 +42,6 @@ public class CourtsController extends ControllersEntityExceptionHandler{
     @Autowired
     private CourtsListSuccessRepresentationBuilder successRepresentationBuilder;
 
-    private final String DEFAULT_OFFSET = "0";
 
     //*********** END fields *************
 
@@ -52,8 +51,8 @@ public class CourtsController extends ControllersEntityExceptionHandler{
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showCourts(
-            @RequestParam(value = PAGE_SIZE, required = false, defaultValue = DEFAULT_OFFSET) int pageSize,
-            @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = DEFAULT_OFFSET) int pageNumber
+            @RequestParam(value = PAGE_SIZE, required = false, defaultValue = Pagination.DEFAULT_PAGE_SIZE) int pageSize,
+            @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = "0") int pageNumber
     ) throws WrongRequestParameterException {
 
         Pagination pagination = parametersExtractor.extractAndValidatePagination(pageSize, pageNumber);

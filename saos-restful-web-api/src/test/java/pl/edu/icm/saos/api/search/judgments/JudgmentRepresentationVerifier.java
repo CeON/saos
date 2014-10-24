@@ -7,7 +7,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static pl.edu.icm.saos.api.services.Constansts.JUDGMENTS_PATH;
+import static pl.edu.icm.saos.api.services.Constansts.SINGLE_JUDGMENTS_PATH;
 
 /**
  * @author pavtel
@@ -17,7 +17,7 @@ public class JudgmentRepresentationVerifier {
 
     public static void verifyBasicFields(ResultActions actions, String pathPrefix) throws Exception{
         actions
-                .andExpect(jsonPath(pathPrefix+".href").value(endsWith(JUDGMENTS_PATH+"/"+ FieldsDefinition.JC.JUDGMENT_ID)))
+                .andExpect(jsonPath(pathPrefix+".href").value(endsWith(SINGLE_JUDGMENTS_PATH+"/"+ FieldsDefinition.JC.JUDGMENT_ID)))
                 .andExpect(jsonPath(pathPrefix+".courtCases").value(iterableWithSize(1)))
                 .andExpect(jsonPath(pathPrefix+".courtCases.[0].caseNumber").value(FieldsDefinition.JC.CASE_NUMBER))
                 .andExpect(jsonPath(pathPrefix+".judgmentType").value(Judgment.JudgmentType.SENTENCE.name()))

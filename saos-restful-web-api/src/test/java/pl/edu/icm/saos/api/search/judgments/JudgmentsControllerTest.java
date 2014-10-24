@@ -16,8 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.config.TestsConfig;
-import pl.edu.icm.saos.api.search.judgments.extractors.JudgmentsParametersExtractor;
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
+import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.search.services.ApiSearchService;
 import pl.edu.icm.saos.api.services.FieldsDefinition.JC;
 import pl.edu.icm.saos.api.services.TrivialApiSearchService;
@@ -25,13 +25,14 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.*;
 import static pl.edu.icm.saos.api.search.judgments.JudgmentRepresentationVerifier.verifyBasicFields;
 import static pl.edu.icm.saos.api.services.Constansts.*;
-import static org.hamcrest.Matchers.is;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  JudgmentsControllerTest.TestConfiguration.class)
@@ -64,7 +65,7 @@ public class JudgmentsControllerTest {
     private ApiSearchService<Judgment, JudgmentsParameters> apiSearchService;
 
     @Autowired
-    private JudgmentsParametersExtractor parametersExtractor;
+    private ParametersExtractor parametersExtractor;
 
 
 
@@ -90,6 +91,8 @@ public class JudgmentsControllerTest {
                 .param(PAGE_NUMBER, "1")
                 .accept(MediaType.APPLICATION_JSON));
         //then
+        actions.andExpect(status().isOk());
+
         verifyBasicFields(actions, "$.items.[0]");
 
         actions
@@ -111,7 +114,7 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(DIVISIONS_PATH+"/"+JC.DIVISION_ID)))
                 .andExpect(jsonPath("$.items.[0].division.name").value(JC.DIVISION_NAME))
 
-                .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(COURTS_PATH+"/"+JC.COURT_ID)))
+                .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH+"/"+JC.COURT_ID)))
                 .andExpect(jsonPath("$.items.[0].division.court.name").value(JC.COURT_NAME))
         ;
     }
@@ -142,6 +145,8 @@ public class JudgmentsControllerTest {
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
+        actions.andExpect(status().isOk());
+
         String prefix = "$.queryTemplate";
 
         actions
@@ -160,6 +165,43 @@ public class JudgmentsControllerTest {
     }
 
     @Test
+    public void showJudgments__it_should_show_only_pagination_parameters_if_none_is_specified() throws Exception{
+        //given
+        int pageSize = 11;
+        int pageNumber = 5;
+
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(PAGE_SIZE, String.valueOf(pageSize))
+                .param(PAGE_NUMBER, String.valueOf(pageNumber))
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        actions.andExpect(status().isOk());
+
+        String prefix = "$.queryTemplate";
+
+
+        String EMPTY_STRING = "";
+
+        actions
+                .andExpect(jsonPath(prefix + ".pageSize").value(pageSize))
+                .andExpect(jsonPath(prefix + ".pageNumber").value(pageNumber))
+
+                .andExpect(jsonPath(prefix+".all").value(EMPTY_STRING))
+                .andExpect(jsonPath(prefix+".courtName").value(EMPTY_STRING))
+                .andExpect(jsonPath(prefix+".legalBase").value(EMPTY_STRING))
+                .andExpect(jsonPath(prefix+".referencedRegulation").value(EMPTY_STRING))
+                .andExpect(jsonPath(prefix+".judgeName").value(EMPTY_STRING))
+                .andExpect(jsonPath(prefix + ".keyword").value(EMPTY_STRING))
+                .andExpect(jsonPath(prefix+".judgmentDateFrom").value(EMPTY_STRING))
+                .andExpect(jsonPath(prefix + ".judgmentDateTo").value(EMPTY_STRING))
+
+                ;
+
+    }
+
+    @Test
     public void showJudgments__it_should_show_info() throws Exception {
 
         //when
@@ -168,6 +210,8 @@ public class JudgmentsControllerTest {
         );
 
         //then
+        actions.andExpect(status().isOk());
+
         String prefix = "$.info";
 
         actions
@@ -189,6 +233,8 @@ public class JudgmentsControllerTest {
         );
 
         //then
+        actions.andExpect(status().isOk());
+
         String prefix = "$.links";
 
         actions
@@ -211,6 +257,8 @@ public class JudgmentsControllerTest {
         );
 
         //then
+        actions.andExpect(status().isOk());
+
         String prefix = "$.links";
 
         actions

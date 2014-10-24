@@ -45,7 +45,7 @@ public class DumpCourtsController extends ControllersEntityExceptionHandler {
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showCourts(
-            @RequestParam(value = PAGE_SIZE, required = false, defaultValue = "0") int pageSize,
+            @RequestParam(value = PAGE_SIZE, required = false, defaultValue = Pagination.DEFAULT_PAGE_SIZE) int pageSize,
             @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = "0") int pageNumber
     ) throws WrongRequestParameterException {
 
@@ -55,7 +55,7 @@ public class DumpCourtsController extends ControllersEntityExceptionHandler {
 
         CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
                 .limit(pagination.getPageSize())
-                .offset(pagination.getPageNumber())
+                .offset(pagination.getPageNumber()*pagination.getPageSize())
                 .filter();
 
         SearchResult<CommonCourt> searchResult = databaseSearchService.search(searchFilter);

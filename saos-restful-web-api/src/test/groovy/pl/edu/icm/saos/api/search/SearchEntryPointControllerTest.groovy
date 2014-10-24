@@ -33,11 +33,11 @@ class SearchEntryPointControllerTest extends Specification {
             def content = contentAsJson(actions)
 
             content.links[0].rel == "courts"
-            content.links[0].href.endsWith  "/api/courts"
+            content.links[0].href.endsWith  "/api/search/courts"
             !content.links[0].description.empty
 
             content.links[1].rel == "judgments"
-            content.links[1].href.endsWith "/api/judgments"
+            content.links[1].href.endsWith "/api/search/judgments"
             !content.links[1].description.empty
 
     }
