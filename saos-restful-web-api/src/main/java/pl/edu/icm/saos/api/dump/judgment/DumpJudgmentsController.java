@@ -56,7 +56,7 @@ public class DumpJudgmentsController extends ControllersEntityExceptionHandler{
 
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
                 .limit(pagination.getPageSize())
-                .offset(pagination.getPageNumber() * pagination.getPageSize())
+                .offset(pagination.getOffset())
                 .startDate(requestDumpJudgmentsParameters.getJudgmentStartDate())
                 .endDate(requestDumpJudgmentsParameters.getJudgmentEndDate())
                 .sinceModificationDateTime(requestDumpJudgmentsParameters.getSinceModificationDate())

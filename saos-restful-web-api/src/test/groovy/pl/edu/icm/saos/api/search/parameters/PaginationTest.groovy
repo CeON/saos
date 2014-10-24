@@ -83,4 +83,21 @@ class PaginationTest extends Specification {
             5        | 10         | 33
     }
 
+    @Unroll
+    def "it should calculate offset('#offset') as pageSize('#pageSize') x pageNumber('#pageNumber') "(){
+        given:
+            def pagination = new Pagination(pageSize, pageNumber)
+
+        when:
+            def actual = pagination.getOffset()
+
+        then:
+            actual == offset
+
+        where:
+            pageSize | pageNumber || offset
+            3        | 7          || 21
+            2        | 0          || 0
+    }
+
 }

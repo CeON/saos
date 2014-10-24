@@ -3,7 +3,7 @@ package pl.edu.icm.saos.api.dump.judgment.parameters;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
-import pl.edu.icm.saos.api.formatter.SaosDateTimeFormat;
+import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormat;
 import static pl.edu.icm.saos.api.services.dates.DateMapping.DATE_TIME_FORMAT;
 
 /**
@@ -15,7 +15,7 @@ public class RequestDumpJudgmentsParameters {
     private LocalDate judgmentStartDate;
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate judgmentEndDate;
-    @SaosDateTimeFormat(pattern = DATE_TIME_FORMAT)
+    @DateTimeWithZoneFormat(pattern = DATE_TIME_FORMAT)
     private DateTime sinceModificationDate;
 
     //------------------------ GETTERS --------------------------

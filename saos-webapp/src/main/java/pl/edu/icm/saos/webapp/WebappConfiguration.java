@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
-import pl.edu.icm.saos.api.formatter.SaosDateTimeFormatterFactory;
+import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
 
 
 @Configuration
@@ -45,7 +45,7 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatterForFieldAnnotation(new SaosDateTimeFormatterFactory());
+        registry.addFormatterForFieldAnnotation(new DateTimeWithZoneFormatterFactory());
     }
 
     @Bean

@@ -18,7 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.config.TestsConfig;
-import pl.edu.icm.saos.api.formatter.SaosDateTimeFormatterFactory;
+import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.FieldsDefinition;
 import pl.edu.icm.saos.api.services.FieldsDefinition.JC;
@@ -89,7 +89,7 @@ public class DumpJudgmentsControllerTest {
         dumpJudgmentsController.setParametersExtractor(parametersExtractor);
 
         FormattingConversionService conversionService = new DefaultFormattingConversionService();
-        conversionService.addFormatterForFieldAnnotation(new SaosDateTimeFormatterFactory());
+        conversionService.addFormatterForFieldAnnotation(new DateTimeWithZoneFormatterFactory());
 
         mockMvc = standaloneSetup(dumpJudgmentsController)
                 .setConversionService(conversionService)
