@@ -38,7 +38,7 @@ public class Pagination {
 
     //********** END getters ***********
 
-    //********** business methods ***********
+    //------------------------ LOGIC --------------------------
     public boolean hasPrevious(){
         return pageNumber > 0;
     }
@@ -60,7 +60,11 @@ public class Pagination {
         }
     }
 
-    //************ END business methods ************
+    public int getOffset(){
+        return pageNumber * pageSize;
+    }
+
+
 
     @Override
     public String toString() {

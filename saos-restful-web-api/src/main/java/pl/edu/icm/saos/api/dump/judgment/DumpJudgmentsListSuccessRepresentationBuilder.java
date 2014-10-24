@@ -3,10 +3,12 @@ package pl.edu.icm.saos.api.dump.judgment;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.edu.icm.saos.api.dump.judgment.assemblers.DumpJudgmentAssembler;
+import pl.edu.icm.saos.api.dump.judgment.parameters.RequestDumpJudgmentsParameters;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
+import pl.edu.icm.saos.api.services.dates.DateMapping;
 import pl.edu.icm.saos.api.services.representations.SuccessRepresentation;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
@@ -21,36 +23,45 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 /**
  * @author pavtel
  */
-@Component
+@Service
 public class DumpJudgmentsListSuccessRepresentationBuilder {
 
     @Autowired
     private DumpJudgmentAssembler dumpJudgmentAssembler;
 
+    @Autowired
+    private DateMapping dateMapping;
 
-    public Map<String, Object> build(SearchResult<Judgment> searchResult, Pagination pagination, String startDate, String endDate, UriComponentsBuilder uriComponentsBuilder){
+
+    //------------------------ LOGIC --------------------------
+    public Map<String, Object> build(SearchResult<Judgment> searchResult, Pagination pagination, RequestDumpJudgmentsParameters requestDumpJudgmentsParameters, UriComponentsBuilder uriComponentsBuilder){
         SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
-        builder.links(toLinks(pagination, startDate, endDate, uriComponentsBuilder, searchResult.isMoreRecordsExist()));
+        String startDate = dateMapping.toISO8601Format(requestDumpJudgmentsParameters.getJudgmentStartDate());
+        String endDate = dateMapping.toISO8601Format(requestDumpJudgmentsParameters.getJudgmentEndDate());
+        String modificationDate = dateMapping.toStringWithZoneUTC(requestDumpJudgmentsParameters.getSinceModificationDate());
+
+        builder.links(toLinks(pagination, startDate, endDate, modificationDate, uriComponentsBuilder, searchResult.isMoreRecordsExist()));
         builder.items(toItems(searchResult.getResultRecords()));
-        builder.queryTemplate(toQueryTemplate(pagination, startDate, endDate));
+        builder.queryTemplate(toQueryTemplate(pagination, startDate, endDate, modificationDate));
 
         return builder.build();
     }
 
 
 
-    private List<Link> toLinks(Pagination pagination, String startDate, String endDate, UriComponentsBuilder uriComponentsBuilder, boolean hasMore) {
+    //------------------------ PRIVATE --------------------------
+    private List<Link> toLinks(Pagination pagination, String startDate, String endDate, String modificationDate, UriComponentsBuilder uriComponentsBuilder, boolean hasMore) {
         List<Link> links = new LinkedList<>();
 
 
-        links.add(buildLink(pagination, startDate, endDate , SELF, uriComponentsBuilder));
+        links.add(buildLink(pagination, startDate, endDate ,modificationDate, SELF, uriComponentsBuilder));
 
         if(pagination.hasPrevious()){
-            links.add(buildLink(pagination.getPrevious(), startDate, endDate, Link.REL_PREVIOUS, uriComponentsBuilder));
+            links.add(buildLink(pagination.getPrevious(), startDate, endDate,  modificationDate, Link.REL_PREVIOUS, uriComponentsBuilder));
         }
 
         if(hasMore){
-            links.add(buildLink(pagination.getNext(), startDate, endDate, Link.REL_NEXT, uriComponentsBuilder));
+            links.add(buildLink(pagination.getNext(), startDate, endDate, modificationDate, Link.REL_NEXT, uriComponentsBuilder));
         }
 
 
@@ -58,7 +69,7 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
     }
 
 
-    private Link buildLink(Pagination pagination, String startDate, String endDate, String relName, UriComponentsBuilder uriComponentsBuilder) {
+    private Link buildLink(Pagination pagination, String startDate, String endDate, String modificationDate, String relName, UriComponentsBuilder uriComponentsBuilder) {
 
         uriComponentsBuilder
                 .replaceQueryParam(PAGE_SIZE, pagination.getPageSize())
@@ -72,6 +83,10 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
             uriComponentsBuilder.replaceQueryParam(JUDGMENT_END_DATE, endDate);
         }
 
+        if(StringUtils.isNotBlank(modificationDate)){
+            uriComponentsBuilder.replaceQueryParam(SINCE_MODIFICATION_DATE, modificationDate);
+        }
+
         String path = uriComponentsBuilder.build().encode().toUriString();
         return new Link(path, relName);
     }
@@ -80,19 +95,24 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
         return dumpJudgmentAssembler.toItemsList(resultRecords);
     }
 
-    private Object toQueryTemplate(Pagination pagination, String startDate, String endDate) {
+    private Object toQueryTemplate(Pagination pagination, String startDate, String endDate, String modificationDate) {
         Map<String, Object> queryTemplate = new LinkedHashMap<String, Object>();
 
         queryTemplate.put(PAGE_NUMBER, pagination.getPageNumber());
         queryTemplate.put(PAGE_SIZE, pagination.getPageSize());
         queryTemplate.put(JUDGMENT_START_DATE, StringUtils.trimToEmpty(startDate));
         queryTemplate.put(JUDGMENT_END_DATE, StringUtils.trimToEmpty(endDate));
+        queryTemplate.put(SINCE_MODIFICATION_DATE, StringUtils.trimToEmpty(modificationDate));
 
         return queryTemplate;
     }
 
-    //*** setters ***
+    //------------------------ SETTERS --------------------------
     public void setDumpJudgmentAssembler(DumpJudgmentAssembler dumpJudgmentAssembler) {
         this.dumpJudgmentAssembler = dumpJudgmentAssembler;
+    }
+
+    public void setDateMapping(DateMapping dateMapping) {
+        this.dateMapping = dateMapping;
     }
 }

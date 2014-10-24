@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.persistence.search.dto;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
@@ -30,6 +31,11 @@ public class JudgmentSearchFilter extends DatabaseSearchFilter<Judgment> {
             return this;
         }
 
+        public Builder sinceModificationDateTime(DateTime modificationDate){
+            instance.setSinceModificationDate(modificationDate);
+            return this;
+        }
+
         @Override
         public JudgmentSearchFilter filter() {
             upBy("id");
@@ -43,23 +49,34 @@ public class JudgmentSearchFilter extends DatabaseSearchFilter<Judgment> {
 
     private LocalDate startDate;
     private LocalDate endDate;
+    private DateTime sinceModificationDate;
 
-
-    //*** getters and setters ***
+    //------------------------ GETTERS --------------------------
 
     public LocalDate getStartDate() {
         return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
     }
 
     public LocalDate getEndDate() {
         return endDate;
     }
 
+    public DateTime getSinceModificationDate() {
+        return sinceModificationDate;
+    }
+
+
+    //------------------------ SETTERS --------------------------
+
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
+
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
+    }
+
+    public void setSinceModificationDate(DateTime sinceModificationDate) {
+        this.sinceModificationDate = sinceModificationDate;
     }
 }

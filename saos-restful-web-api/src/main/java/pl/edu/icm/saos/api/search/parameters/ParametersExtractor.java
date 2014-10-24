@@ -6,8 +6,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
 import pl.edu.icm.saos.api.services.dates.DatesFactory;
+import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -17,7 +17,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.removeStart;
-import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
 
 /**
  * Provides functionality for extracting request parameters.
@@ -72,7 +73,7 @@ public class ParametersExtractor {
      * @throws WrongRequestParameterException if value has incorrect format.
      */
     public LocalDate extractLocalDate(String value, String paramName) throws WrongRequestParameterException {
-        if(value == null || StringUtils.isBlank(value))
+        if(StringUtils.isBlank(value))
             return null;
 
         if(!DATE_PATTERN.matcher(value).matches()){
@@ -96,7 +97,6 @@ public class ParametersExtractor {
 
         return localDate;
     }
-
 
     /**
      * Constructs Pagination object (sets default values for offset and limit if necessary)

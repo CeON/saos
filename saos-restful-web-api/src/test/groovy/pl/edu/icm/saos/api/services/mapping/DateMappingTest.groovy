@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.api.services.mapping
 
 import org.joda.time.DateTime
+import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
 import pl.edu.icm.saos.api.services.dates.DateMapping
 import spock.lang.Specification
@@ -15,6 +16,20 @@ class DateMappingTest extends Specification {
 
     void setup() {
         dateMapping = new DateMapping()
+    }
+
+    @Unroll
+    def "should return 'yyyy-MM-dd'T'HH:mm:ss.SSS' format '#expectedValue' for DateTime '#dateTime'"(){
+        when:
+            def result = dateMapping.toStringWithZoneUTC dateTime
+
+        then:
+            result == expectedValue
+
+        where:
+            dateTime                                                    || expectedValue
+            new DateTime(2014, 1, 3, 11, 22, 33, 404, DateTimeZone.UTC) || "2014-01-03T11:22:33.404"
+            null                                                        || ""
     }
 
     @Unroll

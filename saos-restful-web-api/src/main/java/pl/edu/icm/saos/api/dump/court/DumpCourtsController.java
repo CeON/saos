@@ -55,7 +55,7 @@ public class DumpCourtsController extends ControllersEntityExceptionHandler {
 
         CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
                 .limit(pagination.getPageSize())
-                .offset(pagination.getPageNumber())
+                .offset(pagination.getPageNumber()*pagination.getPageSize())
                 .filter();
 
         SearchResult<CommonCourt> searchResult = databaseSearchService.search(searchFilter);

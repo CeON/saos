@@ -49,6 +49,10 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
             map.put("endDate", searchFilter.getEndDate());
         }
 
+        if(searchFilter.getSinceModificationDate()!=null){
+            map.put("sinceModificationDateTime", searchFilter.getSinceModificationDate());
+        }
+
         return map;
     }
     
@@ -144,6 +148,10 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
 
         if(searchFilter.getEndDate() != null){
             jpql.append(" and judgmentDate <= :endDate");
+        }
+
+        if(searchFilter.getSinceModificationDate() != null){
+            jpql.append(" and modificationDate >= :sinceModificationDateTime");
         }
 
         return jpql.toString();
