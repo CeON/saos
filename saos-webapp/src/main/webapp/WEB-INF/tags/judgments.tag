@@ -12,7 +12,7 @@
 					<div class="type" data-judgment-type="${lowerCaseJudgmentType}" ><spring:message code="judgment.judgmenttype.${fn:toLowerCase(judgment.judgmentType)}" /></div>
 				</c:if>
 				<div class="case-number">
-					<a href="${contextPath}/result/${judgment.id}">
+					<a href="${contextPath}/judgment/${judgment.id}">
 						<saos:caseNumber items="${judgment.caseNumbers}"/>
 					</a>
 				</div>

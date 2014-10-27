@@ -21,8 +21,11 @@ public final class TestJudgmentCriteriaFormFactory {
 		judgmentCriteriaForm.setDateFrom(localDate[0]);
 		judgmentCriteriaForm.setDateTo(localDate[1]);
 		
-		judgmentCriteriaForm.setCourtId("12");
-		judgmentCriteriaForm.setCourtName("Sąd Apelacyjny w Białymstoku");
+		judgmentCriteriaForm.setCommonCourtId("12");
+		judgmentCriteriaForm.setCommonCourtName("Sąd Apelacyjny w Białymstoku");
+		
+		judgmentCriteriaForm.setSupremeChamberId("13");
+		judgmentCriteriaForm.setSupremeChamberDivisionId("14");
 		
 		judgmentCriteriaForm.setJudgeName("Judge Dredd");
 		judgmentCriteriaForm.setKeyword("very important keyword");

@@ -22,8 +22,8 @@ var SearchFilters = (function(){
 		
 		filters = [{button: "", searchfield: "", filterfield: "", selectFormType: ""}],
 		
-		advanceFilter = {button: "", searchfield: "", filterfield: "", selectFormType: "", url : "",
-						parent : {button: "", searchfield: "", filterfield: ""}},
+		advanceFilter = [{button: "", searchfield: "", filterfield: "", selectFormType: "", url : "",
+						parent : {button: "", searchfield: "", filterfield: ""}}],
 		
 		
 	/***** PRIVATE METHODS *****/	
@@ -98,7 +98,7 @@ var SearchFilters = (function(){
 							} else if($searchFormField.is("select")) {
 								return function() {
 									selectFormType($selectFormType);
-									$searchFormField.find("option[content='" + filterValue + "']").attr('selected', 'selected');
+									$searchFormField.find("option[data-content='" + filterValue + "']").attr('selected', 'selected');
 									$searchFormField.trigger("change");
 									submitForm();
 								};
@@ -135,50 +135,54 @@ var SearchFilters = (function(){
 	 * and acquire selected division id. After that clear division select tag from all options and add one option with selected division. 
 	 * Process ends with submitting form.*/
 	assignAddFilterDivision = function() {
+		var j = 0,
+			advFilterLength = advanceFilter.length;
 		
-		$(parentContainer + " " + advanceFilter.button).each(function() {
-			var $thisButton = $(this),
-				$selectFormType = $(advanceFilter.selectFormType), 
-				divisionName = $thisButton.text();
-			
-			$thisButton.click(function() {
-				var selectedCourt = $thisButton.parent().find(advanceFilter.parent.button).text(),
-					selectedCourtId = "";
+		for (j; j < advFilterLength; j += 1) {
+			$(parentContainer + " " + advanceFilter[j].button).each(function() {
+				var $thisButton = $(this),
+					$selectFormType = $(advanceFilter[j].selectFormType), 
+					divisionName = $thisButton.text();
+				
+				$thisButton.click(function() {
+					var selectedCourt = $thisButton.parent().find(advanceFilter[j].parent.button).text(),
+						selectedCourtId = "";
+						
+					selectFormType($selectFormType, false);
+					//clearField($(advanceFilter.parent.searchfield));
+					selectedCourtId = $(advanceFilter[j].parent.searchfield)
+														.find("option[data-content='" + selectedCourt + "']")
+														.attr('selected', 'selected')
+														.val();
 					
-				selectFormType($selectFormType, false);
-				//clearField($(advanceFilter.parent.searchfield));
-				selectedCourtId = $(advanceFilter.parent.searchfield)
-													.find("option[content='" + selectedCourt + "']")
-													.attr('selected', 'selected')
-													.val();
-				
-				$(advanceFilter.searchfield)
-					.removeAttr("disabled")
-					.removeAttr("selected");
-
-				$.ajax(advanceFilter.url + selectedCourtId)
-				 .done(function(data) {
-					 var i = 0,
-					 	 length = data.length,
-					 	 id = 0;
-					 
-					 for(i; i < length; i += 1) {
-						 if (divisionName === data[i].name) {
-							 id = data[i].id;
-							 break;
+					$(advanceFilter[j].searchfield)
+						.removeAttr("disabled")
+						.removeAttr("selected");
+	
+					$.ajax(advanceFilter[j].url + selectedCourtId)
+					 .done(function(data) {
+						 var i = 0,
+						 	 length = data.length,
+						 	 id = 0;
+						 
+						 for(i; i < length; i += 1) {
+							 if (divisionName === data[i].name) {
+								 id = data[i].id;
+								 break;
+							 }
 						 }
-					 }
-					 
-					 if (id !== 0) {
-						 $(advanceFilter.searchfield).prepend($("<option selected='selected' value='" + id + "' ></option>"));
-					 }
-					 
-					 submitForm();
-				 })
-				 .fail(function() {});
-				
+						 
+						 if (id !== 0) {
+							 $(advanceFilter[j].searchfield).prepend($("<option selected='selected' value='" + id + "' ></option>"));
+						 }
+						 
+						 submitForm();
+					 })
+					 .fail(function() {});
+					
+				});
 			});
-		});
+		}
 	},
 	
 	/* Create buttons for target filter, clicking on it removes filter */

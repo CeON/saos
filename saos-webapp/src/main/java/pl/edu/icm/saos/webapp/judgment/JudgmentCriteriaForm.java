@@ -26,9 +26,13 @@ public class JudgmentCriteriaForm {
     private String keyword;
     private String courtType;
     
-    private String courtId;
-    private String courtName;
-    private String divisionId;
+    private String commonCourtId;
+    private String commonCourtName;
+    private String commonCourtDivisionId;
+    
+    private String supremeChamberId;
+    private String supremeChamberDivisionId;
+    
     private String[] judgmentType;
     private String legalBase;
     private String referencedRegulation;
@@ -63,16 +67,24 @@ public class JudgmentCriteriaForm {
 		return courtType;
 	}
 	
-	public String getCourtId() {
-		return courtId;
+	public String getCommonCourtId() {
+		return commonCourtId;
 	}
 	
-	public String getCourtName() {
-		return courtName;
+	public String getCommonCourtName() {
+		return commonCourtName;
 	}
 	
-	public String getDivisionId() {
-		return divisionId;
+	public String getCommonCourtDivisionId() {
+		return commonCourtDivisionId;
+	}
+	
+	public String getSupremeChamberId() {
+		return supremeChamberId;
+	}
+	
+	public String getSupremeChamberDivisionId() {
+		return supremeChamberDivisionId;
 	}
 	
 	public String[] getJudgmentType() {
@@ -117,18 +129,26 @@ public class JudgmentCriteriaForm {
 		this.courtType = courtType;
 	}
 	
-	public void setCourtId(String courtId) {
-		this.courtId = courtId;
+	public void setCommonCourtId(String commonCourtId) {
+		this.commonCourtId = commonCourtId;
 	}
 
-	public void setCourtName(String courtName) {
-		this.courtName = courtName;
+	public void setCommonCourtName(String commonCourtName) {
+		this.commonCourtName = commonCourtName;
 	}
 	
-	public void setDivisionId(String divisionId) {
-		this.divisionId = divisionId;
+	public void setCommonCourtDivisionId(String commonCourtDivisionId) {
+		this.commonCourtDivisionId = commonCourtDivisionId;
 	}
 
+	public void setSupremeChamberId(String supremeChamberId) {
+		this.supremeChamberId = supremeChamberId;
+	}
+
+	public void setSupremeChamberDivisionId(String supremeChamberDivisionId) {
+		this.supremeChamberDivisionId = supremeChamberDivisionId;
+	}
+	
 	public void setJudgmentType(String[] judgmentType) {
 		this.judgmentType = judgmentType;
 	}
@@ -140,6 +160,7 @@ public class JudgmentCriteriaForm {
 	public void setReferencedRegulation(String referencedRegulation) {
 		this.referencedRegulation = referencedRegulation;
 	}
+
         
 }
 

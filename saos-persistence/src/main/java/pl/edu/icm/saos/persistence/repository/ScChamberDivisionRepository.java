@@ -1,7 +1,10 @@
 package pl.edu.icm.saos.persistence.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 
 /**
@@ -13,4 +16,5 @@ public interface ScChamberDivisionRepository extends JpaRepository<SupremeCourtC
     
     SupremeCourtChamberDivision findOneByFullName(String fullName);
 
+    List<SupremeCourtChamberDivision> findAllBySupremeCourtChamberId(int chamberId);
 }
