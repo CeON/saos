@@ -18,7 +18,7 @@ import static org.mockito.Mockito.mock;
 @Configuration
 @Import(PersistenceConfiguration.class)
 @ComponentScan(basePackages = "pl.edu.icm.saos.api", excludeFilters = {@ComponentScan.Filter(Configuration.class), @ComponentScan.Filter(Controller.class)})
-public class TestsConfig extends CommonTestConfiguration {
+public class ApiTestConfiguration extends CommonTestConfiguration {
 
     @Bean
     public SearchService<JudgmentSearchResult, JudgmentCriteria> judgmentsSearchService(){

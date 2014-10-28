@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import pl.edu.icm.saos.api.config.TestsConfig;
+import pl.edu.icm.saos.api.config.ApiTestConfiguration;
 import pl.edu.icm.saos.api.services.FieldsDefinition.JC;
 import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
 import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
@@ -30,7 +30,7 @@ import static pl.edu.icm.saos.api.services.Constansts.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  {TestsConfig.class})
+@ContextConfiguration(classes =  {ApiTestConfiguration.class})
 @Category(SlowTest.class)
 public class JudgmentControllerTest extends PersistenceTestSupport {
 

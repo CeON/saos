@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import pl.edu.icm.saos.api.config.TestsConfig;
+import pl.edu.icm.saos.api.config.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
 import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
@@ -28,7 +28,7 @@ import static pl.edu.icm.saos.api.services.Constansts.DUMP_COURTS_PATH;
 import static pl.edu.icm.saos.api.services.FieldsDefinition.JC;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  {TestsConfig.class})
+@ContextConfiguration(classes =  {ApiTestConfiguration.class})
 @Category(SlowTest.class)
 public class DumpCourtsControllerTest extends PersistenceTestSupport {
 
@@ -76,7 +76,7 @@ public class DumpCourtsControllerTest extends PersistenceTestSupport {
 
         actions
                 .andExpect(jsonPath(pathPrefix+".id").value(objectsContext.getCommonCourtId()))
-                .andExpect(jsonPath(pathPrefix+".code").value(JC.COURT_CODE))
+                .andExpect(jsonPath(pathPrefix + ".code").value(JC.COURT_CODE))
                 .andExpect(jsonPath(pathPrefix + ".name").value(JC.COURT_NAME))
                 .andExpect(jsonPath(pathPrefix+".type").value(JC.COURT_TYPE.name()))
 

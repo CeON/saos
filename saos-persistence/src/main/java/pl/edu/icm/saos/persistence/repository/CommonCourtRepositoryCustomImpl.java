@@ -21,12 +21,12 @@ public class CommonCourtRepositoryCustomImpl implements CommonCourtRepositoryCus
     @Transactional
     public CommonCourt findOneAndInitialize(int id){
 
-        CommonCourt element = entityManager.find(CommonCourt.class, id);
+        CommonCourt commonCourt = entityManager.find(CommonCourt.class, id);
 
-        if (element != null) {
-            element.accept(new InitializingVisitor());
+        if (commonCourt != null) {
+            commonCourt.accept(new InitializingVisitor());
         }
 
-        return element;
+        return commonCourt;
     }
 }

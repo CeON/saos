@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import pl.edu.icm.saos.api.config.TestsConfig;
+import pl.edu.icm.saos.api.config.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.search.services.ApiSearchService;
@@ -42,7 +42,7 @@ public class JudgmentsControllerTest {
     private static final int TOTAL_RESULTS_VALUE = 23;
 
     @Configuration
-    @Import(TestsConfig.class)
+    @Import(ApiTestConfiguration.class)
     static class TestConfiguration {
 
         @Bean(name = "mockJudgmentApiSearchService")
