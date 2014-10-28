@@ -23,7 +23,7 @@
 			</c:if>
 		
 			<c:forEach items="${items}" var="item" >
-				<option value="${item.id}" <c:if test="${selectedItem == item.id}" >selected="selected"</c:if> content="${item.name}" >
+				<option value="${item.id}" <c:if test="${selectedItem == item.id}" >selected="selected"</c:if> data-content="${item.name}" >
 					<c:out value="${item.name}" />
 				</option>
 			</c:forEach>

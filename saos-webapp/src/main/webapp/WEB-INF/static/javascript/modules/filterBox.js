@@ -36,7 +36,7 @@ var FilterBox = (function() {
 			$parent = $this;
 		}
 		
-		if (source.stickyOptions !== "" && source.sticky !== undefined) {
+		if (source.stickyOptions !== "" && source.stickyOptions !== undefined) {
 			stickyOptions = source.stickyOptions;
 		}
 		
@@ -195,8 +195,8 @@ var FilterBox = (function() {
 	
 	dontShowBox = function() {
 		if (readCookie() === "false") {
-			$parent.css({display: "none"});
-			$(resultList).css({width: widthMax});
+			/*$parent.css({display: "none"});
+			$(resultList).css({width: widthMax});*/
 			createFilterShowButton();
 		}
 	},

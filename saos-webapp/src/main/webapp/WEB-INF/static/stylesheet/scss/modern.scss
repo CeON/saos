@@ -410,7 +410,8 @@ form.search {
 		}
 		
 		.type {
-			@include underline-text();
+			@include filter-underline();
+			border-color: #888;
 			bottom: -3px;
 			color: #888;
 			display: inline-block;
@@ -420,7 +421,7 @@ form.search {
 		}
 		
 		.date {
-			@include underline-text();
+			@include filter-underline();
 			margin-left: 4px;
 		}
 		
@@ -430,7 +431,7 @@ form.search {
 		}
 		
 		.court, .division {
-			@include underline-text();
+			@include filter-underline();
 		}
 		
 		.judges {
@@ -438,14 +439,10 @@ form.search {
 		}
 		
 		.judge {
-			border-bottom: 1px dotted #333;
+			@include filter-underline();
 			cursor: pointer;
 			display: inline-block;
 			margin-right: 8px;
-			
-			&:hover {
-				border-bottom: 1px solid #333;
-			}
 		}
 		
 		.extract {

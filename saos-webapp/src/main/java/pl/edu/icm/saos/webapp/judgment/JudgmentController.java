@@ -19,9 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
+import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.webapp.division.SimpleDivision;
@@ -40,6 +43,12 @@ public class JudgmentController {
     
     @Autowired
     private CcDivisionRepository ccDivisionRepository;
+    
+    @Autowired
+    private ScChamberRepository scChamberRepository;
+    
+    @Autowired
+    private ScChamberDivisionRepository scChamberDivisionRepository;
     
     @Autowired
     private JudgmentsWebSearchService judgmentsWebSearchService;
@@ -69,11 +78,12 @@ public class JudgmentController {
 		addTotalNumberOfPagesToModel(searchResults.getTotalResults(), pageable.getPageSize(), model);
 		
 		addCommonCourtsToModel(judgmentCriteriaForm, model);
+		addSupremeCourtsToModel(judgmentCriteriaForm, model);
 		
 		return "searchResults";
 	}
 	
-	@RequestMapping("/result/{id}")
+	@RequestMapping("/judgment/{id}")
 	public String JudgmentSignleResult(ModelMap model, @PathVariable int id) {
 		
 		Judgment judgment = judgmentRepository.findOneAndInitialize(id);
@@ -82,10 +92,16 @@ public class JudgmentController {
 		return "singleResult";
 	}
 
-	@RequestMapping("/search/division/{courtId}")
+	@RequestMapping("/search/courtDivision/{commonCourtId}")
 	@ResponseBody
-	public List<SimpleDivision> division(@PathVariable("courtId") String courtId) {
-		return getDivisionList(courtId);
+	public List<SimpleDivision> division(@PathVariable("commonCourtId") String commonCourtId) {
+		return getCcDivisionList(commonCourtId);
+	}
+	
+	@RequestMapping("/search/chamberDivision/{supremeChamberId}")
+	@ResponseBody
+	public List<SimpleDivision> chamberDivision(@PathVariable("supremeChamberId") String supremeChamberId) {
+		return getSupremeChamberDivisionList(supremeChamberId);
 	}
 
 	
@@ -96,22 +112,42 @@ public class JudgmentController {
 	}
 	
 	private void addCommonCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
-		model.addAttribute("courts", commonCourtRepository.findAll());
+		model.addAttribute("commonCourts", commonCourtRepository.findAll());
 		
-		if (judgmentCriteriaForm.getCourtId() != null) {
-			model.addAttribute("divisions", getDivisionList(judgmentCriteriaForm.getCourtId()));
+		if (judgmentCriteriaForm.getCommonCourtId() != null) {
+			model.addAttribute("commonCourtDivisions", getCcDivisionList(judgmentCriteriaForm.getCommonCourtId()));
 		}
 	}
 	
-	private List<SimpleDivision> getDivisionList(String courtId) {
+	private List<SimpleDivision> getCcDivisionList(String commonCourtId) {
 		int intCourtId = 0;
 		
 		try {
-			intCourtId = Integer.parseInt(courtId);
+			intCourtId = Integer.parseInt(commonCourtId);
 		} catch (NumberFormatException e) {
 			return Lists.newArrayList();
 		} 
 		
-		return simpleDivisionConverter.convertDivisions(ccDivisionRepository.findAllByCourtId(intCourtId));
+		return simpleDivisionConverter.convertCcDivisions(ccDivisionRepository.findAllByCourtId(intCourtId));
+	}
+	
+	private void addSupremeCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
+		model.addAttribute("supremeChambers", scChamberRepository.findAll());
+		
+		if (judgmentCriteriaForm.getSupremeChamberId() != null) {
+			model.addAttribute("supremeChamberDivisions", getSupremeChamberDivisionList(judgmentCriteriaForm.getSupremeChamberId()));
+		}
+	}
+	
+	private List<SimpleDivision> getSupremeChamberDivisionList(String supremeChamberId) {
+		int intChamberId = 0;
+		
+		try {
+			intChamberId = Integer.parseInt(supremeChamberId);
+		} catch (NumberFormatException e) {
+			return Lists.newArrayList();
+		} 
+
+		return simpleDivisionConverter.convertScChamberDivisions(scChamberDivisionRepository.findAllByScChamberId(intChamberId));
 	}
 }

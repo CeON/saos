@@ -17,9 +17,19 @@ public class JudgmentCriteriaFormConverter {
 		judgmentCriteria.setAll(element.getAll());
 		judgmentCriteria.setCaseNumber(element.getSignature());
 		try {
-		    judgmentCriteria.setCourtId(Integer.valueOf(element.getCourtId()));
+		    judgmentCriteria.setCourtId(Integer.valueOf(element.getCommonCourtId()));
 		} catch (NumberFormatException e) { }
-		judgmentCriteria.setCourtName(element.getCourtName());
+		
+		judgmentCriteria.setCourtName(element.getCommonCourtName());
+		
+		try {
+		    judgmentCriteria.setCourtChamberId(Integer.valueOf(element.getSupremeChamberId()));
+		} catch (NumberFormatException e) { }
+		
+		try {
+		    judgmentCriteria.setCourtChamberDivisionId(Integer.valueOf(element.getSupremeChamberDivisionId()));
+		} catch (NumberFormatException e) { }
+		
 		judgmentCriteria.setJudgeName(element.getJudgeName());
 		judgmentCriteria.setKeyword(element.getKeyword());
 		judgmentCriteria.setLegalBase(element.getLegalBase());
@@ -27,7 +37,6 @@ public class JudgmentCriteriaFormConverter {
 
 		judgmentCriteria.setDateFrom(element.getDateFrom());
 		judgmentCriteria.setDateTo(element.getDateTo());
-		
 		
 		return judgmentCriteria;
 	}

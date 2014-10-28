@@ -7,67 +7,64 @@
 var CourtDivisionSelect = (function() {
 	
 	var space = {},
-		$court = "",
-		divisionId = "",
-		divisionUrl = "",
+		fields = [{court: "", divisionId: "", divisionUrl: ""}],
+		
 	
-	init = function($this, source) {
+	init = function(source) {
 		
-		if ($this !== "") {
-			$court = $this;
-		}
-		
-		if (source.divisionId !== "") {
-			divisionId = "#" + source.divisionId;
-		}
-		
-		if (source.divisionsUrl !== "") {
-			divisionUrl = source.divisionUrl;
+		if (source.fields !== "" && source.fields !== undefined ) {
+			fields = source.fields;
 		}
 		
 	}, 
 	
 	assignChangeEvent = function() {
-		$court.change(function() {
-			changeCourt();
-		});
-	},
-	
-	/* Get divisions by court id and fill element 'select' divisions with received items */
-	changeCourt = function() {
-		var selectedCourtId = $court.find("option:selected").attr("value");
+		var i = 0,
+			length = fields.length;
 		
-		if (selectedCourtId !== "") {
-			$.ajax(divisionUrl + selectedCourtId)
-			 .done(function(data) {
-				 var options = prepareOption("", ""),
-				 	i = 0,
-				 	length = data.length;
-				 
-				 for(i; i < length; i += 1) {
-					 options += prepareOption(data[i].id, data[i].name);
-				 }
-				 
-				 $(divisionId).empty().removeAttr("disabled").prepend(options);
-			 })
-			 .fail(function() {});
-		} else {
-			$(divisionId).empty().attr("disabled", "disabled");
+		for(i = 0; i < length; i += 1) {
+			$(fields[i].court).each(function() {
+				var $court = $(this),
+					$divisionId = $(fields[i].divisionId),
+					divisionUrl = fields[i].divisionUrl;
+				
+				$court.change((function() {
+					/* Get divisions by court id and fill element 'select' divisions with received items */
+					return function() {
+						var selectedCourtId = $court.find("option:selected").attr("value");
+						
+						if (selectedCourtId !== "") {
+							$.ajax(divisionUrl + selectedCourtId)
+							 .done(function(data) {
+								 var options = prepareOption("", ""),
+								 	 j = 0,
+								 	 dataLength = data.length;
+								 
+								 for(j; j < dataLength; j += 1) {
+									 options += prepareOption(data[j].id, data[j].name);
+								 }
+								 
+								 $divisionId.empty().removeAttr("disabled").prepend(options);
+							 })
+							 .fail(function() {});
+						} else {
+							$divisionId.empty().attr("disabled", "disabled");
+						}
+					};
+					
+				}()));
+			});
 		}
 	},
 	
 	prepareOption = function(id, name) { 
-		return "<option content='" + name + "' value='" + id + "' >" + name + "</option>";
+		return "<option data-content='" + name + "' value='" + id + "' >" + name + "</option>";
 	};
 	
-	space.run = function($this, source) {
-		init($this, source);
+	space.run = function(source) {
+		init(source);
 		assignChangeEvent();
 	};
 	
 	return space;
 }());
-
-$.fn.courtDivisionSelect = function(source) {
-	CourtDivisionSelect.run($(this), source);
-};

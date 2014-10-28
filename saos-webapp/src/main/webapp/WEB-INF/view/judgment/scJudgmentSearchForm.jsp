@@ -10,3 +10,9 @@
     	</select>
 	</div>
 </div>
+
+
+<saosSearch:courtSelect items="${supremeChambers}" selectedItem="${judgmentCriteriaForm.supremeChamberId}" path="supremeChamberId" id="select-supreme-chamber" labelName="select-supreme-chamber" labelText="search.field.supreme.chamber" />
+
+<saosSearch:courtSelect items="${supremeChamberDivisions}" selectedItem="${judgmentCriteriaForm.supremeChamberDivisionId}" path="supremeChamberDivisionId" id="select-supreme-chamber-division" labelName="select-supreme-chamber-division" labelText="search.field.supreme.chamberdivision" />
+

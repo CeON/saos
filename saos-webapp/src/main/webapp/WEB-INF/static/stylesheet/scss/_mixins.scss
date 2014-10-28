@@ -32,3 +32,18 @@
 @mixin background-image($image) {
 	background-image: url($image-src + $image);
 }
+
+@mixin filter-underline() {
+	border: {
+		color: #333;
+		style: dotted;
+		width: 0px 0px 1px;
+	}
+	cursor: pointer;
+	
+	&:hover {
+		border: {
+			style: solid;
+		}
+	}
+}

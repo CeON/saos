@@ -2,7 +2,12 @@
 
 <spring:eval expression="T(pl.edu.icm.saos.persistence.model.Judgment.JudgmentType).values()" var="enumJudgmentType" scope="page"/>
 
-<div class="filter-box" id="filter-box">
+
+<c:if test="${showFilterBox == 'false'}" >
+	<c:set var="showFilterBox" value="display-none" />
+</c:if>
+
+<div class="filter-box ${showFilterBox}" id="filter-box">
 	<p><spring:message code="judgment.results.filter.header" /><span id="filter-hide" class="filter-hide"></span></p>
 	
 	<saos:filterField assignedField="input-search-all" label="judgment.results.filter.all" filterValue="${judgmentCriteriaForm.all}" id="filter-all"></saos:filterField>
@@ -53,13 +58,10 @@
 		</div>
 	</c:if>
 	
+	<%@ include file="ccJudgmentFilterFields.jsp" %>
 	
-	<saos:filterField assignedField="select-court" label="judgment.results.filter.court" filterValue="${judgmentCriteriaForm.courtId}" id="filter-court"></saos:filterField>
+	<%@ include file="scJudgmentFilterFields.jsp" %>
 	
-	<saos:filterField assignedField="select-division" label="judgment.results.filter.division" filterValue="${judgmentCriteriaForm.divisionId}" id="filter-division"></saos:filterField>
-	
-	<saos:filterField assignedField="input-search-keywords" label="judgment.results.filter.keywords" filterValue="${judgmentCriteriaForm.keyword}" id="filter-keyword"></saos:filterField>
-		
 	<p id="clearAllFilters" class="clear-button" ><spring:message code="judgment.results.filter.clearAll" /></p>
 		
 	<p id="no-filters" >
