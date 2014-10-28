@@ -195,8 +195,8 @@ var FilterBox = (function() {
 	
 	dontShowBox = function() {
 		if (readCookie() === "false") {
-			//$parent.css({display: "none"});
-			//$(resultList).css({width: widthMax});
+			/*$parent.css({display: "none"});
+			$(resultList).css({width: widthMax});*/
 			createFilterShowButton();
 		}
 	},

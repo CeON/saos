@@ -92,16 +92,16 @@ public class JudgmentController {
 		return "singleResult";
 	}
 
-	@RequestMapping("/search/division/{commonCourtId}")
+	@RequestMapping("/search/courtDivision/{commonCourtId}")
 	@ResponseBody
 	public List<SimpleDivision> division(@PathVariable("commonCourtId") String commonCourtId) {
 		return getCcDivisionList(commonCourtId);
 	}
 	
-	@RequestMapping("/search/chamberDivision/{chamberId}")
+	@RequestMapping("/search/chamberDivision/{supremeChamberId}")
 	@ResponseBody
-	public List<SimpleDivision> chamberDivision(@PathVariable("chamberId") String chamberDivisionId) {
-		return getSupremeChamberDivisionList(chamberDivisionId);
+	public List<SimpleDivision> chamberDivision(@PathVariable("supremeChamberId") String supremeChamberId) {
+		return getSupremeChamberDivisionList(supremeChamberId);
 	}
 
 	
@@ -115,7 +115,7 @@ public class JudgmentController {
 		model.addAttribute("commonCourts", commonCourtRepository.findAll());
 		
 		if (judgmentCriteriaForm.getCommonCourtId() != null) {
-			model.addAttribute("commonDivisions", getCcDivisionList(judgmentCriteriaForm.getCommonCourtId()));
+			model.addAttribute("commonCourtDivisions", getCcDivisionList(judgmentCriteriaForm.getCommonCourtId()));
 		}
 	}
 	
@@ -148,6 +148,6 @@ public class JudgmentController {
 			return Lists.newArrayList();
 		} 
 
-		return simpleDivisionConverter.convertScChamberDivisions(scChamberDivisionRepository.findAllBySupremeCourtChamberId(intChamberId));
+		return simpleDivisionConverter.convertScChamberDivisions(scChamberDivisionRepository.findAllByScChamberId(intChamberId));
 	}
 }

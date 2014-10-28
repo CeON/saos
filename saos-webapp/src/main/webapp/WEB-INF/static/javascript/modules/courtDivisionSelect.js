@@ -37,11 +37,11 @@ var CourtDivisionSelect = (function() {
 							$.ajax(divisionUrl + selectedCourtId)
 							 .done(function(data) {
 								 var options = prepareOption("", ""),
-								 	i = 0,
-								 	length = data.length;
+								 	 j = 0,
+								 	 dataLength = data.length;
 								 
-								 for(i; i < length; i += 1) {
-									 options += prepareOption(data[i].id, data[i].name);
+								 for(j; j < dataLength; j += 1) {
+									 options += prepareOption(data[j].id, data[j].name);
 								 }
 								 
 								 $divisionId.empty().removeAttr("disabled").prepend(options);
@@ -54,29 +54,6 @@ var CourtDivisionSelect = (function() {
 					
 				}()));
 			});
-		}
-	},
-	
-	
-	changeCourt = function($court, divisionId, divisionUrl) {
-		var selectedCourtId = $court.find("option:selected").attr("value");
-		
-		if (selectedCourtId !== "") {
-			$.ajax(divisionUrl + selectedCourtId)
-			 .done(function(data) {
-				 var options = prepareOption("", ""),
-				 	i = 0,
-				 	length = data.length;
-				 
-				 for(i; i < length; i += 1) {
-					 options += prepareOption(data[i].id, data[i].name);
-				 }
-				 
-				 $(divisionId).empty().removeAttr("disabled").prepend(options);
-			 })
-			 .fail(function() {});
-		} else {
-			$(divisionId).empty().attr("disabled", "disabled");
 		}
 	},
 	

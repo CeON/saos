@@ -3,6 +3,6 @@
 
 <saosSearch:courtSelect items="${commonCourts}" selectedItem="${judgmentCriteriaForm.commonCourtId}" path="commonCourtId" id="select-common-court" labelName="select-common-court" labelText="search.field.court" />
 
-<saosSearch:courtSelect items="${commonDivisions}" selectedItem="${judgmentCriteriaForm.commonCourtDivisionId}" path="commonCourtDivisionId" id="select-common-division" labelName="select-common-division" labelText="search.field.division" />
+<saosSearch:courtSelect items="${commonCourtDivisions}" selectedItem="${judgmentCriteriaForm.commonCourtDivisionId}" path="commonCourtDivisionId" id="select-common-division" labelName="select-common-division" labelText="search.field.division" />
 
 <saos:formFieldText path="keyword" labelName="input-search-keywords" labelText="search.field.keywords" />

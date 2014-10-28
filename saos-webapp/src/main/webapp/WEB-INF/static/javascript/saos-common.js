@@ -56,7 +56,7 @@ $(document).ready(function() {
 				   {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court", selectFormType: "#radio-court-common"}],
 		
 		advanceFilter: [{button: ".division", searchfield: "#select-common-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
-						url: contextPath + "/search/division/",
+						url: contextPath + "/search/courtDivision/",
 						parent : {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court"}},
 						{button: ".division", searchfield: "#select-common-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
 						url: contextPath + "/search/chamberDivision/",
