@@ -17,6 +17,10 @@ public class CommonCourtDivisionBuilder {
         element = new SpecialCommonCourtDivision(divisionId);
     }
 
+    CommonCourtDivisionBuilder(){
+        element = new CommonCourtDivision();
+    }
+
     public CommonCourtDivisionBuilder court(CommonCourt court){
         element.setCourt(court);
         return this;

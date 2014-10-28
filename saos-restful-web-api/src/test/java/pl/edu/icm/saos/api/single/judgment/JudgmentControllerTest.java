@@ -6,10 +6,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,57 +13,47 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.config.TestsConfig;
 import pl.edu.icm.saos.api.services.FieldsDefinition.JC;
+import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
+import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.iterableWithSize;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.search.judgments.JudgmentRepresentationVerifier.verifyBasicFields;
 import static pl.edu.icm.saos.api.services.Constansts.*;
-import static pl.edu.icm.saos.api.services.FieldsDefinition.createCommonJudgment;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  {JudgmentControllerTest.TestConfiguration.class})
+@ContextConfiguration(classes =  {TestsConfig.class})
 @Category(SlowTest.class)
-public class JudgmentControllerTest {
-
-
-    @Configuration
-    @Import(TestsConfig.class)
-    public static class TestConfiguration {
-
-        @Bean(name = "mockJudgmentRepository")
-        public JudgmentRepository judgmentRepository(){
-
-            JudgmentRepository judgmentRepository = mock(JudgmentRepository.class);
-            when(judgmentRepository.findOneAndInitialize(JC.JUDGMENT_ID)).thenReturn(createCommonJudgment());
-
-            return judgmentRepository;
-
-        }
-
-    }
-
+public class JudgmentControllerTest extends PersistenceTestSupport {
 
     @Autowired
     private SingleJudgmentSuccessRepresentationBuilder singleJudgmentSuccessRepresentationBuilder;
 
     @Autowired
-    @Qualifier("mockJudgmentRepository")
     private JudgmentRepository judgmentRepository;
+
+    @Autowired
+    private TestPersistenceObjectsFactory testPersistenceObjectsFactory;
 
 
     private MockMvc mockMvc;
 
+    private TestPersistenceObjectsContext objectsContext;
+    private String path;
+
     @Before
     public void setUp(){
+        objectsContext = testPersistenceObjectsFactory.createPersistenceObjectsContext();
+        path = SINGLE_JUDGMENTS_PATH + "/" + objectsContext.getJudgmentId();
+
         JudgmentController judgmentController = new JudgmentController();
 
         judgmentController.setSingleJudgmentSuccessRepresentationBuilder(singleJudgmentSuccessRepresentationBuilder);
@@ -80,11 +66,11 @@ public class JudgmentControllerTest {
     @Test
     public void it_should_show_all_judgments_fields() throws Exception {
         //when
-        ResultActions actions = mockMvc.perform(get(JUDGMENT_PATH)
+        ResultActions actions = mockMvc.perform(get(path)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
-        verifyBasicFields(actions, "$.data");
+        verifyBasicFields(actions, "$.data", objectsContext);
 
         actions
                 .andExpect(jsonPath("$.data.source.code").value(SourceCode.COMMON_COURT.name()))
@@ -128,30 +114,30 @@ public class JudgmentControllerTest {
                 .andExpect(jsonPath("$.data.keywords.[0]").value(JC.FIRST_KEYWORD))
                 .andExpect(jsonPath("$.data.keywords.[1]").value(JC.SECOND_KEYWORD))
 
-                .andExpect(jsonPath("$.data.division.href").value(endsWith(DIVISION_PATH)))
+                .andExpect(jsonPath("$.data.division.href").value(endsWith(DIVISIONS_PATH+"/"+objectsContext.getFirstDivisionId())))
                 .andExpect(jsonPath("$.data.division.name").value(JC.DIVISION_NAME))
                 .andExpect(jsonPath("$.data.division.code").value(JC.DIVISION_CODE))
                 .andExpect(jsonPath("$.data.division.type").value(JC.DIVISION_TYPE_NAME))
 
-                .andExpect(jsonPath("$.data.division.court.href").value(endsWith(COURT_PATH)))
+                .andExpect(jsonPath("$.data.division.court.href").value(endsWith(SINGLE_COURTS_PATH+"/"+objectsContext.getCommonCourtId())))
                 .andExpect(jsonPath("$.data.division.court.code").value(JC.COURT_CODE))
                 .andExpect(jsonPath("$.data.division.court.name").value(JC.COURT_NAME))
                 .andExpect(jsonPath("$.data.division.court.type").value(JC.COURT_TYPE.name()))
 
-                .andExpect(jsonPath("$.data.division.court.parentCourt.href").value(endsWith(PARENT_COURT_PATH)))
+                .andExpect(jsonPath("$.data.division.court.parentCourt.href").value(endsWith(SINGLE_COURTS_PATH+"/"+objectsContext.getParentCourtId())))
                 ;
     }
 
     @Test
     public void itShouldShowLinks() throws Exception {
         //when
-        ResultActions actions = mockMvc.perform(get(JUDGMENT_PATH)
+        ResultActions actions = mockMvc.perform(get(path)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
         actions
                 .andExpect(jsonPath("$.links").isArray())
-                .andExpect(jsonPath("$.links[?(@.rel==self)].href[0]").value(endsWith(JUDGMENT_PATH)))
+                .andExpect(jsonPath("$.links[?(@.rel==self)].href[0]").value(endsWith(path)))
                 ;
     }
 

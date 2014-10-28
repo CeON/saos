@@ -17,6 +17,10 @@ public class CommonCourtBuilder{
         element = new SpecialCommonCourt(courtId);
     }
 
+    CommonCourtBuilder(){
+        element = new CommonCourt();
+    }
+
     public CommonCourtBuilder code(String code){
         element.setCode(code);
         return this;

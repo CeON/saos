@@ -39,7 +39,7 @@ public class CourtController extends ControllersEntityExceptionHandler {
     @ResponseBody
     public ResponseEntity<Map<String, Object>> showCourt(@PathVariable("courtId") int courtId) throws ElementDoesNotExistException {
 
-        CommonCourt court = courtRepository.findOne(courtId);
+        CommonCourt court = courtRepository.findOneAndInitialize(courtId);
         if(court == null){
             throw new ElementDoesNotExistException("Court", courtId);
         }

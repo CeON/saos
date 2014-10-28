@@ -231,6 +231,7 @@ public abstract class FieldsDefinition {
         public static final int COURT_PARENT_ID = 2222;
         public static final String COURT_PARENT_NAME = "Sad Apelacyjny we Wroclawiu";
         public static final CommonCourt.CommonCourtType COURT_PARENT_TYPE = CommonCourt.CommonCourtType.APPEAL;
+        public static final String COURT_PARENT_CODE = "16660000";
 
         public static final String FIRST_KEYWORD = "konsument";
         public static final String SECOND_KEYWORD = "klauzule niedozwolone";
