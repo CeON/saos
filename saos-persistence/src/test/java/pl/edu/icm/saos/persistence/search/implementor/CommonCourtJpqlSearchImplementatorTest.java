@@ -35,6 +35,20 @@ public class CommonCourtJpqlSearchImplementatorTest extends PersistenceTestSuppo
 
 
     @Test
+    public void search__it_should_return_empty_list_if_there_is_no_common_courts(){
+        CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
+                .filter();
+
+        //when
+        SearchResult<CommonCourt> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        List<CommonCourt> courts = searchResult.getResultRecords();
+
+        assertThat("should be empty", courts, iterableWithSize(0));
+    }
+
+    @Test
     public void search__it_should_find_all_CommonCourt_Basic_Fields_With_Its_All_Divisions_Fields(){
         //given
         CommonCourt commonCourt = testJudgmentFactory.createFullCommonCourt(true);

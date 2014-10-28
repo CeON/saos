@@ -15,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import pl.edu.icm.saos.api.config.TestsConfig;
+import pl.edu.icm.saos.api.config.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.search.services.ApiSearchService;
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.search.judgments.JudgmentRepresentationVerifier.verifyBasicFields;
+import static pl.edu.icm.saos.api.search.judgments.JudgmentJsonRepresentationVerifier.verifyBasicFields;
 import static pl.edu.icm.saos.api.services.Constansts.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -42,7 +42,7 @@ public class JudgmentsControllerTest {
     private static final int TOTAL_RESULTS_VALUE = 23;
 
     @Configuration
-    @Import(TestsConfig.class)
+    @Import(ApiTestConfiguration.class)
     static class TestConfiguration {
 
         @Bean(name = "mockJudgmentApiSearchService")
@@ -111,7 +111,7 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.items.[0].division.court.code").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].division.court.type").doesNotExist())
 
-                .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(DIVISIONS_PATH+"/"+JC.DIVISION_ID)))
+                .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(SINGLE_DIVISIONS_PATH +"/"+JC.DIVISION_ID)))
                 .andExpect(jsonPath("$.items.[0].division.name").value(JC.DIVISION_NAME))
 
                 .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH+"/"+JC.COURT_ID)))

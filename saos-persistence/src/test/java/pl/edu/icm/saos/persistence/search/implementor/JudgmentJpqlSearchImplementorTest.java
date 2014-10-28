@@ -68,7 +68,8 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         assertThat("division id should be not null", actualJudgment.getCourtDivision().getId(), notNullValue());
         assertThat("division id ", actualJudgment.getCourtDivision().getId(), is(ccJudgment.getCourtDivision().getId()));
         assertThat("judges", actualJudgment.getJudges(), containsListInAnyOrder(ccJudgment.getJudges()));
-        assertThat("judge role", actualJudgment.getJudges().get(0).getSpecialRoles().get(0), is(Judge.JudgeRole.PRESIDING_JUDGE));
+        assertThat("all roles ", extractRolesNames(actualJudgment.getJudges()), containsInAnyOrder(Judge.JudgeRole.PRESIDING_JUDGE.name(), Judge.JudgeRole.REPORTING_JUDGE.name()));
+        assertThat("judge's role", actualJudgment.getJudges().get(0).getSpecialRoles().get(0), is(Judge.JudgeRole.PRESIDING_JUDGE));
 
         assertThat("keywords", actualJudgment.getKeywords(), containsListInAnyOrder(ccJudgment.getKeywords()));
 
@@ -193,6 +194,30 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         assertThat("should find only one recently modified element", secondSearchResult.getResultRecords().size(), is(1));
         assertThat("should id match", secondSearchResult.getResultRecords().get(0).getId(), is(judgment.getId()));
 
+    }
+
+    @Test
+    public void search_it_should_return_empty_list_if_there_is_no_judgments(){
+        JudgmentSearchFilter simpleSearchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+        //when
+        SearchResult<Judgment> searchResult = databaseSearchService.search(simpleSearchFilter);
+
+        //then
+        List<Judgment> judgments = searchResult.getResultRecords();
+
+        assertThat("should be empty", judgments, iterableWithSize(0));
+
+    }
+
+    private static List<String> extractRolesNames(List<Judge> judges){
+        List<String> rolesNames = judges.stream()
+                .flatMap(judge -> judge.getSpecialRoles().stream())
+                .map(role -> role.name())
+                .collect(Collectors.toList());
+
+        return rolesNames;
     }
 
     private static List<Integer> extractIds(List<? extends Judgment> judgments){
