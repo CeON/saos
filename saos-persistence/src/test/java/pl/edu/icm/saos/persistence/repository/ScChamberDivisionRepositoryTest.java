@@ -1,8 +1,12 @@
 package pl.edu.icm.saos.persistence.repository;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.List;
+
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -38,6 +42,13 @@ public class ScChamberDivisionRepositoryTest extends PersistenceTestSupport {
     
     
     @Test
+    public void deleteAll() {
+        assertEquals(3, scChamberDivisionRepository.count());
+        scChamberDivisionRepository.deleteAll();
+        assertEquals(0, scChamberDivisionRepository.count());
+    }
+    
+    @Test
     public void findOneByFullName_FOUND() {
         
         SupremeCourtChamberDivision dbScDivision = scChamberDivisionRepository.findOneByFullName(division1.getFullName());
@@ -54,6 +65,15 @@ public class ScChamberDivisionRepositoryTest extends PersistenceTestSupport {
         assertNull(dbScDivision);
     }
 
+    
+    @Test
+    public void findAllByChamberId() {
+        List<SupremeCourtChamberDivision> scChamberDivisions = scChamberDivisionRepository.findAllByScChamberId(division1.getScChamber().getId());
+        
+        assertEquals(1, scChamberDivisions.size());
+        assertThat(scChamberDivisions, Matchers.containsInAnyOrder(division1));
+        
+    }
 
     //------------------------ PRIVATE --------------------------
     

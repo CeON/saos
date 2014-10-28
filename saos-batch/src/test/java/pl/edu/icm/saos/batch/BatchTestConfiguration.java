@@ -49,4 +49,8 @@ public class BatchTestConfiguration extends CommonTestConfiguration {
         resource = new ClassPathResource("createBatchTables.sql");
         ScriptUtils.executeSqlScript(dataSource.getConnection(), new EncodedResource(resource, "UTF-8"));
     }
+    
+    
+   
+    
 }

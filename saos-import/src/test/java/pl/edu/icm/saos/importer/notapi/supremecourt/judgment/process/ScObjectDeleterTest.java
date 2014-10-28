@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
+import javax.persistence.EntityManager;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
@@ -52,6 +52,13 @@ public class ScObjectDeleterTest extends ImportTestSupport {
     @Autowired
     private ScJudgmentFormRepository scJudgmentFormRepository;
     
+    @Autowired
+    private EntityManager entityManager;
+    
+    
+    
+    
+    //------------------------ LOGIC --------------------------
     
     
     @Test
@@ -91,7 +98,6 @@ public class ScObjectDeleterTest extends ImportTestSupport {
     
     
     @Test
-    @Transactional
     public void deleteScChambersWithoutJudgments() {
         
         SupremeCourtChamber scChamber = createScChamber(true);
@@ -111,7 +117,38 @@ public class ScObjectDeleterTest extends ImportTestSupport {
     
     
     @Test
-    @Transactional
+    public void deleteScChamberDivisionsWithoutJudgments() {
+        
+        // given 
+        
+        SupremeCourtChamber scChamber = new SupremeCourtChamber();
+        scChamber.setName(RandomStringUtils.randomAlphanumeric(12));
+        scChamberRepository.save(scChamber);
+        
+        SupremeCourtChamberDivision scDivision1 = createScChamberDivision(scChamber, true);
+        
+        createScChamberDivision(scChamber, false);
+        createScChamberDivision(scChamber, false);
+        
+        
+        //execute
+        
+        scObjectDeleter.deleteScChamberDivisionsWithoutJudgments();
+        
+        
+        // assert
+        
+        assertEquals(1, scChamberDivisionRepository.count());
+        List<SupremeCourtChamberDivision> dbScChamberDivisions = scChamberDivisionRepository.findAll();
+        
+        assertEquals(1, dbScChamberDivisions.size());
+        assertEquals(scDivision1.getId(), dbScChamberDivisions.get(0).getId());
+        
+    }
+    
+    
+    
+    @Test
     public void deleteScjFormsWithoutJudgments() {
         
         SupremeCourtJudgmentForm scjForm = createScjForm(true);
@@ -128,6 +165,7 @@ public class ScObjectDeleterTest extends ImportTestSupport {
         
         
     }
+    
     
     
     //------------------------ PRIVATE --------------------------
@@ -161,6 +199,17 @@ public class ScObjectDeleterTest extends ImportTestSupport {
         SupremeCourtChamber scChamber = new SupremeCourtChamber();
         scChamber.setName(RandomStringUtils.randomAlphanumeric(12));
         
+        scChamberRepository.save(scChamber);
+        scChamberRepository.flush();
+        
+        createScChamberDivision(scChamber, hasReferringJudgment);
+        
+        return scChamber;
+        
+    }
+
+
+    private SupremeCourtChamberDivision createScChamberDivision(SupremeCourtChamber scChamber, boolean hasReferringJudgment) {
         
         SupremeCourtChamberDivision scChamberDivision = new SupremeCourtChamberDivision();
         scChamberDivision.setName(RandomStringUtils.randomAlphanumeric(8));
@@ -168,19 +217,24 @@ public class ScObjectDeleterTest extends ImportTestSupport {
         
         scChamber.addDivision(scChamberDivision);
         
-        scChamberRepository.save(scChamber);
         scChamberDivisionRepository.save(scChamberDivision);
+        scChamberDivisionRepository.flush();
+        
+        scChamber = scChamberRepository.save(scChamber);
+        scChamberRepository.flush();
+        
         
         if (hasReferringJudgment) {
             SupremeCourtJudgment judgment = new SupremeCourtJudgment();
             judgment.addCourtCase(new CourtCase("123"));
             judgment.setScChamberDivision(scChamberDivision);
             judgment.addScChamber(scChamber);
-            judgmentRepository.save(judgment);    
+            judgmentRepository.save(judgment);  
         }
+
         
-        return scChamber;
         
+        return scChamberDivision;
     }
     
     

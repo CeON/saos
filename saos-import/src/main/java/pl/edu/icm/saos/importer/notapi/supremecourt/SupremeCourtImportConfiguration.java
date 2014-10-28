@@ -19,6 +19,7 @@ import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgme
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.SourceScJudgmentExtractor;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
+import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 
 /**
@@ -44,8 +45,8 @@ public class SupremeCourtImportConfiguration {
     
     //------------------------ BEANS --------------------------
     
-    @Bean 
-    public ImportFileUtils scjImportFileService(@Value("${import.relDir.supremeCourt.judgment}") String importRelDir) {
+    @Bean
+    public ImportFileUtils scjImportFileUtils(@Value("${import.relDir.supremeCourt.judgment}") String importRelDir) {
         ImportFileUtils scjImportFileUtils = new ImportFileUtils();
         scjImportFileUtils.setEligibleFileExtensions(new String[]{"json", "json.gz"});
         scjImportFileUtils.setImportMainDir(importMainDir);
@@ -56,7 +57,10 @@ public class SupremeCourtImportConfiguration {
     
     @Bean
     public MappingJsonFactory jsonFactory() {
-        return new MappingJsonFactory();
+        MappingJsonFactory factory = new MappingJsonFactory();
+        factory.enable(Feature.ALLOW_COMMENTS);
+        return factory;
+        
     }
     
     

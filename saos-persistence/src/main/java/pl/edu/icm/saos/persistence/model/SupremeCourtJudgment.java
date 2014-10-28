@@ -66,7 +66,7 @@ public class SupremeCourtJudgment extends Judgment {
         return scChamberDivision;
     }
     
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.REFRESH})
     @JoinTable(name = "supreme_court_judgment_chamber",
             joinColumns = {@JoinColumn(name = "fk_judgment", nullable = false, updatable = true) }, 
             inverseJoinColumns = {@JoinColumn(name = "fk_chamber", nullable = false, updatable = true) })

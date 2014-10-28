@@ -1,10 +1,10 @@
 package pl.edu.icm.saos.persistence.common;
 
 import pl.edu.icm.saos.common.visitor.Visitor;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
 /**
  * Contains methods initializing lazy objects
@@ -28,16 +28,20 @@ public class InitializingVisitor implements Visitor {
     }
 
     
+    public void visit(SupremeCourtJudgment judgment) {
+        initializeJudgment(judgment);
+        JpaUtils.initialize(judgment.getScChamberDivision());
+        JpaUtils.initialize(judgment.getScChamberDivision().getScChamber());
+        JpaUtils.initialize(judgment.getScChambers());
+        JpaUtils.initialize(judgment.getScJudgmentForm());
+    }
+    
+    
     public void visit(Judge judge) {
         JpaUtils.initialize(judge.getSpecialRoles());
     }
 
 
-    public void visit(CommonCourt court){
-        JpaUtils.initialize(court.getDivisions());
-    }
-    
-    
     
     //------------------------ PRIVATE --------------------------
     

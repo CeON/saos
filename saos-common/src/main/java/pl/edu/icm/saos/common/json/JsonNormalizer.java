@@ -18,7 +18,7 @@ public class JsonNormalizer {
     static {
         singleQuotedMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
         singleQuotedMapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-        
+        singleQuotedMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
     }
     
     
@@ -30,7 +30,7 @@ public class JsonNormalizer {
     
     /**
      * Changes passed json into a standard double quoted one: replaces single quotes with double-quotes, adds
-     * double quotes for field names that are missing them, removes whitespaces. <br/>
+     * double quotes for field names that are missing them, removes whitespaces and comments. <br/>
      * Note: the element values of the passed json have to be in single or double quotes.<br/>
      * <br/>
      * E.g. <br/>

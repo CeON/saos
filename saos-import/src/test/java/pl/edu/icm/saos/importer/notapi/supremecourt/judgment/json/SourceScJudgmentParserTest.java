@@ -38,8 +38,8 @@ public class SourceScJudgmentParserTest {
     private CommonValidator commonValidator;
     
     
-    private static String jsonContent = "{textContent:'Wyrok z dnia 22 lutego 1994 r.',"+
-            "judges:["
+    private static String jsonContent = "{textContent:'Wyrok z dnia 22 lutego 1994 r.', /* comment should pass */ "+
+            "judges:[" 
                 + "{name:'Józef Iwulski',function:null,specialRoles:['REPORTING_JUDGE']}, "
                 + "{name:'Jacek Hero',function:'SSN',specialRoles:['REPORTING_JUDGE', 'XXX']}]," 
             + "source:"

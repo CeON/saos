@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 
@@ -33,6 +35,8 @@ class ScObjectDeleter {
     private JudgmentRepository judgmentRepository;
     
     private ScChamberRepository scChamberRepository;
+    
+    private ScChamberDivisionRepository scChamberDivisionRepository;
     
     private ScJudgmentFormRepository scJudgmentFormRepository;
     
@@ -83,6 +87,28 @@ class ScObjectDeleter {
         scChamberRepository.flush();
         
     }
+    
+    /**
+     * Deletes {@link SupremeCourtChamberDivision}s that are not referenced from any {@link SupremeCourtJudgment}
+     */
+    @Transactional
+    void deleteScChamberDivisionsWithoutJudgments() {
+        
+        log.debug("Deleting scChamberDivisions without referring judgments ");
+        
+        
+        String q = "select scChamberDivision.id from " + SupremeCourtChamberDivision.class.getName() + " scChamberDivision " +
+                " where not exists  (select judgment from "+ SupremeCourtJudgment.class.getName() + " judgment " +
+                                        "  where scChamberDivision.id = judgment.scChamberDivision.id)";
+    
+        @SuppressWarnings("unchecked")
+        List<Integer> scChamberDivisionIds = entityManager.createQuery(q).getResultList();
+        
+        scChamberDivisionIds.stream().forEach(scChamberDivisionRepository::delete);
+        
+        scChamberDivisionRepository.flush();
+        
+    }
 
     /**
      * Deletes {@link SupremeCourtJudgmentForm}s that are not referenced from any {@link SupremeCourtJudgment}
@@ -126,6 +152,11 @@ class ScObjectDeleter {
     @Autowired
     public void setScJudgmentFormRepository(ScJudgmentFormRepository scJudgmentFormRepository) {
         this.scJudgmentFormRepository = scJudgmentFormRepository;
+    }
+
+    @Autowired
+    public void setScChamberDivisionRepository(ScChamberDivisionRepository scChamberDivisionRepository) {
+        this.scChamberDivisionRepository = scChamberDivisionRepository;
     }
     
 }
