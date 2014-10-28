@@ -13,7 +13,7 @@ import static pl.edu.icm.saos.api.services.Constansts.SINGLE_JUDGMENTS_PATH;
 /**
  * @author pavtel
  */
-public class JudgmentRepresentationVerifier {
+public class JudgmentJsonRepresentationVerifier {
 
         @Deprecated
         public static void verifyBasicFields(ResultActions actions, String pathPrefix) throws Exception{
@@ -37,6 +37,13 @@ public class JudgmentRepresentationVerifier {
                         ;
         }
 
+        /**
+         * Verifies basic judgment's fields representation
+         * @param actions an instance of ResultActions ("represents json view")
+         * @param pathPrefix json path prefix
+         * @param objectsContext contains information about objects ids
+         * @throws Exception if json is different than expected
+         */
         public static void verifyBasicFields(ResultActions actions, String pathPrefix, TestPersistenceObjectsContext objectsContext) throws Exception{
                 actions
                         .andExpect(jsonPath(pathPrefix+".href").value(endsWith(SINGLE_JUDGMENTS_PATH+"/"+ objectsContext.getJudgmentId())))

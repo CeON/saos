@@ -21,7 +21,7 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.services.Constansts.DIVISIONS_PATH;
+import static pl.edu.icm.saos.api.services.Constansts.SINGLE_DIVISIONS_PATH;
 import static pl.edu.icm.saos.api.services.Constansts.SINGLE_COURTS_PATH;
 import static pl.edu.icm.saos.api.services.FieldsDefinition.JC;
 
@@ -51,7 +51,7 @@ public class DivisionControllerTest extends PersistenceTestSupport {
     @Before
     public void setUp(){
         objectsContext = testPersistenceObjectsFactory.createPersistenceObjectsContext();
-        divisionPath = DIVISIONS_PATH + "/" +objectsContext.getFirstDivisionId();
+        divisionPath = SINGLE_DIVISIONS_PATH + "/" +objectsContext.getFirstDivisionId();
         courtPath = SINGLE_COURTS_PATH + "/" +objectsContext.getCommonCourtId();
         parentCourtPath = SINGLE_COURTS_PATH + "/" +objectsContext.getParentCourtId();
 

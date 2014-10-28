@@ -22,7 +22,7 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.services.Constansts.DIVISIONS_PATH;
+import static pl.edu.icm.saos.api.services.Constansts.SINGLE_DIVISIONS_PATH;
 import static pl.edu.icm.saos.api.services.Constansts.SINGLE_COURTS_PATH;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -83,10 +83,10 @@ public class CourtControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(pathPrefix+".parentCourt.href").value(endsWith(parentPath)))
 
                 .andExpect(jsonPath(pathPrefix+".divisions").isArray())
-                .andExpect(jsonPath(pathPrefix+".divisions.[0].href").value(endsWith(DIVISIONS_PATH + "/" + objectsContext.getFirstDivisionId())))
+                .andExpect(jsonPath(pathPrefix+".divisions.[0].href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + objectsContext.getFirstDivisionId())))
                 .andExpect(jsonPath(pathPrefix+".divisions.[0].name").value(FieldsDefinition.JC.DIVISION_NAME))
 
-                .andExpect(jsonPath(pathPrefix+".divisions.[1].href").value(endsWith(DIVISIONS_PATH + "/" + objectsContext.getSecondDivisionId())))
+                .andExpect(jsonPath(pathPrefix+".divisions.[1].href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + objectsContext.getSecondDivisionId())))
                 .andExpect(jsonPath(pathPrefix+".divisions.[1].name").value(FieldsDefinition.JC.SECOND_DIVISION_NAME))
         ;
     }

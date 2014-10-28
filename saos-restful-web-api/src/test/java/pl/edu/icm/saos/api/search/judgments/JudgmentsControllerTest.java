@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.search.judgments.JudgmentRepresentationVerifier.verifyBasicFields;
+import static pl.edu.icm.saos.api.search.judgments.JudgmentJsonRepresentationVerifier.verifyBasicFields;
 import static pl.edu.icm.saos.api.services.Constansts.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -111,7 +111,7 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.items.[0].division.court.code").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].division.court.type").doesNotExist())
 
-                .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(DIVISIONS_PATH+"/"+JC.DIVISION_ID)))
+                .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(SINGLE_DIVISIONS_PATH +"/"+JC.DIVISION_ID)))
                 .andExpect(jsonPath("$.items.[0].division.name").value(JC.DIVISION_NAME))
 
                 .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH+"/"+JC.COURT_ID)))

@@ -25,7 +25,7 @@ import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.search.judgments.JudgmentRepresentationVerifier.verifyBasicFields;
+import static pl.edu.icm.saos.api.search.judgments.JudgmentJsonRepresentationVerifier.verifyBasicFields;
 import static pl.edu.icm.saos.api.services.Constansts.*;
 
 
@@ -114,7 +114,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.keywords.[0]").value(JC.FIRST_KEYWORD))
                 .andExpect(jsonPath("$.data.keywords.[1]").value(JC.SECOND_KEYWORD))
 
-                .andExpect(jsonPath("$.data.division.href").value(endsWith(DIVISIONS_PATH+"/"+objectsContext.getFirstDivisionId())))
+                .andExpect(jsonPath("$.data.division.href").value(endsWith(SINGLE_DIVISIONS_PATH +"/"+objectsContext.getFirstDivisionId())))
                 .andExpect(jsonPath("$.data.division.name").value(JC.DIVISION_NAME))
                 .andExpect(jsonPath("$.data.division.code").value(JC.DIVISION_CODE))
                 .andExpect(jsonPath("$.data.division.type").value(JC.DIVISION_TYPE_NAME))
