@@ -167,15 +167,4 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
 
         return jpql.toString();
     }
-
-    private static class QUERY {
-        public static final String COURT_CASES = " select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.courtCases_ courtCase where judgment.id in (:ids) ";
-        public static final String JUDGES = " select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.judges_  judge where judgment.id in (:ids) ";
-        public static final String JUDGES_ROLES = " select judge from " + Judge.class.getName() + " judge left join fetch judge.specialRoles role where judge.id in (:ids) ";
-        public static final String COURT_REPORTERS = " select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.courtReporters_  courtReporters where judgment.id in (:ids) ";
-        public static final String LEGAL_BASES = " select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.legalBases_  legalBases where judgment.id in (:ids) ";
-        public static final String REFERENCED_REGULATION = " select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.referencedRegulations_  referencedRegulation where judgment.id in (:ids) ";
-        public static final String LAW_JOURNAL_ENTRIES = " select regulation from " + JudgmentReferencedRegulation.class.getName() + " regulation join fetch regulation.lawJournalEntry  lawJournalEntry where regulation.id in (:ids) ";
-        public static final String COMMON_COURTS_KEYWORDS =  " select judgment from "+ CommonCourtJudgment.class.getName()+" judgment join fetch judgment.keywords_ keyword where judgment.id in (:ids) ";
-    }
 }
