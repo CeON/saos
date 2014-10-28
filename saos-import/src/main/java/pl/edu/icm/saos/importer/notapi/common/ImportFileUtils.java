@@ -16,6 +16,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import pl.edu.icm.saos.importer.common.ImportException;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Utility methods related to import files 
  * 
@@ -26,7 +28,7 @@ public class ImportFileUtils {
     
     private String importMainDir;
     
-    private String importRelDir;
+    private String importRelDir = "";
     
     private String[] eligibleFileExtensions;
     
@@ -45,6 +47,8 @@ public class ImportFileUtils {
      * Never returns null.
      */
     public Collection<File> listImportFiles() {
+        Preconditions.checkState(importMainDir != null);
+        
         String importDir = StringUtils.appendIfMissing(importMainDir, "/") + importRelDir;
         return FileUtils.listFiles(new File(importDir), eligibleFileExtensions, true);
     }

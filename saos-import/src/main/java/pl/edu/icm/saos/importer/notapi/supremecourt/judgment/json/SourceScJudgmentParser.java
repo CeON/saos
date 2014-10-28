@@ -10,6 +10,7 @@ import pl.edu.icm.saos.importer.common.ImportException;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonParser.Feature;
 
 /**
  * @author Łukasz Dumiszewski
@@ -22,12 +23,14 @@ public class SourceScJudgmentParser {
     private CommonValidator commonValidator;
     
     /**
-     * Parses json content into SourceScJudgment
+     * Parses json content into SourceScJudgment <br/> 
+     * Allows the json content to have comments - see: {@link Feature#ALLOW_COMMENTS}
+     * 
      */
     public SourceScJudgment parse(String jsonContent) throws ImportException {
         try {
             JsonParser jsonParser = jsonFactory.createParser(jsonContent);
-            
+            jsonParser.enable(Feature.ALLOW_COMMENTS);
             SourceScJudgment scJudgment = jsonParser.readValueAs(SourceScJudgment.class);
             commonValidator.validateEx(scJudgment);
             

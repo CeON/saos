@@ -17,7 +17,6 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.StepExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.batch.BatchTestSupport;
@@ -118,7 +117,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
         int expectedSkipCount = rJudgmentsWithoutDivisionCount + rJudgmentsWithoutCourtCount;
         int expectedWriteCount = ALL_RAW_JUDGMENTS_COUNT - rJudgmentsWithoutDivisionCount - rJudgmentsWithoutCourtCount;
-        assertJobExecution(execution, expectedSkipCount, expectedWriteCount);
+        JobExecutionAssertUtils.assertJobExecution(execution, expectedSkipCount, expectedWriteCount);
         
         //--- assertions ----
         
@@ -157,7 +156,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         
         // first execution
         JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
-        assertJobExecution(execution, 0, ALL_RAW_JUDGMENTS_COUNT);
+        JobExecutionAssertUtils.assertJobExecution(execution, 0, ALL_RAW_JUDGMENTS_COUNT);
         
         assertJudgment_1420();
         
@@ -173,7 +172,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         // and second execution
         
         execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
-        assertJobExecution(execution, 0, 1); // one judgment to process again
+        JobExecutionAssertUtils.assertJobExecution(execution, 0, 1); // one judgment to process again
         
         // assert
         
@@ -201,13 +200,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     //------------------------ PRIVATE --------------------------
     
     
-    private StepExecution getFirstStepExecution(JobExecution execution) {
-        for (StepExecution stepExecution : execution.getStepExecutions()) {
-            return stepExecution;
-        }
-        return null;
-    }
-        
+    
     
     private void assertJudgment_1420() {
         RawSourceCcJudgment rJudgment = rawCcJudgmentRepository.findOne(12420);
@@ -249,12 +242,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     }
 
     
-    private void assertJobExecution(JobExecution execution, int skipCount, int writeCount) {
-        StepExecution stepExecution = getFirstStepExecution(execution);
-        assertEquals(skipCount, stepExecution.getProcessSkipCount());
-        assertEquals(writeCount, stepExecution.getWriteCount());
-    }
-
+    
     
     private void assertSkipped(int rJudgmentId, ImportProcessingSkipReason skipReason) {
         RawSourceCcJudgment rJudgment = rawCcJudgmentRepository.findOne(rJudgmentId);

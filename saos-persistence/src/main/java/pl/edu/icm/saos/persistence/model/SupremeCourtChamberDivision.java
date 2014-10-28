@@ -24,6 +24,7 @@ import pl.edu.icm.saos.persistence.common.DataObject;
 @SequenceGenerator(name = "seq_supreme_court_chamber_div", allocationSize = 1, sequenceName = "seq_supreme_court_chamber_div")
 public class SupremeCourtChamberDivision extends DataObject {
 
+    
     private String fullName;
     private String name;
     private SupremeCourtChamber scChamber;

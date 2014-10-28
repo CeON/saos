@@ -34,6 +34,7 @@ public class ScjImportProcessStepExecutionListener implements StepExecutionListe
         log.debug("after step tasks: ");
         
         scjObjectDeleter.deleteScChambersWithoutJudgments();
+        scjObjectDeleter.deleteScChamberDivisionsWithoutJudgments();
         scjObjectDeleter.deleteScjFormsWithoutJudgments();
 
         return ExitStatus.COMPLETED;
