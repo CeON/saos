@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -120,15 +119,12 @@ public class JudgmentController {
 	}
 	
 	private List<SimpleDivision> getCcDivisionList(String commonCourtId) {
-		int intCourtId = 0;
-		
 		try {
-			intCourtId = Integer.parseInt(commonCourtId);
+			int intCourtId = Integer.parseInt(commonCourtId);
+			return simpleDivisionConverter.convertCcDivisions(ccDivisionRepository.findAllByCourtId(intCourtId));
 		} catch (NumberFormatException e) {
 			return Lists.newArrayList();
 		} 
-		
-		return simpleDivisionConverter.convertCcDivisions(ccDivisionRepository.findAllByCourtId(intCourtId));
 	}
 	
 	private void addSupremeCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
@@ -140,14 +136,11 @@ public class JudgmentController {
 	}
 	
 	private List<SimpleDivision> getSupremeChamberDivisionList(String supremeChamberId) {
-		int intChamberId = 0;
-		
 		try {
-			intChamberId = Integer.parseInt(supremeChamberId);
+			int intChamberId = Integer.parseInt(supremeChamberId);
+			return simpleDivisionConverter.convertScChamberDivisions(scChamberDivisionRepository.findAllByScChamberId(intChamberId));
 		} catch (NumberFormatException e) {
 			return Lists.newArrayList();
 		} 
-
-		return simpleDivisionConverter.convertScChamberDivisions(scChamberDivisionRepository.findAllByScChamberId(intChamberId));
 	}
 }

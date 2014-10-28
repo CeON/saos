@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 
@@ -32,6 +31,9 @@ public class ScChamberDivisionRepositoryTest extends PersistenceTestSupport {
     
     private SupremeCourtChamberDivision division1;
     
+    private SupremeCourtChamber chamberOne;
+    
+    private SupremeCourtChamberDivision chamberDivisionOne;
     
     @Before
     public void before() {
@@ -39,6 +41,8 @@ public class ScChamberDivisionRepositoryTest extends PersistenceTestSupport {
         division1 = createScChamberDivision("division 1 xxmmxxm");
         createScChamberDivision("division 2 xxmccmxxm");
         createScChamberDivision("division 3 xxmmxxm");
+        
+        initScChamberForTests();
     }
     
     
@@ -50,7 +54,6 @@ public class ScChamberDivisionRepositoryTest extends PersistenceTestSupport {
         assertEquals(division1.getId(), dbScDivision.getId());
     }
 
-
     @Test
     public void findOneByFullName_NOT_FOUND() {
         
@@ -61,10 +64,10 @@ public class ScChamberDivisionRepositoryTest extends PersistenceTestSupport {
 
     @Test
     public void findAllByScChamberId_FOUND() {
-    	List<SupremeCourtChamberDivision> scChamberDivisions = scChamberDivisionRepository.findAllByScChamberId(division1.getId());
+    	List<SupremeCourtChamberDivision> scChamberDivisions = scChamberDivisionRepository.findAllByScChamberId(chamberOne.getId());
     	
     	assertEquals(1, scChamberDivisions.size());
-    	assertEquals(division1.getScChamber().getId(), scChamberDivisions.get(0).getId());
+    	assertEquals(chamberDivisionOne.getId(), scChamberDivisions.get(0).getId());
     }
     
     @Test
@@ -88,5 +91,17 @@ public class ScChamberDivisionRepositoryTest extends PersistenceTestSupport {
         division.setScChamber(scChamber);
         scChamberDivisionRepository.save(division);
         return division;
+    }
+    
+    private void initScChamberForTests() {
+    	chamberOne = new SupremeCourtChamber();
+    	chamberOne.setName("zxc");
+    	scChamberRepository.save(chamberOne);
+    	
+    	chamberDivisionOne = new SupremeCourtChamberDivision();
+    	chamberDivisionOne.setFullName("Wydział karny I");
+    	chamberDivisionOne.setName("Wydział karny I");
+    	chamberDivisionOne.setScChamber(chamberOne);
+        scChamberDivisionRepository.save(chamberDivisionOne);
     }
 }

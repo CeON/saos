@@ -36,7 +36,7 @@ var FilterBox = (function() {
 			$parent = $this;
 		}
 		
-		if (source.stickyOptions !== "" && source.stickyOptions !== undefined) {
+		if (source.stickyOptions) {
 			stickyOptions = source.stickyOptions;
 		}
 		
@@ -65,7 +65,6 @@ var FilterBox = (function() {
 		}
 
 	},
-	
 	
 	
 	/* Make box sticky */
