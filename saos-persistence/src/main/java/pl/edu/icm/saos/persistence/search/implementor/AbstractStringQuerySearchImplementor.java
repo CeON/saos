@@ -1,21 +1,20 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
-import com.google.common.base.Preconditions;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.CollectionUtils;
-import pl.edu.icm.saos.persistence.common.DataObject;
-import pl.edu.icm.saos.persistence.common.InitializingVisitor;
-import pl.edu.icm.saos.persistence.search.dto.DatabaseSearchFilter;
-import pl.edu.icm.saos.persistence.search.dto.SearchFilter;
-import pl.edu.icm.saos.persistence.search.model.Order;
-import pl.edu.icm.saos.persistence.search.result.SearchResult;
-
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
+
+import pl.edu.icm.saos.persistence.search.dto.SearchFilter;
+import pl.edu.icm.saos.persistence.search.model.Order;
+import pl.edu.icm.saos.persistence.search.result.SearchResult;
+
+import com.google.common.base.Preconditions;
 
 /**
  * A {@link SearchImplementor} abstract implementation that is based on string queries (eg. sql or hql). 
@@ -88,13 +87,8 @@ public abstract class AbstractStringQuerySearchImplementor<X extends SearchFilte
         Long allRecordsCount = count(searchFilter, parametersMap);
 
         
-        boolean initialize = false; // TODO: mozna to przerzucic do processResult(?)
-        if (searchFilter instanceof DatabaseSearchFilter<?>) {
-            initialize = ((DatabaseSearchFilter<?>) searchFilter).getInitialize();
-        }
-
         // CREATE RESULT OBJECT
-        SearchResult<T> searchResult = createSearchResult(list, allRecordsCount==null?null:allRecordsCount.intValue(), searchFilter.getFirst(), searchFilter.getLimit(), initialize);
+        SearchResult<T> searchResult = createSearchResult(list, allRecordsCount==null?null:allRecordsCount.intValue(), searchFilter.getFirst(), searchFilter.getLimit());
 
 
         // POSTPROCESS THE RESULT
@@ -260,14 +254,8 @@ public abstract class AbstractStringQuerySearchImplementor<X extends SearchFilte
         return allRecordsCount;
     }
     
-    private SearchResult<T> createSearchResult(List<T> list, Integer allRecordsCount, int first, int limit, boolean initialize) {
+    private SearchResult<T> createSearchResult(List<T> list, Integer allRecordsCount, int first, int limit) {
         SearchResult<T> searchResult = new SearchResult<T>(list, allRecordsCount, first, limit);
-        if (initialize) {
-            for (T t : list) {
-                DataObject dataObject = (DataObject) t;
-                dataObject.accept(new InitializingVisitor());
-            }
-        }
         return searchResult;
     }
 }
