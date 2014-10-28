@@ -19,6 +19,14 @@ public class CommonCourtJudgmentBuilder {
         element = new SpecialCommonCourtJudgment(id);
     }
 
+    CommonCourtJudgmentBuilder(){
+        element = new CommonCourtJudgment();
+    }
+
+    public CommonCourtJudgmentBuilder addCourtCase(CourtCase courtCase){
+        element.addCourtCase(courtCase);
+        return this;
+    }
     public CommonCourtJudgmentBuilder courtCases(List<CourtCase> courtCases){
         courtCases.stream().forEach(element::addCourtCase);
         return this;
@@ -45,6 +53,28 @@ public class CommonCourtJudgmentBuilder {
 
         return this;
     }
+
+    public CommonCourtJudgmentBuilder decision(String decision){
+        element.setDecision(decision);
+        return this;
+    }
+
+    public CommonCourtJudgmentBuilder courtReporters(List<String> courtReporters){
+        courtReporters.stream()
+                .forEach(element::addCourtReporter);
+        return this;
+    }
+
+    public CommonCourtJudgmentBuilder summary(String summary){
+        element.setSummary(summary);
+        return this;
+    }
+
+    public CommonCourtJudgmentBuilder type(JudgmentType judgmentType){
+        element.setJudgmentType(judgmentType);
+        return this;
+    }
+
 
     public CommonCourtJudgmentBuilder referencedRegulations(List<JudgmentReferencedRegulation> referencedRegulations) {
         referencedRegulations.stream()

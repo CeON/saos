@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import pl.edu.icm.saos.api.config.TestsConfig;
+import pl.edu.icm.saos.api.config.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.search.parameters.RequestParameters;
 import pl.edu.icm.saos.api.search.services.ApiSearchService;
@@ -36,7 +36,7 @@ import static pl.edu.icm.saos.api.services.FieldsDefinition.createCommonCourt;
 public class CourtsControllerTest {
 
     @Configuration
-    @Import(TestsConfig.class)
+    @Import(ApiTestConfiguration.class)
     static class TestConfiguration {
 
         @Bean(name = "mockCourtsSearchService")

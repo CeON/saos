@@ -134,6 +134,12 @@ public class TestJudgmentFactory {
         Judge judge = new Judge("Monkey Donkey", JudgeRole.PRESIDING_JUDGE);
         judgment.addJudge(judge);
 
+        Judge kowalskiJudge = new Judge("Jan Kowalski", JudgeRole.REPORTING_JUDGE);
+        judgment.addJudge(kowalskiJudge);
+
+        Judge thirdJudge = new Judge("Third Judge");
+        judgment.addJudge(thirdJudge);
+
         judgment.setDecision("judgment decision");
         
         LawJournalEntry entry = new LawJournalEntry();

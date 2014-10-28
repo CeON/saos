@@ -29,6 +29,10 @@ public class BuildersFactory {
         return new CommonCourtDivisionBuilder(divisionId);
     }
 
+    public static CommonCourtDivisionBuilder commonCourtDivision(){
+        return new CommonCourtDivisionBuilder();
+    }
+
     public static CommonCourtDivisionType commonCourtDivisionType(String name, String code){
         CommonCourtDivisionType divisionType = new CommonCourtDivisionType();
         divisionType.setCode(code);
@@ -41,8 +45,16 @@ public class BuildersFactory {
         return new CommonCourtJudgmentBuilder(id);
     }
 
+    public static CommonCourtJudgmentBuilder commonCourtJudgment(){
+        return new CommonCourtJudgmentBuilder();
+    }
+
     public static CommonCourtBuilder commonCourt(int courtId){
         return new CommonCourtBuilder(courtId);
+    }
+
+    public static CommonCourtBuilder commonCourt(){
+        return new CommonCourtBuilder();
     }
 
     public static CcJudgmentKeyword keyword(String keyword){

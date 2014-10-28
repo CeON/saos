@@ -148,12 +148,16 @@ public class JudgmentFieldsMapper implements FieldsMapper<Judgment> {
 
         for(Judge judge : judges){
             List<Judge.JudgeRole> judgeRoles = judge.getSpecialRoles();
-            if(judgeRoles == null)
+            if(judgeRoles == null) {
                 judgeRoles = Collections.emptyList();
+            }
+            List<String> rolesNames = judgeRoles.stream()
+                    .map(role -> role.name())
+                    .collect(Collectors.toList());
 
             Map<String, Object> map = new LinkedHashMap<>();
             map.put(NAME, judge.getName());
-            map.put(SPECIAL_ROLES, judgeRoles);
+            map.put(SPECIAL_ROLES, rolesNames);
 
             list.add(map);
         }

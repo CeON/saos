@@ -43,6 +43,10 @@ public class CommonCourtJpqlSearchImplementator extends AbstractJpqlSearchImplem
     @Override
     protected void processResult(SearchResult<CommonCourt> searchResult, CommonCourtSearchFilter searchFilter) {
         List<Integer> courtsIds = extractCommonCourtIds(searchResult);
+        if(courtsIds.isEmpty()){
+            return;
+        }
+
         initializeCommonCourtDivisions(courtsIds);
     }
 
@@ -56,13 +60,10 @@ public class CommonCourtJpqlSearchImplementator extends AbstractJpqlSearchImplem
     }
 
     private void initializeCommonCourtDivisions(List<Integer> courtsIds){
-        setIdsParameterAndExecuteQuery(courtCommonCourtDivisions(), courtsIds);
+        setIdsParameterAndExecuteQuery(" select commonCourt from " + CommonCourt.class.getName() + " commonCourt left join fetch commonCourt.divisions_ division where commonCourt.id in (:ids) ",
+                courtsIds);
     }
 
-    private String courtCommonCourtDivisions(){
-        StringBuilder jpql = new StringBuilder(" select commonCourt from " + CommonCourt.class.getName() + " commonCourt join fetch commonCourt.divisions_ division where commonCourt.id in (:ids) ");
-        return jpql.toString();
-    }
 
     private void setIdsParameterAndExecuteQuery(String query, List<Integer> ids){
         Query queryObject = entityManager.createQuery(query);
