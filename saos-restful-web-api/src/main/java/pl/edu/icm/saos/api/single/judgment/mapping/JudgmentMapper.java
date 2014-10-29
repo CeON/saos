@@ -66,8 +66,9 @@ public class JudgmentMapper {
     }
 
     public List<JudgmentData.Judge> toJudges(List<Judge> judges) {
-        if(judges == null)
+        if(judges == null) {
             judges = Collections.emptyList();
+        }
 
         List<JudgmentData.Judge> judgesView = new ArrayList<>();
 
@@ -124,8 +125,9 @@ public class JudgmentMapper {
     }
 
     public List<String> toSimpleList(List<String> elements) {
-        if(elements == null)
+        if(elements == null) {
             elements = Collections.emptyList();
+        }
 
         return elements;
     }

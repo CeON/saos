@@ -44,8 +44,9 @@ public class CommonCourtJudgmentMapper {
      * @return list of keywords names.
      */
     public List<String> toListFromKeywords(List<CcJudgmentKeyword> keywords) {
-        if(keywords == null)
+        if(keywords == null) {
             keywords = Collections.emptyList();
+        }
 
         List<String> list = keywords.stream()
                 .map(CcJudgmentKeyword::getPhrase)
