@@ -9,7 +9,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import pl.edu.icm.saos.api.single.judgment.assemblers.JudgmentAssembler;
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.api.services.representations.SuccessRepresentation;
+import pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep;
 import pl.edu.icm.saos.api.search.services.ElementsSearchResults;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
@@ -35,13 +35,13 @@ public class JudgmentsListSuccessRepresentationBuilder {
     //************* business methods **************
 
     /**
-     * Constructs, from searchResults, the success view representation (representation details: {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentation SuccessRepresentation}).
+     * Constructs, from searchResults, the success view representation (representation details: {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep SuccessRepresentation}).
      * @param searchResults to process.
-     * @param uriComponentsBuilder used for create links in {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentation success} object.
+     * @param uriComponentsBuilder used for create links in {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep success} object.
      * @return map - success representation
      */
     public Map<String, Object> build(ElementsSearchResults<Judgment, JudgmentsParameters> searchResults, UriComponentsBuilder uriComponentsBuilder){
-        SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
+        SuccessRepresentationDep.Builder builder = new SuccessRepresentationDep.Builder();
         builder.links(toLinks(searchResults, uriComponentsBuilder));
         builder.items(toItems(searchResults.getElements()));
         builder.queryTemplate(toQueryTemplate(searchResults.getRequestParameters()));

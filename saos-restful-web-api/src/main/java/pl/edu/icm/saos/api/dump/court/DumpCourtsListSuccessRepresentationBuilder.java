@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.edu.icm.saos.api.dump.court.assemblers.DumpCourtAssembler;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.api.services.representations.SuccessRepresentation;
+import pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
@@ -31,7 +31,7 @@ public class DumpCourtsListSuccessRepresentationBuilder {
 
 
     public Map<String, Object> build(SearchResult<CommonCourt> searchResult, Pagination pagination, UriComponentsBuilder uriComponentsBuilder){
-        SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
+        SuccessRepresentationDep.Builder builder = new SuccessRepresentationDep.Builder();
         builder.links(toLinks(pagination, uriComponentsBuilder, searchResult.isMoreRecordsExist()));
         builder.items(toItems(searchResult.getResultRecords()));
         builder.queryTemplate(toQueryTemplate(pagination));
