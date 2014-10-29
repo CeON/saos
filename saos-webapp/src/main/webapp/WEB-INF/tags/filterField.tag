@@ -8,6 +8,6 @@
 <c:if test="${!empty filterValue && filterValue != ''}" >
 	<p><spring:message code="${label}" />:</p>
 	<div class="filter-item" id="${id}" data-assigned-field="${assignedField}" >
-		<div><c:out value="${filterValue}" /></div>
+		<div data-tooltip-text="<spring:message code='judgment.results.filter.removetarget' />" ><c:out value="${filterValue}" /></div>
 	</div>
 </c:if>	

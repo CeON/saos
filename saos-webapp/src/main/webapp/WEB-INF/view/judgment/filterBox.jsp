@@ -8,7 +8,7 @@
 </c:if>
 
 <div class="filter-box ${showFilterBox}" id="filter-box">
-	<p><spring:message code="judgment.results.filter.header" /><span id="filter-hide" class="filter-hide"></span></p>
+	<p><spring:message code="judgment.results.filter.header" /><span id="filter-hide" class="filter-hide" data-toggle="tooltip" data-placement="right" title="<spring:message code='judgment.results.filter.hide' />"></span></p>
 	
 	<saos:filterField assignedField="input-search-all" label="judgment.results.filter.all" filterValue="${judgmentCriteriaForm.all}" id="filter-all"></saos:filterField>
 	
@@ -17,13 +17,19 @@
 	<%-- Judgment date --%>
 	<c:if test="${!empty judgmentCriteriaForm.dateFrom && judgmentCriteriaForm.dateFrom != ''}" >
 		<p><spring:message code="judgment.results.filter.date.from" />:</p>
-		<div class="filter-item" id="filter-date-from" data-assigned-field="datepicker_from"><c:out value="${judgmentCriteriaForm.dateFrom}" /></div>
+		<div class="filter-item" id="filter-date-from" data-assigned-field="datepicker_from">
+			<div data-tooltip-text="<spring:message code='judgment.results.filter.removetarget' />" >
+				<c:out value="${judgmentCriteriaForm.dateFrom}" />
+			</div>
+		</div>
 	</c:if>
 	
 	<c:if test="${!empty judgmentCriteriaForm.dateTo && judgmentCriteriaForm.dateTo != ''}" >
 		<p><spring:message code="judgment.results.filter.date.to" />:</p>
 		<div class="filter-item" id="filter-date-to" data-assigned-field="datepicker_to">
-			<div><c:out value="${judgmentCriteriaForm.dateTo}" /></div>
+			<div data-tooltip-text="<spring:message code='judgment.results.filter.removetarget' />" >
+				<c:out value="${judgmentCriteriaForm.dateTo}" />
+			</div>
 		</div>
 	</c:if>
 
@@ -36,7 +42,7 @@
 			<c:forEach items="${judgmentCriteriaForm.judgmentType}" var="judgmentType" >
 				<c:if test="${judgmentType == lowerCaseEnumValue}" >
 					<div class="filter-item" id="filter-judgment-type" data-assigned-field="judgmentType${status.index + 1}">
-						<div><spring:message code="judgment.judgmenttype.${fn:toLowerCase(judgmentType)}" /></div>
+						<div data-tooltip-text="<spring:message code='judgment.results.filter.removetarget' />"><spring:message code="judgment.judgmenttype.${fn:toLowerCase(judgmentType)}" /></div>
 					</div>
 				</c:if>
 			</c:forEach>
@@ -54,7 +60,7 @@
 		<p><spring:message code="judgment.results.filter.courtType" />:</p>
 		<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(judgmentCriteriaForm.courtType)}" />
 		<div class="filter-item" id="filter-court-type" data-assigned-field="radio-court-${lowerCaseEnumValue}">
-			<div><spring:message code="judgment.results.filter.${fn:toLowerCase(lowerCaseEnumValue)}" /></div>
+			<div data-tooltip-text="<spring:message code='judgment.results.filter.removetarget' />"><spring:message code="judgment.results.filter.${fn:toLowerCase(lowerCaseEnumValue)}" /></div>
 		</div>
 	</c:if>
 	
