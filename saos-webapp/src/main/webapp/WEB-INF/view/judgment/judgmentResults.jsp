@@ -10,25 +10,17 @@
 
 <%-- Cookie that checks if filter box should be visible--%>
 <c:set var="showFilterBox" value="" />
-<%
-  Cookie[] cookies = request.getCookies();
-  if (cookies != null)
-  {
-    for (int i = 0; i < cookies.length; i++)
-    {
-      if (cookies[i].getName().equals("saos-filterbox-show"))
-        {
-    	  %>
-          <c:set var="showFilterBox" value="<%=cookies[i].getValue()%>" />
-          <%
-        }
-    }
-  }
-  %>
-  <c:set var="resultsListClass" value="" />
-  <c:if test="${showFilterBox == 'false'}" >
-  	<c:set var="resultsListClass" value="width-full" />
-  </c:if>
+  
+ <c:forEach var="cookies" items="${cookie}">
+    <c:if test="${cookies.value.name == 'saos-filterbox-show' }" >
+    	<c:set var="showFilterBox" value="${cookies.value.value}" />
+   	</c:if>
+ </c:forEach>
+  
+ <c:set var="resultsListClass" value="" />
+ <c:if test="${showFilterBox == 'false'}" >
+ 	<c:set var="resultsListClass" value="width-full" />
+ </c:if>
 
 <%@ include file="judgmentSearchForm.jsp" %>
 
