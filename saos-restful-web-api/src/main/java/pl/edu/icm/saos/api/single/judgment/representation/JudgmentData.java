@@ -10,7 +10,9 @@ import java.util.List;
  * Represent common {@link pl.edu.icm.saos.persistence.model.Judgment Judgmnet} fields.
  * @author pavtel
  */
-public class CommonFieldsData  implements Serializable{
+public class JudgmentData implements Serializable{
+
+    private static final long serialVersionUID = 6335902286597178584L;
 
     protected Source source;
     protected List<String> courtReporters;
@@ -19,7 +21,7 @@ public class CommonFieldsData  implements Serializable{
     protected String textContent;
     protected List<String> legalBases;
     protected List<ReferencedRegulation> referencedRegulation;
-    protected List<String> keywords;
+
 
     //------------------------ GETTERS --------------------------
 
@@ -51,9 +53,6 @@ public class CommonFieldsData  implements Serializable{
         return referencedRegulation;
     }
 
-    public List<String> getKeywords() {
-        return keywords;
-    }
 
     //------------------------ SETTERS --------------------------
 
@@ -85,16 +84,15 @@ public class CommonFieldsData  implements Serializable{
         this.referencedRegulation = referencedRegulation;
     }
 
-    public void setKeywords(List<String> keywords) {
-        this.keywords = keywords;
-    }
 
     //------------------------ HashCode & Equals --------------------------
 
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(source, courtReporters, decision, summary, textContent, legalBases, referencedRegulation, keywords);
+        return Objects.hashCode(source, courtReporters,
+                decision, summary, textContent,
+                legalBases, referencedRegulation);
     }
 
     @Override
@@ -105,15 +103,14 @@ public class CommonFieldsData  implements Serializable{
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final CommonFieldsData other = (CommonFieldsData) obj;
+        final JudgmentData other = (JudgmentData) obj;
         return Objects.equal(this.source, other.source) &&
                 Objects.equal(this.courtReporters, other.courtReporters) &&
                 Objects.equal(this.decision, other.decision) &&
                 Objects.equal(this.summary, other.summary) &&
                 Objects.equal(this.textContent, other.textContent) &&
                 Objects.equal(this.legalBases, other.legalBases) &&
-                Objects.equal(this.referencedRegulation, other.referencedRegulation) &&
-                Objects.equal(this.keywords, other.keywords);
+                Objects.equal(this.referencedRegulation, other.referencedRegulation);
     }
 
     //------------------------ toString --------------------------
@@ -128,7 +125,6 @@ public class CommonFieldsData  implements Serializable{
                 .add("textContent", textContent)
                 .add("legalBases", legalBases)
                 .add("referencedRegulations", referencedRegulation)
-                .add("keywords", keywords)
                 .toString();
     }
 
@@ -239,9 +235,93 @@ public class CommonFieldsData  implements Serializable{
 
     public static class ReferencedRegulation implements Serializable{
 
+        private static final long serialVersionUID = -6830086044877716672L;
+
+        private String journalTitle;
+        private int journalNo;
+        private int journalYear;
+        private int journalEntry;
         private String text;
 
+        //------------------------ GETTERS --------------------------
+
+        public String getJournalTitle() {
+            return journalTitle;
+        }
+
+        public int getJournalNo() {
+            return journalNo;
+        }
+
+        public int getJournalYear() {
+            return journalYear;
+        }
+
+        public int getJournalEntry() {
+            return journalEntry;
+        }
+
+        public String getText() {
+            return text;
+        }
+
+        //------------------------ SETTERS --------------------------
+
+        public void setJournalTitle(String journalTitle) {
+            this.journalTitle = journalTitle;
+        }
+
+        public void setJournalNo(int journalNo) {
+            this.journalNo = journalNo;
+        }
+
+        public void setJournalYear(int journalYear) {
+            this.journalYear = journalYear;
+        }
+
+        public void setJournalEntry(int journalEntry) {
+            this.journalEntry = journalEntry;
+        }
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        //------------------------ HashCode & Equals --------------------------
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(journalTitle, journalNo, journalYear, journalEntry, text);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            final ReferencedRegulation other = (ReferencedRegulation) obj;
+            return Objects.equal(this.journalTitle, other.journalTitle) &&
+                    Objects.equal(this.journalNo, other.journalNo) &&
+                    Objects.equal(this.journalYear, other.journalYear) &&
+                    Objects.equal(this.journalEntry, other.journalEntry) &&
+                    Objects.equal(this.text, other.text);
+        }
+
+        //------------------------ toString --------------------------
+
+        @Override
+        public String toString() {
+            return Objects.toStringHelper(this)
+                    .add("journalTitle", journalTitle)
+                    .add("journalNo", journalNo)
+                    .add("journalYear", journalYear)
+                    .add("journalEntry", journalEntry)
+                    .add("text", text)
+                    .toString();
+        }
     }
 
-    public static class LawJournalEntry
 }
