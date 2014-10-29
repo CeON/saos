@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
+import org.powermock.reflect.Whitebox;
 
 import com.google.common.collect.Lists;
 
@@ -24,7 +25,7 @@ public class SimpleDivisionConverterTest {
 	private String[] scDivisionChamberNames= {"Wydział Odwoławczo-Kasacyjny", "Wydział II"};
 	
 	@Test
-	public void convertCctDivisions_emptyList() {
+	public void convertCcDivisions_emptyList() {
 		List<CommonCourtDivision> ccDivisions = Lists.newArrayList();
 		List<SimpleDivision> convertedSimpleDivisions = simpleDivisionConverter.convertCcDivisions(ccDivisions);
 		
@@ -34,18 +35,22 @@ public class SimpleDivisionConverterTest {
 	
 	@Test
 	public void convertCcDivisions_Same() {
+		int idOne = 111;
+		int idTwo = 222;
 		CommonCourtDivision ccDivisionOne = new CommonCourtDivision();
 		ccDivisionOne.setName(ccDivisionNames[0]);
+		Whitebox.setInternalState(ccDivisionOne, "id", idOne);
 		CommonCourtDivision ccDivisionTwo = new CommonCourtDivision();
 		ccDivisionTwo.setName(ccDivisionNames[1]);
+		Whitebox.setInternalState(ccDivisionTwo, "id", idTwo);
 		
 		List<CommonCourtDivision> ccDivisions = Arrays.asList(ccDivisionOne, ccDivisionTwo);
 		
 		List<SimpleDivision> convertedSimpleDivisions = simpleDivisionConverter.convertCcDivisions(ccDivisions);
 		
 		assertEquals(ccDivisionNames.length, convertedSimpleDivisions.size());
-		assertEquals(String.valueOf(ccDivisionOne.getId()), convertedSimpleDivisions.get(0).getId());
-		assertEquals(String.valueOf(ccDivisionTwo.getId()), convertedSimpleDivisions.get(1).getId());
+		assertEquals(String.valueOf(idOne), convertedSimpleDivisions.get(0).getId());
+		assertEquals(String.valueOf(idTwo), convertedSimpleDivisions.get(1).getId());
 		assertEquals(ccDivisionNames[0], convertedSimpleDivisions.get(0).getName());
 		assertEquals(ccDivisionNames[1], convertedSimpleDivisions.get(1).getName());
 	}
@@ -61,18 +66,22 @@ public class SimpleDivisionConverterTest {
 	
 	@Test
 	public void convertScDivisionChambers_Same() {
+		int idOne = 111;
+		int idTwo = 222;
 		SupremeCourtChamberDivision scChamberDivisionOne = new SupremeCourtChamberDivision();
 		scChamberDivisionOne.setName(scDivisionChamberNames[0]);
+		Whitebox.setInternalState(scChamberDivisionOne, "id", idOne);
 		SupremeCourtChamberDivision scChamberDivisionTwo = new SupremeCourtChamberDivision();
 		scChamberDivisionTwo.setName(scDivisionChamberNames[1]);
+		Whitebox.setInternalState(scChamberDivisionTwo, "id", idTwo);
 		
 		List<SupremeCourtChamberDivision> scChamberDivisions =  Arrays.asList(scChamberDivisionOne, scChamberDivisionTwo);
 		
 		List<SimpleDivision> convertedSimpleDivisions = simpleDivisionConverter.convertScChamberDivisions(scChamberDivisions);
 		
 		assertEquals(scDivisionChamberNames.length, convertedSimpleDivisions.size());
-		assertEquals(String.valueOf(scChamberDivisionOne.getId()), convertedSimpleDivisions.get(0).getId());
-		assertEquals(String.valueOf(scChamberDivisionTwo.getId()), convertedSimpleDivisions.get(1).getId());
+		assertEquals(String.valueOf(idOne), convertedSimpleDivisions.get(0).getId());
+		assertEquals(String.valueOf(idTwo), convertedSimpleDivisions.get(1).getId());
 		assertEquals(scDivisionChamberNames[0], convertedSimpleDivisions.get(0).getName());
 		assertEquals(scDivisionChamberNames[1], convertedSimpleDivisions.get(1).getName());
 	}
