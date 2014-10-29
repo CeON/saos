@@ -80,6 +80,7 @@ $(document).ready(function() {
     	filterField: ".filter-item",
     	resultList: ".judgment-list > div:first-child",
     	buttonHide: "#filter-hide",
-    	stickyOptions: {enabled: true, topSpacing: 10}
+    	stickyOptions: {enabled: true, topSpacing: 10},
+    	settingsButton: {className: "filter-box-button"},
     });
 });

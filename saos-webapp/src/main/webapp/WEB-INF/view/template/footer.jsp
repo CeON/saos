@@ -9,10 +9,9 @@
 	</ul>
 	
 	<ul class="nav navbar-nav navbar-right" >
-		<li>Home</li>
-		<li>Licence</li>
-		<li>Products</li>
-		<li>Contact</li>
+		<li>Co robimy</li>
+		<li>Wyszukiwarka</li>	
+		<li>Kontakt</li>
 	</ul>
 
 </div>
