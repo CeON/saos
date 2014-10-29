@@ -5,7 +5,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 import pl.edu.icm.saos.api.single.court.assemblers.CourtAssembler;
 import pl.edu.icm.saos.api.services.links.LinksBuilder;
-import pl.edu.icm.saos.api.services.representations.SuccessRepresentation;
+import pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 
 import java.util.LinkedList;
@@ -33,12 +33,12 @@ public class SingleCourtSuccessRepresentationBuilder {
 
     //******* business methods ***********
     /**
-     * Constructs, from court, the success view representation (representation details: {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentation SuccessRepresentation})
+     * Constructs, from court, the success view representation (representation details: {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep SuccessRepresentation})
      * @param court to process.
      * @return map - success representation
      */
     public Map<String, Object> build(CommonCourt court){
-        SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
+        SuccessRepresentationDep.Builder builder = new SuccessRepresentationDep.Builder();
 
         builder.data(courtAssembler.fieldsToItemRepresentation(court));
         builder.links(toLinks(court));

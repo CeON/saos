@@ -5,7 +5,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 import pl.edu.icm.saos.api.services.links.LinksBuilder;
 import pl.edu.icm.saos.api.services.mapping.FieldsMapper;
-import pl.edu.icm.saos.api.services.representations.SuccessRepresentation;
+import pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 
 import java.util.Arrays;
@@ -33,12 +33,12 @@ public class DivisionSuccessRepresentationBuilder {
 
     //******** business methods ***********
     /**
-     * From division constructs the success view representation (representation details: {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentation SuccessRepresentation})
+     * From division constructs the success view representation (representation details: {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep SuccessRepresentation})
      * @param division to process.
      * @return map - success representation
      */
     public Map<String, Object> build(CommonCourtDivision division){
-        SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
+        SuccessRepresentationDep.Builder builder = new SuccessRepresentationDep.Builder();
 
         builder.data(divisionFieldsMapper.fieldsToMap(division));
         builder.links(toLinks(division));

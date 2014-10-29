@@ -15,8 +15,6 @@ import pl.edu.icm.saos.api.services.exceptions.ElementDoesNotExistException;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
-import java.util.Map;
-
 /**
  * Provides functionality for constructing view for single judgment.
  * @author pavtel
@@ -40,14 +38,14 @@ public class JudgmentController extends ControllersEntityExceptionHandler{
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> showJudgment(@PathVariable("judgmentId") int judgmentId) throws ElementDoesNotExistException {
+    public ResponseEntity<Object> showJudgment(@PathVariable("judgmentId") int judgmentId) throws ElementDoesNotExistException {
 
         Judgment judgment = judgmentRepository.findOneAndInitialize(judgmentId);
         if(judgment == null){
             throw new ElementDoesNotExistException("Judgment", judgmentId);
         }
 
-        Map<String, Object> representation = singleJudgmentSuccessRepresentationBuilder.build(judgment);
+        Object representation = singleJudgmentSuccessRepresentationBuilder.build(judgment);
 
         HttpHeaders httpHeaders = new HttpHeaders();
 

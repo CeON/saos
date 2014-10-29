@@ -9,7 +9,7 @@ import pl.edu.icm.saos.api.dump.judgment.assemblers.DumpJudgmentAssembler;
 import pl.edu.icm.saos.api.dump.judgment.parameters.RequestDumpJudgmentsParameters;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
-import pl.edu.icm.saos.api.services.representations.SuccessRepresentation;
+import pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
@@ -35,7 +35,7 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
 
     //------------------------ LOGIC --------------------------
     public Map<String, Object> build(SearchResult<Judgment> searchResult, Pagination pagination, RequestDumpJudgmentsParameters requestDumpJudgmentsParameters, UriComponentsBuilder uriComponentsBuilder){
-        SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
+        SuccessRepresentationDep.Builder builder = new SuccessRepresentationDep.Builder();
         String startDate = dateMapping.toISO8601Format(requestDumpJudgmentsParameters.getJudgmentStartDate());
         String endDate = dateMapping.toISO8601Format(requestDumpJudgmentsParameters.getJudgmentEndDate());
         String modificationDate = dateMapping.toStringWithZoneUTC(requestDumpJudgmentsParameters.getSinceModificationDate());

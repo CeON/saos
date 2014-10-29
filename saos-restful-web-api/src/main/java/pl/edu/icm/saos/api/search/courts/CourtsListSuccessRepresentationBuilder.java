@@ -8,7 +8,7 @@ import pl.edu.icm.saos.api.single.court.assemblers.CourtAssembler;
 import pl.edu.icm.saos.api.services.links.LinksBuilder;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.search.parameters.RequestParameters;
-import pl.edu.icm.saos.api.services.representations.SuccessRepresentation;
+import pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep;
 import pl.edu.icm.saos.api.search.services.ElementsSearchResults;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 
@@ -38,12 +38,12 @@ public class CourtsListSuccessRepresentationBuilder {
 
     //******** business methods ****************
     /**
-     * Constructs, from searchResults,  the success view representation (representation details: {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentation SuccessRepresentation}).
+     * Constructs, from searchResults,  the success view representation (representation details: {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep SuccessRepresentation}).
      * @param searchResults to process.
      * @return map - success representation
      */
     public Map<String, Object> build(ElementsSearchResults<CommonCourt,RequestParameters> searchResults){
-        SuccessRepresentation.Builder builder = new SuccessRepresentation.Builder();
+        SuccessRepresentationDep.Builder builder = new SuccessRepresentationDep.Builder();
 
         builder.items(courtAssembler.toItemsList(searchResults.getElements()));
 
