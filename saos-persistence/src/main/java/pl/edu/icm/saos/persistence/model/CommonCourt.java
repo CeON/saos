@@ -18,6 +18,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import pl.edu.icm.saos.common.visitor.Visitor;
 import pl.edu.icm.saos.persistence.common.DataObject;
 
 import com.google.common.collect.ImmutableList;
@@ -127,6 +128,10 @@ public class CommonCourt extends DataObject {
         divisions.add(division);
     }
     
+    @Override
+    public void passVisitorDown(Visitor visitor) {
+        getDivisions_().stream().forEach(d->d.accept(visitor));
+    }
     
     
     //------------------------ PRIVATE --------------------------
