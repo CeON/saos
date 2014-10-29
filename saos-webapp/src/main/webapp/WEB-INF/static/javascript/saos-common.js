@@ -31,10 +31,11 @@ $(document).ready(function() {
     SearchCriteria.init();
     
     //Search form - init select court & division
-    $("#select-court").courtDivisionSelect({
-		divisionId: "select-division",
-		divisionUrl: contextPath + "/search/division/"
+    CourtDivisionSelect.run({
+		fields: [{court: "#select-common-court", divisionId: "#select-common-division", divisionUrl: contextPath + "/search/division/"},
+		         {court: "#select-supreme-chamber", divisionId: "#select-supreme-chamber-division", divisionUrl: contextPath + "/search/chamberDivision/"}]
 	});
+    
     
     $("#search-settings").searchSettingsToolTip({
     	box: "settings-box"
@@ -52,11 +53,14 @@ $(document).ready(function() {
 		           {button: ".keyword", searchfield: "#input-search-keywords", filterfield: "filter-keyword", selectFormType: "#radio-court-common"},
 		           {button: ".type", searchfield: "[name='judgmentType']", filterfield: "filter-judgment-type"},
 		           {button: ".date", searchfield: "#datepicker_from, #datepicker_to", filterfield: "filter-judgment-date-from"},
-				   {button: ".court", searchfield: "#select-court", filterfield: "filter-court", selectFormType: "#radio-court-common"}],
+				   {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court", selectFormType: "#radio-court-common"}],
 		
-		advanceFilter: {button: ".division", searchfield: "#select-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
-						url: contextPath + "/search/division/",
-						parent : {button: ".court", searchfield: "#select-court", filterfield: "filter-court"}},
+		advanceFilter: [{button: ".division", searchfield: "#select-common-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
+						url: contextPath + "/search/courtDivision/",
+						parent : {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court"}},
+						{button: ".division", searchfield: "#select-common-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
+						url: contextPath + "/search/chamberDivision/",
+						parent : {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court"}}],
     });
     
     
