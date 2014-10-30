@@ -1,13 +1,41 @@
-subprojects {
-    
+allprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     apply plugin: 'eclipse-wtp' /** without this wtp does not upload dependant projects, http://stackoverflow.com/questions/23697438/gradle-groovy-project-dependent-on-java-project*/
     apply plugin: 'groovy'
-    apply plugin: 'maven' /** to generate poms - they will be uploaded to the maven repository along with jars/wars */
+    apply plugin: 'maven-publish' /** to generate poms - they will be uploaded to the maven repository along with jars/wars */
+
+    version = '0.0.1-SNAPSHOT'
+    group = 'pl.edu.icm.saos'
+
+    
+    /**---------------------- MAVEN poms generation for the maven repository ---------------------*/
+    
+    model {
+        tasks.generatePomFileForMavenJavaPublication {
+            destination = file("$project.buildDir/poms/pom-default.xml")
+        }
+    }
+    
+    publishing {
+        publications {
+                mavenJava(MavenPublication) {
+                    if ("$project.name" != 'saos-webapp') {
+                        from components.java
+                    } else {
+                        from components.web
+                    }
+            }
+        }
+    }
+
+    
+    
+}
 
 
-
+subprojects {
+    
     sourceCompatibility = 1.8
 
     repositories {
@@ -121,8 +149,7 @@ subprojects {
         
     }
 
-    version = '0.0.1-SNAPSHOT'
-
+    
     jar {
         manifest.attributes provider: 'University of Warsaw, ICM'
     }
@@ -167,24 +194,6 @@ subprojects {
             exceptionFormat = 'full'
         }
     }
-    
-    task createPom  {
-        pom {
-            project {
-                groupId 'pl.edu.icm.saos'
-                inceptionYear '2014'
-                licenses {
-                    license {
-                        name 'GNU GENERAL PUBLIC LICENSE, Version 3'
-                        url 'http://www.gnu.org/licenses/gpl-3.0.html'
-                        distribution 'repo'
-                    }
-                }
-            }
-        }.writeTo("pom.xml")
-    }
-   
-    
     
     
     /* this below just to correct a bug of gradleEclipseWtp, without this the plugin copies also the test classes to the server */
