@@ -1,6 +1,8 @@
 /*
  * Filter box features
  * 
+ * Module uses bootstrap tooltip
+ * 
  * @author Łukasz Pawełczak
  */
 var FilterBox = (function() {
@@ -23,7 +25,9 @@ var FilterBox = (function() {
 	
 	resultList = "",
 	buttonHide = "",
-	settingsButton = "filter-box-button",
+	
+	settingsButton = {className: "filter-box-button"},
+	
 	animationElementClass = "fbox-button-before",
 	
 	widthBase = "75%",
@@ -34,6 +38,10 @@ var FilterBox = (function() {
 		
 		if ($this !== "" && $this !== undefined) {
 			$parent = $this;
+		}
+		
+		if (source.settingsButton) {
+			settingsButton = source.settingsButton;
 		}
 		
 		if (source.stickyOptions) {
@@ -125,7 +133,7 @@ var FilterBox = (function() {
 	hideBox = function() {
 		saveCookie("false");
 		$parent.slideUp(function() {
-			createFilterShowButton();
+			showFilterButton();
 			$(resultList).animate({width: widthMax}, 400);
 		});
 	},
@@ -141,62 +149,55 @@ var FilterBox = (function() {
 	},
 	
 	
-	/* Create button "show filter box" */
-	createFilterShowButton = function() {
-		if ($("#" + settingsButton).length === 0) {
-			var $button = $("<div></div>"); 
-			
-			$button
-				.attr("id", settingsButton)
-				.addClass(settingsButton)
-				.click(function() {
-					showBox();
-				});
-			
-			$("#search-settings").before($button);
+	/* Assign button "show filter box" */
+	assignFilterShowButton = function() {
+		if ($("#" + settingsButton.className).length !== 0) {
+			$("#" + settingsButton.className).click(function() {
+				showBox();
+			});
 		} 
-		
-		showFilterButton();
 	},
 	
 	/* Animation show filter button */
 	showFilterButton = function() {
-		var $button = $("#" + settingsButton),
+		var $button = $("#" + settingsButton.className),
 			$animationElement = $("<div ></div>");
 		
 		$animationElement.addClass(animationElementClass);
 		
-		$("#" + settingsButton)
+		$button
 			.prepend($animationElement)
 			.css({opacity: 1});
 		
 		$button.find("." + animationElementClass).animate({opacity: 0}, 400, function() {
 			$(this).remove();
+			$button.removeClass("display-none");
 		});
 	},
 	
 	/* Animation hide filter button */
 	hideFilterButton = function(callBack) {
-		var $button = $("#" + settingsButton),
+		var $button = $("#" + settingsButton.className),
 		$animationElement = $("<div ></div>");
 	
 		$animationElement
 			.addClass(animationElementClass)
 			.css({opacity: 0});
 		
-		$("#" + settingsButton).prepend($animationElement);
-		$button.find("." + animationElementClass).animate({opacity: 1}, 400, function() {
-			$("#" + settingsButton).css({opacity: 0});
-			$(this).remove();
-			callBack();
-		});
+		$button.prepend($animationElement);
+		$button
+			.addClass("display-none")
+			.find("." + animationElementClass)
+			.animate({opacity: 1}, 400, function() {
+				$button.css({opacity: 0});
+				$(this).remove();
+				callBack();
+			});
 	},
 	
 	dontShowBox = function() {
 		if (readCookie() === "false") {
-			/*$parent.css({display: "none"});
-			$(resultList).css({width: widthMax});*/
-			createFilterShowButton();
+			 $("#" + settingsButton.className).removeClass("display-none");
 		}
 	},
 	

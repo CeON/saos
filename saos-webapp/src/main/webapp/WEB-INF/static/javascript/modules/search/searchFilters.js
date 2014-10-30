@@ -1,6 +1,8 @@
 /* 
  * Add option of selecting search filter by clicking on property displayed in judgment results list. 
  * 
+ * Module uses bootstrap tooltip
+ * 
  * @author Łukasz Pawełczak
  */
 var SearchFilters = (function(){
@@ -207,7 +209,11 @@ var SearchFilters = (function(){
 					$filterItem.remove();
 					submitForm();
 				})
-				.addClass(removeButtonClass);
+				.addClass(removeButtonClass)
+				.attr("data-toggle", "tooltip")
+				.attr("data-placement", "right")
+				.attr("title", $filterItem.find(" > div").attr("data-tooltip-text"))
+				.tooltip();
 				
 				$filterItem.append($removeFilterButton);
 			}
