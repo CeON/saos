@@ -22,26 +22,31 @@
  	<c:set var="resultsListClass" value="width-full" />
  </c:if>
 
-<%@ include file="judgmentSearchForm.jsp" %>
+<div class="container search-results">
 
-<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
-
-<div class="container judgment-list">
-
-	<div class="col-md-9 ${resultsListClass}">	
+	<%@ include file="judgmentSearchForm.jsp" %>
 	
-		<saos:judgments items="${judgments}" />
+	<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
 	
-		<c:if test="${resultsNo == 0}">
-			<spring:message code="judgment.results.noRecords" />
-		</c:if>
+	<div class="container judgment-list">
 	
+		<div class="col-md-9 ${resultsListClass}">	
+		
+			<saos:judgments items="${judgments}" />
+		
+			<c:if test="${resultsNo == 0}">
+				<spring:message code="judgment.results.noRecords" />
+			</c:if>
+		
+		</div>
+		
+		<div class="col-md-3">
+			<%@ include file="filterBox.jsp" %>
+		</div>
+		
 	</div>
 	
-	<div class="col-md-3">
-		<%@ include file="filterBox.jsp" %>
-	</div>
-	
+	<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
+
 </div>
-
-<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
+	

@@ -9,6 +9,7 @@
 }
 
 html, body {
+	background: $grey-background;
 	font-family: 'Noto Sans', sans-serif;
 	font-weight: 300;
 	height: 100%;
@@ -330,9 +331,11 @@ form.search {
 }
 
 .search-form {
-	background: none repeat scroll 0 0 #fff;
+	background: #fff;
+	border: 1px solid $grey-border;
+	border-radius: 2px;
     margin-top: 30px;
-    padding: 0 40px;
+    padding: 0 30px;
 	
 	input {
 		border-radius: 2px;
@@ -388,8 +391,23 @@ form.search {
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
+.search-results {
+	border: {
+		color: $grey-border;
+		style: solid;
+		width: 0px 0px 1px 0px;
+	}
+	padding-left: 0px;
+	padding-right: 0px;
+}
 
 .judgment-list {
+	background: #fff;
+	border: {
+		color: $grey-border;
+		style: solid;
+		width: 0px 1px 0px 1px;
+	}
 
 	.judgment {
 		border: {
@@ -466,7 +484,7 @@ form.search {
 		&:first-child > .row {
 			@include border-grey();
 			border: {
-				width: 0px 0px 0px;
+				width: 1px 0px 0px;
 			}
 		}
 	}
@@ -513,7 +531,12 @@ form.search {
 }
 
 .judgment-filter {
-	padding: 0px 40px 0px;
+	border: {
+		color: $grey-border;
+		style: solid;
+		width: 1px 1px 0px 1px;
+	}
+	padding: 0px 30px 0px;
 	position: relative;
 	
 	h3 {
@@ -655,6 +678,16 @@ form.search {
 
 
 .pagination {
+	background: #fff;
+	border: {
+		color: $grey-border;
+		style: solid;
+		width: 0px 1px 0px 1px;
+		radius: 0px;
+	}
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding: 20px 0px;
 	text-align: center;
 	width: 100%;
 	
