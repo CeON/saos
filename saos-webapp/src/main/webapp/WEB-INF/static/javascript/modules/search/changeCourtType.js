@@ -48,8 +48,7 @@ var ChangeCourtType = (function() {
 					(function() {
 						return function() {
 							hideAll();
-							clearFields($fieldContainer);
-							$fieldContainer.css("display", "block");
+							$fieldContainer.removeClass("display-none").addClass("display-block");
 						};
 					})()
 				);
@@ -57,9 +56,22 @@ var ChangeCourtType = (function() {
 		}
 	},
 	
+	/* On submit clear fields that not associated with selected court type */
+	assignSubmitEvent = function() {
+		$(parentContainer).on("submit", function() {
+			$(fieldsContainer).each(function() {
+				var $this = $(this);
+				
+				if ($this.hasClass("display-none")) {
+					clearField($this);
+				}
+			});
+		});
+	},
+	
 	hideAll = function() {
 		$(fieldsContainer).each(function() {
-			$(this).css("display", "none");
+			$(this).removeClass("display-block").addClass("display-none");
 		});
 	},
 	
@@ -95,6 +107,7 @@ var ChangeCourtType = (function() {
 	
 	space.run = function(source) {
 		init(source);
+		assignSubmitEvent();
 		assignButton();
 		hideAll();
 		showSelectedFields();
