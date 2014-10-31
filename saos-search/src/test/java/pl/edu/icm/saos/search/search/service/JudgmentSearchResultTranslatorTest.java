@@ -127,7 +127,7 @@ public class JudgmentSearchResultTranslatorTest {
     }
     
     @Test
-    public void translateSingle_SUPREME_COURT_poor_data() {
+    public void translateSingle_SUPREME_COURT_defective_court_chamber() {
     	SolrDocument doc = new SolrDocument();
     	
         doc.addField("courtChamber", "11");
