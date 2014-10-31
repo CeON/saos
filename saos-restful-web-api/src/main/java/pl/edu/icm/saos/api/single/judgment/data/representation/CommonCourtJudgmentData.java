@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.api.single.judgment.representation;
+package pl.edu.icm.saos.api.single.judgment.data.representation;
 
 import com.google.common.base.Objects;
 import pl.edu.icm.saos.api.services.representations.success.Href;
@@ -66,13 +66,17 @@ public class CommonCourtJudgmentData extends JudgmentData {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
+                .add("href", href)
+                .add("courtCases", courtCases)
+                .add("judgmentType", judgmentType)
+                .add("judgmentDate", judgmentDate)
                 .add("source", source)
                 .add("courtReporters", courtReporters)
                 .add("decision", decision)
                 .add("summary", summary)
                 .add("textContent", textContent)
                 .add("legalBases", legalBases)
-                .add("referencedRegulations", referencedRegulation)
+                .add("referencedRegulations", referencedRegulations)
                 .add("keywords", keywords)
                 .add("division", division)
                 .toString();
@@ -84,7 +88,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
         private static final long serialVersionUID = -4459795985457420810L;
 
         private String name;
-        private Href href;
+        private String href;
         private String code;
         private String type;
         private Court court;
@@ -107,7 +111,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
             return name;
         }
 
-        public Href getHref() {
+        public String getHref() {
             return href;
         }
 
@@ -129,7 +133,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
             this.name = name;
         }
 
-        public void setHref(Href href) {
+        public void setHref(String href) {
             this.href = href;
         }
 

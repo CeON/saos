@@ -1,10 +1,11 @@
 package pl.edu.icm.saos.api.single.judgment.mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.api.services.links.LinksBuilder;
 import pl.edu.icm.saos.api.services.representations.success.Href;
-import pl.edu.icm.saos.api.single.judgment.CommonCourtJudgmentView;
-import pl.edu.icm.saos.api.single.judgment.representation.CommonCourtJudgmentData;
+import pl.edu.icm.saos.api.single.judgment.views.CommonCourtJudgmentView;
+import pl.edu.icm.saos.api.single.judgment.data.representation.CommonCourtJudgmentData;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
@@ -14,21 +15,30 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.edu.icm.saos.api.single.judgment.representation.CommonCourtJudgmentData.Division;
+import static pl.edu.icm.saos.api.single.judgment.data.representation.CommonCourtJudgmentData.Division;
 
 /**
- * Converts {@link pl.edu.icm.saos.persistence.model.CommonCourtJudgment CommonCourtJudgmnet} fields.
+ * Converts {@link pl.edu.icm.saos.persistence.model.CommonCourtJudgment CommonCourtJudgmnet} specific fields.
  * @author pavtel
  */
+@Service
 public class CommonCourtJudgmentMapper {
 
     @Autowired
     private LinksBuilder linksBuilder;
 
+    //------------------------ LOGIC --------------------------
+    /**
+     * Fill {@link pl.edu.icm.saos.persistence.model.CommonCourtJudgment CommonCourtJudgment} specific fields values
+     * into {@link pl.edu.icm.saos.api.single.judgment.views.CommonCourtJudgmentView CommonCourtJudgmentView}.
+     * @param representation in which to add values.
+     * @param judgment to process.
+     */
     public void fillJudgmentsFieldToRepresentation(CommonCourtJudgmentView representation, CommonCourtJudgment judgment){
         fillData(representation.getData(), judgment);
     }
 
+    //------------------------ PRIVATE --------------------------
     private void fillData(CommonCourtJudgmentData data, CommonCourtJudgment judgment) {
         data.setKeywords(toListFromKeywords(judgment.getKeywords()));
         data.setDivision(toDivision(judgment.getCourtDivision()));
@@ -50,10 +60,7 @@ public class CommonCourtJudgmentMapper {
     private Division toDivision(CommonCourtDivision courtDivision) {
         Division divisionView = new Division();
 
-        Href href = new Href();
-        href.setHref(linksBuilder.urlToDivision(courtDivision.getId()));
-        divisionView.setHref(href);
-
+        divisionView.setHref(linksBuilder.urlToDivision(courtDivision.getId()));
         divisionView.setName(courtDivision.getName());
         divisionView.setCode(courtDivision.getCode());
         divisionView.setType(courtDivision.getType().getName());
@@ -70,9 +77,18 @@ public class CommonCourtJudgmentMapper {
         courtView.setCode(court.getCode());
         courtView.setType(court.getType());
 
-        Href courtParent = new Href();
+        if(court.getParentCourt() != null){
+            Href courtParent = new Href();
+            courtParent.setHref(linksBuilder.urlToCourt(court.getParentCourt().getId()));
+            courtView.setParentCourt(courtParent);
+        }
 
+        return courtView;
+    }
 
-        return null;
+    //------------------------ SETTERS --------------------------
+
+    public void setLinksBuilder(LinksBuilder linksBuilder) {
+        this.linksBuilder = linksBuilder;
     }
 }

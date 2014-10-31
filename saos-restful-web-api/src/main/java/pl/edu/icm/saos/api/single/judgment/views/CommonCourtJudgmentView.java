@@ -1,6 +1,6 @@
-package pl.edu.icm.saos.api.single.judgment;
+package pl.edu.icm.saos.api.single.judgment.views;
 
-import pl.edu.icm.saos.api.single.judgment.representation.CommonCourtJudgmentData;
+import pl.edu.icm.saos.api.single.judgment.data.representation.CommonCourtJudgmentData;
 
 /**
  * Represents common court judgment view corresponding to
