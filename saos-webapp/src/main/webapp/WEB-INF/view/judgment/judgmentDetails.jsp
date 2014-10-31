@@ -5,7 +5,15 @@
 
 <div class="container judgment-page block">
 
-	<h4><span><spring:message code="judgment.${fn:toLowerCase(judgment.judgmentType)}" /></h2>
+	<%--
+	<h2>
+		<span>
+		<spring:message code="judgment.${fn:toLowerCase(judgment.judgmentType)}" />
+		</span>
+	</h2>
+	
+	 --%>
+	
 	<h2>		
 		<saos:caseNumber items="${judgment.caseNumbers}"/>
 	</h2>
