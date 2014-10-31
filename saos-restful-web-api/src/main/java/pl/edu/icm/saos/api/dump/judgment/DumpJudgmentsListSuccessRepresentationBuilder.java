@@ -5,20 +5,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
-import pl.edu.icm.saos.api.dump.judgment.assemblers.DumpJudgmentAssembler;
+import pl.edu.icm.saos.api.dump.judgment.item.representation.CommonCourtJudgmentItem;
+import pl.edu.icm.saos.api.dump.judgment.item.representation.JudgmentItem;
+import pl.edu.icm.saos.api.dump.judgment.mapping.DumpCommonCourtJudgmentItemMapper;
+import pl.edu.icm.saos.api.dump.judgment.mapping.DumpJudgmentItemMapper;
 import pl.edu.icm.saos.api.dump.judgment.parameters.RequestDumpJudgmentsParameters;
+import pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
-import pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.QueryTemplate;
 
 /**
  * @author pavtel
@@ -27,29 +31,60 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 public class DumpJudgmentsListSuccessRepresentationBuilder {
 
     @Autowired
-    private DumpJudgmentAssembler dumpJudgmentAssembler;
+    private DumpJudgmentItemMapper judgmentItemMapper;
+
+    @Autowired
+    private DumpCommonCourtJudgmentItemMapper commonCourtJudgmentItemMapper;
 
     @Autowired
     private DateMapping dateMapping;
 
 
+
     //------------------------ LOGIC --------------------------
-    public Map<String, Object> build(SearchResult<Judgment> searchResult, Pagination pagination, RequestDumpJudgmentsParameters requestDumpJudgmentsParameters, UriComponentsBuilder uriComponentsBuilder){
-        SuccessRepresentationDep.Builder builder = new SuccessRepresentationDep.Builder();
+    public DumpJudgmentsView build(SearchResult<Judgment> searchResult, Pagination pagination, RequestDumpJudgmentsParameters requestDumpJudgmentsParameters, UriComponentsBuilder uriComponentsBuilder){
+        DumpJudgmentsView dumpJudgmentsView = new DumpJudgmentsView();
+        dumpJudgmentsView.setItems(toItems(searchResult.getResultRecords()));
+
         String startDate = dateMapping.toISO8601Format(requestDumpJudgmentsParameters.getJudgmentStartDate());
         String endDate = dateMapping.toISO8601Format(requestDumpJudgmentsParameters.getJudgmentEndDate());
         String modificationDate = dateMapping.toStringWithZoneUTC(requestDumpJudgmentsParameters.getSinceModificationDate());
 
-        builder.links(toLinks(pagination, startDate, endDate, modificationDate, uriComponentsBuilder, searchResult.isMoreRecordsExist()));
-        builder.items(toItems(searchResult.getResultRecords()));
-        builder.queryTemplate(toQueryTemplate(pagination, startDate, endDate, modificationDate));
+        dumpJudgmentsView.setLinks(toLinks(pagination, startDate, endDate, modificationDate, uriComponentsBuilder, searchResult.isMoreRecordsExist()));
+        dumpJudgmentsView.setQueryTemplate(toQueryTemplate(pagination, startDate, endDate, modificationDate));
 
-        return builder.build();
+        return dumpJudgmentsView;
+    }
+
+    //------------------------ PRIVATE --------------------------
+    private List<JudgmentItem> toItems(List<Judgment> judgments) {
+        List<JudgmentItem> items = judgments.stream()
+                .map(judgment -> toItem(judgment))
+                .collect(Collectors.toList());
+
+        return items;
+    }
+
+    private JudgmentItem toItem(Judgment judgment){
+        JudgmentItem item = initializeItemViewAndFillSpecificFields(judgment);
+        judgmentItemMapper.fillJudgmentsFieldsToRepresentation(item, judgment);
+
+        return item;
+    }
+
+    private JudgmentItem initializeItemViewAndFillSpecificFields(Judgment judgment){
+        if(judgment.isInstanceOfCommonCourtJudgment()){
+            CommonCourtJudgment ccJudgment = (CommonCourtJudgment) judgment;
+            CommonCourtJudgmentItem item = new CommonCourtJudgmentItem();
+            commonCourtJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(item, ccJudgment);
+            return item;
+        } else {
+            //default
+            return new JudgmentItem();
+        }
     }
 
 
-
-    //------------------------ PRIVATE --------------------------
     private List<Link> toLinks(Pagination pagination, String startDate, String endDate, String modificationDate, UriComponentsBuilder uriComponentsBuilder, boolean hasMore) {
         List<Link> links = new LinkedList<>();
 
@@ -91,25 +126,27 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
         return new Link(path, relName);
     }
 
-    private List<Object> toItems(List<Judgment> resultRecords) {
-        return dumpJudgmentAssembler.toItemsList(resultRecords);
-    }
 
-    private Object toQueryTemplate(Pagination pagination, String startDate, String endDate, String modificationDate) {
-        Map<String, Object> queryTemplate = new LinkedHashMap<String, Object>();
+    private QueryTemplate toQueryTemplate(Pagination pagination, String startDate, String endDate, String modificationDate) {
 
-        queryTemplate.put(PAGE_NUMBER, pagination.getPageNumber());
-        queryTemplate.put(PAGE_SIZE, pagination.getPageSize());
-        queryTemplate.put(JUDGMENT_START_DATE, StringUtils.trimToEmpty(startDate));
-        queryTemplate.put(JUDGMENT_END_DATE, StringUtils.trimToEmpty(endDate));
-        queryTemplate.put(SINCE_MODIFICATION_DATE, StringUtils.trimToEmpty(modificationDate));
+        QueryTemplate queryTemplate = new QueryTemplate();
+        queryTemplate.setPageNumber(pagination.getPageNumber());
+        queryTemplate.setPageSize(pagination.getPageSize());
+        queryTemplate.setJudgmentStartDate(StringUtils.trimToEmpty(startDate));
+        queryTemplate.setJudgmentEndDate(StringUtils.trimToEmpty(endDate));
+        queryTemplate.setSinceModificationDate(StringUtils.trimToEmpty(modificationDate));
 
         return queryTemplate;
     }
 
     //------------------------ SETTERS --------------------------
-    public void setDumpJudgmentAssembler(DumpJudgmentAssembler dumpJudgmentAssembler) {
-        this.dumpJudgmentAssembler = dumpJudgmentAssembler;
+
+    public void setJudgmentItemMapper(DumpJudgmentItemMapper judgmentItemMapper) {
+        this.judgmentItemMapper = judgmentItemMapper;
+    }
+
+    public void setCommonCourtJudgmentItemMapper(DumpCommonCourtJudgmentItemMapper commonCourtJudgmentItemMapper) {
+        this.commonCourtJudgmentItemMapper = commonCourtJudgmentItemMapper;
     }
 
     public void setDateMapping(DateMapping dateMapping) {

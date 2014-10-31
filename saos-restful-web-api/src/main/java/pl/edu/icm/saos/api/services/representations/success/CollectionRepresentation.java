@@ -8,11 +8,11 @@ import java.util.List;
  * Represents collections view.
  * @author pavtel
  */
-public class CollectionRepresentation<ITEMS, QUERY_TEMPLATE, INFO>  extends SuccessRepresentation {
+public class CollectionRepresentation<ITEM, QUERY_TEMPLATE, INFO>  extends SuccessRepresentation {
 
     private static final long serialVersionUID = -7666954281326403905L;
 
-    protected List<ITEMS> items;
+    protected List<ITEM> items;
 
     protected QUERY_TEMPLATE queryTemplate;
 
@@ -20,7 +20,7 @@ public class CollectionRepresentation<ITEMS, QUERY_TEMPLATE, INFO>  extends Succ
 
     //------------------------ GETTERS --------------------------
 
-    public List<ITEMS> getItems() {
+    public List<ITEM> getItems() {
         return items;
     }
 
@@ -34,7 +34,7 @@ public class CollectionRepresentation<ITEMS, QUERY_TEMPLATE, INFO>  extends Succ
 
     //------------------------ SETTERS --------------------------
 
-    public void setItems(List<ITEMS> items) {
+    public void setItems(List<ITEM> items) {
         this.items = items;
     }
 

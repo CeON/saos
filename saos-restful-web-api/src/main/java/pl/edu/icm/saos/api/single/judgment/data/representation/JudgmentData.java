@@ -27,7 +27,7 @@ public class JudgmentData implements Serializable{
     protected String summary;
     protected String textContent;
     protected List<String> legalBases;
-    protected List<referencedRegulations> referencedRegulations;
+    protected List<ReferencedRegulations> referencedRegulations;
 
 
     //------------------------ GETTERS --------------------------
@@ -72,7 +72,7 @@ public class JudgmentData implements Serializable{
         return legalBases;
     }
 
-    public List<referencedRegulations> getReferencedRegulations() {
+    public List<ReferencedRegulations> getReferencedRegulations() {
         return referencedRegulations;
     }
 
@@ -122,8 +122,8 @@ public class JudgmentData implements Serializable{
         this.legalBases = legalBases;
     }
 
-    public void setReferencedRegulations(List<referencedRegulations> referencedRegulations) {
-        this.referencedRegulations = referencedRegulations;
+    public void setReferencedRegulations(List<ReferencedRegulations> ReferencedRegulations) {
+        this.referencedRegulations = ReferencedRegulations;
     }
 
     public void setJudges(List<Judge> judges) {
@@ -393,7 +393,7 @@ public class JudgmentData implements Serializable{
         }
     }
 
-    public static class referencedRegulations implements Serializable{
+    public static class ReferencedRegulations implements Serializable{
 
         private static final long serialVersionUID = -6830086044877716672L;
 
@@ -462,7 +462,7 @@ public class JudgmentData implements Serializable{
             if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
-            final referencedRegulations other = (referencedRegulations) obj;
+            final ReferencedRegulations other = (ReferencedRegulations) obj;
             return Objects.equal(this.journalTitle, other.journalTitle) &&
                     Objects.equal(this.journalNo, other.journalNo) &&
                     Objects.equal(this.journalYear, other.journalYear) &&
