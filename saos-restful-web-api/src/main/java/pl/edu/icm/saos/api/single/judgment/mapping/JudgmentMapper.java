@@ -44,7 +44,6 @@ public class JudgmentMapper {
     }
 
 
-    //------------------------ PRIVATE --------------------------
 
     private List<Link> toLinks(Judgment judgment) {
         Link link = linksBuilder.linkToJudgment(judgment.getId());
@@ -66,7 +65,7 @@ public class JudgmentMapper {
         data.setReferencedRegulations(toReferencedRegulation(judgment.getReferencedRegulations()));
     }
 
-    private List<JudgmentData.Judge> toJudges(List<Judge> judges) {
+    public List<JudgmentData.Judge> toJudges(List<Judge> judges) {
         if(judges == null)
             judges = Collections.emptyList();
 
@@ -93,7 +92,7 @@ public class JudgmentMapper {
     }
 
 
-    private List<JudgmentData.CourtCase> toCourtCases(List<CourtCase> courtCases) {
+    public List<JudgmentData.CourtCase> toCourtCases(List<CourtCase> courtCases) {
         if(courtCases==null){
             courtCases = Collections.emptyList();
         }
@@ -111,7 +110,7 @@ public class JudgmentMapper {
     }
 
 
-    private Source toSource(JudgmentSourceInfo info) {
+    public Source toSource(JudgmentSourceInfo info) {
         Source source = new Source();
 
         source.setCode(info.getSourceCode());
@@ -124,23 +123,23 @@ public class JudgmentMapper {
         return source;
     }
 
-    private List<String> toSimpleList(List<String> elements) {
+    public List<String> toSimpleList(List<String> elements) {
         if(elements == null)
             elements = Collections.emptyList();
 
         return elements;
     }
 
-    private List<JudgmentData.referencedRegulations> toReferencedRegulation(List<JudgmentReferencedRegulation> referencedRegulations) {
+    public List<JudgmentData.ReferencedRegulations> toReferencedRegulation(List<JudgmentReferencedRegulation> referencedRegulations) {
 
         if(referencedRegulations == null) {
             referencedRegulations = Collections.emptyList();
         }
 
-        List<JudgmentData.referencedRegulations> regulations = new ArrayList<>();
+        List<JudgmentData.ReferencedRegulations> regulations = new ArrayList<>();
 
         for(JudgmentReferencedRegulation referencedRegulation: referencedRegulations) {
-            JudgmentData.referencedRegulations regulationRepresentation = new JudgmentData.referencedRegulations();
+            JudgmentData.ReferencedRegulations regulationRepresentation = new JudgmentData.ReferencedRegulations();
 
             if (referencedRegulation.getLawJournalEntry() != null) {
                 LawJournalEntry lawJournalEntry = referencedRegulation.getLawJournalEntry();

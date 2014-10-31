@@ -4,18 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-import pl.edu.icm.saos.api.dump.court.assemblers.DumpCourtAssembler;
+import pl.edu.icm.saos.api.dump.court.mapping.DumpCourtItemMapper;
+import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.Item;
+import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.QueryTemplate;
 
 /**
  * @author pavtel
@@ -24,20 +25,34 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 public class DumpCourtsListSuccessRepresentationBuilder {
 
 
+
     @Autowired
-    private DumpCourtAssembler dumpCourtAssembler;
+    private DumpCourtItemMapper dumpCourtItemMapper;
 
 
+    public DumpCourtsView build(SearchResult<CommonCourt> searchResult, Pagination pagination, UriComponentsBuilder uriComponentsBuilder){
+        DumpCourtsView dumpCourtsView = new DumpCourtsView();
+        dumpCourtsView.setLinks(toLinks(pagination, uriComponentsBuilder, searchResult.isMoreRecordsExist()));
+        dumpCourtsView.setItems(toItems(searchResult.getResultRecords()));
+        dumpCourtsView.setQueryTemplate(toQueryTemplate(pagination));
 
-
-    public Map<String, Object> build(SearchResult<CommonCourt> searchResult, Pagination pagination, UriComponentsBuilder uriComponentsBuilder){
-        SuccessRepresentationDep.Builder builder = new SuccessRepresentationDep.Builder();
-        builder.links(toLinks(pagination, uriComponentsBuilder, searchResult.isMoreRecordsExist()));
-        builder.items(toItems(searchResult.getResultRecords()));
-        builder.queryTemplate(toQueryTemplate(pagination));
-
-        return builder.build();
+        return dumpCourtsView;
     }
+
+    private List<Item> toItems(List<CommonCourt> commonCourts) {
+        List<Item> items = commonCourts.stream()
+                .map(court -> toItem(court))
+                .collect(Collectors.toList());
+
+        return items;
+    }
+
+    private Item toItem(CommonCourt court){
+        Item item = new Item();
+        dumpCourtItemMapper.fillCommonCourtFieldsToItemRepresentation(item, court);
+        return item;
+    }
+
 
 
 
@@ -71,21 +86,15 @@ public class DumpCourtsListSuccessRepresentationBuilder {
         return new Link(path, relName);
     }
 
-    private List<Object> toItems(List<CommonCourt> resultRecords) {
-        return dumpCourtAssembler.toItemsList(resultRecords);
-    }
 
-    private Object toQueryTemplate(Pagination pagination) {
-        Map<String, Object> queryTemplate = new LinkedHashMap<>();
+    private QueryTemplate toQueryTemplate(Pagination pagination) {
+        QueryTemplate queryTemplate = new QueryTemplate();
 
-        queryTemplate.put(PAGE_NUMBER, pagination.getPageNumber());
-        queryTemplate.put(PAGE_SIZE, pagination.getPageSize());
+        queryTemplate.setPageNumber(pagination.getPageNumber());
+        queryTemplate.setPageSize(pagination.getPageSize());
 
         return queryTemplate;
     }
 
-    //*** setters ***
-    public void setDumpCourtAssembler(DumpCourtAssembler dumpCourtAssembler) {
-        this.dumpCourtAssembler = dumpCourtAssembler;
-    }
+
 }

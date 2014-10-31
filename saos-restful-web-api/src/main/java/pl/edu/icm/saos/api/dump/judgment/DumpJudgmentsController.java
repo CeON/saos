@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.icm.saos.api.dump.judgment.parameters.RequestDumpJudgmentsParameters;
+import pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
@@ -17,8 +18,6 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
-
-import java.util.Map;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
@@ -43,7 +42,7 @@ public class DumpJudgmentsController extends ControllersEntityExceptionHandler{
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> showJudgments(
+    public ResponseEntity<Object> showJudgments(
             @ModelAttribute RequestDumpJudgmentsParameters requestDumpJudgmentsParameters,
             @RequestParam(value = PAGE_SIZE, required = false, defaultValue = Pagination.DEFAULT_PAGE_SIZE) int pageSize,
             @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = "0") int pageNumber
@@ -66,7 +65,7 @@ public class DumpJudgmentsController extends ControllersEntityExceptionHandler{
         SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
 
 
-        Map<String, Object> representation = dumpJudgmentsListSuccessRepresentationBuilder
+        DumpJudgmentsView representation = dumpJudgmentsListSuccessRepresentationBuilder
                 .build(searchResult, pagination, requestDumpJudgmentsParameters, linkTo(DumpJudgmentsController.class).toUriComponentsBuilder());
 
         HttpHeaders httpHeaders = new HttpHeaders();

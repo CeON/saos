@@ -46,7 +46,7 @@ public class CommonCourtJudgmentMapper {
 
 
 
-    private List<String> toListFromKeywords(List<CcJudgmentKeyword> keywords) {
+    public List<String> toListFromKeywords(List<CcJudgmentKeyword> keywords) {
         if(keywords == null)
             keywords = Collections.emptyList();
 
