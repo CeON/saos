@@ -15,8 +15,6 @@ import pl.edu.icm.saos.api.services.exceptions.ElementDoesNotExistException;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 
-import java.util.Map;
-
 /**
  * Provides functionality for constructing view for single division.
  * @author pavtel
@@ -38,14 +36,14 @@ public class DivisionController extends ControllersEntityExceptionHandler{
     //******** business methods ************
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> showDivision(@PathVariable("divisionId") int divisionId) throws ElementDoesNotExistException {
+    public ResponseEntity<Object> showDivision(@PathVariable("divisionId") int divisionId) throws ElementDoesNotExistException {
 
         CommonCourtDivision division = ccDivisionRepository.findOne(divisionId);
         if(division == null){
             throw new ElementDoesNotExistException("Division", divisionId);
         }
 
-        Map<String, Object> representation = divisionSuccessRepresentationBuilder.build(division);
+        Object representation = divisionSuccessRepresentationBuilder.build(division);
 
         HttpHeaders httpHeaders = new HttpHeaders();
 

@@ -5,19 +5,17 @@ import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
 import pl.edu.icm.saos.api.services.links.LinksBuilder;
-import pl.edu.icm.saos.api.single.judgment.JudgmentView;
-import pl.edu.icm.saos.api.single.judgment.representation.JudgmentData;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
-import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.api.single.judgment.views.JudgmentView;
+import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData;
+import pl.edu.icm.saos.persistence.model.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static pl.edu.icm.saos.api.single.judgment.representation.JudgmentData.Source;
+import static pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.Source;
 
 /**
  * Converts {@link pl.edu.icm.saos.persistence.model.Judgment Judgmnent's} fields.
@@ -34,8 +32,13 @@ public class JudgmentMapper {
 
 
     //------------------------ LOGIC --------------------------
-
-    public void fillJudgmentsFieldToRepresentation(JudgmentView<? extends JudgmentData> representation, Judgment judgment){
+    /**
+     * Fill {@link pl.edu.icm.saos.persistence.model.Judgment udgment}  fields values
+     * into {@link pl.edu.icm.saos.api.single.judgment.views.JudgmentView JudgmentView}.
+     * @param representation in which to add values.
+     * @param judgment to process.
+     */
+    public void fillJudgmentsFieldToRepresentation(JudgmentView<?> representation, Judgment judgment){
         representation.setLinks(toLinks(judgment));
         fillData(representation.getData(), judgment);
     }
@@ -49,13 +52,62 @@ public class JudgmentMapper {
     }
 
     private void fillData(JudgmentData data, Judgment judgment) {
+        data.setHref(linksBuilder.urlToJudgment(judgment.getId()));
+        data.setJudgmentType(judgment.getJudgmentType());
+        data.setJudgmentDate(dateMapping.toISO8601Format(judgment.getJudgmentDate()));
+        data.setJudges(toJudges(judgment.getJudges()));
+        data.setCourtCases(toCourtCases(judgment.getCourtCases()));
         data.setSource(toSource(judgment.getSourceInfo()));
         data.setCourtReporters(toSimpleList(judgment.getCourtReporters()));
         data.setDecision(judgment.getDecision());
         data.setSummary(judgment.getSummary());
         data.setTextContent(judgment.getTextContent());
         data.setLegalBases(toSimpleList(judgment.getLegalBases()));
-        data.setReferencedRegulation(toReferencedRegulation(judgment.getReferencedRegulations()));
+        data.setReferencedRegulations(toReferencedRegulation(judgment.getReferencedRegulations()));
+    }
+
+    private List<JudgmentData.Judge> toJudges(List<Judge> judges) {
+        if(judges == null)
+            judges = Collections.emptyList();
+
+        List<JudgmentData.Judge> judgesView = new ArrayList<>();
+
+        for(Judge judge : judges){
+            List<Judge.JudgeRole> judgeRoles = judge.getSpecialRoles();
+            if(judgeRoles == null) {
+                judgeRoles = Collections.emptyList();
+            }
+
+            List<String> rolesNames = judgeRoles.stream()
+                    .map(role -> role.name())
+                    .collect(Collectors.toList());
+
+            JudgmentData.Judge judgeView = new JudgmentData.Judge();
+            judgeView.setName(judge.getName());
+            judgeView.setSpecialRoles(rolesNames);
+
+            judgesView.add(judgeView);
+        }
+
+        return judgesView;
+    }
+
+
+    private List<JudgmentData.CourtCase> toCourtCases(List<CourtCase> courtCases) {
+        if(courtCases==null){
+            courtCases = Collections.emptyList();
+        }
+
+        return courtCases.stream()
+                .map(courtCase -> toCourtCaseView(courtCase))
+                .collect(Collectors.toList());
+    }
+
+
+    private JudgmentData.CourtCase toCourtCaseView(CourtCase courtCase) {
+        JudgmentData.CourtCase courtCaseView = new JudgmentData.CourtCase();
+        courtCaseView.setCaseNumber(courtCase.getCaseNumber());
+        return courtCaseView;
     }
 
 
@@ -79,16 +131,16 @@ public class JudgmentMapper {
         return elements;
     }
 
-    private List<JudgmentData.ReferencedRegulation> toReferencedRegulation(List<JudgmentReferencedRegulation> referencedRegulations) {
+    private List<JudgmentData.referencedRegulations> toReferencedRegulation(List<JudgmentReferencedRegulation> referencedRegulations) {
 
         if(referencedRegulations == null) {
             referencedRegulations = Collections.emptyList();
         }
 
-        List<JudgmentData.ReferencedRegulation> regulations = new ArrayList<>();
+        List<JudgmentData.referencedRegulations> regulations = new ArrayList<>();
 
         for(JudgmentReferencedRegulation referencedRegulation: referencedRegulations) {
-            JudgmentData.ReferencedRegulation regulationRepresentation = new JudgmentData.ReferencedRegulation();
+            JudgmentData.referencedRegulations regulationRepresentation = new JudgmentData.referencedRegulations();
 
             if (referencedRegulation.getLawJournalEntry() != null) {
                 LawJournalEntry lawJournalEntry = referencedRegulation.getLawJournalEntry();
@@ -115,4 +167,5 @@ public class JudgmentMapper {
     public void setDateMapping(DateMapping dateMapping) {
         this.dateMapping = dateMapping;
     }
+
 }

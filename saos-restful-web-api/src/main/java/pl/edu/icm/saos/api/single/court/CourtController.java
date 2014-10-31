@@ -14,8 +14,6 @@ import pl.edu.icm.saos.api.services.exceptions.ElementDoesNotExistException;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 
-import java.util.Map;
-
 /**
  * Provides functionality for constructing view for single court.
  * @author pavtel
@@ -37,14 +35,14 @@ public class CourtController extends ControllersEntityExceptionHandler {
     //***** business methods *************
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> showCourt(@PathVariable("courtId") int courtId) throws ElementDoesNotExistException {
+    public ResponseEntity<Object> showCourt(@PathVariable("courtId") int courtId) throws ElementDoesNotExistException {
 
         CommonCourt court = courtRepository.findOneAndInitialize(courtId);
         if(court == null){
             throw new ElementDoesNotExistException("Court", courtId);
         }
 
-        Map<String, Object> representation = singleCourtSuccessRepresentationBuilder.build(court);
+        Object representation = singleCourtSuccessRepresentationBuilder.build(court);
 
         return new ResponseEntity<>(representation, HttpStatus.OK);
     }

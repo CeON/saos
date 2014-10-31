@@ -1,7 +1,7 @@
-package pl.edu.icm.saos.api.single.judgment;
+package pl.edu.icm.saos.api.single.judgment.views;
 
 import pl.edu.icm.saos.api.services.representations.success.SingleElementRepresentation;
-import pl.edu.icm.saos.api.single.judgment.representation.JudgmentData;
+import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData;
 
 /**
  * Represents judgment view corresponding to {@link pl.edu.icm.saos.persistence.model.Judgment Judgment}

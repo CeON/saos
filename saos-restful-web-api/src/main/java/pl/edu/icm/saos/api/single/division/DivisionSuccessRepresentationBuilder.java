@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 import pl.edu.icm.saos.api.services.links.LinksBuilder;
-import pl.edu.icm.saos.api.services.mapping.FieldsMapper;
-import pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep;
+import pl.edu.icm.saos.api.single.division.views.DivisionView;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static pl.edu.icm.saos.api.ApiConstants.COURT;
 
@@ -22,29 +21,29 @@ import static pl.edu.icm.saos.api.ApiConstants.COURT;
 @Component
 public class DivisionSuccessRepresentationBuilder {
 
-    //******* fields *********
-    @Autowired
-    private FieldsMapper<CommonCourtDivision> divisionFieldsMapper;
-
     @Autowired
     private LinksBuilder linksBuilder;
-    //******* END fields **********
 
 
-    //******** business methods ***********
+    //------------------------ LOGIC --------------------------
     /**
-     * From division constructs the success view representation (representation details: {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep SuccessRepresentation})
+     * Constructs division's view {@link pl.edu.icm.saos.api.single.division.views.DivisionView DivisionView}.
      * @param division to process.
-     * @return map - success representation
+     * @return representation.
      */
-    public Map<String, Object> build(CommonCourtDivision division){
-        SuccessRepresentationDep.Builder builder = new SuccessRepresentationDep.Builder();
+    public DivisionView build(CommonCourtDivision division){
+        DivisionView divisionView = new DivisionView();
+        fillDivisionFieldsToRepresentation(divisionView, division);
 
-        builder.data(divisionFieldsMapper.fieldsToMap(division));
-        builder.links(toLinks(division));
-
-        return builder.build();
+        return divisionView;
     }
+
+    //------------------------ PRIVATE --------------------------
+    private void fillDivisionFieldsToRepresentation(DivisionView representation, CommonCourtDivision division){
+        representation.setLinks(toLinks(division));
+        fillData(representation.getData(), division);
+    }
+
 
     private List<Link> toLinks(CommonCourtDivision division) {
         Link divisionLink = linksBuilder.linkToDivision(division.getId());
@@ -53,13 +52,31 @@ public class DivisionSuccessRepresentationBuilder {
         return Arrays.asList(divisionLink, courtLink);
     }
 
-    //********* END business methods ************
-
-
-    //*** setters ***
-    public void setDivisionFieldsMapper(FieldsMapper<CommonCourtDivision> divisionFieldsMapper) {
-        this.divisionFieldsMapper = divisionFieldsMapper;
+    private void fillData(DivisionView.Data data, CommonCourtDivision division) {
+        data.setHref(linksBuilder.urlToDivision(division.getId()));
+        data.setName(division.getName());
+        data.setCode(division.getCode());
+        data.setType(division.getType().getName());
+        data.setCourt(toCourt(division.getCourt()));
     }
+
+    private DivisionView.Court toCourt(CommonCourt court) {
+        DivisionView.Court courtView = new DivisionView.Court();
+        courtView.setHref(linksBuilder.urlToCourt(court.getId()));
+        courtView.setName(court.getName());
+        courtView.setCode(court.getCode());
+        courtView.setType(court.getType());
+
+        if(court.getParentCourt() != null){
+            DivisionView.ParentCourt parentCourt = new DivisionView.ParentCourt();
+            parentCourt.setHref(linksBuilder.urlToCourt(court.getParentCourt().getId()));
+            courtView.setParentCourt(parentCourt);
+        }
+
+        return courtView;
+    }
+
+    //------------------------ SETTERS --------------------------
 
     public void setLinksBuilder(LinksBuilder linksBuilder) {
         this.linksBuilder = linksBuilder;

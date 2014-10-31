@@ -1,0 +1,227 @@
+package pl.edu.icm.saos.api.single.court.views;
+
+import com.google.common.base.Objects;
+import pl.edu.icm.saos.api.services.representations.success.SingleElementRepresentation;
+
+import java.io.Serializable;
+import java.util.List;
+
+import static pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import static pl.edu.icm.saos.api.single.court.views.CommonCourtView.Data;
+
+/**
+ * @author pavtel
+ */
+public class CommonCourtView extends SingleElementRepresentation<Data>{
+    private static final long serialVersionUID = -1345285608722368168L;
+
+    public CommonCourtView() {
+        data = new Data();
+    }
+
+    public static class Data implements Serializable {
+
+        private static final long serialVersionUID = -4574495269995004724L;
+
+        private String href;
+        private String name;
+        private String code;
+        private CommonCourtType type;
+        private ParentCourt parentCourt;
+        private List<Division> divisions;
+
+
+        //------------------------ GETTERS --------------------------
+
+        public String getHref() {
+            return href;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public CommonCourtType getType() {
+            return type;
+        }
+
+        public ParentCourt getParentCourt() {
+            return parentCourt;
+        }
+
+        public List<Division> getDivisions() {
+            return divisions;
+        }
+
+        //------------------------ SETTERS --------------------------
+
+        public void setHref(String href) {
+            this.href = href;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public void setType(CommonCourtType type) {
+            this.type = type;
+        }
+
+        public void setParentCourt(ParentCourt parentCourt) {
+            this.parentCourt = parentCourt;
+        }
+
+        public void setDivisions(List<Division> divisions) {
+            this.divisions = divisions;
+        }
+
+        //------------------------ HashCode & Equals --------------------------
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(href, name, code, type, parentCourt, divisions);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            final Data other = (Data) obj;
+            return Objects.equal(this.href, other.href) &&
+                    Objects.equal(this.name, other.name) &&
+                    Objects.equal(this.code, other.code) &&
+                    Objects.equal(this.type, other.type) &&
+                    Objects.equal(this.parentCourt, other.parentCourt) &&
+                    Objects.equal(this.divisions, other.divisions);
+        }
+
+        //------------------------ toString --------------------------
+
+        @Override
+        public String toString() {
+            return Objects.toStringHelper(this)
+                    .add("href", href)
+                    .add("name", name)
+                    .add("code", code)
+                    .add("type", type)
+                    .add("parentCourt", parentCourt)
+                    .add("divisions", divisions)
+                    .toString();
+        }
+    }
+
+    public static class ParentCourt implements Serializable {
+
+        private static final long serialVersionUID = 94472416729120415L;
+
+        private String href;
+
+        //------------------------ GETTERS --------------------------
+
+        public String getHref() {
+            return href;
+        }
+
+        //------------------------ SETTERS --------------------------
+
+        public void setHref(String href) {
+            this.href = href;
+        }
+
+        //------------------------ HashCode & Equals --------------------------
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(href);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            final ParentCourt other = (ParentCourt) obj;
+            return Objects.equal(this.href, other.href);
+        }
+
+        //------------------------ toString --------------------------
+
+        @Override
+        public String toString() {
+            return Objects.toStringHelper(this)
+                    .add("href", href)
+                    .toString();
+        }
+    }
+
+    public static class Division implements Serializable {
+        private static final long serialVersionUID = 3020882061218701135L;
+
+        private String href;
+        private String name;
+
+        //------------------------ GETTERS --------------------------
+
+        public String getHref() {
+            return href;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        //------------------------ SETTERS --------------------------
+
+        public void setHref(String href) {
+            this.href = href;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        //------------------------ HashCode & Equals --------------------------
+
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(href, name);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            final Division other = (Division) obj;
+            return Objects.equal(this.href, other.href) && Objects.equal(this.name, other.name);
+        }
+
+        //------------------------ toString --------------------------
+
+        @Override
+        public String toString() {
+            return Objects.toStringHelper(this)
+                    .add("href", href)
+                    .add("name", name)
+                    .toString();
+        }
+    }
+}

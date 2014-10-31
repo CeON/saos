@@ -1,15 +1,13 @@
 package pl.edu.icm.saos.api.single.judgment;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
-import pl.edu.icm.saos.api.services.links.LinksBuilder;
-import pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep;
-import pl.edu.icm.saos.api.single.judgment.assemblers.JudgmentAssembler;
+import pl.edu.icm.saos.api.single.judgment.mapping.CommonCourtJudgmentMapper;
+import pl.edu.icm.saos.api.single.judgment.mapping.JudgmentMapper;
+import pl.edu.icm.saos.api.single.judgment.views.CommonCourtJudgmentView;
+import pl.edu.icm.saos.api.single.judgment.views.JudgmentView;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Provides functionality for building success object view for single judgment.
@@ -19,47 +17,45 @@ import java.util.List;
 @Component("singleJudgmentSuccessRepresentationBuilder")
 public class SingleJudgmentSuccessRepresentationBuilder {
 
-    //******* fields ***********
     @Autowired
-    private JudgmentAssembler judgmentAssembler;
+    JudgmentMapper judgmentMapper;
 
     @Autowired
-    private LinksBuilder linksBuilder;
+    CommonCourtJudgmentMapper commonCourtJudgmentMapper;
 
-    //********** END fields **************
 
-    //********** business methods **************
-
+    //------------------------ LOGIC --------------------------
     /**
-     * Constructs, from judgment, the success view representation (representation details: {@link pl.edu.icm.saos.api.services.representations.SuccessRepresentationDep SuccessRepresentation})
+     * Constructs judgment's view {@link pl.edu.icm.saos.api.single.judgment.views.JudgmentView JudgmentView}.
      * @param judgment to process.
-     * @return  success representation
+     * @return representation.
      */
-    public Object build(Judgment judgment){
-//        JudgmentView judgmentView = new JudgmentView();
-//        judgmentView.setLinks(toLinks(judgment));
-//        return judgmentView;
-
-        SuccessRepresentationDep.Builder builder = new SuccessRepresentationDep.Builder();
-        builder.data(judgmentAssembler.fieldsToItemRepresentation(judgment));
-        builder.links(toLinks(judgment));
-
-        return builder.build();
+    public JudgmentView<?> build(Judgment judgment){
+        JudgmentView<?> judgmentView = initializeViewAndFillSpecificFields(judgment);
+        judgmentMapper.fillJudgmentsFieldToRepresentation(judgmentView, judgment);
+        return judgmentView;
     }
 
-    private List<Link> toLinks(Judgment judgment) {
-        Link link = linksBuilder.linkToJudgment(judgment.getId());
-        return Arrays.asList(link);
+    //------------------------ PRIVATE --------------------------
+
+    private JudgmentView<?> initializeViewAndFillSpecificFields(Judgment judgment){
+        if(judgment.isInstanceOfCommonCourtJudgment()){
+            CommonCourtJudgment commonCourtJudgment = (CommonCourtJudgment) judgment;
+            CommonCourtJudgmentView judgmentView = new CommonCourtJudgmentView();
+            commonCourtJudgmentMapper.fillJudgmentsFieldToRepresentation(judgmentView, commonCourtJudgment);
+            return judgmentView;
+        } else {
+            //default
+            return new CommonCourtJudgmentView();
+        }
     }
 
-    //************* END business methods **************
-
-    //*** setters ***
-    public void setJudgmentAssembler(JudgmentAssembler judgmentAssembler) {
-        this.judgmentAssembler = judgmentAssembler;
+    //------------------------ SETTERS --------------------------
+    public void setJudgmentMapper(JudgmentMapper judgmentMapper) {
+        this.judgmentMapper = judgmentMapper;
     }
 
-    public void setLinksBuilder(LinksBuilder linksBuilder) {
-        this.linksBuilder = linksBuilder;
+    public void setCommonCourtJudgmentMapper(CommonCourtJudgmentMapper commonCourtJudgmentMapper) {
+        this.commonCourtJudgmentMapper = commonCourtJudgmentMapper;
     }
 }
