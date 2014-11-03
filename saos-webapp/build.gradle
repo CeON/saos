@@ -57,6 +57,5 @@ task version(dependsOn: build) {
 }
 
 
-
-build.dependsOn ':saos-webapp-grunt:grunt_build'
-war.shouldRunAfter ':saos-webapp-grunt:grunt_build'
+build.dependsOn ':saos-webapp-grunt:gruntBuild'
+war.mustRunAfter ':saos-webapp-grunt:gruntBuild'
