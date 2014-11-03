@@ -9,9 +9,9 @@
 	</ul>
 	
 	<ul class="nav navbar-nav navbar-right" >
-		<li>Co robimy</li>
-		<li>Wyszukiwarka</li>	
-		<li>Kontakt</li>
+		<li><spring:message code="header.navigation.home" /></li>
+		<li><spring:message code="header.navigation.search" /></li>	
+		<li><spring:message code="header.navigation.contact" /></li>
 	</ul>
 
 </div>

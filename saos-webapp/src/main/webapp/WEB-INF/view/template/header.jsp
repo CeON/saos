@@ -50,13 +50,13 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-      	<li class="active"><a href="${contextPath}/">Co robimy</a></li>
-        <li ><a href="${contextPath}/results">Wyszukiwarka</a></li>
-        <li><a href="#">Kontakt</a></li>
+      	<li class="active"><a href="${contextPath}/"><spring:message code="header.navigation.home" /></a></li>
+        <li ><a href="${contextPath}/results"><spring:message code="header.navigation.search" /></a></li>
+        <li><a href="#"><spring:message code="header.navigation.contact" /></a></li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Logowanie</a></li>
+        <li><a href="#"><spring:message code="header.navigation.login" /></a></li>
       </ul>
       
     </div><!--/.nav-collapse -->
