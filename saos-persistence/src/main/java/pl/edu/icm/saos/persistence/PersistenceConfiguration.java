@@ -55,21 +55,11 @@ public class PersistenceConfiguration {
     }
     
     
-    /*@Bean
-    public LocalSessionFactoryBean sessionFactory() {
-        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
-        sessionFactory.setHibernateProperties(hibernateProperties());
-        sessionFactory.setPackagesToScan("pl.edu.icm.saos.persistence.model");
-        sessionFactory.setNamingStrategy(new CustomDbNamingStrategy());
-        return sessionFactory;
-    }*/
-    
     @Bean
     public EntityManagerFactory entityManagerFactory() {
        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
        emf.setDataSource(dataSource());
-       emf.setPackagesToScan(new String[] {"pl.edu.icm.saos.persistence.model"});
+       emf.setPackagesToScan(new String[] {"pl.edu.icm.saos.persistence.model", "pl.edu.icm.saos.persistence.correction.model"});
        emf.setSharedCacheMode(SharedCacheMode.ENABLE_SELECTIVE);
        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
        emf.setJpaVendorAdapter(vendorAdapter);
