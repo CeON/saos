@@ -134,7 +134,7 @@ public class JudgmentSearchResultTranslatorTest {
     	
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
 
-        Assert.assertTrue(result.getCourtChambers().equals(Lists.newArrayList()));
+        Assert.assertEquals(0, result.getCourtChambers().size());
     }
     
     @Test
