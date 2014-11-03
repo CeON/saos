@@ -1,30 +1,25 @@
 package pl.edu.icm.saos.api.services;
 
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
-import pl.edu.icm.saos.api.search.services.ApiSearchService;
-import pl.edu.icm.saos.api.search.services.ElementsSearchResults;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.Judgment;
-
-import java.util.Arrays;
-
-import static pl.edu.icm.saos.api.services.FieldsDefinition.createCommonJudgment;
+import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
+import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.model.SearchResults;
 
 /**
  * @author pavtel
  */
-public class TrivialApiSearchService implements ApiSearchService<Judgment, JudgmentsParameters>{
+public class TrivialApiSearchService extends JudgmentsApiSearchService{
 
-    private int totalResults;
 
-    public TrivialApiSearchService(int totalResults) {
-        this.totalResults = totalResults;
+    private SearchResults<JudgmentSearchResult> searchResults;
+
+
+    public TrivialApiSearchService(SearchResults<JudgmentSearchResult> searchResults) {
+        this.searchResults = searchResults;
     }
 
     @Override
-    public ElementsSearchResults<Judgment, JudgmentsParameters> performSearch(JudgmentsParameters parameters) {
-        CommonCourtJudgment commonCourtJudgment = createCommonJudgment();
-        return new ElementsSearchResults<Judgment, JudgmentsParameters>(Arrays.asList(commonCourtJudgment), parameters)
-                .totalResults(totalResults);
+    public SearchResults<JudgmentSearchResult> performSearch(JudgmentsParameters judgmentsParameters) {
+        return searchResults;
     }
 }

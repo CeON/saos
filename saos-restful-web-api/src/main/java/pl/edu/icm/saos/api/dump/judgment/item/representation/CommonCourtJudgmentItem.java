@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
+ * Represents item in items field in the {@link pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView DumpJudgmentsView}.
+ * Contains data related to {@link pl.edu.icm.saos.persistence.model.CommonCourtJudgment CommonCourtJudgment} specific fields.
  * @author pavtel
  */
 public class CommonCourtJudgmentItem extends JudgmentItem {

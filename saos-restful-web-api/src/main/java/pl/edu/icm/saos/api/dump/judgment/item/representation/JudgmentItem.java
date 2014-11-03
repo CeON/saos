@@ -9,6 +9,7 @@ import static pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentDa
 import static pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 
 /**
+ * Represents item in items field in the {@link pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView DumpJudgmentsView}.
  * @author pavtel
  */
 public class JudgmentItem implements Serializable {

@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.api.search.judgments;
 
 
+import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -16,13 +17,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.config.ApiTestConfiguration;
-import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
+import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.search.services.ApiSearchService;
 import pl.edu.icm.saos.api.services.FieldsDefinition.JC;
 import pl.edu.icm.saos.api.services.TrivialApiSearchService;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.search.search.model.JudgeResult;
+import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.model.SearchResults;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
@@ -46,9 +53,44 @@ public class JudgmentsControllerTest {
     static class TestConfiguration {
 
         @Bean(name = "mockJudgmentApiSearchService")
-        public ApiSearchService<Judgment, JudgmentsParameters> judgmentApiSearchService(){
-            return new TrivialApiSearchService(TOTAL_RESULTS_VALUE);
+        public JudgmentsApiSearchService judgmentApiSearchService(){
+            return new TrivialApiSearchService(constructSearchResult());
         }
+
+        SearchResults<JudgmentSearchResult> constructSearchResult(){
+            SearchResults<JudgmentSearchResult> searchResults = new SearchResults<>();
+            searchResults.setTotalResults(TOTAL_RESULTS_VALUE);
+
+            JudgmentSearchResult judgmentSearchResult = new JudgmentSearchResult();
+            judgmentSearchResult.setId(String.valueOf(JC.JUDGMENT_ID));
+
+            judgmentSearchResult.setCourtName(JC.COURT_NAME);
+            judgmentSearchResult.setCourtId(JC.COURT_ID);
+            judgmentSearchResult.setCourtCode(JC.COURT_CODE);
+
+            judgmentSearchResult.setContent(JC.TEXT_CONTENT);
+            judgmentSearchResult.setCaseNumbers(Arrays.asList(JC.CASE_NUMBER));
+            judgmentSearchResult.setKeywords(Arrays.asList(JC.FIRST_KEYWORD, JC.SECOND_KEYWORD));
+            judgmentSearchResult.setJudgmentDate(new LocalDate(JC.DATE_YEAR, JC.DATE_MONTH, JC.DATE_DAY));
+            judgmentSearchResult.setJudgmentType(Judgment.JudgmentType.SENTENCE.name());
+
+            judgmentSearchResult.setCourtDivisionId(JC.DIVISION_ID);
+            judgmentSearchResult.setCourtDivisionCode(JC.DIVISION_CODE);
+            judgmentSearchResult.setCourtDivisionName(JC.DIVISION_NAME);
+
+            List<JudgeResult> judges = Arrays.asList(
+                    new JudgeResult(JC.PRESIDING_JUDGE_NAME, Judge.JudgeRole.PRESIDING_JUDGE),
+                    new JudgeResult(JC.SECOND_JUDGE_NAME), new JudgeResult(JC.THIRD_JUDGE_NAME)
+            );
+
+            judgmentSearchResult.setJudges(judges);
+
+
+            searchResults.addResult(judgmentSearchResult);
+
+            return searchResults;
+        }
+
 
     }
 
@@ -62,7 +104,7 @@ public class JudgmentsControllerTest {
 
     @Autowired
     @Qualifier("mockJudgmentApiSearchService")
-    private ApiSearchService<Judgment, JudgmentsParameters> apiSearchService;
+    private JudgmentsApiSearchService apiSearchService;
 
     @Autowired
     private ParametersExtractor parametersExtractor;
@@ -91,31 +133,36 @@ public class JudgmentsControllerTest {
                 .param(PAGE_NUMBER, "1")
                 .accept(MediaType.APPLICATION_JSON));
         //then
-        actions.andExpect(status().isOk());
 
         verifyBasicFields(actions, "$.items.[0]");
+
+        actions.andExpect(status().isOk());
 
         actions
                 .andExpect(jsonPath("$.items.[0].source").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].courtReporters").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].decision").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].summary").doesNotExist())
-                .andExpect(jsonPath("$.items.[0].textContent").doesNotExist())
+
                 .andExpect(jsonPath("$.items.[0].reasoning").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].legalBases").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].referencedRegulations").doesNotExist())
 
-                .andExpect(jsonPath("$.items.[0].division.code").doesNotExist())
+
                 .andExpect(jsonPath("$.items.[0].division.type").doesNotExist())
 
-                .andExpect(jsonPath("$.items.[0].division.court.code").doesNotExist())
+
                 .andExpect(jsonPath("$.items.[0].division.court.type").doesNotExist())
 
-                .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(SINGLE_DIVISIONS_PATH +"/"+JC.DIVISION_ID)))
-                .andExpect(jsonPath("$.items.[0].division.name").value(JC.DIVISION_NAME))
+                .andExpect(jsonPath("$.items.[0].textContent").value(JC.TEXT_CONTENT))
 
-                .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH+"/"+JC.COURT_ID)))
+                .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + JC.DIVISION_ID)))
+                .andExpect(jsonPath("$.items.[0].division.name").value(JC.DIVISION_NAME))
+                .andExpect(jsonPath("$.items.[0].division.code").value(JC.DIVISION_CODE))
+
+                .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH + "/" + JC.COURT_ID)))
                 .andExpect(jsonPath("$.items.[0].division.court.name").value(JC.COURT_NAME))
+                .andExpect(jsonPath("$.items.[0].division.court.code").value(JC.COURT_CODE))
         ;
     }
 

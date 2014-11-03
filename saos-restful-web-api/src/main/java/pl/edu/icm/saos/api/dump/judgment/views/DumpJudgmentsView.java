@@ -10,6 +10,7 @@ import static pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.Info;
 import static pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.QueryTemplate;
 
 /**
+ * Represents dump judgment's view.
  * @author pavtel
  */
 public class DumpJudgmentsView extends CollectionRepresentation<JudgmentItem,QueryTemplate,Info>{

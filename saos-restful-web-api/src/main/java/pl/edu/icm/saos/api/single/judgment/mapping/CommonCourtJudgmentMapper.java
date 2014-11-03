@@ -38,14 +38,11 @@ public class CommonCourtJudgmentMapper {
         fillData(representation.getData(), judgment);
     }
 
-    //------------------------ PRIVATE --------------------------
-    private void fillData(CommonCourtJudgmentData data, CommonCourtJudgment judgment) {
-        data.setKeywords(toListFromKeywords(judgment.getKeywords()));
-        data.setDivision(toDivision(judgment.getCourtDivision()));
-    }
-
-
-
+    /**
+     * Maps {@link pl.edu.icm.saos.persistence.model.CcJudgmentKeyword CcKeywords} into their names.
+     * @param keywords to process.
+     * @return list of keywords names.
+     */
     public List<String> toListFromKeywords(List<CcJudgmentKeyword> keywords) {
         if(keywords == null)
             keywords = Collections.emptyList();
@@ -55,6 +52,12 @@ public class CommonCourtJudgmentMapper {
                 .collect(Collectors.toList());
 
         return list;
+    }
+
+    //------------------------ PRIVATE --------------------------
+    private void fillData(CommonCourtJudgmentData data, CommonCourtJudgment judgment) {
+        data.setKeywords(toListFromKeywords(judgment.getKeywords()));
+        data.setDivision(toDivision(judgment.getCourtDivision()));
     }
 
     private Division toDivision(CommonCourtDivision courtDivision) {
