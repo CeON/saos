@@ -97,7 +97,11 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
         List<Pair<String, List<String>>> chambers = fieldFetcher.fetchValuesWithAttributes(document, JudgmentIndexField.SC_CHAMBER);
         List<SupremeCourtChamberResult> chambersResult = Lists.newLinkedList();
         
-        chambers.forEach(x -> chambersResult.add(new SupremeCourtChamberResult(Integer.valueOf(x.getLeft()), x.getRight().get(0))));
+        chambers
+        	.stream()
+    		.filter(x -> x.getRight().size() > 0)
+    		.forEach(x -> chambersResult.add(new SupremeCourtChamberResult(Integer.parseInt(x.getLeft()), x.getRight().get(0))));
+        
         result.setCourtChambers(chambersResult);
         
         Integer divisionId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.SC_DIVISION_ID);

@@ -7,6 +7,7 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.apache.solr.common.SolrDocument;
+import org.assertj.core.util.Lists;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +19,7 @@ import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.JudgeResult;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SupremeCourtChamberResult;
+
 
 /**
  * @author madryk
@@ -122,6 +124,17 @@ public class JudgmentSearchResultTranslatorTest {
         Assert.assertEquals(2, result.getCourtChambers().size());
         Assert.assertEquals(Integer.valueOf(111), result.getCourtChamberDivisionId());
         Assert.assertEquals("Izba Cywilna Wydział III", result.getCourtChamberDivisionName());
+    }
+    
+    @Test
+    public void translateSingle_SUPREME_COURT_defective_court_chamber() {
+    	SolrDocument doc = new SolrDocument();
+    	
+        doc.addField("courtChamber", "11");
+    	
+        JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
+
+        Assert.assertEquals(0, result.getCourtChambers().size());
     }
     
     @Test

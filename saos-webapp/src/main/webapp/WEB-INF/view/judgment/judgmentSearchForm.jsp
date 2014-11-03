@@ -101,7 +101,7 @@
 
 	<h3><spring:message code="judgment.results.header" /><span><spring:message code="judgment.results.info" arguments="${resultsNo}" /></span></h3>
 	
-	<div id="filter-box-button" class="filter-box-button display-none" data-toggle="tooltip" data-placement="top" title="test asdasd Text"></div>
+	<div id="filter-box-button" class="filter-box-button display-none" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgment.results.filter.show' />"></div>
 	
 	<div class="search-settings" id="search-settings" data-toggle="tooltip" data-placement="top" title="<spring:message code='search.tooltip.settings' />" >
 		
