@@ -7,6 +7,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
@@ -45,6 +46,8 @@ public class DbCleaner {
         deleteAll(CourtCase.class);
         
         deleteAllSql("supreme_court_judgment_chamber");
+        
+        deleteAll(JudgmentCorrection.class);
         
         deleteAll(Judgment.class);
         
