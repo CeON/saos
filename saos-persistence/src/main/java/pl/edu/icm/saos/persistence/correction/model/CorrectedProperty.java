@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.persistence.model.correction;
+package pl.edu.icm.saos.persistence.correction.model;
 
 /**
  * @author Łukasz Dumiszewski
@@ -7,6 +7,8 @@ package pl.edu.icm.saos.persistence.model.correction;
 public enum CorrectedProperty {
 
     JUDGMENT_TYPE,
+    
+    JUDGE_NAME,
     
     SC_CHAMBER_NAME,
     
