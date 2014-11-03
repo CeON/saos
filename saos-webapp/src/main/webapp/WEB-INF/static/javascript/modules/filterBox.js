@@ -151,11 +151,9 @@ var FilterBox = (function() {
 	
 	/* Assign button "show filter box" */
 	assignFilterShowButton = function() {
-		if ($("#" + settingsButton.className).length !== 0) {
-			$("#" + settingsButton.className).click(function() {
-				showBox();
-			});
-		} 
+		$("#" + settingsButton.className).click(function() {
+			showBox();
+		});
 	},
 	
 	/* Animation show filter button */
@@ -218,6 +216,7 @@ var FilterBox = (function() {
 		stickyBox();
 		showButtonAndMessage();
 		assignHideButton();
+		assignFilterShowButton();
 		shortenFilterText();
 	};
 	
