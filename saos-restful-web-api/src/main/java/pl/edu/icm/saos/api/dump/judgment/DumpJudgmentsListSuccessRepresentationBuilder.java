@@ -25,6 +25,7 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 import static pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.QueryTemplate;
 
 /**
+ * Provides functionality for building success object view for dump list of judgments.
  * @author pavtel
  */
 @Service
@@ -42,6 +43,15 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
 
 
     //------------------------ LOGIC --------------------------
+
+    /**
+     * Constructs {@link pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView DumpJudgmentsView}.
+     * @param searchResult to process.
+     * @param pagination to process.
+     * @param requestDumpJudgmentsParameters used to create queryTemplate.
+     * @param uriComponentsBuilder used to create links.
+     * @return representation.
+     */
     public DumpJudgmentsView build(SearchResult<Judgment> searchResult, Pagination pagination, RequestDumpJudgmentsParameters requestDumpJudgmentsParameters, UriComponentsBuilder uriComponentsBuilder){
         DumpJudgmentsView dumpJudgmentsView = new DumpJudgmentsView();
         dumpJudgmentsView.setItems(toItems(searchResult.getResultRecords()));

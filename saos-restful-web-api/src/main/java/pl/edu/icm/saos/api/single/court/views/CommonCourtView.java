@@ -10,6 +10,7 @@ import static pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import static pl.edu.icm.saos.api.single.court.views.CommonCourtView.Data;
 
 /**
+ * Represents {@link pl.edu.icm.saos.persistence.model.CommonCourt CommonCourt} view.
  * @author pavtel
  */
 public class CommonCourtView extends SingleElementRepresentation<Data>{

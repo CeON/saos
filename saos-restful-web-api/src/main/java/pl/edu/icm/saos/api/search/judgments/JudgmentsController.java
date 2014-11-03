@@ -10,15 +10,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
+import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
+import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.search.services.ApiSearchService;
-import pl.edu.icm.saos.api.search.services.ElementsSearchResults;
 import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
-import pl.edu.icm.saos.persistence.model.Judgment;
-
-import java.util.Map;
+import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
+import pl.edu.icm.saos.search.search.model.SearchResults;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
@@ -41,7 +40,7 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
     private JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder;
 
     @Autowired
-    private ApiSearchService<Judgment, JudgmentsParameters> apiSearchService;
+    private JudgmentsApiSearchService apiSearchService;
 
     @Autowired
     private ParametersExtractor parametersExtractor;
@@ -53,7 +52,7 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> showJudgments(@ModelAttribute JudgmentsParameters judgmentsParameters,
+    public ResponseEntity<Object> showJudgments(@ModelAttribute JudgmentsParameters judgmentsParameters,
                                                              @RequestParam(value = PAGE_SIZE, required = false, defaultValue = Pagination.DEFAULT_PAGE_SIZE) int pageSize,
                                                              @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = "0") int pageNumber
     ) throws WrongRequestParameterException {
@@ -62,9 +61,9 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
         Pagination pagination = parametersExtractor.extractAndValidatePagination(pageSize, pageNumber);
         judgmentsParameters.setPagination(pagination);
 
-        ElementsSearchResults<Judgment, JudgmentsParameters>  searchResults = apiSearchService.performSearch(judgmentsParameters);
+        SearchResults<JudgmentSearchResult> searchResults = apiSearchService.performSearch(judgmentsParameters);
 
-        Map<String, Object> representation = listSuccessRepresentationBuilder.build(searchResults,
+        SearchJudgmentsView representation = listSuccessRepresentationBuilder.build(judgmentsParameters, searchResults,
                  linkTo(JudgmentsController.class).toUriComponentsBuilder());
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -82,7 +81,7 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
         this.listSuccessRepresentationBuilder = listSuccessRepresentationBuilder;
     }
 
-    public void setApiSearchService(ApiSearchService<Judgment, JudgmentsParameters> apiSearchService) {
+    public void setApiSearchService(JudgmentsApiSearchService apiSearchService) {
         this.apiSearchService = apiSearchService;
     }
 

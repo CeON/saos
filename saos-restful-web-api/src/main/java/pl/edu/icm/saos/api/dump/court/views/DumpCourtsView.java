@@ -10,6 +10,7 @@ import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.*;
 import static pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 
 /**
+ * Represents dump court's view.
  * @author pavtel
  */
 public class DumpCourtsView extends CollectionRepresentation<Item, QueryTemplate, Info>{

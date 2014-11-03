@@ -9,6 +9,7 @@ import static pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import static pl.edu.icm.saos.api.single.division.views.DivisionView.Data;
 
 /**
+ * Represents {@link pl.edu.icm.saos.persistence.model.CommonCourtDivision CommonCourtDivision} view.
  * @author pavtel
  */
 public class DivisionView extends SingleElementRepresentation<Data>{

@@ -9,16 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
-import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
+import pl.edu.icm.saos.api.search.courts.services.CourtsSearchService;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.search.parameters.RequestParameters;
-import pl.edu.icm.saos.api.search.services.ApiSearchService;
-import pl.edu.icm.saos.api.search.services.ElementsSearchResults;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-
-import java.util.Map;
+import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
+import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
 
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
@@ -37,10 +33,8 @@ public class CourtsController extends ControllersEntityExceptionHandler{
     private ParametersExtractor parametersExtractor;
 
     @Autowired
-    private ApiSearchService<CommonCourt,RequestParameters> searchService;
+    private CourtsSearchService courtsSearchService;
 
-    @Autowired
-    private CourtsListSuccessRepresentationBuilder successRepresentationBuilder;
 
 
     //*********** END fields *************
@@ -50,19 +44,20 @@ public class CourtsController extends ControllersEntityExceptionHandler{
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Map<String, Object>> showCourts(
+    public ResponseEntity<Object> showCourts(
             @RequestParam(value = PAGE_SIZE, required = false, defaultValue = Pagination.DEFAULT_PAGE_SIZE) int pageSize,
             @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = "0") int pageNumber
     ) throws WrongRequestParameterException {
 
         Pagination pagination = parametersExtractor.extractAndValidatePagination(pageSize, pageNumber);
 
-        ElementsSearchResults<CommonCourt,RequestParameters> results = searchService.performSearch(new RequestParameters(null, pagination));
+        Object results = courtsSearchService.performSearch(new RequestParameters(null, pagination));
 
-        Map<String, Object> representation = successRepresentationBuilder.build(results);
+//        Map<String, Object> representation = successRepresentationBuilder.build(results);
 
 
-        return new ResponseEntity<>(representation, HttpStatus.OK);
+        //TODO add implementation when court will be in the solr index
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
     //*********** END business methods ************
@@ -74,11 +69,8 @@ public class CourtsController extends ControllersEntityExceptionHandler{
         this.parametersExtractor = parametersExtractor;
     }
 
-    public void setSearchService(ApiSearchService<CommonCourt,RequestParameters> searchService) {
-        this.searchService = searchService;
+    public void setCourtsSearchService(CourtsSearchService courtsSearchService) {
+        this.courtsSearchService = courtsSearchService;
     }
 
-    public void setSuccessRepresentationBuilder(CourtsListSuccessRepresentationBuilder successRepresentationBuilder) {
-        this.successRepresentationBuilder = successRepresentationBuilder;
-    }
 }

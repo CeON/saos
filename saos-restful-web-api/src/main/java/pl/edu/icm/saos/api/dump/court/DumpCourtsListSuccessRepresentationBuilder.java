@@ -19,6 +19,7 @@ import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.Item;
 import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.QueryTemplate;
 
 /**
+ * Provides functionality for building success object view for dump list of courts.
  * @author pavtel
  */
 @Component
@@ -29,7 +30,14 @@ public class DumpCourtsListSuccessRepresentationBuilder {
     @Autowired
     private DumpCourtItemMapper dumpCourtItemMapper;
 
-
+    //------------------------ LOGIC --------------------------
+    /**
+     * Constructs {@link pl.edu.icm.saos.api.dump.court.views.DumpCourtsView DumpCourtsView}.
+     * @param searchResult to process.
+     * @param pagination to process.
+     * @param uriComponentsBuilder used to construct links.
+     * @return representation.
+     */
     public DumpCourtsView build(SearchResult<CommonCourt> searchResult, Pagination pagination, UriComponentsBuilder uriComponentsBuilder){
         DumpCourtsView dumpCourtsView = new DumpCourtsView();
         dumpCourtsView.setLinks(toLinks(pagination, uriComponentsBuilder, searchResult.isMoreRecordsExist()));
@@ -39,6 +47,7 @@ public class DumpCourtsListSuccessRepresentationBuilder {
         return dumpCourtsView;
     }
 
+    //------------------------ PRIVATE --------------------------
     private List<Item> toItems(List<CommonCourt> commonCourts) {
         List<Item> items = commonCourts.stream()
                 .map(court -> toItem(court))
@@ -96,5 +105,8 @@ public class DumpCourtsListSuccessRepresentationBuilder {
         return queryTemplate;
     }
 
-
+    //------------------------ SETTERS --------------------------
+    public void setDumpCourtItemMapper(DumpCourtItemMapper dumpCourtItemMapper) {
+        this.dumpCourtItemMapper = dumpCourtItemMapper;
+    }
 }

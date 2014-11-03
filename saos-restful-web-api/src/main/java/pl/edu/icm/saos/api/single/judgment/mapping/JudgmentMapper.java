@@ -33,7 +33,7 @@ public class JudgmentMapper {
 
     //------------------------ LOGIC --------------------------
     /**
-     * Fill {@link pl.edu.icm.saos.persistence.model.Judgment udgment}  fields values
+     * Fill {@link pl.edu.icm.saos.persistence.model.Judgment judgment}  fields values
      * into {@link pl.edu.icm.saos.api.single.judgment.views.JudgmentView JudgmentView}.
      * @param representation in which to add values.
      * @param judgment to process.

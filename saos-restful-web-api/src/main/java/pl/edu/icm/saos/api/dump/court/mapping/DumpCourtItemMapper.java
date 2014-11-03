@@ -12,26 +12,37 @@ import java.util.stream.Collectors;
 import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.Item;
 
 /**
+ * Provides functionality for mapping {@link pl.edu.icm.saos.persistence.model.CommonCourt CommonCourt}
+ * into {@link pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.Item Item}.
  * @author pavtel
  */
 @Service
 public class DumpCourtItemMapper {
 
 
-    public void fillCommonCourtFieldsToItemRepresentation(Item representation, CommonCourt court){
-        representation.setId(court.getId());
-        representation.setName(court.getName());
-        representation.setType(court.getType());
-        representation.setCode(court.getCode());
+    //------------------------ LOGIC --------------------------
+
+    /**
+     * Fills item's fields using {@link pl.edu.icm.saos.persistence.model.CommonCourt CommonCourt} fields values.
+     * @param item representation.
+     * @param court to process.
+     */
+    public void fillCommonCourtFieldsToItemRepresentation(Item item, CommonCourt court){
+        item.setId(court.getId());
+        item.setName(court.getName());
+        item.setType(court.getType());
+        item.setCode(court.getCode());
 
         if(court.getParentCourt()!=null){
             DumpCourtsView.ParentCourt parentCourt = new DumpCourtsView.ParentCourt();
             parentCourt.setId(court.getParentCourt().getId());
-            representation.setParentCourt(parentCourt);
+            item.setParentCourt(parentCourt);
         }
 
-        representation.setDivisions(toDivisions(court.getDivisions()));
+        item.setDivisions(toDivisions(court.getDivisions()));
     }
+
+    //------------------------ PRIVATE --------------------------
 
     private List<DumpCourtsView.Division> toDivisions(List<CommonCourtDivision> divisions) {
         if(divisions == null){
