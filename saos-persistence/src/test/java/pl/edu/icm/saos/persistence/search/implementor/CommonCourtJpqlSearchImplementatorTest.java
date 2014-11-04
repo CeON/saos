@@ -8,6 +8,7 @@ import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.CommonCourtSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
@@ -32,7 +33,27 @@ public class CommonCourtJpqlSearchImplementatorTest extends PersistenceTestSuppo
     @Autowired
     private DatabaseSearchService databaseSearchService;
 
+    @Autowired
+    private CommonCourtRepository commonCourtRepository;
 
+    @Test
+    public void search__it_should_not_throw_lazy_exception_for_empty_division_list(){
+        //given
+        CommonCourt commonCourt = new CommonCourt();
+        commonCourt.setCode("someCode");
+        commonCourtRepository.save(commonCourt);
+
+        CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
+                .filter();
+
+        //when
+        SearchResult<CommonCourt> searchResult = databaseSearchService.search(searchFilter);
+
+
+        //then
+        CommonCourt court = searchResult.getResultRecords().get(0);
+        court.getDivisions();
+    }
 
     @Test
     public void search__it_should_return_empty_list_if_there_is_no_common_courts(){

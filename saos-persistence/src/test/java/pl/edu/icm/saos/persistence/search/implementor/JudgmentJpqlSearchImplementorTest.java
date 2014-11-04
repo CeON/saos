@@ -53,7 +53,6 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
                 .filter();
 
-        //then
         SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
 
         //then
@@ -72,7 +71,6 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
                 .filter();
 
-        //then
         SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
 
         //then
@@ -90,7 +88,6 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
                 .filter();
 
-        //then
         SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
 
         //then
@@ -108,7 +105,6 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
                 .filter();
 
-        //then
         SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
 
         //then
@@ -126,7 +122,6 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
                 .filter();
 
-        //then
         SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
 
         //then
@@ -144,7 +139,6 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
                 .filter();
 
-        //then
         SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
 
         //then
