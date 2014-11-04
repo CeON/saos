@@ -39,7 +39,8 @@
 		<h2 class="advert-header" ><spring:message code="home.header.idea" /></h2>
 	
 		<div class="item-desc" >
-	 		<spring:message code="saos.welcome.text" />
+			<h3><spring:message code="saos.welcome.header" /></h3>
+	 		<p><spring:message code="saos.welcome.text" /></p>
 		</div>
 	</div>
 </div>
