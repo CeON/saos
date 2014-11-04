@@ -42,6 +42,119 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Autowired
     private JudgmentRepository judgmentRepository;
 
+
+    @Test
+    public void search_it_should_not_throw_lazy_exception_for_empty_court_cases(){
+        //given
+        CommonCourtJudgment firstJudgment = new CommonCourtJudgment();
+        judgmentRepository.save(firstJudgment);
+
+        //when
+        JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+        //then
+        SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        Judgment judgment = searchResult.getResultRecords().get(0);
+        judgment.getCourtCases();
+    }
+
+
+    @Test
+    public void search_it_should_not_throw_lazy_exception_for_empty_judges_list(){
+        //given
+        CommonCourtJudgment firstJudgment = new CommonCourtJudgment();
+        judgmentRepository.save(firstJudgment);
+
+        //when
+        JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+        //then
+        SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        Judgment judgment = searchResult.getResultRecords().get(0);
+        judgment.getJudges();
+    }
+
+    @Test
+    public void search_it_should_not_throw_lazy_exception_for_empty_courtReporters_list(){
+        //given
+        CommonCourtJudgment firstJudgment = new CommonCourtJudgment();
+        judgmentRepository.save(firstJudgment);
+
+        //when
+        JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+        //then
+        SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        Judgment judgment = searchResult.getResultRecords().get(0);
+        judgment.getCourtReporters();
+    }
+
+    @Test
+    public void search_it_should_not_throw_lazy_exception_for_empty_legalBases_list(){
+        //given
+        CommonCourtJudgment firstJudgment = new CommonCourtJudgment();
+        judgmentRepository.save(firstJudgment);
+
+        //when
+        JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+        //then
+        SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        Judgment judgment = searchResult.getResultRecords().get(0);
+        judgment.getLegalBases();
+    }
+
+    @Test
+    public void search_it_should_not_throw_lazy_exception_for_empty_referencedRegulations_list(){
+        //given
+        CommonCourtJudgment firstJudgment = new CommonCourtJudgment();
+        judgmentRepository.save(firstJudgment);
+
+        //when
+        JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+        //then
+        SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        Judgment judgment = searchResult.getResultRecords().get(0);
+        judgment.getReferencedRegulations();
+    }
+
+    @Test
+    public void search_it_should_not_throw_lazy_exception_for_empty_keywords_list(){
+        //given
+        CommonCourtJudgment firstJudgment = new CommonCourtJudgment();
+        judgmentRepository.save(firstJudgment);
+
+        //when
+        JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+        //then
+        SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        Judgment judgment = searchResult.getResultRecords().get(0);
+
+        judgment.isInstanceOfCommonCourtJudgment();
+        CommonCourtJudgment ccJudgment = (CommonCourtJudgment) judgment;
+        ccJudgment.getKeywords();
+    }
+
     @Test
     public void search__it_should_find_judgments_with_all_basic_fields(){
         //given
