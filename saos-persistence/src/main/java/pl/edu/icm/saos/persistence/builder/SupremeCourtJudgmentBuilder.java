@@ -7,7 +7,6 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
 /**
  * Simplified {@link pl.edu.icm.saos.persistence.model.SupremeCourtJudgment SupremeCourtJudgment} creation.
- * Do not use it in conjugation with persistence's repositories.
  * @author madryk
  */
 public class SupremeCourtJudgmentBuilder {

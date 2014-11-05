@@ -5,7 +5,6 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 
 /**
  * Simplified {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamber SupremeCourtChamber} creation.
- * Do not use it in conjugation with persistence's repositories.
  * @author madryk
  */
 public class SupremeCourtChamberBuilder {
