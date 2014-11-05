@@ -77,7 +77,7 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
     //------------------------ PRIVATE --------------------------
 
     private void initializeCourtCases(List<Integer> judgmentIds){
-        setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.courtCases_ courtCase where judgment.id in (:ids) ",
+        setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment left join fetch judgment.courtCases_ courtCase where judgment.id in (:ids) ",
                 judgmentIds);
     }
 
@@ -94,12 +94,12 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
 
 
     private void initializeCourtReporters(List<Integer> judgmentIds){
-        setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.courtReporters_  courtReporters where judgment.id in (:ids) ",
+        setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment left join fetch judgment.courtReporters_  courtReporters where judgment.id in (:ids) ",
                 judgmentIds);
     }
 
     private void initializeLegalBases(List<Integer> judgmentIds){
-        setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.legalBases_  legalBases where judgment.id in (:ids) ",
+        setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment left join fetch judgment.legalBases_  legalBases where judgment.id in (:ids) ",
                 judgmentIds);
     }
 
@@ -114,7 +114,7 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
     }
 
     private void initializeCommonCourtKeywords(List<Integer> judgmentIds) {
-        setIdsParameterAndExecuteQuery(" select judgment from "+ CommonCourtJudgment.class.getName()+" judgment join fetch judgment.keywords_ keyword where judgment.id in (:ids) ",
+        setIdsParameterAndExecuteQuery(" select judgment from "+ CommonCourtJudgment.class.getName()+" judgment left join fetch judgment.keywords_ keyword where judgment.id in (:ids) ",
                 judgmentIds);
     }
 
