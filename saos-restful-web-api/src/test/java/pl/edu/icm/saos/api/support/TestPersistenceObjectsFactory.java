@@ -41,8 +41,11 @@ public class TestPersistenceObjectsFactory {
         TestPersistenceObjectsContext context = new TestPersistenceObjectsContext();
         createCommonCourt(context);
         createCommonJudgment(context);
+        createSupremeCourtJudgment(context);
         return context;
     }
+
+
 
 
     public CommonCourt createCommonCourt(TestPersistenceObjectsContext context){
@@ -227,6 +230,14 @@ public class TestPersistenceObjectsFactory {
 
         lawJournalEntry = lawJournalEntryRepository.save(lawJournalEntry);
         return lawJournalEntry;
+    }
+
+    private void createSupremeCourtJudgment(TestPersistenceObjectsContext context) {
+        SupremeCourtJudgment judgment = new SupremeCourtJudgment();
+        judgment.setDecision(JC.DECISION);
+        judgment.setJudgmentType(Judgment.JudgmentType.DECISION);
+        judgment.setJudgmentDate(new LocalDate(JC.DATE_YEAR, JC.DATE_MONTH, JC.DATE_DAY));
+
     }
 
 }

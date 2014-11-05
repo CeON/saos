@@ -15,6 +15,8 @@ import static pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 public class JudgmentItem implements Serializable {
     private static final long serialVersionUID = -7120554748494835309L;
 
+    protected ApiJudgmentType apiJudgmentType = ApiJudgmentType.DEFAULT;
+
     protected int id;
     protected List<CourtCase> courtCases;
     protected JudgmentType judgmentType;
@@ -77,6 +79,10 @@ public class JudgmentItem implements Serializable {
         return decision;
     }
 
+    public ApiJudgmentType getApiJudgmentType() {
+        return apiJudgmentType;
+    }
+
     //------------------------ SETTERS --------------------------
     public void setId(int id) {
         this.id = id;
@@ -133,7 +139,9 @@ public class JudgmentItem implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id, courtCases, judgmentType, JudgmentDate,
                 judges, source, courtReporters, summary, decision,
-                textContent, legalBases, referencedRegulations);
+                textContent, legalBases, referencedRegulations,
+                apiJudgmentType
+        );
     }
 
     @Override
@@ -156,7 +164,9 @@ public class JudgmentItem implements Serializable {
                 Objects.equal(this.summary, other.summary) &&
                 Objects.equal(this.textContent, other.textContent) &&
                 Objects.equal(this.legalBases, other.legalBases) &&
-                Objects.equal(this.referencedRegulations, other.referencedRegulations);
+                Objects.equal(this.referencedRegulations, other.referencedRegulations) &&
+                Objects.equal(this.apiJudgmentType, other.apiJudgmentType)
+                ;
     }
 
     //------------------------ toString --------------------------
@@ -176,8 +186,15 @@ public class JudgmentItem implements Serializable {
                 .add("textContent", textContent)
                 .add("legalBases", legalBases)
                 .add("referencedRegulations", referencedRegulations)
+                .add("apiJudgmentType", apiJudgmentType)
+
                 .toString();
     }
 
     //------------------------ inner --------------------------
+    public static enum ApiJudgmentType {
+        SUPREME_COURT,
+        COMMON_COURT,
+        DEFAULT
+    }
 }

@@ -16,6 +16,10 @@ public class CommonCourtJudgmentItem extends JudgmentItem {
     protected Division division;
     protected List<String> keywords;
 
+    public CommonCourtJudgmentItem() {
+        apiJudgmentType = ApiJudgmentType.COMMON_COURT;
+    }
+
     //------------------------ GETTERS --------------------------
     public Division getDivision() {
         return division;

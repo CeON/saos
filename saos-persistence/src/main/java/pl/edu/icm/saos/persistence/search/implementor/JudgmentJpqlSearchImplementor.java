@@ -2,10 +2,7 @@ package pl.edu.icm.saos.persistence.search.implementor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.*;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
@@ -69,10 +66,11 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
         initializeLegalBases(judgmentIds);
         initializeReferencedRegulationsAndTheirLawJournalEntries(judgmentIds, searchResult);
 
-        initializeCommonCourtKeywords(judgmentIds);
+        initializeCommonCourtJudgmentSpecificFields(judgmentIds);
+        initializeSupremeCourtJudgmentSpecificFields(judgmentIds);
+
     }
 
-    //************ END AbstractStringQuerySearchImplementor implementation **************
 
     //------------------------ PRIVATE --------------------------
 
@@ -113,8 +111,21 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
         }
     }
 
+    private void initializeCommonCourtJudgmentSpecificFields(List<Integer> judgmentIds) {
+        initializeCommonCourtKeywords(judgmentIds);
+    }
+
     private void initializeCommonCourtKeywords(List<Integer> judgmentIds) {
         setIdsParameterAndExecuteQuery(" select judgment from "+ CommonCourtJudgment.class.getName()+" judgment left join fetch judgment.keywords_ keyword where judgment.id in (:ids) ",
+                judgmentIds);
+    }
+
+    private void initializeSupremeCourtJudgmentSpecificFields(List<Integer> judgmentIds) {
+        initializeSupremeCourtChambers(judgmentIds);
+    }
+
+    private void initializeSupremeCourtChambers(List<Integer> judgmentIds){
+        setIdsParameterAndExecuteQuery(" select judgment from "+ SupremeCourtJudgment.class.getName()+" judgment left join fetch judgment.scChambers_ scChamber where judgment.id in (:ids) ",
                 judgmentIds);
     }
 
