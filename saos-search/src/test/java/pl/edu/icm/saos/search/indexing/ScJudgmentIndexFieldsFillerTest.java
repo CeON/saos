@@ -55,7 +55,7 @@ public class ScJudgmentIndexFieldsFillerTest {
         // chambers
         SupremeCourtChamber firstChamber = BuildersFactory.supremeCourtChamber(11).name("ABC").build();
         SupremeCourtChamber secondChamber = BuildersFactory.supremeCourtChamber(12).name("DEF").build();
-        SupremeCourtChamberDivision division = BuildersFactory.supremeCourtChamberDivision(111).build();
+        SupremeCourtChamberDivision division = BuildersFactory.supremeCourtChamberDivision(111).name("GHI").build();
         
         SupremeCourtJudgment chambersJudgment = BuildersFactory.supremeCourtJugmentWrapper(1)
                 .chamber(firstChamber)
@@ -64,11 +64,11 @@ public class ScJudgmentIndexFieldsFillerTest {
                 .build();
         Map<String, List<String>> chambersFields = StringListMap.of(new String[][] {
                 { "courtType", "SUPREME" },
-//                { "courtChamber", "11|chamberName1", "12|chamberName2" }, // TODO uncomment when it will be available
+                { "courtChamber", "11|ABC", "12|DEF" },
                 { "courtChamberId", "11", "12" },
-//                { "courtChamberName", "chamberName1", "chamberName2" }, // TODO uncomment when it will be available
+                { "courtChamberName", "ABC", "DEF" },
                 { "courtChamberDivisionId", "111" },
-//                { "courtChamberDivisionName", "divisionName" } // TODO uncomment when it will be available
+                { "courtChamberDivisionName", "GHI" }
         });
         
         return new Object[][] {
