@@ -32,14 +32,19 @@ public class DumpCourtItemMapper {
         item.setName(court.getName());
         item.setType(court.getType());
         item.setCode(court.getCode());
-
-        if(court.getParentCourt()!=null){
-            DumpCourtsView.ParentCourt parentCourt = new DumpCourtsView.ParentCourt();
-            parentCourt.setId(court.getParentCourt().getId());
-            item.setParentCourt(parentCourt);
-        }
+        item.setParentCourt(toParentCourt(court.getParentCourt()));
 
         item.setDivisions(toDivisions(court.getDivisions()));
+    }
+
+    private DumpCourtsView.ParentCourt toParentCourt(CommonCourt parentCourt) {
+        if(parentCourt == null){
+            return null;
+        } else {
+            DumpCourtsView.ParentCourt view = new DumpCourtsView.ParentCourt();
+            view.setId(parentCourt.getId());
+            return view;
+        }
     }
 
     //------------------------ PRIVATE --------------------------

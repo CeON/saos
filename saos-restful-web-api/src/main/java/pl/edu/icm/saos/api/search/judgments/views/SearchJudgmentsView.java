@@ -13,6 +13,8 @@ import static pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.Que
  */
 public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgmentItem, QueryTemplate, Info> {
 
+    private static final long serialVersionUID = 4590229883286242952L;
+
     public static class QueryTemplate implements Serializable {
         private static final long serialVersionUID = -3393160167574039256L;
 

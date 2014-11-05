@@ -1,9 +1,9 @@
 package pl.edu.icm.saos.search.search.model;
 
+import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.LocalDate;
-
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
@@ -194,8 +194,52 @@ public class JudgmentCriteria extends Criteria {
         this.referencedRegulation = referencedRegulation;
         return this;
     }
-    
-    
+
+    //------------------------ HashCode & Equals --------------------------
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(all, caseNumber, dateFrom, dateTo,
+                courtType, courtId, courtCode, courtName,
+                courtDivisionId, courtDivisionCode, courtDivisionName,
+                personnelType, courtChamberId, courtChamberName, courtChamberDivisionId,
+                courtChamberDivisionName, judgmentType, judgeName, keyword,
+                legalBase, referencedRegulation);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final JudgmentCriteria other = (JudgmentCriteria) obj;
+        return Objects.equal(this.all, other.all) &&
+                Objects.equal(this.caseNumber, other.caseNumber) &&
+                Objects.equal(this.dateFrom, other.dateFrom) &&
+                Objects.equal(this.dateTo, other.dateTo) &&
+                Objects.equal(this.courtType, other.courtType) &&
+                Objects.equal(this.courtId, other.courtId) &&
+                Objects.equal(this.courtCode, other.courtCode) &&
+                Objects.equal(this.courtName, other.courtName) &&
+                Objects.equal(this.courtDivisionId, other.courtDivisionId) &&
+                Objects.equal(this.courtDivisionCode, other.courtDivisionCode) &&
+                Objects.equal(this.courtDivisionName, other.courtDivisionName) &&
+                Objects.equal(this.personnelType, other.personnelType) &&
+                Objects.equal(this.courtChamberId, other.courtChamberId) &&
+                Objects.equal(this.courtChamberName, other.courtChamberName) &&
+                Objects.equal(this.courtChamberDivisionId, other.courtChamberDivisionId) &&
+                Objects.equal(this.courtChamberDivisionName, other.courtChamberDivisionName) &&
+                Objects.equal(this.judgmentType, other.judgmentType) &&
+                Objects.equal(this.judgeName, other.judgeName) &&
+                Objects.equal(this.keyword, other.keyword) &&
+                Objects.equal(this.legalBase, other.legalBase) &&
+                Objects.equal(this.referencedRegulation, other.referencedRegulation);
+    }
+
+
     //------------------------ toString --------------------------
     
     @Override
