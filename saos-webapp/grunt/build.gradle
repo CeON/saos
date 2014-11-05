@@ -52,6 +52,7 @@ task prepareEnvForGrunt(dependsOn: grunt_build) {
 	}
 }
 
+task gruntBuild(dependsOn: grunt_build) {}
 
 grunt_build.dependsOn 'compileSass'
 
