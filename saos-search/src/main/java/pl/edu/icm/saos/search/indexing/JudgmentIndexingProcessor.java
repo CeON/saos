@@ -1,18 +1,14 @@
 package pl.edu.icm.saos.search.indexing;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
@@ -25,19 +21,8 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     
     private JudgmentRepository judgmentRepository;
     
-    private CcJudgmentIndexFieldsFiller ccJudgmentIndexFieldsFiller;
+    private List<JudgmentIndexFieldsFiller> judgmentIndexFieldsFillers = new ArrayList<>();
     
-    private ScJudgmentIndexFieldsFiller scJudgmentIndexFieldsFiller;
-    
-    private Map<Class<? extends Judgment>, JudgmentIndexFieldsFiller<? extends Judgment>> judgmentIndexFieldsFillers = new HashMap<>();
-    
-    
-    @PostConstruct
-    public void init() {
-        judgmentIndexFieldsFillers = new HashMap<>();
-        judgmentIndexFieldsFillers.put(CommonCourtJudgment.class, ccJudgmentIndexFieldsFiller);
-        judgmentIndexFieldsFillers.put(SupremeCourtJudgment.class, scJudgmentIndexFieldsFiller);
-    }
     
     @Override
     public SolrInputDocument process(Judgment item) throws Exception {
@@ -54,16 +39,14 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     
     //------------------------ PRIVATE --------------------------
     
-    @SuppressWarnings("unchecked")
     private void fillJudgmentFields(SolrInputDocument doc, Judgment item) {
-        if (judgmentIndexFieldsFillers.containsKey(item.getClass())) {
-            JudgmentIndexFieldsFiller<Judgment> judgmentSpecificProcessor = 
-                    (JudgmentIndexFieldsFiller<Judgment>)judgmentIndexFieldsFillers.get(item.getClass());
-            
-            judgmentSpecificProcessor.fillFields(doc, item);
-        } else {
-            throw new RuntimeException("Unable to process judgment type: " + item.getClass());
+        for (JudgmentIndexFieldsFiller indexFieldsFiller : judgmentIndexFieldsFillers) {
+            if (indexFieldsFiller.isApplicable(item.getClass())) {
+                indexFieldsFiller.fillFields(doc, item);
+                return;
+            }
         }
+        throw new RuntimeException("Unable to process judgment type: " + item.getClass());
     }
 
     
@@ -75,15 +58,9 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     }
 
     @Autowired
-    public void setCcJudgmentIndexFieldsFiller(
-            CcJudgmentIndexFieldsFiller ccJudgmentIndexFieldsFiller) {
-        this.ccJudgmentIndexFieldsFiller = ccJudgmentIndexFieldsFiller;
-    }
-
-    @Autowired
-    public void setScJudgmentIndexFieldsFiller(
-            ScJudgmentIndexFieldsFiller scJudgmentIndexFieldsFiller) {
-        this.scJudgmentIndexFieldsFiller = scJudgmentIndexFieldsFiller;
+    public void setJudgmentIndexFieldsFillers(
+            List<JudgmentIndexFieldsFiller> judgmentIndexFieldsFillers) {
+        this.judgmentIndexFieldsFillers = judgmentIndexFieldsFillers;
     }
 
 }

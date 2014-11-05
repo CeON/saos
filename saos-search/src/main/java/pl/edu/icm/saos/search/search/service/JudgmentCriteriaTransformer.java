@@ -52,6 +52,7 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
     private List<String> transformCommonCourtCriteria(JudgmentCriteria criteria) {
         List<String> list = Lists.newLinkedList();
         
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_TYPE, criteria.getCommonCourtType()));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.COURT_ID, criteria.getCourtId()));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.COURT_CODE, criteria.getCourtCode()));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.COURT_NAME, criteria.getCourtName()));

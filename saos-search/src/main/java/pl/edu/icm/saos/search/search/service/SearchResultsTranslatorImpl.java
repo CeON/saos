@@ -44,8 +44,8 @@ public class SearchResultsTranslatorImpl<S extends Searchable> implements Search
     
     private void checkAndApplyHighlighting(Map<String, Map<String, List<String>>> highlighting, S result) {
         
-        if (highlighting != null && highlighting.containsKey(result.getId())) {
-            Map<String, List<String>> documentHighlighting = highlighting.get(result.getId());
+        if (highlighting != null && highlighting.containsKey(String.valueOf(result.getId()))) {
+            Map<String, List<String>> documentHighlighting = highlighting.get(String.valueOf(result.getId()));
             searchResultTranslator.applyHighlighting(documentHighlighting, result);
         }
     }

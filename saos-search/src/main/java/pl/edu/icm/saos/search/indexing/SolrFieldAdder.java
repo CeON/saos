@@ -20,27 +20,66 @@ import pl.edu.icm.saos.search.util.SearchDateTimeUtils;
 @Service
 public class SolrFieldAdder<F extends IndexField> {
     
+    /**
+     * Adds String value of field into {@link SolrInputDocument}.
+     * Blank value will be omitted.
+     * @param doc
+     * @param field
+     * @param value
+     */
     public void addField(SolrInputDocument doc, F field, String value) {
         if (StringUtils.isNotBlank(value)) {
             doc.addField(field.getFieldName(), value);
         }
     }
     
+    /**
+     * Adds int value of field into {@link SolrInputDocument}
+     * @param doc
+     * @param field
+     * @param value
+     */
+    public void addField(SolrInputDocument doc, F field, int value) {
+        doc.addField(field.getFieldName(), value);
+    }
+    
+    /**
+     * Adds String value of postfixed field into {@link SolrInputDocument}
+     * @param doc
+     * @param field
+     * @param fieldPostfix
+     * @param value
+     */
     public void addField(SolrInputDocument doc, F field, String fieldPostfix, String value) {
         if (StringUtils.isNotBlank(value)) {
             doc.addField(field.getFieldName() + IndexFieldsConstants.FIELD_SEPARATOR + fieldPostfix, value);
         }
     }
     
-    public void addFieldWithAttributes(SolrInputDocument doc, F field, String value, List<String> attributes) {
-        if (StringUtils.isNotBlank(value)) {
-            String attributesString = attributes.stream().collect(Collectors.joining(IndexFieldsConstants.VALUE_ATTRIBUTE_SEPARATOR));
-            String fieldValue = value + ((StringUtils.isNotEmpty(attributesString)) ? 
-                    (IndexFieldsConstants.VALUE_ATTRIBUTE_SEPARATOR + attributesString) : "");
-            doc.addField(field.getFieldName(), fieldValue);
+    /**
+     * Adds String value into {@link SolrInputDocument}.
+     * Value of field is composited from multiple values by inserting 
+     * {@link IndexFieldsConstants#VALUE_ATTRIBUTE_SEPARATOR} between them.
+     * @param doc
+     * @param field
+     * @param value
+     * @param attributes
+     */
+    public void addCompositeField(SolrInputDocument doc, F field, List<String> values) {
+        if (values.size() > 0) {
+            String compositedValues = values.stream().collect(Collectors.joining(IndexFieldsConstants.VALUE_ATTRIBUTE_SEPARATOR));
+            if (StringUtils.isNotBlank(compositedValues)) {
+                doc.addField(field.getFieldName(), compositedValues);
+            }
         }
     }
     
+    /**
+     * Adds {@link LocalDate} value of field into {@link SolrInputDocument}
+     * @param doc
+     * @param field
+     * @param date
+     */
     public void addDateField(SolrInputDocument doc, F field, LocalDate date) {
         if (date != null) {
             String dateString = SearchDateTimeUtils.convertDateToISOString(date);

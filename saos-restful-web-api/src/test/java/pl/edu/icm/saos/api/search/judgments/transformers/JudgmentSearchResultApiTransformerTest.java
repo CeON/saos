@@ -54,7 +54,7 @@ public class JudgmentSearchResultApiTransformerTest {
         searchResult.setCourtId(JC.COURT_ID);
         searchResult.setCourtCode(JC.COURT_CODE);
         searchResult.setCourtName(JC.COURT_NAME);
-        searchResult.setId(String.valueOf(JC.JUDGMENT_ID));
+        searchResult.setId(JC.JUDGMENT_ID);
         searchResult.setKeywords(Arrays.asList(JC.FIRST_KEYWORD, JC.SECOND_KEYWORD));
         searchResult.setJudgmentDate(judgmentDate);
         searchResult.setJudgmentType(Judgment.JudgmentType.SENTENCE.name());

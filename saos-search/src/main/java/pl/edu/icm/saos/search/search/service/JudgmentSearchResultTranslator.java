@@ -33,7 +33,7 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
     public JudgmentSearchResult translateSingle(SolrDocument document) {
         JudgmentSearchResult result = new JudgmentSearchResult();
         
-        String databaseId = fieldFetcher.fetchValue(document, JudgmentIndexField.DATABASE_ID);
+        Integer databaseId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.DATABASE_ID);
         result.setId(databaseId);
         List<String> caseNumbers = fieldFetcher.fetchValues(document, JudgmentIndexField.CASE_NUMBER);
         result.setCaseNumbers(caseNumbers);

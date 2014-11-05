@@ -139,10 +139,11 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         
         assertSolrDocumentValues(doc, JudgmentIndexField.KEYWORD.getFieldName(), "keyword" + i);
         
-        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE.getFieldName(), "COMMON", "APPEAL");
-        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_ID.getFieldName(), String.valueOf(commonCourtId));
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE.getFieldName(), "COMMON");
+        assertSolrDocumentValues(doc, JudgmentIndexField.CC_TYPE.getFieldName(), "APPEAL");
+        assertSolrDocumentIntValues(doc, JudgmentIndexField.COURT_ID.getFieldName(), commonCourtId);
         assertSolrDocumentValues(doc, JudgmentIndexField.COURT_NAME.getFieldName(), "courtName");
-        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_DIVISION_ID.getFieldName(), String.valueOf(commonCourtDivisionId));
+        assertSolrDocumentIntValues(doc, JudgmentIndexField.COURT_DIVISION_ID.getFieldName(), commonCourtDivisionId);
         assertSolrDocumentValues(doc, JudgmentIndexField.COURT_DIVISION_CODE.getFieldName(), "0000");
         assertSolrDocumentValues(doc, JudgmentIndexField.COURT_DIVISION_NAME.getFieldName(), "divisionName");
         
@@ -200,6 +201,17 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         assertNotNull(vals);
         assertEquals(fieldValues.length, vals.size());
         for (String expectedVal : fieldValues) {
+            assertTrue("Field " + fieldName + " doesn't contain value " + expectedVal, vals.contains(expectedVal));
+        }
+    }
+    
+    private void assertSolrDocumentIntValues(SolrDocument doc, String fieldName, int ... fieldValues) {
+        assertTrue(doc.getFieldNames().contains(fieldName));
+        
+        Collection<Object> vals = doc.getFieldValues(fieldName);
+        assertNotNull(vals);
+        assertEquals(fieldValues.length, vals.size());
+        for (int expectedVal : fieldValues) {
             assertTrue("Field " + fieldName + " doesn't contain value " + expectedVal, vals.contains(expectedVal));
         }
     }

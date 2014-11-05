@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.LocalDate;
 
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
@@ -23,6 +24,7 @@ public class JudgmentCriteria extends Criteria {
     
     private CourtType courtType;
     
+    private CommonCourtType commonCourtType;
     private Integer courtId;
     private String courtCode;
     private String courtName;
@@ -68,6 +70,9 @@ public class JudgmentCriteria extends Criteria {
     }
     public CourtType getCourtType() {
         return courtType;
+    }
+    public CommonCourtType getCommonCourtType() {
+        return commonCourtType;
     }
     public Integer getCourtId() {
         return courtId;
@@ -139,6 +144,9 @@ public class JudgmentCriteria extends Criteria {
     }
     public void setCourtType(CourtType courtType) {
         this.courtType = courtType;
+    }
+    public void setCommonCourtType(CommonCourtType commonCourtType) {
+        this.commonCourtType = commonCourtType;
     }
     public JudgmentCriteria setCourtId(Integer courtId) {
         this.courtId = courtId;

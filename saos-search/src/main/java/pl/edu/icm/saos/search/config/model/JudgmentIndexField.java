@@ -18,6 +18,7 @@ public enum JudgmentIndexField implements IndexField {
     COURT_TYPE("courtType"),
     
     /* common court */
+    CC_TYPE("commonCourtType"),
     COURT_ID("courtId"),
     COURT_CODE("courtCode"),
     COURT_NAME("courtName"),

@@ -42,14 +42,14 @@ public class SearchResultTranslatorImplTest {
             public JudgmentSearchResult answer(InvocationOnMock invocation) throws Throwable {
                 SolrDocument argument = (SolrDocument) invocation.getArguments()[0];
                 JudgmentSearchResult result = new JudgmentSearchResult();
-                result.setId((String) argument.getFieldValue("databaseId"));
+                result.setId((int) argument.getFieldValue("databaseId"));
                 return result;
             }
         });
         
-        SolrDocument firstDocument = fetchBasicDocument("1");
-        SolrDocument secondDocument = fetchBasicDocument("2");
-        SolrDocument thirdDocument = fetchBasicDocument("4");
+        SolrDocument firstDocument = fetchBasicDocument(1);
+        SolrDocument secondDocument = fetchBasicDocument(2);
+        SolrDocument thirdDocument = fetchBasicDocument(4);
 
         QueryResponse response = createBasicSolrResponse(205, firstDocument, secondDocument, thirdDocument);
 
@@ -61,20 +61,20 @@ public class SearchResultTranslatorImplTest {
         assertEquals(205, results.getTotalResults());
 
         JudgmentSearchResult firstResult = results.getResults().get(0);
-        assertEquals("1", firstResult.getId());
+        assertEquals(1, firstResult.getId());
 
         JudgmentSearchResult secondResult = results.getResults().get(1);
-        assertEquals("2", secondResult.getId());
+        assertEquals(2, secondResult.getId());
 
         JudgmentSearchResult thirdResult = results.getResults().get(2);
-        assertEquals("4", thirdResult.getId());
+        assertEquals(4, thirdResult.getId());
 
     }
     
     
     //------------------------ PRIVATE --------------------------
     
-    private SolrDocument fetchBasicDocument(String databaseId) {
+    private SolrDocument fetchBasicDocument(int databaseId) {
         SolrDocument doc = new SolrDocument();
         doc.addField("databaseId", databaseId);
         

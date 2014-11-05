@@ -34,7 +34,7 @@ public class SolrFieldFetcherTest {
     @Test
     public void fetchIntValue() {
         SolrDocument doc = new SolrDocument();
-        doc.addField("courtId", "123");
+        doc.addField("courtId", 123);
         
         Integer actual = fieldFetcher.fetchIntValue(doc, JudgmentIndexField.COURT_ID);
         

@@ -7,6 +7,7 @@ import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.CourtType;
 
@@ -15,14 +16,20 @@ import pl.edu.icm.saos.search.search.model.CourtType;
  * @author madryk
  */
 @Service
-public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller<CommonCourtJudgment> {
+public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
     
     @Override
-    public void fillFields(SolrInputDocument doc, CommonCourtJudgment judgment) {
+    public boolean isApplicable(Class<? extends Judgment> judgmentClass) {
+        return CommonCourtJudgment.class.isAssignableFrom(judgmentClass);
+    }
+    
+    @Override
+    public void fillFields(SolrInputDocument doc, Judgment judgment) {
         super.fillFields(doc, judgment);
         
-        fillKeywords(doc, judgment);
-        fillCourt(doc, judgment);
+        CommonCourtJudgment commonCourtJudgment = (CommonCourtJudgment) judgment;
+        fillKeywords(doc, commonCourtJudgment);
+        fillCourt(doc, commonCourtJudgment);
     }
     
     
@@ -43,14 +50,15 @@ public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller<Commo
 
 
         fieldAdder.addField(doc, JudgmentIndexField.COURT_TYPE, CourtType.COMMON.name());
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_TYPE, court.getType().name());
+        fieldAdder.addField(doc, JudgmentIndexField.CC_TYPE, court.getType().name());
 
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_ID, String.valueOf(court.getId()));
+        fieldAdder.addField(doc, JudgmentIndexField.COURT_ID, court.getId());
         fieldAdder.addField(doc, JudgmentIndexField.COURT_CODE, court.getCode());
         fieldAdder.addField(doc, JudgmentIndexField.COURT_NAME, court.getName());
 
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_DIVISION_ID, String.valueOf(division.getId()));
+        fieldAdder.addField(doc, JudgmentIndexField.COURT_DIVISION_ID, division.getId());
         fieldAdder.addField(doc, JudgmentIndexField.COURT_DIVISION_CODE, division.getCode());
         fieldAdder.addField(doc, JudgmentIndexField.COURT_DIVISION_NAME, division.getName());
     }
+
 }

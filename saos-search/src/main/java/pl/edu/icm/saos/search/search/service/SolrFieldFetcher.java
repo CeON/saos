@@ -40,7 +40,7 @@ public class SolrFieldFetcher<F extends IndexField> {
         if (value == null) {
             return null;
         }
-        return Integer.valueOf((String) value);
+        return (Integer) value;
     }
 
     public LocalDate fetchDateValue(SolrDocument doc, F field) {

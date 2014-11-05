@@ -41,7 +41,7 @@ public class JudgmentSearchResultTranslatorTest {
         SolrDocument doc = new SolrDocument();
         
         doc.addField("id", "ID");
-        doc.addField("databaseId", "1");
+        doc.addField("databaseId", 1);
         doc.addField("content", "some content");
         doc.addField("caseNumber", "AAAB1A");
         
@@ -65,7 +65,7 @@ public class JudgmentSearchResultTranslatorTest {
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         
         
-        Assert.assertEquals("1", result.getId());
+        Assert.assertEquals(1, result.getId());
         Assert.assertEquals(1, result.getCaseNumbers().size());
         Assert.assertTrue(result.getCaseNumbers().contains("AAAB1A"));
         
@@ -85,11 +85,12 @@ public class JudgmentSearchResultTranslatorTest {
     @Test
     public void translateSingle_COMMON_COURT() {
         SolrDocument doc = new SolrDocument();
+        doc.addField("databaseId", 1);
         
-        doc.addField("courtId", "123");
+        doc.addField("courtId", 123);
         doc.addField("courtCode", "15200000");
         doc.addField("courtName", "Sąd Apelacyjny w Krakowie");
-        doc.addField("courtDivisionId", "816");
+        doc.addField("courtDivisionId", 816);
         doc.addField("courtDivisionCode", "0000503");
         doc.addField("courtDivisionName", "I Wydział Cywilny");
         
@@ -107,11 +108,12 @@ public class JudgmentSearchResultTranslatorTest {
     @Test
     public void translateSingle_SUPREME_COURT() {
         SolrDocument doc = new SolrDocument();
+        doc.addField("databaseId", 1);
         
         doc.addField("personnelType", PersonnelType.JOINED_CHAMBERS.name());
         doc.addField("courtChamber", "11|Izba Cywilna");
         doc.addField("courtChamber", "12|Izba Pracy");
-        doc.addField("courtChamberDivisionId", "111");
+        doc.addField("courtChamberDivisionId", 111);
         doc.addField("courtChamberDivisionName", "Izba Cywilna Wydział III");
         
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);

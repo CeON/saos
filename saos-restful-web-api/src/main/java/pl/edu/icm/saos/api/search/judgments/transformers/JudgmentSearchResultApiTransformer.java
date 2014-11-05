@@ -33,7 +33,7 @@ public class JudgmentSearchResultApiTransformer implements SearchResultApiTransf
     public Judgment transform(JudgmentSearchResult element) {
         Preconditions.checkNotNull(element, "element can't be null");
 
-        Judgment judgment = commonCourtJudgmentWrapper(Integer.parseInt(element.getId()))
+        Judgment judgment = commonCourtJudgmentWrapper(element.getId())
                 .courtCases(element.getCaseNumbers().stream().map(CourtCase::new).collect(Collectors.toList()))
                 .judgmentType(Judgment.JudgmentType.valueOf(element.getJudgmentType()))
                 .judgmentDate(new LocalDate(element.getJudgmentDate()))

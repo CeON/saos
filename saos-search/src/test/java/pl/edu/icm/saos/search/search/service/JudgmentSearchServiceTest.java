@@ -27,6 +27,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
@@ -97,8 +98,9 @@ public class JudgmentSearchServiceTest {
             
             { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withCourtType(CourtType.SUPREME).build() },
             { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withCourtType(CourtType.COMMON).build() },
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCourtType(CourtType.DISTRICT).build() },
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCourtType(CourtType.APPEAL).build() },
+            
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCommonCourtType(CommonCourtType.DISTRICT).build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCommonCourtType(CommonCourtType.APPEAL).build() },
             
             { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCourtId(36).build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCourtId(37).build() },
@@ -153,7 +155,7 @@ public class JudgmentSearchServiceTest {
         
         int expectedResultsCount = expectedResultsIds.size();
         assertEquals(expectedResultsCount, results.getTotalResults());
-        expectedResultsIds.forEach(id -> assertContainsResultWithId(results, String.valueOf(id)));
+        expectedResultsIds.forEach(id -> assertContainsResultWithId(results, id));
     }
     
     @Test
@@ -166,7 +168,7 @@ public class JudgmentSearchServiceTest {
         assertEquals(1, results.getResults().size());
         
         JudgmentSearchResult result = results.getResults().get(0);
-        assertEquals("1961", result.getId());
+        assertEquals(1961, result.getId());
         
         assertEquals(1, result.getCaseNumbers().size());
         assertEquals("III AUa 271/12", result.getCaseNumbers().get(0));
@@ -203,7 +205,7 @@ public class JudgmentSearchServiceTest {
         assertEquals(1, results.getResults().size());
         
         JudgmentSearchResult result = results.getResults().get(0);
-        assertEquals("1961", result.getId());
+        assertEquals(1961, result.getId());
         
         assertEquals(Integer.valueOf(1), result.getCourtId());
         assertEquals("15500000", result.getCourtCode());
@@ -224,7 +226,7 @@ public class JudgmentSearchServiceTest {
         assertEquals(1, results.getResults().size());
         
         JudgmentSearchResult result = results.getResults().get(0);
-        assertEquals("21", result.getId());
+        assertEquals(21, result.getId());
         
         assertEquals("JOINED_CHAMBERS",result.getPersonnelType());
         assertTrue(result.getCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
@@ -243,7 +245,7 @@ public class JudgmentSearchServiceTest {
         assertEquals(1, results.getResults().size());
         
         JudgmentSearchResult result = results.getResults().get(0);
-        assertEquals("41808", result.getId());
+        assertEquals(41808, result.getId());
         
         assertEquals(4, StringUtils.countMatches(result.getContent(), "<em>świadków</em>"));
         assertEquals(3, StringUtils.countMatches(result.getContent(), " ... "));
@@ -252,10 +254,10 @@ public class JudgmentSearchServiceTest {
     
     //------------------------ PRIVATE --------------------------
     
-    private void assertContainsResultWithId(SearchResults<JudgmentSearchResult> results, String id) {
+    private void assertContainsResultWithId(SearchResults<JudgmentSearchResult> results, int id) {
         
         for (JudgmentSearchResult result : results.getResults()) {
-            if (StringUtils.equals(id, result.getId())) {
+            if (result.getId() == id) {
                 return;
             }
         }
@@ -291,7 +293,7 @@ public class JudgmentSearchServiceTest {
         doc.addField("referencedRegulations", thirdRR);
         
         doc.addField("courtType", "COMMON");
-        doc.addField("courtType", "DISTRICT");
+        doc.addField("commonCourtType", "DISTRICT");
         doc.addField("courtId", "36");
         doc.addField("courtCode", "15050505");
         doc.addField("courtName", "Sąd Rejonowy w Białymstoku");
@@ -342,7 +344,7 @@ public class JudgmentSearchServiceTest {
         doc.addField("referencedRegulations", fourthRR);
         
         doc.addField("courtType", "COMMON");
-        doc.addField("courtType", "APPEAL");
+        doc.addField("commonCourtType", "APPEAL");
         doc.addField("courtId", "1");
         doc.addField("courtCode", "15500000");
         doc.addField("courtName", "Sąd Apelacyjny we Wrocławiu");

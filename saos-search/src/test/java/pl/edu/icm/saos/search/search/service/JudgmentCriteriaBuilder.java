@@ -2,6 +2,7 @@ package pl.edu.icm.saos.search.search.service;
 
 import org.joda.time.LocalDate;
 
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.search.model.CourtType;
@@ -51,6 +52,11 @@ public class JudgmentCriteriaBuilder {
     
     public JudgmentCriteriaBuilder withCourtType(CourtType courtType) {
         criteria.setCourtType(courtType);
+        return this;
+    }
+    
+    public JudgmentCriteriaBuilder withCommonCourtType(CommonCourtType commonCourtType) {
+        criteria.setCommonCourtType(commonCourtType);
         return this;
     }
     

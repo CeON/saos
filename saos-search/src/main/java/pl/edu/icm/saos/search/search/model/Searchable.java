@@ -7,19 +7,19 @@ package pl.edu.icm.saos.search.search.model;
  */
 public abstract class Searchable {
 
-    private String id;
+    private int id;
     
     
     //------------------------ GETTERS --------------------------
     
-    public String getId() {
+    public int getId() {
         return id;
     }
     
     
     //------------------------ SETTERS --------------------------
     
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 }
