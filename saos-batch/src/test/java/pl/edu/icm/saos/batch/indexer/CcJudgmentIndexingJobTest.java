@@ -49,6 +49,7 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 /**
@@ -71,6 +72,9 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
     
     @Autowired
     private CcDivisionRepository ccDivisionRepository;
+    
+    @Autowired
+    private ScChamberRepository scChamberRepository;
     
     @Autowired
     @Qualifier("solrJudgmentsServer")
@@ -165,17 +169,12 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE, "SUPREME");
         assertSolrDocumentValues(doc, JudgmentIndexField.SC_PERSONNEL_TYPE, "JOINED_CHAMBERS");
         
-        // TODO uncomment when name will be available in chamber and chamberDivision
-//        assertSolrDocumentValues(doc, JudgmentIndexField.SUPREME_COURT_CHAMBER.getFieldName(),
-//                firstChamberId + "|chamberName1", secondChamberId + "|chamberName2");
-//        assertSolrDocumentValues(doc, JudgmentIndexField.SUPREME_COURT_CHAMBER_ID.getFieldName(),
-//                String.valueOf(firstChamberId), String.valueOf(secondChamberId));
-//        assertSolrDocumentValues(doc, JudgmentIndexField.SUPREME_COURT_CHAMBER_NAME.getFieldName(),
-//                "chamberName1", "chamberName2");
-//        assertSolrDocumentValues(doc, JudgmentIndexField.SUPREME_COURT_DIVISION_ID.getFieldName(),
-//                String.valueOf(chamberDivisionId));
-//        assertSolrDocumentValues(doc, JudgmentIndexField.SUPREME_COURT_DIVISION_NAME.getFieldName(),
-//                "chamberDivisionName");
+        assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_CHAMBER,
+                firstChamberId + "|chamberName1", secondChamberId + "|chamberName2");
+        assertSolrDocumentIntValues(doc, JudgmentIndexField.SC_COURT_CHAMBER_ID, firstChamberId, secondChamberId);
+        assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_CHAMBER_NAME, "chamberName1", "chamberName2");
+        assertSolrDocumentIntValues(doc, JudgmentIndexField.SC_COURT_DIVISION_ID, chamberDivisionId);
+        assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_DIVISION_NAME, "chamberDivisionName");
         
     }
     
@@ -285,12 +284,15 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         SupremeCourtChamber firstChamber = new SupremeCourtChamber();
         SupremeCourtChamber secondChamber = new SupremeCourtChamber();
         SupremeCourtChamberDivision division = new SupremeCourtChamberDivision();
+        division.setName("chamberDivisionName");
+        division.setFullName("chamberName1 - chamberDivisionName");
         firstChamber.addDivision(division);
-        
-        // TODO save firstChamber and secondChamber into repository
-        // scChamberRepository.save(firstChamber);
-        // scChamberRepository.save(secondChamber);
-        
+        firstChamber.setName("chamberName1");
+        secondChamber.setName("chamberName2");
+
+        scChamberRepository.save(firstChamber);
+        scChamberRepository.save(secondChamber);
+
         firstChamberId = firstChamber.getId();
         secondChamberId = secondChamber.getId();
         chamberDivisionId = division.getId();
@@ -302,10 +304,10 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
             scJudgment.setPersonnelType(PersonnelType.JOINED_CHAMBERS);
             judgmentRepository.save(scJudgment);
             
-            // TODO uncomment when firstChamber and secondChamber were saved
-//            scJudgment.setSupremeCourtChamberDivision(division);
-//            scJudgment.setSupremeCourtChambers(Lists.newArrayList(firstChamber, secondChamber));
-//            judgmentRepository.save(scJudgment);
+            scJudgment.setScChamberDivision(division);
+            scJudgment.addScChamber(firstChamber);
+            scJudgment.addScChamber(secondChamber);
+            judgmentRepository.save(scJudgment);
             
             scIdMapping.put(i, scJudgment.getId());
         }

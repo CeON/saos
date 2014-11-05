@@ -26,6 +26,16 @@ public class SupremeCourtChamberDivisionBuilder {
         return this;
     }
     
+    public SupremeCourtChamberDivisionBuilder name(String name) {
+        element.setName(name);
+        return this;
+    }
+    
+    public SupremeCourtChamberDivisionBuilder fullName(String fullName) {
+        element.setFullName(fullName);
+        return this;
+    }
+    
     public SupremeCourtChamberDivision build(){
         return element;
     }

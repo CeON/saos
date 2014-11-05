@@ -55,7 +55,7 @@ public class ScJudgmentIndexFieldsFillerTest {
         // chambers
         SupremeCourtChamber firstChamber = BuildersFactory.supremeCourtChamber(11).name("ABC").build();
         SupremeCourtChamber secondChamber = BuildersFactory.supremeCourtChamber(12).name("DEF").build();
-        SupremeCourtChamberDivision division = BuildersFactory.supremeCourtChamberDivision(111).build();
+        SupremeCourtChamberDivision division = BuildersFactory.supremeCourtChamberDivision(111).name("GHI").build();
         
         SupremeCourtJudgment chambersJudgment = BuildersFactory.supremeCourtJugmentWrapper(1)
                 .chamber(firstChamber)
@@ -64,11 +64,11 @@ public class ScJudgmentIndexFieldsFillerTest {
                 .build();
         List<SolrInputField> chambersFields = Lists.newArrayList(
                 fieldFactory.create("courtType", "SUPREME"),
-//                fieldFactory.create("courtChamber", "11|chamberName1", "12|chamberName2"), // TODO uncomment when it will be available
+                fieldFactory.create("scCourtChamber", "11|ABC", "12|DEF"),
                 fieldFactory.create("scCourtChamberId", 11, 12),
-//                fieldFactory.create("courtChamberName", "chamberName1", "chamberName2"), // TODO uncomment when it will be available
-                fieldFactory.create("scCourtChamberDivisionId", 111)
-//                fieldFactory.create("courtChamberDivisionName", "divisionName") // TODO uncomment when it will be available
+                fieldFactory.create("scCourtChamberName", "ABC", "DEF"),
+                fieldFactory.create("scCourtChamberDivisionId", 111),
+                fieldFactory.create("scCourtChamberDivisionName", "GHI")
         );
         
         return new Object[][] {
