@@ -15,6 +15,14 @@ import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.ID;
 @Service
 public class ParametersToCriteriaConverter {
 
+    //------------------------ LOGIC --------------------------
+
+    /**
+     * Converts {@link pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters JudgmentsParameters}
+     * into {@link pl.edu.icm.saos.search.search.model.JudgmentCriteria JudgmentCriteria}
+     * @param params to process.
+     * @return JudgmentCriteria
+     */
     public JudgmentCriteria toCriteria(JudgmentsParameters params){
         JudgmentCriteria criteria = new JudgmentCriteria();
 
@@ -31,6 +39,12 @@ public class ParametersToCriteriaConverter {
         return criteria;
     }
 
+    /**
+     * Converts {@link pl.edu.icm.saos.api.search.parameters.Pagination Pagination} into
+     * {@link pl.edu.icm.saos.search.search.model.Paging Paging}
+     * @param pagination to process.
+     * @return Paging
+     */
     public Paging toPaging(Pagination pagination){
         return new Paging(pagination.getPageNumber(), pagination.getPageSize(), new Sorting(ID.getFieldName(), Sorting.Direction.ASC));
     }
