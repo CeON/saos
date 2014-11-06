@@ -34,6 +34,9 @@ public class SearchResultTranslatorImplTest {
         resultsTranslator.setSearchResultTranslator(searchResultTranslator);
     }
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     public void translate() {
         when(searchResultTranslator.translateSingle(any(SolrDocument.class))).thenAnswer(new Answer<JudgmentSearchResult>() {

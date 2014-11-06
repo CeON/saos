@@ -71,6 +71,9 @@ public class JudgmentCriteriaTransformerTest {
         };
     }
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     @UseDataProvider("criterionData")
     public void transformCriteria(String expectedQuery, JudgmentCriteria criteria) {

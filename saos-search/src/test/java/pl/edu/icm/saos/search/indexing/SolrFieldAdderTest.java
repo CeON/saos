@@ -18,6 +18,9 @@ public class SolrFieldAdderTest {
 
     private SolrFieldAdder<JudgmentIndexField> fieldAdder = new SolrFieldAdder<JudgmentIndexField>();
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     public void addField() {
         SolrInputDocument doc = new SolrInputDocument();
@@ -46,6 +49,7 @@ public class SolrFieldAdderTest {
         assertSingleField(doc, "judgeWithRole_#_PRESIDING_JUDGE", "Jan Kowalski");
     }
     
+    @Test
     public void addCompositeField() {
         SolrInputDocument doc = new SolrInputDocument();
         
@@ -55,6 +59,7 @@ public class SolrFieldAdderTest {
         assertSingleField(doc, "judge", "Jan Kowalski|PRESIDING_JUDGE|REPORTING_JUDGE");
     }
     
+    @Test
     public void addCompositeField_SINGLE() {
         SolrInputDocument doc = new SolrInputDocument();
         

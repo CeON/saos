@@ -20,6 +20,9 @@ import pl.edu.icm.saos.search.util.SearchDateTimeUtils;
 @Service
 public class SolrFieldAdder<F extends IndexField> {
     
+    
+    //------------------------ LOGIC --------------------------
+    
     /**
      * Adds String value of field into {@link SolrInputDocument}.
      * Blank value will be omitted.
@@ -58,7 +61,7 @@ public class SolrFieldAdder<F extends IndexField> {
     
     /**
      * Adds String value into {@link SolrInputDocument}.
-     * Value of field is composited from multiple values by inserting 
+     * Value of field is composed of multiple values by inserting 
      * {@link IndexFieldsConstants#VALUE_ATTRIBUTE_SEPARATOR} between them.
      * @param doc
      * @param field

@@ -20,6 +20,8 @@ public abstract class JudgmentIndexFieldsFiller {
     protected SolrFieldAdder<JudgmentIndexField> fieldAdder;
     
     
+    //------------------------ LOGIC --------------------------
+    
     public abstract boolean isApplicable(Class<? extends Judgment> judgmentClass);
     
     

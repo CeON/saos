@@ -166,6 +166,9 @@ public class JudgmentIndexFieldsFillerTest {
         judgmentIndexFieldsFiller.setFieldAdder(fieldAdder);
     }
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     @UseDataProvider("judgmentsFieldsData")
     public void fillFields(Judgment givenJudgment, List<SolrInputField> expectedFields) {

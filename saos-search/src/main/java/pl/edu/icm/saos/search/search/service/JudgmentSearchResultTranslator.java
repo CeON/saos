@@ -29,6 +29,8 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
     private SolrHighlightFragmentsMerger<JudgmentIndexField> highlightFragmentsMerger;
     
     
+    //------------------------ LOGIC --------------------------
+    
     @Override
     public JudgmentSearchResult translateSingle(SolrDocument document) {
         JudgmentSearchResult result = new JudgmentSearchResult();
@@ -73,17 +75,17 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
     //------------------------ PRIVATE --------------------------
     
     private void translateCommonCourt(SolrDocument document, JudgmentSearchResult result) {
-        Integer courtId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.COURT_ID);
-        String courtCode = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_CODE);
-        String court = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_NAME);
+        Integer courtId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.CC_COURT_ID);
+        String courtCode = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_CODE);
+        String court = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_NAME);
         
         result.setCourtId(courtId);
         result.setCourtCode(courtCode);
         result.setCourtName(court);
 
-        Integer courtDivisionId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.COURT_DIVISION_ID);
-        String courtDivisionCode = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_DIVISION_CODE);
-        String courtDivision = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_DIVISION_NAME);
+        Integer courtDivisionId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.CC_COURT_DIVISION_ID);
+        String courtDivisionCode = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_DIVISION_CODE);
+        String courtDivision = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_DIVISION_NAME);
         
         result.setCourtDivisionId(courtDivisionId);
         result.setCourtDivisionCode(courtDivisionCode);
@@ -94,14 +96,14 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
         String personnelType = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_PERSONNEL_TYPE);
         result.setPersonnelType(personnelType);
         
-        List<Pair<String, List<String>>> chambers = fieldFetcher.fetchValuesWithAttributes(document, JudgmentIndexField.SC_CHAMBER);
+        List<Pair<String, List<String>>> chambers = fieldFetcher.fetchValuesWithAttributes(document, JudgmentIndexField.SC_COURT_CHAMBER);
         List<SupremeCourtChamberResult> chambersResult = Lists.newLinkedList();
         
         chambers.forEach(x -> chambersResult.add(new SupremeCourtChamberResult(Integer.valueOf(x.getLeft()), x.getRight().get(0))));
         result.setCourtChambers(chambersResult);
         
-        Integer divisionId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.SC_DIVISION_ID);
-        String divisionName = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_DIVISION_NAME);
+        Integer divisionId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.SC_COURT_DIVISION_ID);
+        String divisionName = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_COURT_DIVISION_NAME);
         
         result.setCourtChamberDivisionId(divisionId);
         result.setCourtChamberDivisionName(divisionName);

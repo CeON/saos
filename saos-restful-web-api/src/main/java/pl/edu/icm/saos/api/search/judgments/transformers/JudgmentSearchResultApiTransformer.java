@@ -30,28 +30,28 @@ public class JudgmentSearchResultApiTransformer implements SearchResultApiTransf
     //******** business methods ***********
 
     @Override
-    public Judgment transform(JudgmentSearchResult element) {
-        Preconditions.checkNotNull(element, "element can't be null");
+    public Judgment transform(JudgmentSearchResult judgmentSearchResult) {
+        Preconditions.checkNotNull(judgmentSearchResult, "judgmentSearchResult can't be null");
 
-        Judgment judgment = commonCourtJudgmentWrapper(element.getId())
-                .courtCases(element.getCaseNumbers().stream().map(CourtCase::new).collect(Collectors.toList()))
-                .judgmentType(Judgment.JudgmentType.valueOf(element.getJudgmentType()))
-                .judgmentDate(new LocalDate(element.getJudgmentDate()))
-                .division(commonCourtDivision(element.getCourtDivisionId())
-                                .code(element.getCourtDivisionCode())
-                                .name(element.getCourtDivisionName())
-                                .court(commonCourt(element.getCourtId())
-                                                .code(element.getCourtCode())
-                                                .name(element.getCourtName()).build()
+        Judgment judgment = commonCourtJudgmentWrapper(judgmentSearchResult.getId())
+                .courtCases(judgmentSearchResult.getCaseNumbers().stream().map(CourtCase::new).collect(Collectors.toList()))
+                .judgmentType(Judgment.JudgmentType.valueOf(judgmentSearchResult.getJudgmentType()))
+                .judgmentDate(new LocalDate(judgmentSearchResult.getJudgmentDate()))
+                .division(commonCourtDivision(judgmentSearchResult.getCourtDivisionId())
+                                .code(judgmentSearchResult.getCourtDivisionCode())
+                                .name(judgmentSearchResult.getCourtDivisionName())
+                                .court(commonCourt(judgmentSearchResult.getCourtId())
+                                                .code(judgmentSearchResult.getCourtCode())
+                                                .name(judgmentSearchResult.getCourtName()).build()
                                 ).build()
                 )
                 .judges(
-                        element.getJudges().stream()
+                        judgmentSearchResult.getJudges().stream()
                                 .map((judge) -> judge(judge.getName()).judgesRoles(judge.getSpecialRoles().stream().toArray(JudgeRole[]::new)).build())
                                 .collect(Collectors.toList())
                 )
                 .keywords(
-                        element.getKeywords().stream()
+                        judgmentSearchResult.getKeywords().stream()
                                 .map(BuildersFactory::keyword)
                                 .collect(Collectors.toList())
                 ).build()

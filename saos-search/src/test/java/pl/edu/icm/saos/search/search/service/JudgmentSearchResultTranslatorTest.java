@@ -30,11 +30,15 @@ public class JudgmentSearchResultTranslatorTest {
     
     private SolrHighlightFragmentsMerger<JudgmentIndexField> highlightFragmentsMerger = new SolrHighlightFragmentsMerger<JudgmentIndexField>();
     
+    
     @Before
     public void setUp() {
         resultsTranslator.setFieldFetcher(fieldFetcher);
         resultsTranslator.setHighlightFragmentsMerger(highlightFragmentsMerger);
     }
+    
+    
+    //------------------------ LOGIC --------------------------
     
     @Test
     public void translateSingle() {

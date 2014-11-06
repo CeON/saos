@@ -148,6 +148,9 @@ public class JudgmentSearchServiceTest {
         indexJudgments();
     }
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     @UseDataProvider("searchResultsCountData")
     public void search_CHECK_RESULTS_COUNT(List<Integer> expectedResultsIds, JudgmentCriteria criteria) {

@@ -94,6 +94,9 @@ public class CcJudgmentIndexFieldsFillerTest {
         ccJudgmentIndexingProcessor.setFieldAdder(fieldAdder);
     }
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     @UseDataProvider("ccJudgmentsFieldsData")
     public void fillFields(CommonCourtJudgment givenJudgment, List<SolrInputField> expectedFields) {

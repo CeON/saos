@@ -11,9 +11,15 @@ public class SupremeCourtChamberDivisionBuilder {
 
     private SupremeCourtChamberDivision element;
     
+    
+    //------------------------ CONSTRUCTORS --------------------------
+    
     public SupremeCourtChamberDivisionBuilder(int id) {
         element = new SpecialSupremeCourtChamberDivision(id);
     }
+    
+    
+    //------------------------ LOGIC --------------------------
     
     public SupremeCourtChamberDivisionBuilder chamber(SupremeCourtChamber chamber) {
         element.setScChamber(chamber);
@@ -23,6 +29,11 @@ public class SupremeCourtChamberDivisionBuilder {
     public SupremeCourtChamberDivision build(){
         return element;
     }
+
+    
+    //-----------------------------------------------------------------
+    //------------------------ Inner classes --------------------------
+    //-----------------------------------------------------------------
     
     private static class SpecialSupremeCourtChamberDivision extends SupremeCourtChamberDivision {
         private SpecialSupremeCourtChamberDivision(int id) {

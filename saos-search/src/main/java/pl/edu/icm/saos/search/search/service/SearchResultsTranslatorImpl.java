@@ -20,6 +20,8 @@ public class SearchResultsTranslatorImpl<S extends Searchable> implements Search
     private SearchResultTranslator<S> searchResultTranslator;
     
     
+    //------------------------ LOGIC --------------------------
+    
     @Override
     public SearchResults<S> translate(QueryResponse response) {
         SolrDocumentList documents = response.getResults();

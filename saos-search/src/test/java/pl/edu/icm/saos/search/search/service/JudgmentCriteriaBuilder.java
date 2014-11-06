@@ -12,6 +12,9 @@ public class JudgmentCriteriaBuilder {
 
     private JudgmentCriteria criteria;
     
+    
+    //------------------------ CONSTRUCTORS --------------------------
+    
     public JudgmentCriteriaBuilder() {
         criteria = new JudgmentCriteria();
     }
@@ -19,6 +22,9 @@ public class JudgmentCriteriaBuilder {
     public JudgmentCriteriaBuilder(String all) {
         criteria = new JudgmentCriteria(all);
     }
+    
+    
+    //------------------------ LOGIC --------------------------
     
     public JudgmentCriteria build() {
         return criteria;

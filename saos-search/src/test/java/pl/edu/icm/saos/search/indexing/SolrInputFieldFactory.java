@@ -7,6 +7,9 @@ import org.apache.solr.common.SolrInputField;
  */
 public class SolrInputFieldFactory {
 
+    
+    //------------------------ LOGIC --------------------------
+    
     public SolrInputField create(String fieldName, Object ... fieldValues) {
         SolrInputField inputField = new SolrInputField(fieldName);
         for (Object fieldValue : fieldValues) {

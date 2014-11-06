@@ -13,6 +13,9 @@ public class SolrDocumentAssert {
 
     private SolrDocumentAssert() { }
     
+    
+    //------------------------ LOGIC --------------------------
+    
     public static void assertNoFields(SolrInputDocument doc) {
         Collection<String> fieldNames = doc.getFieldNames();
         
@@ -35,10 +38,6 @@ public class SolrDocumentAssert {
         SolrInputField field = doc.getField(fieldName);
         assertEquals(1, field.getValueCount());
         assertEquals(fieldValue, field.getValue());
-    }
-    
-    public static void assertFieldValues(SolrInputDocument doc, String fieldName, Collection<Object> fieldValues) {
-        assertFieldValues(doc, fieldName, fieldValues.toArray(new Object[] { }));
     }
     
     public static void assertFieldValues(SolrInputDocument doc, SolrInputField expectedValues) {

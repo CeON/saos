@@ -13,9 +13,15 @@ public class SupremeCourtJudgmentBuilder {
 
     private SupremeCourtJudgment element;
     
+    
+    //------------------------ CONSTRUCTORS --------------------------
+    
     SupremeCourtJudgmentBuilder(int id){
         element = new SpecialSupremeCourtJudgment(id);
     }
+    
+    
+    //------------------------ LOGIC --------------------------
     
     public SupremeCourtJudgmentBuilder personnelType(PersonnelType personnelType) {
         element.setPersonnelType(personnelType);
@@ -40,6 +46,11 @@ public class SupremeCourtJudgmentBuilder {
     public SupremeCourtJudgment build(){
         return element;
     }
+    
+    
+    //-----------------------------------------------------------------
+    //------------------------ Inner classes --------------------------
+    //-----------------------------------------------------------------
     
     private static class SpecialSupremeCourtJudgment extends SupremeCourtJudgment {
         private SpecialSupremeCourtJudgment(int id) {

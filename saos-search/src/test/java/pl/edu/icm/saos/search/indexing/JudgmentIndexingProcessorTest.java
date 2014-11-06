@@ -45,6 +45,9 @@ public class JudgmentIndexingProcessorTest {
         judgmentIndexingProcessor.setJudgmentIndexFieldsFillers(Lists.newArrayList(ccJudgmentIndexFieldsFiller, scJudgmentIndexFieldsFiller));
     }
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     public void process_SUPREME_COURT_JUDGMENT() throws Exception {
         SupremeCourtJudgment judgment = new SupremeCourtJudgment();

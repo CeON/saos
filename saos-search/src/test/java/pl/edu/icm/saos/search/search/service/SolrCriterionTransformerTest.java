@@ -25,7 +25,7 @@ public class SolrCriterionTransformerTest {
     
     @Test
     public void transformCriterion_INT() {
-        String actual = criterionTransformer.transformCriterion(JudgmentIndexField.COURT_ID, 12);
+        String actual = criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_ID, 12);
         
         assertEquals("+courtId:12", actual);
     }

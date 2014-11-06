@@ -83,6 +83,9 @@ public class ScJudgmentIndexFieldsFillerTest {
         scJudgmentIndexFieldsFiller.setFieldAdder(solrFieldAdder);
     }
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     @UseDataProvider("scJudgmentsFieldData")
     public void fillFields(SupremeCourtJudgment givenJudgment, List<SolrInputField> expectedFields) {

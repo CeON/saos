@@ -18,6 +18,9 @@ import pl.edu.icm.saos.search.search.model.CourtType;
 @Service
 public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Override
     public boolean isApplicable(Class<? extends Judgment> judgmentClass) {
         return CommonCourtJudgment.class.isAssignableFrom(judgmentClass);
@@ -50,15 +53,15 @@ public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
 
 
         fieldAdder.addField(doc, JudgmentIndexField.COURT_TYPE, CourtType.COMMON.name());
-        fieldAdder.addField(doc, JudgmentIndexField.CC_TYPE, court.getType().name());
+        fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_TYPE, court.getType().name());
 
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_ID, court.getId());
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_CODE, court.getCode());
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_NAME, court.getName());
+        fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_ID, court.getId());
+        fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_CODE, court.getCode());
+        fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_NAME, court.getName());
 
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_DIVISION_ID, division.getId());
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_DIVISION_CODE, division.getCode());
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_DIVISION_NAME, division.getName());
+        fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_DIVISION_ID, division.getId());
+        fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_DIVISION_CODE, division.getCode());
+        fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_DIVISION_NAME, division.getName());
     }
 
 }

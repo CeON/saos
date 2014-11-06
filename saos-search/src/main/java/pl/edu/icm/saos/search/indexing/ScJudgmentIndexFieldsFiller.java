@@ -21,6 +21,9 @@ import com.google.common.collect.Lists;
 @Service
 public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
 
+    
+    //------------------------ LOGIC --------------------------
+    
     @Override
     public boolean isApplicable(Class<? extends Judgment> judgmentClass) {
         return SupremeCourtJudgment.class.isAssignableFrom(judgmentClass);
@@ -52,8 +55,8 @@ public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
     private void fillChambers(SolrInputDocument doc, SupremeCourtJudgment judgment) {
         SupremeCourtChamberDivision division = judgment.getScChamberDivision();
         if (division != null) {
-            fieldAdder.addField(doc, JudgmentIndexField.SC_DIVISION_ID, division.getId());
-            fieldAdder.addField(doc, JudgmentIndexField.SC_DIVISION_NAME, null); // TODO fill when it will be available
+            fieldAdder.addField(doc, JudgmentIndexField.SC_COURT_DIVISION_ID, division.getId());
+            fieldAdder.addField(doc, JudgmentIndexField.SC_COURT_DIVISION_NAME, null); // TODO fill when it will be available
         }
         
         List<SupremeCourtChamber> chambers = judgment.getScChambers();
@@ -61,9 +64,9 @@ public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
             chambers.forEach(x -> { 
                 List<String> chamberCompositeField = Lists.newArrayList(String.valueOf(x.getId()));
                 fieldAdder.addCompositeField(doc,
-                        JudgmentIndexField.SC_CHAMBER, chamberCompositeField); // TODO fill when it will be available
-                fieldAdder.addField(doc, JudgmentIndexField.SC_CHAMBER_ID, x.getId());
-                fieldAdder.addField(doc, JudgmentIndexField.SC_CHAMBER_NAME, null); // TODO fill when it will be available
+                        JudgmentIndexField.SC_COURT_CHAMBER, chamberCompositeField); // TODO fill when it will be available
+                fieldAdder.addField(doc, JudgmentIndexField.SC_COURT_CHAMBER_ID, x.getId());
+                fieldAdder.addField(doc, JudgmentIndexField.SC_COURT_CHAMBER_NAME, null); // TODO fill when it will be available
             });
         }
     }

@@ -24,6 +24,8 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     private List<JudgmentIndexFieldsFiller> judgmentIndexFieldsFillers = new ArrayList<>();
     
     
+    //------------------------ LOGIC --------------------------
+    
     @Override
     public SolrInputDocument process(Judgment item) throws Exception {
         SolrInputDocument doc = new SolrInputDocument();

@@ -22,6 +22,9 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
 
     private SolrCriterionTransformer<JudgmentIndexField> criterionTransformer;
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Override
     public String transformCriteria(JudgmentCriteria criteria) {
         List<String> list = Lists.newLinkedList();
@@ -52,13 +55,13 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
     private List<String> transformCommonCourtCriteria(JudgmentCriteria criteria) {
         List<String> list = Lists.newLinkedList();
         
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_TYPE, criteria.getCommonCourtType()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.COURT_ID, criteria.getCourtId()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.COURT_CODE, criteria.getCourtCode()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.COURT_NAME, criteria.getCourtName()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.COURT_DIVISION_ID, criteria.getCourtDivisionId()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.COURT_DIVISION_CODE, criteria.getCourtDivisionCode()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.COURT_DIVISION_NAME, criteria.getCourtDivisionName()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_TYPE, criteria.getCommonCourtType()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_ID, criteria.getCourtId()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_CODE, criteria.getCourtCode()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_NAME, criteria.getCourtName()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_DIVISION_ID, criteria.getCourtDivisionId()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_DIVISION_CODE, criteria.getCourtDivisionCode()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_DIVISION_NAME, criteria.getCourtDivisionName()));
         
         return list;
     }
@@ -67,10 +70,10 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
         List<String> list = Lists.newLinkedList();
         
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_PERSONNEL_TYPE, criteria.getPersonnelType()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_CHAMBER_ID, criteria.getCourtChamberId()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_CHAMBER_NAME, criteria.getCourtChamberName()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_DIVISION_ID, criteria.getCourtChamberDivisionId()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_DIVISION_NAME, criteria.getCourtChamberDivisionName()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_COURT_CHAMBER_ID, criteria.getCourtChamberId()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_COURT_CHAMBER_NAME, criteria.getCourtChamberName()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_COURT_DIVISION_ID, criteria.getCourtChamberDivisionId()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_COURT_DIVISION_NAME, criteria.getCourtChamberDivisionName()));
         
         return list;
     }
