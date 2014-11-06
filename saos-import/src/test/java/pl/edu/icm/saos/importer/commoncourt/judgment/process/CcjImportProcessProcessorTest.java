@@ -16,6 +16,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
@@ -53,6 +55,9 @@ public class CcjImportProcessProcessorTest {
     @Mock
     private CommonCourtJudgment ccJudgment;
     
+    @Mock
+    private ImportCorrectionList correctionList;
+    
     @Rule
     public ExpectedException exception = ExpectedException.none();
    
@@ -76,17 +81,19 @@ public class CcjImportProcessProcessorTest {
         //--------------- data preparation --------------------
         
         when(rawSourceCcJudgmentConverter.convertSourceCcJudgment(Mockito.isA(RawSourceCcJudgment.class))).thenReturn(sourceCcJudgment);
-        when(ccjProcessingService.processJudgment(Mockito.isA(SourceCcJudgment.class))).thenReturn(ccJudgment);
+        
+        JudgmentWithCorrectionList<CommonCourtJudgment> jWithCorrectionList = new JudgmentWithCorrectionList<>(ccJudgment, correctionList);
+        when(ccjProcessingService.processJudgment(Mockito.isA(SourceCcJudgment.class))).thenReturn(jWithCorrectionList);
                 
         
         //---------------- test method invocation -------------
         
-        CommonCourtJudgment retCcJudgment = ccjImportProcessProcessor.process(rJudgment);
+        JudgmentWithCorrectionList<CommonCourtJudgment> retJWithCorrectionList = ccjImportProcessProcessor.process(rJudgment);
         
         
         //---------------- assertions -------------------------
         
-        assertTrue(retCcJudgment == ccJudgment);
+        assertTrue(retJWithCorrectionList == jWithCorrectionList);
         
         ArgumentCaptor<RawSourceCcJudgment> argRJudgment = ArgumentCaptor.forClass(RawSourceCcJudgment.class);
         verify(rawSourceCcJudgmentConverter).convertSourceCcJudgment(argRJudgment.capture());

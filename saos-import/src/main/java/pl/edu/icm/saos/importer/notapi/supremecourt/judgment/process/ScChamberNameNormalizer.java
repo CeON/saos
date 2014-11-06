@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process;
 
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -18,7 +19,7 @@ class ScChamberNameNormalizer {
     private Map<String, String> oldToNewNameMap = Maps.newHashMap();
     
     {
-        oldToNewNameMap.put("Izba Administracyjna, Pracy i Ubezpieczeń Społecznych", "Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych");
+        oldToNewNameMap.put("izba administracyjna, pracy i ubezpieczeń społecznych", "Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych");
     }
     
     
@@ -32,14 +33,29 @@ class ScChamberNameNormalizer {
      */
     public String normalize(String scChamberName) {
         
-        scChamberName = StringUtils.trim(scChamberName); 
+        scChamberName = adjust(scChamberName); 
         
-        String newName = oldToNewNameMap.get(scChamberName);
+        String newName = oldToNewNameMap.get(scChamberName.toLowerCase(Locale.ROOT));
         
         return newName != null? newName: scChamberName;
     }
 
+    
+    /**
+     * Says whether scChamberName is subject to change by normalization, see: {@link ScChamberNameNormalizer#normalize(String)}
+     */
+    public boolean isChangedByNormalization(String scChamberName) {
+        return !adjust(scChamberName).equals(normalize(scChamberName));
+    }
 
+    
+    //------------------------ PRIVATE --------------------------
+    
+    public String adjust(String scChamberName) {
+        return StringUtils.trim(scChamberName);
+    }
+    
+    
     //------------------------ SETTERS --------------------------
     
     public void setOldToNewNameMap(Map<String, String> oldToNewNameMap) {

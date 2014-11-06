@@ -115,11 +115,13 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         //--- job execution ---
         
         JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
+        
+        //--- assertions ----
+        
         int expectedSkipCount = rJudgmentsWithoutDivisionCount + rJudgmentsWithoutCourtCount;
         int expectedWriteCount = ALL_RAW_JUDGMENTS_COUNT - rJudgmentsWithoutDivisionCount - rJudgmentsWithoutCourtCount;
         JobExecutionAssertUtils.assertJobExecution(execution, expectedSkipCount, expectedWriteCount);
         
-        //--- assertions ----
         
         assertEquals(1, execution.getStepExecutions().size());
         assertEquals(ExitStatus.COMPLETED, execution.getExitStatus());

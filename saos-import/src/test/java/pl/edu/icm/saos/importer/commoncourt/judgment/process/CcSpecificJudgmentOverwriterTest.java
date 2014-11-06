@@ -5,7 +5,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.mockito.Mockito;
 
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
@@ -22,19 +24,22 @@ public class CcSpecificJudgmentOverwriterTest {
     private CcSpecificJudgmentOverwriter ccJudgmentOverwriter = new CcSpecificJudgmentOverwriter();
     
     
-  
+    private CommonCourtJudgment oldJudgment = new CommonCourtJudgment(); 
+    
+    private CommonCourtJudgment newJudgment = new CommonCourtJudgment();
+    
+    private ImportCorrectionList correctionList = Mockito.mock(ImportCorrectionList.class);
     
     
     @Test
     public void overwriteJudgment_courtData_division() {
-        CommonCourtJudgment oldJudgment = new CommonCourtJudgment();
+        
         CommonCourtDivision division = new CommonCourtDivision();
         division.setCode("1234");
         CommonCourt court = new CommonCourt();
         division.setCourt(court);
         oldJudgment.setCourtDivision(division);
         
-        CommonCourtJudgment newJudgment = new CommonCourtJudgment();
         
         CommonCourtDivision newDivision = new CommonCourtDivision();
         newDivision.setCode("1234");
@@ -42,7 +47,7 @@ public class CcSpecificJudgmentOverwriterTest {
         newDivision.setCourt(newCourt);
         newJudgment.setCourtDivision(newDivision);
         
-        ccJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        ccJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
         
         
         
@@ -60,17 +65,14 @@ public class CcSpecificJudgmentOverwriterTest {
         CcJudgmentKeyword keywordGHI = new CcJudgmentKeyword("GHI");
         
         
-        CommonCourtJudgment oldJudgment = new CommonCourtJudgment();
         oldJudgment.addKeyword(keywordABC);
         oldJudgment.addKeyword(keywordDEF);
         
-        
-        CommonCourtJudgment newJudgment = new CommonCourtJudgment();
         newJudgment.addKeyword(keywordABC);
         newJudgment.addKeyword(keywordGHI);
         
         
-        ccJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        ccJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
         
         
         assertThat(newJudgment.getKeywords(), Matchers.containsInAnyOrder(keywordABC, keywordGHI));

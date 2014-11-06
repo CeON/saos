@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.common;
+package pl.edu.icm.saos.importer.common.overwriter;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -9,6 +9,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
+import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 
@@ -28,6 +31,9 @@ public class DelegatingJudgmentOverwriterTest {
     @Mock
     private JudgmentOverwriter<Judgment> specificJudgmentOverwriter;
 
+    private ImportCorrectionList correctionList = new ImportCorrectionList();
+    
+    
     
     @Before
     public void before() {
@@ -35,6 +41,8 @@ public class DelegatingJudgmentOverwriterTest {
         
         delegatingJudgmentOverwriter.setCommonJudgmentOverwriter(commonJudgmentOverwriter);
         delegatingJudgmentOverwriter.setSpecificJudgmentOverwriter(specificJudgmentOverwriter);
+        
+        correctionList.addCorrection(new ImportCorrection(null, CorrectedProperty.JUDGE_NAME, "old name", "new name"));
     }
     
     
@@ -44,7 +52,7 @@ public class DelegatingJudgmentOverwriterTest {
         Judgment oldJudgment = null;
         Judgment newJudgment = mock(Judgment.class);
         
-        delegatingJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        delegatingJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
         
         verifyZeroInteractions(commonJudgmentOverwriter, specificJudgmentOverwriter);
         
@@ -58,11 +66,11 @@ public class DelegatingJudgmentOverwriterTest {
         Judgment oldJudgment = mock(Judgment.class);
         Judgment newJudgment = mock(Judgment.class);
         
-        delegatingJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        delegatingJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
         
-        verify(commonJudgmentOverwriter).overwriteJudgment(oldJudgment, newJudgment);
+        verify(commonJudgmentOverwriter).overwriteJudgment(oldJudgment, newJudgment, correctionList);
         
-        verify(specificJudgmentOverwriter).overwriteJudgment(oldJudgment, newJudgment);
+        verify(specificJudgmentOverwriter).overwriteJudgment(oldJudgment, newJudgment, correctionList);
         
         
     }

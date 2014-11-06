@@ -13,8 +13,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import pl.edu.icm.saos.importer.common.JudgmentConverter;
-import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
+import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
+import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgmentParser;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -31,6 +33,9 @@ public class ScjImportProcessProcessorTest {
 
     private ScjImportProcessProcessor scjImportProcessProcessor = new ScjImportProcessProcessor();
     
+    
+    // services
+    
     @Mock private SourceScJudgmentParser sourceScJudgmentParser;
     
     @Mock private JudgmentConverter<SupremeCourtJudgment, SourceScJudgment> sourceScJudgmentConverter;
@@ -40,6 +45,20 @@ public class ScjImportProcessProcessorTest {
     @Mock private JudgmentOverwriter<SupremeCourtJudgment> judgmentOverwriter;
     
     @Mock private RawSourceScJudgmentRepository rawSourceScJudgmentRepository;
+    
+    
+    // data
+    
+    private RawSourceScJudgment rJudgment = new RawSourceScJudgment();
+    
+    private SourceScJudgment sourceScJudgment = new SourceScJudgment();
+    
+    private SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
+    
+    private ImportCorrectionList correctionList = new ImportCorrectionList();
+    
+    private JudgmentWithCorrectionList<SupremeCourtJudgment> jWithCorrectionList = new JudgmentWithCorrectionList<>(scJudgment, correctionList);
+
     
     
     @Before
@@ -55,31 +74,35 @@ public class ScjImportProcessProcessorTest {
     }
 
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     public void process_OldJudgmentNotFound() {
         
         // given
         
-        RawSourceScJudgment rJudgment = new RawSourceScJudgment();
         rJudgment.setJsonContent("12121212esfcsfc");
         
-        SourceScJudgment sourceScJudgment = new SourceScJudgment();
         when(sourceScJudgmentParser.parse(rJudgment.getJsonContent())).thenReturn(sourceScJudgment);
         
-        SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
         scJudgment.getSourceInfo().setSourceJudgmentId("AAAXXX");
-        when(sourceScJudgmentConverter.convertJudgment(sourceScJudgment)).thenReturn(scJudgment);
+        when(sourceScJudgmentConverter.convertJudgment(sourceScJudgment)).thenReturn(jWithCorrectionList);
         
         when(scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(Mockito.any(SourceCode.class), Mockito.anyString())).thenReturn(null);
         
         
         // execute
         
-        SupremeCourtJudgment retScJudgment = scjImportProcessProcessor.process(rJudgment);
+        JudgmentWithCorrectionList<SupremeCourtJudgment> retJWithCorrectionList = scjImportProcessProcessor.process(rJudgment);
         
         // assert
         
-        assertTrue(scJudgment == retScJudgment);
+        assertTrue(jWithCorrectionList == retJWithCorrectionList);
+        assertTrue(retJWithCorrectionList.getJudgment() == scJudgment);
+        assertTrue(retJWithCorrectionList.getCorrectionList() == correctionList);
+        
+        
         assertTrue(rJudgment.isProcessed());
         assertNotNull(rJudgment.getProcessingDate());
         
@@ -99,15 +122,12 @@ public class ScjImportProcessProcessorTest {
         
         // given
         
-        RawSourceScJudgment rJudgment = new RawSourceScJudgment();
         rJudgment.setJsonContent("12121212esfcsfc");
         
-        SourceScJudgment sourceScJudgment = new SourceScJudgment();
         when(sourceScJudgmentParser.parse(rJudgment.getJsonContent())).thenReturn(sourceScJudgment);
         
-        SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
         scJudgment.getSourceInfo().setSourceJudgmentId("ABCXYZ");
-        when(sourceScJudgmentConverter.convertJudgment(sourceScJudgment)).thenReturn(scJudgment);
+        when(sourceScJudgmentConverter.convertJudgment(sourceScJudgment)).thenReturn(jWithCorrectionList);
         
         SupremeCourtJudgment oldScJudgment = new SupremeCourtJudgment();
         when(scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId())).thenReturn(oldScJudgment);
@@ -115,20 +135,22 @@ public class ScjImportProcessProcessorTest {
         
         // execute
         
-        SupremeCourtJudgment retScJudgment = scjImportProcessProcessor.process(rJudgment);
+        JudgmentWithCorrectionList<SupremeCourtJudgment> retJWithCorrectionList = scjImportProcessProcessor.process(rJudgment);
         
         // assert
         
-        assertTrue(oldScJudgment == retScJudgment);
-        assertFalse(scJudgment == retScJudgment);
+        assertTrue(jWithCorrectionList == retJWithCorrectionList);
+        assertTrue(retJWithCorrectionList.getJudgment() == oldScJudgment);
+        assertFalse(retJWithCorrectionList.getJudgment() == scJudgment);
+        assertTrue(retJWithCorrectionList.getCorrectionList() == correctionList);
+        
         assertTrue(rJudgment.isProcessed());
         assertNotNull(rJudgment.getProcessingDate());
-        
         
         verify(sourceScJudgmentParser).parse(rJudgment.getJsonContent());
         verify(sourceScJudgmentConverter).convertJudgment(sourceScJudgment);
         verify(scJudgmentRepository).findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId());
-        verify(judgmentOverwriter).overwriteJudgment(oldScJudgment, scJudgment);
+        verify(judgmentOverwriter).overwriteJudgment(oldScJudgment, scJudgment, correctionList);
         verify(rawSourceScJudgmentRepository).save(rJudgment);
          
         verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, scJudgmentRepository, judgmentOverwriter);

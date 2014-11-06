@@ -2,7 +2,8 @@ package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
+import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 
@@ -15,7 +16,9 @@ public class CcSpecificJudgmentOverwriter implements JudgmentOverwriter<CommonCo
     
     
     @Override
-    public void overwriteJudgment(CommonCourtJudgment oldJudgment, CommonCourtJudgment newJudgment) {
+    public void overwriteJudgment(CommonCourtJudgment oldJudgment, CommonCourtJudgment newJudgment, ImportCorrectionList correctionList) {
+        
+        
         overwriteCourt(oldJudgment, newJudgment);
         
         overwriteKeywords(oldJudgment, newJudgment);

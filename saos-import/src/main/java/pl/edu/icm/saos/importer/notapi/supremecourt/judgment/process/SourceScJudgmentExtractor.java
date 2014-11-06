@@ -9,9 +9,12 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.common.JudgmentDataExtractor;
+import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.SourceScJudge;
+import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
@@ -59,32 +62,32 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     }
 
     @Override
-    public List<CourtCase> extractCourtCases(SourceScJudgment sourceJudgment) {
+    public List<CourtCase> extractCourtCases(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return Lists.newArrayList(new CourtCase(sourceJudgment.getCaseNumber()));
     }
 
     @Override
-    public String extractTextContent(SourceScJudgment sourceJudgment) {
+    public String extractTextContent(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getTextContent();
     }
 
     @Override
-    public DateTime extractPublicationDate(SourceScJudgment sourceJudgment) {
+    public DateTime extractPublicationDate(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getSource().getPublicationDateTime();
     }
 
     @Override
-    public String extractPublisher(SourceScJudgment sourceJudgment) {
+    public String extractPublisher(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return null;
     }
 
     @Override
-    public String extractReviser(SourceScJudgment sourceJudgment) {
+    public String extractReviser(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return null;
     }
 
     @Override
-    public List<Judge> extractJudges(SourceScJudgment sourceJudgment) {
+    public List<Judge> extractJudges(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         List<Judge> judges = Lists.newArrayList();
         
         for (SourceScJudge scJudge : sourceJudgment.getJudges()) {
@@ -99,55 +102,50 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
 
     
     @Override
-    public List<JudgmentReferencedRegulation> extractReferencedRegulations(SourceScJudgment sourceJudgment) {
+    public List<JudgmentReferencedRegulation> extractReferencedRegulations(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return Lists.newArrayList();
     }
 
     
     @Override
-    public JudgmentType extractJudgmentType(SourceScJudgment sourceJudgment) {
-        //TODO: SAVE CORRECTION
-        
-        String judgmentFormName = scJudgmentFormNameNormalizer.normalize(sourceJudgment.getSupremeCourtJudgmentForm());
-        
-        return scJudgmentFormConverter.convertToType(judgmentFormName);
-        
+    public JudgmentType extractJudgmentType(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        return scJudgmentFormConverter.convertToJudgmentType(sourceJudgment.getSupremeCourtJudgmentForm(), correctionList);
     }
 
     
     @Override
-    public List<String> extractLegalBases(SourceScJudgment sourceJudgment) {
+    public List<String> extractLegalBases(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return Lists.newArrayList();
     }
 
     
     @Override
-    public String extractSummary(SourceScJudgment sourceJudgment) {
+    public String extractSummary(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return null;
     }
 
     @Override
-    public String extractDecision(SourceScJudgment sourceJudgment) {
+    public String extractDecision(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return null;
     }
 
     @Override
-    public List<String> extractCourtReporters(SourceScJudgment sourceJudgment) {
+    public List<String> extractCourtReporters(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return Lists.newArrayList();
     }
 
     @Override
-    public LocalDate extractJudgmentDate(SourceScJudgment sourceJudgment) {
+    public LocalDate extractJudgmentDate(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getJudgmentDate();
     }
 
     @Override
-    public String extractSourceJudgmentId(SourceScJudgment sourceJudgment) {
+    public String extractSourceJudgmentId(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getSource().getSourceJudgmentId();
     }
 
     @Override
-    public String extractSourceJudgmentUrl(SourceScJudgment sourceJudgment) {
+    public String extractSourceJudgmentUrl(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getSource().getSourceJudgmentUrl();
     }
 
@@ -157,11 +155,11 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     }
 
     @Override
-    public void convertSpecific(SupremeCourtJudgment judgment, SourceScJudgment sourceJudgment) {
-        judgment.setPersonnelType(extractPersonnelType(sourceJudgment));
-        judgment.setScJudgmentForm(extractSupremeCourtJudgmentForm(sourceJudgment));
-        extractSupremeCourtChambers(sourceJudgment).stream().filter(scChamber->!judgment.containsScChamber(scChamber)).forEach(scChamber->judgment.addScChamber(scChamber));
-        judgment.setScChamberDivision(extractSupremeCourtChamberDivision(sourceJudgment));
+    public void convertSpecific(SupremeCourtJudgment judgment, SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        judgment.setPersonnelType(extractPersonnelType(sourceJudgment, correctionList));
+        judgment.setScJudgmentForm(extractSupremeCourtJudgmentForm(sourceJudgment, correctionList));
+        extractSupremeCourtChambers(sourceJudgment, correctionList).stream().filter(scChamber->!judgment.containsScChamber(scChamber)).forEach(scChamber->judgment.addScChamber(scChamber));
+        judgment.setScChamberDivision(extractSupremeCourtChamberDivision(sourceJudgment, correctionList));
     }
 
     
@@ -170,7 +168,7 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     //------------------------ PRIVATE --------------------------
     
      
-    private PersonnelType extractPersonnelType(SourceScJudgment sourceJudgment) {
+    private PersonnelType extractPersonnelType(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         if (sourceJudgment.getPersonnelType() == null) {
             return null;
         }
@@ -178,21 +176,39 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     }
     
     
-    private List<SupremeCourtChamber> extractSupremeCourtChambers(SourceScJudgment sourceJudgment) {
-        // TODO: SAVE CORRECTIONS
+    private List<SupremeCourtChamber> extractSupremeCourtChambers(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         
         List<SupremeCourtChamber> scChambers = Lists.newArrayList();
         
         for (String scChamberName : sourceJudgment.getSupremeCourtChambers()) {
-            scChamberName = scChamberNameNormalizer.normalize(scChamberName);
-            scChambers.add(scChamberCreator.getOrCreateScChamber(scChamberName));
+            SupremeCourtChamber scChamber = extractScChamber(scChamberName, correctionList);
+            scChambers.add(scChamber);
         }
         
         return scChambers;
     }
 
     
-    private SupremeCourtChamberDivision extractSupremeCourtChamberDivision(SourceScJudgment sourceJudgment) {
+    private SupremeCourtChamber extractScChamber(String scChamberName, ImportCorrectionList correctionList) {
+        
+        String normalizedChamberName = scChamberNameNormalizer.normalize(scChamberName);
+        SupremeCourtChamber scChamber = scChamberCreator.getOrCreateScChamber(normalizedChamberName);
+        
+        checkAndSaveCorrection(correctionList, scChamber, scChamberName, normalizedChamberName);
+        
+        return scChamber;
+    }
+
+    
+    private void checkAndSaveCorrection(ImportCorrectionList correctionList, SupremeCourtChamber scChamber, String scChamberName, String normalizedChamberName) {
+        
+        if (scChamberNameNormalizer.isChangedByNormalization(scChamberName)) {
+            correctionList.addCorrection(new ImportCorrection(scChamber, CorrectedProperty.SC_CHAMBER_NAME, scChamberName.trim(), normalizedChamberName));
+        }
+    }
+
+    
+    private SupremeCourtChamberDivision extractSupremeCourtChamberDivision(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         String scChamberDivisionFullName = sourceJudgment.getSupremeCourtChamberDivision();
         if (StringUtils.isBlank(scChamberDivisionFullName)) {
             return null;
@@ -203,14 +219,32 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     }
     
     
-    private SupremeCourtJudgmentForm extractSupremeCourtJudgmentForm(SourceScJudgment sourceJudgment) {
-        if (StringUtils.isBlank(sourceJudgment.getSupremeCourtJudgmentForm())) {
+    private SupremeCourtJudgmentForm extractSupremeCourtJudgmentForm(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        
+        String sourceScJudgmentFormName = sourceJudgment.getSupremeCourtJudgmentForm();
+        
+        if (StringUtils.isBlank(sourceScJudgmentFormName)) {
             return null;
         }
         
-        String judgmentFormName = scJudgmentFormNameNormalizer.normalize(sourceJudgment.getSupremeCourtJudgmentForm());
+        String normalizedJudgmentFormName = scJudgmentFormNameNormalizer.normalize(sourceScJudgmentFormName);
         
-        return scJudgmentFormCreator.getOrCreateScJudgmentForm(judgmentFormName);
+                
+        SupremeCourtJudgmentForm scJudgmentForm = scJudgmentFormCreator.getOrCreateScJudgmentForm(normalizedJudgmentFormName);
+        
+        checkAndSaveCorrection(correctionList, scJudgmentForm, sourceScJudgmentFormName, normalizedJudgmentFormName);
+        
+        return scJudgmentForm;
+        
+    }
+
+    
+    private void checkAndSaveCorrection(ImportCorrectionList correctionList, SupremeCourtJudgmentForm scJudgmentForm, String sourceScJudgmentFormName, String normalizedJudgmentFormName) {
+        
+        if (scJudgmentFormNameNormalizer.isChangedByNormalization(sourceScJudgmentFormName)) {
+            correctionList.addCorrection(new ImportCorrection(scJudgmentForm, CorrectedProperty.SC_JUDGMENT_FORM_NAME, sourceScJudgmentFormName, normalizedJudgmentFormName));
+        }
+        
     }
     
     

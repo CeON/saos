@@ -6,6 +6,7 @@ import org.springframework.batch.core.SkipListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
@@ -15,7 +16,7 @@ import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
  * @author Łukasz Dumiszewski
  */
 @Service("ccjImportProcessSkipListener")
-public class CcjImportProcessSkipListener implements SkipListener<RawSourceCcJudgment, CommonCourtJudgment> {
+public class CcjImportProcessSkipListener implements SkipListener<RawSourceCcJudgment, JudgmentWithCorrectionList<CommonCourtJudgment>> {
 
     private RawSourceCcJudgmentRepository rawJudgmentRepository;
     
@@ -29,8 +30,8 @@ public class CcjImportProcessSkipListener implements SkipListener<RawSourceCcJud
     }
 
     @Override
-    public void onSkipInWrite(CommonCourtJudgment ccJudgment, Throwable t) {
-        log.debug("writing skipping: " + ccJudgment);
+    public void onSkipInWrite(JudgmentWithCorrectionList<CommonCourtJudgment> judgmentWithCorrectionList, Throwable t) {
+        log.debug("writing skipping: " + judgmentWithCorrectionList.getJudgment());
         
         
     }

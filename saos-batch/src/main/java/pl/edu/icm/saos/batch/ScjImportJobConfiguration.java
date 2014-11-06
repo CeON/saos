@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import pl.edu.icm.saos.importer.common.JudgmentImportProcessWriter;
+import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.ScjImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.ScjImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.ScjImportDownloadStepExecutionListener;
@@ -18,7 +20,6 @@ import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.ScjImportD
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessStepExecutionListener;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessWriter;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
@@ -61,13 +62,15 @@ public class ScjImportJobConfiguration {
     @Autowired
     private ScjImportProcessProcessor scjImportProcessProcessor;
     
-    @Autowired
-    private ScjImportProcessWriter scjImportProcessWriter;
-    
+       
     @Autowired
     private ScjImportProcessStepExecutionListener scjImportProcessStepExecutionListener;
     
 
+    @Bean
+    public JudgmentImportProcessWriter<SupremeCourtJudgment> scjImportProcessWriter() {
+        return new JudgmentImportProcessWriter<>();
+    }
     
     /**
      * Only download 
@@ -99,10 +102,10 @@ public class ScjImportJobConfiguration {
    
     @Bean
     protected Step scJudgmentImportProcessStep() {
-        return steps.get("scJudgmentImportProcessStep").<RawSourceScJudgment, SupremeCourtJudgment> chunk(20)
+        return steps.get("scJudgmentImportProcessStep").<RawSourceScJudgment, JudgmentWithCorrectionList<SupremeCourtJudgment>> chunk(20)
             .reader(scjImportProcessReader)
             .processor(scjImportProcessProcessor)
-            .writer(scjImportProcessWriter)
+            .writer(scjImportProcessWriter())
             .listener(scjImportProcessStepExecutionListener)
             .build();
     } 
