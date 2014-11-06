@@ -44,7 +44,6 @@ public class ControllersEntityExceptionHandler {
 
     @ExceptionHandler({RuntimeException.class, Exception.class})
     public ResponseEntity<Map<String, Object>> handleGeneralError(Exception ex) {
-        ex.printStackTrace();
         ErrorStatus errorStatus = ErrorStatus.GENERAL_INTERNAL_ERROR;
 
         ErrorRepresentation.Builder builder = create(errorStatus, ex);
