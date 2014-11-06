@@ -34,6 +34,18 @@ public class TestPersistenceObjectsFactory {
     @Autowired
     private LawJournalEntryRepository lawJournalEntryRepository;
 
+    @Autowired
+    private ScChamberRepository scChamberRepository;
+
+    @Autowired
+    private ScChamberDivisionRepository scChamberDivisionRepository;
+
+    @Autowired
+    private ScJudgmentFormRepository scJudgmentFormRepository;
+
+    @Autowired
+    private ScJudgmentRepository scJudgmentRepository;
+
 
 
 
@@ -41,6 +53,8 @@ public class TestPersistenceObjectsFactory {
         TestPersistenceObjectsContext context = new TestPersistenceObjectsContext();
         createCommonCourt(context);
         createCommonJudgment(context);
+
+        createSupremeCourtChamber(context);
         createSupremeCourtJudgment(context);
         return context;
     }
@@ -233,11 +247,52 @@ public class TestPersistenceObjectsFactory {
     }
 
     private void createSupremeCourtJudgment(TestPersistenceObjectsContext context) {
-        SupremeCourtJudgment judgment = new SupremeCourtJudgment();
-        judgment.setDecision(JC.DECISION);
-        judgment.setJudgmentType(Judgment.JudgmentType.DECISION);
-        judgment.setJudgmentDate(new LocalDate(JC.DATE_YEAR, JC.DATE_MONTH, JC.DATE_DAY));
+        SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
+        scJudgment.addCourtCase(CourtCaseBuilder.create(JC.CASE_NUMBER).build());
+        scJudgment.setPersonnelType(SupremeCourtJudgment.PersonnelType.FIVE_PERSON);
+        scJudgment.setScChamberDivision(context.getScDivision());
+        scJudgment.addScChamber(context.getScChamber());
 
+        SupremeCourtJudgmentForm scJudgmentForm = createSupremeCourtJudgmentForm(context);
+
+        scJudgment.setScJudgmentForm(scJudgmentForm);
+        scJudgmentRepository.save(scJudgment);
+        context.setScJudgment(scJudgment);
+    }
+
+    private void createSupremeCourtChamber(TestPersistenceObjectsContext context){
+        SupremeCourtChamber scChamber = new SupremeCourtChamber();
+        scChamber.setName(JC.SC_CHAMBER_NAME);
+        scChamberRepository.save(scChamber);
+
+        context.setScChamber(scChamber);
+        SupremeCourtChamberDivision scDivision = createSupremeCourtDivision(context);
+        scChamber.addDivision(scDivision);
+
+        scChamberRepository.save(scChamber);
+        scChamberDivisionRepository.save(scDivision);
+
+        context.setScChamber(scChamber);
+    }
+
+    private SupremeCourtChamberDivision createSupremeCourtDivision(TestPersistenceObjectsContext context){
+        SupremeCourtChamberDivision scDivision = new SupremeCourtChamberDivision();
+        scDivision.setName(JC.SC_CHAMBER_DIVISION_NAME);
+        scDivision.setFullName(JC.SC_CHAMBER_DIVISION_FULL_NAME);
+        scDivision.setScChamber(context.getScChamber());
+
+        scChamberDivisionRepository.save(scDivision);
+        context.setScDivision(scDivision);
+        return scDivision;
+    }
+
+    private SupremeCourtJudgmentForm createSupremeCourtJudgmentForm(TestPersistenceObjectsContext context){
+        SupremeCourtJudgmentForm scJudgmentForm = new SupremeCourtJudgmentForm();
+        scJudgmentForm.setName(JC.SC_JUDGMENT_FORM_NAME);
+        scJudgmentFormRepository.save(scJudgmentForm);
+
+        context.setScJudgmentForm(scJudgmentForm);
+        return scJudgmentForm;
     }
 
 }
