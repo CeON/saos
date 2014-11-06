@@ -50,7 +50,7 @@ public class ScJudgmentIndexFieldsFillerTest {
                 .personnelType(PersonnelType.THREE_PERSON)
                 .build();
         List<SolrInputField> personnelTypeFields = Collections.singletonList(
-                fieldFactory.create("personnelType", "THREE_PERSON"));
+                fieldFactory.create("scPersonnelType", "THREE_PERSON"));
 
         // chambers
         SupremeCourtChamber firstChamber = BuildersFactory.supremeCourtChamber(11).name("ABC").build();
@@ -65,9 +65,9 @@ public class ScJudgmentIndexFieldsFillerTest {
         List<SolrInputField> chambersFields = Lists.newArrayList(
                 fieldFactory.create("courtType", "SUPREME"),
 //                fieldFactory.create("courtChamber", "11|chamberName1", "12|chamberName2"), // TODO uncomment when it will be available
-                fieldFactory.create("courtChamberId", 11, 12),
+                fieldFactory.create("scCourtChamberId", 11, 12),
 //                fieldFactory.create("courtChamberName", "chamberName1", "chamberName2"), // TODO uncomment when it will be available
-                fieldFactory.create("courtChamberDivisionId", 111)
+                fieldFactory.create("scCourtChamberDivisionId", 111)
 //                fieldFactory.create("courtChamberDivisionName", "divisionName") // TODO uncomment when it will be available
         );
         

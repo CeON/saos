@@ -73,13 +73,13 @@ public class CcJudgmentIndexFieldsFillerTest {
                 .build();
         List<SolrInputField> commonCourtFields = Lists.newArrayList(
                 fieldFactory.create("courtType", "COMMON"),
-                fieldFactory.create("commonCourtType", "APPEAL"),
-                fieldFactory.create("courtId", 123),
-                fieldFactory.create("courtCode", "15200000"),
-                fieldFactory.create("courtName", "Sąd Apelacyjny w Krakowie"),
-                fieldFactory.create("courtDivisionId", 816),
-                fieldFactory.create("courtDivisionCode", "0000503"),
-                fieldFactory.create("courtDivisionName", "I Wydział Cywilny"));
+                fieldFactory.create("ccCourtType", "APPEAL"),
+                fieldFactory.create("ccCourtId", 123),
+                fieldFactory.create("ccCourtCode", "15200000"),
+                fieldFactory.create("ccCourtName", "Sąd Apelacyjny w Krakowie"),
+                fieldFactory.create("ccCourtDivisionId", 816),
+                fieldFactory.create("ccCourtDivisionCode", "0000503"),
+                fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"));
         
         
         return new Object[][] {

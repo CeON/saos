@@ -54,20 +54,20 @@ public class JudgmentCriteriaTransformerTest {
                 { "+judgmentType:DECISION", new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.DECISION).build() },
                 { "+courtType:ADMINISTRATIVE", new JudgmentCriteriaBuilder().withCourtType(CourtType.ADMINISTRATIVE).build() },
                 
-                { "+commonCourtType:DISTRICT", new JudgmentCriteriaBuilder().withCommonCourtType(CommonCourtType.DISTRICT).build() },
-                { "+courtId:11", new JudgmentCriteriaBuilder().withCourtId(11).build() },
-                { "+courtCode:0050", new JudgmentCriteriaBuilder().withCourtCode("0050").build() },
-                { "+courtName:someCourtName", new JudgmentCriteriaBuilder().withCourtName("someCourtName").build() },
+                { "+ccCourtType:DISTRICT", new JudgmentCriteriaBuilder().withCcCourtType(CommonCourtType.DISTRICT).build() },
+                { "+ccCourtId:11", new JudgmentCriteriaBuilder().withCcCourtId(11).build() },
+                { "+ccCourtCode:0050", new JudgmentCriteriaBuilder().withCcCourtCode("0050").build() },
+                { "+ccCourtName:someCourtName", new JudgmentCriteriaBuilder().withCcCourtName("someCourtName").build() },
                 
-                { "+courtChamberId:12", new JudgmentCriteriaBuilder().withChamberId(12).build() },
-                { "+courtChamberName:someChamberName", new JudgmentCriteriaBuilder().withChamberName("someChamberName").build() },
-                { "+courtChamberDivisionId:13", new JudgmentCriteriaBuilder().withChamberDivisionId(13).build() },
-                { "+courtChamberDivisionName:someChamberDivisionName", new JudgmentCriteriaBuilder().withChamberDivisionName("someChamberDivisionName").build() },
-                { "+personnelType:THREE_PERSON", new JudgmentCriteriaBuilder().withPersonnelType(PersonnelType.THREE_PERSON).build() },
+                { "+scCourtChamberId:12", new JudgmentCriteriaBuilder().withScChamberId(12).build() },
+                { "+scCourtChamberName:someChamberName", new JudgmentCriteriaBuilder().withScChamberName("someChamberName").build() },
+                { "+scCourtChamberDivisionId:13", new JudgmentCriteriaBuilder().withScChamberDivisionId(13).build() },
+                { "+scCourtChamberDivisionName:someChamberDivisionName", new JudgmentCriteriaBuilder().withScChamberDivisionName("someChamberDivisionName").build() },
+                { "+scPersonnelType:THREE_PERSON", new JudgmentCriteriaBuilder().withScPersonnelType(PersonnelType.THREE_PERSON).build() },
                 
-                { "+courtDivisionId:14", new JudgmentCriteriaBuilder().withDivisionId(14).build() },
-                { "+courtDivisionCode:0100", new JudgmentCriteriaBuilder().withDivisionCode("0100").build() },
-                { "+courtDivisionName:someDivisionName", new JudgmentCriteriaBuilder().withDivisionName("someDivisionName").build() },
+                { "+ccCourtDivisionId:14", new JudgmentCriteriaBuilder().withCcDivisionId(14).build() },
+                { "+ccCourtDivisionCode:0100", new JudgmentCriteriaBuilder().withCcDivisionCode("0100").build() },
+                { "+ccCourtDivisionName:someDivisionName", new JudgmentCriteriaBuilder().withCcDivisionName("someDivisionName").build() },
         };
     }
     
@@ -85,12 +85,12 @@ public class JudgmentCriteriaTransformerTest {
     @Test
     public void transformCriteria_TWO_CRITERIA() {
         JudgmentCriteria criteria = new JudgmentCriteria()
-            .setCourtName("word1")
+            .setCcCourtName("word1")
             .setJudgeName("word2");
 
         String solrQuery = queryFactory.transformCriteria(criteria);
 
-        Assert.assertEquals("+courtName:word1 +judgeName:word2", solrQuery);
+        Assert.assertEquals("+ccCourtName:word1 +judgeName:word2", solrQuery);
     }
     
 

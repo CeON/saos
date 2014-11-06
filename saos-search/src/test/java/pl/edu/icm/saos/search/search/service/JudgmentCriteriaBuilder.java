@@ -61,63 +61,63 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
-    public JudgmentCriteriaBuilder withCommonCourtType(CommonCourtType commonCourtType) {
-        criteria.setCommonCourtType(commonCourtType);
+    public JudgmentCriteriaBuilder withCcCourtType(CommonCourtType commonCourtType) {
+        criteria.setCcCourtType(commonCourtType);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withCourtId(int courtId) {
-        criteria.setCourtId(courtId);
+    public JudgmentCriteriaBuilder withCcCourtId(int courtId) {
+        criteria.setCcCourtId(courtId);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withCourtCode(String courtCode) {
-        criteria.setCourtCode(courtCode);
+    public JudgmentCriteriaBuilder withCcCourtCode(String courtCode) {
+        criteria.setCcCourtCode(courtCode);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withCourtName(String courtName) {
-        criteria.setCourtName(courtName);
+    public JudgmentCriteriaBuilder withCcCourtName(String courtName) {
+        criteria.setCcCourtName(courtName);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withDivisionId(int divisionId) {
-        criteria.setCourtDivisionId(divisionId);
+    public JudgmentCriteriaBuilder withCcDivisionId(int divisionId) {
+        criteria.setCcCourtDivisionId(divisionId);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withDivisionCode(String divisionCode) {
-        criteria.setCourtDivisionCode(divisionCode);
+    public JudgmentCriteriaBuilder withCcDivisionCode(String divisionCode) {
+        criteria.setCcCourtDivisionCode(divisionCode);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withDivisionName(String divisionName) {
-        criteria.setCourtDivisionName(divisionName);
+    public JudgmentCriteriaBuilder withCcDivisionName(String divisionName) {
+        criteria.setCcCourtDivisionName(divisionName);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withPersonnelType(PersonnelType personnelType) {
-        criteria.setPersonnelType(personnelType);
+    public JudgmentCriteriaBuilder withScPersonnelType(PersonnelType personnelType) {
+        criteria.setScPersonnelType(personnelType);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withChamberId(int chamberId) {
-        criteria.setCourtChamberId(chamberId);
+    public JudgmentCriteriaBuilder withScChamberId(int chamberId) {
+        criteria.setScCourtChamberId(chamberId);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withChamberName(String chamberName) {
-        criteria.setCourtChamberName(chamberName);
+    public JudgmentCriteriaBuilder withScChamberName(String chamberName) {
+        criteria.setScCourtChamberName(chamberName);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withChamberDivisionId(int chamberDivisionId) {
-        criteria.setCourtChamberDivisionId(chamberDivisionId);
+    public JudgmentCriteriaBuilder withScChamberDivisionId(int chamberDivisionId) {
+        criteria.setScCourtChamberDivisionId(chamberDivisionId);
         return this;
     }
     
-    public JudgmentCriteriaBuilder withChamberDivisionName(String chamberDivisionName) {
-        criteria.setCourtChamberDivisionName(chamberDivisionName);
+    public JudgmentCriteriaBuilder withScChamberDivisionName(String chamberDivisionName) {
+        criteria.setScCourtChamberDivisionName(chamberDivisionName);
         return this;
     }
     

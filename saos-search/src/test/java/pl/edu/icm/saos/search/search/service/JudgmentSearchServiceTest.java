@@ -99,40 +99,40 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withCourtType(CourtType.SUPREME).build() },
             { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withCourtType(CourtType.COMMON).build() },
             
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCommonCourtType(CommonCourtType.DISTRICT).build() },
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCommonCourtType(CommonCourtType.APPEAL).build() },
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCcCourtType(CommonCourtType.DISTRICT).build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcCourtType(CommonCourtType.APPEAL).build() },
             
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCourtId(36).build() },
-            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCourtId(37).build() },
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCcCourtId(36).build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCcCourtId(37).build() },
 
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCourtCode("15500000").build() },
-            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCourtCode("15505000").build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcCourtCode("15500000").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCcCourtCode("15505000").build() },
             
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCourtName("Sąd Apelacyjny we Wrocławiu").build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcCourtName("Sąd Apelacyjny we Wrocławiu").build() },
             
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withDivisionId(3).build() },
-            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withDivisionId(4).build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcDivisionId(3).build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCcDivisionId(4).build() },
             
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withDivisionCode("0001521").build() },
-            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withDivisionCode("0001522").build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcDivisionCode("0001521").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCcDivisionCode("0001522").build() },
             
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withDivisionName("III Wydział Pracy i Ubezpieczeń Społecznych").build() },
+            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcDivisionName("III Wydział Pracy i Ubezpieczeń Społecznych").build() },
             
-            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withPersonnelType(PersonnelType.ONE_PERSON).build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withPersonnelType(PersonnelType.JOINED_CHAMBERS).build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScPersonnelType(PersonnelType.ONE_PERSON).build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScPersonnelType(PersonnelType.JOINED_CHAMBERS).build() },
             
-            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withChamberId(13).build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withChamberId(12).build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScChamberId(13).build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScChamberId(12).build() },
             
-            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withChamberName("chamber").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withChamberName("Izba Cywilna").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withChamberName("Izba Pracy").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScChamberName("chamber").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScChamberName("Izba Cywilna").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScChamberName("Izba Pracy").build() },
             
-            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withChamberDivisionId(112).build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withChamberDivisionId(111).build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScChamberDivisionId(112).build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScChamberDivisionId(111).build() },
             
-            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withChamberDivisionName("division").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withChamberDivisionName("Izba Cywilna Wydział III").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScChamberDivisionName("division").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScChamberDivisionName("Izba Cywilna Wydział III").build() },
             
         };
     }
@@ -296,13 +296,13 @@ public class JudgmentSearchServiceTest {
         doc.addField("referencedRegulations", thirdRR);
         
         doc.addField("courtType", "COMMON");
-        doc.addField("commonCourtType", "DISTRICT");
-        doc.addField("courtId", "36");
-        doc.addField("courtCode", "15050505");
-        doc.addField("courtName", "Sąd Rejonowy w Białymstoku");
-        doc.addField("courtDivisionId", "213");
-        doc.addField("courtDivisionCode", "0007506");
-        doc.addField("courtDivisionName", "XV Wydział Karny");
+        doc.addField("ccCourtType", "DISTRICT");
+        doc.addField("ccCourtId", "36");
+        doc.addField("ccCourtCode", "15050505");
+        doc.addField("ccCourtName", "Sąd Rejonowy w Białymstoku");
+        doc.addField("ccCourtDivisionId", "213");
+        doc.addField("ccCourtDivisionCode", "0007506");
+        doc.addField("ccCourtDivisionName", "XV Wydział Karny");
         
         doc.addField("judge", "Marcin Kęska|PRESIDING_JUDGE");
         doc.addField("judgeName", "Marcin Kęska");
@@ -347,13 +347,13 @@ public class JudgmentSearchServiceTest {
         doc.addField("referencedRegulations", fourthRR);
         
         doc.addField("courtType", "COMMON");
-        doc.addField("commonCourtType", "APPEAL");
-        doc.addField("courtId", "1");
-        doc.addField("courtCode", "15500000");
-        doc.addField("courtName", "Sąd Apelacyjny we Wrocławiu");
-        doc.addField("courtDivisionId", "3");
-        doc.addField("courtDivisionCode", "0001521");
-        doc.addField("courtDivisionName", "III Wydział Pracy i Ubezpieczeń Społecznych");
+        doc.addField("ccCourtType", "APPEAL");
+        doc.addField("ccCourtId", "1");
+        doc.addField("ccCourtCode", "15500000");
+        doc.addField("ccCourtName", "Sąd Apelacyjny we Wrocławiu");
+        doc.addField("ccCourtDivisionId", "3");
+        doc.addField("ccCourtDivisionCode", "0001521");
+        doc.addField("ccCourtDivisionName", "III Wydział Pracy i Ubezpieczeń Społecznych");
         
         doc.addField("keyword", "zwrot nienależnie pobranych świadczeń z ubezpieczenia");
         
@@ -373,16 +373,16 @@ public class JudgmentSearchServiceTest {
         
         doc.addField("judgmentType", "RESOLUTION");
         
-        doc.addField("personnelType", "JOINED_CHAMBERS");
+        doc.addField("scPersonnelType", "JOINED_CHAMBERS");
         doc.addField("courtType", "SUPREME");
-        doc.addField("courtChamber", "11|Izba Cywilna");
-        doc.addField("courtChamber", "12|Izba Pracy");
-        doc.addField("courtChamberId", "11");
-        doc.addField("courtChamberName", "Izba Cywilna");
-        doc.addField("courtChamberId", "12");
-        doc.addField("courtChamberName", "Izba Pracy");
-        doc.addField("courtChamberDivisionId", "111");
-        doc.addField("courtChamberDivisionName", "Izba Cywilna Wydział III");
+        doc.addField("scCourtChamber", "11|Izba Cywilna");
+        doc.addField("scCourtChamber", "12|Izba Pracy");
+        doc.addField("scCourtChamberId", "11");
+        doc.addField("scCourtChamberName", "Izba Cywilna");
+        doc.addField("scCourtChamberId", "12");
+        doc.addField("scCourtChamberName", "Izba Pracy");
+        doc.addField("scCourtChamberDivisionId", "111");
+        doc.addField("scCourtChamberDivisionName", "Izba Cywilna Wydział III");
         
         return doc;
     }

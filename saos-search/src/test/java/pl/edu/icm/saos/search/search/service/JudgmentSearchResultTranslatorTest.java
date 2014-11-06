@@ -91,12 +91,12 @@ public class JudgmentSearchResultTranslatorTest {
         SolrDocument doc = new SolrDocument();
         doc.addField("databaseId", 1);
         
-        doc.addField("courtId", 123);
-        doc.addField("courtCode", "15200000");
-        doc.addField("courtName", "Sąd Apelacyjny w Krakowie");
-        doc.addField("courtDivisionId", 816);
-        doc.addField("courtDivisionCode", "0000503");
-        doc.addField("courtDivisionName", "I Wydział Cywilny");
+        doc.addField("ccCourtId", 123);
+        doc.addField("ccCourtCode", "15200000");
+        doc.addField("ccCourtName", "Sąd Apelacyjny w Krakowie");
+        doc.addField("ccCourtDivisionId", 816);
+        doc.addField("ccCourtDivisionCode", "0000503");
+        doc.addField("ccCourtDivisionName", "I Wydział Cywilny");
         
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         
@@ -114,11 +114,11 @@ public class JudgmentSearchResultTranslatorTest {
         SolrDocument doc = new SolrDocument();
         doc.addField("databaseId", 1);
         
-        doc.addField("personnelType", PersonnelType.JOINED_CHAMBERS.name());
-        doc.addField("courtChamber", "11|Izba Cywilna");
-        doc.addField("courtChamber", "12|Izba Pracy");
-        doc.addField("courtChamberDivisionId", 111);
-        doc.addField("courtChamberDivisionName", "Izba Cywilna Wydział III");
+        doc.addField("scPersonnelType", PersonnelType.JOINED_CHAMBERS.name());
+        doc.addField("scCourtChamber", "11|Izba Cywilna");
+        doc.addField("scCourtChamber", "12|Izba Pracy");
+        doc.addField("scCourtChamberDivisionId", 111);
+        doc.addField("scCourtChamberDivisionName", "Izba Cywilna Wydział III");
         
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         

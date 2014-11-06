@@ -17,17 +17,17 @@ public class JudgmentCriteriaFormConverter {
 		judgmentCriteria.setAll(element.getAll());
 		judgmentCriteria.setCaseNumber(element.getSignature());
 		try {
-		    judgmentCriteria.setCourtId(Integer.valueOf(element.getCommonCourtId()));
+		    judgmentCriteria.setCcCourtId(Integer.valueOf(element.getCommonCourtId()));
 		} catch (NumberFormatException e) { }
 		
-		judgmentCriteria.setCourtName(element.getCommonCourtName());
+		judgmentCriteria.setCcCourtName(element.getCommonCourtName());
 		
 		try {
-		    judgmentCriteria.setCourtChamberId(Integer.valueOf(element.getSupremeChamberId()));
+		    judgmentCriteria.setScCourtChamberId(Integer.valueOf(element.getSupremeChamberId()));
 		} catch (NumberFormatException e) { }
 		
 		try {
-		    judgmentCriteria.setCourtChamberDivisionId(Integer.valueOf(element.getSupremeChamberDivisionId()));
+		    judgmentCriteria.setScCourtChamberDivisionId(Integer.valueOf(element.getSupremeChamberDivisionId()));
 		} catch (NumberFormatException e) { }
 		
 		judgmentCriteria.setJudgeName(element.getJudgeName());
