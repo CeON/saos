@@ -43,16 +43,16 @@ public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller<Supre
         SupremeCourtChamberDivision division = judgment.getScChamberDivision();
         if (division != null) {
             fieldAdder.addField(doc, JudgmentIndexField.SC_DIVISION_ID, String.valueOf(division.getId()));
-            fieldAdder.addField(doc, JudgmentIndexField.SC_DIVISION_NAME, null); // TODO fill when it will be available
+            fieldAdder.addField(doc, JudgmentIndexField.SC_DIVISION_NAME, division.getName());
         }
         
         List<SupremeCourtChamber> chambers = judgment.getScChambers();
         if (chambers != null) {
             chambers.forEach(x -> { 
                 fieldAdder.addFieldWithAttributes(doc,
-                        JudgmentIndexField.SC_CHAMBER, String.valueOf(x.getId()), Lists.newArrayList()); // TODO fill when it will be available
+                        JudgmentIndexField.SC_CHAMBER, String.valueOf(x.getId()), Lists.newArrayList(x.getName()));
                 fieldAdder.addField(doc, JudgmentIndexField.SC_CHAMBER_ID, String.valueOf(x.getId()));
-                fieldAdder.addField(doc, JudgmentIndexField.SC_CHAMBER_NAME, null); // TODO fill when it will be available
+                fieldAdder.addField(doc, JudgmentIndexField.SC_CHAMBER_NAME, x.getName());
             });
         }
     }
