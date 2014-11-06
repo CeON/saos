@@ -249,6 +249,23 @@ public class JudgmentSearchServiceTest {
         assertEquals(3, StringUtils.countMatches(result.getContent(), " ... "));
     }
     
+    @Test
+    public void search_CHECK_HIGHLIGHTING_REQUIRED_FIELD_MATCH() {
+        JudgmentCriteria criteria = new JudgmentCriteria("content");
+        criteria.setCourtChamberId(11);
+        
+        SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
+        
+        assertEquals(1, results.getTotalResults());
+        assertEquals(1, results.getResults().size());
+        
+        JudgmentSearchResult result = results.getResults().get(0);
+        assertEquals("21", result.getId());
+        
+        assertTrue(result.getContent().contains("11"));
+        assertFalse(result.getContent().contains("<em>11</em>"));
+    }
+    
     
     //------------------------ PRIVATE --------------------------
     
@@ -378,6 +395,8 @@ public class JudgmentSearchServiceTest {
         doc.addField("courtChamberName", "Izba Pracy");
         doc.addField("courtChamberDivisionId", "111");
         doc.addField("courtChamberDivisionName", "Izba Cywilna Wydział III");
+        
+        doc.addField("content", "someContent 11 content 12 111");
         
         return doc;
     }
