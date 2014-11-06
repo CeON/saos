@@ -38,6 +38,10 @@ public class TestPersistenceObjectsContext {
         return secondDivision.getId();
     }
 
+    public int getScChamberId(){
+        return scChamber.getId();
+    }
+
     public int getScJudgmentId(){
         return scJudgment.getId();
     }

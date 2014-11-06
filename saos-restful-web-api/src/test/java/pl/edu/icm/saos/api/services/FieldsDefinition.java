@@ -238,7 +238,7 @@ public abstract class FieldsDefinition {
 
 
         public static final String SC_CHAMBER_DIVISION_NAME="Wydzial karny I";
-        public static final String SC_CHAMBER_DIVISION_FULL_NAME="Wydzial karny I pełna nazwa";
+        public static final String SC_CHAMBER_DIVISION_FULL_NAME="Wydzial karny I pelna nazwa";
         public static final String SC_CHAMBER_NAME="Izba Cywilna";
         public static final String SC_JUDGMENT_FORM_NAME = "postanowienie SC SN";
 
