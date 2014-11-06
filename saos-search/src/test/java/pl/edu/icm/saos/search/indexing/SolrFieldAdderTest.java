@@ -18,6 +18,9 @@ public class SolrFieldAdderTest {
 
     private SolrFieldAdder<JudgmentIndexField> fieldAdder = new SolrFieldAdder<JudgmentIndexField>();
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     public void addField() {
         SolrInputDocument doc = new SolrInputDocument();
@@ -46,19 +49,21 @@ public class SolrFieldAdderTest {
         assertSingleField(doc, "judgeWithRole_#_PRESIDING_JUDGE", "Jan Kowalski");
     }
     
-    public void addFieldWithAttributes() {
+    @Test
+    public void addCompositeField() {
         SolrInputDocument doc = new SolrInputDocument();
         
-        fieldAdder.addFieldWithAttributes(doc, JudgmentIndexField.JUDGE, "Jan Kowalski",
-                Lists.newArrayList("PRESIDING_JUDGE", "REPORTING_JUDGE"));
+        fieldAdder.addCompositeField(doc, JudgmentIndexField.JUDGE,
+                Lists.newArrayList("Jan Kowalski", "PRESIDING_JUDGE", "REPORTING_JUDGE"));
         
         assertSingleField(doc, "judge", "Jan Kowalski|PRESIDING_JUDGE|REPORTING_JUDGE");
     }
     
-    public void addFieldWithAttributes_NO_ATTRIBUTES() {
+    @Test
+    public void addCompositeField_SINGLE() {
         SolrInputDocument doc = new SolrInputDocument();
         
-        fieldAdder.addFieldWithAttributes(doc, JudgmentIndexField.JUDGE, "Jan Kowalski", Lists.newArrayList());
+        fieldAdder.addCompositeField(doc, JudgmentIndexField.JUDGE, Lists.newArrayList("Jan Kowalski"));
         
         assertSingleField(doc, "judge", "Jan Kowalski");
     }

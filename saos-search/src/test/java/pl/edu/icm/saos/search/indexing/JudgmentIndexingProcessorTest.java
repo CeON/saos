@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -38,10 +40,13 @@ public class JudgmentIndexingProcessorTest {
     @Before
     public void setUp() {
         judgmentIndexingProcessor.setJudgmentRepository(judgmentRepository);
-        judgmentIndexingProcessor.setCcJudgmentIndexFieldsFiller(ccJudgmentIndexFieldsFiller);
-        judgmentIndexingProcessor.setScJudgmentIndexFieldsFiller(scJudgmentIndexFieldsFiller);
-        judgmentIndexingProcessor.init();
+        doCallRealMethod().when(ccJudgmentIndexFieldsFiller).isApplicable(any());
+        doCallRealMethod().when(scJudgmentIndexFieldsFiller).isApplicable(any());
+        judgmentIndexingProcessor.setJudgmentIndexFieldsFillers(Lists.newArrayList(ccJudgmentIndexFieldsFiller, scJudgmentIndexFieldsFiller));
     }
+    
+    
+    //------------------------ LOGIC --------------------------
     
     @Test
     public void process_SUPREME_COURT_JUDGMENT() throws Exception {
@@ -51,7 +56,7 @@ public class JudgmentIndexingProcessorTest {
         
         judgmentIndexingProcessor.process(judgment);
         
-        ArgumentCaptor<SupremeCourtJudgment> argCaptureForFill = ArgumentCaptor.forClass(SupremeCourtJudgment.class);
+        ArgumentCaptor<Judgment> argCaptureForFill = ArgumentCaptor.forClass(Judgment.class);
         verify(scJudgmentIndexFieldsFiller, times(1)).fillFields(any(SolrInputDocument.class), argCaptureForFill.capture());
         assertEquals(5, argCaptureForFill.getValue().getId());
         

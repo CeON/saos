@@ -23,11 +23,11 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getAll(), judgmentCriteria.getAll());
 		assertEquals(judgmentCriteriaForm.getSignature(), judgmentCriteria.getCaseNumber());
 
-		assertEquals(Integer.valueOf(judgmentCriteriaForm.getCommonCourtId()), judgmentCriteria.getCourtId());
-		assertEquals(judgmentCriteriaForm.getCommonCourtName(), judgmentCriteria.getCourtName());
+		assertEquals(Integer.valueOf(judgmentCriteriaForm.getCommonCourtId()), judgmentCriteria.getCcCourtId());
+		assertEquals(judgmentCriteriaForm.getCommonCourtName(), judgmentCriteria.getCcCourtName());
 		
-		assertEquals(Integer.valueOf(judgmentCriteriaForm.getSupremeChamberId()), judgmentCriteria.getCourtChamberId());
-		assertEquals(Integer.valueOf(judgmentCriteriaForm.getSupremeChamberDivisionId()), judgmentCriteria.getCourtChamberDivisionId());
+		assertEquals(Integer.valueOf(judgmentCriteriaForm.getSupremeChamberId()), judgmentCriteria.getScCourtChamberId());
+		assertEquals(Integer.valueOf(judgmentCriteriaForm.getSupremeChamberDivisionId()), judgmentCriteria.getScCourtChamberDivisionId());
 		
 		assertEquals(judgmentCriteriaForm.getJudgeName(), judgmentCriteria.getJudgeName());
 		assertEquals(judgmentCriteriaForm.getKeyword(), judgmentCriteria.getKeyword());

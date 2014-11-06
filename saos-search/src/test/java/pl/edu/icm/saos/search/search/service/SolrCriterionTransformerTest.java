@@ -5,8 +5,8 @@ import static junit.framework.Assert.assertEquals;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
-import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+import pl.edu.icm.saos.search.search.model.CourtType;
 
 /**
  * @author madryk
@@ -25,16 +25,16 @@ public class SolrCriterionTransformerTest {
     
     @Test
     public void transformCriterion_INT() {
-        String actual = criterionTransformer.transformCriterion(JudgmentIndexField.COURT_ID, 12);
+        String actual = criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_ID, 12);
         
-        assertEquals("+courtId:12", actual);
+        assertEquals("+ccCourtId:12", actual);
     }
     
     @Test
     public void transformCriterion_ENUM() {
-        String actual = criterionTransformer.transformCriterion(JudgmentIndexField.COURT_TYPE, CommonCourtType.DISTRICT);
+        String actual = criterionTransformer.transformCriterion(JudgmentIndexField.COURT_TYPE, CourtType.SUPREME);
         
-        assertEquals("+courtType:DISTRICT", actual);
+        assertEquals("+courtType:SUPREME", actual);
     }
     
     @Test

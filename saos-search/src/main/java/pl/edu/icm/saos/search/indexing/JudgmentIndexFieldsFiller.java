@@ -2,7 +2,6 @@ package pl.edu.icm.saos.search.indexing;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +13,19 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
-public class JudgmentIndexFieldsFiller<J extends Judgment> {
+import com.google.common.collect.Lists;
+
+public abstract class JudgmentIndexFieldsFiller {
 
     protected SolrFieldAdder<JudgmentIndexField> fieldAdder;
     
     
-    public void fillFields(SolrInputDocument doc, J judgment) {
+    //------------------------ LOGIC --------------------------
+    
+    public abstract boolean isApplicable(Class<? extends Judgment> judgmentClass);
+    
+    
+    public void fillFields(SolrInputDocument doc, Judgment judgment) {
         fillIds(doc, judgment);
         fillCourtCases(doc, judgment);
         fillJudges(doc, judgment);
@@ -35,7 +41,7 @@ public class JudgmentIndexFieldsFiller<J extends Judgment> {
     
     private void fillIds(SolrInputDocument doc, Judgment item) {
         fieldAdder.addField(doc, JudgmentIndexField.ID, UUID.randomUUID().toString());
-        fieldAdder.addField(doc, JudgmentIndexField.DATABASE_ID, String.valueOf(item.getId()));
+        fieldAdder.addField(doc, JudgmentIndexField.DATABASE_ID, item.getId());
     }
     
     private void fillCourtCases(SolrInputDocument doc, Judgment item) {
@@ -49,8 +55,9 @@ public class JudgmentIndexFieldsFiller<J extends Judgment> {
         for (Judge judge : item.getJudges()) {
             List<JudgeRole> roles = judge.getSpecialRoles();
             
-            fieldAdder.addFieldWithAttributes(doc, JudgmentIndexField.JUDGE, judge.getName(),
-                    roles.stream().map(JudgeRole::name).collect(Collectors.toList()));
+            List<String> judgeCompositeField = Lists.newArrayList(judge.getName());
+            roles.stream().map(JudgeRole::name).forEach(judgeCompositeField::add);
+            fieldAdder.addCompositeField(doc, JudgmentIndexField.JUDGE, judgeCompositeField);
             fieldAdder.addField(doc, JudgmentIndexField.JUDGE_NAME, judge.getName());
             if (roles.isEmpty()) {
                 fieldAdder.addField(doc, JudgmentIndexField.JUDGE_WITH_ROLE, "NO_ROLE", judge.getName());

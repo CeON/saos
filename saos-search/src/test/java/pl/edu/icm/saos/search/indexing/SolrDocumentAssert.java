@@ -13,6 +13,9 @@ public class SolrDocumentAssert {
 
     private SolrDocumentAssert() { }
     
+    
+    //------------------------ LOGIC --------------------------
+    
     public static void assertNoFields(SolrInputDocument doc) {
         Collection<String> fieldNames = doc.getFieldNames();
         
@@ -37,11 +40,21 @@ public class SolrDocumentAssert {
         assertEquals(fieldValue, field.getValue());
     }
     
-    public static void assertFieldValues(SolrInputDocument doc, String fieldName, Collection<String> fieldValues) {
-        assertFieldValues(doc, fieldName, fieldValues.toArray(new String[] { }));
+    public static void assertFieldValues(SolrInputDocument doc, SolrInputField expectedValues) {
+        String expectedFieldName = expectedValues.getName();
+        Collection<String> fieldNames = doc.getFieldNames();
+        
+        assertTrue("Document doesn't contain field with name " + expectedFieldName, fieldNames.contains(expectedFieldName));
+        
+        SolrInputField field = doc.getField(expectedFieldName);
+        assertEquals(expectedValues.getValueCount(), field.getValueCount());
+        Collection<Object> values = field.getValues();
+        for (Object expectedVal : expectedValues.getValues()) {
+            assertTrue("Field with name " + expectedFieldName + " doesn't contain value " + expectedVal, values.contains(expectedVal));
+        }
     }
     
-    public static void assertFieldValues(SolrInputDocument doc, String fieldName, String ... fieldValues) {
+    public static void assertFieldValues(SolrInputDocument doc, String fieldName, Object ... fieldValues) {
         Collection<String> fieldNames = doc.getFieldNames();
         
         assertTrue("Document doesn't contain field with name " + fieldName, fieldNames.contains(fieldName));
@@ -49,7 +62,7 @@ public class SolrDocumentAssert {
         SolrInputField field = doc.getField(fieldName);
         assertEquals(fieldValues.length, field.getValueCount());
         Collection<Object> values = field.getValues();
-        for (String expectedVal : fieldValues) {
+        for (Object expectedVal : fieldValues) {
             assertTrue("Field with name " + fieldName + " doesn't contain value " + expectedVal, values.contains(expectedVal));
         }
     }

@@ -2,10 +2,11 @@ package pl.edu.icm.saos.search.indexing;
 
 import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.SolrInputField;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +17,6 @@ import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.search.StringListMap;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 import com.google.common.collect.Lists;
@@ -36,15 +36,15 @@ public class CcJudgmentIndexFieldsFillerTest {
     
     @DataProvider
     public static Object[][] ccJudgmentsFieldsData() {
+        SolrInputFieldFactory fieldFactory = new SolrInputFieldFactory();
         
         // basic
         CommonCourtJudgment basicJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
                 .textContent("some content")
                 .build();
-        Map<String, List<String>> basicFields = StringListMap.of(new String[][] {
-                { "databaseId", "1" },
-                { "content", "some content" }
-        });
+        List<SolrInputField> basicFields = Lists.newArrayList(
+                fieldFactory.create("databaseId", 1),
+                fieldFactory.create("content", "some content"));
         
         
         // keywords
@@ -53,9 +53,8 @@ public class CcJudgmentIndexFieldsFillerTest {
         CommonCourtJudgment keywordsJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
                 .keywords(Lists.newArrayList(firstKeyword, secondKeyword))
                 .build();
-        Map<String, List<String>> keywordsFields = StringListMap.of(new String[][] {
-                { "keyword", "some keyword", "some other keyword" },
-        });
+        List<SolrInputField> keywordsFields = Collections.singletonList(
+                fieldFactory.create("keyword", "some keyword", "some other keyword"));
         
         
         // common court
@@ -72,15 +71,15 @@ public class CcJudgmentIndexFieldsFillerTest {
         CommonCourtJudgment commonCourtJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
                 .division(commonCourtDivision)
                 .build();
-        Map<String, List<String>> commonCourtFields = StringListMap.of(new String[][] {
-                { "courtType", "COMMON", "APPEAL" },
-                { "courtId", "123" },
-                { "courtCode", "15200000" },
-                { "courtName", "Sąd Apelacyjny w Krakowie" },
-                { "courtDivisionId", "816" },
-                { "courtDivisionCode", "0000503" },
-                { "courtDivisionName", "I Wydział Cywilny" },
-        });
+        List<SolrInputField> commonCourtFields = Lists.newArrayList(
+                fieldFactory.create("courtType", "COMMON"),
+                fieldFactory.create("ccCourtType", "APPEAL"),
+                fieldFactory.create("ccCourtId", 123),
+                fieldFactory.create("ccCourtCode", "15200000"),
+                fieldFactory.create("ccCourtName", "Sąd Apelacyjny w Krakowie"),
+                fieldFactory.create("ccCourtDivisionId", 816),
+                fieldFactory.create("ccCourtDivisionCode", "0000503"),
+                fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"));
         
         
         return new Object[][] {
@@ -95,13 +94,16 @@ public class CcJudgmentIndexFieldsFillerTest {
         ccJudgmentIndexingProcessor.setFieldAdder(fieldAdder);
     }
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     @UseDataProvider("ccJudgmentsFieldsData")
-    public void fillFields(CommonCourtJudgment givenJudgment, Map<String, List<String>> expectedFields) {
+    public void fillFields(CommonCourtJudgment givenJudgment, List<SolrInputField> expectedFields) {
         SolrInputDocument doc = new SolrInputDocument();
         ccJudgmentIndexingProcessor.fillFields(doc, givenJudgment);
         
-        expectedFields.forEach((fieldName, fieldValues) -> assertFieldValues(doc, fieldName, fieldValues)); 
+        expectedFields.forEach(expectedField -> assertFieldValues(doc, expectedField)); 
     }
 
 }

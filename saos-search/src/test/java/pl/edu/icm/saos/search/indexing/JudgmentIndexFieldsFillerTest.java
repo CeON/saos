@@ -1,11 +1,15 @@
 package pl.edu.icm.saos.search.indexing;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.mock;
 import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
 
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.solr.common.SolrInputDocument;
+import org.apache.solr.common.SolrInputField;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +22,6 @@ import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.search.StringListMap;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 import com.google.common.collect.Lists;
@@ -32,19 +35,19 @@ import com.tngtech.java.junit.dataprovider.UseDataProvider;
 @RunWith(DataProviderRunner.class)
 public class JudgmentIndexFieldsFillerTest {
 
-    private JudgmentIndexFieldsFiller<Judgment> judgmentIndexFieldsFiller = new JudgmentIndexFieldsFiller<Judgment>();
+    private JudgmentIndexFieldsFiller judgmentIndexFieldsFiller = mock(JudgmentIndexFieldsFiller.class);
     
     private SolrFieldAdder<JudgmentIndexField> fieldAdder = new SolrFieldAdder<JudgmentIndexField>();
     
 
     @DataProvider
     public static Object[][] judgmentsFieldsData() {
+        SolrInputFieldFactory fieldFactory = new SolrInputFieldFactory();
 
         // simple
         Judgment simpleJudgment = BuildersFactory.commonCourtJudgmentWrapper(1).build();
-        Map<String, List<String>> simpleFields = StringListMap.of(new String[][] {
-                { "databaseId", "1" }
-        });
+        List<SolrInputField> simpleFields = Collections.singletonList(
+                fieldFactory.create("databaseId", 1));
         
         
         // court case
@@ -53,9 +56,8 @@ public class JudgmentIndexFieldsFillerTest {
         Judgment signatureJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
                 .courtCases(Lists.newArrayList(firstCourtCase, secondCourtCase))
                 .build();
-        Map<String, List<String>> signatureFields = StringListMap.of(new String[][] {
-                { "caseNumber", "ABC1A", "CAA2BA" }
-        });
+        List<SolrInputField> signatureFields = Collections.singletonList(
+                fieldFactory.create("caseNumber", "ABC1A", "CAA2BA"));
         
         
         // judges
@@ -65,22 +67,20 @@ public class JudgmentIndexFieldsFillerTest {
         Judgment judgesJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
                 .judges(Lists.newArrayList(firstJudge, secondJudge, thirdJudge))
                 .build();
-        Map<String, List<String>> judgesFields = StringListMap.of(new String[][] {
-                { "judge", "Jan Kowalski|PRESIDING_JUDGE|REPORTING_JUDGE", "Jacek Zieliński|REPORTING_JUDGE", "Adam Nowak" },
-                { "judgeName", "Jan Kowalski", "Jacek Zieliński", "Adam Nowak" },
-                { "judgeWithRole_#_PRESIDING_JUDGE", "Jan Kowalski" },
-                { "judgeWithRole_#_REPORTING_JUDGE", "Jan Kowalski", "Jacek Zieliński" },
-                { "judgeWithRole_#_NO_ROLE", "Adam Nowak" }
-        });
+        List<SolrInputField> judgesFields = Lists.newArrayList(
+                fieldFactory.create("judge", "Jan Kowalski|PRESIDING_JUDGE|REPORTING_JUDGE", "Jacek Zieliński|REPORTING_JUDGE", "Adam Nowak"),
+                fieldFactory.create("judgeName", "Jan Kowalski", "Jacek Zieliński", "Adam Nowak"),
+                fieldFactory.create("judgeWithRole_#_PRESIDING_JUDGE", "Jan Kowalski"),
+                fieldFactory.create("judgeWithRole_#_REPORTING_JUDGE", "Jan Kowalski", "Jacek Zieliński"),
+                fieldFactory.create("judgeWithRole_#_NO_ROLE", "Adam Nowak"));
         
         
         // legal bases
         Judgment legalBasesJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
                 .legalBases(Lists.newArrayList("art 1203 kc", "art 1204 kc"))
                 .build();
-        Map<String, List<String>> legalBasesFields = StringListMap.of(new String[][] {
-                { "legalBases", "art 1203 kc", "art 1204 kc" }
-        });
+        List<SolrInputField> legalBasesFields = Collections.singletonList(
+                fieldFactory.create("legalBases", "art 1203 kc", "art 1204 kc"));
         
         
         // referenced regulations
@@ -94,36 +94,32 @@ public class JudgmentIndexFieldsFillerTest {
         referencedRegulationsJudgment.addReferencedRegulation(firstReferencedRegulation);
         referencedRegulationsJudgment.addReferencedRegulation(secondReferencedRegulation);
         
-        Map<String, List<String>> referencedRegulationsFields = StringListMap.of(new String[][] {
-                { "referencedRegulations", "Ustawa 1", "Ustawa 2" }
-        });
+        List<SolrInputField> referencedRegulationsFields = Collections.singletonList(
+                fieldFactory.create("referencedRegulations", "Ustawa 1", "Ustawa 2"));
         
         
         // judgment type
         Judgment typeJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
                 .judgmentType(JudgmentType.SENTENCE)
                 .build();
-        Map<String, List<String>> typeFields = StringListMap.of(new String[][] {
-                { "judgmentType", "SENTENCE" } 
-        });
+        List<SolrInputField> typeFields = Collections.singletonList(
+                fieldFactory.create("judgmentType", "SENTENCE"));
         
         
         // judgment date
         Judgment dateJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
                 .judgmentDate(new LocalDate(2014, 9, 4))
                 .build();
-        Map<String, List<String>> dateFields = StringListMap.of(new String[][] {
-                { "judgmentDate", "2014-09-04T00:00:00Z" }
-        });
+        List<SolrInputField> dateFields = Collections.singletonList(
+                fieldFactory.create("judgmentDate", "2014-09-04T00:00:00Z"));
         
         
         // text content
         Judgment contentJudgment = BuildersFactory.commonCourtJudgmentWrapper(1)
                 .textContent("some content")
                 .build();
-        Map<String, List<String>> contentFields = StringListMap.of(new String[][] {
-                { "content", "some content" }
-        });
+        List<SolrInputField> contentFields = Collections.singletonList(
+                fieldFactory.create("content", "some content"));
         
         
         return new Object[][] {
@@ -146,35 +142,40 @@ public class JudgmentIndexFieldsFillerTest {
                     .textContent("some content")
                     .build(),
 
-                StringListMap.of(new String[][] {
-                    {"databaseId", "1"},
-                    {"caseNumber", "ABC1A"},
-                    {"judge", "Adam Nowak"},
-                    {"judgeName", "Adam Nowak"},
-                    {"judgeWithRole_#_NO_ROLE", "Adam Nowak"},
-                    {"legalBases", "art 1023 kc"},
-                    {"referencedRegulations", "Ustawa 1"},
-                    {"judgmentDate", "2014-09-04T00:00:00Z"},
-                    {"judgmentType", "SENTENCE"},
-                    {"content", "some content"},
+                Lists.newArrayList(
+                    fieldFactory.create("databaseId", 1),
+                    fieldFactory.create("caseNumber", "ABC1A"),
+                    fieldFactory.create("judge", "Adam Nowak"),
+                    fieldFactory.create("judgeName", "Adam Nowak"),
+                    fieldFactory.create("judgeWithRole_#_NO_ROLE", "Adam Nowak"),
+                    fieldFactory.create("legalBases", "art 1023 kc"),
+                    fieldFactory.create("referencedRegulations", "Ustawa 1"),
+                    fieldFactory.create("judgmentDate", "2014-09-04T00:00:00Z"),
+                    fieldFactory.create("judgmentType", "SENTENCE"),
+                    fieldFactory.create("content", "some content")
                     
-                })
+                )
             }
         };
     }
     
     @Before
     public void setUp() {
+        doCallRealMethod().when(judgmentIndexFieldsFiller).fillFields(any(), any());
+        doCallRealMethod().when(judgmentIndexFieldsFiller).setFieldAdder(any());
         judgmentIndexFieldsFiller.setFieldAdder(fieldAdder);
     }
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     @UseDataProvider("judgmentsFieldsData")
-    public void fillFields(Judgment givenJudgment, Map<String, List<String>> expectedFields) {
+    public void fillFields(Judgment givenJudgment, List<SolrInputField> expectedFields) {
         SolrInputDocument doc = new SolrInputDocument();
         judgmentIndexFieldsFiller.fillFields(doc, givenJudgment);
         
-        expectedFields.forEach((fieldName, fieldValues) -> assertFieldValues(doc, fieldName, fieldValues)); 
+        expectedFields.forEach(expectedField -> assertFieldValues(doc, expectedField));
     }
 
 }

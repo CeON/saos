@@ -1,11 +1,14 @@
 package pl.edu.icm.saos.search.search.model;
 
-import com.google.common.base.Objects;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.LocalDate;
+
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+
+import com.google.common.base.Objects;
 
 /**
  * Criteria for searching judgments
@@ -23,19 +26,20 @@ public class JudgmentCriteria extends Criteria {
     
     private CourtType courtType;
     
-    private Integer courtId;
-    private String courtCode;
-    private String courtName;
+    private CommonCourtType ccCourtType;
+    private Integer ccCourtId;
+    private String ccCourtCode;
+    private String ccCourtName;
     
-    private Integer courtDivisionId;
-    private String courtDivisionCode;
-    private String courtDivisionName;
+    private Integer ccCourtDivisionId;
+    private String ccCourtDivisionCode;
+    private String ccCourtDivisionName;
     
-    private PersonnelType personnelType;
-    private Integer courtChamberId;
-    private String courtChamberName;
-    private Integer courtChamberDivisionId;
-    private String courtChamberDivisionName;
+    private PersonnelType scPersonnelType;
+    private Integer scCourtChamberId;
+    private String scCourtChamberName;
+    private Integer scCourtChamberDivisionId;
+    private String scCourtChamberDivisionName;
     
     private JudgmentType judgmentType;
     
@@ -69,38 +73,41 @@ public class JudgmentCriteria extends Criteria {
     public CourtType getCourtType() {
         return courtType;
     }
-    public Integer getCourtId() {
-        return courtId;
+    public CommonCourtType getCcCourtType() {
+        return ccCourtType;
     }
-    public String getCourtCode() {
-        return courtCode;
+    public Integer getCcCourtId() {
+        return ccCourtId;
     }
-    public String getCourtName() {
-        return courtName;
+    public String getCcCourtCode() {
+        return ccCourtCode;
     }
-    public Integer getCourtDivisionId() {
-        return courtDivisionId;
+    public String getCcCourtName() {
+        return ccCourtName;
+    }
+    public Integer getCcCourtDivisionId() {
+        return ccCourtDivisionId;
     }    
-    public String getCourtDivisionCode() {
-        return courtDivisionCode;
+    public String getCcCourtDivisionCode() {
+        return ccCourtDivisionCode;
     }    
-    public String getCourtDivisionName() {
-        return courtDivisionName;
+    public String getCcCourtDivisionName() {
+        return ccCourtDivisionName;
     }
-    public PersonnelType getPersonnelType() {
-        return personnelType;
+    public PersonnelType getScPersonnelType() {
+        return scPersonnelType;
     }
-    public Integer getCourtChamberId() {
-        return courtChamberId;
+    public Integer getScCourtChamberId() {
+        return scCourtChamberId;
     }
-    public String getCourtChamberName() {
-        return courtChamberName;
+    public String getScCourtChamberName() {
+        return scCourtChamberName;
     }
-    public Integer getCourtChamberDivisionId() {
-        return courtChamberDivisionId;
+    public Integer getScCourtChamberDivisionId() {
+        return scCourtChamberDivisionId;
     }
-    public String getCourtChamberDivisionName() {
-        return courtChamberDivisionName;
+    public String getScCourtChamberDivisionName() {
+        return scCourtChamberDivisionName;
     }
     public JudgmentType getJudgmentType() {
         return judgmentType;
@@ -140,40 +147,43 @@ public class JudgmentCriteria extends Criteria {
     public void setCourtType(CourtType courtType) {
         this.courtType = courtType;
     }
-    public JudgmentCriteria setCourtId(Integer courtId) {
-        this.courtId = courtId;
+    public void setCcCourtType(CommonCourtType commonCourtType) {
+        this.ccCourtType = commonCourtType;
+    }
+    public JudgmentCriteria setCcCourtId(Integer courtId) {
+        this.ccCourtId = courtId;
         return this;
     }
-    public void setCourtCode(String courtCode) {
-        this.courtCode = courtCode;
+    public void setCcCourtCode(String courtCode) {
+        this.ccCourtCode = courtCode;
     }
-    public JudgmentCriteria setCourtName(String courtName) {
-        this.courtName = courtName;
+    public JudgmentCriteria setCcCourtName(String courtName) {
+        this.ccCourtName = courtName;
         return this;
     }
-    public void setCourtDivisionId(Integer courtDivisionId) {
-        this.courtDivisionId = courtDivisionId;
+    public void setCcCourtDivisionId(Integer courtDivisionId) {
+        this.ccCourtDivisionId = courtDivisionId;
     }
-    public void setCourtDivisionCode(String courtDivisionCode) {
-        this.courtDivisionCode = courtDivisionCode;
+    public void setCcCourtDivisionCode(String courtDivisionCode) {
+        this.ccCourtDivisionCode = courtDivisionCode;
     }
-    public void setCourtDivisionName(String courtDivisionName) {
-        this.courtDivisionName = courtDivisionName;
+    public void setCcCourtDivisionName(String courtDivisionName) {
+        this.ccCourtDivisionName = courtDivisionName;
     }
-    public void setPersonnelType(PersonnelType personnelType) {
-        this.personnelType = personnelType;
+    public void setScPersonnelType(PersonnelType personnelType) {
+        this.scPersonnelType = personnelType;
     }
-    public void setCourtChamberId(Integer courtChamberId) {
-        this.courtChamberId = courtChamberId;
+    public void setScCourtChamberId(Integer courtChamberId) {
+        this.scCourtChamberId = courtChamberId;
     }
-    public void setCourtChamberName(String courtChamberName) {
-        this.courtChamberName = courtChamberName;
+    public void setScCourtChamberName(String courtChamberName) {
+        this.scCourtChamberName = courtChamberName;
     }
-    public void setCourtChamberDivisionId(Integer courtChamberDivisionId) {
-        this.courtChamberDivisionId = courtChamberDivisionId;
+    public void setScCourtChamberDivisionId(Integer courtChamberDivisionId) {
+        this.scCourtChamberDivisionId = courtChamberDivisionId;
     }
-    public void setCourtChamberDivisionName(String courtChamberDivisionName) {
-        this.courtChamberDivisionName = courtChamberDivisionName;
+    public void setScCourtChamberDivisionName(String courtChamberDivisionName) {
+        this.scCourtChamberDivisionName = courtChamberDivisionName;
     }
     public void setJudgmentType(JudgmentType judgmentType) {
         this.judgmentType = judgmentType;
@@ -200,10 +210,10 @@ public class JudgmentCriteria extends Criteria {
     @Override
     public int hashCode() {
         return Objects.hashCode(all, caseNumber, dateFrom, dateTo,
-                courtType, courtId, courtCode, courtName,
-                courtDivisionId, courtDivisionCode, courtDivisionName,
-                personnelType, courtChamberId, courtChamberName, courtChamberDivisionId,
-                courtChamberDivisionName, judgmentType, judgeName, keyword,
+                courtType, ccCourtId, ccCourtCode, ccCourtName,
+                ccCourtDivisionId, ccCourtDivisionCode, ccCourtDivisionName,
+                scPersonnelType, scCourtChamberId, scCourtChamberName, scCourtChamberDivisionId,
+                scCourtChamberDivisionName, judgmentType, judgeName, keyword,
                 legalBase, referencedRegulation);
     }
 
@@ -221,17 +231,17 @@ public class JudgmentCriteria extends Criteria {
                 Objects.equal(this.dateFrom, other.dateFrom) &&
                 Objects.equal(this.dateTo, other.dateTo) &&
                 Objects.equal(this.courtType, other.courtType) &&
-                Objects.equal(this.courtId, other.courtId) &&
-                Objects.equal(this.courtCode, other.courtCode) &&
-                Objects.equal(this.courtName, other.courtName) &&
-                Objects.equal(this.courtDivisionId, other.courtDivisionId) &&
-                Objects.equal(this.courtDivisionCode, other.courtDivisionCode) &&
-                Objects.equal(this.courtDivisionName, other.courtDivisionName) &&
-                Objects.equal(this.personnelType, other.personnelType) &&
-                Objects.equal(this.courtChamberId, other.courtChamberId) &&
-                Objects.equal(this.courtChamberName, other.courtChamberName) &&
-                Objects.equal(this.courtChamberDivisionId, other.courtChamberDivisionId) &&
-                Objects.equal(this.courtChamberDivisionName, other.courtChamberDivisionName) &&
+                Objects.equal(this.ccCourtId, other.ccCourtId) &&
+                Objects.equal(this.ccCourtCode, other.ccCourtCode) &&
+                Objects.equal(this.ccCourtName, other.ccCourtName) &&
+                Objects.equal(this.ccCourtDivisionId, other.ccCourtDivisionId) &&
+                Objects.equal(this.ccCourtDivisionCode, other.ccCourtDivisionCode) &&
+                Objects.equal(this.ccCourtDivisionName, other.ccCourtDivisionName) &&
+                Objects.equal(this.scPersonnelType, other.scPersonnelType) &&
+                Objects.equal(this.scCourtChamberId, other.scCourtChamberId) &&
+                Objects.equal(this.scCourtChamberName, other.scCourtChamberName) &&
+                Objects.equal(this.scCourtChamberDivisionId, other.scCourtChamberDivisionId) &&
+                Objects.equal(this.scCourtChamberDivisionName, other.scCourtChamberDivisionName) &&
                 Objects.equal(this.judgmentType, other.judgmentType) &&
                 Objects.equal(this.judgeName, other.judgeName) &&
                 Objects.equal(this.keyword, other.keyword) &&

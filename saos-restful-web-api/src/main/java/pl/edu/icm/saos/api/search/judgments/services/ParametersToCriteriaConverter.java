@@ -27,7 +27,7 @@ public class ParametersToCriteriaConverter {
         JudgmentCriteria criteria = new JudgmentCriteria();
 
         criteria.setAll(params.getAll());
-        criteria.setCourtName(params.getCourtName());
+        criteria.setCcCourtName(params.getCourtName());
         criteria.setReferencedRegulation(params.getReferencedRegulation());
         criteria.setJudgeName(params.getJudgeName());
         criteria.setLegalBase(params.getLegalBase());

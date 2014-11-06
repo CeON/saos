@@ -27,6 +27,9 @@ import pl.edu.icm.saos.search.config.model.IndexFieldsConstants;
 @Service
 public class SolrFieldFetcher<F extends IndexField> {
 
+    
+    //------------------------ LOGIC --------------------------
+    
     public String fetchValue(SolrDocument doc, F field) {
         Object value = doc.getFirstValue(field.getFieldName());
         if (value == null) {
@@ -40,7 +43,7 @@ public class SolrFieldFetcher<F extends IndexField> {
         if (value == null) {
             return null;
         }
-        return Integer.valueOf((String) value);
+        return (Integer) value;
     }
 
     public LocalDate fetchDateValue(SolrDocument doc, F field) {

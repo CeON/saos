@@ -65,7 +65,7 @@
      installations. See the <uniqueKey> declaration below where <uniqueKey> is set to "id".
    -->   
    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
-   <field name="databaseId" type="string" indexed="true" stored="true" required="true" multiValued="false" />
+   <field name="databaseId" type="int" indexed="true" stored="true" required="true" multiValued="false" />
    <field name="caseNumber" type="text_keyword" indexed="true" stored="true" multiValued="false" />
    
    <field name="title" type="text_general" indexed="true" stored="true"/>
@@ -77,19 +77,20 @@
    
    <field name="courtType" type="string" indexed="true" stored="true" multiValued="true" />
    
-   <field name="courtId" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="courtCode" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="courtName" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="courtDivisionId" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="courtDivisionCode" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="courtDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ccCourtType" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ccCourtId" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="ccCourtCode" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ccCourtName" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ccCourtDivisionId" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="ccCourtDivisionCode" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ccCourtDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
    
-   <field name="personnelType" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="courtChamber" type="string" indexed="false" stored="true" multiValued="true" />
-   <field name="courtChamberId" type="string" indexed="true" stored="true" multiValued="true" />
-   <field name="courtChamberName" type="string" indexed="true" stored="true" multiValued="true" />
-   <field name="courtChamberDivisionId" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="courtChamberDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="scPersonnelType" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="scCourtChamber" type="string" indexed="false" stored="true" multiValued="true" />
+   <field name="scCourtChamberId" type="int" indexed="true" stored="true" multiValued="true" />
+   <field name="scCourtChamberName" type="string" indexed="true" stored="true" multiValued="true" />
+   <field name="scCourtChamberDivisionId" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="scCourtChamberDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
    
    <field name="judge" type="string" indexed="false" stored="true" multiValued="true" />
    <field name="judgeName" type="text_general" indexed="true" stored="true" multiValued="true" />
@@ -111,6 +112,7 @@
  
     <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+    <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
     <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
     <fieldType name="tdate" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0"/>
 

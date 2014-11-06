@@ -5,17 +5,22 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 
 /**
  * Simplified {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamber SupremeCourtChamber} creation.
- * Do not use it in conjugation with persistence's repositories.
  * @author madryk
  */
 public class SupremeCourtChamberBuilder {
 
     private SupremeCourtChamber element;
     
+    
+    //------------------------ CONSTRUCTORS --------------------------
+    
     public SupremeCourtChamberBuilder(int id) {
         element = new SpecialSupremeCourtChamber(id);
         
     }
+    
+    
+    //------------------------ LOGIC --------------------------
     
     public SupremeCourtChamberBuilder division(SupremeCourtChamberDivision division) {
         element.addDivision(division);
@@ -30,6 +35,11 @@ public class SupremeCourtChamberBuilder {
     public SupremeCourtChamber build() {
         return element;
     }
+    
+    
+    //-----------------------------------------------------------------
+    //------------------------ Inner classes --------------------------
+    //-----------------------------------------------------------------
     
     private static class SpecialSupremeCourtChamber extends SupremeCourtChamber {
         private SpecialSupremeCourtChamber(int id) {

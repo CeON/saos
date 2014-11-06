@@ -65,7 +65,7 @@ class ParametersToCriteriaConverterTest extends Specification {
         then:
             JudgmentCriteria expected = new JudgmentCriteria();
             expected.setAll(all)
-            expected.setCourtName(courtName)
+            expected.setCcCourtName(courtName)
             expected.setReferencedRegulation(referencedRegulation)
             expected.setJudgeName(judgeName)
             expected.setLegalBase(legalBases)

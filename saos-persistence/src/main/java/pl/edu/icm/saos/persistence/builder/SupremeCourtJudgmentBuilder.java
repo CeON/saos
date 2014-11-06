@@ -7,16 +7,21 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
 /**
  * Simplified {@link pl.edu.icm.saos.persistence.model.SupremeCourtJudgment SupremeCourtJudgment} creation.
- * Do not use it in conjugation with persistence's repositories.
  * @author madryk
  */
 public class SupremeCourtJudgmentBuilder {
 
     private SupremeCourtJudgment element;
     
+    
+    //------------------------ CONSTRUCTORS --------------------------
+    
     SupremeCourtJudgmentBuilder(int id){
         element = new SpecialSupremeCourtJudgment(id);
     }
+    
+    
+    //------------------------ LOGIC --------------------------
     
     public SupremeCourtJudgmentBuilder personnelType(PersonnelType personnelType) {
         element.setPersonnelType(personnelType);
@@ -41,6 +46,11 @@ public class SupremeCourtJudgmentBuilder {
     public SupremeCourtJudgment build(){
         return element;
     }
+    
+    
+    //-----------------------------------------------------------------
+    //------------------------ Inner classes --------------------------
+    //-----------------------------------------------------------------
     
     private static class SpecialSupremeCourtJudgment extends SupremeCourtJudgment {
         private SpecialSupremeCourtJudgment(int id) {

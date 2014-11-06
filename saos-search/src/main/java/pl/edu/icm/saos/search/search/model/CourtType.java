@@ -9,8 +9,4 @@ public enum CourtType {
     SUPREME,
     ADMINISTRATIVE,
     COMMON,
-    
-    REGIONAL,
-    DISTRICT,
-    APPEAL
 }

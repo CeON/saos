@@ -89,6 +89,7 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
     private int secondChamberId;
     private int chamberDivisionId;
     
+    
     @Before
     public void setUp() throws SolrServerException, IOException, ScriptException, SQLException {
         judgmentsSolrServer.deleteByQuery("*:*");
@@ -102,6 +103,9 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         judgmentsSolrServer.deleteByQuery("*:*");
         judgmentsSolrServer.commit();
     }
+    
+    
+    //------------------------ LOGIC --------------------------
     
     @Test
     public void ccJudgmentIndexingJob() throws Exception {
@@ -137,14 +141,15 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         
         assertJudgmentIndexed(doc, i);
         
-        assertSolrDocumentValues(doc, JudgmentIndexField.KEYWORD.getFieldName(), "keyword" + i);
+        assertSolrDocumentValues(doc, JudgmentIndexField.KEYWORD, "keyword" + i);
         
-        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE.getFieldName(), "COMMON", "APPEAL");
-        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_ID.getFieldName(), String.valueOf(commonCourtId));
-        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_NAME.getFieldName(), "courtName");
-        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_DIVISION_ID.getFieldName(), String.valueOf(commonCourtDivisionId));
-        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_DIVISION_CODE.getFieldName(), "0000");
-        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_DIVISION_NAME.getFieldName(), "divisionName");
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE, "COMMON");
+        assertSolrDocumentValues(doc, JudgmentIndexField.CC_COURT_TYPE, "APPEAL");
+        assertSolrDocumentIntValues(doc, JudgmentIndexField.CC_COURT_ID, commonCourtId);
+        assertSolrDocumentValues(doc, JudgmentIndexField.CC_COURT_NAME, "courtName");
+        assertSolrDocumentIntValues(doc, JudgmentIndexField.CC_COURT_DIVISION_ID, commonCourtDivisionId);
+        assertSolrDocumentValues(doc, JudgmentIndexField.CC_COURT_DIVISION_CODE, "0000");
+        assertSolrDocumentValues(doc, JudgmentIndexField.CC_COURT_DIVISION_NAME, "divisionName");
         
     }
     
@@ -157,8 +162,8 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         SolrDocument doc = response.getResults().get(0);
         
         assertJudgmentIndexed(doc, i);
-        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE.getFieldName(), "SUPREME");
-        assertSolrDocumentValues(doc, JudgmentIndexField.SC_PERSONNEL_TYPE.getFieldName(), "JOINED_CHAMBERS");
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE, "SUPREME");
+        assertSolrDocumentValues(doc, JudgmentIndexField.SC_PERSONNEL_TYPE, "JOINED_CHAMBERS");
         
         // TODO uncomment when name will be available in chamber and chamberDivision
 //        assertSolrDocumentValues(doc, JudgmentIndexField.SUPREME_COURT_CHAMBER.getFieldName(),
@@ -175,22 +180,32 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
     }
     
     private void assertJudgmentIndexed(SolrDocument doc, int i) {
-        assertSolrDocumentValues(doc, JudgmentIndexField.CASE_NUMBER.getFieldName(), "caseNumber" + i);
-        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGMENT_TYPE.getFieldName(), "SENTENCE");
+        assertSolrDocumentValues(doc, JudgmentIndexField.CASE_NUMBER, "caseNumber" + i);
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGMENT_TYPE, "SENTENCE");
         
-        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE.getFieldName(),
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE,
                 "judgeName" + i + "|PRESIDING_JUDGE|REPORTING_JUDGE", "judgeNameWithoutRole" + i);
-        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_NAME .getFieldName(), "judgeName" + i, "judgeNameWithoutRole" + i);
-        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_WITH_ROLE.getFieldName() + "_#_PRESIDING_JUDGE",
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_NAME, "judgeName" + i, "judgeNameWithoutRole" + i);
+        assertSolrDocumentPostfixedFieldValues(doc, JudgmentIndexField.JUDGE_WITH_ROLE, "PRESIDING_JUDGE",
                 "judgeName" + i);
-        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_WITH_ROLE.getFieldName() + "_#_REPORTING_JUDGE",
+        assertSolrDocumentPostfixedFieldValues(doc, JudgmentIndexField.JUDGE_WITH_ROLE, "REPORTING_JUDGE",
                 "judgeName" + i);
-        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_WITH_ROLE.getFieldName() + "_#_NO_ROLE",
+        assertSolrDocumentPostfixedFieldValues(doc, JudgmentIndexField.JUDGE_WITH_ROLE, "NO_ROLE",
                 "judgeNameWithoutRole" + i);
         
-        assertSolrDocumentValues(doc, JudgmentIndexField.LEGAL_BASE.getFieldName(), "legalBase" + i);
-        assertSolrDocumentValues(doc, JudgmentIndexField.REFERENCED_REGULATION.getFieldName(), "referencedRegulation" + i);
-        assertSolrDocumentValues(doc, JudgmentIndexField.CONTENT.getFieldName(), "some content " + i);
+        assertSolrDocumentValues(doc, JudgmentIndexField.LEGAL_BASE, "legalBase" + i);
+        assertSolrDocumentValues(doc, JudgmentIndexField.REFERENCED_REGULATION, "referencedRegulation" + i);
+        assertSolrDocumentValues(doc, JudgmentIndexField.CONTENT, "some content " + i);
+    }
+    
+    private void assertSolrDocumentValues(SolrDocument doc, JudgmentIndexField field, String ... fieldValues) {
+        String fieldName = field.getFieldName();
+        assertSolrDocumentValues(doc, fieldName, fieldValues);
+    }
+    
+    private void assertSolrDocumentPostfixedFieldValues(SolrDocument doc, JudgmentIndexField field, String postfix, String ... fieldValues) {
+        String fieldName = field.getFieldName() + "_#_" + postfix;
+        assertSolrDocumentValues(doc, fieldName, fieldValues);
     }
     
     private void assertSolrDocumentValues(SolrDocument doc, String fieldName, String ... fieldValues) {
@@ -200,6 +215,18 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         assertNotNull(vals);
         assertEquals(fieldValues.length, vals.size());
         for (String expectedVal : fieldValues) {
+            assertTrue("Field " + fieldName + " doesn't contain value " + expectedVal, vals.contains(expectedVal));
+        }
+    }
+    
+    private void assertSolrDocumentIntValues(SolrDocument doc, JudgmentIndexField field, int ... fieldValues) {
+        String fieldName =  field.getFieldName();
+        assertTrue(doc.getFieldNames().contains(fieldName));
+        
+        Collection<Object> vals = doc.getFieldValues(fieldName);
+        assertNotNull(vals);
+        assertEquals(fieldValues.length, vals.size());
+        for (int expectedVal : fieldValues) {
             assertTrue("Field " + fieldName + " doesn't contain value " + expectedVal, vals.contains(expectedVal));
         }
     }

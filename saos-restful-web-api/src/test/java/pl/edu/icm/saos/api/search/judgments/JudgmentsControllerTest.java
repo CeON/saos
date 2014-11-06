@@ -62,7 +62,7 @@ public class JudgmentsControllerTest {
             searchResults.setTotalResults(TOTAL_RESULTS_VALUE);
 
             JudgmentSearchResult judgmentSearchResult = new JudgmentSearchResult();
-            judgmentSearchResult.setId(String.valueOf(JC.JUDGMENT_ID));
+            judgmentSearchResult.setId(JC.JUDGMENT_ID);
 
             judgmentSearchResult.setCourtName(JC.COURT_NAME);
             judgmentSearchResult.setCourtId(JC.COURT_ID);

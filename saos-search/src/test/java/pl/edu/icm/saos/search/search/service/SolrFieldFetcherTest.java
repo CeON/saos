@@ -21,6 +21,9 @@ public class SolrFieldFetcherTest {
 
     private SolrFieldFetcher<JudgmentIndexField> fieldFetcher = new SolrFieldFetcher<JudgmentIndexField>();
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Test
     public void fetchValue() {
         SolrDocument doc = new SolrDocument();
@@ -34,9 +37,9 @@ public class SolrFieldFetcherTest {
     @Test
     public void fetchIntValue() {
         SolrDocument doc = new SolrDocument();
-        doc.addField("courtId", "123");
+        doc.addField("ccCourtId", 123);
         
-        Integer actual = fieldFetcher.fetchIntValue(doc, JudgmentIndexField.COURT_ID);
+        Integer actual = fieldFetcher.fetchIntValue(doc, JudgmentIndexField.CC_COURT_ID);
         
         assertEquals(Integer.valueOf(123), actual);
     }
