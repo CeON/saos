@@ -4,6 +4,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import pl.edu.icm.saos.api.dump.court.DumpCourtsController
 import pl.edu.icm.saos.api.dump.judgment.DumpJudgmentsController
+import pl.edu.icm.saos.api.dump.supreme.court.chamber.DumpSupremeCourtChambersController
 import spock.lang.Specification
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -15,12 +16,13 @@ import static pl.edu.icm.saos.api.utils.JsonHelper.contentAsJson
  */
 class DumpEntryPointControllerTest extends Specification {
 
-    def "should contain links to the court and judgment dump services"(){
+    def "should contain links to the court, judgment and supreme court chambers dump services"(){
         given:
             MockMvc mockMvc = standaloneSetup(
                     new DumpEntryPointController(),
                     new DumpCourtsController(),
-                    new DumpJudgmentsController()
+                    new DumpJudgmentsController(),
+                    new DumpSupremeCourtChambersController()
             ).build()
 
         when:
@@ -39,6 +41,10 @@ class DumpEntryPointControllerTest extends Specification {
             content.links[1].rel == "judgments"
             content.links[1].href.endsWith "/api/dump/judgments"
             !content.links[1].description.empty
+
+            content.links[2].rel == "scChambers"
+            content.links[2].href.endsWith "/api/dump/scChambers"
+            !content.links[2].description.empty
 
     }
 }

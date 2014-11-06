@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.icm.saos.api.dump.court.DumpCourtsController;
 import pl.edu.icm.saos.api.dump.judgment.DumpJudgmentsController;
+import pl.edu.icm.saos.api.dump.supreme.court.chamber.DumpSupremeCourtChambersController;
 import pl.edu.icm.saos.api.entry.point.LinkWithDescription;
 import pl.edu.icm.saos.api.entry.point.LinkWithDescriptionBuilder;
 
@@ -37,6 +38,12 @@ public class DumpEntryPointController {
                 .description("Allows dump judgments")
                 .build();
 
-        return new ResponseEntity<>(createLinksRepresentation(dumpCourts, dumpJudgments), HttpStatus.OK);
+        LinkWithDescription dumpScChambers = new LinkWithDescriptionBuilder()
+                .rel("scChambers")
+                .href(DumpSupremeCourtChambersController.class)
+                .description("Allows dump supreme court chambers")
+                .build();
+
+        return new ResponseEntity<>(createLinksRepresentation(dumpCourts, dumpJudgments, dumpScChambers), HttpStatus.OK);
     }
 }

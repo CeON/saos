@@ -112,6 +112,9 @@ public class JudgmentMapper {
 
 
     public Source toSource(JudgmentSourceInfo info) {
+        if(info == null){
+            return null;
+        }
         Source source = new Source();
 
         source.setCode(info.getSourceCode());

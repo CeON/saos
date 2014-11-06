@@ -49,6 +49,32 @@ public class TestJudgmentFactory {
     }
 
     @Transactional
+    public SupremeCourtChamber createFullSupremeCourtChamber(boolean save){
+        SupremeCourtChamber scChamber = new SupremeCourtChamber();
+        scChamber.setName("Izba wojskowa");
+
+        SupremeCourtChamberDivision firstDivision = new SupremeCourtChamberDivision();
+        firstDivision.setName("Wydział I");
+        firstDivision.setFullName("Wydział zagadnień prawnych");
+
+        SupremeCourtChamberDivision secondDivision = new SupremeCourtChamberDivision();
+        secondDivision.setName("Wydział II");
+        secondDivision.setFullName("Wydział dla spraw z kasacji, z okręgów Sądów Apelacyjnych w Łodzi i Warszawie");
+
+        scChamber.addDivision(firstDivision);
+        scChamber.addDivision(secondDivision);
+
+        if(save){
+            entityManager.persist(scChamber);
+            entityManager.persist(firstDivision);
+            entityManager.persist(secondDivision);
+            entityManager.flush();
+        }
+
+        return scChamber;
+    }
+
+    @Transactional
     public CommonCourt createFullCommonCourt(boolean save){
         CommonCourt court = new CommonCourt();
         court.setCode("ABC_COURT_CODE");

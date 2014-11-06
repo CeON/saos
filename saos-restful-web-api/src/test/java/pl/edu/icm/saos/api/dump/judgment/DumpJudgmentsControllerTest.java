@@ -25,6 +25,7 @@ import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 
 import static org.hamcrest.Matchers.emptyIterable;
@@ -33,6 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.dump.judgment.item.representation.JudgmentItem.ApiJudgmentType;
 import static pl.edu.icm.saos.api.services.Constansts.DATE_FORMAT;
 import static pl.edu.icm.saos.api.services.Constansts.DUMP_JUDGMENTS_PATH;
 
@@ -89,7 +91,8 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
         String pathPrefix = "$.items.[0]";
         actions
                 .andExpect(jsonPath(pathPrefix + ".id").value(objectsContext.getJudgmentId()))
-                .andExpect(jsonPath(pathPrefix+".courtCases").value(iterableWithSize(1)))
+                .andExpect(jsonPath(pathPrefix + ".apiJudgmentType").value(ApiJudgmentType.COMMON_COURT.name()))
+                .andExpect(jsonPath(pathPrefix + ".courtCases").value(iterableWithSize(1)))
                 .andExpect(jsonPath(pathPrefix+".courtCases.[0].caseNumber").value(FieldsDefinition.JC.CASE_NUMBER))
                 .andExpect(jsonPath(pathPrefix+".judgmentType").value(Judgment.JudgmentType.SENTENCE.name()))
 
@@ -148,7 +151,21 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath(pathPrefix+".keywords.[0]").value(JC.FIRST_KEYWORD))
                 .andExpect(jsonPath(pathPrefix+".keywords.[1]").value(JC.SECOND_KEYWORD))
 
-                .andExpect(jsonPath(pathPrefix+".division.id").value(objectsContext.getFirstDivisionId()))
+                .andExpect(jsonPath(pathPrefix + ".division.id").value(objectsContext.getFirstDivisionId()))
+        ;
+
+
+        //supreme court specific fields
+        pathPrefix = "$.items.[1]";
+        actions
+                .andExpect(jsonPath(pathPrefix + ".id").value(objectsContext.getScJudgmentId()))
+                .andExpect(jsonPath(pathPrefix + ".apiJudgmentType").value(ApiJudgmentType.SUPREME_COURT.name()))
+                .andExpect(jsonPath(pathPrefix + ".courtCases.[0].caseNumber").value(FieldsDefinition.JC.CASE_NUMBER))
+                .andExpect(jsonPath(pathPrefix + ".personnelType").value(SupremeCourtJudgment.PersonnelType.FIVE_PERSON.name()))
+                .andExpect(jsonPath(pathPrefix + ".form.name").value(JC.SC_JUDGMENT_FORM_NAME))
+                .andExpect(jsonPath(pathPrefix + ".division.id").value(objectsContext.getScDivisionId()))
+                .andExpect(jsonPath(pathPrefix + ".chambers.[0].id").value(objectsContext.getScChamberId()))
+
         ;
     }
 
