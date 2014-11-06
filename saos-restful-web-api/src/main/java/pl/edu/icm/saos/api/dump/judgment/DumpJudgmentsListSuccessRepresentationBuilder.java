@@ -9,12 +9,17 @@ import pl.edu.icm.saos.api.dump.judgment.item.representation.CommonCourtJudgment
 import pl.edu.icm.saos.api.dump.judgment.item.representation.JudgmentItem;
 import pl.edu.icm.saos.api.dump.judgment.mapping.DumpCommonCourtJudgmentItemMapper;
 import pl.edu.icm.saos.api.dump.judgment.mapping.DumpJudgmentItemMapper;
+import pl.edu.icm.saos.api.dump.judgment.item.representation.SupremeCourtJudgmentItem;
+import pl.edu.icm.saos.api.dump.judgment.mapping.DumpCommonCourtJudgmentItemMapper;
+import pl.edu.icm.saos.api.dump.judgment.mapping.DumpJudgmentItemMapper;
+import pl.edu.icm.saos.api.dump.judgment.mapping.DumpSupremeCourtJudgmentItemMapper;
 import pl.edu.icm.saos.api.dump.judgment.parameters.RequestDumpJudgmentsParameters;
 import pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
 import java.util.LinkedList;
@@ -36,6 +41,10 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
 
     @Autowired
     private DumpCommonCourtJudgmentItemMapper commonCourtJudgmentItemMapper;
+
+    @Autowired
+    private DumpSupremeCourtJudgmentItemMapper supremeCourtJudgmentItemMapper;
+
 
     @Autowired
     private DateMapping dateMapping;
@@ -83,10 +92,15 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
     }
 
     private JudgmentItem initializeItemViewAndFillSpecificFields(Judgment judgment){
-        if(judgment.isInstanceOfCommonCourtJudgment()){
+        if(judgment.isInstanceOfCommonCourtJudgment()) {
             CommonCourtJudgment ccJudgment = (CommonCourtJudgment) judgment;
             CommonCourtJudgmentItem item = new CommonCourtJudgmentItem();
             commonCourtJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(item, ccJudgment);
+            return item;
+        } else if (judgment.isInstanceOfSupremeCourtJudgment()){
+            SupremeCourtJudgment scJudgment = (SupremeCourtJudgment) judgment;
+            SupremeCourtJudgmentItem item = new SupremeCourtJudgmentItem();
+            supremeCourtJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(item, scJudgment);
             return item;
         } else {
             //default

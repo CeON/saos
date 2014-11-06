@@ -12,6 +12,7 @@ import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
@@ -42,6 +43,26 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Autowired
     private JudgmentRepository judgmentRepository;
 
+
+    @Test
+    public void search__it_should_not_throw_lazy_exception_for_empty_scChambers_list(){
+        //given
+        SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
+        judgmentRepository.save(scJudgment);
+
+        //when
+        JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+        SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        Judgment judgment = searchResult.getResultRecords().get(0);
+
+        assertThat(judgment, is(instanceOf(SupremeCourtJudgment.class)));
+        SupremeCourtJudgment supremeCourtJudgment = (SupremeCourtJudgment) judgment;
+        supremeCourtJudgment.getScChambers();
+    }
 
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_court_cases(){
@@ -163,37 +184,78 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         List<Judgment> judgments = searchResult.getResultRecords();
         assertThat(judgments, iterableWithSize(1));
 
-        Judgment judgment = judgments.get(0);
-        assertThat(judgment, is(instanceOf(CommonCourtJudgment.class)));
-
-        CommonCourtJudgment actualJudgment = (CommonCourtJudgment) judgment;
+        Judgment actualJudgment = judgments.get(0);
 
         assertThat("judgment source ", actualJudgment.getSourceInfo(), is(ccJudgment.getSourceInfo()));
         assertThat("actual judgment court cases should not be null", actualJudgment.getCourtCases(), not(nullValue()));
         assertThat("case numbers",actualJudgment.getCourtCases(), containsListInAnyOrder(ccJudgment.getCourtCases()));
         assertThat("creation date", actualJudgment.getCreationDate(), is(ccJudgment.getCreationDate()));
-        assertThat("division id should be not null", actualJudgment.getCourtDivision().getId(), notNullValue());
-        assertThat("division id ", actualJudgment.getCourtDivision().getId(), is(ccJudgment.getCourtDivision().getId()));
         assertThat("judges", actualJudgment.getJudges(), containsListInAnyOrder(ccJudgment.getJudges()));
         assertThat("all roles ", extractRolesNames(actualJudgment.getJudges()), containsInAnyOrder(Judge.JudgeRole.PRESIDING_JUDGE.name(), Judge.JudgeRole.REPORTING_JUDGE.name()));
         assertThat("judge's role", actualJudgment.getJudges().get(0).getSpecialRoles().get(0), is(Judge.JudgeRole.PRESIDING_JUDGE));
 
-        assertThat("keywords", actualJudgment.getKeywords(), containsListInAnyOrder(ccJudgment.getKeywords()));
-
-
         assertThat("court reporters", actualJudgment.getCourtReporters(), containsListInAnyOrder(ccJudgment.getCourtReporters()));
         assertThat("decision" , actualJudgment.getDecision(), is(ccJudgment.getDecision()));
 
-
         assertThat("judgment date", actualJudgment.getJudgmentDate(), is(ccJudgment.getJudgmentDate()));
-
         assertThat("judgment type", actualJudgment.getJudgmentType(), is(ccJudgment.getJudgmentType()));
+
         assertThat("legal bases", actualJudgment.getLegalBases(), containsListInAnyOrder(ccJudgment.getLegalBases()));
         assertThat("referenced regulation", actualJudgment.getReferencedRegulations(), containsListInAnyOrder(ccJudgment.getReferencedRegulations()));
 
-
         assertThat("last modification date should not be null", actualJudgment.getModificationDate(), notNullValue());
         assertThat("last modification date ", actualJudgment.getModificationDate(), is(ccJudgment.getModificationDate()));
+    }
+
+    @Test
+    public void search__it_should_find_common_court_judgments_with_all_basic_fields(){
+        //given
+        CommonCourtJudgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
+        JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+        //when
+        SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        List<Judgment> judgments = searchResult.getResultRecords();
+        assertThat(judgments, iterableWithSize(1));
+
+        Judgment judgment = judgments.get(0);
+        assertThat(judgment, is(instanceOf(CommonCourtJudgment.class)));
+
+        CommonCourtJudgment actualJudgment = (CommonCourtJudgment) judgment;
+
+        assertThat("keywords", actualJudgment.getKeywords(), containsListInAnyOrder(ccJudgment.getKeywords()));
+        assertThat("division id should be not null", actualJudgment.getCourtDivision().getId(), notNullValue());
+        assertThat("division id ", actualJudgment.getCourtDivision().getId(), is(ccJudgment.getCourtDivision().getId()));
+    }
+
+    @Test
+    public void search__it_should_find_supreme_court_judgment_with_all_basic_fields(){
+        //given
+        SupremeCourtJudgment scJudgment = testJudgmentFactory.createFullScJudgment(true);
+        JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
+                .filter();
+
+        //when
+        SearchResult<Judgment> searchResult = databaseSearchService.search(searchFilter);
+
+        //then
+        List<Judgment> judgments = searchResult.getResultRecords();
+        assertThat(judgments, iterableWithSize(1));
+
+        Judgment judgment = judgments.get(0);
+        assertThat(judgment, is(instanceOf(SupremeCourtJudgment.class)));
+
+        SupremeCourtJudgment actualJudgment = (SupremeCourtJudgment) judgment;
+
+        assertThat("personnel type ", actualJudgment.getPersonnelType(), is(scJudgment.getPersonnelType()));
+        assertThat("scChambers ", actualJudgment.getScChambers(), containsListInAnyOrder(scJudgment.getScChambers()));
+        assertThat("scChamber's name should be not null", actualJudgment.getScChambers().get(0).getId(), notNullValue());
+        assertThat("division id should be not null", actualJudgment.getScChamberDivision().getId(), notNullValue());
+        assertThat("division id", actualJudgment.getScChamberDivision().getId(), is(scJudgment.getScChamberDivision().getId()));
+        assertThat("form", actualJudgment.getScJudgmentForm(), is(scJudgment.getScJudgmentForm()));
     }
 
     @Test

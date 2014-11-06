@@ -16,7 +16,6 @@ public class SupremeCourtChamberBuilder {
     
     public SupremeCourtChamberBuilder(int id) {
         element = new SpecialSupremeCourtChamber(id);
-        
     }
     
     
