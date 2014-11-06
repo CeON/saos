@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import org.apache.commons.lang3.RandomUtils;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -16,6 +17,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.reflect.Whitebox;
 
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
@@ -47,6 +49,9 @@ public class JudgmentImportProcessWriterTest {
     @Captor
     private ArgumentCaptor<List<Judgment>> argJudgments;
 
+    @Captor
+    private ArgumentCaptor<List<Integer>> argJudgmentIds;
+    
     @Captor
     private ArgumentCaptor<List<JudgmentCorrection>> argJudgmentCorrections;
     
@@ -99,10 +104,13 @@ public class JudgmentImportProcessWriterTest {
         assertThat(argJudgments.getValue(), Matchers.containsInAnyOrder(jwc1.getJudgment(), jwc2.getJudgment(), jwc3.getJudgment()));
         verify(judgmentRepository).flush();
         
+        verify(judgmentCorrectionRepository).deleteByJudgmentIds(argJudgmentIds.capture());
+        assertThat(argJudgmentIds.getValue(), Matchers.containsInAnyOrder(jwc1.getJudgment().getId(), jwc2.getJudgment().getId(), jwc3.getJudgment().getId()));
+        
         verify(judgmentCorrectionRepository, times(judgmentsWithCorrectionList.size())).save(argJudgmentCorrections.capture());
         Matcher<Iterable<? extends Object>> containsInAnyOrder = Matchers.containsInAnyOrder(j1Corrections, j2Corrections, j3Corrections);
         assertThat(argJudgmentCorrections.getAllValues(), containsInAnyOrder);
-        verify(judgmentCorrectionRepository).flush();
+        verify(judgmentCorrectionRepository, times(2)).flush();
         
     }
 
@@ -114,6 +122,7 @@ public class JudgmentImportProcessWriterTest {
     
     private SupremeCourtJudgment createScJudgment() {
         SupremeCourtJudgment scJudgment1 = new SupremeCourtJudgment();
+        Whitebox.setInternalState(scJudgment1, "id", RandomUtils.nextInt(1, 100));
         scJudgment1.getSourceInfo().setSourceJudgmentId(randomAlphabetic(15));
         scJudgment1.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
         return scJudgment1;

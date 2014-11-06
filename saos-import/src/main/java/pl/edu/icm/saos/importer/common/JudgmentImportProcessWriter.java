@@ -35,8 +35,14 @@ public class JudgmentImportProcessWriter<T extends Judgment> implements ItemWrit
     @Override
     public void write(List<? extends JudgmentWithCorrectionList<T>> judgmentsWithCorrectionList) {
         
-        judgmentRepository.save(judgmentsWithCorrectionList.stream().map(j->j.getJudgment()).collect(Collectors.toList()));
+        List<Judgment> judgments = judgmentsWithCorrectionList.stream().map(j->j.getJudgment()).collect(Collectors.toList()); 
+        judgmentRepository.save(judgments);
+        
         judgmentRepository.flush();
+        
+        judgmentCorrectionRepository.deleteByJudgmentIds(judgments.stream().map(j->j.getId()).collect(Collectors.toList()));
+        
+        judgmentCorrectionRepository.flush();
         
         for (JudgmentWithCorrectionList<T> jwc : judgmentsWithCorrectionList) {
             

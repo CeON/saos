@@ -149,6 +149,8 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         // assert in detail a processed judgment
         assertJudgment_1420();
         
+        // assert corrections
+        
                 
     }
 

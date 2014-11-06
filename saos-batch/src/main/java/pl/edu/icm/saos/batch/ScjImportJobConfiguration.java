@@ -30,6 +30,7 @@ import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 @ComponentScan
 public class ScjImportJobConfiguration {
    
+    
     @Autowired
     private JobBuilderFactory jobs;
 
