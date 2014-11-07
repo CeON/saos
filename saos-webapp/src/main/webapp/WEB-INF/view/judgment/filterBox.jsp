@@ -64,9 +64,9 @@
 		</div>
 	</c:if>
 	
-	<%@ include file="ccJudgmentFilterFields.jsp" %>
+	<%@ include file="ccJudgment/ccJudgmentFilterFields.jsp" %>
 	
-	<%@ include file="scJudgmentFilterFields.jsp" %>
+	<%@ include file="scJudgment/scJudgmentFilterFields.jsp" %>
 	
 	<p id="clearAllFilters" class="clear-button" ><spring:message code="judgment.results.filter.clearAll" /></p>
 		
