@@ -65,11 +65,11 @@
 		    </div>
 		    
 		    <div id="common-court-fields" class="fields-container" >
-			    <%@ include file="ccJudgmentSearchForm.jsp" %>
+			    <%@ include file="ccJudgment/ccJudgmentSearchForm.jsp" %>
 		    </div>
 		     
 		    <div id="supreme-court-fields" class="fields-container" >
-		    	<%@ include file="scJudgmentSearchForm.jsp" %>
+		    	<%@ include file="scJudgment/scJudgmentSearchForm.jsp" %>
 		    </div>
 		     
 	    </div>

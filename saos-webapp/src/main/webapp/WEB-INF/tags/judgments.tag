@@ -12,20 +12,48 @@
 					<div class="type" data-judgment-type="${lowerCaseJudgmentType}" ><spring:message code="judgment.judgmenttype.${fn:toLowerCase(judgment.judgmentType)}" /></div>
 				</c:if>
 				<div class="case-number">
-					<a href="${contextPath}/judgment/${judgment.id}">
+					<a href="${contextPath}/judgments/${judgment.id}">
 						<saos:caseNumber items="${judgment.caseNumbers}"/>
 					</a>
 				</div>
 				
 				<div class=""><span><spring:message code="judgment.results.date" />:</span><span class="date"><joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}" /></span></div>
-				<div class="court-desc"><span class="court"><c:out value="${judgment.courtName}" /></span> - <span class="division" ><c:out value="${judgment.courtDivisionName}" /></span></div>
 				
-				<div class="judges" >
-					<span><spring:message code="judgment.results.judges" />:</span>
-					<c:forEach items="${judgment.judges}" var="judge" >
-						<div class="judge"><c:out value="${judge.name}" /></div>
-					</c:forEach>	
-				</div>
+				<c:if test="${!empty judgment.courtName || !empty judgment.courtDivisionName}" >
+				
+					<div class="court-desc">
+						<span class="court"><c:out value="${judgment.courtName}" /></span>
+						 - 
+						<span class="division" ><c:out value="${judgment.courtDivisionName}" /></span>
+					</div>
+				
+				</c:if>
+				
+				
+				<c:if test="${!empty judgment.courtChambers || !empty judgment.courtChamberDivisionName}" >
+				
+					<div class="court-desc">
+						
+						<c:forEach items="${judgment.courtChambers}" var="chamber" >
+							<span class="court">
+								<c:out value="${$chamber}" />
+							</span>	
+						</c:forEach>
+						 - 
+						<span class="division" ><c:out value="${judgment.courtChamberDivisionName}" /></span>
+					</div>
+				
+				</c:if>
+				
+				
+				<c:if test="${!empty judgment.judges}" >
+					<div class="judges" >
+						<span><spring:message code="judgment.results.judges" />:</span>
+						<c:forEach items="${judgment.judges}" var="judge" >
+							<div class="judge"><c:out value="${judge.name}" /></div>
+						</c:forEach>	
+					</div>
+				</c:if>
 				
 				<c:if test="${!empty judgment.keywords}" >
 					<div class="keywords">	

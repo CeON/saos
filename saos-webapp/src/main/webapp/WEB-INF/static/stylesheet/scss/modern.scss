@@ -321,6 +321,7 @@ form.search {
 }
 
 .block {
+	
 	h3 {
 		border-bottom: 1px solid #e0e0e0;
 	    font-weight: 300;
@@ -470,6 +471,7 @@ form.search {
 			}
 			margin: 8px 0px 0px;
 			padding: 0px 0px 15px;
+			text-align: justify;
 			
 			em {
 				background: lighten($sand, 10%);
@@ -628,19 +630,27 @@ form.search {
 }
 
 .judgment-page {
-	padding-top: 0px;
+	border: 1px solid $grey-border;
+	padding-top: 20px;
 
+	
+	h2 {
+		margin-bottom: 0px;
+		margin-top: 0px;
+	}
+	
 	h4 {
-		@include border-grey();
-		font-size: 20px;
+		border-bottom: 1px solid #e0e0e0;
+	    font-weight: 300;
+	    margin-bottom: 15px;
+	    margin-top: 15px;
+	    padding-bottom: 6px;
+	}
+
+	.type {
+		color: #888;
 	    font-weight: 300;
 	    margin-bottom: 10px;
-	    margin-top: 30px;
-	    padding-bottom: 6px;
-	    
-	    span {
-	    	text-transform: uppercase;
-	    }
 	}
 
 	.modal-dialog {
@@ -665,12 +675,22 @@ form.search {
 		}
 		
 		.desc {
+			display: inline-block;
 			margin-left: 170px;
 		}
 	}
 	
 	.referencedRegulations {
 		list-style: decimal outside none;
+		
+		li a {
+			display: block;
+		}
+	}
+	
+	.break {
+		display: block;
+		height: 60px;
 	}
 		
 }
