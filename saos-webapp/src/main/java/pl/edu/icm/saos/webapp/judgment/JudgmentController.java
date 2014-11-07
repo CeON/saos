@@ -82,7 +82,7 @@ public class JudgmentController {
 		return "searchResults";
 	}
 	
-	@RequestMapping("/judgment/{id}")
+	@RequestMapping("/judgments/{id}")
 	public String JudgmentSignleResult(ModelMap model, @PathVariable int id) {
 		
 		Judgment judgment = judgmentRepository.findOneAndInitialize(id);
