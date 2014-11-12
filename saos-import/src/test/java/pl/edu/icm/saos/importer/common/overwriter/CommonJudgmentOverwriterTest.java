@@ -194,8 +194,8 @@ public class CommonJudgmentOverwriterTest {
         assertEquals(1, oldJudgment.getJudges(JudgeRole.PRESIDING_JUDGE).size());
         assertEquals("Katarzyna Oleksiak", oldJudgment.getJudges(JudgeRole.PRESIDING_JUDGE).get(0).getName());
         assertTrue(oldJudgment.containsJudge("Anna Nowak"));
-        assertTrue(newJudgment.containsJudge("Szymon Woźniak"));
-        assertTrue(newJudgment.containsJudge("Szymon W"));
+        assertTrue(oldJudgment.containsJudge("Szymon Woźniak"));
+        assertTrue(oldJudgment.containsJudge("Szymon W"));
         
         
         // check if the reference to a corrected object in the import correction has changed

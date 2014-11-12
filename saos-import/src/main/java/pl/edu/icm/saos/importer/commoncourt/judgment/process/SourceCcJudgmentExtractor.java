@@ -189,8 +189,9 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     }
     
     /**
-     * Returns null in case of REASON type
-     * @throws CcjImportProcessSkippableException if the type cannot be resolved
+     * Returns {@link JudgmentType} corresponding to the {@link SourceCcJudgment#getTypes()} <br/>
+     * Saves a relevant {@link ImportCorrection} if the source judgment type cannot be directly mapped
+     * into an appropriate {@link JudgmentType}
      */
     @Override
     public JudgmentType extractJudgmentType(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {

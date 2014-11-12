@@ -58,7 +58,7 @@ public class ImportCorrectionList {
     }
     
     /**
-     * Returns {@link ImportCorrection} that with the given correctedObject and correctedProperty. Returns null
+     * Returns {@link ImportCorrection} with the given correctedObject and correctedProperty. Returns null
      * if no correction that meets the specified criteria can be found in {@link #getImportCorrections()}<br/>
      * The passed correctedObject can be null - in such a case the method tries to find import corrections with null
      * correctedObject and correctedProperty that is equal to the passed one.

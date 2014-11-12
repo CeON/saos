@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
+import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 import com.google.common.base.Preconditions;
@@ -28,7 +29,6 @@ public class ImportCorrection {
     //------------------------ CONSTRUCTORS --------------------------
     
     public ImportCorrection(DataObject correctedObject, CorrectedProperty correctedProperty, String oldValue, String newValue) {
-        super();
         Preconditions.checkNotNull(correctedProperty);
         Preconditions.checkArgument(StringUtils.isNotBlank(oldValue) || StringUtils.isNotBlank(newValue));
             
@@ -42,7 +42,7 @@ public class ImportCorrection {
     //------------------------ GETTERS --------------------------
     
     /**
-     * Corrected object that is a part of a judgment, e.g. {@ling Judge} <br/>
+     * Corrected object that is a part of a judgment, e.g. {@link Judge} <br/>
      * In case of simple direct judgment property (for example JudgmentType) it should be null 
      */
     public DataObject getCorrectedObject() {

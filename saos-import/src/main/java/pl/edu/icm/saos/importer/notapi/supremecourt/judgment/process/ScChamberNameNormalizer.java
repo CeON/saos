@@ -51,7 +51,7 @@ class ScChamberNameNormalizer {
     
     //------------------------ PRIVATE --------------------------
     
-    public String adjust(String scChamberName) {
+    private String adjust(String scChamberName) {
         return StringUtils.trim(scChamberName);
     }
     

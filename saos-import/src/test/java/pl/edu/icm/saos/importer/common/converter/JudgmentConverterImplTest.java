@@ -9,10 +9,8 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.assertj.core.util.Lists;
 import org.hamcrest.Matchers;
@@ -521,8 +519,7 @@ public class JudgmentConverterImplTest {
     
     //------------------------ PRIVATE --------------------------
     
-    private int getNumberOfExtractMethods() {
-        List<Method> extractMethods = Arrays.asList(ReflectionUtils.getAllDeclaredMethods(JudgmentDataExtractor.class)).stream().filter(m->m.getName().startsWith("extract")).collect(Collectors.toList());
-        return extractMethods.size();
+    private long getNumberOfExtractMethods() {
+        return Arrays.asList(ReflectionUtils.getAllDeclaredMethods(JudgmentDataExtractor.class)).stream().filter(m->m.getName().startsWith("extract")).count();
     }
 }
