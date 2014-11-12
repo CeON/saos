@@ -8,14 +8,14 @@ allprojects {
     version = '0.0.1-SNAPSHOT'
     group = 'pl.edu.icm.saos'
 
-    
+    sourceCompatibility = 1.8
     
 }
 
 
 subprojects {
     
-    sourceCompatibility = 1.8
+    
 
     repositories {
        mavenCentral()
@@ -38,7 +38,7 @@ subprojects {
         'joda-time:joda-time' :'joda-time:joda-time:2.3',
         'joda-time:joda-time-jsptags' :'joda-time:joda-time-jsptags:1.1.1',
         
-        'org.springframework.data:spring-data-jpa' :'org.springframework.data:spring-data-jpa:1.6.0.RELEASE',
+        'org.springframework.data:spring-data-jpa' :'org.springframework.data:spring-data-jpa:1.7.1.RELEASE',
         
         'org.springframework.security:spring-security-taglibs' :'org.springframework.security:spring-security-taglibs:3.2.4.RELEASE',
         'org.springframework.security:spring-security-web' :'org.springframework.security:spring-security-web:3.2.4.RELEASE',

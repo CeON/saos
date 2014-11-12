@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.common.JudgmentConverter;
-import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
+import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
+import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgmentParser;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -21,7 +22,7 @@ import pl.edu.icm.saos.persistence.repository.ScJudgmentRepository;
  * @author Łukasz Dumiszewski
  */
 @Service("scjImportProcessProcessor")
-public class ScjImportProcessProcessor implements ItemProcessor<RawSourceScJudgment, SupremeCourtJudgment> {
+public class ScjImportProcessProcessor implements ItemProcessor<RawSourceScJudgment, JudgmentWithCorrectionList<SupremeCourtJudgment>> {
 
     private Logger log = LoggerFactory.getLogger(ScjImportProcessProcessor.class);
     
@@ -41,15 +42,17 @@ public class ScjImportProcessProcessor implements ItemProcessor<RawSourceScJudgm
     //------------------------ LOGIC --------------------------
     
     @Override
-    public SupremeCourtJudgment process(RawSourceScJudgment rJudgment) {
+    public JudgmentWithCorrectionList<SupremeCourtJudgment> process(RawSourceScJudgment rJudgment) {
         
         log.trace("Processing: rawSourceScJudgment id={}", rJudgment.getId());
 
         
         SourceScJudgment sourceScJudgment = sourceScJudgmentParser.parse(rJudgment.getJsonContent());
         
-        SupremeCourtJudgment scJudgment = sourceScJudgmentConverter.convertJudgment(sourceScJudgment);
+        JudgmentWithCorrectionList<SupremeCourtJudgment> judgmentWithCorrectionList = sourceScJudgmentConverter.convertJudgment(sourceScJudgment);
         
+        
+        SupremeCourtJudgment scJudgment = judgmentWithCorrectionList.getJudgment();  
 
         SupremeCourtJudgment oldScJudgment = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId());
         
@@ -57,16 +60,16 @@ public class ScjImportProcessProcessor implements ItemProcessor<RawSourceScJudgm
             
             log.trace("same found (rJudgmentId:{}, judgmentId: {}), updating...", rJudgment.getId(), oldScJudgment.getId());
             
-            judgmentOverwriter.overwriteJudgment(oldScJudgment, scJudgment);
+            judgmentOverwriter.overwriteJudgment(oldScJudgment, scJudgment, judgmentWithCorrectionList.getCorrectionList());
             
-            scJudgment = oldScJudgment;
+            judgmentWithCorrectionList.setJudgment(oldScJudgment);
             
         }
         
         
         markProcessed(rJudgment);
         
-        return scJudgment;
+        return judgmentWithCorrectionList;
     }
 
 

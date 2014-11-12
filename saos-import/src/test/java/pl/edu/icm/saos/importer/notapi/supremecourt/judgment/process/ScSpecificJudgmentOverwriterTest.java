@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -26,6 +27,7 @@ public class ScSpecificJudgmentOverwriterTest {
     
     private SupremeCourtJudgment newJudgment = new SupremeCourtJudgment();
     
+    private ImportCorrectionList correctionList = new ImportCorrectionList();
     
     
     
@@ -45,7 +47,7 @@ public class ScSpecificJudgmentOverwriterTest {
         
         // execute
         
-        scSpecificJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        scSpecificJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
 
         
         // assert
@@ -69,7 +71,7 @@ public class ScSpecificJudgmentOverwriterTest {
         
         // execute 
         
-        scSpecificJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        scSpecificJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
 
         
         // assert
@@ -97,7 +99,7 @@ public class ScSpecificJudgmentOverwriterTest {
         
         //execute 
         
-        scSpecificJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        scSpecificJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
 
         
         // assert
@@ -137,7 +139,7 @@ public class ScSpecificJudgmentOverwriterTest {
         
         // execute
         
-        scSpecificJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        scSpecificJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
         
         
         // assert

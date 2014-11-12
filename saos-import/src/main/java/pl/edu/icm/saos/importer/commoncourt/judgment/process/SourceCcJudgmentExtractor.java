@@ -5,15 +5,17 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.common.JudgmentDataExtractor;
+import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
+import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
@@ -58,16 +60,16 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
      * Converts data specific to the judgment type
      * */
     @Override
-    public void convertSpecific(CommonCourtJudgment ccJudgment, SourceCcJudgment sourceJudgment) {
+    public void convertSpecific(CommonCourtJudgment ccJudgment, SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         
-        List<CcJudgmentKeyword> keywords = extractKeywords(sourceJudgment);
+        List<CcJudgmentKeyword> keywords = extractKeywords(sourceJudgment, correctionList);
         for (CcJudgmentKeyword keyword : keywords) {
             if (!ccJudgment.containsKeyword(keyword)) {
                 ccJudgment.addKeyword(keyword);
             }
         }
         
-        ccJudgment.setCourtDivision(extractCommonCourtDivision(sourceJudgment));
+        ccJudgment.setCourtDivision(extractCommonCourtDivision(sourceJudgment, correctionList));
     }
 
     @Override
@@ -76,22 +78,22 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     }
    
     @Override
-    public ArrayList<String> extractLegalBases(SourceCcJudgment sourceJudgment) {
+    public ArrayList<String> extractLegalBases(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return Lists.newArrayList(sourceJudgment.getLegalBases());
     }
 
     @Override
-    public String extractSummary(SourceCcJudgment sourceJudgment) {
+    public String extractSummary(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getThesis();
     }
 
     @Override
-    public String extractDecision(SourceCcJudgment sourceJudgment) {
+    public String extractDecision(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getDecision();
     }
 
     @Override
-    public ArrayList<String> extractCourtReporters(SourceCcJudgment sourceJudgment) {
+    public ArrayList<String> extractCourtReporters(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         if (StringUtils.isBlank(sourceJudgment.getRecorder())) {
             return Lists.newArrayList();
         }
@@ -99,23 +101,23 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     }
 
     @Override
-    public LocalDate extractJudgmentDate(SourceCcJudgment sourceJudgment) {
+    public LocalDate extractJudgmentDate(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getJudgmentDate();
     }
 
     @Override
-    public List<CourtCase> extractCourtCases(SourceCcJudgment sourceJudgment) {
+    public List<CourtCase> extractCourtCases(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return Lists.newArrayList(new CourtCase(sourceJudgment.getSignature()));
     }
         
     @Override
-    public String extractTextContent(SourceCcJudgment sourceJudgment) {
+    public String extractTextContent(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getTextContent();
     }
     
     
     @Override
-    public List<JudgmentReferencedRegulation> extractReferencedRegulations(SourceCcJudgment sourceJudgment) {
+    public List<JudgmentReferencedRegulation> extractReferencedRegulations(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         
         List<JudgmentReferencedRegulation> regulations = Lists.newArrayList();
         
@@ -145,32 +147,32 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
 
 
     @Override
-    public String extractSourceJudgmentId(SourceCcJudgment sourceJudgment) {
+    public String extractSourceJudgmentId(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getId();
     }
 
     @Override
-    public String extractSourceJudgmentUrl(SourceCcJudgment sourceJudgment) {
+    public String extractSourceJudgmentUrl(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getSourceUrl();
     }
 
     @Override
-    public String extractPublisher(SourceCcJudgment sourceJudgment) {
+    public String extractPublisher(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getPublisher();
     }
 
     @Override
-    public String extractReviser(SourceCcJudgment sourceJudgment) {
+    public String extractReviser(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getReviser();
     }
 
     @Override
-    public DateTime extractPublicationDate(SourceCcJudgment sourceJudgment) {
+    public DateTime extractPublicationDate(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getPublicationDate();
     }
     
     @Override
-    public List<Judge> extractJudges(SourceCcJudgment sourceJudgment) {
+    public List<Judge> extractJudges(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         
         List<Judge> judges = Lists.newArrayList();
         
@@ -187,42 +189,50 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     }
     
     /**
-     * Returns null in case of REASON type
-     * @throws CcjImportProcessSkippableException if the type cannot be resolved
+     * Returns {@link JudgmentType} corresponding to the {@link SourceCcJudgment#getTypes()} <br/>
+     * Saves a relevant {@link ImportCorrection} if the source judgment type cannot be directly mapped
+     * into an appropriate {@link JudgmentType}
      */
     @Override
-    public JudgmentType extractJudgmentType(SourceCcJudgment sourceJudgment) {
+    public JudgmentType extractJudgmentType(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         List<String> sjTypes = Lists.newArrayList(sourceJudgment.getTypes());
-        CollectionUtils.transform(sjTypes, new Transformer() {
-            @Override
-            public Object transform(Object object) {
-                return ((String)object).toUpperCase().trim();
-            }
-        });
+        sjTypes.replaceAll(sType->sType.toUpperCase().trim());
+        
+        JudgmentType judgmentType = null;
+        
         if (sjTypes.contains("SENTENCE")) {
-            return JudgmentType.SENTENCE;
+            judgmentType = JudgmentType.SENTENCE;
         }
         
-        if (sjTypes.contains("DECISION")) {
-            return JudgmentType.DECISION;
+        else if (sjTypes.contains("DECISION")) {
+            judgmentType = JudgmentType.DECISION;
         }
         
-        if (sjTypes.contains("REGULATION")) {
-            return JudgmentType.REGULATION;
+        else if (sjTypes.contains("REGULATION")) {
+            judgmentType = JudgmentType.REGULATION;
         }
         
-        if (sjTypes.contains("REASON")) {
-            return JudgmentType.REASONS;
+        else if (sjTypes.contains("REASON")) {
+            judgmentType = JudgmentType.REASONS;
         }
         
-        throw new CcjImportProcessSkippableException("no proper judgment type found in judgment " + sourceJudgment, ImportProcessingSkipReason.UNKNOWN_JUDGMENT_TYPE);
+        
+        
+        if (sjTypes.size() > 1 || judgmentType == null) {
+            String oldValue = sjTypes.stream().reduce((t, u) -> t + ", " + u).get();
+            judgmentType = judgmentType==null? JudgmentType.SENTENCE: judgmentType;
+            correctionList.addCorrection(new ImportCorrection(null, CorrectedProperty.JUDGMENT_TYPE, oldValue, judgmentType.name()));
+        }
+        
+        return judgmentType;
+      
      }
 
     
 
     //------------------------ PRIVATE --------------------------
     
-    private CommonCourtDivision extractCommonCourtDivision(SourceCcJudgment sourceJudgment) {
+    private CommonCourtDivision extractCommonCourtDivision(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         CommonCourt court = commonCourtRepository.findOneByCode(sourceJudgment.getCourtId());
         if (court == null) {
             throw new CcjImportProcessSkippableException("court not found, code = " + sourceJudgment.getCourtId(), ImportProcessingSkipReason.COURT_NOT_FOUND);
@@ -234,7 +244,7 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
         return division;
     }
     
-    private List<CcJudgmentKeyword> extractKeywords(SourceCcJudgment sourceJudgment) {
+    private List<CcJudgmentKeyword> extractKeywords(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         List<CcJudgmentKeyword> keywords = Lists.newArrayList();
         if (CollectionUtils.isEmpty(sourceJudgment.getThemePhrases())) {
             return keywords;

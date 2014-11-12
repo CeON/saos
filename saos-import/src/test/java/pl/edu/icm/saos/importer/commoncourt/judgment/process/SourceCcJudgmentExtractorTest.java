@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
@@ -54,7 +55,7 @@ public class SourceCcJudgmentExtractorTest {
     
     private SourceCcJudgment sJudgment = new SourceCcJudgment();
     
-    
+    private ImportCorrectionList correctionList = new ImportCorrectionList();
     
       
     @Before
@@ -82,7 +83,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setSignature("CASE 211w/121");
         
-        List<CourtCase> courtCases = sourceCcJudgmentExtractor.extractCourtCases(sJudgment);
+        List<CourtCase> courtCases = sourceCcJudgmentExtractor.extractCourtCases(sJudgment, correctionList);
         
         assertEquals(1, courtCases.size());
         assertEquals(sJudgment.getSignature(), courtCases.get(0).getCaseNumber());
@@ -93,7 +94,7 @@ public class SourceCcJudgmentExtractorTest {
     public void extractCourtReporters() {
         sJudgment.setRecorder("Jan Moller");
         
-        List<String> courtReporters = sourceCcJudgmentExtractor.extractCourtReporters(sJudgment);
+        List<String> courtReporters = sourceCcJudgmentExtractor.extractCourtReporters(sJudgment, correctionList);
         
         assertEquals(1, courtReporters.size());
         assertEquals(sJudgment.getRecorder(), courtReporters.get(0));
@@ -104,7 +105,7 @@ public class SourceCcJudgmentExtractorTest {
     public void extractCourtReporters_Null() {
         sJudgment.setRecorder(null);
         
-        List<String> courtReporters = sourceCcJudgmentExtractor.extractCourtReporters(sJudgment);
+        List<String> courtReporters = sourceCcJudgmentExtractor.extractCourtReporters(sJudgment, correctionList);
         
         assertNotNull(courtReporters);
         assertEquals(0, courtReporters.size());
@@ -116,7 +117,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setDecision("11234");
         
-        String decision = sourceCcJudgmentExtractor.extractDecision(sJudgment);
+        String decision = sourceCcJudgmentExtractor.extractDecision(sJudgment, correctionList);
         
         assertEquals(sJudgment.getDecision(), decision);
         
@@ -128,7 +129,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setPublisher("Jan nowak z");
         
-        String publisher = sourceCcJudgmentExtractor.extractPublisher(sJudgment);
+        String publisher = sourceCcJudgmentExtractor.extractPublisher(sJudgment, correctionList);
         
         assertEquals(sJudgment.getPublisher(), publisher);
         
@@ -140,7 +141,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setReviser("Jan Nowak z");
         
-        String reviser = sourceCcJudgmentExtractor.extractReviser(sJudgment);
+        String reviser = sourceCcJudgmentExtractor.extractReviser(sJudgment, correctionList);
         
         assertEquals(sJudgment.getReviser(), reviser);
         
@@ -152,7 +153,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setId("1221212121222 ");
         
-        String sourceJudgmentId = sourceCcJudgmentExtractor.extractSourceJudgmentId(sJudgment);
+        String sourceJudgmentId = sourceCcJudgmentExtractor.extractSourceJudgmentId(sJudgment, correctionList);
         
         assertEquals(sJudgment.getId(), sourceJudgmentId);
         
@@ -164,7 +165,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setSourceUrl("www.www.pl");
         
-        String sourceJudgmentUrl = sourceCcJudgmentExtractor.extractSourceJudgmentUrl(sJudgment);
+        String sourceJudgmentUrl = sourceCcJudgmentExtractor.extractSourceJudgmentUrl(sJudgment, correctionList);
         
         assertEquals(sJudgment.getSourceUrl(), sourceJudgmentUrl);
         
@@ -176,7 +177,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setThesis("www.www.pl");
         
-        String summary = sourceCcJudgmentExtractor.extractSummary(sJudgment);
+        String summary = sourceCcJudgmentExtractor.extractSummary(sJudgment, correctionList);
         
         assertEquals(sJudgment.getThesis(), summary);
         
@@ -188,7 +189,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setTextContent("sdlsdklskd <sbfmd ck dkjcd kjcdkj cndjc\n fdfdf");
         
-        String textContent = sourceCcJudgmentExtractor.extractTextContent(sJudgment);
+        String textContent = sourceCcJudgmentExtractor.extractTextContent(sJudgment, correctionList);
         
         assertEquals(sJudgment.getTextContent(), textContent);
         
@@ -200,7 +201,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setJudgmentDate(new LocalDate());
         
-        LocalDate judgmentDate = sourceCcJudgmentExtractor.extractJudgmentDate(sJudgment);
+        LocalDate judgmentDate = sourceCcJudgmentExtractor.extractJudgmentDate(sJudgment, correctionList);
         
         assertEquals(sJudgment.getJudgmentDate(), judgmentDate);
         
@@ -212,7 +213,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setPublicationDate(new DateTime());
         
-        DateTime publicationDate = sourceCcJudgmentExtractor.extractPublicationDate(sJudgment);
+        DateTime publicationDate = sourceCcJudgmentExtractor.extractPublicationDate(sJudgment, correctionList);
         
         assertEquals(sJudgment.getPublicationDate(), publicationDate);
         
@@ -230,7 +231,7 @@ public class SourceCcJudgmentExtractorTest {
         
         // execute
         
-        List<Judge> judges = sourceCcJudgmentExtractor.extractJudges(sJudgment);
+        List<Judge> judges = sourceCcJudgmentExtractor.extractJudges(sJudgment, correctionList);
         
         
         // assert
@@ -255,7 +256,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setTypes(Lists.newArrayList("sentence","reason"));
         
-        JudgmentType judgmentType = sourceCcJudgmentExtractor.extractJudgmentType(sJudgment);
+        JudgmentType judgmentType = sourceCcJudgmentExtractor.extractJudgmentType(sJudgment, correctionList);
         
         assertEquals(JudgmentType.SENTENCE, judgmentType);
         
@@ -266,7 +267,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setTypes(Lists.newArrayList("regulation","reasons"));
         
-        JudgmentType judgmentType = sourceCcJudgmentExtractor.extractJudgmentType(sJudgment);
+        JudgmentType judgmentType = sourceCcJudgmentExtractor.extractJudgmentType(sJudgment, correctionList);
         
         assertEquals(JudgmentType.REGULATION, judgmentType);
         
@@ -278,7 +279,7 @@ public class SourceCcJudgmentExtractorTest {
         
         sJudgment.setLegalBases(Lists.newArrayList("asasasasadfc43f ", "sdsdsade4d$EDFECFDC   "));
         
-        List<String> legalBases = sourceCcJudgmentExtractor.extractLegalBases(sJudgment);
+        List<String> legalBases = sourceCcJudgmentExtractor.extractLegalBases(sJudgment, correctionList);
         
         assertEquals(sJudgment.getLegalBases(), legalBases);
         
@@ -303,7 +304,7 @@ public class SourceCcJudgmentExtractorTest {
         
         // execute 
         
-        List<JudgmentReferencedRegulation> refRegulations = sourceCcJudgmentExtractor.extractReferencedRegulations(sJudgment);
+        List<JudgmentReferencedRegulation> refRegulations = sourceCcJudgmentExtractor.extractReferencedRegulations(sJudgment, correctionList);
         
         
         // assert
@@ -343,7 +344,7 @@ public class SourceCcJudgmentExtractorTest {
         
         // execute
         
-        sourceCcJudgmentExtractor.convertSpecific(ccJudgment, sJudgment);
+        sourceCcJudgmentExtractor.convertSpecific(ccJudgment, sJudgment, correctionList);
         
         
         // assert
@@ -375,7 +376,7 @@ public class SourceCcJudgmentExtractorTest {
         
         // execute
         
-        sourceCcJudgmentExtractor.convertSpecific(ccJudgment, sJudgment);
+        sourceCcJudgmentExtractor.convertSpecific(ccJudgment, sJudgment, correctionList);
         
         
         // assert

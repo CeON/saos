@@ -11,8 +11,10 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import pl.edu.icm.saos.importer.common.JudgmentConverter;
-import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
+import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
+import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -35,6 +37,15 @@ public class CcjProcessingServiceTest {
     private JudgmentConverter<CommonCourtJudgment, SourceCcJudgment> sourceCcJudgmentConverter;
     
     
+    private SourceCcJudgment sourceCcJudgment = new SourceCcJudgment();
+    
+    private CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
+    
+    private ImportCorrectionList correctionList = new ImportCorrectionList();
+    
+    private JudgmentWithCorrectionList<CommonCourtJudgment> jWithCorrectionList = new JudgmentWithCorrectionList<>(ccJudgment, correctionList);
+    
+    
     @Before
     public void before() {
         MockitoAnnotations.initMocks(this);
@@ -50,24 +61,21 @@ public class CcjProcessingServiceTest {
         
         //------------------ data preparation -----------------------
 
-        SourceCcJudgment sourceCcJudgment = new SourceCcJudgment();
-        
-        CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
         ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
         ccJudgment.getSourceInfo().setSourceJudgmentId("1232345");
         
-        when(sourceCcJudgmentConverter.convertJudgment(Mockito.isA(SourceCcJudgment.class))).thenReturn(ccJudgment);
+        when(sourceCcJudgmentConverter.convertJudgment(Mockito.isA(SourceCcJudgment.class))).thenReturn(jWithCorrectionList);
         when(ccJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getSourceInfo().getSourceJudgmentId()))).thenReturn(null);
         
 
         //------------------ method invocation -----------------------
 
-        CommonCourtJudgment retCcJudgment = ccjProcessingService.processJudgment(sourceCcJudgment);
+        JudgmentWithCorrectionList<CommonCourtJudgment> retJWithCorrectionList = ccjProcessingService.processJudgment(sourceCcJudgment);
       
         
         //------------------ assertions -----------------------
         
-        assertTrue(ccJudgment == retCcJudgment);
+        assertTrue(jWithCorrectionList == retJWithCorrectionList);
         
         ArgumentCaptor<SourceCcJudgment> argSourceCcJudgment = ArgumentCaptor.forClass(SourceCcJudgment.class);
         verify(sourceCcJudgmentConverter).convertJudgment(argSourceCcJudgment.capture());
@@ -83,9 +91,6 @@ public class CcjProcessingServiceTest {
         
         //------------------ data preparation -----------------------
 
-        SourceCcJudgment sourceCcJudgment = new SourceCcJudgment();
-        
-        CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
         ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
         ccJudgment.getSourceInfo().setSourceJudgmentId("1232345");
         
@@ -94,18 +99,19 @@ public class CcjProcessingServiceTest {
         ccJudgment.getSourceInfo().setSourceJudgmentId("1232345");
         
         
-        when(sourceCcJudgmentConverter.convertJudgment(Mockito.isA(SourceCcJudgment.class))).thenReturn(ccJudgment);
+        when(sourceCcJudgmentConverter.convertJudgment(Mockito.isA(SourceCcJudgment.class))).thenReturn(jWithCorrectionList);
         when(ccJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getSourceInfo().getSourceJudgmentId()))).thenReturn(existingCcJudgment);
         
         
         //------------------ method invocation -----------------------
 
-        CommonCourtJudgment retCcJudgment = ccjProcessingService.processJudgment(sourceCcJudgment);
+        JudgmentWithCorrectionList<CommonCourtJudgment> retJWithCorrectionList = ccjProcessingService.processJudgment(sourceCcJudgment);
         
         
         //------------------ assertions -----------------------
         
-        assertTrue(existingCcJudgment == retCcJudgment);
+        assertTrue(retJWithCorrectionList == jWithCorrectionList);
+        assertTrue(retJWithCorrectionList.getJudgment() == existingCcJudgment);
         
         ArgumentCaptor<SourceCcJudgment> argSourceCcJudgment = ArgumentCaptor.forClass(SourceCcJudgment.class);
         verify(sourceCcJudgmentConverter).convertJudgment(argSourceCcJudgment.capture());
@@ -115,9 +121,12 @@ public class CcjProcessingServiceTest {
         
         ArgumentCaptor<CommonCourtJudgment> argOldJudgment = ArgumentCaptor.forClass(CommonCourtJudgment.class);
         ArgumentCaptor<CommonCourtJudgment> argNewJudgment = ArgumentCaptor.forClass(CommonCourtJudgment.class);
-        verify(judgmentOverwriter).overwriteJudgment(argOldJudgment.capture(), argNewJudgment.capture());
+        ArgumentCaptor<ImportCorrectionList> argCorrectionList = ArgumentCaptor.forClass(ImportCorrectionList.class);
+        
+        verify(judgmentOverwriter).overwriteJudgment(argOldJudgment.capture(), argNewJudgment.capture(), argCorrectionList.capture());
         assertTrue(existingCcJudgment == argOldJudgment.getValue());
         assertTrue(ccJudgment == argNewJudgment.getValue());
+        assertTrue(correctionList == argCorrectionList.getValue());
         
     }
     

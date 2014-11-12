@@ -19,11 +19,11 @@ import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.client.RestTemplate;
 
 import pl.edu.icm.saos.common.xml.XmlTagContentExtractor;
-import pl.edu.icm.saos.importer.common.DelegatingJudgmentOverwriter;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
-import pl.edu.icm.saos.importer.common.JudgmentConverter;
-import pl.edu.icm.saos.importer.common.JudgmentConverterImpl;
-import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
+import pl.edu.icm.saos.importer.common.converter.JudgmentConverterImpl;
+import pl.edu.icm.saos.importer.common.overwriter.DelegatingJudgmentOverwriter;
+import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.commoncourt.court.XmlCommonCourt;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.SourceCcJudgmentExtractor;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.CcJaxbJodaDateTimeAdapter;
