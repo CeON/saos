@@ -2,7 +2,8 @@ package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process;
 
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
+import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
 /**
@@ -18,7 +19,7 @@ public class ScSpecificJudgmentOverwriter implements JudgmentOverwriter<SupremeC
     
     
     @Override
-    public void overwriteJudgment(SupremeCourtJudgment oldJudgment, SupremeCourtJudgment newJudgment) {
+    public void overwriteJudgment(SupremeCourtJudgment oldJudgment, SupremeCourtJudgment newJudgment, ImportCorrectionList correctionList) {
         
         overwriteScChambers(oldJudgment, newJudgment);
         

@@ -4,8 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.common.JudgmentConverter;
-import pl.edu.icm.saos.importer.common.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
+import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
+import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
@@ -35,15 +36,20 @@ class CcjProcessingService {
      * solely from sourceCcJudgment.
      * See: {@link RawSourceCcJudgment#isJustReasons()} 
      */
-    public CommonCourtJudgment processJudgment(SourceCcJudgment sourceCcJudgment) {
-        CommonCourtJudgment ccJudgment = sourceCcJudgmentConverter.convertJudgment(sourceCcJudgment);
+    public JudgmentWithCorrectionList<CommonCourtJudgment> processJudgment(SourceCcJudgment sourceCcJudgment) {
+        
+        JudgmentWithCorrectionList<CommonCourtJudgment> judgmentWithCorrectionList = sourceCcJudgmentConverter.convertJudgment(sourceCcJudgment);
+        
+        CommonCourtJudgment ccJudgment = judgmentWithCorrectionList.getJudgment();
         
         CommonCourtJudgment oldJudgment = ccJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(ccJudgment.getSourceInfo().getSourceCode(), ccJudgment.getSourceInfo().getSourceJudgmentId()); 
+        
         if (oldJudgment != null) {
-            judgmentOverwriter.overwriteJudgment(oldJudgment, ccJudgment);
-            return oldJudgment;
+            judgmentOverwriter.overwriteJudgment(oldJudgment, ccJudgment, judgmentWithCorrectionList.getCorrectionList());
+            judgmentWithCorrectionList.setJudgment(oldJudgment);
         }
-        return ccJudgment;
+        
+        return judgmentWithCorrectionList;
     }
 
 

@@ -67,6 +67,15 @@ public abstract class DataObject {
         
     }
     
+    /**
+     * Has this object been persisted at least once?
+     * 
+     */
+    @Transient
+    public boolean isPersisted() {
+        return getId() != 0;
+    }
+    
     //------------------------ SETTERS --------------------------
     /** for hibernate */
     @SuppressWarnings("unused")

@@ -16,6 +16,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
+import pl.edu.icm.saos.importer.common.JudgmentImportProcessWriter;
+import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.commoncourt.court.CcImportJobExecutionListener;
 import pl.edu.icm.saos.importer.commoncourt.court.CommonCourtImportProcessor;
 import pl.edu.icm.saos.importer.commoncourt.court.CommonCourtImportWriter;
@@ -29,7 +31,6 @@ import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessRea
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessSkipListener;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessSkipPolicy;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessStepExecutionListener;
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessWriter;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
@@ -51,6 +52,9 @@ public class CcjImportJobConfiguration {
        
     //======== Common Court Judgment importer ========
     
+    
+    // import download beans
+    
     @Scope(value="step", proxyMode = ScopedProxyMode.TARGET_CLASS)
     @Bean
     public CcjImportDownloadReader ccjImportDownloadReader() {
@@ -63,14 +67,19 @@ public class CcjImportJobConfiguration {
     @Autowired
     private CcjImportDownloadProcessor ccjImportDownloadProcessor;
     
+    
+    // import process beans
+    
     @Autowired
     private CcjImportProcessReader ccjImportProcessReader;
     
     @Autowired
     private CcjImportProcessProcessor ccjImportProcessProcessor;
     
-    @Autowired
-    private CcjImportProcessWriter ccjImportProcessWriter;
+    @Bean
+    public JudgmentImportProcessWriter<CommonCourtJudgment> ccjImportProcessWriter() {
+        return new JudgmentImportProcessWriter<>();
+    }
     
     @Autowired
     private CcjImportProcessStepExecutionListener ccjImportProcessStepExecutionListener;
@@ -116,17 +125,16 @@ public class CcjImportJobConfiguration {
     @Autowired
     protected Step ccJudgmentImportProcessStep() {
         TaskletStep step = steps.get("ccJudgmentImportProcessStep")
-             .<RawSourceCcJudgment, CommonCourtJudgment> chunk(20)
-                 .faultTolerant().skipPolicy(ccjImportProcessSkipPolicy).listener(ccjImportProcessSkipListener)
-                 
-            .reader(ccjImportProcessReader)
-            .processor(ccjImportProcessProcessor)
-            .writer(ccjImportProcessWriter)
-            .listener(ccjImportProcessStepExecutionListener)
-            .transactionAttribute(new DefaultTransactionAttribute())
-            .build();
-        step.setTransactionAttribute(new DefaultTransactionAttribute());
-        return step;
+                .<RawSourceCcJudgment, JudgmentWithCorrectionList<CommonCourtJudgment>> chunk(20).faultTolerant()
+               .skipPolicy(ccjImportProcessSkipPolicy).listener(ccjImportProcessSkipListener)
+               .reader(ccjImportProcessReader)
+               .processor(ccjImportProcessProcessor)
+               .writer(ccjImportProcessWriter())
+               .listener(ccjImportProcessStepExecutionListener)
+               .transactionAttribute(new DefaultTransactionAttribute())
+               .build();
+           step.setTransactionAttribute(new DefaultTransactionAttribute());
+           return step;
     } 
     
     

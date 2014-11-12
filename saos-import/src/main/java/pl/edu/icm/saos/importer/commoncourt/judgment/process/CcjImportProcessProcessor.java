@@ -6,6 +6,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
@@ -15,7 +16,7 @@ import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
  * @author Łukasz Dumiszewski
  */
 @Service("ccjImportProcessProcessor")
-public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgment, CommonCourtJudgment> {
+public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgment, JudgmentWithCorrectionList<CommonCourtJudgment>> {
 
     private static Logger log = LoggerFactory.getLogger(CcjImportProcessProcessor.class);
     
@@ -31,7 +32,7 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
     
     
     @Override
-    public CommonCourtJudgment process(RawSourceCcJudgment rawJudgment) throws Exception {
+    public JudgmentWithCorrectionList<CommonCourtJudgment> process(RawSourceCcJudgment rawJudgment) throws Exception {
         
         // refetch the rawJudgment from db - without this we can run into OptimisticLockingEx
         // in case of skipping items due errors, see more detailed explanation: https://github.com/CeON/saos/issues/22
@@ -40,11 +41,11 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
         SourceCcJudgment sourceCcJudgment = rawSourceCcJudgmentConverter.convertSourceCcJudgment(rawJudgment);
         log.trace("process: \n {}", sourceCcJudgment);
         
-        CommonCourtJudgment ccJudgment = ccjProcessingService.processJudgment(sourceCcJudgment);
+        JudgmentWithCorrectionList<CommonCourtJudgment> judgmentWithCorrectionList = ccjProcessingService.processJudgment(sourceCcJudgment);
         
         markProcessingOk(rawJudgment);
         
-        return ccJudgment;
+        return judgmentWithCorrectionList;
         
         
     }

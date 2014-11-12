@@ -1,12 +1,14 @@
-package pl.edu.icm.saos.importer.common;
+package pl.edu.icm.saos.importer.common.overwriter;
 
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 
 import com.google.common.base.Preconditions;
 
@@ -20,11 +22,10 @@ public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
 
     
     @Override
-    public final void overwriteJudgment(Judgment oldJudgment, Judgment newJudgment) {
+    public final void overwriteJudgment(Judgment oldJudgment, Judgment newJudgment, ImportCorrectionList correctionList) {
         
         Preconditions.checkNotNull(oldJudgment);
         Preconditions.checkNotNull(newJudgment);
-        
         
         overwriteCourtCases(oldJudgment, newJudgment);
         oldJudgment.setJudgmentDate(newJudgment.getJudgmentDate());
@@ -35,9 +36,9 @@ public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
         oldJudgment.setSummary(newJudgment.getSummary());
         oldJudgment.setTextContent(newJudgment.getTextContent());
         
-        OverwriterUtils.overwriteSourceInfo(oldJudgment.getSourceInfo(), newJudgment.getSourceInfo());
+        overwriteSourceInfo(oldJudgment.getSourceInfo(), newJudgment.getSourceInfo());
         
-        overwriteJudges(oldJudgment, newJudgment);
+        overwriteJudges(oldJudgment, newJudgment, correctionList);
         
         overwriteReferencedRegulations(oldJudgment, newJudgment);
         
@@ -100,7 +101,7 @@ public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
     
 
 
-    private void overwriteJudges(Judgment oldJudgment, Judgment newJudgment) {
+    private void overwriteJudges(Judgment oldJudgment, Judgment newJudgment, ImportCorrectionList correctionList) {
         for (Judge oldJudge : oldJudgment.getJudges()) {
             if (!newJudgment.containsJudge(oldJudge.getName())) {
                 oldJudgment.removeJudge(oldJudge);
@@ -110,8 +111,11 @@ public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
             Judge nJudge = new Judge(judge.getName(), judge.getSpecialRoles().toArray(new JudgeRole[1]));
             if (!oldJudgment.containsJudge(nJudge.getName())) {
                 oldJudgment.addJudge(nJudge);    
+                correctionList.changeCorrectedObject(judge, nJudge);
             } else {
-                oldJudgment.getJudge(nJudge.getName()).setSpecialRoles(nJudge.getSpecialRoles());
+                Judge oldJudge = oldJudgment.getJudge(nJudge.getName());
+                oldJudge.setSpecialRoles(nJudge.getSpecialRoles());
+                correctionList.changeCorrectedObject(judge, oldJudge);
             }
             
         }
@@ -132,5 +136,14 @@ public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
         }
     }
        
+    
+    private void overwriteSourceInfo(JudgmentSourceInfo oldJudgmentSource, JudgmentSourceInfo newJudgmentSource) {
+        oldJudgmentSource.setSourceJudgmentId(newJudgmentSource.getSourceJudgmentId());
+        oldJudgmentSource.setPublicationDate(newJudgmentSource.getPublicationDate());
+        oldJudgmentSource.setSourceJudgmentUrl(newJudgmentSource.getSourceJudgmentUrl());
+        oldJudgmentSource.setSourceCode(newJudgmentSource.getSourceCode());
+        oldJudgmentSource.setPublisher(newJudgmentSource.getPublisher());
+        oldJudgmentSource.setReviser(newJudgmentSource.getReviser());
+    }
    
 }

@@ -26,7 +26,7 @@ class ScJudgmentFormNameNormalizer {
     
     /**
      * Normalizes the {@link SupremeCourtJudgmentForm} name, changes it to a proper value, e.g.
-     * orzecznie -> wyrok, according to {@link #setNormalizedNameMap(Map)}
+     * orzeczenie -> wyrok, according to {@link #setNormalizedNameMap(Map)}
      */
     public String normalize(String judgmentFormName) {
         
@@ -34,7 +34,8 @@ class ScJudgmentFormNameNormalizer {
             return null;
         }
         
-        judgmentFormName = judgmentFormName.trim();
+                
+        judgmentFormName = adjust(judgmentFormName);
         
         for (Map.Entry<String, String> entry : normalizedNameMap.entrySet()) {
             if (StringUtils.containsIgnoreCase(judgmentFormName, entry.getKey())) {
@@ -45,7 +46,32 @@ class ScJudgmentFormNameNormalizer {
         return judgmentFormName;
     }
 
+    /**
+     * Says whether judgmentFormName is subject to change by normalization, see: {@link #normalize(String)}
+     */
+    public boolean isChangedByNormalization(String judgmentFormName) {
+        
+        String adjustedJudgmentFormName = adjust(judgmentFormName);
+        String normalizedJudgmentFormName = normalize(judgmentFormName);
+        
+        if (adjustedJudgmentFormName == null) {
+            if (normalizedJudgmentFormName == null) {
+                return false;
+            } 
+        }
+        
+        return !adjustedJudgmentFormName.equals(normalizedJudgmentFormName);
+    }
 
+    
+
+    //------------------------ PRIVATE --------------------------
+    
+    private String adjust(String judgmentFormName) {
+        return StringUtils.trim(judgmentFormName);
+    }
+    
+    
     //------------------------ SETTERS --------------------------
     
     public void setNormalizedNameMap(Map<String, String> normalizedNameMap) {

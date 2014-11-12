@@ -1,7 +1,8 @@
-package pl.edu.icm.saos.importer.common;
+package pl.edu.icm.saos.importer.common.overwriter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 import com.google.common.base.Preconditions;
@@ -27,13 +28,13 @@ public class DelegatingJudgmentOverwriter<T extends Judgment> implements Judgmen
     //------------------------ LOGIC --------------------------
     
     @Override
-    public final void overwriteJudgment(T oldJudgment, T newJudgment) {
+    public final void overwriteJudgment(T oldJudgment, T newJudgment, ImportCorrectionList correctionList) {
         Preconditions.checkNotNull(oldJudgment);
         Preconditions.checkNotNull(newJudgment);
         
-        commonJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        commonJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
         
-        specificJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment);
+        specificJudgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
     }
 
 

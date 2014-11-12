@@ -1,10 +1,15 @@
-package pl.edu.icm.saos.importer.common;
+package pl.edu.icm.saos.importer.common.converter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.assertj.core.util.Lists;
@@ -13,8 +18,16 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
+import org.springframework.util.ReflectionUtils;
 
+import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
+import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
@@ -40,7 +53,6 @@ public class JudgmentConverterImplTest {
     private Judgment judgment = new CommonCourtJudgment();
     
     
-    
     @Before
     public void before() {
         judgmentConverter.setJudgmentDataExtractor(judgmentDataExtractor);
@@ -54,16 +66,16 @@ public class JudgmentConverterImplTest {
         // given
         
         List<CourtCase> courtCases = Lists.newArrayList(new CourtCase("21221"), new CourtCase("1212sdsd"));
-        when(judgmentDataExtractor.extractCourtCases(sourceJudgment)).thenReturn(courtCases);
+        when(judgmentDataExtractor.extractCourtCases(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(courtCases);
         
         
         // execute
-        Judgment retJudgment = judgmentConverter.convertJudgment(sourceJudgment);
+        JudgmentWithCorrectionList<Judgment> retJudgmentWithC = judgmentConverter.convertJudgment(sourceJudgment);
         
         
         // assert
         
-        assertTrue(judgment == retJudgment);
+        assertTrue(judgment == retJudgmentWithC.getJudgment());
         
         assertThat(judgment.getCourtCases(), Matchers.containsInAnyOrder(courtCases.toArray()));
     }
@@ -75,7 +87,7 @@ public class JudgmentConverterImplTest {
         // given
         
         List<String> courtReporters = Lists.newArrayList("jan nowak", "adam k");
-        when(judgmentDataExtractor.extractCourtReporters(sourceJudgment)).thenReturn(courtReporters);
+        when(judgmentDataExtractor.extractCourtReporters(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(courtReporters);
         
         
         // execute
@@ -95,7 +107,7 @@ public class JudgmentConverterImplTest {
         // given
         
         String decision = "sdsd";
-        when(judgmentDataExtractor.extractDecision(sourceJudgment)).thenReturn(decision);
+        when(judgmentDataExtractor.extractDecision(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(decision);
         
         
         // execute
@@ -117,7 +129,7 @@ public class JudgmentConverterImplTest {
         // given
         
         String summary = "sdsd";
-        when(judgmentDataExtractor.extractSummary(sourceJudgment)).thenReturn(summary);
+        when(judgmentDataExtractor.extractSummary(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(summary);
         
         
         // execute
@@ -138,7 +150,7 @@ public class JudgmentConverterImplTest {
         // given
         
         String textContent = "sdsd";
-        when(judgmentDataExtractor.extractTextContent(sourceJudgment)).thenReturn(textContent);
+        when(judgmentDataExtractor.extractTextContent(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(textContent);
         
         
         // execute
@@ -160,7 +172,7 @@ public class JudgmentConverterImplTest {
         // given
         
         LocalDate judgmentDate = new LocalDate();
-        when(judgmentDataExtractor.extractJudgmentDate(sourceJudgment)).thenReturn(judgmentDate);
+        when(judgmentDataExtractor.extractJudgmentDate(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(judgmentDate);
         
         
         // execute
@@ -182,7 +194,7 @@ public class JudgmentConverterImplTest {
         // given
         
         JudgmentType judgmentType = JudgmentType.SENTENCE;
-        when(judgmentDataExtractor.extractJudgmentType(sourceJudgment)).thenReturn(judgmentType);
+        when(judgmentDataExtractor.extractJudgmentType(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(judgmentType);
         
         
         // execute
@@ -204,7 +216,7 @@ public class JudgmentConverterImplTest {
         // given
         
         DateTime publicationDate = new DateTime();
-        when(judgmentDataExtractor.extractPublicationDate(sourceJudgment)).thenReturn(publicationDate);
+        when(judgmentDataExtractor.extractPublicationDate(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(publicationDate);
         
         
         // execute
@@ -226,7 +238,7 @@ public class JudgmentConverterImplTest {
         // given
         
         String publisher = "Zenon Ptak";
-        when(judgmentDataExtractor.extractPublisher(sourceJudgment)).thenReturn(publisher);
+        when(judgmentDataExtractor.extractPublisher(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(publisher);
         
         
         // execute
@@ -248,7 +260,7 @@ public class JudgmentConverterImplTest {
         // given
         
         String reviser = "Zenon Ptak";
-        when(judgmentDataExtractor.extractReviser(sourceJudgment)).thenReturn(reviser);
+        when(judgmentDataExtractor.extractReviser(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(reviser);
         
         
         // execute
@@ -269,7 +281,7 @@ public class JudgmentConverterImplTest {
         // given
         
         String sourceJudgmentId = "12212ADSD";
-        when(judgmentDataExtractor.extractSourceJudgmentId(sourceJudgment)).thenReturn(sourceJudgmentId);
+        when(judgmentDataExtractor.extractSourceJudgmentId(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(sourceJudgmentId);
         
         
         // execute
@@ -290,7 +302,7 @@ public class JudgmentConverterImplTest {
         // given
         
         String sourceJudgmentUrl = "12212ADSD";
-        when(judgmentDataExtractor.extractSourceJudgmentUrl(sourceJudgment)).thenReturn(sourceJudgmentUrl);
+        when(judgmentDataExtractor.extractSourceJudgmentUrl(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(sourceJudgmentUrl);
         
         
         // execute
@@ -333,7 +345,7 @@ public class JudgmentConverterImplTest {
         // given
         
         List<String> legalBases = Lists.newArrayList("dsdsdsf43 432f", "sadsad sd asd as");
-        when(judgmentDataExtractor.extractLegalBases(sourceJudgment)).thenReturn(legalBases);
+        when(judgmentDataExtractor.extractLegalBases(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(legalBases);
         
         
         // execute
@@ -354,7 +366,7 @@ public class JudgmentConverterImplTest {
         // given
         
         List<Judge> judges = Lists.newArrayList(new Judge("Jan Nowak"), new Judge("Adam Kowalski", JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE));
-        when(judgmentDataExtractor.extractJudges(sourceJudgment)).thenReturn(judges);
+        when(judgmentDataExtractor.extractJudges(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(judges);
         
         
         // execute
@@ -374,6 +386,55 @@ public class JudgmentConverterImplTest {
     }
     
     
+    @Test
+    public void convertJudgment_extractJudges_sameNames() {
+        
+        // given
+        
+        Judge adamKowalski1 = new Judge("Adam Kowalski", JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE);
+        Judge adamKowalski2 = new Judge("Adam Kowalski");
+        List<Judge> judges = Lists.newArrayList(new Judge("Jan Nowak"), adamKowalski1, adamKowalski2);
+        
+        Mockito.doAnswer(new Answer<List<Judge>>() {
+            @Override
+            public List<Judge> answer(InvocationOnMock invocation) throws Throwable {
+                Object[] args = invocation.getArguments();
+                ImportCorrectionList correctionList = (ImportCorrectionList)args[1];
+                correctionList.addCorrection(adamKowalski2, CorrectedProperty.JUDGE_NAME, "Sędzia Adam Kowalski", adamKowalski2.getName());
+                return judges;
+            }
+        }).when(judgmentDataExtractor).extractJudges(eq(sourceJudgment), any(ImportCorrectionList.class));
+        
+        
+        // execute
+        
+        JudgmentWithCorrectionList<Judgment> jWithCorrectionList = judgmentConverter.convertJudgment(sourceJudgment);
+        
+        
+        // assert judges
+        
+        assertEquals(judges.size()-1, judgment.getJudges().size());
+        Judge janNowak = judgment.getJudge("Jan Nowak");
+        assertTrue(judges.get(0) == janNowak);
+        
+        Judge adamKowalski = judgment.getJudge("Adam Kowalski");
+        assertTrue(judges.get(1) == adamKowalski);
+        
+        // assert corrections
+        
+        assertEquals(2, jWithCorrectionList.getCorrectionList().getImportCorrections().size());
+        ImportCorrection correctionMoreThanOneWithSameName = jWithCorrectionList.getCorrectionList().getImportCorrection(adamKowalski1, CorrectedProperty.JUDGES_MORE_THAN_ONE_WITH_SAME_NAME);
+        assertNotNull(correctionMoreThanOneWithSameName);
+        assertEquals(adamKowalski2.getName(), correctionMoreThanOneWithSameName.getOldValue());
+        
+        ImportCorrection changeNameCorrection = jWithCorrectionList.getCorrectionList().getImportCorrection(adamKowalski1, CorrectedProperty.JUDGE_NAME);
+        assertNotNull(changeNameCorrection);
+        assertEquals("Sędzia Adam Kowalski", changeNameCorrection.getOldValue());
+        
+        
+    }
+    
+    
     
     @Test
     public void convertJudgment_extractReferencedRegulations() {
@@ -382,7 +443,7 @@ public class JudgmentConverterImplTest {
         
         
         List<JudgmentReferencedRegulation> refRegulations = Lists.newArrayList(new JudgmentReferencedRegulation());
-        when(judgmentDataExtractor.extractReferencedRegulations(sourceJudgment)).thenReturn(refRegulations);
+        when(judgmentDataExtractor.extractReferencedRegulations(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(refRegulations);
         
         
         // execute
@@ -405,13 +466,60 @@ public class JudgmentConverterImplTest {
     public void convertJudgment_convertSpecific() {
         
         // execute
-        Judgment retJudgment = judgmentConverter.convertJudgment(sourceJudgment);
+        
+        JudgmentWithCorrectionList<Judgment> retJudgmentWithC = judgmentConverter.convertJudgment(sourceJudgment);
         
         
         // assert
         
-        Mockito.verify(judgmentDataExtractor).convertSpecific(retJudgment, sourceJudgment);
+        ArgumentCaptor<ImportCorrectionList> argCorrectionList = ArgumentCaptor.forClass(ImportCorrectionList.class);
+        
+        verify(judgmentDataExtractor).convertSpecific(eq(retJudgmentWithC.getJudgment()), eq(sourceJudgment), argCorrectionList.capture());
+        
+        assertTrue(retJudgmentWithC.getCorrectionList() == argCorrectionList.getValue());
     
     }
     
+    
+    @Test 
+    public void convertJudgment_SameCorrectionListShouldBePassedToAllExtractingMethods() {
+        
+        // execute
+        
+        JudgmentWithCorrectionList<Judgment> retJudgmentWithC = judgmentConverter.convertJudgment(sourceJudgment);
+        
+        
+        // assert
+        
+        ArgumentCaptor<ImportCorrectionList> argCorrectionList = ArgumentCaptor.forClass(ImportCorrectionList.class);
+        
+        verify(judgmentDataExtractor).extractCourtCases(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractCourtReporters(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractDecision(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractJudges(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractJudgmentDate(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractJudgmentType(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractLegalBases(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractPublicationDate(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractPublisher(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractReferencedRegulations(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractReviser(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractSourceJudgmentId(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractSourceJudgmentUrl(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractSummary(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractTextContent(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).convertSpecific(eq(retJudgmentWithC.getJudgment()), eq(sourceJudgment), argCorrectionList.capture());
+        
+        // check if this test takes all methods into account
+        assertEquals(getNumberOfExtractMethods()+1, argCorrectionList.getAllValues().size()); // +1 for convertSpecific
+        
+        argCorrectionList.getAllValues().stream().forEach(cl->assertTrue(cl == retJudgmentWithC.getCorrectionList()));
+    }
+    
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private long getNumberOfExtractMethods() {
+        return Arrays.asList(ReflectionUtils.getAllDeclaredMethods(JudgmentDataExtractor.class)).stream().filter(m->m.getName().startsWith("extract")).count();
+    }
 }

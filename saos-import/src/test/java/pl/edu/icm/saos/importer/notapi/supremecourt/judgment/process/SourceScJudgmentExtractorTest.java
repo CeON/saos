@@ -18,9 +18,12 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import pl.edu.icm.saos.importer.common.correction.CorrectionAssertions;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.Source;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.SourceScJudge;
+import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
@@ -58,6 +61,8 @@ public class SourceScJudgmentExtractorTest {
     
     private SourceScJudgment sJudgment = new SourceScJudgment();
     
+    private ImportCorrectionList correctionList = new ImportCorrectionList();
+    
     
     
       
@@ -87,7 +92,7 @@ public class SourceScJudgmentExtractorTest {
         
         sJudgment.setCaseNumber("CASE 211w/121");
         
-        List<CourtCase> courtCases = judgmentExtractor.extractCourtCases(sJudgment);
+        List<CourtCase> courtCases = judgmentExtractor.extractCourtCases(sJudgment, correctionList);
         
         assertEquals(1, courtCases.size());
         assertEquals(sJudgment.getCaseNumber(), courtCases.get(0).getCaseNumber());
@@ -97,7 +102,7 @@ public class SourceScJudgmentExtractorTest {
     @Test
     public void extractCourtReporters() {
         
-        List<String> courtReporters = judgmentExtractor.extractCourtReporters(sJudgment);
+        List<String> courtReporters = judgmentExtractor.extractCourtReporters(sJudgment, correctionList);
         
         assertEquals(0, courtReporters.size());
         
@@ -108,7 +113,7 @@ public class SourceScJudgmentExtractorTest {
     @Test
     public void extractDecision() {
         
-        String decision = judgmentExtractor.extractDecision(sJudgment);
+        String decision = judgmentExtractor.extractDecision(sJudgment, correctionList);
         
         assertNull(decision);
         
@@ -118,7 +123,7 @@ public class SourceScJudgmentExtractorTest {
     @Test
     public void extractPublisher() {
         
-        String publisher = judgmentExtractor.extractPublisher(sJudgment);
+        String publisher = judgmentExtractor.extractPublisher(sJudgment, correctionList);
         
         assertNull(publisher);
         
@@ -128,7 +133,7 @@ public class SourceScJudgmentExtractorTest {
     @Test
     public void extractReviser() {
         
-        String reviser = judgmentExtractor.extractReviser(sJudgment);
+        String reviser = judgmentExtractor.extractReviser(sJudgment, correctionList);
         
         assertNull(reviser);
         
@@ -141,7 +146,7 @@ public class SourceScJudgmentExtractorTest {
         sJudgment.setSource(new Source());
         sJudgment.getSource().setSourceJudgmentId("1221212121222 ");
         
-        String sourceJudgmentId = judgmentExtractor.extractSourceJudgmentId(sJudgment);
+        String sourceJudgmentId = judgmentExtractor.extractSourceJudgmentId(sJudgment, correctionList);
         
         assertEquals(sJudgment.getSource().getSourceJudgmentId(), sourceJudgmentId);
         
@@ -154,7 +159,7 @@ public class SourceScJudgmentExtractorTest {
         sJudgment.setSource(new Source());
         sJudgment.getSource().setSourceJudgmentUrl("www.www.pl");
         
-        String sourceJudgmentUrl = judgmentExtractor.extractSourceJudgmentUrl(sJudgment);
+        String sourceJudgmentUrl = judgmentExtractor.extractSourceJudgmentUrl(sJudgment, correctionList);
         
         assertEquals(sJudgment.getSource().getSourceJudgmentUrl(), sourceJudgmentUrl);
         
@@ -164,7 +169,7 @@ public class SourceScJudgmentExtractorTest {
     @Test
     public void extractSummary() {
         
-        String summary = judgmentExtractor.extractSummary(sJudgment);
+        String summary = judgmentExtractor.extractSummary(sJudgment, correctionList);
         
         assertNull(summary);
         
@@ -176,7 +181,7 @@ public class SourceScJudgmentExtractorTest {
         
         sJudgment.setTextContent("sdlsdklskd <sbfmd ck dkjcd kjcdkj cndjc\n fdfdf");
         
-        String textContent = judgmentExtractor.extractTextContent(sJudgment);
+        String textContent = judgmentExtractor.extractTextContent(sJudgment, correctionList);
         
         assertEquals(sJudgment.getTextContent(), textContent);
         
@@ -188,7 +193,7 @@ public class SourceScJudgmentExtractorTest {
         
         sJudgment.setJudgmentDate(new LocalDate());
         
-        LocalDate judgmentDate = judgmentExtractor.extractJudgmentDate(sJudgment);
+        LocalDate judgmentDate = judgmentExtractor.extractJudgmentDate(sJudgment, correctionList);
         
         assertEquals(sJudgment.getJudgmentDate(), judgmentDate);
         
@@ -201,7 +206,7 @@ public class SourceScJudgmentExtractorTest {
         sJudgment.setSource(new Source());
         sJudgment.getSource().setPublicationDateTime(new DateTime());
         
-        DateTime publicationDate = judgmentExtractor.extractPublicationDate(sJudgment);
+        DateTime publicationDate = judgmentExtractor.extractPublicationDate(sJudgment, correctionList);
         
         assertEquals(sJudgment.getSource().getPublicationDateTime(), publicationDate);
         
@@ -228,7 +233,7 @@ public class SourceScJudgmentExtractorTest {
         
         // execute
         
-        List<Judge> judges = judgmentExtractor.extractJudges(sJudgment);
+        List<Judge> judges = judgmentExtractor.extractJudges(sJudgment, correctionList);
         
         
         // assert
@@ -254,19 +259,17 @@ public class SourceScJudgmentExtractorTest {
         
         // given
         
-        sJudgment.setSupremeCourtJudgmentForm("wyrok siedmiu sędziów SN");
-        
-        String normalizedScJudgmentForm = "wyrok siedmiu";
-        when(scJudgmentFormNameNormalizer.normalize(sJudgment.getSupremeCourtJudgmentForm())).thenReturn(normalizedScJudgmentForm);
+        String judgmentFormName = "wyrok siedmiu sędziów SN";
+        sJudgment.setSupremeCourtJudgmentForm(judgmentFormName);
         
         JudgmentType judgmentType = JudgmentType.SENTENCE;
         
-        when(scJudgmentFormConverter.convertToType(normalizedScJudgmentForm)).thenReturn(judgmentType);
+        when(scJudgmentFormConverter.convertToJudgmentType(judgmentFormName, correctionList)).thenReturn(judgmentType);
         
         
         // execute
         
-        JudgmentType retJudgmentType = judgmentExtractor.extractJudgmentType(sJudgment);
+        JudgmentType retJudgmentType = judgmentExtractor.extractJudgmentType(sJudgment, correctionList);
         
         // assert
         
@@ -278,7 +281,7 @@ public class SourceScJudgmentExtractorTest {
     @Test
     public void extractLegalBases() {
         
-        List<String> legalBases = judgmentExtractor.extractLegalBases(sJudgment);
+        List<String> legalBases = judgmentExtractor.extractLegalBases(sJudgment, correctionList);
         
         assertNotNull(legalBases);
         assertEquals(0, legalBases.size());
@@ -289,7 +292,7 @@ public class SourceScJudgmentExtractorTest {
     @Test
     public void extractReferencedRegulations() {
         
-        List<JudgmentReferencedRegulation> referencedRegulations = judgmentExtractor.extractReferencedRegulations(sJudgment);
+        List<JudgmentReferencedRegulation> referencedRegulations = judgmentExtractor.extractReferencedRegulations(sJudgment, correctionList);
         
         assertNotNull(referencedRegulations);
         assertEquals(0, referencedRegulations.size());
@@ -307,7 +310,7 @@ public class SourceScJudgmentExtractorTest {
         
         // execute
         
-        judgmentExtractor.convertSpecific(scJudgment, sJudgment);
+        judgmentExtractor.convertSpecific(scJudgment, sJudgment, correctionList);
         
         
         // assert
@@ -318,37 +321,47 @@ public class SourceScJudgmentExtractorTest {
         
    
     @Test
-    public void convertSpecific_SupremeCourtChambers() {
+    public void convertSpecific_SupremeCourtChambers_OneChamberCorrected() {
         
         
         // given 
         
         SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
         
-        sJudgment.setSupremeCourtChambers(Lists.newArrayList("BLEBLE CHAMBER", "Hohoho Chamber"));
+        String scChamberName0 = "BLEBLE CHAMBER";
+        String scChamberName1 = "HOHOhoho Chamber ";
+        sJudgment.setSupremeCourtChambers(Lists.newArrayList(scChamberName0, scChamberName1));
         
-        List<String> normalizedChamberNames = Lists.newArrayList("BLE CHAMBER", "HOH CHAMBER");
+        String normalizedScChamberName0 = "B L E Chamber";
+        String normalizedScChamberName1 = scChamberName1;
         
-        when(scChamberNameNormalizer.normalize(sJudgment.getSupremeCourtChambers().get(0))).thenReturn(normalizedChamberNames.get(0));
-        when(scChamberNameNormalizer.normalize(sJudgment.getSupremeCourtChambers().get(1))).thenReturn(normalizedChamberNames.get(1));
+        when(scChamberNameNormalizer.normalize(sJudgment.getSupremeCourtChambers().get(0))).thenReturn(normalizedScChamberName0);
+        when(scChamberNameNormalizer.isChangedByNormalization(sJudgment.getSupremeCourtChambers().get(0))).thenReturn(true);
+        
+        when(scChamberNameNormalizer.normalize(sJudgment.getSupremeCourtChambers().get(1))).thenReturn(normalizedScChamberName1);
+        when(scChamberNameNormalizer.isChangedByNormalization(sJudgment.getSupremeCourtChambers().get(1))).thenReturn(false);
         
         SupremeCourtChamber scChamber0 = new SupremeCourtChamber();
-        scChamber0.setName(normalizedChamberNames.get(0));
+        scChamber0.setName(normalizedScChamberName0);
         
         SupremeCourtChamber scChamber1 = new SupremeCourtChamber();
-        scChamber1.setName(normalizedChamberNames.get(1));
+        scChamber1.setName(normalizedScChamberName1);
         
-        when(scChamberCreator.getOrCreateScChamber(normalizedChamberNames.get(0))).thenReturn(scChamber0);
-        when(scChamberCreator.getOrCreateScChamber(normalizedChamberNames.get(1))).thenReturn(scChamber1);
+        when(scChamberCreator.getOrCreateScChamber(normalizedScChamberName0)).thenReturn(scChamber0);
+        when(scChamberCreator.getOrCreateScChamber(normalizedScChamberName1)).thenReturn(scChamber1);
         
         // execute
         
-        judgmentExtractor.convertSpecific(scJudgment, sJudgment);
+        judgmentExtractor.convertSpecific(scJudgment, sJudgment, correctionList);
         
         
         // assert
 
         assertThat(scJudgment.getScChambers(), Matchers.containsInAnyOrder(scChamber0, scChamber1));
+        
+        assertEquals(1, correctionList.getNumberOfCorrections());
+        CorrectionAssertions.assertExistsCorrection(correctionList, scChamber0, CorrectedProperty.SC_CHAMBER_NAME, scChamberName0, normalizedScChamberName0);
+        
     }
 
 
@@ -368,7 +381,7 @@ public class SourceScJudgmentExtractorTest {
         
         // execute
         
-        judgmentExtractor.convertSpecific(scJudgment, sJudgment);
+        judgmentExtractor.convertSpecific(scJudgment, sJudgment, correctionList);
         
         
         // assert
@@ -389,7 +402,7 @@ public class SourceScJudgmentExtractorTest {
         
         // execute
         
-        judgmentExtractor.convertSpecific(scJudgment, sJudgment);
+        judgmentExtractor.convertSpecific(scJudgment, sJudgment, correctionList);
         
         
         // assert
@@ -400,32 +413,65 @@ public class SourceScJudgmentExtractorTest {
 
     
     @Test
-    public void convertSpecific_SupremeCourtJudgmentForm() {
+    public void convertSpecific_SupremeCourtJudgmentForm_NoCorrection() {
         
         // given
         
-        sJudgment.setSupremeCourtJudgmentForm("wyrok siedmiu sedziow sn");
+        String judgmentFormName = "wyrok siedmiu sedziow sn";
+        sJudgment.setSupremeCourtJudgmentForm(judgmentFormName);
         
-        String normalizedJudgmentForm = "wyrok ssn";
-        when(scJudgmentFormNameNormalizer.normalize(sJudgment.getSupremeCourtJudgmentForm())).thenReturn(normalizedJudgmentForm);
+        when(scJudgmentFormNameNormalizer.normalize(sJudgment.getSupremeCourtJudgmentForm())).thenReturn(judgmentFormName);
+        when(scJudgmentFormNameNormalizer.isChangedByNormalization(judgmentFormName)).thenReturn(false);
         
         SupremeCourtJudgmentForm scjForm = new SupremeCourtJudgmentForm();
-        scjForm.setName(normalizedJudgmentForm);
+        scjForm.setName(judgmentFormName);
         
-        when(scJudgmentFormCreator.getOrCreateScJudgmentForm(normalizedJudgmentForm)).thenReturn(scjForm);
-        
+        when(scJudgmentFormCreator.getOrCreateScJudgmentForm(judgmentFormName)).thenReturn(scjForm);
         
         SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
         
         
         // execute
         
-        judgmentExtractor.convertSpecific(scJudgment, sJudgment);
+        judgmentExtractor.convertSpecific(scJudgment, sJudgment, correctionList);
         
         
         // assert
         assertTrue(scJudgment.getScJudgmentForm() == scjForm);
+        assertEquals(0, correctionList.getNumberOfCorrections());
         
+    }
+    
+    
+    @Test
+    public void convertSpecific_SupremeCourtJudgmentForm_WithCorrection() {
+        
+        // given
+        
+        String judgmentFormName = "wyrok siedmiu sedziow sn";
+        sJudgment.setSupremeCourtJudgmentForm(judgmentFormName);
+        
+        String normalizedJudgmentFormName = "wyrok 7 wspaniałych";
+        when(scJudgmentFormNameNormalizer.normalize(sJudgment.getSupremeCourtJudgmentForm())).thenReturn(normalizedJudgmentFormName);
+        when(scJudgmentFormNameNormalizer.isChangedByNormalization(judgmentFormName)).thenReturn(true);
+        
+        SupremeCourtJudgmentForm scjForm = new SupremeCourtJudgmentForm();
+        scjForm.setName(normalizedJudgmentFormName);
+        
+        when(scJudgmentFormCreator.getOrCreateScJudgmentForm(normalizedJudgmentFormName)).thenReturn(scjForm);
+        
+        SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
+        
+        
+        // execute
+        
+        judgmentExtractor.convertSpecific(scJudgment, sJudgment, correctionList);
+        
+        
+        // assert
+        assertTrue(scJudgment.getScJudgmentForm() == scjForm);
+        assertEquals(1, correctionList.getNumberOfCorrections());
+        CorrectionAssertions.assertExistsCorrection(correctionList, scjForm, CorrectedProperty.SC_JUDGMENT_FORM_NAME, judgmentFormName, normalizedJudgmentFormName);
         
     }
     
