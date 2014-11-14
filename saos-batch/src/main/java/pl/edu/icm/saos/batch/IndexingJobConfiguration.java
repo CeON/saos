@@ -28,26 +28,26 @@ public class IndexingJobConfiguration {
 
 
     @Autowired
-    private JudgmentIndexingReader ccJudgmentIndexingReader;
+    private JudgmentIndexingReader judgmentIndexingReader;
     
     @Autowired
-    private JudgmentIndexingProcessor ccJudgmentIndexingProcessor;
+    private JudgmentIndexingProcessor judgmentIndexingProcessor;
     
     @Autowired
-    private JudgmentIndexingWriter ccJudgmentIndexingWriter;
+    private JudgmentIndexingWriter judgmentIndexingWriter;
     
     @Bean
-    public Job ccJudgmentIndexingJob() {
-        return jobs.get("ccJudgmentIndexingJob").start(ccJudgmentIndexingProcessStep()).incrementer(new RunIdIncrementer()).build();
+    public Job judgmentIndexingJob() {
+        return jobs.get("judgmentIndexingJob").start(ccJudgmentIndexingProcessStep()).incrementer(new RunIdIncrementer()).build();
     }
     
     @Bean
     @Autowired
     protected Step ccJudgmentIndexingProcessStep() {
-        return steps.get("ccJudgmentIndexingStep").<Judgment, SolrInputDocument> chunk(20)
-                .reader(ccJudgmentIndexingReader)
-                .processor(ccJudgmentIndexingProcessor)
-                .writer(ccJudgmentIndexingWriter)
+        return steps.get("judgmentIndexingStep").<Judgment, SolrInputDocument> chunk(20)
+                .reader(judgmentIndexingReader)
+                .processor(judgmentIndexingProcessor)
+                .writer(judgmentIndexingWriter)
                 .build();
     }
 }

@@ -56,10 +56,10 @@ import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
  * @author madryk
  */
 @Category(SlowTest.class)
-public class CcJudgmentIndexingJobTest extends BatchTestSupport {
+public class JudgmentIndexingJobTest extends BatchTestSupport {
 
     @Autowired
-    private Job ccJudgmentIndexingJob;
+    private Job judgmentIndexingJob;
     
     @Autowired
     private JobForcingExecutor jobExecutor;
@@ -120,7 +120,7 @@ public class CcJudgmentIndexingJobTest extends BatchTestSupport {
         
         int alreadyIndexedCount = 1;
         
-        JobExecution jobExecution = jobExecutor.forceStartNewJob(ccJudgmentIndexingJob);
+        JobExecution jobExecution = jobExecutor.forceStartNewJob(judgmentIndexingJob);
         assertEquals(ALL_JUDGMENTS_COUNT - alreadyIndexedCount, getFirstStepExecution(jobExecution).getWriteCount());
         
         assertAllMarkedAsIndexed();
