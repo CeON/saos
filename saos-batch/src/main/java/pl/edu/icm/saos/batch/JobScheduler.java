@@ -85,16 +85,16 @@ public class JobScheduler {
     }
 
     @Autowired
-    private Job ccJudgmentIndexingJob;
+    private Job judgmentIndexingJob;
     
     @Scheduled(cron="${indexing.judgments.cron}")
     public void indexCommonCourtJudgments() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
         
-        log.info("Common court judgments indexing has started");
+        log.info("Judgments indexing has started");
         
-        JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentIndexingJob);
+        JobExecution execution = jobExecutor.forceStartNewJob(judgmentIndexingJob);
         
-        log.info("Common court judgments indexing has finished, exit status: {}", execution.getStatus());
+        log.info("Judgments indexing has finished, exit status: {}", execution.getStatus());
     }
     
 

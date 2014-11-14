@@ -51,12 +51,12 @@ import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
  * @author madryk
  */
 @Category(SlowTest.class)
-public class JudgmentIndexingJobPerformanceIT extends BatchTestSupport {
+public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
     
-    private static final Logger log = LoggerFactory.getLogger(JudgmentIndexingJobPerformanceIT.class);
+    private static final Logger log = LoggerFactory.getLogger(JudgmentIndexingJobPerformanceTest.class);
 
     @Autowired
-    private Job ccJudgmentIndexingJob;
+    private Job judgmentIndexingJob;
     
     @Autowired
     private JobForcingExecutor jobExecutor;
@@ -75,7 +75,14 @@ public class JudgmentIndexingJobPerformanceIT extends BatchTestSupport {
     
     @Autowired
     @Qualifier("solrJudgmentsServer")
-    private SolrServer judgmentsSolrServer;
+    private SolrServer solrJudgmentsServer;
+    
+    
+    private List<CommonCourtDivision> divisions;
+    
+    private List<SupremeCourtChamber> chambers;
+    
+    private List<SupremeCourtChamberDivision> chambersDivision;
     
     private final static int MAXIMUM_INDEXING_TIME_MS = 2 * 60 * 1000;
     private final static int COMMON_COURT_JUDGMENTS_COUNT = 500;
@@ -91,16 +98,16 @@ public class JudgmentIndexingJobPerformanceIT extends BatchTestSupport {
     
     @Before
     public void setUp() throws SolrServerException, IOException, ScriptException, SQLException {
-        judgmentsSolrServer.deleteByQuery("*:*");
-        judgmentsSolrServer.commit();
+        solrJudgmentsServer.deleteByQuery("*:*");
+        solrJudgmentsServer.commit();
         generateCcJudgments();
         generateScJudgments();
     }
     
     @After
     public void cleanup() throws SolrServerException, IOException {
-        judgmentsSolrServer.deleteByQuery("*:*");
-        judgmentsSolrServer.commit();
+        solrJudgmentsServer.deleteByQuery("*:*");
+        solrJudgmentsServer.commit();
     }
     
     
@@ -111,8 +118,7 @@ public class JudgmentIndexingJobPerformanceIT extends BatchTestSupport {
         
         long startTime = System.currentTimeMillis();
 
-        jobExecutor.forceStartNewJob(ccJudgmentIndexingJob);
-        judgmentsSolrServer.commit();
+        jobExecutor.forceStartNewJob(judgmentIndexingJob);
 
         long finishTime = System.currentTimeMillis();
 
@@ -127,7 +133,34 @@ public class JudgmentIndexingJobPerformanceIT extends BatchTestSupport {
     
     private void generateCcJudgments() throws IOException {
         
-        List<CommonCourtDivision> divisions = Lists.newArrayList();
+        generateCcCourtsAndDivisions();
+        String textContent = generateJudgmentTextContent();
+        
+        for (int i=0; i<COMMON_COURT_JUDGMENTS_COUNT; ++i) {
+            generateCcJudgment(i % divisions.size(), textContent);
+        }
+    }
+    
+    private void generateCcJudgment(int divisionIndex, String textContent) {
+        CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
+        
+        fillJudgment(ccJudgment, textContent);
+        IntStream.range(1, 6).forEach(x -> ccJudgment.addKeyword(new CcJudgmentKeyword(RandomStringUtils.randomAlphabetic(5*x))));
+        ccJudgment.setCourtDivision(divisions.get(divisionIndex));
+        
+        judgmentRepository.save(ccJudgment);
+    }
+
+    private String generateJudgmentTextContent() throws IOException {
+        String textContent = null;
+        try (InputStream inputStream = new ClassPathResource("contentField41808.txt").getInputStream()) {
+            textContent = IOUtils.toString(inputStream, "UTF-8");
+        }
+        return textContent;
+    }
+
+    private void generateCcCourtsAndDivisions() {
+        divisions = Lists.newArrayList();
         for (int i=0; i<COMMON_COURTS_COUNT; ++i) {
             CommonCourt court = generateRandomCommonCourt();
             commonCourtRepository.save(court);
@@ -138,26 +171,30 @@ public class JudgmentIndexingJobPerformanceIT extends BatchTestSupport {
                 divisions.add(division);
             }
         }
-        
-        String textContent = null;
-        try (InputStream inputStream = new ClassPathResource("contentField41808.txt").getInputStream()) {
-            textContent = IOUtils.toString(inputStream, "UTF-8");
-        }
-        
-        for (int i=0; i<COMMON_COURT_JUDGMENTS_COUNT; ++i) {
-            CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
-            
-            fillJudgment(ccJudgment, textContent);
-            IntStream.range(1, 6).forEach(x -> ccJudgment.addKeyword(new CcJudgmentKeyword(RandomStringUtils.randomAlphabetic(5*x))));
-            ccJudgment.setCourtDivision(divisions.get(i % divisions.size()));
-            
-            judgmentRepository.save(ccJudgment);
+    }
+    
+    private void generateScJudgments() {
+        generateScChambersAndDivisions();
+
+        for (int i=0; i<SUPREME_COURT_JUDGMENTS_COUNT; ++i) {
+            generateScJudgment(i % chambersDivision.size(), i % chambers.size());
         }
     }
     
-    private void generateScJudgments() throws IOException {
-        List<SupremeCourtChamber> chambers = Lists.newArrayList();
-        List<SupremeCourtChamberDivision> chambersDivision = Lists.newArrayList();
+    private void generateScJudgment(int chambersDivisionIndex, int chambersIndex) {
+        SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
+        
+        fillJudgment(scJudgment, RandomStringUtils.randomAlphabetic(2000));
+        scJudgment.setPersonnelType(PersonnelType.JOINED_CHAMBERS);
+        scJudgment.setScChamberDivision(chambersDivision.get(chambersDivisionIndex));
+        scJudgment.addScChamber(chambers.get(chambersIndex));
+        
+        judgmentRepository.save(scJudgment);
+    }
+    
+    private void generateScChambersAndDivisions() {
+        chambers = Lists.newArrayList();
+        chambersDivision = Lists.newArrayList();
         
         for (int i=0; i<SUPREME_COURT_CHAMBERS_COUNT; ++i) {            
             SupremeCourtChamberDivision chamberDivision = new SupremeCourtChamberDivision();
@@ -173,20 +210,10 @@ public class JudgmentIndexingJobPerformanceIT extends BatchTestSupport {
             chambers.add(chamber);
             chambersDivision.add(chamberDivision);
         }
-
-        for (int i=0; i<SUPREME_COURT_JUDGMENTS_COUNT; ++i) {
-            SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
-            
-            fillJudgment(scJudgment, RandomStringUtils.randomAlphabetic(2000));
-            scJudgment.setPersonnelType(PersonnelType.JOINED_CHAMBERS);
-            scJudgment.setScChamberDivision(chambersDivision.get(i % chambersDivision.size()));
-            scJudgment.addScChamber(chambers.get(i % chambers.size()));
-            
-            judgmentRepository.save(scJudgment);
-        }
+        
     }
     
-    private void fillJudgment(Judgment judgment, String textContent) throws IOException {
+    private void fillJudgment(Judgment judgment, String textContent) {
         judgment.setJudgmentType(JudgmentType.SENTENCE);
         judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphabetic(10)));
         
