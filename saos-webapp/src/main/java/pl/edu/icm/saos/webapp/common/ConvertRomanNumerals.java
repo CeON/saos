@@ -1,10 +1,4 @@
 package pl.edu.icm.saos.webapp.common;
-
-import java.util.Set;
-import java.util.EnumSet;
-import java.util.Collections;
-import java.util.stream.Collectors;
-import java.util.stream.LongStream;
  
 /**
  * @author Łukasz Pawełczak
@@ -13,10 +7,12 @@ import java.util.stream.LongStream;
 public class ConvertRomanNumerals {
 	
 	
+	//------------------------ LOGIC --------------------------
+	
 	public static int decode(String roman) {
 		int result = 0;
 		String uRoman = roman.toUpperCase(); //case-insensitive
-		for(int i = 0;i < uRoman.length() - 1;i++) {//loop over all but the last character
+		for(int i = 0; i < uRoman.length() - 1; i++) {//loop over all but the last character
 			//if this character has a lower value than the next character
 			if (decodeSingle(uRoman.charAt(i)) < decodeSingle(uRoman.charAt(i+1))) {
 				//subtract it
@@ -34,6 +30,8 @@ public class ConvertRomanNumerals {
 	public static boolean isRomanNumeral(String str) {
 	  return str.matches("(?:([MDCLXVI])(?!\\1{3,}))+");
 	}
+	
+	//------------------------ PRIVATE --------------------------
 	
 	private static int decodeSingle(char letter) {
 		switch(letter) {

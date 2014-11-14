@@ -11,6 +11,8 @@ import pl.edu.icm.saos.webapp.common.StringComparator;
 public abstract class DivisionComparator<T> implements Comparator<T> {
 
 	
+	//------------------------ LOGIC --------------------------
+	
 	/* Compare divisions by roman numbers contained in division name. If two division names does not contain roman number, compare it alphabetically. */ 
 	public int compare(T divisionOne, T divisionTwo) {
 		String divisionNameOne = getName(divisionOne); 

@@ -7,10 +7,13 @@ import pl.edu.icm.saos.webapp.common.ConvertRomanNumerals;
  * @author Łukasz Pawełczak
  *
  */
-public class CcDivisionComparator<T> extends DivisionComparator<T> {
+public class CcDivisionComparator extends DivisionComparator<CommonCourtDivision> {
 
+	
+	//------------------------ LOGIC --------------------------
+	
 	@Override
-	protected String getName(T division) {
+	protected String getName(CommonCourtDivision division) {
 		return ((CommonCourtDivision) division).getName();
 	}
 	

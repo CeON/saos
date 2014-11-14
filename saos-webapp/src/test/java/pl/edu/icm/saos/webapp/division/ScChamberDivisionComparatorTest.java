@@ -6,9 +6,13 @@ import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 
+/**
+ * @author Łukasz Pawełczak
+ *
+ */
 public class ScChamberDivisionComparatorTest {
 
-	ScChamberDivisionComparator<SupremeCourtChamberDivision> scChamberDivisionComparator = new ScChamberDivisionComparator<SupremeCourtChamberDivision>();
+	ScChamberDivisionComparator scChamberDivisionComparator = new ScChamberDivisionComparator();
 	
 	@Test
 	public void compare_numbers() {

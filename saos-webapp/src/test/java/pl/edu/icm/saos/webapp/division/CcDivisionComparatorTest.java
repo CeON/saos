@@ -12,7 +12,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
  */
 public class CcDivisionComparatorTest {
 
-	private CcDivisionComparator<CommonCourtDivision> ccDivisionComparator = new CcDivisionComparator<CommonCourtDivision>();
+	private CcDivisionComparator ccDivisionComparator = new CcDivisionComparator();
 	
 	
 	@Test

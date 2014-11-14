@@ -9,8 +9,11 @@ import java.util.Locale;
  */
 public class StringComparator {
 	
+	
+	//------------------------ LOGIC --------------------------
+	
 	public static int compare(String stringOne, String stringTwo) {
 		Collator collator = Collator.getInstance(new Locale("pl", "PL"));
-        return collator.compare(stringOne, stringTwo);
+		return collator.compare(stringOne, stringTwo);
 	}
 }

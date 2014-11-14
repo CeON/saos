@@ -38,13 +38,12 @@ public class CourtsWebService {
     private ScChamberDivisionRepository scChamberDivisionRepository;
     
 	
-	
 	//------------------------ LOGIC --------------------------
 	
 	public List<CommonCourt> getCommonCourts() {
 		
 		List<CommonCourt> courts = commonCourtRepository.findAll();
-		CommonCourtComparator<CommonCourt> commonCourtComparator = new CommonCourtComparator<CommonCourt>();
+		CommonCourtComparator commonCourtComparator = new CommonCourtComparator();
 		
 		Collections.sort(courts, commonCourtComparator);
 		
@@ -54,7 +53,7 @@ public class CourtsWebService {
 	public List<CommonCourtDivision> getCcDivisions(int courtId) {
 		
 		List<CommonCourtDivision> divisions = ccDivisionRepository.findAllByCourtId(courtId);
-		pl.edu.icm.saos.webapp.division.CcDivisionComparator<CommonCourtDivision> ccDivisionComparator = new pl.edu.icm.saos.webapp.division.CcDivisionComparator<CommonCourtDivision>();
+		pl.edu.icm.saos.webapp.division.CcDivisionComparator ccDivisionComparator = new pl.edu.icm.saos.webapp.division.CcDivisionComparator();
 		
 		Collections.sort(divisions, ccDivisionComparator);
 		
@@ -64,7 +63,7 @@ public class CourtsWebService {
 	public List<SupremeCourtChamber> getScChambers() {
 		
 		List<SupremeCourtChamber> chambers = scChamberRepository.findAll();
-		ScChamberComparator<SupremeCourtChamber> scChamberComparator = new ScChamberComparator<SupremeCourtChamber>();
+		ScChamberComparator scChamberComparator = new ScChamberComparator();
 		
 		Collections.sort(chambers, scChamberComparator);
 		
@@ -74,7 +73,7 @@ public class CourtsWebService {
 	public List<SupremeCourtChamberDivision> getScChamberDivisions(int chamberId) {
 		
 		List<SupremeCourtChamberDivision> chamberDivisions = scChamberDivisionRepository.findAllByScChamberId(chamberId);
-		pl.edu.icm.saos.webapp.division.ScChamberDivisionComparator<SupremeCourtChamberDivision> scChamberDivisionComparator = new pl.edu.icm.saos.webapp.division.ScChamberDivisionComparator<SupremeCourtChamberDivision>();
+		pl.edu.icm.saos.webapp.division.ScChamberDivisionComparator scChamberDivisionComparator = new pl.edu.icm.saos.webapp.division.ScChamberDivisionComparator();
 		
 		Collections.sort(chamberDivisions, scChamberDivisionComparator);
 		
@@ -84,31 +83,31 @@ public class CourtsWebService {
 	
 	//------------------------ PRIVATE --------------------------
 	
-	private class CommonCourtComparator<T> implements Comparator<T> {
+	private class CommonCourtComparator implements Comparator<CommonCourt> {
 		
-		public int compare(T courtOne, T courtTwo) {
-            return StringComparator.compare(((CommonCourt) courtOne).getName(), ((CommonCourt) courtTwo).getName());
+		public int compare(CommonCourt courtOne, CommonCourt courtTwo) {
+            return StringComparator.compare(courtOne.getName(), courtTwo.getName());
         }  
 	} 
 	
-	private class CcDivisionComparator<T> implements Comparator<T> {
+	private class CcDivisionComparator implements Comparator<CommonCourtDivision> {
 		
-		public int compare(T divisionOne, T divisionTwo) {
-			return StringComparator.compare(((CommonCourtDivision) divisionOne).getName(), ((CommonCourtDivision) divisionTwo).getName());
+		public int compare(CommonCourtDivision divisionOne, CommonCourtDivision divisionTwo) {
+			return StringComparator.compare(divisionOne.getName(), divisionTwo.getName());
         }  
 	} 
 	
-	private class ScChamberComparator<T> implements Comparator<T> {
+	private class ScChamberComparator implements Comparator<SupremeCourtChamber> {
 		
-		public int compare(T chamberOne, T chamberTwo) {
-			return StringComparator.compare(((SupremeCourtChamber) chamberOne).getName(), ((SupremeCourtChamber) chamberTwo).getName());
+		public int compare(SupremeCourtChamber chamberOne, SupremeCourtChamber chamberTwo) {
+			return StringComparator.compare(chamberOne.getName(), chamberTwo.getName());
         }
 	}
 	
-	private class ScChamberDivisionComparator<T> implements Comparator<T> {
+	private class ScChamberDivisionComparator implements Comparator<SupremeCourtChamberDivision> {
 		
-		public int compare(T chamberDivisionOne, T chamberDivisionTwo) {
-			return StringComparator.compare(((SupremeCourtChamberDivision) chamberDivisionOne).getName(), ((SupremeCourtChamberDivision) chamberDivisionTwo).getName());
+		public int compare(SupremeCourtChamberDivision chamberDivisionOne, SupremeCourtChamberDivision chamberDivisionTwo) {
+			return StringComparator.compare(chamberDivisionOne.getName(), chamberDivisionTwo.getName());
         }
 	}
 	
