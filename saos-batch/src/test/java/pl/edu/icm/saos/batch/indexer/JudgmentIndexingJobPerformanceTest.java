@@ -38,6 +38,7 @@ import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -216,6 +217,8 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
     private void fillJudgment(Judgment judgment, String textContent) {
         judgment.setJudgmentType(JudgmentType.SENTENCE);
         judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphabetic(10)));
+        judgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
+        judgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.random(50));
         
         judgment.addJudge(new Judge(RandomStringUtils.randomAlphabetic(60), JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE));
         judgment.addJudge(new Judge(RandomStringUtils.randomAlphabetic(35)));
