@@ -1,10 +1,17 @@
 package pl.edu.icm.saos.persistence.builder;
 
-import org.joda.time.LocalDate;
-import pl.edu.icm.saos.persistence.model.*;
-import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
-
 import java.util.List;
+
+import org.joda.time.LocalDate;
+
+import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.SourceCode;
 
 /**
  * @author pavtel
@@ -101,6 +108,20 @@ public class CommonCourtJudgmentBuilder {
         element.setTextContent(textContent);
         return this;
     }
+    
+    
+    public CommonCourtJudgmentBuilder sourceCode(SourceCode sourceCode) {
+        element.getSourceInfo().setSourceCode(sourceCode);
+        return this;
+    }
+    
+    
+
+    public CommonCourtJudgmentBuilder sourceJudgmentId(String sourceJudgmentId) {
+        element.getSourceInfo().setSourceJudgmentId(sourceJudgmentId);
+        return this;
+    }
+    
 
     public CommonCourtJudgment build(){
         return element;
