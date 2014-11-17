@@ -1715,6 +1715,9 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <chairman>Izabela Komarzewska</chairman>
    <judges>
       <judge>Izabela Komarzewska</judge>
+      <judge>Izabela Komarzewska</judge>
+      <judge>Anna Nowak</judge>
+      <judge>Anna Nowak</judge>
    </judges>
    <themePhrases>
       <themePhrase>Wyrok Łączny</themePhrase>

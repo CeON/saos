@@ -17,8 +17,18 @@ import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 
 public interface JudgmentCorrectionRepository extends JpaRepository<JudgmentCorrection, Integer> {
 
+    /**
+     * Deletes all {@link JudgmentCorrection}s assigned to a judgment with the given judgmentId
+     */
     @Modifying
     @Query("delete from #{#entityName} jc where jc.judgment.id in (:judgmentIds)")
     @Transactional
     public void deleteByJudgmentIds(@Param("judgmentIds") List<Integer> judgmentIds);
+    
+
+    /**
+     * Finds all {@link JudgmentCorrection}s assigned to a judgment with the given judgmentId
+     */
+    public List<JudgmentCorrection> findAllByJudgmentId(int judgmentId);
+    
 }

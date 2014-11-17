@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -8,8 +9,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Before;
@@ -250,6 +253,35 @@ public class SourceCcJudgmentExtractorTest {
         
     }
 
+    
+    @Test
+    public void extractJudges_JudgeAddedTwice() {
+        
+        // given
+        
+        sJudgment.setChairman("Jan Olkowski");
+        sJudgment.setJudges(Lists.newArrayList("Jan Olkowski", "Jan Olkowski", "Adam Nowak", "Adam Nowak"));
+        
+        
+        // execute
+        
+        List<Judge> judges = sourceCcJudgmentExtractor.extractJudges(sJudgment, correctionList);
+        
+        
+        // assert
+        
+        assertEquals(sJudgment.getJudges().size(), judges.size());
+        
+        List<Judge> presidingJudges = judges.stream().filter(j->j.getSpecialRoles().contains(JudgeRole.PRESIDING_JUDGE)).collect(Collectors.toList());
+        assertEquals(1, presidingJudges.size());
+        assertEquals(sJudgment.getChairman(), presidingJudges.get(0).getName());
+        
+        List<String> commonJudges = judges.stream().filter(j->j.getSpecialRoles().isEmpty()).map(j->j.getName()).collect(Collectors.toList());
+        assertEquals(3, commonJudges.size());
+        assertThat(commonJudges, Matchers.containsInAnyOrder("Jan Olkowski", "Adam Nowak", "Adam Nowak"));
+    }
+
+    
     
     @Test
     public void extractJudgmentType_SENTENCE_REASON() {

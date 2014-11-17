@@ -53,6 +53,8 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         CommonCourtJudgment judgment = new CommonCourtJudgment();
         judgment.addCourtCase(new CourtCase("222"));
+        judgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
+        judgment.getSourceInfo().setSourceJudgmentId("11111");
         judgmentRepository.save(judgment);
         
         Assert.assertEquals(1, judgmentRepository.count());

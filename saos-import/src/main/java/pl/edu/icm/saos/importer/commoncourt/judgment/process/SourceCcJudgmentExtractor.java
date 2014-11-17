@@ -179,10 +179,23 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
         if (!StringUtils.isBlank(sourceJudgment.getChairman())) {
             judges.add(new Judge(sourceJudgment.getChairman(), JudgeRole.PRESIDING_JUDGE));
         }
+        
+        boolean chairmanAppeared = false;
         for (String judgeName : sourceJudgment.getJudges()) {
-            if (!StringUtils.isBlank(judgeName) && !StringUtils.equalsIgnoreCase(sourceJudgment.getChairman(), judgeName)) {
-                judges.add(new Judge(judgeName));
+            
+            // first occurrence of judge with name equals to chairman's name is a normal situation (it's always doubled) - omit it
+            // the next time - consider it to be a different person or mistake
+            if (StringUtils.equalsIgnoreCase(sourceJudgment.getChairman(), judgeName) && !chairmanAppeared) {
+                chairmanAppeared = true;
+                continue;
             }
+            
+            if (StringUtils.isBlank(judgeName)) {
+                continue;
+            }
+
+            judges.add(new Judge(judgeName));
+
         }
         
         return judges;
