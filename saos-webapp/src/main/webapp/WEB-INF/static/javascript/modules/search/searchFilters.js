@@ -1,7 +1,8 @@
 /* 
  * Add option of selecting search filter by clicking on property displayed in judgment results list. 
  * 
- * Module uses bootstrap tooltip
+ * Module requires:
+ * - bootstrap tooltip
  * 
  * @author Łukasz Pawełczak
  */
@@ -69,7 +70,7 @@ var SearchFilters = (function(){
 		for (i; i < length; i += 1) {
 			$(parentContainer + " " + filters[i].button).each(function() {
 				var $thisButton = $(this),
-					filterValue = $thisButton.text(),
+					filterValue = $thisButton.text().trim(),
 					$searchFormField = $(filters[i].searchfield),
 					$selectFormType = $(filters[i].selectFormType), 
 					$filterField = $("#" + filters[i].filterfield);
@@ -123,7 +124,9 @@ var SearchFilters = (function(){
 					$(this).removeAttr('checked');
 				});
 	
-				$selectFormType.prop('checked', true);
+				$selectFormType
+					.prop('checked', true)
+					.trigger("click");
 				
 				if (!(triggerChange !== undefined && triggerChange === false)) {
 					$selectFormType.trigger('change');
@@ -143,46 +146,53 @@ var SearchFilters = (function(){
 		for (j; j < advFilterLength; j += 1) {
 			$(parentContainer + " " + advanceFilter[j].button).each(function() {
 				var $thisButton = $(this),
-					$selectFormType = $(advanceFilter[j].selectFormType), 
+					$selectFormType = $(advanceFilter[j].selectFormType),
+					parentButton = advanceFilter[j].parent.button,
+					parentSearchField = advanceFilter[j].parent.searchfield,
+					searchField = advanceFilter[j].searchfield,
+					filterUrl = advanceFilter[j].url,
 					divisionName = $thisButton.text();
 				
-				$thisButton.click(function() {
-					var selectedCourt = $thisButton.parent().find(advanceFilter[j].parent.button).text(),
-						selectedCourtId = "";
-						
-					selectFormType($selectFormType, false);
-					//clearField($(advanceFilter.parent.searchfield));
-					selectedCourtId = $(advanceFilter[j].parent.searchfield)
-														.find("option[data-content='" + selectedCourt + "']")
-														.attr('selected', 'selected')
-														.val();
-					
-					$(advanceFilter[j].searchfield)
-						.removeAttr("disabled")
-						.removeAttr("selected");
-	
-					$.ajax(advanceFilter[j].url + selectedCourtId)
-					 .done(function(data) {
-						 var i = 0,
-						 	 length = data.length,
-						 	 id = 0;
-						 
-						 for(i; i < length; i += 1) {
-							 if (divisionName === data[i].name) {
-								 id = data[i].id;
-								 break;
-							 }
-						 }
-						 
-						 if (id !== 0) {
-							 $(advanceFilter[j].searchfield).prepend($("<option selected='selected' value='" + id + "' ></option>"));
-						 }
-						 
-						 submitForm();
-					 })
-					 .fail(function() {});
-					
-				});
+				$thisButton.click(
+					(function() {
+						return function() {
+							var selectedCourt = $thisButton.parent().find(parentButton).text().trim(),
+								selectedCourtId = "";
+								
+							selectFormType($selectFormType, false);
+							//clearField($(advanceFilter.parent.searchfield));
+							selectedCourtId = $(parentSearchField)
+																.find("option[data-content='" + selectedCourt + "']")
+																.attr('selected', 'selected')
+																.val();
+							
+							$(searchField)
+								.removeAttr("disabled")
+								.removeAttr("selected");
+			
+							$.ajax(filterUrl + selectedCourtId)
+							 .done(function(data) {
+								 var i = 0,
+								 	 length = data.length,
+								 	 id = 0;
+								 
+								 for(i; i < length; i += 1) {
+									 if (divisionName === data[i].name) {
+										 id = data[i].id;
+										 break;
+									 }
+								 }
+								 
+								 if (id !== 0) {
+									 $(searchField).prepend($("<option selected='selected' value='" + id + "' ></option>"));
+								 }
+								 
+								 submitForm();
+							 })
+							 .fail(function() {});
+						}
+					})()
+				);
 			});
 		}
 	},

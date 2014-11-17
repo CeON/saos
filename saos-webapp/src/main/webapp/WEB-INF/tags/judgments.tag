@@ -35,12 +35,12 @@
 					<div class="court-desc">
 						
 						<c:forEach items="${judgment.courtChambers}" var="chamber" >
-							<span class="court">
-								<c:out value="${$chamber}" />
+							<span class="chamber">
+								<c:out value="${chamber.name}" />
 							</span>	
 						</c:forEach>
 						 - 
-						<span class="division" ><c:out value="${judgment.courtChamberDivisionName}" /></span>
+						<span class="chamber-division" ><c:out value="${judgment.courtChamberDivisionName}" /></span>
 					</div>
 				
 				</c:if>
