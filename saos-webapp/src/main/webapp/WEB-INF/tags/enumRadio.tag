@@ -20,3 +20,4 @@
 	<form:radiobutton path="${path}" value="${lowerCaseEnumValue}" id="${idLabel}" />
 	<label for="${idLabel}" ><spring:message code="${prefix}.${lowerCaseEnumValue}" /></label>
 </c:forEach>
+

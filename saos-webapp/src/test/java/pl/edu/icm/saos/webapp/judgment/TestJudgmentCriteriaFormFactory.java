@@ -21,6 +21,8 @@ public final class TestJudgmentCriteriaFormFactory {
 		judgmentCriteriaForm.setDateFrom(localDate[0]);
 		judgmentCriteriaForm.setDateTo(localDate[1]);
 		
+		judgmentCriteriaForm.setCourtType("common");
+		
 		judgmentCriteriaForm.setCommonCourtId("12");
 		judgmentCriteriaForm.setCommonCourtName("Sąd Apelacyjny w Białymstoku");
 		

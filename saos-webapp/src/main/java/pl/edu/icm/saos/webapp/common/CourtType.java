@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.judgment;
+package pl.edu.icm.saos.webapp.common;
 
 /* 
  * @author Łukasz Pawełczak

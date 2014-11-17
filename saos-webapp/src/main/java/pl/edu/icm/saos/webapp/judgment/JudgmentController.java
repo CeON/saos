@@ -48,7 +48,7 @@ public class JudgmentController {
     private SimpleDivisionConverter simpleDivisionConverter;
 
 	
-  //------------------------ LOGIC --------------------------
+    //------------------------ LOGIC --------------------------
     
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String JudgmentSearchResults(@ModelAttribute("judgmentCriteriaForm") JudgmentCriteriaForm judgmentCriteriaForm,

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import pl.edu.icm.saos.search.search.model.CourtType;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
 /**
@@ -23,6 +24,11 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getAll(), judgmentCriteria.getAll());
 		assertEquals(judgmentCriteriaForm.getSignature(), judgmentCriteria.getCaseNumber());
 
+		assertEquals(judgmentCriteriaForm.getDateFrom(), judgmentCriteria.getDateFrom());
+		assertEquals(judgmentCriteriaForm.getDateTo(), judgmentCriteria.getDateTo());
+		
+		assertEquals(CourtType.valueOf(judgmentCriteriaForm.getCourtType().toUpperCase()), judgmentCriteria.getCourtType());
+		
 		assertEquals(Integer.valueOf(judgmentCriteriaForm.getCommonCourtId()), judgmentCriteria.getCcCourtId());
 		assertEquals(judgmentCriteriaForm.getCommonCourtName(), judgmentCriteria.getCcCourtName());
 		
@@ -35,8 +41,7 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getReferencedRegulation(), judgmentCriteria.getReferencedRegulation());
 		
 		
-		assertEquals(judgmentCriteriaForm.getDateFrom(), judgmentCriteria.getDateFrom());
-		assertEquals(judgmentCriteriaForm.getDateTo(), judgmentCriteria.getDateTo());
+		
 		
 	}
 
