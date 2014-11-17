@@ -267,50 +267,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     }
     
 
-    public void ccJudgmentImportProcessJob_ChangeCorrection() throws Exception {
-        
-        // first execution
-        
-        JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
-        JobExecutionAssertUtils.assertJobExecution(execution, 0, ALL_RAW_JUDGMENTS_COUNT);
-        
-        assertJudgment_1420();
-        
-        // preparing new rawJudgment version
-        
-        RawSourceCcJudgment rJudgment = rawCcJudgmentRepository.findOne(12420);
-        Whitebox.setInternalState(rJudgment, "processed", false);
-        rJudgment.setTextMetadata(rJudgment.getTextMetadata().replace("<type>SENTENCE, REASON</type>", "<type>DECISION, REASON</type>")); // correction will be changed
-        rawCcJudgmentRepository.save(rJudgment);
-        rawCcJudgmentRepository.flush();
-        
-        // and second execution
-        
-        execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
-        JobExecutionAssertUtils.assertJobExecution(execution, 0, 1); // one judgment to process again
-        
-        // assert
-        
-        rJudgment = rawCcJudgmentRepository.findOne(12420);
-        Judgment j = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment.getSourceId());
-        CommonCourtJudgment judgment = judgmentRepository.findOneAndInitialize(j.getId());
-        assertNotNull(judgment);
-        assertEquals(JudgmentType.DECISION, judgment.getJudgmentType());
-        
-        
-        // assert corrections
-        
-        assertEquals(6, judgmentCorrectionRepository.count());
-        
-        List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgment.getId());
-        
-        assertEquals(1, judgmentCorrections.size());
-        
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, null, null, CorrectedProperty.JUDGMENT_TYPE, "DECISION, REASON", "DECISION")));
-        
-    }
-    
-    
+   
 
 
     
