@@ -218,7 +218,7 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
         judgment.setJudgmentType(JudgmentType.SENTENCE);
         judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphabetic(10)));
         judgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
-        judgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.random(50));
+        judgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphabetic(50));
         
         judgment.addJudge(new Judge(RandomStringUtils.randomAlphabetic(60), JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE));
         judgment.addJudge(new Judge(RandomStringUtils.randomAlphabetic(35)));
