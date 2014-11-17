@@ -32,7 +32,7 @@ $(document).ready(function() {
     
     //Search form - init select court & division
     CourtDivisionSelect.run({
-		fields: [{court: "#select-common-court", divisionId: "#select-common-division", divisionUrl: contextPath + "/search/division/"},
+		fields: [{court: "#select-common-court", divisionId: "#select-common-division", divisionUrl: contextPath + "/search/courtDivision/"},
 		         {court: "#select-supreme-chamber", divisionId: "#select-supreme-chamber-division", divisionUrl: contextPath + "/search/chamberDivision/"}]
 	});
     

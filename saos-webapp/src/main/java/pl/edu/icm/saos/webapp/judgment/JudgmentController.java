@@ -28,6 +28,7 @@ import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.webapp.division.SimpleDivision;
 import pl.edu.icm.saos.webapp.division.SimpleDivisionConverter;
+import pl.edu.icm.saos.webapp.services.CourtsWebService;
 import pl.edu.icm.saos.webapp.services.JudgmentsWebSearchService;
 
 
@@ -38,16 +39,7 @@ public class JudgmentController {
 	private JudgmentRepository judgmentRepository;
 
     @Autowired
-    private CommonCourtRepository commonCourtRepository;
-    
-    @Autowired
-    private CcDivisionRepository ccDivisionRepository;
-    
-    @Autowired
-    private ScChamberRepository scChamberRepository;
-    
-    @Autowired
-    private ScChamberDivisionRepository scChamberDivisionRepository;
+    private CourtsWebService courtsWebService;
     
     @Autowired
     private JudgmentsWebSearchService judgmentsWebSearchService;
@@ -104,14 +96,14 @@ public class JudgmentController {
 	}
 
 	
-	/************ PRIVATE ************/
+	//------------------------ PRIVATE --------------------------
 	
 	private void addTotalNumberOfPagesToModel(long totalResults, int pageSize, ModelMap model) {
 		model.addAttribute("totalPages", (int)Math.ceil(((double)totalResults)/((double)pageSize)));
 	}
 	
 	private void addCommonCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
-		model.addAttribute("commonCourts", commonCourtRepository.findAll());
+		model.addAttribute("commonCourts", courtsWebService.getCommonCourts());
 		
 		if (judgmentCriteriaForm.getCommonCourtId() != null) {
 			model.addAttribute("commonCourtDivisions", getCcDivisionList(judgmentCriteriaForm.getCommonCourtId()));
@@ -121,14 +113,14 @@ public class JudgmentController {
 	private List<SimpleDivision> getCcDivisionList(String commonCourtId) {
 		try {
 			int intCourtId = Integer.parseInt(commonCourtId);
-			return simpleDivisionConverter.convertCcDivisions(ccDivisionRepository.findAllByCourtId(intCourtId));
+			return simpleDivisionConverter.convertCcDivisions(courtsWebService.getCcDivisions(intCourtId));
 		} catch (NumberFormatException e) {
 			return Lists.newArrayList();
 		} 
 	}
 	
 	private void addSupremeCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
-		model.addAttribute("supremeChambers", scChamberRepository.findAll());
+		model.addAttribute("supremeChambers", courtsWebService.getScChambers());
 		
 		if (judgmentCriteriaForm.getSupremeChamberId() != null) {
 			model.addAttribute("supremeChamberDivisions", getSupremeChamberDivisionList(judgmentCriteriaForm.getSupremeChamberId()));
@@ -138,7 +130,7 @@ public class JudgmentController {
 	private List<SimpleDivision> getSupremeChamberDivisionList(String supremeChamberId) {
 		try {
 			int intChamberId = Integer.parseInt(supremeChamberId);
-			return simpleDivisionConverter.convertScChamberDivisions(scChamberDivisionRepository.findAllByScChamberId(intChamberId));
+			return simpleDivisionConverter.convertScChamberDivisions(courtsWebService.getScChamberDivisions(intChamberId));
 		} catch (NumberFormatException e) {
 			return Lists.newArrayList();
 		} 
