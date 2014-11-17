@@ -14,7 +14,7 @@ public class CcDivisionComparator extends DivisionComparator<CommonCourtDivision
 	
 	@Override
 	protected String getName(CommonCourtDivision division) {
-		return ((CommonCourtDivision) division).getName();
+		return division.getName();
 	}
 	
 	/* Get arabic number from division name. Division name must contain roman as first word, if not method returns 0. */

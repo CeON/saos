@@ -14,7 +14,7 @@ public class ScChamberDivisionComparator extends DivisionComparator<SupremeCourt
 	
 	@Override
 	protected String getName(SupremeCourtChamberDivision division) {
-		return ((SupremeCourtChamberDivision) division).getName();
+		return division.getName();
 	}
 	
 	/* Get arabic number from chamber division name. Division name must contain roman as last word, if not method returns 0. */
