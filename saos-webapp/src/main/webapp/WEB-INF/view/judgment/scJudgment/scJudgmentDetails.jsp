@@ -46,6 +46,7 @@
 					<div class="" >
 						<div class="label-title" ><spring:message code="judgment.chamberdivision" />:</div>
 						<div class="desc" >
+							<c:out value="${judgment.scChamberDivision.scChamber.name}" /> 
 							<c:out value="${judgment.scChamberDivision.name}" />
 						</div>
 					</div>
