@@ -61,6 +61,9 @@ public class SupremeCourtJudgment extends Judgment {
         return personnelType;
     }
     
+    /**
+     * A unit handling a court case /pl. jednostka obsługująca/
+     * */
     @ManyToOne
     public SupremeCourtChamberDivision getScChamberDivision() {
         return scChamberDivision;

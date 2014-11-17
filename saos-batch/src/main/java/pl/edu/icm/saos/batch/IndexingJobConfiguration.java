@@ -38,7 +38,7 @@ public class IndexingJobConfiguration {
     
     @Bean
     public Job judgmentIndexingJob() {
-        return jobs.get("judgmentIndexingJob").start(ccJudgmentIndexingProcessStep()).incrementer(new RunIdIncrementer()).build();
+        return jobs.get("INDEX_JUDGMENTS_JOB").start(ccJudgmentIndexingProcessStep()).incrementer(new RunIdIncrementer()).build();
     }
     
     @Bean
