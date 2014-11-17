@@ -47,15 +47,10 @@ public class JudgmentController {
     @Autowired
     private SimpleDivisionConverter simpleDivisionConverter;
 
-    @RequestMapping(value="/search", method=RequestMethod.GET)
-    public String searchJudgment(Model model) {
-    	
-    	model.addAttribute("judgmentCriteriaForm", new JudgmentCriteriaForm());
-    	
-        return "search";
-    }
 	
-	@RequestMapping(value="/results", method=RequestMethod.GET)
+  //------------------------ LOGIC --------------------------
+    
+	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String JudgmentSearchResults(@ModelAttribute("judgmentCriteriaForm") JudgmentCriteriaForm judgmentCriteriaForm,
 			@SortDefault(sort="JUDGMENT_DATE") Pageable pageable,
 			ModelMap model, HttpServletRequest request) {
@@ -71,7 +66,7 @@ public class JudgmentController {
 		addCommonCourtsToModel(judgmentCriteriaForm, model);
 		addSupremeCourtsToModel(judgmentCriteriaForm, model);
 		
-		return "searchResults";
+		return "search";
 	}
 	
 	@RequestMapping("/judgments/{id}")
