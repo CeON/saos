@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-<form:form id="search-form" class="form-horizontal" role="form" modelAttribute="judgmentCriteriaForm" action="${contextPath}/results" method="GET">
+<form:form id="search-form" class="form-horizontal" role="form" modelAttribute="judgmentCriteriaForm" action="${contextPath}/search" method="GET">
 
 <div class="container search-form block">
 
