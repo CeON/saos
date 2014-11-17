@@ -22,6 +22,7 @@ public class JudgmentSearchResult extends Searchable {
     private String courtDivisionCode;
     private String courtDivisionName;
     
+    private String scJudgmentForm;
     private String personnelType;
     private List<SupremeCourtChamberResult> courtChambers;
     private Integer courtChamberDivisionId;
@@ -60,6 +61,9 @@ public class JudgmentSearchResult extends Searchable {
     }
     public String getCourtDivisionName() {
         return courtDivisionName;
+    }
+    public String getScJudgmentForm() {
+    	return scJudgmentForm;
     }
     public String getPersonnelType() {
         return personnelType;
@@ -112,6 +116,9 @@ public class JudgmentSearchResult extends Searchable {
     }
     public void setCourtDivisionName(String courtDivisionName) {
         this.courtDivisionName = courtDivisionName;
+    }
+    public void setScJudgmentForm(String scJudgmentForm) {
+    	this.scJudgmentForm = scJudgmentForm;
     }
     public void setPersonnelType(String personnelType) {
         this.personnelType = personnelType;

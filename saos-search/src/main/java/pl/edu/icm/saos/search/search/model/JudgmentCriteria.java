@@ -38,6 +38,7 @@ public class JudgmentCriteria extends Criteria {
     private String ccCourtDivisionCode;
     private String ccCourtDivisionName;
     
+    private String scJudgmentForm;
     private PersonnelType scPersonnelType;
     private Integer scCourtChamberId;
     private String scCourtChamberName;
@@ -106,6 +107,9 @@ public class JudgmentCriteria extends Criteria {
     }    
     public String getCcCourtDivisionName() {
         return ccCourtDivisionName;
+    }
+    public String getScJudgmentForm() {
+        return scJudgmentForm;
     }
     public PersonnelType getScPersonnelType() {
         return scPersonnelType;
@@ -183,6 +187,9 @@ public class JudgmentCriteria extends Criteria {
     public void setCcCourtDivisionName(String courtDivisionName) {
         this.ccCourtDivisionName = courtDivisionName;
     }
+    public void setScJudgmentForm(String scJudgmentForm) {
+        this.scJudgmentForm = scJudgmentForm;
+    }
     public void setScPersonnelType(PersonnelType personnelType) {
         this.scPersonnelType = personnelType;
     }
@@ -225,7 +232,7 @@ public class JudgmentCriteria extends Criteria {
         return Objects.hashCode(all, caseNumber, dateFrom, dateTo,
                 courtType, ccCourtId, ccCourtCode, ccCourtName,
                 ccCourtDivisionId, ccCourtDivisionCode, ccCourtDivisionName,
-                scPersonnelType, scCourtChamberId, scCourtChamberName, scCourtChamberDivisionId,
+				scJudgmentForm, scPersonnelType, scCourtChamberId, scCourtChamberName, scCourtChamberDivisionId,
                 scCourtChamberDivisionName, judgmentTypes, judgeName, keywords,
                 legalBase, referencedRegulation);
     }
@@ -250,6 +257,7 @@ public class JudgmentCriteria extends Criteria {
                 Objects.equal(this.ccCourtDivisionId, other.ccCourtDivisionId) &&
                 Objects.equal(this.ccCourtDivisionCode, other.ccCourtDivisionCode) &&
                 Objects.equal(this.ccCourtDivisionName, other.ccCourtDivisionName) &&
+                Objects.equal(this.scJudgmentForm, other.scJudgmentForm) &&
                 Objects.equal(this.scPersonnelType, other.scPersonnelType) &&
                 Objects.equal(this.scCourtChamberId, other.scCourtChamberId) &&
                 Objects.equal(this.scCourtChamberName, other.scCourtChamberName) &&
