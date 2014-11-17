@@ -29,17 +29,16 @@
 				
 				</c:if>
 				
-				
 				<c:if test="${!empty judgment.courtChambers || !empty judgment.courtChamberDivisionName}" >
 				
 					<div class="court-desc">
-						
-						<c:forEach items="${judgment.courtChambers}" var="chamber" >
-							<span class="chamber">
-								<c:out value="${chamber.name}" />
-							</span>	
-						</c:forEach>
-						 - 
+						<%-- //TODO ATM here is displayed first chamber from list,
+							it should be changed to display all elements from list.
+						 --%>
+						<span class="chamber">
+							<c:out value="${judgment.courtChambers[0].name}" />
+						</span>
+						<span>-</span>
 						<span class="chamber-division" ><c:out value="${judgment.courtChamberDivisionName}" /></span>
 					</div>
 				
@@ -70,3 +69,4 @@
 	</div>
 
 </c:forEach>
+
