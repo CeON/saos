@@ -1,17 +1,48 @@
 package pl.edu.icm.saos.api.support;
 
+import static pl.edu.icm.saos.persistence.builder.BuildersFactory.commonCourt;
+import static pl.edu.icm.saos.persistence.builder.BuildersFactory.commonCourtDivision;
+import static pl.edu.icm.saos.persistence.builder.BuildersFactory.commonCourtDivisionType;
+import static pl.edu.icm.saos.persistence.builder.BuildersFactory.commonCourtJudgment;
+import static pl.edu.icm.saos.persistence.builder.BuildersFactory.judge;
+import static pl.edu.icm.saos.persistence.builder.BuildersFactory.judgmentReferencedRegulation;
+import static pl.edu.icm.saos.persistence.builder.BuildersFactory.judgmentSourceInfo;
+import static pl.edu.icm.saos.persistence.builder.BuildersFactory.keyword;
+import static pl.edu.icm.saos.persistence.builder.BuildersFactory.lawJournalEntry;
+
+import java.util.Arrays;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.api.services.FieldsDefinition.JC;
 import pl.edu.icm.saos.persistence.builder.CourtCaseBuilder;
-import pl.edu.icm.saos.persistence.model.*;
-import pl.edu.icm.saos.persistence.repository.*;
-
-import java.util.Arrays;
-
-import static pl.edu.icm.saos.api.services.FieldsDefinition.JC;
-import static pl.edu.icm.saos.persistence.builder.BuildersFactory.*;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
+import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
+import pl.edu.icm.saos.persistence.repository.CcDivisionTypeRepository;
+import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
+import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
+import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
+import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
+import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
+import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
+import pl.edu.icm.saos.persistence.repository.ScJudgmentRepository;
 
 /**
  * @author pavtel
@@ -252,6 +283,8 @@ public class TestPersistenceObjectsFactory {
         scJudgment.setPersonnelType(SupremeCourtJudgment.PersonnelType.FIVE_PERSON);
         scJudgment.setScChamberDivision(context.getScDivision());
         scJudgment.addScChamber(context.getScChamber());
+        scJudgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
+        scJudgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.random(50));
 
         SupremeCourtJudgmentForm scJudgmentForm = createSupremeCourtJudgmentForm(context);
 

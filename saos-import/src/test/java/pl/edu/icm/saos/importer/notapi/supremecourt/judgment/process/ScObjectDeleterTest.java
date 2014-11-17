@@ -17,6 +17,7 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.ImportTestSupport;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -173,6 +174,7 @@ public class ScObjectDeleterTest extends ImportTestSupport {
     public SupremeCourtJudgment createScJudgment(boolean hasCorrespondingSourceJudgment) {
         
         SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
+        scJudgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
         scJudgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphanumeric(10));
         scJudgment.addCourtCase(new CourtCase("123"));
         
@@ -225,8 +227,7 @@ public class ScObjectDeleterTest extends ImportTestSupport {
         
         
         if (hasReferringJudgment) {
-            SupremeCourtJudgment judgment = new SupremeCourtJudgment();
-            judgment.addCourtCase(new CourtCase("123"));
+            SupremeCourtJudgment judgment = createScJudgment(false);
             judgment.setScChamberDivision(scChamberDivision);
             judgment.addScChamber(scChamber);
             judgmentRepository.save(judgment);  
@@ -247,8 +248,7 @@ public class ScObjectDeleterTest extends ImportTestSupport {
       scJudgmentFormRepository.save(scjForm);  
        
       if (hasReferringJudgment) {
-            SupremeCourtJudgment judgment = new SupremeCourtJudgment();
-            judgment.addCourtCase(new CourtCase("123"));
+            SupremeCourtJudgment judgment = createScJudgment(false);
             judgment.setScJudgmentForm(scjForm);
             judgmentRepository.save(judgment);    
       }

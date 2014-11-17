@@ -5,6 +5,7 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +27,9 @@ import pl.edu.icm.saos.batch.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
+import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
+import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
+import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -34,6 +38,8 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.RawSourceScJudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
@@ -81,9 +87,21 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     @Qualifier("scjImportDateTimeFormatter")
     private ImportDateTimeFormatter importDateTimeFormatter;
     
+    @Autowired
+    private JudgmentCorrectionRepository judgmentCorrectionRepository;
     
-    
-    
+    /*
+     * 
+     * Info:
+     * raw judgments with corrections:
+     * rJudgmentId Change
+     * ----------------------
+     * ded0b5bb7135cf1e196f80175ce07584 Izba Administracyjna, Pracy i Ubezpieczeń Społecznych -> Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych 
+     * ded0b5bb7135cf1e196f80175ce07584 orzeczenie sn -> SENTENCE (judgmentType)
+     * ded0b5bb7135cf1e196f80175ce07584 orzeczenie sn -> wyrok sn (judgment form name)
+     * 5e17ce355710a893e2812807a63d247c Izba Administracyjna, Pracy i Ubezpieczeń Społecznych -> Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych
+     * b082922617256d5b4092cf23864c8894 Izba Administracyjna, Pracy i Ubezpieczeń Społecznych -> Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych
+     */
     
     //------------------------ LOGIC --------------------------
     
@@ -120,10 +138,25 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         
         assertJudgment_24ffe0d974d5823db702e6436dbb9f0f();
         
+        
+        
+        // assert corrections
+        
+        assertEquals(5, judgmentCorrectionRepository.count());
+        
+        List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAll();
+        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.SC_CHAMBER_NAME, 3);
+        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGMENT_TYPE, 1);
+        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.SC_JUDGMENT_FORM_NAME, 1);
+        
+        assertCorrections_ded0b5bb7135cf1e196f80175ce07584();
     }
 
 
     
+   
+
+
     @Test
     public void scJudgmentImportProcessJob_IMPORT_UPDATE() throws Exception {
         
@@ -169,6 +202,17 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         assertJudgment_b082922617256d5b4092cf23864c8894();
         // id shouldn't have changed if it's been update not delete/insert
         assertEquals(scJudgmentb082Id, scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "b082922617256d5b4092cf23864c8894").getId());
+        
+        
+        
+        // assert corrections
+        
+        assertEquals(4, judgmentCorrectionRepository.count());
+        
+        List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAll();
+        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.SC_CHAMBER_NAME, 4);
+        
+        assertCorrections_ded0b5bb7135cf1e196f80175ce07584_afterUpdate();
     }
 
     
@@ -279,6 +323,49 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         assertThat(ids, containsInAnyOrder(sourceJudgmentIds));
     }
     
+    
+    private void assertCorrections_ded0b5bb7135cf1e196f80175ce07584() {
+        
+        SupremeCourtJudgment judgment = getInitializedJudgment("ded0b5bb7135cf1e196f80175ce07584");
+         
+        List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgment.getId());
+        
+        
+        assertEquals(3, judgmentCorrections.size());
+        
+        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, null, null, CorrectedProperty.JUDGMENT_TYPE, "orzeczenie SN", "SENTENCE")));
+        
+        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, SupremeCourtChamber.class, judgment.getScChambers().get(0).getId(), CorrectedProperty.SC_CHAMBER_NAME, "Izba Administracyjna, Pracy i Ubezpieczeń Społecznych", "Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych")));
+        
+        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, SupremeCourtJudgmentForm.class, judgment.getScJudgmentForm().getId(), CorrectedProperty.SC_JUDGMENT_FORM_NAME, "orzeczenie SN", "wyrok SN")));
+        
+    }
+    
+    
+    private void assertCorrections_ded0b5bb7135cf1e196f80175ce07584_afterUpdate() {
+        
+        SupremeCourtJudgment judgment = getInitializedJudgment("ded0b5bb7135cf1e196f80175ce07584");
+         
+        List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgment.getId());
+        
+        
+        assertEquals(1, judgmentCorrections.size());
+        
+        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, SupremeCourtChamber.class, judgment.getScChambers().get(0).getId(), CorrectedProperty.SC_CHAMBER_NAME, "Izba Administracyjna, Pracy i Ubezpieczeń Społecznych", "Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych")));
+        
+    }
+
+
+
+    private SupremeCourtJudgment getInitializedJudgment(String rSourceJudgmentId) {
+        
+        RawSourceScJudgment rJudgment = rJudgmentRepository.findOneBySourceId(rSourceJudgmentId);
+        Judgment j = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, rJudgment.getSourceId());
+        SupremeCourtJudgment judgment = judgmentRepository.findOneAndInitialize(j.getId());
+        return judgment;
+        
+    }
+
 
     private void assertChamberDivisions(String chamberName, String... divisionNames) {
         SupremeCourtChamber scChamber = scChamberRepository.findOneByName(chamberName);

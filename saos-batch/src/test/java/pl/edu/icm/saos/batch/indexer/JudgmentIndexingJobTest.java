@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -42,6 +43,7 @@ import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -324,6 +326,9 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         JudgmentReferencedRegulation referencedRegulation = new JudgmentReferencedRegulation();
         referencedRegulation.setRawText("referencedRegulation" + i);
         judgment.addReferencedRegulation(referencedRegulation);
+        
+        judgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
+        judgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.random(50));
         
         judgment.setTextContent("some content " + i);
     }

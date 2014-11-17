@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static pl.edu.icm.saos.batch.importer.JudgmentCorrectionAssertUtils.assertJudgmentCorrections;
 
 import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -22,9 +22,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.icm.saos.batch.BatchTestSupport;
 import pl.edu.icm.saos.batch.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
+import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
+import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
@@ -74,9 +78,28 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     @Autowired
     private CcDivisionRepository ccDivisionRepository;
     
+    @Autowired
+    private JudgmentCorrectionRepository judgmentCorrectionRepository;
+    
+    
     
     private static final int ALL_RAW_JUDGMENTS_COUNT = 22;
     
+    /*
+     * 
+     * Info:
+     * raw judgments with corrections:
+     * rJudgmentId Change
+     * ----------------------
+     * 12420 SENTENCE, REASON -> SENTENCE
+     * 14430 SENTENCE, REASON -> SENTENCE
+     * 14430 ANNA NOWAK * 2 -> ANNA NOWAK
+     * 14430 IZABELA KOMARZEWSKA * 2 -> IZABELA KOMARZEWSKA * 1
+     *  9435 REGULATION, REASON -> REGULATION
+     * 10869 SENTENCE, REASON -> SENTENCE
+     *  
+     * 
+     */
     
     @Before
     public void before() throws Exception {
@@ -90,12 +113,6 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
        
     }
     
-    @After
-    public void after() {
-        
-    }
-    
-   
     @Test
     public void ccJudgmentImportProcessJob() throws Exception {
         
@@ -103,7 +120,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         
         // rJudgments with no division found: 
         //             10657(sId: 151000000000503_I_ACa_000499_2013_Uz_2013-11-07_001) 
-        //             10869(sId: 151500000000503_I_ACa_000927_2013_Uz_2014-02-19_002)
+        //             10869(sId: 151500000000503_I_ACa_000927_2013_Uz_2014-02-19_002) 
         testCommonCourtsGenerator.deleteCourtDivision("0000503");
         int rJudgmentsWithoutDivisionCount = 2;
         
@@ -150,8 +167,13 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         assertJudgment_1420();
         
         // assert corrections
+        assertEquals(5, judgmentCorrectionRepository.count());
+        List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAll();
         
-                
+        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGES_MORE_THAN_ONE_WITH_SAME_NAME, 2);
+        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGMENT_TYPE, 3);
+        
+        assertJudgmentCorrections_14430();
     }
 
     
@@ -159,6 +181,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     public void ccJudgmentImportProcessJob_OverwriteByNewVersion() throws Exception {
         
         // first execution
+        
         JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
         JobExecutionAssertUtils.assertJobExecution(execution, 0, ALL_RAW_JUDGMENTS_COUNT);
         
@@ -166,43 +189,109 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         
         // preparing new rawJudgment version
         
-        RawSourceCcJudgment rJudgment = rawCcJudgmentRepository.findOne(12420);
-        Whitebox.setInternalState(rJudgment, "processed", false);
-        rJudgment.setTextMetadata(rJudgment.getTextMetadata().replace("<chairman>Katarzyna Oleksiak</chairman>", "<chairman>Anna Nowak</chairman>"));
-        rJudgment.setTextMetadata(rJudgment.getTextMetadata().replace("<type>SENTENCE, REASON</type>", "<type>DECISION</type>"));
-        rawCcJudgmentRepository.save(rJudgment);
+        RawSourceCcJudgment rJudgment_12420 = rawCcJudgmentRepository.findOne(12420);
+        Whitebox.setInternalState(rJudgment_12420, "processed", false);
+        rJudgment_12420.setTextMetadata(rJudgment_12420.getTextMetadata().replace("<chairman>Katarzyna Oleksiak</chairman>", "<chairman>Anna Nowak</chairman>"));
+        rJudgment_12420.setTextMetadata(rJudgment_12420.getTextMetadata().replace("<type>SENTENCE, REASON</type>", "<type>DECISION</type>")); // no correction will be generated now
+        rawCcJudgmentRepository.save(rJudgment_12420);
+        rawCcJudgmentRepository.flush();
+        
+        RawSourceCcJudgment rJudgment_10869 = rawCcJudgmentRepository.findOne(10869);
+        Whitebox.setInternalState(rJudgment_10869, "processed", false);
+        rJudgment_10869.setTextMetadata(rJudgment_10869.getTextMetadata().replace("<type>SENTENCE, REASON</type>", "<type>DECISION, REASON</type>")); // correction will be changed
+        rawCcJudgmentRepository.save(rJudgment_10869);
         rawCcJudgmentRepository.flush();
         
         // and second execution
         
         execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
-        JobExecutionAssertUtils.assertJobExecution(execution, 0, 1); // one judgment to process again
+        JobExecutionAssertUtils.assertJobExecution(execution, 0, 2); // two judgments to process again
         
-        // assert
         
-        rJudgment = rawCcJudgmentRepository.findOne(12420);
-        Judgment j = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment.getSourceId());
-        CommonCourtJudgment judgment = judgmentRepository.findOneAndInitialize(j.getId());
-        assertNotNull(judgment);
-        assertTrue(judgment.isSingleCourtCase());
-        assertEquals(rJudgment.getCaseNumber(), judgment.getCaseNumbers().get(0));
-        //assertEquals(rJudgment.getPublicationDate(), judgment.getSourceInfo().getPublicationDate());
-        assertEquals(JudgmentType.DECISION, judgment.getJudgmentType());
-        assertEquals(1, judgment.getCourtReporters().size());
-        assertEquals("Paulina Florkowska", judgment.getCourtReporters().get(0));
-        assertEquals(3, judgment.getJudges().size());
-        assertNotNull(judgment.getJudges(JudgeRole.PRESIDING_JUDGE));
-        assertEquals("Anna Nowak", judgment.getJudges(JudgeRole.PRESIDING_JUDGE).get(0).getName());
+        // ------------------ assert ---------------------
+        
+        // assert rJudgment 12420
+        
+        rJudgment_12420 = rawCcJudgmentRepository.findOne(12420);
+        Judgment j12420 = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment_12420.getSourceId());
+        CommonCourtJudgment judgment_12420 = judgmentRepository.findOneAndInitialize(j12420.getId());
+        assertNotNull(judgment_12420);
+        assertTrue(judgment_12420.isSingleCourtCase());
+        assertEquals(rJudgment_12420.getCaseNumber(), judgment_12420.getCaseNumbers().get(0));
+        assertEquals(JudgmentType.DECISION, judgment_12420.getJudgmentType());
+        assertEquals(1, judgment_12420.getCourtReporters().size());
+        assertEquals("Paulina Florkowska", judgment_12420.getCourtReporters().get(0));
+        assertEquals(3, judgment_12420.getJudges().size());
+        assertNotNull(judgment_12420.getJudges(JudgeRole.PRESIDING_JUDGE));
+        assertEquals("Anna Nowak", judgment_12420.getJudges(JudgeRole.PRESIDING_JUDGE).get(0).getName());
+        
+        
+        // assert rJudgment 10869
+        
+        rJudgment_10869 = rawCcJudgmentRepository.findOne(10869);
+        Judgment j10869 = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment_10869.getSourceId());
+        CommonCourtJudgment judgment_10869 = judgmentRepository.findOneAndInitialize(j10869.getId());
+        assertNotNull(judgment_10869);
+        assertEquals(JudgmentType.DECISION, judgment_10869.getJudgmentType());
+        
+        
+        
+        
+        // --- assert corrections 12420
+        
+        assertEquals(5, judgmentCorrectionRepository.count());
+        List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAll();
+        
+        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGES_MORE_THAN_ONE_WITH_SAME_NAME, 2);
+        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGMENT_TYPE, 3);
+        
+        
+        // corrections of judgment_12420
+        
+        assertEquals(0, judgmentCorrectionRepository.findAllByJudgmentId(judgment_12420.getId()).size());
+        
+        
+        // corrections of judgment 14430 - shouldn't change
+        
+        assertJudgmentCorrections_14430();
+        
+        
+        // corrections of judgment_10869
+        
+        judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgment_10869.getId());
+        
+        assertEquals(1, judgmentCorrections.size());
+        
+        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment_10869, null, null, CorrectedProperty.JUDGMENT_TYPE, "DECISION, REASON", "DECISION")));
         
     }
     
 
-    
+   
 
 
     
     //------------------------ PRIVATE --------------------------
     
+  
+    
+    private void assertJudgmentCorrections_14430() {
+        
+        RawSourceCcJudgment rJudgment = rawCcJudgmentRepository.findOne(14430);
+        Judgment judgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment.getSourceId());
+        judgment = judgmentRepository.findOneAndInitialize(judgment.getId());
+         
+        List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgment.getId());
+        
+        
+        assertEquals(3, judgmentCorrections.size());
+        
+        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, null, null, CorrectedProperty.JUDGMENT_TYPE, "SENTENCE, REASON", "SENTENCE")));
+        
+        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, Judge.class, judgment.getJudge("Izabela Komarzewska").getId(), CorrectedProperty.JUDGES_MORE_THAN_ONE_WITH_SAME_NAME, "Izabela Komarzewska", "")));
+        
+        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, Judge.class, judgment.getJudge("Anna Nowak").getId(), CorrectedProperty.JUDGES_MORE_THAN_ONE_WITH_SAME_NAME, "Anna Nowak", "")));
+    }
     
     
     

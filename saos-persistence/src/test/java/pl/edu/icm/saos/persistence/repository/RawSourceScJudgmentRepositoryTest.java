@@ -2,10 +2,12 @@ package pl.edu.icm.saos.persistence.repository;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.internal.util.reflection.Whitebox;
@@ -63,6 +65,27 @@ public class RawSourceScJudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     
+    @Test
+    public void findOneBySourceId() {
+        
+        // given
+        
+        RawSourceScJudgment rJudgment = createAndSaveSimpleRawSourceScJudgment(true);
+        createAndSaveSimpleRawSourceScJudgment(true);
+        createAndSaveSimpleRawSourceScJudgment(true);
+        
+        
+        // execute
+        
+        RawSourceScJudgment dbRJudgment = rawSourceScJudgmentRepository.findOneBySourceId(rJudgment.getSourceId());
+        
+        
+        // assert
+        
+        assertNotNull(dbRJudgment);
+        assertEquals(rJudgment.getId(), dbRJudgment.getId());
+        
+    }
     
     
     //------------------------ PRIVATE --------------------------
@@ -71,6 +94,7 @@ public class RawSourceScJudgmentRepositoryTest extends PersistenceTestSupport {
     private RawSourceScJudgment createAndSaveSimpleRawSourceScJudgment(boolean processed) {
         RawSourceScJudgment rJudgment = new RawSourceScJudgment();
         rJudgment.setJsonContent("lskdlskdlksd l kdlksdlskd");
+        rJudgment.setSourceId(RandomStringUtils.randomAlphabetic(12));
         Whitebox.setInternalState(rJudgment, "processed", processed);
         rawSourceScJudgmentRepository.save(rJudgment);
         return rJudgment;

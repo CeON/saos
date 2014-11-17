@@ -20,4 +20,9 @@ public interface RawSourceScJudgmentRepository extends JpaRepository<RawSourceSc
     @Query("select rJudgment.id from RawSourceScJudgment rJudgment where rJudgment.processed=false order by id")
     List<Integer> findAllNotProcessedIds();
 
+    /**
+     * Finds a {@link RawSourceScJudgment} with the given sourceJudgmentId ({@link RawSourceScJudgment#getSourceId})
+     * @return
+     */
+    RawSourceScJudgment findOneBySourceId(String sourceJudgmentId);
 }

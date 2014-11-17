@@ -45,6 +45,16 @@ public class TestJudgmentFactory {
     public static CommonCourtJudgment createSimpleCcJudgment() {
         CommonCourtJudgment judgment = new CommonCourtJudgment();
         judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphanumeric(10)));
+        judgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
+        judgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphabetic(20));
+        return judgment;
+    }
+    
+    public static SupremeCourtJudgment createSimpleScJudgment() {
+        SupremeCourtJudgment judgment = new SupremeCourtJudgment();
+        judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphanumeric(10)));
+        judgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
+        judgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphabetic(20));
         return judgment;
     }
 
@@ -280,22 +290,22 @@ public class TestJudgmentFactory {
     
     @Transactional
     public List<CommonCourtJudgment> createSimpleCcJudgments(boolean save){
-        CommonCourtJudgment firstJudgment = new CommonCourtJudgment();
+        CommonCourtJudgment firstJudgment = createSimpleCcJudgment();
         
         firstJudgment.addCourtCase(new CourtCase("A"));
         firstJudgment.setJudgmentDate(new LocalDate(10000000000L));
 
-        CommonCourtJudgment secondJudgment = new CommonCourtJudgment();
+        CommonCourtJudgment secondJudgment = createSimpleCcJudgment();
         secondJudgment.addCourtCase(new CourtCase("B"));
         secondJudgment.setJudgmentDate(new LocalDate(20000000000L));
 
 
-        CommonCourtJudgment fourthJudgment = new CommonCourtJudgment();
+        CommonCourtJudgment fourthJudgment = createSimpleCcJudgment();
         fourthJudgment.addCourtCase(new CourtCase("D"));
         fourthJudgment.setJudgmentDate(new LocalDate(40000000000L));
 
 
-        CommonCourtJudgment thirdJudgment = new CommonCourtJudgment();
+        CommonCourtJudgment thirdJudgment = createSimpleCcJudgment();
         thirdJudgment.addCourtCase(new CourtCase("C"));
         thirdJudgment.setJudgmentDate(new LocalDate(30000000000L));
 

@@ -28,7 +28,7 @@ subprojects {
     
 
     ext.lib = [
-        'junit:junit-dep' : 'junit:junit-dep:4.8.2',
+        'junit:junit' : 'junit:junit:4.11',
         'org.apache.commons:commons-lang3' :'org.apache.commons:commons-lang3:3.3.2',
         'commons-collections:commons-collections' :'commons-collections:commons-collections:3.2.1',
         'commons-codec:commons-codec' :'commons-codec:commons-codec:1.9',
@@ -104,7 +104,7 @@ subprojects {
     
     dependencies {
         compile lib.'org.apache.commons:commons-lang3'
-        testCompile (lib.'junit:junit-dep') {
+        testCompile (lib.'junit:junit') {
             exclude module: 'hamcrest-core'
         }
         testCompile lib.'org.springframework:spring-test'
@@ -116,7 +116,9 @@ subprojects {
         testCompile lib.'org.assertj:assertj-core'
         testCompile lib.'com.tngtech.java:junit-dataprovider'
         testCompile lib.'org.codehaus.groovy:groovy-all'
-        testCompile lib.'org.spockframework:spock-core'
+        testCompile (lib.'org.spockframework:spock-core') {
+            exclude module: 'junit-dep'
+        }
         testCompile lib.'org.powermock:powermock-api-mockito'
         testCompile lib.'org.powermock:powermock-module-junit4'
 

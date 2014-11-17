@@ -206,7 +206,7 @@ public class JudgmentCorrection extends DataObject {
     
     @Override
     public String toString() {
-        return "JudgmentCorrection [judgment=" + judgment
+        return "JudgmentCorrection [judgmentId=" + judgment.getId()
                 + ", correctedObjectClass=" + correctedObjectClass
                 + ", correctedObjectId=" + correctedObjectId
                 + ", correctedProperty=" + correctedProperty + ", oldValue="

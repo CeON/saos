@@ -55,16 +55,17 @@ public class JudgmentCorrectionRepositoryTest extends PersistenceTestSupport {
         
         judgmentCorrection = new JudgmentCorrection(judgment, Judge.class, judgment.getJudges().get(0).getId(), CorrectedProperty.JUDGE_NAME, "sedzia Jan KOWALSKI", "Jan Kowalski");
         
+        judgmentCorrectionRepository.save(judgmentCorrection);
+        
+        
     }
     
     //------------------------ LOGIC --------------------------
     
     @Test
-    public void save_findOne() {
+    public void findOne() {
         
         // execute
-        
-        judgmentCorrectionRepository.save(judgmentCorrection);
         
         JudgmentCorrection dbJudgmentCorrection = judgmentCorrectionRepository.findOne(judgmentCorrection.getId());
         
@@ -85,8 +86,6 @@ public class JudgmentCorrectionRepositoryTest extends PersistenceTestSupport {
         
         // given 
         
-        judgmentCorrectionRepository.save(judgmentCorrection);
-        
         JudgmentCorrection judgmentCorrection2 = new JudgmentCorrection(judgment, null, null, CorrectedProperty.JUDGMENT_TYPE, "xxx", "ccc");
         
         judgmentCorrectionRepository.save(judgmentCorrection2);
@@ -101,8 +100,40 @@ public class JudgmentCorrectionRepositoryTest extends PersistenceTestSupport {
         
         // second execute
         
-        judgmentCorrectionRepository.deleteByJudgmentIds(Lists.newArrayList(judgment.getId()));
+        judgmentCorrectionRepository.deleteByJudgmentIds(Lists.newArrayList(judgment.getId(), judgment.getId()+10));
         judgmentCorrections = judgmentCorrectionRepository.findAll();
         assertEquals(0, judgmentCorrections.size());
+    }
+    
+    
+    @Test
+    public void findAllByJudgmentId() {
+        
+        // given 
+        
+        JudgmentCorrection judgmentCorrection2 = new JudgmentCorrection(judgment, null, null, CorrectedProperty.JUDGMENT_TYPE, "xxx", "ccc");
+        
+        judgmentCorrectionRepository.save(judgmentCorrection2);
+        
+        
+        // execute
+        
+        List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgment.getId()+1);
+        
+        
+        // assert
+        
+        assertEquals(0, judgmentCorrections.size());
+       
+        
+        // execute
+        
+        judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgment.getId());
+        
+        
+        // assert
+        
+        assertEquals(2, judgmentCorrections.size());
+       
     }
 }

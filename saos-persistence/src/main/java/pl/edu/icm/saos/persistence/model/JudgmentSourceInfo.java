@@ -5,8 +5,9 @@ import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-import com.google.common.base.Objects;
 import org.joda.time.DateTime;
+
+import com.google.common.base.Objects;
 
 /**
  * @author Łukasz Dumiszewski
@@ -28,6 +29,7 @@ public class JudgmentSourceInfo {
     
     
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     public SourceCode getSourceCode() {
         return sourceCode;
     }
@@ -36,6 +38,7 @@ public class JudgmentSourceInfo {
         return sourceJudgmentUrl;
     }
 
+    @Column(nullable = false)
     public String getSourceJudgmentId() {
         return sourceJudgmentId;
     }

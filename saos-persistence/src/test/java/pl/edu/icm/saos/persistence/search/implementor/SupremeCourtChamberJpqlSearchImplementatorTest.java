@@ -1,7 +1,17 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.iterableWithSize;
+
+import java.util.List;
+
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
@@ -10,16 +20,12 @@ import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.SupremeCourtChamberSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
 /**
  * Tests integration between
  * {@link pl.edu.icm.saos.persistence.search.implementor.SupremeCourtChamberJpqlSearchImplementator SupremeCourtChamberJpqlSearchImplementator}
  * and {@link pl.edu.icm.saos.persistence.search.DatabaseSearchService DatabaseSearchService}
  */
+@Category(SlowTest.class)
 public class SupremeCourtChamberJpqlSearchImplementatorTest extends PersistenceTestSupport {
 
     @Autowired
