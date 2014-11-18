@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
+import org.springframework.core.task.TaskExecutor;
 
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
@@ -37,17 +39,26 @@ public class IndexingJobConfiguration {
     private JudgmentIndexingWriter judgmentIndexingWriter;
     
     @Bean
-    public Job judgmentIndexingJob() {
-        return jobs.get("judgmentIndexingJob").start(ccJudgmentIndexingProcessStep()).incrementer(new RunIdIncrementer()).build();
+    @Autowired
+    public Job judgmentIndexingJob(TaskExecutor ccJudgmentIndexingTaskExecutor) {
+        return jobs.get("judgmentIndexingJob").start(ccJudgmentIndexingProcessStep(ccJudgmentIndexingTaskExecutor)).incrementer(new RunIdIncrementer()).build();
+    }
+    
+    @Bean
+    public TaskExecutor ccJudgmentIndexingTaskExecutor() {
+        SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
+        taskExecutor.setConcurrencyLimit(4);
+        return taskExecutor;
     }
     
     @Bean
     @Autowired
-    protected Step ccJudgmentIndexingProcessStep() {
-        return steps.get("judgmentIndexingStep").<Judgment, SolrInputDocument> chunk(20)
+    protected Step ccJudgmentIndexingProcessStep(TaskExecutor ccJudgmentIndexingTaskExecutor) {
+        return steps.get("judgmentIndexingStep").<Judgment, SolrInputDocument> chunk(10)
                 .reader(judgmentIndexingReader)
                 .processor(judgmentIndexingProcessor)
                 .writer(judgmentIndexingWriter)
+                .taskExecutor(ccJudgmentIndexingTaskExecutor)
                 .build();
     }
 }

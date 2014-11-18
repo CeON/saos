@@ -9,18 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
+
 @Service
 public class JudgmentIndexingWriter implements ItemWriter<SolrInputDocument> {
 
     private SolrServer solrServer;
     
     
+    //------------------------ LOGIC --------------------------
+    
     @Override
     public void write(List<? extends SolrInputDocument> items) throws Exception {
-        for (SolrInputDocument item : items) {
-            solrServer.add(item);
-        }
-        solrServer.commit();
+        List<SolrInputDocument> documents = Lists.newArrayList();
+        documents.addAll(items);
+        
+        solrServer.add(documents);
     }
 
     

@@ -122,6 +122,7 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         
         JobExecution jobExecution = jobExecutor.forceStartNewJob(judgmentIndexingJob);
         assertEquals(ALL_JUDGMENTS_COUNT - alreadyIndexedCount, getFirstStepExecution(jobExecution).getWriteCount());
+        judgmentsSolrServer.commit();
         
         assertAllMarkedAsIndexed();
         assertAllInIndex(ALL_JUDGMENTS_COUNT - alreadyIndexedCount);
@@ -231,7 +232,7 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
     }
     
     private void assertAllMarkedAsIndexed() {
-        Page<Judgment> notIndexedJudgments = judgmentRepository.findAllToIndex(new PageRequest(0, 10));
+        Page<Judgment> notIndexedJudgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
         assertEquals(0, notIndexedJudgments.getTotalElements());
     }
     

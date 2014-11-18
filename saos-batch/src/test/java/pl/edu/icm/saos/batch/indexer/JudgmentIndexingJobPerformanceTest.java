@@ -1,15 +1,23 @@
 package pl.edu.icm.saos.batch.indexer;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.IntStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.assertj.core.util.Lists;
 import org.junit.After;
 import org.junit.Assert;
@@ -46,6 +54,7 @@ import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 /**
  * @author madryk
@@ -84,6 +93,8 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
     
     private List<SupremeCourtChamberDivision> chambersDivision;
     
+    private int ccJudgmentForAssertionId;
+    
     private final static int MAXIMUM_INDEXING_TIME_MS = 2 * 60 * 1000;
     private final static int COMMON_COURT_JUDGMENTS_COUNT = 500;
     private final static int SUPREME_COURT_JUDGMENTS_COUNT = 500;
@@ -119,11 +130,15 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
         long startTime = System.currentTimeMillis();
 
         jobExecutor.forceStartNewJob(judgmentIndexingJob);
+        solrJudgmentsServer.commit();
 
         long finishTime = System.currentTimeMillis();
 
         long indexingTimestamp = finishTime - startTime;
         log.info("Indexing of judgments took: " + indexingTimestamp + " ms");
+        
+        assertAllInIndex(COMMON_COURT_JUDGMENTS_COUNT + SUPREME_COURT_JUDGMENTS_COUNT); 
+        assertJudgment();
         Assert.assertTrue("Judgment indexing take too much time", indexingTimestamp < MAXIMUM_INDEXING_TIME_MS);
         
     }
@@ -131,14 +146,52 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
     
     //------------------------ PRIVATE --------------------------
     
+    private void assertAllInIndex(int count) throws SolrServerException {
+        SolrQuery query = new SolrQuery("*:*");
+        QueryResponse response = solrJudgmentsServer.query(query);
+        assertEquals(count, response.getResults().getNumFound());
+    }
+    
+    private void assertJudgment() throws SolrServerException {
+        SolrQuery query = new SolrQuery("databaseId:" + ccJudgmentForAssertionId);
+        QueryResponse response = solrJudgmentsServer.query(query);
+        assertEquals(1, response.getResults().getNumFound());
+        SolrDocument doc = response.getResults().get(0);
+        
+        assertSolrDocumentValues(doc, JudgmentIndexField.KEYWORD, "keyword1");
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE, "COMMON");
+        assertSolrDocumentValues(doc, JudgmentIndexField.CASE_NUMBER, "ABCA");
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGMENT_TYPE, "SENTENCE");
+        
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE, "Adam Nowak");
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_NAME, "Adam Nowak");
+        
+        assertSolrDocumentValues(doc, JudgmentIndexField.LEGAL_BASE, "legalBase");
+        assertSolrDocumentValues(doc, JudgmentIndexField.REFERENCED_REGULATION, "referencedRegulation");
+        assertSolrDocumentValues(doc, JudgmentIndexField.CONTENT, "content");
+    }
+    
+    private void assertSolrDocumentValues(SolrDocument doc, JudgmentIndexField field, String ... fieldValues) {
+        String fieldName = field.getFieldName();
+        assertTrue(doc.getFieldNames().contains(fieldName));
+        
+        Collection<Object> vals = doc.getFieldValues(fieldName);
+        assertNotNull(vals);
+        assertEquals(fieldValues.length, vals.size());
+        for (String expectedVal : fieldValues) {
+            assertTrue("Field " + fieldName + " doesn't contain value " + expectedVal, vals.contains(expectedVal));
+        }
+    }
+    
     private void generateCcJudgments() throws IOException {
         
         generateCcCourtsAndDivisions();
         String textContent = generateJudgmentTextContent();
         
-        for (int i=0; i<COMMON_COURT_JUDGMENTS_COUNT; ++i) {
+        for (int i=0; i<COMMON_COURT_JUDGMENTS_COUNT-1; ++i) {
             generateCcJudgment(i % divisions.size(), textContent);
         }
+        generateCcJudgmentForAssertion();
     }
     
     private void generateCcJudgment(int divisionIndex, String textContent) {
@@ -149,6 +202,24 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
         ccJudgment.setCourtDivision(divisions.get(divisionIndex));
         
         judgmentRepository.save(ccJudgment);
+    }
+    
+    private void generateCcJudgmentForAssertion() {
+        CommonCourtJudgment judgment = new CommonCourtJudgment();
+        
+        judgment.setJudgmentType(JudgmentType.SENTENCE);
+        judgment.addCourtCase(new CourtCase("ABCA"));
+        judgment.addJudge(new Judge("Adam Nowak"));
+        judgment.addLegalBase("legalBase");
+        JudgmentReferencedRegulation referencedRegulation = new JudgmentReferencedRegulation();
+        referencedRegulation.setRawText("referencedRegulation");
+        judgment.addReferencedRegulation(referencedRegulation);
+        judgment.setTextContent("content");
+        judgment.setCourtDivision(divisions.get(0));
+        judgment.addKeyword(new CcJudgmentKeyword("keyword1"));
+        
+        judgmentRepository.save(judgment);
+        ccJudgmentForAssertionId = judgment.getId();
     }
 
     private String generateJudgmentTextContent() throws IOException {
@@ -248,4 +319,5 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
         division.setCourt(commonCourt);
         return division;
     }
+
 }

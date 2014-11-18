@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * @author Łukasz Dumiszewski
  */
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(name="source_id_judgment_id_unique", columnNames={"sourceCode", "sourceJudgmentId"})})
+@Table(indexes={@Index(columnList="indexed")}, uniqueConstraints={@UniqueConstraint(name="source_id_judgment_id_unique", columnNames={"sourceCode", "sourceJudgmentId"})})
 @Inheritance(strategy = InheritanceType.JOINED)
 @Cacheable(true)
 @SequenceGenerator(name = "seq_judgment", allocationSize = 1, sequenceName = "seq_judgment")

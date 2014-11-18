@@ -162,7 +162,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     public void findAllToIndex_FOUND() {
         createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         
-        Page<Judgment> judgments = judgmentRepository.findAllToIndex(new PageRequest(0, 10));
+        Page<Judgment> judgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
         
         assertEquals(1, judgments.getTotalElements());
     }
@@ -173,7 +173,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         judgment.markAsIndexed();
         judgmentRepository.save(judgment);
         
-        Page<Judgment> judgments = judgmentRepository.findAllToIndex(new PageRequest(0, 10));
+        Page<Judgment> judgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
         
         assertEquals(0, judgments.getTotalElements());
     }
@@ -197,6 +197,26 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         assertNotNull(actualJudgment.getIndexedDate());
         assertTrue(beforeIndexed.isBefore(actualJudgment.getIndexedDate()));
         assertTrue(afterIndexed.isAfter(actualJudgment.getCreationDate()));
+    }
+    
+    @Test
+    public void findAllNotIndexedIds_FOUND() {
+        createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        
+        List<Integer> notIndexed = judgmentRepository.findAllNotIndexedIds();
+        
+        assertEquals(1, notIndexed.size());
+    }
+    
+    @Test
+    public void findAllNotIndexedIds_NOT_FOUND() {
+        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        judgment.markAsIndexed();
+        judgmentRepository.save(judgment);
+        
+        List<Integer> notIndexed = judgmentRepository.findAllNotIndexedIds();
+        
+        assertEquals(0, notIndexed.size());
     }
 
     @Test
