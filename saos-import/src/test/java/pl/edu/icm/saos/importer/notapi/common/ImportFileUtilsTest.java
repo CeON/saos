@@ -10,7 +10,6 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
@@ -34,7 +33,7 @@ public class ImportFileUtilsTest {
     
     private ImportFileUtils importFileUtils = new ImportFileUtils();
     
-    private String importDirStr;
+    private File importDir;
     
     private File importFileJsonGz;
     private File importFileJson;
@@ -44,24 +43,27 @@ public class ImportFileUtilsTest {
     private String importFileJsonGzContent = "{\"bre\":\"sss\", \"arr\":[\"1112\", \"CCC\"]}";
     private String importFileZipContent = "{\"bre\":\"sss\", \"arr\":[\"1112\", \"CCC\"]\n\n}";
     
+    
+    
     @Before
     public void before() throws IOException {
        
-        Path importDirPath = Files.createTempDirectory(null);
+        importDir = Files.createTempDirectory(null).toFile();
+        
+        createImportFiles(importDir);
        
-        createImportFiles(importDirPath.toFile());
-       
-        importDirStr = importDirPath.toString();
-       
-        importFileUtils.setImportDir(importDirStr);
+        importFileUtils.setImportDir(importDir.getAbsolutePath());
        
     }
 
     
     @After
     public void after() throws IOException {
-        FileUtils.deleteDirectory(new File(importDirStr));
+        
+        FileUtils.deleteDirectory(importDir);
+    
     }
+    
     
     
     @Test
