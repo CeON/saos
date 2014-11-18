@@ -1,5 +1,8 @@
 package pl.edu.icm.saos.batch;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.sql.DataSource;
 
 import org.springframework.batch.admin.service.SimpleJobService;
@@ -81,7 +84,13 @@ public class BatchConfiguration implements BatchConfigurer {
     
     @Bean
     public JobRegistry jobRegistry() {
-        return new MapJobRegistry();
+        return new MapJobRegistry() {
+            @Override
+            public Set<String> getJobNames() {
+                return new TreeSet<>(super.getJobNames());
+            }
+        };
+        
     }
 
     
