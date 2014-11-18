@@ -2,6 +2,8 @@ package pl.edu.icm.saos.webapp.judgment;
 
 import org.joda.time.LocalDate;
 
+import pl.edu.icm.saos.search.search.model.CourtType;
+
 /**
  * @author Łukasz Pawełczak
  *
@@ -21,7 +23,7 @@ public final class TestJudgmentCriteriaFormFactory {
 		judgmentCriteriaForm.setDateFrom(localDate[0]);
 		judgmentCriteriaForm.setDateTo(localDate[1]);
 		
-		judgmentCriteriaForm.setCourtType("common");
+		judgmentCriteriaForm.setCourtType(CourtType.COMMON);
 		
 		judgmentCriteriaForm.setCommonCourtId("12");
 		judgmentCriteriaForm.setCommonCourtName("Sąd Apelacyjny w Białymstoku");

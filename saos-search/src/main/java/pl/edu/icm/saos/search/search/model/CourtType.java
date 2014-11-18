@@ -5,8 +5,8 @@ package pl.edu.icm.saos.search.search.model;
  * @author madryk
  */
 public enum CourtType {
-
+	COMMON,
     SUPREME,
     ADMINISTRATIVE,
-    COMMON,
+    
 }

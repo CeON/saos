@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import pl.edu.icm.saos.persistence.common.FormatConst;
+import pl.edu.icm.saos.search.search.model.CourtType;
 
 
 /**
@@ -24,7 +25,7 @@ public class JudgmentCriteriaForm {
     
     private String judgeName;
     private String keyword;
-    private String courtType;
+    private CourtType courtType;
     
     private String commonCourtId;
     private String commonCourtName;
@@ -63,7 +64,7 @@ public class JudgmentCriteriaForm {
 		return keyword;
 	}
 	
-	public String getCourtType() {
+	public CourtType getCourtType() {
 		return courtType;
 	}
 	
@@ -125,7 +126,7 @@ public class JudgmentCriteriaForm {
 		this.keyword = keyword;
 	}
 
-	public void setCourtType(String courtType) {
+	public void setCourtType(CourtType courtType) {
 		this.courtType = courtType;
 	}
 	

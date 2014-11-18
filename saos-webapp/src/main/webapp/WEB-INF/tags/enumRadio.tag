@@ -16,8 +16,9 @@
 
 <c:forEach var="enumValue" items="${enumItemsToShow}">
 	<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
+	<c:set var="upperCaseEnumValue" value="${fn:toUpperCase(enumValue)}" />
 	<c:set var="idLabel" value="radio-${!empty id ? id:''}${!empty id ? '-':''}${lowerCaseEnumValue}" />
-	<form:radiobutton path="${path}" value="${lowerCaseEnumValue}" id="${idLabel}" />
+	<form:radiobutton path="${path}" value="${upperCaseEnumValue}" id="${idLabel}" />
 	<label for="${idLabel}" ><spring:message code="${prefix}.${lowerCaseEnumValue}" /></label>
 </c:forEach>
 
