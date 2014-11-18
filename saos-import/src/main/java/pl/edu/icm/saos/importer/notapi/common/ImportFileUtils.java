@@ -44,9 +44,9 @@ public class ImportFileUtils {
      * Never returns null.
      */
     public Collection<File> listImportFiles() {
+        
         Preconditions.checkState(importDir != null);
         
-        importDir = StringUtils.appendIfMissing(importDir, "/");
         return FileUtils.listFiles(new File(importDir), eligibleFileExtensions, true);
     }
 
