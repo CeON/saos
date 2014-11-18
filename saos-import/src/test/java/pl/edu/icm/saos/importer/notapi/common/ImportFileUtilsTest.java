@@ -23,7 +23,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.edu.icm.saos.importer.common.ImportException;
-import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
 
 
 /**
@@ -35,8 +34,7 @@ public class ImportFileUtilsTest {
     
     private ImportFileUtils importFileUtils = new ImportFileUtils();
     
-    private String mainDirStr;
-    private String relDirStr = "/relDir";
+    private String importDirStr;
     
     private File importFileJsonGz;
     private File importFileJson;
@@ -48,23 +46,21 @@ public class ImportFileUtilsTest {
     
     @Before
     public void before() throws IOException {
-       Path mainDirPath = Files.createTempDirectory(null);
-       mainDirStr = mainDirPath.toString();
        
-       File relDir = new File(mainDirPath.toFile(), relDirStr);
-       Files.createDirectory(relDir.toPath());
+        Path importDirPath = Files.createTempDirectory(null);
        
-       createImportFiles(relDir);
+        createImportFiles(importDirPath.toFile());
        
-       importFileUtils.setImportMainDir(mainDirStr);
-       importFileUtils.setImportRelDir(relDirStr);
+        importDirStr = importDirPath.toString();
+       
+        importFileUtils.setImportDir(importDirStr);
        
     }
 
     
     @After
     public void after() throws IOException {
-        FileUtils.deleteDirectory(new File(mainDirStr));
+        FileUtils.deleteDirectory(new File(importDirStr));
     }
     
     

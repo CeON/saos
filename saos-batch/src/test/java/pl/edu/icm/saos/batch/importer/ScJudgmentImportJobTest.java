@@ -380,8 +380,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     private void resetImportDir(String importDirClasspath) {
         try {
             File importDir = new ClassPathResource(importDirClasspath).getFile();
-            importFileUtils.setImportMainDir(importDir.getAbsolutePath());
-            importFileUtils.setImportRelDir("");
+            importFileUtils.setImportDir(importDir.getAbsolutePath());
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }
