@@ -93,20 +93,20 @@ public class CcjImportJobConfiguration {
     
     @Bean
     public Job ccJudgmentImportJob() {
-        return jobs.get("ccJudgmentImportJob").start(ccJudgmentImportDownloadStep()).next(ccJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
+        return jobs.get("IMPORT_CC_JUDGMENTS").start(ccJudgmentImportDownloadStep()).next(ccJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
     }
 
     
     
     @Bean
     public Job ccJudgmentImportDownloadJob() {
-        return jobs.get("ccJudgmentImportDownloadJob").start(ccJudgmentImportDownloadStep()).incrementer(new RunIdIncrementer()).build();
+        return jobs.get("IMPORT_CC_JUDGMENTS_download").start(ccJudgmentImportDownloadStep()).incrementer(new RunIdIncrementer()).build();
     }
     
     
     @Bean
     public Job ccJudgmentImportProcessJob() {
-        return jobs.get("ccJudgmentImportProcessJob").start(ccJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
+        return jobs.get("IMPORT_CC_JUDGMENTS_process").start(ccJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
     }
     
     
@@ -156,7 +156,7 @@ public class CcjImportJobConfiguration {
    
     @Bean
     public Job commonCourtImportJob() {
-        return jobs.get("commonCourtImportJob").start(commonCourtImportProcessStep()).listener(ccImportJobExecutionListener).incrementer(new RunIdIncrementer()).build();
+        return jobs.get("IMPORT_CC_COURTS").start(commonCourtImportProcessStep()).listener(ccImportJobExecutionListener).incrementer(new RunIdIncrementer()).build();
     }
 
     

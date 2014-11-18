@@ -78,7 +78,7 @@ public class ScjImportJobConfiguration {
      */
     @Bean
     public Job scJudgmentImportDownloadJob() {
-        return jobs.get("scJudgmentImportDownloadJob").start(scJudgmentImportDownloadStep()).incrementer(new RunIdIncrementer()).build();
+        return jobs.get("IMPORT_SC_JUDGMENTS_download").start(scJudgmentImportDownloadStep()).incrementer(new RunIdIncrementer()).build();
     }
     
     
@@ -98,7 +98,7 @@ public class ScjImportJobConfiguration {
      */
     @Bean
     public Job scJudgmentImportProcessJob() {
-        return jobs.get("scJudgmentImportProcessJob").start(scJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
+        return jobs.get("IMPORT_SC_JUDGMENTS_process").start(scJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
     }
    
     @Bean
@@ -116,7 +116,7 @@ public class ScjImportJobConfiguration {
      */
     @Bean
     public Job scJudgmentImportJob() {
-        return jobs.get("scJudgmentImportJob").start(scJudgmentImportDownloadStep()).next(scJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
+        return jobs.get("IMPORT_SC_JUDGMENTS").start(scJudgmentImportDownloadStep()).next(scJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
     }
    
     
