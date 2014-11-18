@@ -30,8 +30,6 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
 public class SupremeCourtImportConfiguration {
 
     
-    @Value("${import.mainDir}") 
-    private String importMainDir;
     
     @Autowired
     private SourceScJudgmentExtractor sourceScJudgmentExtractor;
@@ -46,11 +44,10 @@ public class SupremeCourtImportConfiguration {
     //------------------------ BEANS --------------------------
     
     @Bean
-    public ImportFileUtils scjImportFileUtils(@Value("${import.relDir.supremeCourt.judgment}") String importRelDir) {
+    public ImportFileUtils scjImportFileUtils(@Value("${import.judgments.supremeCourt.dir}") String importDir) {
         ImportFileUtils scjImportFileUtils = new ImportFileUtils();
         scjImportFileUtils.setEligibleFileExtensions(new String[]{"json", "json.gz"});
-        scjImportFileUtils.setImportMainDir(importMainDir);
-        scjImportFileUtils.setImportRelDir(importRelDir);
+        scjImportFileUtils.setImportDir(importDir);
         return scjImportFileUtils;
     }
     
