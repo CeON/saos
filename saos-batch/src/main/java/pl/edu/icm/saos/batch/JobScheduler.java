@@ -32,6 +32,8 @@ public class JobScheduler {
     @Autowired
     private JobForcingExecutor jobExecutor;
     
+    @Autowired
+    private Job judgmentIndexingJob;
     
     
     //------------------------ LOGIC --------------------------
@@ -46,6 +48,16 @@ public class JobScheduler {
         
         log.debug("Judgment import has finished, exit status: {}", execution.getStatus());
    
+    }
+    
+    @Scheduled(cron="${indexing.judgments.cron}")
+    public void indexJudgments() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
+        
+        log.debug("Judgments indexing has started");
+        
+        JobExecution execution = jobExecutor.forceStartNewJob(judgmentIndexingJob);
+        
+        log.debug("Judgments indexing has finished, exit status: {}", execution.getStatus());
     }
     
     
