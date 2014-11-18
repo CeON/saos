@@ -26,7 +26,7 @@ var SearchCriteria = {
 		assignSort: function() {
 			$(SearchCriteria.sorting + ", " + SearchCriteria.direction).change(function() {
 				var $sort = $(SearchCriteria.sorting),
-					value = $sort.find(":selected").attr("value"),
+					value = $sort.find(":selected").attr("value").split(",")[0],
 					checked = $(SearchCriteria.direction + ":checked").length;
 				
 				$sort.find(":selected").attr("value", value + "," + (checked > 0 ? "asc" : "desc"));
