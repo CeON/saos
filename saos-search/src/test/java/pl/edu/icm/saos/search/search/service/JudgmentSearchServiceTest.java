@@ -1,14 +1,13 @@
 package pl.edu.icm.saos.search.search.service;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -294,7 +293,6 @@ public class JudgmentSearchServiceTest {
     
     private SolrInputDocument fetchFirstCcJudgmentDoc() throws IOException {
         SolrInputDocument doc = new SolrInputDocument();
-        doc.addField("id", UUID.randomUUID());
         doc.addField("databaseId", "41808");
         doc.addField("caseNumber", "XV K 792/13");
         
@@ -337,7 +335,6 @@ public class JudgmentSearchServiceTest {
     
     private SolrInputDocument fetchSecondCcJudgmentDoc() throws IOException {
         SolrInputDocument doc = new SolrInputDocument();
-        doc.addField("id", UUID.randomUUID());
         doc.addField("databaseId", "1961");
         doc.addField("caseNumber", "III AUa 271/12");
         
@@ -384,7 +381,6 @@ public class JudgmentSearchServiceTest {
     
     private SolrInputDocument fetchScJudgmentDoc() {
         SolrInputDocument doc = new SolrInputDocument();
-        doc.addField("id", UUID.randomUUID());
         doc.addField("databaseId", "21");
         doc.addField("caseNumber", "supremeCaseNumber");
         

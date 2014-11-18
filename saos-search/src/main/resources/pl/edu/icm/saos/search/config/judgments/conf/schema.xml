@@ -60,11 +60,6 @@
    <field name="_version_" type="long" indexed="true" stored="true"/>
    
 
-   <!-- Only remove the "id" field if you have a very good reason to. While not strictly
-     required, it is highly recommended. A <uniqueKey> is present in almost all Solr 
-     installations. See the <uniqueKey> declaration below where <uniqueKey> is set to "id".
-   -->   
-   <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" /> 
    <field name="databaseId" type="int" indexed="true" stored="true" required="true" multiValued="false" />
    <field name="caseNumber" type="text_keyword" indexed="true" stored="true" multiValued="false" />
    
