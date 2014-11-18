@@ -8,7 +8,7 @@ import pl.edu.icm.saos.search.search.model.Paging
 import pl.edu.icm.saos.search.search.model.Sorting
 import spock.lang.Specification
 
-import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.ID
+import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.DATABASE_ID
 
 /**
  * @author pavtel
@@ -32,7 +32,7 @@ class ParametersToCriteriaConverterTest extends Specification {
             Paging actual = converter.toPaging(pagination)
 
         then:
-            def expected = new Paging(pageNumber, pageSize, new Sorting(ID.getFieldName(), Sorting.Direction.ASC))
+            def expected = new Paging(pageNumber, pageSize, new Sorting(DATABASE_ID.getFieldName(), Sorting.Direction.ASC))
             actual == expected
     }
 

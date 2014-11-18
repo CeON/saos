@@ -7,7 +7,7 @@ import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.Paging;
 import pl.edu.icm.saos.search.search.model.Sorting;
 
-import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.ID;
+import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.DATABASE_ID;
 
 /**
  * @author pavtel
@@ -46,6 +46,6 @@ public class ParametersToCriteriaConverter {
      * @return Paging
      */
     public Paging toPaging(Pagination pagination){
-        return new Paging(pagination.getPageNumber(), pagination.getPageSize(), new Sorting(ID.getFieldName(), Sorting.Direction.ASC));
+        return new Paging(pagination.getPageNumber(), pagination.getPageSize(), new Sorting(DATABASE_ID.getFieldName(), Sorting.Direction.ASC));
     }
 }

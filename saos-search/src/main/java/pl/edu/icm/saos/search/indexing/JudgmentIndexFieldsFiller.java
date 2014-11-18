@@ -1,7 +1,6 @@
 package pl.edu.icm.saos.search.indexing;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +39,6 @@ public abstract class JudgmentIndexFieldsFiller {
     //------------------------ PRIVATE --------------------------
     
     private void fillIds(SolrInputDocument doc, Judgment item) {
-        fieldAdder.addField(doc, JudgmentIndexField.ID, UUID.randomUUID().toString());
         fieldAdder.addField(doc, JudgmentIndexField.DATABASE_ID, item.getId());
     }
     
