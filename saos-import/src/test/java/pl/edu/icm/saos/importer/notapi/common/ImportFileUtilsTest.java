@@ -10,7 +10,6 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
@@ -23,7 +22,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.edu.icm.saos.importer.common.ImportException;
-import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
 
 
 /**
@@ -35,8 +33,7 @@ public class ImportFileUtilsTest {
     
     private ImportFileUtils importFileUtils = new ImportFileUtils();
     
-    private String mainDirStr;
-    private String relDirStr = "/relDir";
+    private File importDir;
     
     private File importFileJsonGz;
     private File importFileJson;
@@ -46,26 +43,27 @@ public class ImportFileUtilsTest {
     private String importFileJsonGzContent = "{\"bre\":\"sss\", \"arr\":[\"1112\", \"CCC\"]}";
     private String importFileZipContent = "{\"bre\":\"sss\", \"arr\":[\"1112\", \"CCC\"]\n\n}";
     
+    
+    
     @Before
     public void before() throws IOException {
-       Path mainDirPath = Files.createTempDirectory(null);
-       mainDirStr = mainDirPath.toString();
        
-       File relDir = new File(mainDirPath.toFile(), relDirStr);
-       Files.createDirectory(relDir.toPath());
+        importDir = Files.createTempDirectory(null).toFile();
+        
+        createImportFiles(importDir);
        
-       createImportFiles(relDir);
-       
-       importFileUtils.setImportMainDir(mainDirStr);
-       importFileUtils.setImportRelDir(relDirStr);
+        importFileUtils.setImportDir(importDir.getAbsolutePath());
        
     }
 
     
     @After
     public void after() throws IOException {
-        FileUtils.deleteDirectory(new File(mainDirStr));
+        
+        FileUtils.deleteDirectory(importDir);
+    
     }
+    
     
     
     @Test

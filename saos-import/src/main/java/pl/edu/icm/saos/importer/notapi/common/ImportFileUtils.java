@@ -26,9 +26,7 @@ import com.google.common.base.Preconditions;
 public class ImportFileUtils {
 
     
-    private String importMainDir;
-    
-    private String importRelDir = "";
+    private String importDir;
     
     private String[] eligibleFileExtensions;
     
@@ -40,16 +38,15 @@ public class ImportFileUtils {
     
     /**
      * Returns collection of import files. <br/>
-     * The files are looked for in the directory specified by {@link #setImportMainDir(String)} and {@link #setImportRelDir(String)}.
-     * <br/>
+     * The files are looked for in the directory specified by {@link #setImportDir(String)} <br/>
      * The method will only return files with extensions defined by {@link #setEligibleFileExtensions(String[])}
      * <br/>
      * Never returns null.
      */
     public Collection<File> listImportFiles() {
-        Preconditions.checkState(importMainDir != null);
         
-        String importDir = StringUtils.appendIfMissing(importMainDir, "/") + importRelDir;
+        Preconditions.checkState(importDir != null);
+        
         return FileUtils.listFiles(new File(importDir), eligibleFileExtensions, true);
     }
 
@@ -85,13 +82,10 @@ public class ImportFileUtils {
     
     //------------------------ SETTERS --------------------------
     
-    public void setImportMainDir(String importMainDir) {
-        this.importMainDir = importMainDir;
+    public void setImportDir(String importDir) {
+        this.importDir = StringUtils.appendIfMissing(importDir, "/");
     }
-
-    public void setImportRelDir(String importRelDir) {
-        this.importRelDir = importRelDir;
-    }
+    
 
     /**
      * @param eligibleFileExtensions File extensions that will be taken into consideration by
