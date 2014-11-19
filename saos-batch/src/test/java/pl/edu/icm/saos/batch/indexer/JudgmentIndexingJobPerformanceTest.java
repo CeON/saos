@@ -93,6 +93,10 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
     
     private List<SupremeCourtChamberDivision> chambersDivision;
     
+    /**
+     * Id of judgment which will be checked if it was correctly indexed.
+     * This id should be set before running test method.
+     */
     private int ccJudgmentForAssertionId;
     
     private final static int MAXIMUM_INDEXING_TIME_MS = 2 * 60 * 1000;

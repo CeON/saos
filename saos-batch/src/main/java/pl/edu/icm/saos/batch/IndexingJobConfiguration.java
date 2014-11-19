@@ -38,14 +38,17 @@ public class IndexingJobConfiguration {
     @Autowired
     private JudgmentIndexingWriter judgmentIndexingWriter;
     
+    
+    //------------------------ LOGIC --------------------------
+    
     @Bean
     @Autowired
-    public Job judgmentIndexingJob(TaskExecutor ccJudgmentIndexingTaskExecutor) {
-        return jobs.get("judgmentIndexingJob").start(ccJudgmentIndexingProcessStep(ccJudgmentIndexingTaskExecutor)).incrementer(new RunIdIncrementer()).build();
+    public Job judgmentIndexingJob(TaskExecutor judgmentIndexingTaskExecutor) {
+        return jobs.get("judgmentIndexingJob").start(judgmentIndexingProcessStep(judgmentIndexingTaskExecutor)).incrementer(new RunIdIncrementer()).build();
     }
     
     @Bean
-    public TaskExecutor ccJudgmentIndexingTaskExecutor() {
+    public TaskExecutor judgmentIndexingTaskExecutor() {
         SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
         taskExecutor.setConcurrencyLimit(4);
         return taskExecutor;
@@ -53,12 +56,12 @@ public class IndexingJobConfiguration {
     
     @Bean
     @Autowired
-    protected Step ccJudgmentIndexingProcessStep(TaskExecutor ccJudgmentIndexingTaskExecutor) {
+    protected Step judgmentIndexingProcessStep(TaskExecutor judgmentIndexingTaskExecutor) {
         return steps.get("judgmentIndexingStep").<Judgment, SolrInputDocument> chunk(10)
                 .reader(judgmentIndexingReader)
                 .processor(judgmentIndexingProcessor)
                 .writer(judgmentIndexingWriter)
-                .taskExecutor(ccJudgmentIndexingTaskExecutor)
+                .taskExecutor(judgmentIndexingTaskExecutor)
                 .build();
     }
 }
