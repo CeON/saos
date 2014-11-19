@@ -27,18 +27,18 @@ public class JudgmentCriteriaForm {
     private String keyword;
     private CourtType courtType;
     
-    private String commonCourtId;
-    private String commonCourtName;
-    private String commonCourtDivisionId;
+    private Integer commonCourtId;
+    private Integer commonCourtDivisionId;
     
-    private String supremeChamberId;
-    private String supremeChamberDivisionId;
+    private Integer supremeChamberId;
+    private Integer supremeChamberDivisionId;
     
     private String[] judgmentType;
     private String legalBase;
     private String referencedRegulation;
     
-    /*** Getters ***/
+    
+    //------------------------ GETTERS --------------------------
     
     public String getAll() {
 		return all;
@@ -68,23 +68,19 @@ public class JudgmentCriteriaForm {
 		return courtType;
 	}
 	
-	public String getCommonCourtId() {
+	public Integer getCommonCourtId() {
 		return commonCourtId;
 	}
 	
-	public String getCommonCourtName() {
-		return commonCourtName;
-	}
-	
-	public String getCommonCourtDivisionId() {
+	public Integer getCommonCourtDivisionId() {
 		return commonCourtDivisionId;
 	}
 	
-	public String getSupremeChamberId() {
+	public Integer getSupremeChamberId() {
 		return supremeChamberId;
 	}
 	
-	public String getSupremeChamberDivisionId() {
+	public Integer getSupremeChamberDivisionId() {
 		return supremeChamberDivisionId;
 	}
 	
@@ -100,7 +96,7 @@ public class JudgmentCriteriaForm {
 		return referencedRegulation;
 	}
 	
-	/* Setters */
+	//------------------------ SETTERS --------------------------
 	
 	public void setAll(String all) {
 		this.all = all;
@@ -130,23 +126,19 @@ public class JudgmentCriteriaForm {
 		this.courtType = courtType;
 	}
 	
-	public void setCommonCourtId(String commonCourtId) {
+	public void setCommonCourtId(Integer commonCourtId) {
 		this.commonCourtId = commonCourtId;
 	}
-
-	public void setCommonCourtName(String commonCourtName) {
-		this.commonCourtName = commonCourtName;
-	}
 	
-	public void setCommonCourtDivisionId(String commonCourtDivisionId) {
+	public void setCommonCourtDivisionId(Integer commonCourtDivisionId) {
 		this.commonCourtDivisionId = commonCourtDivisionId;
 	}
 
-	public void setSupremeChamberId(String supremeChamberId) {
+	public void setSupremeChamberId(Integer supremeChamberId) {
 		this.supremeChamberId = supremeChamberId;
 	}
 
-	public void setSupremeChamberDivisionId(String supremeChamberDivisionId) {
+	public void setSupremeChamberDivisionId(Integer supremeChamberDivisionId) {
 		this.supremeChamberDivisionId = supremeChamberDivisionId;
 	}
 	

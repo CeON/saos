@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.collect.Lists;
-
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
@@ -75,13 +73,13 @@ public class JudgmentController {
 
 	@RequestMapping("/search/courtDivision/{commonCourtId}")
 	@ResponseBody
-	public List<SimpleDivision> division(@PathVariable("commonCourtId") String commonCourtId) {
+	public List<SimpleDivision> division(@PathVariable("commonCourtId") Integer commonCourtId) {
 		return getCcDivisionList(commonCourtId);
 	}
 	
 	@RequestMapping("/search/chamberDivision/{supremeChamberId}")
 	@ResponseBody
-	public List<SimpleDivision> chamberDivision(@PathVariable("supremeChamberId") String supremeChamberId) {
+	public List<SimpleDivision> chamberDivision(@PathVariable("supremeChamberId") Integer supremeChamberId) {
 		return getSupremeChamberDivisionList(supremeChamberId);
 	}
 
@@ -100,13 +98,8 @@ public class JudgmentController {
 		}
 	}
 	
-	private List<SimpleDivision> getCcDivisionList(String commonCourtId) {
-		try {
-			int intCourtId = Integer.parseInt(commonCourtId);
-			return simpleDivisionConverter.convertCcDivisions(courtsWebService.getCcDivisions(intCourtId));
-		} catch (NumberFormatException e) {
-			return Lists.newArrayList();
-		} 
+	private List<SimpleDivision> getCcDivisionList(Integer commonCourtId) {
+		return simpleDivisionConverter.convertCcDivisions(courtsWebService.getCcDivisions(commonCourtId));
 	}
 	
 	private void addSupremeCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
@@ -117,12 +110,7 @@ public class JudgmentController {
 		}
 	}
 	
-	private List<SimpleDivision> getSupremeChamberDivisionList(String supremeChamberId) {
-		try {
-			int intChamberId = Integer.parseInt(supremeChamberId);
-			return simpleDivisionConverter.convertScChamberDivisions(courtsWebService.getScChamberDivisions(intChamberId));
-		} catch (NumberFormatException e) {
-			return Lists.newArrayList();
-		} 
+	private List<SimpleDivision> getSupremeChamberDivisionList(Integer supremeChamberId) {
+		return simpleDivisionConverter.convertScChamberDivisions(courtsWebService.getScChamberDivisions(supremeChamberId));
 	}
 }

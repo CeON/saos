@@ -6,7 +6,7 @@
    	<div class="col-sm-7">
     	<select class="form-control" id="personnel-type" >
     		<option></option>
-    		<saos:enumOptions enumType="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType" prefix="judgment.personneltype" />
+    		<saos:enumOptions enumType="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType" />
     	</select>
 	</div>
 </div>
