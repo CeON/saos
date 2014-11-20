@@ -31,7 +31,7 @@
 			<c:if test="${!empty judgment.scChambers}" >
 				<li>
 					<div class="" >
-						<div class="label-title" ><spring:message code="judgment.chamber" />:</div>
+						<div class="label-title" ><spring:message code="judgment.chambers" />:</div>
 						<div class="desc" >
 							<c:forEach items="${judgment.scChambers}" var="chamber">
 								<c:out value="${chamber.name}" />
