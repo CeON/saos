@@ -1,9 +1,8 @@
 package pl.edu.icm.saos.search.indexing;
 
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemStreamException;
 import org.springframework.batch.item.ItemStreamReader;
@@ -11,7 +10,6 @@ import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -22,39 +20,32 @@ import com.google.common.collect.Lists;
 @Service
 public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
 
-    private static Logger log = LoggerFactory.getLogger(JudgmentIndexingReader.class);
-
     private JudgmentRepository judgmentRepository;
     
-    private int pageSize = 20;
-    private boolean allRead = false;
-    private Queue<Judgment> judgments = Lists.newLinkedList();
+    
+    private volatile Queue<Integer> judgmentIds = Lists.newLinkedList();
+    
+    
+    //------------------------ LOGIC --------------------------
     
     @Override
     public void open(ExecutionContext executionContext)
             throws ItemStreamException {
-        judgments = Lists.newLinkedList();
-        allRead = false;
+        judgmentIds = new ConcurrentLinkedQueue<Integer>(judgmentRepository.findAllNotIndexedIds());
     }
 
     @Override
     public Judgment read() throws Exception,
             UnexpectedInputException, ParseException,
             NonTransientResourceException {
-        if (judgments.isEmpty() && !allRead) {
-            judgments = Lists.newLinkedList(judgmentRepository.findAllToIndex(new PageRequest(0, pageSize)).getContent());
-            if (judgments.size() < pageSize) {
-                allRead = true;
-            }
-            if (judgments.isEmpty()) {
-                return null;
-            }
-            log.debug("Read {} judgments for indexing", judgments.size());
+        
+        Integer id = judgmentIds.poll();
+        
+        if (id == null) {
+            return null;
         }
         
-        Judgment commonCourtJudgment = judgments.poll();
-        
-        return commonCourtJudgment;
+        return judgmentRepository.findOne(id);
     }
     
     @Override
@@ -68,10 +59,6 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
 
     
     //------------------------ SETTERS --------------------------
-    
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
     
     @Autowired
     public void setJudgmentRepository(JudgmentRepository judgmentRepository) {

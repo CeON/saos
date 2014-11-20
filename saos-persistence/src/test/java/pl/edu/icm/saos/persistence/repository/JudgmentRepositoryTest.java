@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 import org.hibernate.LazyInitializationException;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -161,27 +163,27 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
-    public void findAllToIndex_FOUND() {
+    public void findAllNotIndexed_FOUND() {
         createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         
-        Page<Judgment> judgments = judgmentRepository.findAllToIndex(new PageRequest(0, 10));
+        Page<Judgment> judgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
         
         assertEquals(1, judgments.getTotalElements());
     }
     
     @Test
-    public void findAllToIndex_NOT_FOUND() {
+    public void findAllNotIndexed_NOT_FOUND() {
         CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         judgment.markAsIndexed();
         judgmentRepository.save(judgment);
         
-        Page<Judgment> judgments = judgmentRepository.findAllToIndex(new PageRequest(0, 10));
+        Page<Judgment> judgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
         
         assertEquals(0, judgments.getTotalElements());
     }
     
     @Test
-    public void findAllToIndex_CHECK_INDEXED_DATE() {
+    public void findAllNotIndexed_CHECK_INDEXED_DATE() {
         CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         
         DateTime beforeIndexed = new DateTime();
@@ -199,6 +201,28 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         assertNotNull(actualJudgment.getIndexedDate());
         assertTrue(beforeIndexed.isBefore(actualJudgment.getIndexedDate()));
         assertTrue(afterIndexed.isAfter(actualJudgment.getCreationDate()));
+    }
+    
+    @Test
+    public void findAllNotIndexedIds_FOUND() {
+        Judgment firstJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        Judgment secondJudgment = createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
+        Judgment thirdJudgment = createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
+        
+        List<Integer> notIndexed = judgmentRepository.findAllNotIndexedIds();
+        
+        assertThat(notIndexed, containsInAnyOrder(firstJudgment.getId(), secondJudgment.getId(), thirdJudgment.getId()));
+    }
+    
+    @Test
+    public void findAllNotIndexedIds_NOT_FOUND() {
+        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        judgment.markAsIndexed();
+        judgmentRepository.save(judgment);
+        
+        List<Integer> notIndexed = judgmentRepository.findAllNotIndexedIds();
+        
+        assertEquals(0, notIndexed.size());
     }
 
     @Test
