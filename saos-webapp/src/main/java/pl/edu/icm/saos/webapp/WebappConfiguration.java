@@ -14,7 +14,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
+
 import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
+import pl.edu.icm.saos.webapp.format.StringTrimmingFormatter;
 
 
 @Configuration
@@ -45,14 +47,14 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        registry.addFormatterForFieldAnnotation(new DateTimeWithZoneFormatterFactory());
+    	registry.addFormatterForFieldType(String.class, new StringTrimmingFormatter());
+    	registry.addFormatterForFieldAnnotation(new DateTimeWithZoneFormatterFactory());
     }
 
     @Bean
     public HttpMessageConverter<?> mappingJackson2HttpMessageConverter() {
         return new MappingJackson2HttpMessageConverter();
     }
-
     
     /** Properties exposed to view */
     @Bean
@@ -77,5 +79,6 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
         pageableResolver.setMaxPageSize(100);
         return pageableResolver;
     }
+    
 
 }
