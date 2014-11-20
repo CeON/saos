@@ -73,13 +73,13 @@ public class JudgmentController {
 
 	@RequestMapping("/search/courtDivision/{commonCourtId}")
 	@ResponseBody
-	public List<SimpleDivision> division(@PathVariable("commonCourtId") Integer commonCourtId) {
+	public List<SimpleDivision> division(@PathVariable("commonCourtId") int commonCourtId) {
 		return getCcDivisionList(commonCourtId);
 	}
 	
 	@RequestMapping("/search/chamberDivision/{supremeChamberId}")
 	@ResponseBody
-	public List<SimpleDivision> chamberDivision(@PathVariable("supremeChamberId") Integer supremeChamberId) {
+	public List<SimpleDivision> chamberDivision(@PathVariable("supremeChamberId") int supremeChamberId) {
 		return getSupremeChamberDivisionList(supremeChamberId);
 	}
 
@@ -98,7 +98,7 @@ public class JudgmentController {
 		}
 	}
 	
-	private List<SimpleDivision> getCcDivisionList(Integer commonCourtId) {
+	private List<SimpleDivision> getCcDivisionList(int commonCourtId) {
 		return simpleDivisionConverter.convertCcDivisions(courtsWebService.getCcDivisions(commonCourtId));
 	}
 	
@@ -110,7 +110,7 @@ public class JudgmentController {
 		}
 	}
 	
-	private List<SimpleDivision> getSupremeChamberDivisionList(Integer supremeChamberId) {
+	private List<SimpleDivision> getSupremeChamberDivisionList(int supremeChamberId) {
 		return simpleDivisionConverter.convertScChamberDivisions(courtsWebService.getScChamberDivisions(supremeChamberId));
 	}
 }

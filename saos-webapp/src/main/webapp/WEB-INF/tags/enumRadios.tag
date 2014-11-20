@@ -16,7 +16,9 @@
 	<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
 	<c:set var="idLabel" value="radio-${!empty id ? id:''}${!empty id ? '-':''}${lowerCaseEnumValue}" />
 	<form:radiobutton path="${path}" value="${enumValue}" id="${idLabel}" />
-	<label for="${idLabel}" ><spring:message code="${enumType}.${enumValue}" /></label>
+	<label for="${idLabel}" >
+		<saos:enum value="${enumValue}" />
+	</label>
 </c:forEach>
 
 

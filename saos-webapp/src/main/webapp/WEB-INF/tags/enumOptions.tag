@@ -13,6 +13,6 @@
 
 <c:forEach var="enumValue" items="${enumItemsToShow}">
 	<option value="${enumValue}" >
-		<spring:message code="${enumType}.${enumValue}" />
+		<saos:enum value="${enumValue}" />
 	</option>
 </c:forEach>
