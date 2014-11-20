@@ -82,3 +82,4 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     
 
 }
+
