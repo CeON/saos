@@ -3,6 +3,7 @@ package pl.edu.icm.saos.api.search.judgments.services
 import org.joda.time.LocalDate
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters
 import pl.edu.icm.saos.api.search.parameters.Pagination
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria
 import pl.edu.icm.saos.search.search.model.Paging
 import pl.edu.icm.saos.search.search.model.Sorting
@@ -45,6 +46,7 @@ class ParametersToCriteriaConverterTest extends Specification {
             def judgeName = "some judge name"
             def legalBases = "some legal bases"
             def keyword = "someKeyword"
+            def personnelType = SupremeCourtJudgment.PersonnelType.FIVE_PERSON
             def judgmentDateFrom = new LocalDate(2020, 11, 22)
             def judgmentDateTo = new LocalDate(2030, 10, 3)
 
@@ -57,6 +59,7 @@ class ParametersToCriteriaConverterTest extends Specification {
             params.setLegalBase(legalBases)
             params.setJudgmentDateFrom(judgmentDateFrom)
             params.setJudgmentDateTo(judgmentDateTo)
+            params.setPersonnelType(personnelType)
 
         when:
             JudgmentCriteria actual = converter.toCriteria(params)
@@ -72,6 +75,7 @@ class ParametersToCriteriaConverterTest extends Specification {
             expected.setKeyword(keyword)
             expected.setDateFrom(judgmentDateFrom)
             expected.setDateTo(judgmentDateTo)
+            expected.setScPersonnelType(personnelType)
 
             actual == expected
     }

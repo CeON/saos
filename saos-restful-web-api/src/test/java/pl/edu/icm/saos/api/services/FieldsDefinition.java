@@ -242,6 +242,14 @@ public abstract class FieldsDefinition {
         public static final String SC_CHAMBER_NAME="Izba Cywilna";
         public static final String SC_JUDGMENT_FORM_NAME = "postanowienie SC SN";
 
+        public static final int SC_JUDGMENT_ID = 999;
+        public static final int SC_CHAMBER_DIVISION_ID = 4545;
+
+        public static final int SC_FIRST_CHAMBER_ID = 6565;
+        public static final String SC_FIRST_CHAMBER_NAME = SC_CHAMBER_NAME;
+        public static final int SC_SECOND_CHAMBER_ID = 7878;
+        public static final String SC_SECOND_CHAMBER_NAME = "Izba karna";
+
     }
 
 

@@ -68,6 +68,8 @@ public abstract class ApiConstants {
     public static final String KEYWORD = "keyword";
     public static final String JUDGMENT_DATE_FROM = "judgmentDateFrom";
     public static final String JUDGMENT_DATE_TO = "judgmentDateTo";
+    public static final String PERSONNEL_TYPE = "personnelType";
+    public static final String CHAMBER = "chamber";
 
     public static final String TOTAL_RESULTS = "totalResults";
 }

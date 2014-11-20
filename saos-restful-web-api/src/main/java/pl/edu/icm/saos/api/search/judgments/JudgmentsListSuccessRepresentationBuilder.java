@@ -7,8 +7,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.edu.icm.saos.api.search.judgments.item.representation.CommonCourtJudgmentItem;
 import pl.edu.icm.saos.api.search.judgments.item.representation.SearchJudgmentItem;
+import pl.edu.icm.saos.api.search.judgments.item.representation.SupremeCourtJudgmentItem;
 import pl.edu.icm.saos.api.search.judgments.mapping.SearchCommonCourtJudgmentItemMapper;
 import pl.edu.icm.saos.api.search.judgments.mapping.SearchJudgmentItemMapper;
+import pl.edu.icm.saos.api.search.judgments.mapping.SearchSupremeCourtJudgmentItemMapper;
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
@@ -37,6 +39,9 @@ public class JudgmentsListSuccessRepresentationBuilder {
 
     @Autowired
     private SearchCommonCourtJudgmentItemMapper commonCourtJudgmentItemMapper;
+
+    @Autowired
+    private SearchSupremeCourtJudgmentItemMapper supremeCourtJudgmentItemMapper;
 
     @Autowired
     private SearchJudgmentItemMapper judgmentItemMapper;
@@ -116,6 +121,10 @@ public class JudgmentsListSuccessRepresentationBuilder {
             uriComponentsBuilder.replaceQueryParam(REFERENCED_REGULATION, params.getReferencedRegulation());
         }
 
+        if(params.getPersonnelType() != null){
+            uriComponentsBuilder.replaceQueryParam(PERSONNEL_TYPE, params.getPersonnelType());
+        }
+
         if(params.getJudgmentDateFrom()!=null){
             uriComponentsBuilder.replaceQueryParam(JUDGMENT_DATE_FROM, params.getJudgmentDateFrom().toString());
         }
@@ -149,9 +158,13 @@ public class JudgmentsListSuccessRepresentationBuilder {
     }
 
     private SearchJudgmentItem initializeItemViewAndFillSpecificFields(JudgmentSearchResult judgmentSearchResult) {
-        if(isCommonCourtJudgment(judgmentSearchResult)){
+        if(isCommonCourtJudgment(judgmentSearchResult)) {
             CommonCourtJudgmentItem item = new CommonCourtJudgmentItem();
             commonCourtJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(item, judgmentSearchResult);
+            return item;
+        } else if(isSupremeCourtJudgment(judgmentSearchResult)){
+            SupremeCourtJudgmentItem item = new SupremeCourtJudgmentItem();
+            supremeCourtJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(item, judgmentSearchResult);
             return item;
         } else {
             //default
@@ -161,6 +174,10 @@ public class JudgmentsListSuccessRepresentationBuilder {
 
     private boolean isCommonCourtJudgment(JudgmentSearchResult judgmentSearchResult){
         return StringUtils.isNotBlank(judgmentSearchResult.getCourtDivisionCode());
+    }
+
+    private boolean isSupremeCourtJudgment(JudgmentSearchResult judgmentSearchResult){
+        return StringUtils.isNotBlank(judgmentSearchResult.getCourtChamberDivisionName());
     }
 
     private QueryTemplate toQueryTemplate(JudgmentsParameters params) {
@@ -177,6 +194,7 @@ public class JudgmentsListSuccessRepresentationBuilder {
         queryTemplate.setKeyword(removeNull(params.getKeyword()));
         queryTemplate.setCourtName(removeNull(params.getCourtName()));
         queryTemplate.setJudgeName(removeNull(params.getJudgeName()));
+        queryTemplate.setPersonnelType(params.getPersonnelType());
 
         queryTemplate.setJudgmentDateFrom(dateMapping.toISO8601Format(params.getJudgmentDateFrom()));
         queryTemplate.setJudgmentDateTo(dateMapping.toISO8601Format(params.getJudgmentDateTo()));
@@ -190,6 +208,8 @@ public class JudgmentsListSuccessRepresentationBuilder {
 
         return info;
     }
+
+
 
     private String removeNull(String str){
         if(str == null){

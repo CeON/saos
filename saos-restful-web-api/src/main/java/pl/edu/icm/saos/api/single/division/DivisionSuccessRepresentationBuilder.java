@@ -46,14 +46,14 @@ public class DivisionSuccessRepresentationBuilder {
 
 
     private List<Link> toLinks(CommonCourtDivision division) {
-        Link divisionLink = linksBuilder.linkToDivision(division.getId());
+        Link divisionLink = linksBuilder.linkToCcDivision(division.getId());
         Link courtLink = linksBuilder.linkToCourt(division.getCourt().getId(), COURT);
 
         return Arrays.asList(divisionLink, courtLink);
     }
 
     private void fillData(DivisionView.Data data, CommonCourtDivision division) {
-        data.setHref(linksBuilder.urlToDivision(division.getId()));
+        data.setHref(linksBuilder.urlToCcDivision(division.getId()));
         data.setName(division.getName());
         data.setCode(division.getCode());
         data.setType(division.getType().getName());

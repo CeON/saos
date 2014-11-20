@@ -27,6 +27,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.search.search.model.JudgeResult;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
+import pl.edu.icm.saos.search.search.model.SupremeCourtChamberResult;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,6 +41,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 import static pl.edu.icm.saos.api.ApiConstants.*;
 import static pl.edu.icm.saos.api.search.judgments.JudgmentJsonRepresentationVerifier.verifyBasicFields;
 import static pl.edu.icm.saos.api.services.Constansts.*;
+import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  JudgmentsControllerTest.TestConfiguration.class)
@@ -61,32 +63,51 @@ public class JudgmentsControllerTest {
             SearchResults<JudgmentSearchResult> searchResults = new SearchResults<>();
             searchResults.setTotalResults(TOTAL_RESULTS_VALUE);
 
-            JudgmentSearchResult judgmentSearchResult = new JudgmentSearchResult();
-            judgmentSearchResult.setId(JC.JUDGMENT_ID);
+            // common court result
+            JudgmentSearchResult ccResult = new JudgmentSearchResult();
+            ccResult.setId(JC.JUDGMENT_ID);
 
-            judgmentSearchResult.setCourtName(JC.COURT_NAME);
-            judgmentSearchResult.setCourtId(JC.COURT_ID);
-            judgmentSearchResult.setCourtCode(JC.COURT_CODE);
+            ccResult.setCourtName(JC.COURT_NAME);
+            ccResult.setCourtId(JC.COURT_ID);
+            ccResult.setCourtCode(JC.COURT_CODE);
 
-            judgmentSearchResult.setContent(JC.TEXT_CONTENT);
-            judgmentSearchResult.setCaseNumbers(Arrays.asList(JC.CASE_NUMBER));
-            judgmentSearchResult.setKeywords(Arrays.asList(JC.FIRST_KEYWORD, JC.SECOND_KEYWORD));
-            judgmentSearchResult.setJudgmentDate(new LocalDate(JC.DATE_YEAR, JC.DATE_MONTH, JC.DATE_DAY));
-            judgmentSearchResult.setJudgmentType(Judgment.JudgmentType.SENTENCE.name());
+            ccResult.setContent(JC.TEXT_CONTENT);
+            ccResult.setCaseNumbers(Arrays.asList(JC.CASE_NUMBER));
+            ccResult.setKeywords(Arrays.asList(JC.FIRST_KEYWORD, JC.SECOND_KEYWORD));
+            ccResult.setJudgmentDate(new LocalDate(JC.DATE_YEAR, JC.DATE_MONTH, JC.DATE_DAY));
+            ccResult.setJudgmentType(Judgment.JudgmentType.SENTENCE.name());
 
-            judgmentSearchResult.setCourtDivisionId(JC.DIVISION_ID);
-            judgmentSearchResult.setCourtDivisionCode(JC.DIVISION_CODE);
-            judgmentSearchResult.setCourtDivisionName(JC.DIVISION_NAME);
+            ccResult.setCourtDivisionId(JC.DIVISION_ID);
+            ccResult.setCourtDivisionCode(JC.DIVISION_CODE);
+            ccResult.setCourtDivisionName(JC.DIVISION_NAME);
 
             List<JudgeResult> judges = Arrays.asList(
                     new JudgeResult(JC.PRESIDING_JUDGE_NAME, Judge.JudgeRole.PRESIDING_JUDGE),
                     new JudgeResult(JC.SECOND_JUDGE_NAME), new JudgeResult(JC.THIRD_JUDGE_NAME)
             );
 
-            judgmentSearchResult.setJudges(judges);
+            ccResult.setJudges(judges);
 
 
-            searchResults.addResult(judgmentSearchResult);
+            searchResults.addResult(ccResult);
+
+
+            //supreme court result
+            JudgmentSearchResult scResult = new JudgmentSearchResult();
+            scResult.setId(JC.SC_JUDGMENT_ID);
+
+            scResult.setCourtChamberDivisionId(JC.SC_CHAMBER_DIVISION_ID);
+            scResult.setCourtChamberDivisionName(JC.SC_CHAMBER_DIVISION_NAME);
+
+            List<SupremeCourtChamberResult> chambers = Arrays.asList(
+                    new SupremeCourtChamberResult(JC.SC_FIRST_CHAMBER_ID, JC.SC_FIRST_CHAMBER_NAME),
+                    new SupremeCourtChamberResult(JC.SC_SECOND_CHAMBER_ID, JC.SC_SECOND_CHAMBER_NAME)
+            );
+
+            scResult.setCourtChambers(chambers);
+            scResult.setPersonnelType(PersonnelType.JOINED_CHAMBERS.name());
+
+            searchResults.addResult(scResult);
 
             return searchResults;
         }
@@ -163,6 +184,20 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH + "/" + JC.COURT_ID)))
                 .andExpect(jsonPath("$.items.[0].division.court.name").value(JC.COURT_NAME))
                 .andExpect(jsonPath("$.items.[0].division.court.code").value(JC.COURT_CODE))
+
+
+                .andExpect(jsonPath("$.items.[1].href").value(endsWith("/api/judgments/" + JC.SC_JUDGMENT_ID)))
+                .andExpect(jsonPath("$.items.[1].personnelType").value(PersonnelType.JOINED_CHAMBERS.name()))
+
+                .andExpect(jsonPath("$.items.[1].division.href").value(endsWith("/api/scDivisions/" + JC.SC_CHAMBER_DIVISION_ID)))
+                .andExpect(jsonPath("$.items.[1].division.name").value(JC.SC_CHAMBER_DIVISION_NAME))
+
+                .andExpect(jsonPath("$.items.[1].division.chambers.[0].href").value(endsWith("/api/scChambers/" + JC.SC_FIRST_CHAMBER_ID)))
+                .andExpect(jsonPath("$.items.[1].division.chambers.[0].name").value(JC.SC_FIRST_CHAMBER_NAME))
+
+                .andExpect(jsonPath("$.items.[1].division.chambers.[1].href").value(endsWith("/api/scChambers/" + JC.SC_SECOND_CHAMBER_ID)))
+                .andExpect(jsonPath("$.items.[1].division.chambers.[1].name").value(JC.SC_SECOND_CHAMBER_NAME))
+
         ;
     }
 
@@ -176,6 +211,7 @@ public class JudgmentsControllerTest {
         String allValue = "someAllValue";
         String judgmentDateFrom = "2010-01-21";
         String judgmentDateTo = "2020-10-13";
+        String personnelType = PersonnelType.FIVE_PERSON.name();
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
@@ -189,6 +225,7 @@ public class JudgmentsControllerTest {
                 .param(KEYWORD, JC.SECOND_KEYWORD)
                 .param(JUDGMENT_DATE_FROM, judgmentDateFrom)
                 .param(JUDGMENT_DATE_TO, judgmentDateTo)
+                .param(PERSONNEL_TYPE, personnelType)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -203,6 +240,7 @@ public class JudgmentsControllerTest {
                 .andExpect(jsonPath(prefix+".referencedRegulation").value(JC.FIRST_REFERENCED_REGULATION_TEXT))
                 .andExpect(jsonPath(prefix+".judgeName").value(JC.SECOND_JUDGE_NAME))
                 .andExpect(jsonPath(prefix+".keyword").value(JC.SECOND_KEYWORD))
+                .andExpect(jsonPath(prefix+".personnelType").value(personnelType))
                 .andExpect(jsonPath(prefix+".judgmentDateFrom").value(judgmentDateFrom))
                 .andExpect(jsonPath(prefix+".judgmentDateTo").value(judgmentDateTo))
                 .andExpect(jsonPath(prefix+".pageSize").value(pageSize))
