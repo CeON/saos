@@ -1,7 +1,8 @@
 /*
  * Filter box features
  * 
- * Module uses bootstrap tooltip
+ * Module requires:
+ * - bootstrap tooltip
  * 
  * @author Łukasz Pawełczak
  */
