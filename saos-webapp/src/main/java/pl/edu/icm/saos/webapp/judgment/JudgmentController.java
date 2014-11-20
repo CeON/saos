@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,14 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.collect.Lists;
-
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
-import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
-import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
-import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.webapp.division.SimpleDivision;
@@ -48,7 +41,7 @@ public class JudgmentController {
     private SimpleDivisionConverter simpleDivisionConverter;
 
 	
-  //------------------------ LOGIC --------------------------
+    //------------------------ LOGIC --------------------------
     
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String JudgmentSearchResults(@ModelAttribute("judgmentCriteriaForm") JudgmentCriteriaForm judgmentCriteriaForm,
@@ -80,13 +73,13 @@ public class JudgmentController {
 
 	@RequestMapping("/search/courtDivision/{commonCourtId}")
 	@ResponseBody
-	public List<SimpleDivision> division(@PathVariable("commonCourtId") String commonCourtId) {
+	public List<SimpleDivision> division(@PathVariable("commonCourtId") int commonCourtId) {
 		return getCcDivisionList(commonCourtId);
 	}
 	
 	@RequestMapping("/search/chamberDivision/{supremeChamberId}")
 	@ResponseBody
-	public List<SimpleDivision> chamberDivision(@PathVariable("supremeChamberId") String supremeChamberId) {
+	public List<SimpleDivision> chamberDivision(@PathVariable("supremeChamberId") int supremeChamberId) {
 		return getSupremeChamberDivisionList(supremeChamberId);
 	}
 
@@ -105,13 +98,8 @@ public class JudgmentController {
 		}
 	}
 	
-	private List<SimpleDivision> getCcDivisionList(String commonCourtId) {
-		try {
-			int intCourtId = Integer.parseInt(commonCourtId);
-			return simpleDivisionConverter.convertCcDivisions(courtsWebService.getCcDivisions(intCourtId));
-		} catch (NumberFormatException e) {
-			return Lists.newArrayList();
-		} 
+	private List<SimpleDivision> getCcDivisionList(int commonCourtId) {
+		return simpleDivisionConverter.convertCcDivisions(courtsWebService.getCcDivisions(commonCourtId));
 	}
 	
 	private void addSupremeCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
@@ -122,12 +110,7 @@ public class JudgmentController {
 		}
 	}
 	
-	private List<SimpleDivision> getSupremeChamberDivisionList(String supremeChamberId) {
-		try {
-			int intChamberId = Integer.parseInt(supremeChamberId);
-			return simpleDivisionConverter.convertScChamberDivisions(courtsWebService.getScChamberDivisions(intChamberId));
-		} catch (NumberFormatException e) {
-			return Lists.newArrayList();
-		} 
+	private List<SimpleDivision> getSupremeChamberDivisionList(int supremeChamberId) {
+		return simpleDivisionConverter.convertScChamberDivisions(courtsWebService.getScChamberDivisions(supremeChamberId));
 	}
 }

@@ -56,11 +56,11 @@
 	<saos:filterField assignedField="input-search-referencedregulations" label="judgment.results.filter.referencedregulations" filterValue="${judgmentCriteriaForm.referencedRegulation}" id="filter-referenced-regulations"></saos:filterField>
 	
 	<%--Court type --%>
-	<c:if test="${!empty judgmentCriteriaForm.courtType && judgmentCriteriaForm.courtType != 'all' }">
+	<c:if test="${!empty judgmentCriteriaForm.courtType}">
 		<p><spring:message code="judgment.results.filter.courtType" />:</p>
-		<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(judgmentCriteriaForm.courtType)}" />
-		<div class="filter-item" id="filter-court-type" data-assigned-field="radio-court-${lowerCaseEnumValue}">
-			<div data-tooltip-text="<spring:message code='judgment.results.filter.removetarget' />"><spring:message code="judgment.results.filter.${fn:toLowerCase(lowerCaseEnumValue)}" /></div>
+		<c:set var="lowerCaseCourtType" value="${fn:toLowerCase(judgmentCriteriaForm.courtType)}" />
+		<div class="filter-item" id="filter-court-type" data-assigned-field="radio-court-${lowerCaseCourtType}">
+			<div data-tooltip-text="<spring:message code='judgment.results.filter.removetarget' />"><spring:message code="judgment.results.filter.${lowerCaseCourtType}" /></div>
 		</div>
 	</c:if>
 	
