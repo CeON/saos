@@ -84,7 +84,7 @@ public class SingleCourtSuccessRepresentationBuilder {
 
     private CommonCourtView.Division toDivision(CommonCourtDivision division){
         CommonCourtView.Division divisionView = new CommonCourtView.Division();
-        divisionView.setHref(linksBuilder.urlToDivision(division.getId()));
+        divisionView.setHref(linksBuilder.urlToCcDivision(division.getId()));
         divisionView.setName(division.getName());
         return divisionView;
     }

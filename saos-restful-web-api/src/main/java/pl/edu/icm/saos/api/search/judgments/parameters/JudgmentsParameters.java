@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
+import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+
 import static org.springframework.format.annotation.DateTimeFormat.ISO;
 
 /**
@@ -23,6 +25,7 @@ public class JudgmentsParameters {
     private String referencedRegulation;
     private String judgeName;
     private String keyword;
+    private PersonnelType personnelType;
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate judgmentDateFrom;
     @DateTimeFormat(iso = ISO.DATE)
@@ -68,51 +71,8 @@ public class JudgmentsParameters {
         return judgmentDateTo;
     }
 
-
-
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(JudgmentsParameters.class)
-                .add("pagination", pagination)
-                .add("all", all)
-                .add("courtName", courtName)
-                .add("legalBase", legalBase)
-                .add("referencedRegulation", referencedRegulation)
-                .add("judgeName", judgeName)
-                .add("keyword", keyword)
-                .add("judgmentDateFrom", judgmentDateFrom)
-                .add("judgmentDateTo", judgmentDateTo)
-                .toString();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if(this == obj){
-            return true;
-        }
-
-
-        if(obj instanceof JudgmentsParameters){
-            JudgmentsParameters other = (JudgmentsParameters) obj;
-            return Objects.equal(pagination, other.pagination) &&
-                    Objects.equal(all, other.all) &&
-                    Objects.equal(courtName, other.courtName) &&
-                    Objects.equal(legalBase, other.legalBase) &&
-                    Objects.equal(referencedRegulation, other.referencedRegulation) &&
-                    Objects.equal(judgeName, other.judgeName) &&
-                    Objects.equal(keyword, other.keyword) &&
-                    Objects.equal(judgmentDateFrom, other.judgmentDateFrom) &&
-                    Objects.equal(judgmentDateTo, other.judgmentDateTo);
-        }
-
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(pagination, all, courtName,
-                legalBase, referencedRegulation, judgeName,
-                keyword, judgmentDateFrom, judgmentDateTo);
+    public PersonnelType getPersonnelType() {
+        return personnelType;
     }
 
     //------------------------ SETTERS --------------------------
@@ -153,4 +113,61 @@ public class JudgmentsParameters {
     public void setJudgmentDateTo(LocalDate judgmentDateTo) {
         this.judgmentDateTo = judgmentDateTo;
     }
+
+    public void setPersonnelType(PersonnelType personnelType) {
+        this.personnelType = personnelType;
+    }
+
+    //------------------------ HashCode & Equals --------------------------
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj){
+            return true;
+        }
+
+
+        if(obj instanceof JudgmentsParameters){
+            JudgmentsParameters other = (JudgmentsParameters) obj;
+            return Objects.equal(pagination, other.pagination) &&
+                    Objects.equal(all, other.all) &&
+                    Objects.equal(courtName, other.courtName) &&
+                    Objects.equal(legalBase, other.legalBase) &&
+                    Objects.equal(referencedRegulation, other.referencedRegulation) &&
+                    Objects.equal(judgeName, other.judgeName) &&
+                    Objects.equal(keyword, other.keyword) &&
+                    Objects.equal(judgmentDateFrom, other.judgmentDateFrom) &&
+                    Objects.equal(judgmentDateTo, other.judgmentDateTo) &&
+                    Objects.equal(personnelType, other.personnelType);
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(pagination, all, courtName,
+                legalBase, referencedRegulation, judgeName,
+                keyword, judgmentDateFrom, judgmentDateTo,
+                personnelType);
+    }
+
+    //------------------------ toString --------------------------
+
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(JudgmentsParameters.class)
+                .add("pagination", pagination)
+                .add("all", all)
+                .add("courtName", courtName)
+                .add("legalBase", legalBase)
+                .add("referencedRegulation", referencedRegulation)
+                .add("judgeName", judgeName)
+                .add("keyword", keyword)
+                .add("judgmentDateFrom", judgmentDateFrom)
+                .add("judgmentDateTo", judgmentDateTo)
+                .add("personnelType", personnelType)
+                .toString();
+    }
+
 }

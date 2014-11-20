@@ -7,6 +7,9 @@ import pl.edu.icm.saos.api.single.court.CourtController;
 import pl.edu.icm.saos.api.search.courts.CourtsController;
 import pl.edu.icm.saos.api.single.division.DivisionController;
 import pl.edu.icm.saos.api.single.judgment.JudgmentController;
+import pl.edu.icm.saos.api.single.scchamber.ScChamberController;
+import pl.edu.icm.saos.api.single.scdivision.ScDivisionController;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static pl.edu.icm.saos.api.ApiConstants.*;
 
@@ -17,8 +20,8 @@ import static pl.edu.icm.saos.api.ApiConstants.*;
 @Component("linksBuilder")
 public class LinksBuilder {
 
+    //------------------------ LOGIC --------------------------
 
-    //********** business methods ************
     public String urlToJudgment(int judgmentId){
         return urlToElement(JudgmentController.class, judgmentId);
     }
@@ -27,12 +30,37 @@ public class LinksBuilder {
         return linkFor(JudgmentController.class, judgmentId);
     }
 
-    public String urlToDivision(int divisionId){
+    public String urlToCcDivision(int divisionId){
         return urlToElement(DivisionController.class, divisionId);
     }
 
-    public Link linkToDivision(int divisionId) {
+    public Link linkToCcDivision(int divisionId) {
         return linkFor(DivisionController.class, divisionId);
+    }
+
+    public String urlToScDivision(int divisionId){
+        return urlToElement(ScDivisionController.class, divisionId);
+    }
+
+    public Link linkToScDivision(int divisionId){
+        return linkFor(ScDivisionController.class, divisionId);
+    }
+
+    public Link linkToScDivision(int divisionId, String relName){
+        return linkFor(ScDivisionController.class, divisionId, relName);
+    }
+
+
+    public String urlToScChamber(int chamberId){
+        return urlToElement(ScChamberController.class, chamberId);
+    }
+
+    public Link linkToScChamber(int chamberId){
+        return linkFor(ScChamberController.class, chamberId);
+    }
+
+    public Link linkToScChamber(int chamberId, String relName){
+        return linkFor(ScChamberController.class, chamberId, relName);
     }
 
     public String urlToCourt(int courtId) {
@@ -67,7 +95,7 @@ public class LinksBuilder {
         return linkTo(controller, elementId).withRel(relName);
     }
 
-    //*********** END business methods ************
+
 
 
 }

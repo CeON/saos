@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 import static pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.Info;
 import static pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.QueryTemplate;
+import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 /**
  * @author pavtel
  */
@@ -23,6 +24,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
         private String all;
         private String legalBase;
         private String referencedRegulation;
+        private PersonnelType personnelType;
         private String keyword;
         private String courtName;
         private String judgeName;
@@ -71,6 +73,10 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             return judgmentDateTo;
         }
 
+        public PersonnelType getPersonnelType() {
+            return personnelType;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setPageNumber(int pageNumber) {
@@ -113,11 +119,18 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.judgmentDateTo = judgmentDateTo;
         }
 
+        public void setPersonnelType(PersonnelType personnelType) {
+            this.personnelType = personnelType;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(pageNumber, pageSize, all, legalBase, referencedRegulation, keyword, courtName, judgeName, judgmentDateFrom, judgmentDateTo);
+            return Objects.hashCode(pageNumber, pageSize, all,
+                    legalBase, referencedRegulation, keyword,
+                    courtName, judgeName, personnelType,
+                    judgmentDateFrom, judgmentDateTo);
         }
 
         @Override
@@ -137,6 +150,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
                     Objects.equal(this.keyword, other.keyword) &&
                     Objects.equal(this.courtName, other.courtName) &&
                     Objects.equal(this.judgeName, other.judgeName) &&
+                    Objects.equal(this.personnelType, other.personnelType) &&
                     Objects.equal(this.judgmentDateFrom, other.judgmentDateFrom) &&
                     Objects.equal(this.judgmentDateTo, other.judgmentDateTo);
         }
@@ -154,6 +168,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
                     .add("keyword", keyword)
                     .add("courtName", courtName)
                     .add("judgeName", judgeName)
+                    .add("personnelType", personnelType)
                     .add("judgmentDateFrom", judgmentDateFrom)
                     .add("judgmentDateTo", judgmentDateTo)
                     .toString();

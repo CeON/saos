@@ -32,6 +32,7 @@ public class ParametersToCriteriaConverter {
         criteria.setJudgeName(params.getJudgeName());
         criteria.setLegalBase(params.getLegalBase());
         criteria.setKeyword(params.getKeyword());
+        criteria.setScPersonnelType(params.getPersonnelType());
 
         criteria.setDateFrom(params.getJudgmentDateFrom());
         criteria.setDateTo(params.getJudgmentDateTo());

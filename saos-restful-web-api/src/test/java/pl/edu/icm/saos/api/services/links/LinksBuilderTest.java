@@ -39,7 +39,7 @@ public class LinksBuilderTest {
         int someDivisionId = 123;
 
         //when
-        String actualUrl = linksBuilder.urlToDivision(someDivisionId);
+        String actualUrl = linksBuilder.urlToCcDivision(someDivisionId);
 
         //then
         assertTrue(actualUrl.endsWith("/api/divisions/"+someDivisionId));
@@ -76,7 +76,7 @@ public class LinksBuilderTest {
         int someDivisionId = 689;
 
         //when
-        Link link = linksBuilder.linkToDivision(someDivisionId);
+        Link link = linksBuilder.linkToCcDivision(someDivisionId);
 
         //then
         assertThat(link.getHref(), endsWith("/api/divisions/"+someDivisionId));

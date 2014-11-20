@@ -64,7 +64,7 @@ public class CommonCourtJudgmentMapper {
     private Division toDivision(CommonCourtDivision courtDivision) {
         Division divisionView = new Division();
 
-        divisionView.setHref(linksBuilder.urlToDivision(courtDivision.getId()));
+        divisionView.setHref(linksBuilder.urlToCcDivision(courtDivision.getId()));
         divisionView.setName(courtDivision.getName());
         divisionView.setCode(courtDivision.getCode());
         divisionView.setType(courtDivision.getType().getName());
