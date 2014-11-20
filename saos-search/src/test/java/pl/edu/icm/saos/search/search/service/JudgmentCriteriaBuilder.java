@@ -122,7 +122,7 @@ public class JudgmentCriteriaBuilder {
     }
     
     public JudgmentCriteriaBuilder withJudgmentType(JudgmentType type) {
-        criteria.setJudgmentType(type);
+        criteria.addJudgmentType(type);
         return this;
     }
     
@@ -132,7 +132,7 @@ public class JudgmentCriteriaBuilder {
     }
     
     public JudgmentCriteriaBuilder withKeyword(String keyword) {
-        criteria.setKeyword(keyword);
+        criteria.addKeyword(keyword);
         return this;
     }
     

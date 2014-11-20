@@ -31,7 +31,7 @@ public class ParametersToCriteriaConverter {
         criteria.setReferencedRegulation(params.getReferencedRegulation());
         criteria.setJudgeName(params.getJudgeName());
         criteria.setLegalBase(params.getLegalBase());
-        criteria.setKeyword(params.getKeyword());
+        criteria.addKeyword(params.getKeyword());
 
         criteria.setDateFrom(params.getJudgmentDateFrom());
         criteria.setDateTo(params.getJudgmentDateTo());

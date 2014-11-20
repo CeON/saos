@@ -1,9 +1,11 @@
 package pl.edu.icm.saos.search.search.service;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,6 +80,9 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withKeyword("przestępstwo").build() },
             { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withKeyword("przestępstwo przeciwko wolności").build() },
             { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withKeyword("Przestępstwo Przeciwko Wolności").build() },
+            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withKeyword("słowo kluczowe").build() },
+            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder()
+                    .withKeyword("Przestępstwo Przeciwko Wolności").withKeyword("słowo kluczowe").build() },
             
             { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withJudgeName("Jacek Witkowski").build() },
             { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withJudgeName("Witkowski").build() },
@@ -94,6 +99,8 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCaseNumber("XV").build() },
             
             { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.SENTENCE).build() },
+            { Lists.newArrayList(21, 1961, 41808), new JudgmentCriteriaBuilder()
+                    .withJudgmentType(JudgmentType.SENTENCE).withJudgmentType(JudgmentType.RESOLUTION).build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.DECISION).build() },
             
             { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withCourtType(CourtType.SUPREME).build() },
@@ -180,13 +187,12 @@ public class JudgmentSearchServiceTest {
         LocalDate expectedDate = new LocalDate(2012, 5, 15);
         assertEquals(expectedDate, result.getJudgmentDate());
         
-        assertEquals(3, result.getJudges().size());
-        assertTrue(result.getJudges().contains(new JudgeResult("Jacek Witkowski", JudgeRole.PRESIDING_JUDGE)));
-        assertTrue(result.getJudges().contains(new JudgeResult("Elżbieta Kunecka")));
-        assertTrue(result.getJudges().contains(new JudgeResult("Irena Różańska-Dorosz")));
+        assertThat(result.getJudges(), containsInAnyOrder(
+                new JudgeResult("Jacek Witkowski", JudgeRole.PRESIDING_JUDGE),
+                new JudgeResult("Elżbieta Kunecka"),
+                new JudgeResult("Irena Różańska-Dorosz")));
         
-        assertEquals(1, result.getKeywords().size());
-        assertEquals("zwrot nienależnie pobranych świadczeń z ubezpieczenia", result.getKeywords().get(0));
+        assertThat(result.getKeywords(), containsInAnyOrder("zwrot nienależnie pobranych świadczeń z ubezpieczenia", "słowo kluczowe"));
         
         
         assertTrue(result.getContent().contains("W IMIENIU RZECZYPOSPOLITEJ POLSKIEJ"));
@@ -220,7 +226,7 @@ public class JudgmentSearchServiceTest {
     }
     
     @Test
-    public void search_CHEKC_SUPREME_COURT_RESULT() {
+    public void search_CHECK_SUPREME_COURT_RESULT() {
         JudgmentCriteria criteria = new JudgmentCriteriaBuilder().withCaseNumber("supremeCaseNumber").build();
         
         SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
@@ -327,6 +333,7 @@ public class JudgmentSearchServiceTest {
         
         doc.addField("keyword", "przestępstwo przeciwko wolności");
         doc.addField("keyword", "przestępstwo przeciwko porządkowi publicznemu");
+        doc.addField("keyword", "słowo kluczowe");
         
         try (InputStream inputStream = new ClassPathResource(CONTENT_FIELD_FILE_41808).getInputStream()) {
             doc.addField("content", IOUtils.toString(inputStream, "UTF-8"));
@@ -373,6 +380,7 @@ public class JudgmentSearchServiceTest {
         doc.addField("ccCourtDivisionName", "III Wydział Pracy i Ubezpieczeń Społecznych");
         
         doc.addField("keyword", "zwrot nienależnie pobranych świadczeń z ubezpieczenia");
+        doc.addField("keyword", "słowo kluczowe");
         
         
         try (InputStream inputStream = new ClassPathResource(CONTENT_FIELD_FILE_1961).getInputStream()) {

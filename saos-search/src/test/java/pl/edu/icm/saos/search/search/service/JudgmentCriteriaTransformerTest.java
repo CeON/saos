@@ -43,6 +43,7 @@ public class JudgmentCriteriaTransformerTest {
                 
                 { "+judgeName:Adam\\ Nowak", new JudgmentCriteriaBuilder().withJudgeName("Adam Nowak").build() },
                 { "+keyword:word", new JudgmentCriteriaBuilder().withKeyword("word").build() },
+                { "+keyword:word1 +keyword:word2", new JudgmentCriteriaBuilder().withKeyword("word1").withKeyword("word2").build() },
                 { "+legalBases:someLegalBase", new JudgmentCriteriaBuilder().withLegalBase("someLegalBase").build() },
                 { "+referencedRegulations:someReferencedRegulation", new JudgmentCriteriaBuilder().withReferencedRegulation("someReferencedRegulation").build() },
                 
@@ -52,6 +53,8 @@ public class JudgmentCriteriaTransformerTest {
                 
                 { "+caseNumber:ZXC1", new JudgmentCriteriaBuilder().withCaseNumber("ZXC1").build() },
                 { "+judgmentType:DECISION", new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.DECISION).build() },
+                { "judgmentType:DECISION judgmentType:SENTENCE", new JudgmentCriteriaBuilder()
+                        .withJudgmentType(JudgmentType.DECISION).withJudgmentType(JudgmentType.SENTENCE).build() },
                 { "+courtType:ADMINISTRATIVE", new JudgmentCriteriaBuilder().withCourtType(CourtType.ADMINISTRATIVE).build() },
                 
                 { "+ccCourtType:DISTRICT", new JudgmentCriteriaBuilder().withCcCourtType(CommonCourtType.DISTRICT).build() },
