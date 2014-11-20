@@ -33,7 +33,7 @@
 				
 					<div class="court-desc">
 						<%-- //TODO ATM here is displayed first chamber from list,
-							it should be changed to display all elements from list.
+							it should be changed to display divisionFullName.
 						 --%>
 						<span class="chamber">
 							<c:out value="${judgment.courtChambers[0].name}" />
