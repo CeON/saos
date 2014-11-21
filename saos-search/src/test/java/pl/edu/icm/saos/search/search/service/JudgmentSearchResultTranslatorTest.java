@@ -4,7 +4,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import org.apache.solr.common.SolrDocument;
 import org.joda.time.LocalDate;

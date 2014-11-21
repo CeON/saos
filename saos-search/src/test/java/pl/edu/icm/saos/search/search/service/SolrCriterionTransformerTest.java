@@ -1,12 +1,16 @@
 package pl.edu.icm.saos.search.search.service;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
+import com.google.common.collect.Lists;
+
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.CourtType;
+import pl.edu.icm.saos.search.search.service.SolrCriterionTransformer.Operator;
 
 /**
  * @author madryk
@@ -35,6 +39,37 @@ public class SolrCriterionTransformerTest {
         String actual = criterionTransformer.transformCriterion(JudgmentIndexField.COURT_TYPE, CourtType.SUPREME);
         
         assertEquals("+courtType:SUPREME", actual);
+    }
+    
+    @Test
+    public void transformCriterion_MULTI_AND() {
+        String actual = criterionTransformer.transformMultivaluedCriterion(JudgmentIndexField.KEYWORD, Lists.newArrayList("word1", "word2", "word3"), Operator.AND);
+        
+        assertEquals("+keyword:word1 +keyword:word2 +keyword:word3", actual);
+    }
+    
+    @Test
+    public void transformCriterion_MULTI_OR() {
+        String actual = criterionTransformer.transformMultivaluedCriterion(JudgmentIndexField.JUDGMENT_TYPE, 
+                Lists.newArrayList(JudgmentType.DECISION.name(), JudgmentType.SENTENCE.name()), Operator.OR);
+        
+        assertEquals("judgmentType:DECISION judgmentType:SENTENCE", actual);
+    }
+    
+    @Test
+    public void transformCriterion_SINGLE_OR() {
+        String actual = criterionTransformer.transformMultivaluedCriterion(JudgmentIndexField.JUDGMENT_TYPE, 
+                Lists.newArrayList(JudgmentType.DECISION.name()), Operator.OR);
+        
+        assertEquals("+judgmentType:DECISION", actual);
+    }
+    
+    @Test
+    public void transformCriterion_MULTI_ENUM() {
+        String actual = criterionTransformer.transformMultivaluedEnumCriterion(JudgmentIndexField.JUDGMENT_TYPE, 
+                Lists.newArrayList(JudgmentType.DECISION, JudgmentType.REASONS, JudgmentType.SENTENCE), Operator.OR);
+        
+        assertEquals("judgmentType:DECISION judgmentType:REASONS judgmentType:SENTENCE", actual);
     }
     
     @Test

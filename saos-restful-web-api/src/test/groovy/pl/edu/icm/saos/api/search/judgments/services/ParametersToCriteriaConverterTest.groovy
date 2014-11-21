@@ -72,7 +72,7 @@ class ParametersToCriteriaConverterTest extends Specification {
             expected.setReferencedRegulation(referencedRegulation)
             expected.setJudgeName(judgeName)
             expected.setLegalBase(legalBases)
-            expected.setKeyword(keyword)
+            expected.addKeyword(keyword)
             expected.setDateFrom(judgmentDateFrom)
             expected.setDateTo(judgmentDateTo)
             expected.setScPersonnelType(personnelType)

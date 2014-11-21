@@ -31,7 +31,7 @@ public class JudgmentCriteriaFormConverter {
 		} catch (NumberFormatException e) { }
 		
 		judgmentCriteria.setJudgeName(element.getJudgeName());
-		judgmentCriteria.setKeyword(element.getKeyword());
+		judgmentCriteria.addKeyword(element.getKeyword());
 		judgmentCriteria.setLegalBase(element.getLegalBase());
 		judgmentCriteria.setReferencedRegulation(element.getReferencedRegulation());
 

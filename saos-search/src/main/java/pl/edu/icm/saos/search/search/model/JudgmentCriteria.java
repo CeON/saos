@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.search.search.model;
 
+import java.util.List;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.LocalDate;
@@ -9,6 +11,7 @@ import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
 
 /**
  * Criteria for searching judgments
@@ -41,11 +44,11 @@ public class JudgmentCriteria extends Criteria {
     private Integer scCourtChamberDivisionId;
     private String scCourtChamberDivisionName;
     
-    private JudgmentType judgmentType;
+    private List<JudgmentType> judgmentTypes = Lists.newLinkedList();
     
     private String judgeName;
     
-    private String keyword;
+    private List<String> keywords = Lists.newLinkedList();
     private String legalBase;
     private String referencedRegulation;
 
@@ -55,6 +58,16 @@ public class JudgmentCriteria extends Criteria {
         this.all = allCriteria;
     }
 
+    
+    //------------------------ LOGIC --------------------------
+    
+    public void addJudgmentType(JudgmentType judgmentType) {
+        judgmentTypes.add(judgmentType);
+    }
+    
+    public void addKeyword(String keyword) {
+        keywords.add(keyword);
+    }
     
     //------------------------ GETTERS --------------------------
     
@@ -109,14 +122,14 @@ public class JudgmentCriteria extends Criteria {
     public String getScCourtChamberDivisionName() {
         return scCourtChamberDivisionName;
     }
-    public JudgmentType getJudgmentType() {
-        return judgmentType;
+    public List<JudgmentType> getJudgmentTypes() {
+        return judgmentTypes;
     }
     public String getJudgeName() {
         return judgeName;
     }
-    public String getKeyword() {
-        return keyword;
+    public List<String> getKeywords() {
+        return keywords;
     }
     public String getLegalBase() {
         return legalBase;
@@ -185,15 +198,15 @@ public class JudgmentCriteria extends Criteria {
     public void setScCourtChamberDivisionName(String courtChamberDivisionName) {
         this.scCourtChamberDivisionName = courtChamberDivisionName;
     }
-    public void setJudgmentType(JudgmentType judgmentType) {
-        this.judgmentType = judgmentType;
+    public void setJudgmentType(List<JudgmentType> judgmentTypes) {
+        this.judgmentTypes = judgmentTypes;
     }
     public JudgmentCriteria setJudgeName(String judgeName) {
         this.judgeName = judgeName;
         return this;
     }
-    public JudgmentCriteria setKeyword(String keyword) {
-        this.keyword = keyword;
+    public JudgmentCriteria setKeyword(List<String> keywords) {
+        this.keywords = keywords;
         return this;
     }
     public JudgmentCriteria setLegalBase(String legalBase) {
@@ -213,7 +226,7 @@ public class JudgmentCriteria extends Criteria {
                 courtType, ccCourtId, ccCourtCode, ccCourtName,
                 ccCourtDivisionId, ccCourtDivisionCode, ccCourtDivisionName,
                 scPersonnelType, scCourtChamberId, scCourtChamberName, scCourtChamberDivisionId,
-                scCourtChamberDivisionName, judgmentType, judgeName, keyword,
+                scCourtChamberDivisionName, judgmentTypes, judgeName, keywords,
                 legalBase, referencedRegulation);
     }
 
@@ -242,9 +255,9 @@ public class JudgmentCriteria extends Criteria {
                 Objects.equal(this.scCourtChamberName, other.scCourtChamberName) &&
                 Objects.equal(this.scCourtChamberDivisionId, other.scCourtChamberDivisionId) &&
                 Objects.equal(this.scCourtChamberDivisionName, other.scCourtChamberDivisionName) &&
-                Objects.equal(this.judgmentType, other.judgmentType) &&
+                Objects.equal(this.judgmentTypes, other.judgmentTypes) &&
                 Objects.equal(this.judgeName, other.judgeName) &&
-                Objects.equal(this.keyword, other.keyword) &&
+                Objects.equal(this.keywords, other.keywords) &&
                 Objects.equal(this.legalBase, other.legalBase) &&
                 Objects.equal(this.referencedRegulation, other.referencedRegulation);
     }

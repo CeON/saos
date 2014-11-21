@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.search.service.SolrCriterionTransformer.Operator;
 import pl.edu.icm.saos.search.util.SolrConstants;
 
 import com.google.common.collect.Lists;
@@ -35,9 +36,9 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CONTENT, criteria.getAll()));
         list.add(criterionTransformer.transformDateRangeCriterion(
                 JudgmentIndexField.JUDGMENT_DATE, criteria.getDateFrom(), criteria.getDateTo()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.JUDGMENT_TYPE, criteria.getJudgmentType()));
+        list.add(criterionTransformer.transformMultivaluedEnumCriterion(JudgmentIndexField.JUDGMENT_TYPE, criteria.getJudgmentTypes(), Operator.OR));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.JUDGE_NAME, criteria.getJudgeName()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.KEYWORD, criteria.getKeyword()));
+        list.add(criterionTransformer.transformMultivaluedCriterion(JudgmentIndexField.KEYWORD, criteria.getKeywords(), Operator.AND));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.LEGAL_BASE, criteria.getLegalBase()));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.REFERENCED_REGULATION, criteria.getReferencedRegulation()));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CASE_NUMBER, criteria.getCaseNumber()));
