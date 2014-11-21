@@ -1,7 +1,8 @@
 package pl.edu.icm.saos.search.search.service;
 
+import static org.junit.Assert.assertEquals;
+
 import org.joda.time.LocalDate;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -82,7 +83,7 @@ public class JudgmentCriteriaTransformerTest {
     public void transformCriteria(String expectedQuery, JudgmentCriteria criteria) {
         String actualQuery = queryFactory.transformCriteria(criteria);
         
-        Assert.assertEquals(expectedQuery, actualQuery);
+        assertEquals(expectedQuery, actualQuery);
     }
     
     @Test
@@ -93,7 +94,7 @@ public class JudgmentCriteriaTransformerTest {
 
         String solrQuery = queryFactory.transformCriteria(criteria);
 
-        Assert.assertEquals("+ccCourtName:word1 +judgeName:word2", solrQuery);
+        assertEquals("+ccCourtName:word1 +judgeName:word2", solrQuery);
     }
     
 
