@@ -18,7 +18,10 @@ public class SortingConverter {
 
 	private final String RELEVANCE = "RELEVANCE";
 	
-	private final Sorting.Direction defaultDirection = Sorting.Direction.ASC;
+	private final Sorting.Direction defaultDirection = Sorting.Direction.DESC;
+	
+	
+	//------------------------ LOGIC --------------------------
 	
 	public Sorting convert(Sort sort) {
 		Iterator<Order> order = sort.iterator();
@@ -43,6 +46,9 @@ public class SortingConverter {
 		return Sorting.relevanceSorting();
 	}
 
+	
+	//------------------------ PRIVATE --------------------------
+	
 	private Sorting.Direction convertDirection(Sort.Direction direction) {	
 		if (direction != null) {
 			if (direction == Sort.Direction.DESC) {

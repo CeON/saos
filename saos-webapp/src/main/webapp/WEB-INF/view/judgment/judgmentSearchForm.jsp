@@ -119,11 +119,13 @@
 			</select>
 		</div>
 		<div>
+			<c:set var="sortDirectionValue" value=",${fn:toLowerCase(sortDirection)}"/>
+		
 			<div class="label" ><spring:message code="judgment.results.sort.by" />:</div>
 			<select id="searchSorting" name="sort">
-				<option value="RELEVANCE" <c:if test="${sortProperty=='RELEVANCE'}"> selected="selected"</c:if> ><spring:message code="judgment.results.sort.accuracy" /></option>
-				<option value="JUDGMENT_DATE" <c:if test="${sortProperty == 'JUDGMENT_DATE'}"> selected="selected"</c:if> ><spring:message code="judgment.results.sort.date" /></option>
-			    <option value="COURT_ID" <c:if test="${sortProperty == 'COURT_ID'}"> selected="selected" </c:if> ><spring:message code="judgment.results.sort.court" /></option>
+				<option value="RELEVANCE${sortDirectionValue}" <c:if test="${sortProperty=='RELEVANCE'}"> selected="selected"</c:if> ><spring:message code="judgment.results.sort.accuracy" /></option>
+				<option value="JUDGMENT_DATE${sortDirectionValue}" <c:if test="${sortProperty == 'JUDGMENT_DATE'}"> selected="selected"</c:if> ><spring:message code="judgment.results.sort.date" /></option>
+			    <option value="COURT_ID${sortDirectionValue}" <c:if test="${sortProperty == 'COURT_ID'}"> selected="selected" </c:if> ><spring:message code="judgment.results.sort.court" /></option>
 			</select>
 			
 			<label><spring:message code="judgment.results.sort.direction" />:</label>
