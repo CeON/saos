@@ -448,7 +448,7 @@ form.search {
 			font-size: 14px;
 		}
 		
-		.court, .division {
+		.court, .division, .chamber, .chamber-division {
 			@include filter-underline();
 		}
 		
@@ -647,6 +647,10 @@ form.search {
 	    padding-bottom: 6px;
 	}
 
+	.col-md-12 {
+		padding-left: 0px;
+	}
+
 	.type {
 		color: #888;
 	    font-weight: 300;
@@ -669,14 +673,14 @@ form.search {
 		.label-title {
 			color: #616161;
     		display: inline-block;
-    		margin-right: 10px;
-    		position: absolute;
+    		margin-right: 15x;
     		width: 155px;
 		}
 		
 		.desc {
 			display: inline-block;
-			margin-left: 170px;
+			/*margin-left: 170px;*/
+			vertical-align: top;
 		}
 	}
 	

@@ -53,14 +53,15 @@ $(document).ready(function() {
 		           {button: ".keyword", searchfield: "#input-search-keywords", filterfield: "filter-keyword", selectFormType: "#radio-court-common"},
 		           {button: ".type", searchfield: "[name='judgmentType']", filterfield: "filter-judgment-type"},
 		           {button: ".date", searchfield: "#datepicker_from, #datepicker_to", filterfield: "filter-judgment-date-from"},
-				   {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court", selectFormType: "#radio-court-common"}],
+				   {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court", selectFormType: "#radio-court-common"},
+				   {button: ".chamber", searchfield: "#select-supreme-chamber", filterfield: "filter-supreme-chamber", selectFormType: "#radio-court-supreme"}],
 		
 		advanceFilter: [{button: ".division", searchfield: "#select-common-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
 						url: contextPath + "/search/courtDivision/",
 						parent : {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court"}},
-						{button: ".division", searchfield: "#select-common-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
+						{button: ".chamber-division", searchfield: "#select-supreme-chamber-division", filterfield: "filter-supreme-chamber-division", selectFormType: "#radio-court-supreme",
 						url: contextPath + "/search/chamberDivision/",
-						parent : {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court"}}],
+						parent : {button: ".chamber", searchfield: "#select-supreme-chamber", filterfield: "filter-supreme-chamber"}}],
     });
     
     

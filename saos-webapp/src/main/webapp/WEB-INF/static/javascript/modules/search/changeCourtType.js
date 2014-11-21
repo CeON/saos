@@ -1,5 +1,6 @@
 /*
  * Module for switching between different parts of search form, based on court type.
+ * E.g. switch from common court to supreme court.
  * 
  * @author Łukasz Pawełczak
  */
