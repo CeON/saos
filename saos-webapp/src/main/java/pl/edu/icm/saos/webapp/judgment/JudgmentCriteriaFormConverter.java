@@ -11,35 +11,31 @@ import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 @Service
 public class JudgmentCriteriaFormConverter {
 
-	public JudgmentCriteria convert(JudgmentCriteriaForm element) {
+	
+	//------------------------ LOGIC --------------------------
+	
+	public JudgmentCriteria convert(JudgmentCriteriaForm judgmentCriteriaForm) {
 		JudgmentCriteria judgmentCriteria = new JudgmentCriteria();
 		
-		judgmentCriteria.setAll(element.getAll());
-		judgmentCriteria.setCaseNumber(element.getSignature());
-		try {
-		    judgmentCriteria.setCcCourtId(Integer.valueOf(element.getCommonCourtId()));
-		} catch (NumberFormatException e) { }
+		judgmentCriteria.setAll(judgmentCriteriaForm.getAll());
+		judgmentCriteria.setCaseNumber(judgmentCriteriaForm.getSignature());
+		judgmentCriteria.setDateFrom(judgmentCriteriaForm.getDateFrom());
+		judgmentCriteria.setDateTo(judgmentCriteriaForm.getDateTo());
 		
-		judgmentCriteria.setCcCourtName(element.getCommonCourtName());
-		
-		try {
-		    judgmentCriteria.setScCourtChamberId(Integer.valueOf(element.getSupremeChamberId()));
-		} catch (NumberFormatException e) { }
-		
-		try {
-		    judgmentCriteria.setScCourtChamberDivisionId(Integer.valueOf(element.getSupremeChamberDivisionId()));
-		} catch (NumberFormatException e) { }
-		
-		judgmentCriteria.setJudgeName(element.getJudgeName());
-		judgmentCriteria.addKeyword(element.getKeyword());
-		judgmentCriteria.setLegalBase(element.getLegalBase());
-		judgmentCriteria.setReferencedRegulation(element.getReferencedRegulation());
+		judgmentCriteria.setJudgeName(judgmentCriteriaForm.getJudgeName());
+		judgmentCriteria.setLegalBase(judgmentCriteriaForm.getLegalBase());
+		judgmentCriteria.setReferencedRegulation(judgmentCriteriaForm.getReferencedRegulation());		
+		judgmentCriteria.setCourtType(judgmentCriteriaForm.getCourtType());
 
-		judgmentCriteria.setDateFrom(element.getDateFrom());
-		judgmentCriteria.setDateTo(element.getDateTo());
+	    judgmentCriteria.setCcCourtId(judgmentCriteriaForm.getCommonCourtId());
+	    judgmentCriteria.setCcCourtDivisionId(judgmentCriteriaForm.getCommonCourtDivisionId());
+		judgmentCriteria.addKeyword(judgmentCriteriaForm.getKeyword());
+	    
+	    judgmentCriteria.setScCourtChamberId(judgmentCriteriaForm.getSupremeChamberId());
+	    judgmentCriteria.setScCourtChamberDivisionId(judgmentCriteriaForm.getSupremeChamberDivisionId());
 		
 		return judgmentCriteria;
 	}
 	
-	
 }
+

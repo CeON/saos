@@ -40,7 +40,7 @@
 				<label class="col-sm-2 control-label"><spring:message code="search.field.judgmenttype" />:</label>
 			    <div class="col-sm-6">
 				  <div class="checkbox">
-			   	        <saos:enumCheckBox path="judgmentType" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" prefix="judgment.judgmenttype" />
+			   	        <saos:enumCheckboxes path="judgmentType" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" />
 			   </div>
 			 </div>
 			</div>
@@ -54,9 +54,9 @@
 		    <div class="form-group">
 			    <label class="col-sm-2 control-label"><spring:message code="search.field.courttype" />:</label>
 			    <div class="col-sm-7">
-			    	<form:radiobutton path="courtType" id="radio-all" value="all" checked="true" />
+			    	<form:radiobutton path="courtType" id="radio-all" value="" checked="true" />
 			    	<label for="radio-all" ><spring:message code="judgment.courttype.all" /></label>
-			    	<saos:enumRadio path="courtType" enumType="pl.edu.icm.saos.webapp.judgment.CourtType" id="court" prefix="judgment.courttype" />
+			    	<saos:enumRadios path="courtType" enumType="pl.edu.icm.saos.search.search.model.CourtType" id="court" />
 			    </div>
 		    </div>
 		    
