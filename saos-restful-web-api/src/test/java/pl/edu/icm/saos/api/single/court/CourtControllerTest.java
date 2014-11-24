@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import pl.edu.icm.saos.api.config.ApiTestConfiguration;
+import pl.edu.icm.saos.api.config.ApiWithMockSearchTestConfiguration;
 import pl.edu.icm.saos.api.services.FieldsDefinition;
 import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
 import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
@@ -26,7 +26,7 @@ import static pl.edu.icm.saos.api.services.Constansts.SINGLE_DIVISIONS_PATH;
 import static pl.edu.icm.saos.api.services.Constansts.SINGLE_COURTS_PATH;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  {ApiTestConfiguration.class})
+@ContextConfiguration(classes =  {ApiWithMockSearchTestConfiguration.class})
 @Category(SlowTest.class)
 public class CourtControllerTest extends PersistenceTestSupport {
 
