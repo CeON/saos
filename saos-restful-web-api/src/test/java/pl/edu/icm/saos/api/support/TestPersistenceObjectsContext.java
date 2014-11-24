@@ -22,6 +22,10 @@ public class TestPersistenceObjectsContext {
         return commonCourtJudgment.getId();
     }
 
+    public CommonCourtJudgment getCcJudgment(){
+        return commonCourtJudgment;
+    }
+
     public int getCommonCourtId(){
         return commonCourt.getId();
     }

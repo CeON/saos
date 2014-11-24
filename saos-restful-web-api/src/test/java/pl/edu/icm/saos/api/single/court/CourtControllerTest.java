@@ -22,8 +22,8 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.services.Constansts.SINGLE_DIVISIONS_PATH;
 import static pl.edu.icm.saos.api.services.Constansts.SINGLE_COURTS_PATH;
+import static pl.edu.icm.saos.api.services.Constansts.SINGLE_DIVISIONS_PATH;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
