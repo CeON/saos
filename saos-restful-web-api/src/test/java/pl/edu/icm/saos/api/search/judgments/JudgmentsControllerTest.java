@@ -22,7 +22,6 @@ import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
 import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.search.SearchTestConfiguration;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
 
 import java.util.Arrays;
@@ -39,11 +38,11 @@ import static pl.edu.icm.saos.api.services.Constansts.*;
 import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  {ApiTestConfiguration.class, SearchTestConfiguration.class})
+@ContextConfiguration(classes =  {ApiTestConfiguration.class})
 @Category(SlowTest.class)
 public class JudgmentsControllerTest extends PersistenceTestSupport {
 
-    private static final int NR_OF_JUDGMENTS_STORED_IN_DBS = 2;
+    private static final int NR_OF_JUDGMENTS_STORED_IN_DB = 2;
 
 
     private MockMvc mockMvc;
@@ -68,7 +67,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     public void setUp() throws Exception{
         objectsContext = testPersistenceObjectsFactory.createPersistenceObjectsContext();
 
-        setUpSolrRelatedServices(objectsContext);
+        clearAndIndexJudgmentsInSolr(objectsContext);
 
 
         JudgmentsController judgmentsController = new JudgmentsController();
@@ -88,7 +87,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     @Autowired
     private JudgmentIndexingProcessor judgmentIndexingProcessor;
 
-    private void setUpSolrRelatedServices(TestPersistenceObjectsContext objectsContext) throws Exception{
+    private void clearAndIndexJudgmentsInSolr(TestPersistenceObjectsContext objectsContext) throws Exception{
         judgmentsServer.deleteByQuery("*:*");
         judgmentsServer.commit();
 
@@ -105,7 +104,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     //*** END CONFIGURATION ***
 
     @Test
-    public void showJudgments__it_should_show_all_basics_judgments_fields() throws Exception {
+    public void showJudgments__it_should_show_all_basic_judgment_fields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
                 .param(PAGE_SIZE, "2")
@@ -255,7 +254,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         String prefix = "$.info";
 
         actions
-                .andExpect(jsonPath(prefix+".totalResults").value(is(NR_OF_JUDGMENTS_STORED_IN_DBS)))
+                .andExpect(jsonPath(prefix+".totalResults").value(is(NR_OF_JUDGMENTS_STORED_IN_DB)))
                 ;
     }
 
@@ -263,7 +262,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     public void showJudgments__it_should_not_show_next_link() throws Exception {
         //given
         int pageSize = 2;
-        int pageNumber = NR_OF_JUDGMENTS_STORED_IN_DBS /pageSize;
+        int pageNumber = NR_OF_JUDGMENTS_STORED_IN_DB /pageSize;
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
@@ -287,7 +286,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         //given
         int pageSize = 1;
         int nrOfElementsOnTheNextPage = 1;
-        int pageNumber = (NR_OF_JUDGMENTS_STORED_IN_DBS - nrOfElementsOnTheNextPage) / pageSize - 1; // minus one as page numbers starts from 0
+        int pageNumber = (NR_OF_JUDGMENTS_STORED_IN_DB - nrOfElementsOnTheNextPage) / pageSize - 1; // minus one as page numbers starts from 0
 
 
         //when

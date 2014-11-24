@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import pl.edu.icm.saos.api.config.ApiWithMockSearchTestConfiguration;
+import pl.edu.icm.saos.api.config.ApiTestConfiguration;
 import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
 import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
@@ -21,13 +21,13 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.services.Constansts.SINGLE_DIVISIONS_PATH;
 import static pl.edu.icm.saos.api.services.Constansts.SINGLE_COURTS_PATH;
+import static pl.edu.icm.saos.api.services.Constansts.SINGLE_DIVISIONS_PATH;
 import static pl.edu.icm.saos.api.services.FieldsDefinition.JC;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  {ApiWithMockSearchTestConfiguration.class})
+@ContextConfiguration(classes =  {ApiTestConfiguration.class})
 @Category(SlowTest.class)
 public class DivisionControllerTest extends PersistenceTestSupport {
 
