@@ -124,6 +124,9 @@ public class JudgmentSearchServiceTest {
             
             { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcDivisionName("III Wydział Pracy i Ubezpieczeń Społecznych").build() },
             
+            
+            
+            
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScPersonnelType(PersonnelType.ONE_PERSON).build() },
             { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScPersonnelType(PersonnelType.JOINED_CHAMBERS).build() },
             
@@ -236,7 +239,8 @@ public class JudgmentSearchServiceTest {
         JudgmentSearchResult result = results.getResults().get(0);
         assertEquals(21, result.getId());
         
-        assertEquals("JOINED_CHAMBERS",result.getPersonnelType());
+        assertEquals("wyrok SN", result.getScJudgmentForm() );
+        assertEquals("JOINED_CHAMBERS", result.getPersonnelType());
         assertTrue(result.getCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
         assertTrue(result.getCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));
         assertEquals(Integer.valueOf(111), result.getCourtChamberDivisionId());
@@ -394,6 +398,7 @@ public class JudgmentSearchServiceTest {
         
         doc.addField("judgmentType", "RESOLUTION");
         
+        doc.addField("scJudgmentForm", "wyrok SN");
         doc.addField("scPersonnelType", "JOINED_CHAMBERS");
         doc.addField("courtType", "SUPREME");
         doc.addField("scCourtChamber", "11|Izba Cywilna");

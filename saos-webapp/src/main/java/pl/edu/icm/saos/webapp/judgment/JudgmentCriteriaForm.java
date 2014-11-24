@@ -30,6 +30,7 @@ public class JudgmentCriteriaForm {
     private Integer commonCourtId;
     private Integer commonCourtDivisionId;
     
+    private String scJudgmentForm;
     private Integer supremeChamberId;
     private Integer supremeChamberDivisionId;
     
@@ -74,6 +75,10 @@ public class JudgmentCriteriaForm {
 	
 	public Integer getCommonCourtDivisionId() {
 		return commonCourtDivisionId;
+	}
+	
+	public String getScJudgmentForm() {
+		return scJudgmentForm;
 	}
 	
 	public Integer getSupremeChamberId() {
@@ -134,6 +139,10 @@ public class JudgmentCriteriaForm {
 		this.commonCourtDivisionId = commonCourtDivisionId;
 	}
 
+	public void setScJudgmentForm(String scJudgmentForm) {
+		this.scJudgmentForm = scJudgmentForm;
+	}
+	
 	public void setSupremeChamberId(Integer supremeChamberId) {
 		this.supremeChamberId = supremeChamberId;
 	}

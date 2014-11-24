@@ -38,6 +38,7 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getCommonCourtId(), judgmentCriteria.getCcCourtId());
 		assertEquals(judgmentCriteriaForm.getCommonCourtDivisionId(), judgmentCriteria.getCcCourtDivisionId());
 		
+		assertEquals(judgmentCriteriaForm.getScJudgmentForm(), judgmentCriteria.getScJudgmentForm());
 		assertEquals(judgmentCriteriaForm.getSupremeChamberId(), judgmentCriteria.getScCourtChamberId());
 		assertEquals(judgmentCriteriaForm.getSupremeChamberDivisionId(), judgmentCriteria.getScCourtChamberDivisionId());
 		
@@ -62,17 +63,18 @@ public class JudgmentCriteriaFormConverterTest {
 		judgmentCriteriaForm.setDateTo(localDate[1]);
 		
 		judgmentCriteriaForm.setCourtType(CourtType.COMMON);
+		judgmentCriteriaForm.setLegalBase("12.55");
+		judgmentCriteriaForm.setReferencedRegulation("Art. 4.6");
+		judgmentCriteriaForm.setJudgeName("Judge Dredd");
 		
+		judgmentCriteriaForm.setKeyword("very important keyword");
 		judgmentCriteriaForm.setCommonCourtId(12);
 		judgmentCriteriaForm.setCommonCourtDivisionId(15);
 		
+		judgmentCriteriaForm.setScJudgmentForm("wyrok SN");
 		judgmentCriteriaForm.setSupremeChamberId(13);
 		judgmentCriteriaForm.setSupremeChamberDivisionId(14);
 		
-		judgmentCriteriaForm.setJudgeName("Judge Dredd");
-		judgmentCriteriaForm.setKeyword("very important keyword");
-		judgmentCriteriaForm.setLegalBase("12.55");
-		judgmentCriteriaForm.setReferencedRegulation("Art. 4.6");
 		
 		return judgmentCriteriaForm;
 	}
