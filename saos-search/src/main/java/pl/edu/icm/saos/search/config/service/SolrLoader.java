@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 
 /**
+ * Class responsible for loading and performing shutdown of all indexes.
  * @author madryk
  */
 @Service
@@ -29,6 +30,8 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
     @Value("${solr.index.configuration.copy}")
     private boolean copyConfiguration = false;
 
+    
+    //------------------------ LOGIC --------------------------
     
     public void load() {
 

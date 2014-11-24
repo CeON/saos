@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.search.search.model;
 
 /**
- * 
+ * Supreme court chamber search result
  * @author madryk
  */
 public class SupremeCourtChamberResult {

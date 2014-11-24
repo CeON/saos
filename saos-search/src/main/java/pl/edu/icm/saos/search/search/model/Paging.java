@@ -2,12 +2,19 @@ package pl.edu.icm.saos.search.search.model;
 
 import com.google.common.base.Objects;
 
+/**
+ * Paging criteria for use with {@link pl.edu.icm.saos.search.search.service.SearchService}
+ * @author madryk
+ */
 public class Paging {
 
     private int pageNumber;
     private int pageSize;
     
     private Sorting sort;
+    
+    
+    //------------------------ CONSTRUCTORS --------------------------
     
     public Paging(int pageNumber, int pageSize) {
         this(pageNumber, pageSize, null);

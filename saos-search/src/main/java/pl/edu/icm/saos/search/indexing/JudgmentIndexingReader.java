@@ -17,6 +17,10 @@ import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 import com.google.common.collect.Lists;
 
+/**
+ * Spring batch reader of judgments for indexing
+ * @author madryk
+ */
 @Service
 public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
 

@@ -14,6 +14,10 @@ import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 import com.google.common.collect.Lists;
 
+/**
+ * Fills {@link SolrInputDocument} with fields from {@link Judgment}.
+ * @author madryk
+ */
 public abstract class JudgmentIndexFieldsFiller {
 
     protected SolrFieldAdder<JudgmentIndexField> fieldAdder;

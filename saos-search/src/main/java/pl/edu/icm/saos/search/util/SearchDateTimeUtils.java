@@ -3,6 +3,10 @@ package pl.edu.icm.saos.search.util;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 
+/**
+ * Utils for converting date into Solr format 
+ * @author madryk
+ */
 public class SearchDateTimeUtils {
 
     private final static String ISO_DATE_PATTERN = "yyyy-MM-dd'T'00:00:00'Z'";
