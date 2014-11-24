@@ -7,9 +7,9 @@ import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
-import pl.edu.icm.saos.search.search.model.CourtType;
 
 /**
  * Fills {@link SolrInputDocument} with fields from {@link CommonCourtJudgment} 
@@ -22,8 +22,8 @@ public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
     //------------------------ LOGIC --------------------------
     
     @Override
-    public boolean isApplicable(Class<? extends Judgment> judgmentClass) {
-        return CommonCourtJudgment.class.isAssignableFrom(judgmentClass);
+    public boolean isApplicable(CourtType courtType) {
+        return courtType == CourtType.COMMON;
     }
     
     @Override

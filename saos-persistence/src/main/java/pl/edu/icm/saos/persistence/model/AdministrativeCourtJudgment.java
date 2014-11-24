@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 /**
  * pl. orzeczenie sądu administracyjnego 
@@ -52,6 +53,12 @@ public class AdministrativeCourtJudgment extends Judgment {
             inverseJoinColumns = {@JoinColumn(name = "fk_keyword", nullable = false, updatable = false) })
     public List<AdministrativeCourtJudgmentKeyword> getKeywords() {
         return keywords;
+    }
+    
+    @Transient
+    @Override
+    public CourtType getCourtType() {
+        return CourtType.ADMINISTRATIVE;
     }
     
     

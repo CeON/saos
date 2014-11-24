@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.iterableWithSize;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,6 +25,7 @@ import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.FieldsNames;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -168,7 +170,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         //then
         Judgment judgment = searchResult.getResultRecords().get(0);
 
-        judgment.isInstanceOfCommonCourtJudgment();
+        assertEquals(CourtType.COMMON, judgment.getCourtType());
         CommonCourtJudgment ccJudgment = (CommonCourtJudgment) judgment;
         ccJudgment.getKeywords();
     }

@@ -82,6 +82,12 @@ public class SupremeCourtJudgment extends Judgment {
         return ImmutableList.copyOf(getScChambers_());
     }
     
+    @Transient
+    @Override
+    public CourtType getCourtType() {
+        return CourtType.SUPREME;
+    }
+    
     
     //------------------------ LOGIC --------------------------
     

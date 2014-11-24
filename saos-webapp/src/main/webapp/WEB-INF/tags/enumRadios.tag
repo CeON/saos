@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
-<%@ attribute name="enumType" required="false" description="Fully qualified enum type, e.g. pl.edu.icm.saos.search.search.model.CourtType" %>
+<%@ attribute name="enumType" required="false" description="Fully qualified enum type, e.g. pl.edu.icm.saos.persistence.model.CourtType" %>
 <%@ attribute name="enumItems" required="false" rtexprvalue="true" type="java.util.List" description="Enum items to show, if not defined then shows all items" %>
 <%@ attribute name="id" required="false" rtexprvalue="true" description="Id prefix" %>
 <%@ attribute name="path" required="false" rtexprvalue="true" description="Input radio path" %>

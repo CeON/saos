@@ -2,10 +2,10 @@ package pl.edu.icm.saos.search.search.service;
 
 import org.joda.time.LocalDate;
 
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
-import pl.edu.icm.saos.search.search.model.CourtType;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
 public class JudgmentCriteriaBuilder {

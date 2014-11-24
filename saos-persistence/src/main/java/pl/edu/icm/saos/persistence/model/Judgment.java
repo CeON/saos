@@ -181,21 +181,9 @@ public abstract class Judgment extends IndexableObject {
         return ImmutableList.copyOf(getCourtCases_());
     }
 
-      
+    
     @Transient
-    public boolean isInstanceOfCommonCourtJudgment(){
-        return this instanceof CommonCourtJudgment;
-    }
-
-    @Transient
-    public boolean isInstanceOfAdministrativeCourtJudgment(){
-        return this instanceof AdministrativeCourtJudgment;
-    }
-
-    @Transient
-    public boolean isInstanceOfSupremeCourtJudgment(){
-        return this instanceof SupremeCourtJudgment;
-    }
+    public abstract CourtType getCourtType();
 
     /**
      * @return Judgment's last modification date

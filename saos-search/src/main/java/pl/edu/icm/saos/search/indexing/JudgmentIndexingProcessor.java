@@ -43,7 +43,7 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     
     private void fillJudgmentFields(SolrInputDocument doc, Judgment item) {
         for (JudgmentIndexFieldsFiller indexFieldsFiller : judgmentIndexFieldsFillers) {
-            if (indexFieldsFiller.isApplicable(item.getClass())) {
+            if (indexFieldsFiller.isApplicable(item.getCourtType())) {
                 indexFieldsFiller.fillFields(doc, item);
                 return;
             }
