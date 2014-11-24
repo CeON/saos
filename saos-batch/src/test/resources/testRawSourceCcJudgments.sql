@@ -222,9 +222,9 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <courtId>15551500</courtId>
    <departmentId>1003</departmentId>
    <type>REASON</type>
-   <chairman>Iwona Siuta</chairman>
+   <chairman>Iwona Siuta–Kuta</chairman>
    <judges>
-      <judge>Iwona Siuta</judge>
+      <judge>Iwona Siuta–Kuta</judge>
       <judge>Sławomir Krajewski</judge>
       <judge>Violetta Osińska</judge>
    </judges>
@@ -1717,7 +1717,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
       <judge>Izabela Komarzewska</judge>
       <judge>Izabela Komarzewska</judge>
       <judge>Anna Nowak</judge>
-      <judge>Anna Nowak</judge>
+      <judge>Sędzia Anna Nowak</judge>
+      <judge>!222</judge>
    </judges>
    <themePhrases>
       <themePhrase>Wyrok Łączny</themePhrase>

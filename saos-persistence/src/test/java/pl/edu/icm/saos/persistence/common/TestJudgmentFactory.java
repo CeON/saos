@@ -219,6 +219,7 @@ public class TestJudgmentFactory {
         judgment.addLegalBase("ABC");
         judgment.addLegalBase("BCA");
 
+        
         if (save) {
             entityManager.persist(keyword1);
             entityManager.persist(keyword2);
@@ -226,6 +227,7 @@ public class TestJudgmentFactory {
             entityManager.persist(division);
             entityManager.persist(entry);
             entityManager.persist(judgment);
+            
             entityManager.flush();
         }
         return judgment;
