@@ -48,6 +48,12 @@ public class CommonCourtJudgment extends Judgment {
         return courtDivision;
     }
     
+    @Transient
+    @Override
+    public CourtType getCourtType() {
+        return CourtType.COMMON;
+    }
+    
     
     //------------------------ LOGIC --------------------------
     
@@ -82,7 +88,7 @@ public class CommonCourtJudgment extends Judgment {
     public boolean containsKeyword(CcJudgmentKeyword keyword) {
         return keywords.contains(keyword);
     }
-        
+    
     
     //------------------------ SETTERS --------------------------
     

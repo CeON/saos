@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import pl.edu.icm.saos.api.dump.judgment.item.representation.CommonCourtJudgmentItem;
 import pl.edu.icm.saos.api.dump.judgment.item.representation.JudgmentItem;
 import pl.edu.icm.saos.api.dump.judgment.mapping.DumpCommonCourtJudgmentItemMapper;
@@ -18,6 +19,7 @@ import pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
@@ -92,12 +94,12 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
     }
 
     private JudgmentItem initializeItemViewAndFillSpecificFields(Judgment judgment){
-        if(judgment.isInstanceOfCommonCourtJudgment()) {
+        if(judgment.getCourtType() == CourtType.COMMON) {
             CommonCourtJudgment ccJudgment = (CommonCourtJudgment) judgment;
             CommonCourtJudgmentItem item = new CommonCourtJudgmentItem();
             commonCourtJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(item, ccJudgment);
             return item;
-        } else if (judgment.isInstanceOfSupremeCourtJudgment()){
+        } else if (judgment.getCourtType() == CourtType.SUPREME){
             SupremeCourtJudgment scJudgment = (SupremeCourtJudgment) judgment;
             SupremeCourtJudgmentItem item = new SupremeCourtJudgmentItem();
             supremeCourtJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(item, scJudgment);
