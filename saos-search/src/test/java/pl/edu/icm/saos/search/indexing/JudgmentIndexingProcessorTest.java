@@ -1,8 +1,11 @@
 package pl.edu.icm.saos.search.indexing;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.junit.Before;
@@ -13,12 +16,12 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import com.google.common.collect.Lists;
-
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author madryk
@@ -78,13 +81,6 @@ public class JudgmentIndexingProcessorTest {
         assertSaveJudgmentInRepository(6);
     }
     
-    @Test(expected=RuntimeException.class)
-    public void process_UNKNOWN_JUDGMENT() throws Exception {
-        UnknownJudgment judgment = new UnknownJudgment();
-        
-        judgmentIndexingProcessor.process(judgment);
-    }
-    
     
     //------------------------ PRIVATE --------------------------
     
@@ -93,9 +89,5 @@ public class JudgmentIndexingProcessorTest {
         verify(judgmentRepository, times(1)).save(argCapture.capture());
         assertEquals(judgmentId, argCapture.getValue().getId());
         assertTrue(argCapture.getValue().isIndexed());
-    }
-    
-    private class UnknownJudgment extends Judgment {
-        
     }
 }

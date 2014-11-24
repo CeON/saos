@@ -6,6 +6,7 @@ import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -21,7 +22,7 @@ public abstract class JudgmentIndexFieldsFiller {
     
     //------------------------ LOGIC --------------------------
     
-    public abstract boolean isApplicable(Class<? extends Judgment> judgmentClass);
+    public abstract boolean isApplicable(CourtType courtType);
     
     
     public void fillFields(SolrInputDocument doc, Judgment judgment) {

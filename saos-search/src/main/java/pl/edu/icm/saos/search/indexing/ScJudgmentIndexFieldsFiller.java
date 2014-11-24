@@ -5,12 +5,12 @@ import java.util.List;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
-import pl.edu.icm.saos.search.search.model.CourtType;
 
 import com.google.common.collect.Lists;
 
@@ -25,8 +25,8 @@ public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
     //------------------------ LOGIC --------------------------
     
     @Override
-    public boolean isApplicable(Class<? extends Judgment> judgmentClass) {
-        return SupremeCourtJudgment.class.isAssignableFrom(judgmentClass);
+    public boolean isApplicable(CourtType courtType) {
+        return courtType == CourtType.SUPREME;
     }
     
     @Override

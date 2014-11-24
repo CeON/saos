@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
-import pl.edu.icm.saos.search.search.model.CourtType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
 /**

@@ -7,9 +7,9 @@ import org.junit.Test;
 
 import com.google.common.collect.Lists;
 
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
-import pl.edu.icm.saos.search.search.model.CourtType;
 import pl.edu.icm.saos.search.search.service.SolrCriterionTransformer.Operator;
 
 /**

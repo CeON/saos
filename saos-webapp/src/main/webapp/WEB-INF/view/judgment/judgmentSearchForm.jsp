@@ -56,7 +56,7 @@
 			    <div class="col-sm-7">
 			    	<form:radiobutton path="courtType" id="radio-all" value="" checked="true" />
 			    	<label for="radio-all" ><spring:message code="judgment.courttype.all" /></label>
-			    	<saos:enumRadios path="courtType" enumType="pl.edu.icm.saos.search.search.model.CourtType" id="court" />
+			    	<saos:enumRadios path="courtType" enumType="pl.edu.icm.saos.persistence.model.CourtType" id="court" />
 			    </div>
 		    </div>
 		    

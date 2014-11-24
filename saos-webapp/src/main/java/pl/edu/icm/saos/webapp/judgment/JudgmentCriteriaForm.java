@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import pl.edu.icm.saos.persistence.common.FormatConst;
-import pl.edu.icm.saos.search.search.model.CourtType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 
 
 /**
