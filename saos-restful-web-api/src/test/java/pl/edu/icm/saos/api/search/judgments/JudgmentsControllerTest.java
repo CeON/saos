@@ -1,16 +1,14 @@
 package pl.edu.icm.saos.api.search.judgments;
 
 
-import org.joda.time.LocalDate;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.common.SolrInputDocument;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,17 +18,13 @@ import pl.edu.icm.saos.api.config.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.FieldsDefinition.JC;
-import pl.edu.icm.saos.api.services.TrivialApiSearchService;
+import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
+import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.search.search.model.JudgeResult;
-import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
-import pl.edu.icm.saos.search.search.model.SearchResults;
-import pl.edu.icm.saos.search.search.model.SupremeCourtChamberResult;
+import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
@@ -44,96 +38,38 @@ import static pl.edu.icm.saos.api.services.Constansts.*;
 import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  JudgmentsControllerTest.TestConfiguration.class)
+@ContextConfiguration(classes =  {ApiTestConfiguration.class})
 @Category(SlowTest.class)
-public class JudgmentsControllerTest {
+public class JudgmentsControllerTest extends PersistenceTestSupport {
 
-    private static final int TOTAL_RESULTS_VALUE = 23;
+    private static final int NR_OF_JUDGMENTS_STORED_IN_DB = 2;
 
-    @Configuration
-    @Import(ApiTestConfiguration.class)
-    static class TestConfiguration {
-
-        @Bean(name = "mockJudgmentApiSearchService")
-        public JudgmentsApiSearchService judgmentApiSearchService(){
-            return new TrivialApiSearchService(constructSearchResult());
-        }
-
-        SearchResults<JudgmentSearchResult> constructSearchResult(){
-            SearchResults<JudgmentSearchResult> searchResults = new SearchResults<>();
-            searchResults.setTotalResults(TOTAL_RESULTS_VALUE);
-
-            // common court result
-            JudgmentSearchResult ccResult = new JudgmentSearchResult();
-            ccResult.setId(JC.JUDGMENT_ID);
-
-            ccResult.setCourtName(JC.COURT_NAME);
-            ccResult.setCourtId(JC.COURT_ID);
-            ccResult.setCourtCode(JC.COURT_CODE);
-
-            ccResult.setContent(JC.TEXT_CONTENT);
-            ccResult.setCaseNumbers(Arrays.asList(JC.CASE_NUMBER));
-            ccResult.setKeywords(Arrays.asList(JC.FIRST_KEYWORD, JC.SECOND_KEYWORD));
-            ccResult.setJudgmentDate(new LocalDate(JC.DATE_YEAR, JC.DATE_MONTH, JC.DATE_DAY));
-            ccResult.setJudgmentType(Judgment.JudgmentType.SENTENCE.name());
-
-            ccResult.setCourtDivisionId(JC.DIVISION_ID);
-            ccResult.setCourtDivisionCode(JC.DIVISION_CODE);
-            ccResult.setCourtDivisionName(JC.DIVISION_NAME);
-
-            List<JudgeResult> judges = Arrays.asList(
-                    new JudgeResult(JC.PRESIDING_JUDGE_NAME, Judge.JudgeRole.PRESIDING_JUDGE),
-                    new JudgeResult(JC.SECOND_JUDGE_NAME), new JudgeResult(JC.THIRD_JUDGE_NAME)
-            );
-
-            ccResult.setJudges(judges);
-
-
-            searchResults.addResult(ccResult);
-
-
-            //supreme court result
-            JudgmentSearchResult scResult = new JudgmentSearchResult();
-            scResult.setId(JC.SC_JUDGMENT_ID);
-
-            scResult.setCourtChamberDivisionId(JC.SC_CHAMBER_DIVISION_ID);
-            scResult.setCourtChamberDivisionName(JC.SC_CHAMBER_DIVISION_NAME);
-
-            List<SupremeCourtChamberResult> chambers = Arrays.asList(
-                    new SupremeCourtChamberResult(JC.SC_FIRST_CHAMBER_ID, JC.SC_FIRST_CHAMBER_NAME),
-                    new SupremeCourtChamberResult(JC.SC_SECOND_CHAMBER_ID, JC.SC_SECOND_CHAMBER_NAME)
-            );
-
-            scResult.setCourtChambers(chambers);
-            scResult.setPersonnelType(PersonnelType.JOINED_CHAMBERS.name());
-
-            searchResults.addResult(scResult);
-
-            return searchResults;
-        }
-
-
-    }
 
     private MockMvc mockMvc;
 
-    //*** CONFIGURATION ***
+
+    @Autowired
+    private TestPersistenceObjectsFactory testPersistenceObjectsFactory;
+
+    private TestPersistenceObjectsContext objectsContext;
+
 
     @Autowired
     private JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder;
 
-
-    @Autowired
-    @Qualifier("mockJudgmentApiSearchService")
-    private JudgmentsApiSearchService apiSearchService;
-
     @Autowired
     private ParametersExtractor parametersExtractor;
 
-
+    @Autowired
+    private JudgmentsApiSearchService apiSearchService;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception{
+        objectsContext = testPersistenceObjectsFactory.createPersistenceObjectsContext();
+
+        clearAndIndexJudgmentsInSolr(objectsContext);
+
+
         JudgmentsController judgmentsController = new JudgmentsController();
         judgmentsController.setApiSearchService(apiSearchService);
         judgmentsController.setListSuccessRepresentationBuilder(listSuccessRepresentationBuilder);
@@ -144,18 +80,39 @@ public class JudgmentsControllerTest {
     }
 
 
+    @Autowired
+    @Qualifier("solrJudgmentsServer")
+    private SolrServer judgmentsServer;
+
+    @Autowired
+    private JudgmentIndexingProcessor judgmentIndexingProcessor;
+
+    private void clearAndIndexJudgmentsInSolr(TestPersistenceObjectsContext objectsContext) throws Exception{
+        judgmentsServer.deleteByQuery("*:*");
+        judgmentsServer.commit();
+
+        SolrInputDocument ccJudgmentDoc = judgmentIndexingProcessor.process(objectsContext.getCcJudgment());
+        SolrInputDocument scJudgmentDoc = judgmentIndexingProcessor.process(objectsContext.getScJudgment());
+        judgmentsServer.add(
+                Arrays.asList(ccJudgmentDoc, scJudgmentDoc)
+        );
+
+        judgmentsServer.commit();
+    }
+
+
     //*** END CONFIGURATION ***
 
     @Test
-    public void showJudgments__it_should_show_all_basics_judgments_fields() throws Exception {
+    public void showJudgments__it_should_show_all_basic_judgment_fields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
                 .param(PAGE_SIZE, "2")
-                .param(PAGE_NUMBER, "1")
+                .param(PAGE_NUMBER, "0")
                 .accept(MediaType.APPLICATION_JSON));
         //then
 
-        verifyBasicFields(actions, "$.items.[0]");
+        verifyBasicFields(actions, "$.items.[0]", objectsContext);
 
         actions.andExpect(status().isOk());
 
@@ -177,26 +134,23 @@ public class JudgmentsControllerTest {
 
                 .andExpect(jsonPath("$.items.[0].textContent").value(JC.TEXT_CONTENT))
 
-                .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + JC.DIVISION_ID)))
+                .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + objectsContext.getFirstDivisionId())))
                 .andExpect(jsonPath("$.items.[0].division.name").value(JC.DIVISION_NAME))
                 .andExpect(jsonPath("$.items.[0].division.code").value(JC.DIVISION_CODE))
 
-                .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH + "/" + JC.COURT_ID)))
+                .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH + "/" + objectsContext.getCommonCourtId())))
                 .andExpect(jsonPath("$.items.[0].division.court.name").value(JC.COURT_NAME))
                 .andExpect(jsonPath("$.items.[0].division.court.code").value(JC.COURT_CODE))
 
 
-                .andExpect(jsonPath("$.items.[1].href").value(endsWith("/api/judgments/" + JC.SC_JUDGMENT_ID)))
-                .andExpect(jsonPath("$.items.[1].personnelType").value(PersonnelType.JOINED_CHAMBERS.name()))
+                .andExpect(jsonPath("$.items.[1].href").value(endsWith("/api/judgments/" + objectsContext.getScJudgmentId())))
+                .andExpect(jsonPath("$.items.[1].personnelType").value(PersonnelType.FIVE_PERSON.name()))
 
-                .andExpect(jsonPath("$.items.[1].division.href").value(endsWith("/api/scDivisions/" + JC.SC_CHAMBER_DIVISION_ID)))
+                .andExpect(jsonPath("$.items.[1].division.href").value(endsWith("/api/scDivisions/" + objectsContext.getScDivisionId())))
                 .andExpect(jsonPath("$.items.[1].division.name").value(JC.SC_CHAMBER_DIVISION_NAME))
 
-                .andExpect(jsonPath("$.items.[1].division.chambers.[0].href").value(endsWith("/api/scChambers/" + JC.SC_FIRST_CHAMBER_ID)))
+                .andExpect(jsonPath("$.items.[1].division.chambers.[0].href").value(endsWith("/api/scChambers/" + objectsContext.getScChamberId())))
                 .andExpect(jsonPath("$.items.[1].division.chambers.[0].name").value(JC.SC_FIRST_CHAMBER_NAME))
-
-                .andExpect(jsonPath("$.items.[1].division.chambers.[1].href").value(endsWith("/api/scChambers/" + JC.SC_SECOND_CHAMBER_ID)))
-                .andExpect(jsonPath("$.items.[1].division.chambers.[1].name").value(JC.SC_SECOND_CHAMBER_NAME))
 
         ;
     }
@@ -300,15 +254,15 @@ public class JudgmentsControllerTest {
         String prefix = "$.info";
 
         actions
-                .andExpect(jsonPath(prefix+".totalResults").value(is(TOTAL_RESULTS_VALUE)))
+                .andExpect(jsonPath(prefix+".totalResults").value(is(NR_OF_JUDGMENTS_STORED_IN_DB)))
                 ;
     }
 
     @Test
     public void showJudgments__it_should_not_show_next_link() throws Exception {
         //given
-        int pageSize = 5;
-        int pageNumber = TOTAL_RESULTS_VALUE/pageSize;
+        int pageSize = 2;
+        int pageNumber = NR_OF_JUDGMENTS_STORED_IN_DB /pageSize;
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
@@ -330,9 +284,9 @@ public class JudgmentsControllerTest {
     @Test
     public void showJudgments__it_should_show_next_link() throws Exception {
         //given
-        int pageSize = 5;
-        int nrOfElementsOnTheNextPage = 3;
-        int pageNumber = (TOTAL_RESULTS_VALUE - nrOfElementsOnTheNextPage) / pageSize - 1; // minus one as page numbers start from 0
+        int pageSize = 1;
+        int nrOfElementsOnTheNextPage = 1;
+        int pageNumber = (NR_OF_JUDGMENTS_STORED_IN_DB - nrOfElementsOnTheNextPage) / pageSize - 1; // minus one as page numbers starts from 0
 
 
         //when
