@@ -178,6 +178,8 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_CHAMBER_NAME, "chamberName1", "chamberName2");
         assertSolrDocumentIntValues(doc, JudgmentIndexField.SC_COURT_DIVISION_ID, chamberDivisionId);
         assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_DIVISION_NAME, "chamberDivisionName");
+        assertSolrDocumentIntValues(doc, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID, firstChamberId);
+        assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_NAME, "chamberName1");
         
     }
     

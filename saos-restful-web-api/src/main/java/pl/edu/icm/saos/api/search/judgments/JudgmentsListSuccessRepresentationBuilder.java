@@ -173,11 +173,11 @@ public class JudgmentsListSuccessRepresentationBuilder {
     }
 
     private boolean isCommonCourtJudgment(JudgmentSearchResult judgmentSearchResult){
-        return StringUtils.isNotBlank(judgmentSearchResult.getCourtDivisionCode());
+        return StringUtils.isNotBlank(judgmentSearchResult.getCcCourtDivisionCode());
     }
 
     private boolean isSupremeCourtJudgment(JudgmentSearchResult judgmentSearchResult){
-        return StringUtils.isNotBlank(judgmentSearchResult.getCourtChamberDivisionName());
+        return StringUtils.isNotBlank(judgmentSearchResult.getScCourtDivisionName());
     }
 
     private QueryTemplate toQueryTemplate(JudgmentsParameters params) {

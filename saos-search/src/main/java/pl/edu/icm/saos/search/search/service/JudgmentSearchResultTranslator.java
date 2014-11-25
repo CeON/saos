@@ -79,22 +79,22 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
         String courtCode = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_CODE);
         String court = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_NAME);
         
-        result.setCourtId(courtId);
-        result.setCourtCode(courtCode);
-        result.setCourtName(court);
+        result.setCcCourtId(courtId);
+        result.setCcCourtCode(courtCode);
+        result.setCcCourtName(court);
 
         Integer courtDivisionId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.CC_COURT_DIVISION_ID);
         String courtDivisionCode = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_DIVISION_CODE);
         String courtDivision = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_DIVISION_NAME);
         
-        result.setCourtDivisionId(courtDivisionId);
-        result.setCourtDivisionCode(courtDivisionCode);
-        result.setCourtDivisionName(courtDivision);
+        result.setCcCourtDivisionId(courtDivisionId);
+        result.setCcCourtDivisionCode(courtDivisionCode);
+        result.setCcCourtDivisionName(courtDivision);
     }
     
     private void translateSupremeCourt(SolrDocument document, JudgmentSearchResult result) { 
         String personnelType = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_PERSONNEL_TYPE);
-        result.setPersonnelType(personnelType);
+        result.setScPersonnelType(personnelType);
         
         List<Pair<String, List<String>>> chambers = fieldFetcher.fetchValuesWithAttributes(document, JudgmentIndexField.SC_COURT_CHAMBER);
         List<SupremeCourtChamberResult> chambersResult = Lists.newLinkedList();
@@ -104,13 +104,17 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
     		.filter(x -> x.getRight().size() > 0)
     		.forEach(x -> chambersResult.add(new SupremeCourtChamberResult(Integer.parseInt(x.getLeft()), x.getRight().get(0))));
         
-        result.setCourtChambers(chambersResult);
+        result.setScCourtChambers(chambersResult);
         
         Integer divisionId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.SC_COURT_DIVISION_ID);
         String divisionName = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_COURT_DIVISION_NAME);
+        Integer divisionsChamberId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID);
+        String divisionsChamberName = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_NAME);
         
-        result.setCourtChamberDivisionId(divisionId);
-        result.setCourtChamberDivisionName(divisionName);
+        result.setScCourtDivisionId(divisionId);
+        result.setScCourtDivisionName(divisionName);
+        result.setScCourtDivisionsChamberId(divisionsChamberId);
+        result.setScCourtDivisionsChamberName(divisionsChamberName);
     }
     
     

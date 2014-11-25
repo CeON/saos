@@ -19,27 +19,24 @@
 				
 				<div class=""><span><spring:message code="judgment.results.date" />:</span><span class="date"><joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}" /></span></div>
 				
-				<c:if test="${!empty judgment.courtName || !empty judgment.courtDivisionName}" >
+				<c:if test="${!empty judgment.ccCourtName || !empty judgment.ccCourtDivisionName}" >
 				
 					<div class="court-desc">
-						<span class="court"><c:out value="${judgment.courtName}" /></span>
+						<span class="court"><c:out value="${judgment.ccCourtName}" /></span>
 						 - 
-						<span class="division" ><c:out value="${judgment.courtDivisionName}" /></span>
+						<span class="division" ><c:out value="${judgment.ccCourtDivisionName}" /></span>
 					</div>
 				
 				</c:if>
 				
-				<c:if test="${!empty judgment.courtChambers || !empty judgment.courtChamberDivisionName}" >
+				<c:if test="${!empty judgment.scCourtDivisionsChamberName || !empty judgment.scCourtDivisionName}" >
 				
 					<div class="court-desc">
-						<%-- //TODO ATM here is displayed first chamber from list,
-							it should be changed to display divisionFullName.
-						 --%>
 						<span class="chamber">
-							<c:out value="${judgment.courtChambers[0].name}" />
+							<c:out value="${judgment.scCourtDivisionsChamberName}" />
 						</span>
 						<span>-</span>
-						<span class="chamber-division" ><c:out value="${judgment.courtChamberDivisionName}" /></span>
+						<span class="chamber-division" ><c:out value="${judgment.scCourtDivisionName}" /></span>
 					</div>
 				
 				</c:if>

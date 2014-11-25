@@ -57,6 +57,10 @@ public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
         if (division != null) {
             fieldAdder.addField(doc, JudgmentIndexField.SC_COURT_DIVISION_ID, division.getId());
             fieldAdder.addField(doc, JudgmentIndexField.SC_COURT_DIVISION_NAME, division.getName());
+            if (division.getScChamber() != null) {
+                fieldAdder.addField(doc, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID, division.getScChamber().getId());
+                fieldAdder.addField(doc, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_NAME, division.getScChamber().getName());
+            }
         }
         
         List<SupremeCourtChamber> chambers = judgment.getScChambers();

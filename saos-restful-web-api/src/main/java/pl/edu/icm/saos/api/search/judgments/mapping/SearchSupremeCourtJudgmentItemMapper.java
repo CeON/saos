@@ -33,7 +33,7 @@ public class SearchSupremeCourtJudgmentItemMapper {
      * @param judgment to process.
      */
     public void fillJudgmentsFieldsToItemRepresentation(SupremeCourtJudgmentItem item, JudgmentSearchResult judgment){
-        item.setPersonnelType(judgment.getPersonnelType());
+        item.setPersonnelType(judgment.getScPersonnelType());
         item.setDivision(toDivision(judgment));
     }
 
@@ -41,9 +41,9 @@ public class SearchSupremeCourtJudgmentItemMapper {
     private Division toDivision(JudgmentSearchResult judgment) {
         Division view = new Division();
 
-        view.setHref(linksBuilder.urlToScDivision(judgment.getCourtChamberDivisionId()));
-        view.setName(judgment.getCourtChamberDivisionName());
-        view.setChambers(toChambers(judgment.getCourtChambers()));
+        view.setHref(linksBuilder.urlToScDivision(judgment.getScCourtDivisionId()));
+        view.setName(judgment.getScCourtDivisionName());
+        view.setChambers(toChambers(judgment.getScCourtChambers()));
 
         return view;
     }
