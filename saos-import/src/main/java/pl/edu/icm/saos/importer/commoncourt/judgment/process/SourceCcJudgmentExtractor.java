@@ -55,7 +55,7 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     
     
     
-    //------------------------ JudgmentConverterTemplate impl --------------------------
+    //------------------------ LOGIC --------------------------
 
     /** 
      * Converts data specific to the judgment type

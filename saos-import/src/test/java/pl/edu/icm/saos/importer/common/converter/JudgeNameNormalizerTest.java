@@ -125,6 +125,14 @@ public class JudgeNameNormalizerTest {
     
     
     @Test
+    public void normalize_wrongPartInTheMiddle() {
+        
+        assertEquals("Jan Nowak", judgeNameNormalizer.normalize("Jan ppłk Nowak "));
+        
+    }
+    
+    
+    @Test
     public void normalize_hard() {
         
         assertEquals("J. Stanisław Łowak", judgeNameNormalizer.normalize("gen. sn J. Stanisław Łowak-spr"));
