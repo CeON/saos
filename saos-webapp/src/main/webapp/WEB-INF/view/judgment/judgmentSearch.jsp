@@ -35,7 +35,9 @@
 			<saos:judgments items="${judgments}" />
 		
 			<c:if test="${resultsNo == 0}">
-				<spring:message code="judgment.results.noRecords" />
+				<div class="no-results">
+					<spring:message code="judgment.results.noRecords" />
+				</div>
 			</c:if>
 		
 		</div>

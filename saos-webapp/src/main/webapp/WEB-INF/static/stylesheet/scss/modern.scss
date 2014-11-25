@@ -408,6 +408,14 @@ form.search {
 		style: solid;
 		width: 0px 1px 0px 1px;
 	}
+	padding-bottom: 30px;
+
+	.no-results {
+		font: {
+			size: 15px;
+		}
+		padding-top: 40px;
+	}
 
 	.judgment {
 		border: {
@@ -708,6 +716,7 @@ form.search {
 		width: 0px 1px 0px 1px;
 		radius: 0px;
 	}
+	display: block;
 	margin-top: 0px;
 	margin-bottom: 0px;
 	padding: 20px 0px;

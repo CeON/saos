@@ -34,6 +34,7 @@ public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
         super.fillFields(doc, judgment);
         
         SupremeCourtJudgment supremeCourtJudgment = (SupremeCourtJudgment) judgment;
+        fillScJudmentForm(doc, supremeCourtJudgment);
         fillPersonnelType(doc, supremeCourtJudgment);
         fillCourtType(doc);
         fillChambers(doc, supremeCourtJudgment);
@@ -41,6 +42,12 @@ public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
     
     
     //------------------------ PRIVATE --------------------------
+    
+    private void fillScJudmentForm(SolrInputDocument doc, SupremeCourtJudgment judgment) {
+    	if (judgment.getScJudgmentForm() != null) {
+            fieldAdder.addField(doc, JudgmentIndexField.SC_JUDGMENT_FORM, judgment.getScJudgmentForm().getName());
+        }
+    }
     
     private void fillPersonnelType(SolrInputDocument doc, SupremeCourtJudgment judgment) {
         if (judgment.getPersonnelType() != null) {

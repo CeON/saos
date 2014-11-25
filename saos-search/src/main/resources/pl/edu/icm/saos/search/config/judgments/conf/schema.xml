@@ -80,6 +80,7 @@
    <field name="ccCourtDivisionCode" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="ccCourtDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
    
+   <field name="scJudgmentForm" type="text_general" indexed="true" stored="true" multiValued="false" />
    <field name="scPersonnelType" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="scCourtChamber" type="string" indexed="false" stored="true" multiValued="true" />
    <field name="scCourtChamberId" type="int" indexed="true" stored="true" multiValued="true" />

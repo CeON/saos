@@ -21,19 +21,21 @@ public class JudgmentCriteriaFormConverter {
 		judgmentCriteria.setCaseNumber(judgmentCriteriaForm.getSignature());
 		judgmentCriteria.setDateFrom(judgmentCriteriaForm.getDateFrom());
 		judgmentCriteria.setDateTo(judgmentCriteriaForm.getDateTo());
-		
+				
 		judgmentCriteria.setJudgeName(judgmentCriteriaForm.getJudgeName());
-		judgmentCriteria.setLegalBase(judgmentCriteriaForm.getLegalBase());
-		judgmentCriteria.setReferencedRegulation(judgmentCriteriaForm.getReferencedRegulation());		
+		judgmentCriteria.addKeyword(judgmentCriteriaForm.getKeyword());
 		judgmentCriteria.setCourtType(judgmentCriteriaForm.getCourtType());
 
 	    judgmentCriteria.setCcCourtId(judgmentCriteriaForm.getCommonCourtId());
 	    judgmentCriteria.setCcCourtDivisionId(judgmentCriteriaForm.getCommonCourtDivisionId());
-		judgmentCriteria.addKeyword(judgmentCriteriaForm.getKeyword());
-	    
+		
+		judgmentCriteria.setScJudgmentForm(judgmentCriteriaForm.getScJudgmentForm());
 	    judgmentCriteria.setScCourtChamberId(judgmentCriteriaForm.getSupremeChamberId());
 	    judgmentCriteria.setScCourtChamberDivisionId(judgmentCriteriaForm.getSupremeChamberDivisionId());
 		
+	    judgmentCriteria.setLegalBase(judgmentCriteriaForm.getLegalBase());
+		judgmentCriteria.setReferencedRegulation(judgmentCriteriaForm.getReferencedRegulation());
+	    
 		return judgmentCriteria;
 	}
 	
