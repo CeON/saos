@@ -11,6 +11,7 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
@@ -50,11 +51,11 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     
     private LawJournalEntryExtractor lawJournalEntryExtractor;
     
+    private JudgeConverter judgeConverter;
     
     
     
-    
-    //------------------------ JudgmentConverterTemplate impl --------------------------
+    //------------------------ LOGIC --------------------------
 
     /** 
      * Converts data specific to the judgment type
@@ -176,14 +177,21 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
         
         List<Judge> judges = Lists.newArrayList();
         
-        if (!StringUtils.isBlank(sourceJudgment.getChairman())) {
-            judges.add(new Judge(sourceJudgment.getChairman(), JudgeRole.PRESIDING_JUDGE));
+        if (StringUtils.isNotBlank(sourceJudgment.getChairman())) {
+            Judge judge = judgeConverter.convertJudge(sourceJudgment.getChairman(), Lists.newArrayList(JudgeRole.PRESIDING_JUDGE), correctionList);
+            if (judge != null) {
+                judges.add(judge);
+            }
+        }
+        
+        if (CollectionUtils.isEmpty(sourceJudgment.getJudges())) {
+            return judges;
         }
         
         boolean chairmanAppeared = false;
         for (String judgeName : sourceJudgment.getJudges()) {
             
-            // first occurrence of judge with name equals to chairman's name is a normal situation (it's always doubled) - omit it
+            // first occurrence of judge with name equal to chairman's name is a normal situation (it's always doubled) - omit it
             // the next time - consider it to be a different person or mistake
             if (StringUtils.equalsIgnoreCase(sourceJudgment.getChairman(), judgeName) && !chairmanAppeared) {
                 chairmanAppeared = true;
@@ -194,7 +202,11 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
                 continue;
             }
 
-            judges.add(new Judge(judgeName));
+            Judge judge = judgeConverter.convertJudge(judgeName, correctionList);
+            
+            if (judge != null) {
+                judges.add(judge);
+            }
 
         }
         
@@ -299,6 +311,11 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     @Autowired
     public void setLawJournalEntryExtractor(LawJournalEntryExtractor lawJournalEntryExtractor) {
         this.lawJournalEntryExtractor = lawJournalEntryExtractor;
+    }
+
+    @Autowired
+    public void setJudgeConverter(JudgeConverter judgeConverter) {
+        this.judgeConverter = judgeConverter;
     }
 
     

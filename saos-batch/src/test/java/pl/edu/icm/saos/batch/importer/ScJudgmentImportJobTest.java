@@ -93,12 +93,13 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     /*
      * 
      * Info:
-     * raw judgments with corrections:
+     * raw judgments with corrections in version1:
      * rJudgmentId Change
      * ----------------------
      * ded0b5bb7135cf1e196f80175ce07584 Izba Administracyjna, Pracy i Ubezpieczeń Społecznych -> Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych 
      * ded0b5bb7135cf1e196f80175ce07584 orzeczenie sn -> SENTENCE (judgmentType)
      * ded0b5bb7135cf1e196f80175ce07584 orzeczenie sn -> wyrok sn (judgment form name)
+     * ded0b5bb7135cf1e196f80175ce07584 SSO Stefania Szymańska -> Stefania Szymańska
      * 5e17ce355710a893e2812807a63d247c Izba Administracyjna, Pracy i Ubezpieczeń Społecznych -> Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych
      * b082922617256d5b4092cf23864c8894 Izba Administracyjna, Pracy i Ubezpieczeń Społecznych -> Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych
      */
@@ -142,12 +143,13 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         
         // assert corrections
         
-        assertEquals(5, judgmentCorrectionRepository.count());
+        assertEquals(6, judgmentCorrectionRepository.count());
         
         List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAll();
         JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.SC_CHAMBER_NAME, 3);
         JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGMENT_TYPE, 1);
         JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.SC_JUDGMENT_FORM_NAME, 1);
+        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGE_NAME, 1);
         
         assertCorrections_ded0b5bb7135cf1e196f80175ce07584();
     }
@@ -331,13 +333,15 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgment.getId());
         
         
-        assertEquals(3, judgmentCorrections.size());
+        assertEquals(4, judgmentCorrections.size());
         
         assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, null, null, CorrectedProperty.JUDGMENT_TYPE, "orzeczenie SN", "SENTENCE")));
         
         assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, SupremeCourtChamber.class, judgment.getScChambers().get(0).getId(), CorrectedProperty.SC_CHAMBER_NAME, "Izba Administracyjna, Pracy i Ubezpieczeń Społecznych", "Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych")));
         
         assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, SupremeCourtJudgmentForm.class, judgment.getScJudgmentForm().getId(), CorrectedProperty.SC_JUDGMENT_FORM_NAME, "orzeczenie SN", "wyrok SN")));
+        
+        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, Judge.class, judgment.getJudge("Stefania Szymańska").getId(), CorrectedProperty.JUDGE_NAME, "SSO Stefania Szymańska", "Stefania Szymańska")));
         
     }
     

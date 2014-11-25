@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
@@ -49,6 +50,8 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     
     
     private ScChamberDivisionCreator scChamberDivisionCreator;
+    
+    private JudgeConverter judgeConverter;
     
     
     
@@ -91,10 +94,19 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
         List<Judge> judges = Lists.newArrayList();
         
         for (SourceScJudge scJudge : sourceJudgment.getJudges()) {
+            
+            if (StringUtils.isBlank(scJudge.getName())) {
+                continue;
+            }
+            
             List<JudgeRole> roles = scJudge.getSpecialRoles().stream().map(role->JudgeRole.valueOf(role)).collect(Collectors.toList());
-            Judge judge = new Judge(scJudge.getName(), roles);
-            judge.setFunction(scJudge.getFunction());
-            judges.add(judge);
+            Judge judge = judgeConverter.convertJudge(scJudge.getName(), roles, correctionList);
+            
+            if (judge != null) {
+                judge.setFunction(scJudge.getFunction());
+                judges.add(judge);
+            }
+        
         }
         
         return judges;
@@ -279,6 +291,11 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     @Autowired
     public void setScChamberDivisionCreator(ScChamberDivisionCreator scChamberDivisionCreator) {
         this.scChamberDivisionCreator = scChamberDivisionCreator;
+    }
+
+    @Autowired
+    public void setJudgeConverter(JudgeConverter judgeConverter) {
+        this.judgeConverter = judgeConverter;
     }
 
 }
