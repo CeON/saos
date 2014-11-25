@@ -10,6 +10,8 @@ public enum CorrectedProperty {
     
     JUDGE_NAME,
     
+    JUDGE,
+    
     JUDGES_MORE_THAN_ONE_WITH_SAME_NAME,
     
     SC_CHAMBER_NAME,

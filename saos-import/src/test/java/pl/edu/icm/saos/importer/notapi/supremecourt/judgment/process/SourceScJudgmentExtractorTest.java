@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.correction.CorrectionAssertions;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
@@ -58,6 +59,8 @@ public class SourceScJudgmentExtractorTest {
     
     @Mock private ScJudgmentFormCreator scJudgmentFormCreator;
     
+    @Mock private JudgeConverter judgeConverter;
+    
     
     private SourceScJudgment sJudgment = new SourceScJudgment();
     
@@ -76,10 +79,12 @@ public class SourceScJudgmentExtractorTest {
         judgmentExtractor.setScJudgmentFormConverter(scJudgmentFormConverter);
         judgmentExtractor.setScJudgmentFormCreator(scJudgmentFormCreator);
         judgmentExtractor.setScJudgmentFormNameNormalizer(scJudgmentFormNameNormalizer);
+        judgmentExtractor.setJudgeConverter(judgeConverter);
     }
 
   
-
+    //------------------------ LOGIC --------------------------
+    
     @Test
     public void createNewJudgment() {
         SupremeCourtJudgment ccJudgment = judgmentExtractor.createNewJudgment();
@@ -218,17 +223,35 @@ public class SourceScJudgmentExtractorTest {
         
         // given
         
+        String janNowak = "Jan Nowak";
+        String adamKowalski = "Adam Kowalski";
+        String wrongName = "!! 11";
         
         SourceScJudge sourceScJudge1 = new SourceScJudge();
-        sourceScJudge1.setName("Jan Nowak");
+        sourceScJudge1.setName(janNowak);
         sourceScJudge1.setFunction("SSN");
         sourceScJudge1.setSpecialRoles(Lists.newArrayList(JudgeRole.PRESIDING_JUDGE.name(), JudgeRole.REPORTING_JUDGE.name()));
         
         SourceScJudge sourceScJudge2 = new SourceScJudge();
-        sourceScJudge2.setName("Adam Kowalski");
+        sourceScJudge2.setName(adamKowalski);
         sourceScJudge2.setFunction("SSA");
         
-        sJudgment.setJudges(Lists.newArrayList(sourceScJudge1, sourceScJudge2));
+        SourceScJudge sourceScJudge3 = new SourceScJudge();
+        sourceScJudge3.setName(wrongName);
+        
+        
+        SourceScJudge sourceScJudgeBlank = new SourceScJudge(); // shouldn't be taken into account because it's name is blank
+        
+        
+        sJudgment.setJudges(Lists.newArrayList(sourceScJudge1, sourceScJudge2, sourceScJudge3, sourceScJudgeBlank));
+        
+        
+        Judge judgeJanNowak = new Judge(janNowak, JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE);
+        Judge judgeAdamKowalski = new Judge(adamKowalski);
+        when(judgeConverter.convertJudge(janNowak, Lists.newArrayList(JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE), correctionList)).thenReturn(judgeJanNowak);
+        when(judgeConverter.convertJudge(adamKowalski, Lists.newArrayList(), correctionList)).thenReturn(judgeAdamKowalski);
+        when(judgeConverter.convertJudge(wrongName, Lists.newArrayList(), correctionList)).thenReturn(null);
+        
         
         
         // execute
@@ -236,9 +259,10 @@ public class SourceScJudgmentExtractorTest {
         List<Judge> judges = judgmentExtractor.extractJudges(sJudgment, correctionList);
         
         
+        
         // assert
         
-        assertEquals(sJudgment.getJudges().size(), judges.size());
+        assertEquals(2, judges.size());
         
         for (Judge judge : judges) {
             sJudgment.getJudges().contains(judge.getName());

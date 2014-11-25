@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -17,8 +16,11 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
+import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
@@ -45,15 +47,18 @@ public class SourceCcJudgmentExtractorTest {
     
     private SourceCcJudgmentExtractor sourceCcJudgmentExtractor = new SourceCcJudgmentExtractor();
     
-    private CommonCourtRepository commonCourtRepository = mock(CommonCourtRepository.class);
     
-    private CcDivisionRepository ccDivisionRepository = mock(CcDivisionRepository.class);
+    @Mock private CommonCourtRepository commonCourtRepository;
     
-    private CcJudgmentKeywordCreator ccJudgmentKeywordCreator = mock(CcJudgmentKeywordCreator.class);
+    @Mock private CcDivisionRepository ccDivisionRepository;
     
-    private LawJournalEntryCreator lawJournalEntryCreator = mock(LawJournalEntryCreator.class);
+    @Mock private CcJudgmentKeywordCreator ccJudgmentKeywordCreator;
     
-    private LawJournalEntryExtractor lawJournalEntryExtractor = mock(LawJournalEntryExtractor.class);
+    @Mock private LawJournalEntryCreator lawJournalEntryCreator;
+    
+    @Mock private LawJournalEntryExtractor lawJournalEntryExtractor;
+    
+    @Mock private JudgeConverter judgeConverter;
     
     
     private SourceCcJudgment sJudgment = new SourceCcJudgment();
@@ -64,15 +69,18 @@ public class SourceCcJudgmentExtractorTest {
     @Before
     public void before() {
         
+        MockitoAnnotations.initMocks(this);
+        
         sourceCcJudgmentExtractor.setCcDivisionRepository(ccDivisionRepository);
         sourceCcJudgmentExtractor.setCcJudgmentKeywordCreator(ccJudgmentKeywordCreator);
         sourceCcJudgmentExtractor.setCommonCourtRepository(commonCourtRepository);
         sourceCcJudgmentExtractor.setLawJournalEntryCreator(lawJournalEntryCreator);
         sourceCcJudgmentExtractor.setLawJournalEntryExtractor(lawJournalEntryExtractor);
-        
+        sourceCcJudgmentExtractor.setJudgeConverter(judgeConverter);
     }
 
   
+    //------------------------ LOGIC --------------------------
 
     @Test
     public void createNewJudgment() {
@@ -228,8 +236,18 @@ public class SourceCcJudgmentExtractorTest {
         
         // given
         
-        sJudgment.setChairman("Jan Olkowski");
-        sJudgment.setJudges(Lists.newArrayList("Jan Olkowski", "Adam Nowak"));
+        String janOlkowski = "Jan Olkowski";
+        String adamNowak = "Adam Nowak";
+        String wrongName = "!! 11";
+        
+        sJudgment.setChairman(janOlkowski);
+        sJudgment.setJudges(Lists.newArrayList(janOlkowski, adamNowak, wrongName));
+        
+        Judge judgeJanOlkowski = new Judge(janOlkowski, JudgeRole.PRESIDING_JUDGE);
+        Judge judgeAdamNowak = new Judge(adamNowak);
+        when(judgeConverter.convertJudge(janOlkowski, Lists.newArrayList(JudgeRole.PRESIDING_JUDGE), correctionList)).thenReturn(judgeJanOlkowski);
+        when(judgeConverter.convertJudge(adamNowak, correctionList)).thenReturn(judgeAdamNowak);
+        when(judgeConverter.convertJudge(wrongName, correctionList)).thenReturn(null); // shouldn't be added nor cause NullPointer
         
         
         // execute
@@ -239,11 +257,11 @@ public class SourceCcJudgmentExtractorTest {
         
         // assert
         
-        assertEquals(sJudgment.getJudges().size(), judges.size());
+        assertEquals(2, judges.size());
+        assertThat(judges, Matchers.containsInAnyOrder(judgeJanOlkowski, judgeAdamNowak));
         
         for (Judge judge : judges) {
-            sJudgment.getJudges().contains(judge.getName());
-            if (judge.getName().equals(sJudgment.getChairman())) {
+            if (judge.getName().equals(janOlkowski)) {
                 assertEquals(1, judge.getSpecialRoles().size());
                 assertEquals(JudgeRole.PRESIDING_JUDGE, judge.getSpecialRoles().get(0));
             } else {
@@ -255,12 +273,45 @@ public class SourceCcJudgmentExtractorTest {
 
     
     @Test
+    public void extractJudges_chairmanIncorrect() {
+        
+        // given
+        String wrongName = "!! 11";
+        
+        sJudgment.setChairman(wrongName);
+        
+        when(judgeConverter.convertJudge(wrongName, correctionList)).thenReturn(null); // shouldn't be added nor cause NullPointer
+        
+        
+        // execute
+        
+        List<Judge> judges = sourceCcJudgmentExtractor.extractJudges(sJudgment, correctionList);
+        
+        
+        // assert
+        
+        assertEquals(0, judges.size());
+            
+    }
+    
+    
+    @Test
     public void extractJudges_JudgeAddedTwice() {
         
         // given
+        String janOlkowski = "Jan Olkowski";
+        String adamNowak = "Adam Nowak";
         
-        sJudgment.setChairman("Jan Olkowski");
-        sJudgment.setJudges(Lists.newArrayList("Jan Olkowski", "Jan Olkowski", "Adam Nowak", "Adam Nowak"));
+        sJudgment.setChairman(janOlkowski);
+        sJudgment.setJudges(Lists.newArrayList(janOlkowski, janOlkowski, adamNowak, adamNowak));
+        
+        Judge judgeJanOlkowski = new Judge(janOlkowski, JudgeRole.PRESIDING_JUDGE);
+        Judge judgeNotPresidingJanOlkowski = new Judge(janOlkowski);
+        Judge judgeAdamNowak = new Judge(adamNowak);
+        
+        when(judgeConverter.convertJudge(janOlkowski, Lists.newArrayList(JudgeRole.PRESIDING_JUDGE), correctionList)).thenReturn(judgeJanOlkowski);
+        when(judgeConverter.convertJudge(janOlkowski, correctionList)).thenReturn(judgeNotPresidingJanOlkowski);
+        when(judgeConverter.convertJudge(adamNowak, correctionList)).thenReturn(judgeAdamNowak);
         
         
         // execute
@@ -278,7 +329,7 @@ public class SourceCcJudgmentExtractorTest {
         
         List<String> commonJudges = judges.stream().filter(j->j.getSpecialRoles().isEmpty()).map(j->j.getName()).collect(Collectors.toList());
         assertEquals(3, commonJudges.size());
-        assertThat(commonJudges, Matchers.containsInAnyOrder("Jan Olkowski", "Adam Nowak", "Adam Nowak"));
+        assertThat(commonJudges, Matchers.containsInAnyOrder(janOlkowski, adamNowak, adamNowak));
     }
 
     

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.common.InitializingVisitor;
+import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -47,6 +48,8 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
     @Override
     @Transactional
     public void delete(List<Integer> judgmentIds) {
+        
+        deleteJudgmentAttributes(JudgmentCorrection.class, judgmentIds);
         
         deleteJudgmentAttributes(CourtCase.class, judgmentIds);
         deleteJudgmentAttributesSql("judgment_court_reporter", judgmentIds);
