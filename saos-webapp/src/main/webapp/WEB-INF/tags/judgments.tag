@@ -19,10 +19,10 @@
 				
 				<div class=""><span><spring:message code="judgment.results.date" />:</span><span class="date"><joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}" /></span></div>
 				
-				<c:if test="${!empty judgment.commonCourtName || !empty judgment.courtDivisionName}" >
+				<c:if test="${!empty judgment.courtName || !empty judgment.courtDivisionName}" >
 				
 					<div class="court-desc">
-						<span class="court"><c:out value="${judgment.commonCourtName}" /></span>
+						<span class="court"><c:out value="${judgment.courtName}" /></span>
 						 - 
 						<span class="division" ><c:out value="${judgment.courtDivisionName}" /></span>
 					</div>
