@@ -3,7 +3,7 @@ package pl.edu.icm.saos.api.search.judgments.views;
 import com.google.common.base.Objects;
 import pl.edu.icm.saos.api.search.judgments.item.representation.SearchJudgmentItem;
 import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
-import pl.edu.icm.saos.search.search.model.CourtType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 
 import java.io.Serializable;
 import java.util.List;

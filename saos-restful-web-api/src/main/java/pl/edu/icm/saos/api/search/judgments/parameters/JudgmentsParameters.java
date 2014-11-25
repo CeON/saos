@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.search.search.model.CourtType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 
 import java.util.Collections;
 import java.util.List;

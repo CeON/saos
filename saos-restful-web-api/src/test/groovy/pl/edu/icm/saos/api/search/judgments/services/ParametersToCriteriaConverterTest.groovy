@@ -3,9 +3,9 @@ import org.joda.time.LocalDate
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters
 import pl.edu.icm.saos.api.search.parameters.Pagination
 import pl.edu.icm.saos.persistence.model.CommonCourt
+import pl.edu.icm.saos.persistence.model.CourtType
 import pl.edu.icm.saos.persistence.model.Judgment
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment
-import pl.edu.icm.saos.search.search.model.CourtType
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria
 import pl.edu.icm.saos.search.search.model.Paging
 import pl.edu.icm.saos.search.search.model.Sorting
