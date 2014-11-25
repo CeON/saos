@@ -76,7 +76,7 @@ public final class PersonNameNormalizer {
     private static String capitalizeFirstLetters(String value) {
         value = WordUtils.capitalize(value);
         value = WordUtils.capitalize(value, '-');
-        value.replace(" Von ", " von ");
+        value = value.replace(" Von ", " von ");
         return value;
     }
     

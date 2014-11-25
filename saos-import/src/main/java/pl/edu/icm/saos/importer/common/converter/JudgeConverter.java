@@ -28,6 +28,10 @@ public class JudgeConverter {
     private JudgeNameNormalizer judgeNameNormalizer;
 
     
+    
+    
+    //------------------------ LOGIC --------------------------
+    
     /**
      * Converts judgeName to Judge. Set specialRoles in created Judge ({@link Judge#setSpecialRoles(List)}).<br/>
      * Uses {@link JudgeNameNormalizer} to correct judgeName.

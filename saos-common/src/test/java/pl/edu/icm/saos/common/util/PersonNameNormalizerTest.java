@@ -41,6 +41,15 @@ public class PersonNameNormalizerTest {
         
     }
     
+    
+    @Test
+    public void normalize_VonShouldNotBeCapitalized() {
+        
+        assertEquals("Alfred von Ribbentrop", PersonNameNormalizer.normalize("Alfred Von Ribbentrop"));
+        
+    }
+    
+    
     @Test
     public void unify() {
         assertEquals("jan nowak-jeziorański", PersonNameNormalizer.unify(" Jan  Nowak– Jeziorański "));
