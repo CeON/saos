@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -35,6 +36,8 @@ public class CcJudgmentJaxb2MarshallerTest {
     
     private ImportDateTimeFormatter ccjImportDateTimeFormatter = Mockito.mock(ImportDateTimeFormatter.class);
     
+    private ImportDateTimeFormatter backupCcjImportDateTimeFormatter = null;
+    
     private static final String JUDGMENT_DATE_STR = "2012-01-26 00:00:00.0 CET";
     private static final LocalDate JUDGMENT_DATE = new LocalDate(2012,01,26);
     
@@ -43,9 +46,18 @@ public class CcJudgmentJaxb2MarshallerTest {
     
     @Before
     public void before() {
+        // change the ccjImportDateTimeFormatter in CcJaxbJodaDateTimeAdapter to a mock version 
+        backupCcjImportDateTimeFormatter = CcJaxbJodaDateTimeAdapter.getCcjImportDateTimeFormatter();
         CcJaxbJodaDateTimeAdapter.setCcjImportDateTimeFormatter(ccjImportDateTimeFormatter);
+        
         Mockito.when(ccjImportDateTimeFormatter.parse(PUBLICATION_DATE_STR.substring(0, 21))).thenReturn(PUBLICATION_DATE);
         marshaller.setClassesToBeBound(SourceCcJudgment.class);
+    }
+    
+    @After
+    public void after() {
+        // restore the original version of the ccjImportDateTimeFormatter in CcJaxbJodaDateTimeAdapter
+        CcJaxbJodaDateTimeAdapter.setCcjImportDateTimeFormatter(backupCcjImportDateTimeFormatter);
     }
     
     String judgmentXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +

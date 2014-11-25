@@ -4,6 +4,8 @@ dependencies {
     testCompile project(path:':saos-common', configuration:'testArtifacts')
     testCompile project(path:':saos-persistence', configuration:'testArtifacts')
     testCompile project(path:':saos-search', configuration:'testArtifacts')
+    testCompile project(path:':saos-import', configuration:'testArtifacts')
+        
     
     compile project(':saos-persistence')
     compile project(':saos-import')
