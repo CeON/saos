@@ -1,5 +1,9 @@
 package pl.edu.icm.saos.search.util;
 
+/**
+ * Constants for index configuration and searching with Solr.
+ * @author madryk
+ */
 public interface SolrConstants {
 
     String DEFAULT_QUERY = "*:*";

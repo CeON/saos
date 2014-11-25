@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.search.search.model;
 
 /**
- * Defines object that could be found by {@link SearchService}.
+ * Defines object that could be found by {@link pl.edu.icm.saos.search.search.service.SearchService}.
  * 
  * @author madryk
  */

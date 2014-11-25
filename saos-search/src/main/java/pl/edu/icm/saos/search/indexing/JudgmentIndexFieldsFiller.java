@@ -15,6 +15,10 @@ import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 import com.google.common.collect.Lists;
 
+/**
+ * Fills {@link SolrInputDocument} with fields from {@link Judgment}.
+ * @author madryk
+ */
 public abstract class JudgmentIndexFieldsFiller {
 
     protected SolrFieldAdder<JudgmentIndexField> fieldAdder;
@@ -22,9 +26,20 @@ public abstract class JudgmentIndexFieldsFiller {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Checks if this {@link JudgmentIndexFieldsFiller} can be used with
+     * {@link Judgment judgments} whose {@link CourtType} is provided as argument. 
+     * @param judgmentClass
+     * @return
+     */
     public abstract boolean isApplicable(CourtType courtType);
     
-    
+    /**
+     * Fills {@link SolrInputDocument} with fields from {@link Judgment}.
+     * Use it only for applicable {@link Judgment judgments} ({@link #isApplicable(CourtType)} returns true)
+     * @param doc
+     * @param judgment
+     */
     public void fillFields(SolrInputDocument doc, Judgment judgment) {
         fillIds(doc, judgment);
         fillCourtCases(doc, judgment);

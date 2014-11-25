@@ -14,9 +14,8 @@ import pl.edu.icm.saos.search.search.model.Sorting;
 import pl.edu.icm.saos.search.search.model.Sorting.Direction;
 
 /**
- * Creates {@link SolrQuery} based on criteria and paging
  * @author madryk
- * @param <C> type of criteria that is supported
+ * @see SearchQueryFactory
  */
 public class SearchQueryFactoryImpl<C extends Criteria> implements SearchQueryFactory<C> {
 

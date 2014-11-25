@@ -17,6 +17,9 @@ import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 import pl.edu.icm.saos.search.config.model.SolrConfigurationException;
 
 /**
+ * Informs solr instance that index should be reloaded. If index doesn't
+ * exists then attempts to create it.
+ * Can be used only with Solr instances that supports {@link CoreAdminRequest} processing.
  * @author madryk
  */
 public class SolrIndexReloader implements IndexReloader {
@@ -25,7 +28,10 @@ public class SolrIndexReloader implements IndexReloader {
     
     private SolrServer solrServer;
 
+    
+    //------------------------ LOGIC --------------------------
 
+    @Override
     public void reloadIndex(IndexConfiguration indexConfiguration) {
         Preconditions.checkNotNull(solrServer);
         

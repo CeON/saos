@@ -65,8 +65,7 @@ public class SolrFieldAdder<F extends IndexField> {
      * {@link IndexFieldsConstants#VALUE_ATTRIBUTE_SEPARATOR} between them.
      * @param doc
      * @param field
-     * @param value
-     * @param attributes
+     * @param values
      */
     public void addCompositeField(SolrInputDocument doc, F field, List<String> values) {
         if (values.size() > 0) {

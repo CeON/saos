@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.search.search.model;
 
 /**
- * Search criteria for {@link SearchService}
+ * Search criteria for {@link pl.edu.icm.saos.search.search.service.SearchService}
  * 
  * @author madryk
  */

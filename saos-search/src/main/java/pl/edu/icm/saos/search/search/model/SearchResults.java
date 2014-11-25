@@ -3,6 +3,11 @@ package pl.edu.icm.saos.search.search.model;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Model class for items returned by Solr.
+ * @author madryk
+ * @param <S> - type of single result
+ */
 public class SearchResults<S extends Searchable> {
 
     private List<S> results = new LinkedList<S>();
@@ -34,4 +39,10 @@ public class SearchResults<S extends Searchable> {
     }
     
     
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "SearchResults[results=" + results + ", totalResults=" + totalResults + "]";
+    }
 }

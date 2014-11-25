@@ -13,6 +13,10 @@ import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.Paging;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 
+/**
+ * Class for searching judgments.
+ * @author madryk
+ */
 @Service
 public class JudgmentSearchService implements SearchService<JudgmentSearchResult, JudgmentCriteria> {
     
@@ -26,6 +30,9 @@ public class JudgmentSearchService implements SearchService<JudgmentSearchResult
     @Autowired
     private SearchResultsTranslator<JudgmentSearchResult> resultsTranslator;
 
+    
+    //------------------------ LOGIC --------------------------
+    
     @Override
     public SearchResults<JudgmentSearchResult> search(JudgmentCriteria criteria,
             Paging paging) {

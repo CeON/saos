@@ -11,9 +11,8 @@ import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.search.search.model.Searchable;
 
 /**
- * Translates solr response into search results
  * @author madryk
- * @param <S> type of single result
+ * @see SearchResultsTranslator
  */
 public class SearchResultsTranslatorImpl<S extends Searchable> implements SearchResultsTranslator<S> {
 

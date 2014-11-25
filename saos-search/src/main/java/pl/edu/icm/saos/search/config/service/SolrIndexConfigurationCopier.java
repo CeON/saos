@@ -23,6 +23,15 @@ public class SolrIndexConfigurationCopier {
 
     private static Logger log = LoggerFactory.getLogger(SolrIndexConfigurationCopier.class);
 
+    
+    //------------------------ LOGIC --------------------------
+    
+    /**
+     * Copies files needed by index. Target location will be determined
+     * by main Solr data directory (configurationPath argument).  
+     * @param indexConfiguration
+     * @param configurationPath
+     */
     public void copyIndexConfiguration(IndexConfiguration indexConfiguration, String configurationPath) {
         log.info("Copying configuration files for index with name {}", indexConfiguration.getName());
 
@@ -44,6 +53,12 @@ public class SolrIndexConfigurationCopier {
         }
     }
 
+    /**
+     * Deletes index data from disk. If index is marked as 
+     * {@link IndexConfiguration persistent} then do nothing.
+     * @param indexConfiguration
+     * @param configurationPath
+     */
     public void cleanupIndexConfiguration(IndexConfiguration indexConfiguration, String configurationPath) {
         if (indexConfiguration.isPersistent()) {
             return;

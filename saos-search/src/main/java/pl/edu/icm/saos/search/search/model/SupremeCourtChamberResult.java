@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.search.search.model;
 
 /**
- * 
+ * Supreme court chamber search result
  * @author madryk
  */
 public class SupremeCourtChamberResult {
@@ -61,4 +61,11 @@ public class SupremeCourtChamberResult {
         return true;
     }
     
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "SupremeCourtChamberResult[id=" + id + ", name=" + name + "]";
+    }
 }
