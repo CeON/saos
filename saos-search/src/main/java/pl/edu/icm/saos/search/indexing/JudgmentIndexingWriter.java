@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 
+/**
+ * Spring batch writer of judgments into Solr
+ * @author madryk
+ */
 @Service
 public class JudgmentIndexingWriter implements ItemWriter<SolrInputDocument> {
 

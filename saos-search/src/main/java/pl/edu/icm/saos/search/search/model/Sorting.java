@@ -3,6 +3,10 @@ package pl.edu.icm.saos.search.search.model;
 import com.google.common.base.Objects;
 import pl.edu.icm.saos.search.util.SolrConstants;
 
+/**
+ * Sort criteria for use with {@link pl.edu.icm.saos.search.search.service.SearchService}
+ * @author madryk
+ */
 public class Sorting {
     
     public enum Direction {
@@ -12,6 +16,9 @@ public class Sorting {
     
     private String fieldName;
     private Direction direction;
+    
+    
+    //------------------------ CONSTRUCTORS --------------------------
     
     public Sorting(String fieldName, Direction direction) {
         this.fieldName = fieldName;

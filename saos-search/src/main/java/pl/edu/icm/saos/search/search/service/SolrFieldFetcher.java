@@ -108,12 +108,12 @@ public class SolrFieldFetcher<F extends IndexField> {
     }
     
     private String extractValue(String valueWithAttributes) {
-        String[] valueWithAttributesArray = StringUtils.split(valueWithAttributes, '|');
+        String[] valueWithAttributesArray = StringUtils.split(valueWithAttributes, IndexFieldsConstants.VALUE_ATTRIBUTE_CHAR_SEPARATOR);
         return valueWithAttributesArray[0];
     }
     
     private List<String> extractAttributes(String valueWithAttributes) {
-        String[] valueWithAttributesArray = StringUtils.split(valueWithAttributes, '|');
+        String[] valueWithAttributesArray = StringUtils.split(valueWithAttributes, IndexFieldsConstants.VALUE_ATTRIBUTE_CHAR_SEPARATOR);
         List<String> attributes = Lists.newArrayList(valueWithAttributesArray);
         attributes.remove(0);
         return attributes;

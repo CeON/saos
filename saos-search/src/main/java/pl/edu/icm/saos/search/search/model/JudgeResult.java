@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
 /**
+ * Judge search result
  * @author madryk
  */
 public class JudgeResult {
