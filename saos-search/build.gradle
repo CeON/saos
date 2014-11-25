@@ -1,6 +1,8 @@
 
 dependencies {
     testCompile project(path:':saos-common', configuration:'testArtifacts')
+    testCompile project(path:':saos-persistence', configuration:'testArtifacts')
+        
     testCompile lib.'org.apache.solr:solr-core'
     testArtifacts lib.'org.apache.solr:solr-core'
     

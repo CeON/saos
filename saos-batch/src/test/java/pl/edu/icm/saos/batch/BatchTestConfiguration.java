@@ -14,16 +14,15 @@ import org.springframework.core.io.support.EncodedResource;
 import org.springframework.jdbc.datasource.init.ScriptException;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 
-import pl.edu.icm.saos.common.CommonTestConfiguration;
-import pl.edu.icm.saos.importer.ImportConfiguration;
-import pl.edu.icm.saos.persistence.PersistenceConfiguration;
+import pl.edu.icm.saos.common.TestConfigurationBase;
+import pl.edu.icm.saos.importer.ImportTestConfiguration;
 import pl.edu.icm.saos.search.SearchTestConfiguration;
 
 /**
  * @author Łukasz Dumiszewski
  */
-@Import({BatchConfiguration.class, ImportConfiguration.class, PersistenceConfiguration.class, SearchTestConfiguration.class})
-public class BatchTestConfiguration extends CommonTestConfiguration {
+@Import({BatchConfiguration.class, ImportTestConfiguration.class, SearchTestConfiguration.class})
+public class BatchTestConfiguration extends TestConfigurationBase {
     
     private static Logger log = LoggerFactory.getLogger(BatchTestConfiguration.class);
     
