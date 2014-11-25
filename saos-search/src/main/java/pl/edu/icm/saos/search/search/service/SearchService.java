@@ -14,6 +14,13 @@ import pl.edu.icm.saos.search.search.model.Searchable;
  */
 public interface SearchService<S extends Searchable, C extends Criteria> {
     
+    /**
+     * Search for items that matches specified criteria.
+     * Limits results according to given paging. 
+     * @param criteria
+     * @param paging
+     * @return search results
+     */
     SearchResults<S> search(C criteria, Paging paging);
     
 }

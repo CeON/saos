@@ -25,9 +25,20 @@ public abstract class JudgmentIndexFieldsFiller {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Checks if this {@link JudgmentIndexFieldsFiller} can be used with
+     * {@link Judgment judgments} whose type is provided as argument. 
+     * @param judgmentClass
+     * @return
+     */
     public abstract boolean isApplicable(Class<? extends Judgment> judgmentClass);
     
-    
+    /**
+     * Fills {@link SolrInputDocument} with fields from {@link Judgment}.
+     * Use it only for applicable {@link Judgment judgments} ({@link #isApplicable(Class)} returns true)
+     * @param doc
+     * @param judgment
+     */
     public void fillFields(SolrInputDocument doc, Judgment judgment) {
         fillIds(doc, judgment);
         fillCourtCases(doc, judgment);

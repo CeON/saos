@@ -33,6 +33,9 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Handles loading of all indexes. Should be run before using search module.
+     */
     public void load() {
 
         for (IndexConfiguration indexConfiguration : indexesConfigurations) {
@@ -44,6 +47,11 @@ public class SolrLoader implements ApplicationListener<ApplicationContextEvent> 
         }
     }
 
+    
+    /**
+     * Performs cleanup of all indexes. Should be run when search module
+     * is no longer needed.
+     */
     public void shutdown() {
 
         for (IndexConfiguration indexConfiguration : indexesConfigurations) {

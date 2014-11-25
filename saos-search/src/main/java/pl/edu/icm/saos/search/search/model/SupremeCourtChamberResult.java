@@ -61,4 +61,11 @@ public class SupremeCourtChamberResult {
         return true;
     }
     
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "SupremeCourtChamberResult[id=" + id + ", name=" + name + "]";
+    }
 }

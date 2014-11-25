@@ -39,4 +39,10 @@ public class SearchResults<S extends Searchable> {
     }
     
     
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "SearchResults[results=" + results + ", totalResults=" + totalResults + "]";
+    }
 }

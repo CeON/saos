@@ -31,6 +31,7 @@ public class SolrIndexReloader implements IndexReloader {
     
     //------------------------ LOGIC --------------------------
 
+    @Override
     public void reloadIndex(IndexConfiguration indexConfiguration) {
         Preconditions.checkNotNull(solrServer);
         
