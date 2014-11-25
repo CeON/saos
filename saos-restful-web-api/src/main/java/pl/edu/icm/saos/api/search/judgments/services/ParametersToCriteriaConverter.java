@@ -27,15 +27,33 @@ public class ParametersToCriteriaConverter {
         JudgmentCriteria criteria = new JudgmentCriteria();
 
         criteria.setAll(params.getAll());
-        criteria.setCcCourtName(params.getCourtName());
+        criteria.setCaseNumber(params.getCaseNumber());
         criteria.setReferencedRegulation(params.getReferencedRegulation());
         criteria.setJudgeName(params.getJudgeName());
         criteria.setLegalBase(params.getLegalBase());
-        criteria.addKeyword(params.getKeyword());
+
+        criteria.setCcCourtId(params.getCommonCourtId());
+        criteria.setCcCourtName(params.getCommonCourtName());
+        criteria.setCcCourtCode(params.getCommonCourtCode());
+        criteria.setCcCourtType(params.getCommonCourtType());
+
+        criteria.setCcCourtDivisionId(params.getCcDivisionId());
+        criteria.setCcCourtDivisionName(params.getCcDivisionName());
+        criteria.setCcCourtDivisionCode(params.getCcDivisionCode());
+
         criteria.setScPersonnelType(params.getPersonnelType());
+
+        criteria.setScCourtChamberId(params.getScChamberId());
+        criteria.setScCourtChamberName(params.getScChamberName());
+
+        criteria.setScCourtChamberDivisionId(params.getScDivisionId());
+        criteria.setScCourtChamberDivisionName(params.getScDivisionName());
 
         criteria.setDateFrom(params.getJudgmentDateFrom());
         criteria.setDateTo(params.getJudgmentDateTo());
+
+        criteria.setJudgmentType(params.getJudgmentTypes());
+        criteria.setKeyword(params.getKeywords());
 
         return criteria;
     }

@@ -97,20 +97,9 @@ public class JudgmentsListSuccessRepresentationBuilder {
                 .replaceQueryParam(PAGE_SIZE, pagination.getPageSize())
                 .replaceQueryParam(PAGE_NUMBER, pagination.getPageNumber());
 
+
         if(StringUtils.isNotBlank(params.getAll())){
             uriComponentsBuilder.replaceQueryParam(ALL, params.getAll());
-        }
-
-        if(StringUtils.isNotBlank(params.getCourtName())){
-            uriComponentsBuilder.replaceQueryParam(COURT_NAME, params.getCourtName());
-        }
-
-        if(StringUtils.isNotBlank(params.getJudgeName())){
-            uriComponentsBuilder.replaceQueryParam(JUDGE_NAME, params.getJudgeName());
-        }
-
-        if(StringUtils.isNotBlank(params.getKeyword())){
-            uriComponentsBuilder.replaceQueryParam(KEYWORD, params.getKeyword());
         }
 
         if(StringUtils.isNotBlank(params.getLegalBase())){
@@ -121,8 +110,64 @@ public class JudgmentsListSuccessRepresentationBuilder {
             uriComponentsBuilder.replaceQueryParam(REFERENCED_REGULATION, params.getReferencedRegulation());
         }
 
+        if(StringUtils.isNotBlank(params.getCaseNumber())){
+            uriComponentsBuilder.replaceQueryParam(CASE_NUMBER, params.getCaseNumber());
+        }
+
+        if(StringUtils.isNotBlank(params.getJudgeName())){
+            uriComponentsBuilder.replaceQueryParam(JUDGE_NAME, params.getJudgeName());
+        }
+
+        if(params.getCourtType() != null){
+            uriComponentsBuilder.replaceQueryParam(COURT_TYPE, params.getCourtType());
+        }
+
         if(params.getPersonnelType() != null){
             uriComponentsBuilder.replaceQueryParam(PERSONNEL_TYPE, params.getPersonnelType());
+        }
+
+        if(params.getCommonCourtType() != null){
+            uriComponentsBuilder.replaceQueryParam(COMMON_COURT_TYPE, params.getCommonCourtType());
+        }
+
+        if(params.getCommonCourtId() != null){
+            uriComponentsBuilder.replaceQueryParam(COMMON_COURT_ID, params.getCommonCourtId());
+        }
+
+        if(StringUtils.isNotBlank(params.getCommonCourtCode())){
+            uriComponentsBuilder.replaceQueryParam(COMMON_COURT_CODE, params.getCommonCourtCode());
+        }
+
+        if(StringUtils.isNotBlank(params.getCommonCourtName())){
+            uriComponentsBuilder.replaceQueryParam(COMMON_COURT_NAME, params.getCommonCourtName());
+        }
+
+        if(params.getCcDivisionId() != null){
+            uriComponentsBuilder.replaceQueryParam(CC_DIVISION_ID, params.getCcDivisionId());
+        }
+
+        if(StringUtils.isNotBlank(params.getCcDivisionCode())){
+            uriComponentsBuilder.replaceQueryParam(CC_DIVISION_CODE, params.getCcDivisionCode());
+        }
+
+        if(StringUtils.isNotBlank(params.getCcDivisionName())){
+            uriComponentsBuilder.replaceQueryParam(CC_DIVISION_NAME, params.getCcDivisionName());
+        }
+
+        if(params.getScChamberId() != null){
+            uriComponentsBuilder.replaceQueryParam(SC_CHAMBER_ID, params.getScChamberId());
+        }
+
+        if(StringUtils.isNotBlank(params.getScChamberName())){
+            uriComponentsBuilder.replaceQueryParam(SC_CHAMBER_NAME, params.getScChamberName());
+        }
+
+        if(params.getScDivisionId() != null){
+            uriComponentsBuilder.replaceQueryParam(SC_DIVISION_ID, params.getScDivisionId());
+        }
+
+        if(StringUtils.isNotBlank(params.getScDivisionName())){
+            uriComponentsBuilder.replaceQueryParam(SC_DIVISION_NAME, params.getScDivisionName());
         }
 
         if(params.getJudgmentDateFrom()!=null){
@@ -131,6 +176,14 @@ public class JudgmentsListSuccessRepresentationBuilder {
 
         if(params.getJudgmentDateTo() != null){
             uriComponentsBuilder.replaceQueryParam(JUDGMENT_DATE_TO, params.getJudgmentDateTo().toString());
+        }
+
+        if(!params.getKeywords().isEmpty()){
+            uriComponentsBuilder.replaceQueryParam(KEYWORDS, params.getKeywords().toArray());
+        }
+
+        if(!params.getJudgmentTypes().isEmpty()){
+            uriComponentsBuilder.replaceQueryParam(JUDGMENT_TYPES, params.getJudgmentTypes());
         }
 
         String path = uriComponentsBuilder.build().encode().toUriString();
@@ -183,18 +236,35 @@ public class JudgmentsListSuccessRepresentationBuilder {
     private QueryTemplate toQueryTemplate(JudgmentsParameters params) {
         QueryTemplate queryTemplate = new QueryTemplate();
 
+        queryTemplate.setAll(params.getAll());
+        queryTemplate.setLegalBase(params.getLegalBase());
+        queryTemplate.setReferencedRegulation(params.getReferencedRegulation());
+        queryTemplate.setCaseNumber(params.getCaseNumber());
+        queryTemplate.setJudgeName(params.getJudgeName());
+        queryTemplate.setCourtType(params.getCourtType());
+        queryTemplate.setPersonnelType(params.getPersonnelType());
+
+        queryTemplate.setCommonCourtType(params.getCommonCourtType());
+        queryTemplate.setCommonCourtId(params.getCommonCourtId());
+        queryTemplate.setCommonCourtCode(params.getCommonCourtCode());
+        queryTemplate.setCommonCourtName(params.getCommonCourtName());
+
+        queryTemplate.setCcDivisionId(params.getCcDivisionId());
+        queryTemplate.setCcDivisionCode(params.getCcDivisionCode());
+        queryTemplate.setCcDivisionName(params.getCcDivisionName());
+
+        queryTemplate.setScChamberId(params.getScChamberId());
+        queryTemplate.setScChamberName(params.getScChamberName());
+        queryTemplate.setScDivisionId(params.getScDivisionId());
+        queryTemplate.setScDivisionName(params.getScDivisionName());
+
+        queryTemplate.setJudgmentTypes(params.getJudgmentTypes());
+        queryTemplate.setKeywords(params.getKeywords());
+
         Pagination pagination = params.getPagination();
 
         queryTemplate.setPageNumber(pagination.getPageNumber());
         queryTemplate.setPageSize(pagination.getPageSize());
-
-        queryTemplate.setAll(removeNull(params.getAll()));
-        queryTemplate.setLegalBase(removeNull(params.getLegalBase()));
-        queryTemplate.setReferencedRegulation(removeNull(params.getReferencedRegulation()));
-        queryTemplate.setKeyword(removeNull(params.getKeyword()));
-        queryTemplate.setCourtName(removeNull(params.getCourtName()));
-        queryTemplate.setJudgeName(removeNull(params.getJudgeName()));
-        queryTemplate.setPersonnelType(params.getPersonnelType());
 
         queryTemplate.setJudgmentDateFrom(dateMapping.toISO8601Format(params.getJudgmentDateFrom()));
         queryTemplate.setJudgmentDateTo(dateMapping.toISO8601Format(params.getJudgmentDateTo()));
@@ -207,16 +277,6 @@ public class JudgmentsListSuccessRepresentationBuilder {
         info.setTotalResults(searchResults.getTotalResults());
 
         return info;
-    }
-
-
-
-    private String removeNull(String str){
-        if(str == null){
-            return "";
-        } else {
-            return str;
-        }
     }
 
     //------------------------ SETTERS --------------------------
