@@ -93,7 +93,10 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
     }
     
     private void translateSupremeCourt(SolrDocument document, JudgmentSearchResult result) { 
-        String personnelType = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_PERSONNEL_TYPE);
+    	String judgmentForm = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_JUDGMENT_FORM);
+        result.setScJudgmentForm(judgmentForm);
+    	
+    	String personnelType = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_PERSONNEL_TYPE);
         result.setPersonnelType(personnelType);
         
         List<Pair<String, List<String>>> chambers = fieldFetcher.fetchValuesWithAttributes(document, JudgmentIndexField.SC_COURT_CHAMBER);

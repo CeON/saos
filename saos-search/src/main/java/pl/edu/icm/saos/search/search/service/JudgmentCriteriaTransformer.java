@@ -70,6 +70,7 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
     private List<String> transformSupremeCourtCriteria(JudgmentCriteria criteria) {
         List<String> list = Lists.newLinkedList();
         
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_JUDGMENT_FORM, criteria.getScJudgmentForm()));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_PERSONNEL_TYPE, criteria.getScPersonnelType()));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_COURT_CHAMBER_ID, criteria.getScCourtChamberId()));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_COURT_CHAMBER_NAME, criteria.getScCourtChamberName()));

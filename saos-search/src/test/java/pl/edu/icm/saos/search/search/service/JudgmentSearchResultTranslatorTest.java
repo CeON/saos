@@ -115,6 +115,7 @@ public class JudgmentSearchResultTranslatorTest {
         SolrDocument doc = new SolrDocument();
         doc.addField("databaseId", 1);
         
+        doc.addField("scJudgmentForm", "wyrok SN");
         doc.addField("scPersonnelType", PersonnelType.JOINED_CHAMBERS.name());
         doc.addField("scCourtChamber", "11|Izba Cywilna");
         doc.addField("scCourtChamber", "12|Izba Pracy");
@@ -123,6 +124,7 @@ public class JudgmentSearchResultTranslatorTest {
         
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         
+        Assert.assertEquals("wyrok SN", result.getScJudgmentForm());
         Assert.assertEquals("JOINED_CHAMBERS", result.getPersonnelType());
         Assert.assertTrue(result.getCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
         Assert.assertTrue(result.getCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));

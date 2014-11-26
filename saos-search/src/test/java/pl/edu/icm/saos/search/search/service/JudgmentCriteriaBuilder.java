@@ -96,6 +96,11 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
+    public JudgmentCriteriaBuilder withScJudgmentForm(String judgmentForm) {
+        criteria.setScJudgmentForm(judgmentForm);
+        return this;
+    }
+    
     public JudgmentCriteriaBuilder withScPersonnelType(PersonnelType personnelType) {
         criteria.setScPersonnelType(personnelType);
         return this;
