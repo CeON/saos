@@ -22,6 +22,7 @@ public class ChamberView extends SingleElementRepresentation<Data>{
     public static class Data implements Serializable {
         private static final long serialVersionUID = -7592137519490410182L;
 
+        private int id;
         private String href;
         private String name;
         private List<Division> divisions;
@@ -40,6 +41,10 @@ public class ChamberView extends SingleElementRepresentation<Data>{
             return divisions;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setHref(String href) {
@@ -54,11 +59,15 @@ public class ChamberView extends SingleElementRepresentation<Data>{
             this.divisions = divisions;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name, divisions);
+            return Objects.hashCode(id, href, name, divisions);
         }
 
         @Override
@@ -70,7 +79,8 @@ public class ChamberView extends SingleElementRepresentation<Data>{
                 return false;
             }
             final Data other = (Data) obj;
-            return Objects.equal(this.href, other.href) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
                     Objects.equal(this.name, other.name) &&
                     Objects.equal(this.divisions, other.divisions);
         }
@@ -80,6 +90,7 @@ public class ChamberView extends SingleElementRepresentation<Data>{
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .add("divisions", divisions)
@@ -90,6 +101,7 @@ public class ChamberView extends SingleElementRepresentation<Data>{
     public static class Division implements Serializable {
         private static final long serialVersionUID = -8868206176270508350L;
 
+        private int id;
         private String href;
         private String name;
 
@@ -103,6 +115,10 @@ public class ChamberView extends SingleElementRepresentation<Data>{
             return name;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setHref(String href) {
@@ -113,10 +129,14 @@ public class ChamberView extends SingleElementRepresentation<Data>{
             this.name = name;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name);
+            return Objects.hashCode(id, href, name);
         }
 
         @Override
@@ -128,7 +148,9 @@ public class ChamberView extends SingleElementRepresentation<Data>{
                 return false;
             }
             final Division other = (Division) obj;
-            return Objects.equal(this.href, other.href) && Objects.equal(this.name, other.name);
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
+                    Objects.equal(this.name, other.name);
         }
 
         //------------------------ toString --------------------------
@@ -136,6 +158,7 @@ public class ChamberView extends SingleElementRepresentation<Data>{
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .toString();
