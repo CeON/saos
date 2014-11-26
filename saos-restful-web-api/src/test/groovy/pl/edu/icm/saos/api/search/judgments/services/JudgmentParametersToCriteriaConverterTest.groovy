@@ -123,7 +123,7 @@ class JudgmentParametersToCriteriaConverterTest extends Specification {
             expected.setScCourtChamberDivisionId(scDivisionId)
             expected.setScCourtChamberDivisionName(scDivisionName)
             expected.setJudgmentType(judgmentTypes)
-            expected.setKeyword(keywords)
+            expected.setKeywords(keywords)
 
             actual == expected
     }
