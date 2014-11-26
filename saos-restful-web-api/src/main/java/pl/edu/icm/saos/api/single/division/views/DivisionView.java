@@ -23,6 +23,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
     public static class Data implements Serializable {
         private static final long serialVersionUID = 4358135205423287209L;
 
+        private int id;
         private String href;
         private String name;
         private String code;
@@ -51,6 +52,10 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             return court;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setHref(String href) {
@@ -73,12 +78,15 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             this.court = court;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
 
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name, code, type, court);
+            return Objects.hashCode(id, href, name, code, type, court);
         }
 
         @Override
@@ -90,7 +98,8 @@ public class DivisionView extends SingleElementRepresentation<Data>{
                 return false;
             }
             final Data other = (Data) obj;
-            return Objects.equal(this.href, other.href) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
                     Objects.equal(this.name, other.name) &&
                     Objects.equal(this.code, other.code) &&
                     Objects.equal(this.type, other.type) &&
@@ -102,6 +111,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .add("code", code)
@@ -115,6 +125,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
 
         private static final long serialVersionUID = -6974656408477763411L;
 
+        private int id;
         private String href;
         private String name;
         private CommonCourtType type;
@@ -143,6 +154,10 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             return parentCourt;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setHref(String href) {
@@ -165,11 +180,15 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             this.parentCourt = parentCourt;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name, type, code);
+            return Objects.hashCode(id, href, name, type, code);
         }
 
         @Override
@@ -181,7 +200,8 @@ public class DivisionView extends SingleElementRepresentation<Data>{
                 return false;
             }
             final Court other = (Court) obj;
-            return Objects.equal(this.href, other.href) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
                     Objects.equal(this.name, other.name) &&
                     Objects.equal(this.type, other.type) &&
                     Objects.equal(this.code, other.code) &&
@@ -193,6 +213,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .add("type", type)
@@ -206,6 +227,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
 
         private static final long serialVersionUID = 7030390092398444565L;
 
+        private int id;
         private String href;
 
         //------------------------ GETTERS --------------------------
@@ -214,17 +236,25 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             return href;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setHref(String href) {
             this.href = href;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href);
+            return Objects.hashCode(id, href);
         }
 
         @Override
@@ -236,7 +266,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
                 return false;
             }
             final ParentCourt other = (ParentCourt) obj;
-            return Objects.equal(this.href, other.href);
+            return Objects.equal(this.id, other.id) && Objects.equal(this.href, other.href);
         }
 
         //------------------------ toString --------------------------
@@ -244,6 +274,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .toString();
         }

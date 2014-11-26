@@ -66,9 +66,11 @@ public class ScChamberControllerTest extends PersistenceTestSupport {
         //then
         String divisionsPath = "/api/scDivisions/"+objectsContext.getScDivisionId();
         actions
+                .andExpect(jsonPath("$.data.id").value(objectsContext.getScChamberId()))
                 .andExpect(jsonPath("$.data.href").value(endsWith(chambersPath)))
                 .andExpect(jsonPath("$.data.name").value(JC.SC_CHAMBER_NAME))
 
+                .andExpect(jsonPath("$.data.divisions.[0].id").value(objectsContext.getScDivisionId()))
                 .andExpect(jsonPath("$.data.divisions.[0].href").value(endsWith(divisionsPath)))
                 .andExpect(jsonPath("$.data.divisions.[0].name").value(JC.SC_CHAMBER_DIVISION_NAME))
         ;

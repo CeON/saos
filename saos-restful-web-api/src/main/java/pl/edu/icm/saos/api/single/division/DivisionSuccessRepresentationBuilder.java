@@ -53,6 +53,7 @@ public class DivisionSuccessRepresentationBuilder {
     }
 
     private void fillData(DivisionView.Data data, CommonCourtDivision division) {
+        data.setId(division.getId());
         data.setHref(linksBuilder.urlToCcDivision(division.getId()));
         data.setName(division.getName());
         data.setCode(division.getCode());
@@ -62,6 +63,7 @@ public class DivisionSuccessRepresentationBuilder {
 
     private DivisionView.Court toCourt(CommonCourt court) {
         DivisionView.Court courtView = new DivisionView.Court();
+        courtView.setId(court.getId());
         courtView.setHref(linksBuilder.urlToCourt(court.getId()));
         courtView.setName(court.getName());
         courtView.setCode(court.getCode());
@@ -69,6 +71,7 @@ public class DivisionSuccessRepresentationBuilder {
 
         if(court.getParentCourt() != null){
             DivisionView.ParentCourt parentCourt = new DivisionView.ParentCourt();
+            parentCourt.setId(court.getParentCourt().getId());
             parentCourt.setHref(linksBuilder.urlToCourt(court.getParentCourt().getId()));
             courtView.setParentCourt(parentCourt);
         }

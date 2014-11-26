@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.api.dump.judgment.item.representation;
 
 import com.google.common.base.Objects;
+import pl.edu.icm.saos.persistence.model.CourtType;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,9 +16,8 @@ import static pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 public class JudgmentItem implements Serializable {
     private static final long serialVersionUID = -7120554748494835309L;
 
-    protected ApiJudgmentType apiJudgmentType = ApiJudgmentType.DEFAULT;
-
     protected int id;
+    protected CourtType courtType;
     protected List<CourtCase> courtCases;
     protected JudgmentType judgmentType;
     protected String JudgmentDate;
@@ -79,8 +79,8 @@ public class JudgmentItem implements Serializable {
         return decision;
     }
 
-    public ApiJudgmentType getApiJudgmentType() {
-        return apiJudgmentType;
+    public CourtType getCourtType() {
+        return courtType;
     }
 
     //------------------------ SETTERS --------------------------
@@ -132,6 +132,10 @@ public class JudgmentItem implements Serializable {
         this.decision = decision;
     }
 
+    public void setCourtType(CourtType courtType) {
+        this.courtType = courtType;
+    }
+
     //------------------------ HashCode & Equals --------------------------
 
 
@@ -140,7 +144,7 @@ public class JudgmentItem implements Serializable {
         return Objects.hashCode(id, courtCases, judgmentType, JudgmentDate,
                 judges, source, courtReporters, summary, decision,
                 textContent, legalBases, referencedRegulations,
-                apiJudgmentType
+                courtType
         );
     }
 
@@ -165,7 +169,7 @@ public class JudgmentItem implements Serializable {
                 Objects.equal(this.textContent, other.textContent) &&
                 Objects.equal(this.legalBases, other.legalBases) &&
                 Objects.equal(this.referencedRegulations, other.referencedRegulations) &&
-                Objects.equal(this.apiJudgmentType, other.apiJudgmentType)
+                Objects.equal(this.courtType, other.courtType)
                 ;
     }
 
@@ -186,15 +190,9 @@ public class JudgmentItem implements Serializable {
                 .add("textContent", textContent)
                 .add("legalBases", legalBases)
                 .add("referencedRegulations", referencedRegulations)
-                .add("apiJudgmentType", apiJudgmentType)
+                .add("courtType", courtType)
 
                 .toString();
     }
 
-    //------------------------ inner --------------------------
-    public static enum ApiJudgmentType {
-        SUPREME_COURT,
-        COMMON_COURT,
-        DEFAULT
-    }
 }

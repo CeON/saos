@@ -43,9 +43,11 @@ public class ScDivisionControllerTest extends PersistenceTestSupport {
     private String divisionsPath;
     private String chambersPath;
 
+    private TestPersistenceObjectsContext objectsContext;
+
     @Before
     public void setUp(){
-        TestPersistenceObjectsContext objectsContext = testPersistenceObjectsFactory.createPersistenceObjectsContext();
+        objectsContext = testPersistenceObjectsFactory.createPersistenceObjectsContext();
         divisionsPath = "/api/scDivisions/"+objectsContext.getScDivisionId();
         chambersPath = "/api/scChambers/"+objectsContext.getScChamberId();
 
@@ -66,10 +68,12 @@ public class ScDivisionControllerTest extends PersistenceTestSupport {
 
         //then
         actions
+                .andExpect(jsonPath("$.data.id").value(objectsContext.getScDivisionId()))
                 .andExpect(jsonPath("$.data.href").value(endsWith(divisionsPath)))
                 .andExpect(jsonPath("$.data.name").value(JC.SC_CHAMBER_DIVISION_NAME))
                 .andExpect(jsonPath("$.data.fullName").value(JC.SC_CHAMBER_DIVISION_FULL_NAME))
 
+                .andExpect(jsonPath("$.data.chamber.id").value(objectsContext.getScChamberId()))
                 .andExpect(jsonPath("$.data.chamber.href").value(endsWith(chambersPath)))
                 .andExpect(jsonPath("$.data.chamber.name").value(JC.SC_CHAMBER_NAME))
                 ;

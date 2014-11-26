@@ -51,6 +51,8 @@ public class JudgmentMapper {
     }
 
     private void fillData(JudgmentData data, Judgment judgment) {
+        data.setId(judgment.getId());
+        data.setCourtType(judgment.getCourtType());
         data.setHref(linksBuilder.urlToJudgment(judgment.getId()));
         data.setJudgmentType(judgment.getJudgmentType());
         data.setJudgmentDate(dateMapping.toISO8601Format(judgment.getJudgmentDate()));

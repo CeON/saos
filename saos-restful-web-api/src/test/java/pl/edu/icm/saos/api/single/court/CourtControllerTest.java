@@ -75,19 +75,23 @@ public class CourtControllerTest extends PersistenceTestSupport {
         String pathPrefix = "$.data";
 
         actions
-                .andExpect(jsonPath(pathPrefix+".href").value(endsWith(path)))
-                .andExpect(jsonPath(pathPrefix+".code").value(FieldsDefinition.JC.COURT_CODE))
-                .andExpect(jsonPath(pathPrefix+".name").value(FieldsDefinition.JC.COURT_NAME))
-                .andExpect(jsonPath(pathPrefix+".type").value(FieldsDefinition.JC.COURT_TYPE.name()))
+                .andExpect(jsonPath(pathPrefix + ".id").value(objectsContext.getCommonCourtId()))
+                .andExpect(jsonPath(pathPrefix + ".href").value(endsWith(path)))
+                .andExpect(jsonPath(pathPrefix + ".code").value(FieldsDefinition.JC.COURT_CODE))
+                .andExpect(jsonPath(pathPrefix + ".name").value(FieldsDefinition.JC.COURT_NAME))
+                .andExpect(jsonPath(pathPrefix + ".type").value(FieldsDefinition.JC.COURT_TYPE.name()))
 
-                .andExpect(jsonPath(pathPrefix+".parentCourt.href").value(endsWith(parentPath)))
+                .andExpect(jsonPath(pathPrefix + ".parentCourt.id").value(objectsContext.getParentCourtId()))
+                .andExpect(jsonPath(pathPrefix + ".parentCourt.href").value(endsWith(parentPath)))
 
-                .andExpect(jsonPath(pathPrefix+".divisions").isArray())
-                .andExpect(jsonPath(pathPrefix+".divisions.[0].href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + objectsContext.getFirstDivisionId())))
-                .andExpect(jsonPath(pathPrefix+".divisions.[0].name").value(FieldsDefinition.JC.DIVISION_NAME))
+                .andExpect(jsonPath(pathPrefix + ".divisions").isArray())
+                .andExpect(jsonPath(pathPrefix + ".divisions.[0].id").value(objectsContext.getFirstDivisionId()))
+                .andExpect(jsonPath(pathPrefix + ".divisions.[0].href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + objectsContext.getFirstDivisionId())))
+                .andExpect(jsonPath(pathPrefix + ".divisions.[0].name").value(FieldsDefinition.JC.DIVISION_NAME))
 
-                .andExpect(jsonPath(pathPrefix+".divisions.[1].href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + objectsContext.getSecondDivisionId())))
-                .andExpect(jsonPath(pathPrefix+".divisions.[1].name").value(FieldsDefinition.JC.SECOND_DIVISION_NAME))
+                .andExpect(jsonPath(pathPrefix + ".divisions.[1].id").value(objectsContext.getSecondDivisionId()))
+                .andExpect(jsonPath(pathPrefix + ".divisions.[1].href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + objectsContext.getSecondDivisionId())))
+                .andExpect(jsonPath(pathPrefix + ".divisions.[1].name").value(FieldsDefinition.JC.SECOND_DIVISION_NAME))
         ;
     }
 

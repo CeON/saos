@@ -23,6 +23,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
     public static class Data implements Serializable {
         private static final long serialVersionUID = 6102379234322603276L;
 
+        private int id;
         private String href;
         private String name;
         private String fullName;
@@ -45,6 +46,10 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             return href;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setName(String name) {
@@ -63,11 +68,15 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             this.href = href;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name, fullName, chamber);
+            return Objects.hashCode(id, href, name, fullName, chamber);
         }
 
         @Override
@@ -79,7 +88,8 @@ public class DivisionView extends SingleElementRepresentation<Data>{
                 return false;
             }
             final Data other = (Data) obj;
-            return Objects.equal(this.href, other.href) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
                     Objects.equal(this.name, other.name) &&
                     Objects.equal(this.fullName, other.fullName) &&
                     Objects.equal(this.chamber, other.chamber);
@@ -90,6 +100,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .add("fullName", fullName)
@@ -101,6 +112,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
     public static class Chamber implements Serializable {
         private static final long serialVersionUID = 1385060986281758552L;
 
+        private int id;
         private String href;
         private String name;
 
@@ -113,6 +125,10 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             return name;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
         public void setHref(String href) {
             this.href = href;
@@ -122,11 +138,15 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             this.name = name;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name);
+            return Objects.hashCode(id, href, name);
         }
 
         @Override
@@ -138,7 +158,8 @@ public class DivisionView extends SingleElementRepresentation<Data>{
                 return false;
             }
             final Chamber other = (Chamber) obj;
-            return Objects.equal(this.href, other.href) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
                     Objects.equal(this.name, other.name);
         }
 
@@ -147,6 +168,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .toString();

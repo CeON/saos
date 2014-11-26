@@ -18,6 +18,7 @@ import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
 import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -85,6 +86,8 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
         //then
 
         actions
+                .andExpect(jsonPath("$.data.id").value(objectsContext.getJudgmentId()))
+                .andExpect(jsonPath("$.data.courtType").value(CourtType.COMMON.name()))
                 .andExpect(jsonPath("$.data.href").value(endsWith(ccJudgmentPath)))
                 .andExpect(jsonPath("$.data.source.code").value(SourceCode.COMMON_COURT.name()))
                 .andExpect(jsonPath("$.data.source.judgmentUrl").value(JC.SOURCE_JUDGMENT_URL))
@@ -137,7 +140,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.division.court.name").value(JC.COURT_NAME))
                 .andExpect(jsonPath("$.data.division.court.type").value(JC.COURT_TYPE.name()))
 
-                .andExpect(jsonPath("$.data.division.court.parentCourt.href").value(endsWith(SINGLE_COURTS_PATH+"/"+objectsContext.getParentCourtId())))
+                .andExpect(jsonPath("$.data.division.court.parentCourt.href").value(endsWith(SINGLE_COURTS_PATH + "/" + objectsContext.getParentCourtId())))
                 ;
     }
 
@@ -149,6 +152,8 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
 
         //then
         actions
+                .andExpect(jsonPath("$.data.id").value(objectsContext.getScJudgmentId()))
+                .andExpect(jsonPath("$.data.courtType").value(CourtType.SUPREME.name()))
                 .andExpect(jsonPath("$.data.href").value(endsWith(scJudgmentPath)))
                 .andExpect(jsonPath("$.data.personnelType").value(SupremeCourtJudgment.PersonnelType.FIVE_PERSON.name()))
 

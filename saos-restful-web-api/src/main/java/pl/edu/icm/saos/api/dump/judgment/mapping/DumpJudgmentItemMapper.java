@@ -41,6 +41,7 @@ public class DumpJudgmentItemMapper {
         item.setSource(judgmentMapper.toSource(judgment.getSourceInfo()));
         item.setDecision(judgment.getDecision());
         item.setReferencedRegulations(judgmentMapper.toReferencedRegulation(judgment.getReferencedRegulations()));
+        item.setCourtType(judgment.getCourtType());
     }
 
     //------------------------ SETTERS --------------------------
