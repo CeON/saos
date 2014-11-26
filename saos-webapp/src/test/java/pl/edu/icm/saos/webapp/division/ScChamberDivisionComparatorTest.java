@@ -14,6 +14,9 @@ public class ScChamberDivisionComparatorTest {
 
 	ScChamberDivisionComparator scChamberDivisionComparator = new ScChamberDivisionComparator();
 	
+	
+	//------------------------ TESTS --------------------------
+	
 	@Test
 	public void compare_numbers() {
 		SupremeCourtChamberDivision divisionOne = new SupremeCourtChamberDivision();

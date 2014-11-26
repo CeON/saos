@@ -1,10 +1,17 @@
 package pl.edu.icm.saos.webapp.judgment;
 
+import java.util.List;
+
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.persistence.common.FormatConst;
 import pl.edu.icm.saos.persistence.model.CourtType;
+
+import pl.edu.icm.saos.webapp.format.MultiWordFormat;
+
 
 
 /**
@@ -24,7 +31,10 @@ public class JudgmentCriteriaForm {
     private LocalDate dateTo;
     
     private String judgeName;
-    private String keyword;
+    
+    @MultiWordFormat
+    private List<String> keywords = Lists.newLinkedList();
+    
     private CourtType courtType;
     
     private Integer commonCourtId;
@@ -61,8 +71,8 @@ public class JudgmentCriteriaForm {
 		return judgeName;
 	}
 	
-	public String getKeyword() {
-		return keyword;
+	public List<String> getKeywords() {
+		return keywords;
 	}
 	
 	public CourtType getCourtType() {
@@ -123,8 +133,8 @@ public class JudgmentCriteriaForm {
 		this.judgeName = judgeName;
 	}
 
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
+	public void setKeywords(List<String> keywords) {
+		this.keywords = keywords;
 	}
 
 	public void setCourtType(CourtType courtType) {

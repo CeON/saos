@@ -53,7 +53,7 @@ public class JudgmentParametersToCriteriaConverter {
         criteria.setDateTo(params.getJudgmentDateTo());
 
         criteria.setJudgmentType(params.getJudgmentTypes());
-        criteria.setKeyword(params.getKeywords());
+        criteria.setKeywords(params.getKeywords());
 
         return criteria;
     }

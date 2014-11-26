@@ -19,11 +19,9 @@ public class SortingConverterTest {
 	
 	private final String fieldName = "JUDGMENT_DATE"; 
 	
-	@Before
-	public void setUp() {
-		
-	}
 
+	//------------------------ TESTS --------------------------
+	
 	@Test
 	public void convert() {
 		Sorting sorting = new Sorting(fieldName, Sorting.Direction.ASC);

@@ -5,5 +5,7 @@
 	
 <saos:filterField assignedField="select-common-division" label="judgment.results.filter.division" filterValue="${judgmentCriteriaForm.commonCourtDivisionId}" id="filter-division"></saos:filterField>
 
-<saos:filterField assignedField="input-search-keywords" label="judgment.results.filter.keywords" filterValue="${judgmentCriteriaForm.keyword}" id="filter-keyword"></saos:filterField>
+<saos:filterField assignedField="input-search-keywords" label="judgment.results.filter.keywords" filterValue="${judgmentCriteriaForm.keywords}" id="filter-keyword"></saos:filterField>
+ 	
+	
 		

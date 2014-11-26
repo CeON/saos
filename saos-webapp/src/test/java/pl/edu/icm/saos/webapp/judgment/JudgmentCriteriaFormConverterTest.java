@@ -6,6 +6,9 @@ import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.CourtType;
+
+import com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
 /**
@@ -19,7 +22,7 @@ public class JudgmentCriteriaFormConverterTest {
 	private LocalDate localDate[] = {new LocalDate(2014, 1, 2), new LocalDate(2015, 3, 22)};
 	
 	
-	//------------------------ LOGIC --------------------------
+	//------------------------ TESTS --------------------------
 	
 	@Test
 	public void convert() {
@@ -44,7 +47,7 @@ public class JudgmentCriteriaFormConverterTest {
 		
 		assertEquals(judgmentCriteriaForm.getJudgeName(), judgmentCriteria.getJudgeName());
 		assertEquals(1, judgmentCriteria.getKeywords().size());
-		assertEquals(judgmentCriteriaForm.getKeyword(), judgmentCriteria.getKeywords().get(0));
+		assertEquals(judgmentCriteriaForm.getKeywords(), judgmentCriteria.getKeywords());
 		assertEquals(judgmentCriteriaForm.getLegalBase(), judgmentCriteria.getLegalBase());
 		assertEquals(judgmentCriteriaForm.getReferencedRegulation(), judgmentCriteria.getReferencedRegulation());
 	}
@@ -63,11 +66,7 @@ public class JudgmentCriteriaFormConverterTest {
 		judgmentCriteriaForm.setDateTo(localDate[1]);
 		
 		judgmentCriteriaForm.setCourtType(CourtType.COMMON);
-		judgmentCriteriaForm.setLegalBase("12.55");
-		judgmentCriteriaForm.setReferencedRegulation("Art. 4.6");
-		judgmentCriteriaForm.setJudgeName("Judge Dredd");
-		
-		judgmentCriteriaForm.setKeyword("very important keyword");
+
 		judgmentCriteriaForm.setCommonCourtId(12);
 		judgmentCriteriaForm.setCommonCourtDivisionId(15);
 		
@@ -75,6 +74,10 @@ public class JudgmentCriteriaFormConverterTest {
 		judgmentCriteriaForm.setSupremeChamberId(13);
 		judgmentCriteriaForm.setSupremeChamberDivisionId(14);
 		
+		judgmentCriteriaForm.setJudgeName("Judge Dredd");
+		judgmentCriteriaForm.setKeywords(Lists.newArrayList("very important keyword"));
+		judgmentCriteriaForm.setLegalBase("12.55");
+		judgmentCriteriaForm.setReferencedRegulation("Art. 4.6");
 		
 		return judgmentCriteriaForm;
 	}
