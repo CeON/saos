@@ -224,6 +224,56 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         assertEquals(0, notIndexed.size());
     }
+    
+    public void findAllIndexedIds_FOUND() {
+        Judgment firstJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        Judgment secondJudgment = createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
+        createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
+        firstJudgment.markAsIndexed();
+        secondJudgment.markAsIndexed();
+        judgmentRepository.save(Lists.newArrayList(firstJudgment, secondJudgment));
+        
+        List<Integer> allIndexed = judgmentRepository.findAllIndexedIds();
+        
+        assertThat(allIndexed, containsInAnyOrder(firstJudgment.getId(), secondJudgment.getId()));
+    }
+    
+    public void findAllIndexedIds_NOT_FOUND() {
+        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        judgmentRepository.save(judgment);
+        
+        List<Integer> allIndexed = judgmentRepository.findAllIndexedIds();
+        
+        assertEquals(0, allIndexed.size());
+    }
+    
+    @Test
+    public void findIndexedIdsBySourceCode_FOUND() {
+        CommonCourtJudgment ccJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        SupremeCourtJudgment scJudgment = createScJudgment(SourceCode.SUPREME_COURT, "2", "AAA2");
+        ccJudgment.markAsIndexed();
+        scJudgment.markAsIndexed();
+        judgmentRepository.save(ccJudgment);
+        judgmentRepository.save(scJudgment);
+        
+        List<Integer> ccIndexed = judgmentRepository.findIndexedIdsBySourceCode(SourceCode.COMMON_COURT);
+        
+        assertEquals(1, ccIndexed.size());
+        assertEquals(Integer.valueOf(ccJudgment.getId()), ccIndexed.get(0));
+    }
+    
+    @Test
+    public void findIndexedIdsBySourceCode_NOT_FOUND() {
+        CommonCourtJudgment ccJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        SupremeCourtJudgment scJudgment = createScJudgment(SourceCode.SUPREME_COURT, "2", "AAA2");
+        scJudgment.markAsIndexed();
+        judgmentRepository.save(ccJudgment);
+        judgmentRepository.save(scJudgment);
+        
+        List<Integer> ccIndexed = judgmentRepository.findIndexedIdsBySourceCode(SourceCode.COMMON_COURT);
+        
+        assertEquals(0, ccIndexed.size());
+    }
 
     @Test
     public void findOne_it_should_return_correct_modification_date_value(){
@@ -266,6 +316,17 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         ccJudgment.addCourtCase(new CourtCase(caseNumber));
         judgmentRepository.save(ccJudgment);
         return ccJudgment;
+    }
+    
+    private SupremeCourtJudgment createScJudgment(SourceCode sourceCode, String sourceJudgmentId, String caseNumber) {
+        SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
+        JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
+        sourceInfo.setSourceCode(sourceCode);
+        sourceInfo.setSourceJudgmentId(sourceJudgmentId);
+        scJudgment.setSourceInfo(sourceInfo);
+        scJudgment.addCourtCase(new CourtCase(caseNumber));
+        judgmentRepository.save(scJudgment);
+        return scJudgment;
     }
     
     private void waitForTimeChange() {

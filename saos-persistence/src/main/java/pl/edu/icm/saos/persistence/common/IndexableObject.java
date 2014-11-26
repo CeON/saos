@@ -16,6 +16,10 @@ public abstract class IndexableObject extends DataObject {
         indexed = true;
         indexedDate = new DateTime();
     }
+    
+    public void resetIndexedFlag() {
+        indexed = false;
+    }
 
     @Column(columnDefinition=ColumnDefinitionConst.BOOLEAN_NOT_NULL_DEFUALT_FALSE)
     public boolean isIndexed() {
