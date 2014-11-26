@@ -30,7 +30,7 @@ public class JudgmentsParameters {
     private String referencedRegulation;
     private String judgeName;
     private String caseNumber;
-    private PersonnelType personnelType;
+
     @DateTimeFormat(iso = ISO.DATE)
     private LocalDate judgmentDateFrom;
     @DateTimeFormat(iso = ISO.DATE)
@@ -38,15 +38,16 @@ public class JudgmentsParameters {
 
     private CourtType courtType;
 
-    private CommonCourtType commonCourtType;
-    private Integer commonCourtId;
-    private String commonCourtCode;
-    private String commonCourtName;
+    private CommonCourtType ccCourtType;
+    private Integer ccCourtId;
+    private String ccCourtCode;
+    private String ccCourtName;
 
     private Integer ccDivisionId;
     private String ccDivisionCode;
     private String ccDivisionName;
 
+    private PersonnelType scPersonnelType;
     private Integer scChamberId;
     private String scChamberName;
     private Integer scDivisionId;
@@ -67,8 +68,8 @@ public class JudgmentsParameters {
         return all;
     }
 
-    public String getCommonCourtName() {
-        return commonCourtName;
+    public String getCcCourtName() {
+        return ccCourtName;
     }
 
     public String getLegalBase() {
@@ -92,24 +93,24 @@ public class JudgmentsParameters {
         return judgmentDateTo;
     }
 
-    public PersonnelType getPersonnelType() {
-        return personnelType;
+    public PersonnelType getScPersonnelType() {
+        return scPersonnelType;
     }
 
     public CourtType getCourtType() {
         return courtType;
     }
 
-    public CommonCourtType getCommonCourtType() {
-        return commonCourtType;
+    public CommonCourtType getCcCourtType() {
+        return ccCourtType;
     }
 
-    public Integer getCommonCourtId() {
-        return commonCourtId;
+    public Integer getCcCourtId() {
+        return ccCourtId;
     }
 
-    public String getCommonCourtCode() {
-        return commonCourtCode;
+    public String getCcCourtCode() {
+        return ccCourtCode;
     }
 
     public Integer getCcDivisionId() {
@@ -163,8 +164,8 @@ public class JudgmentsParameters {
         this.all = StringUtils.trimToNull(all);
     }
 
-    public void setCommonCourtName(String commonCourtName) {
-        this.commonCourtName = StringUtils.trimToNull(commonCourtName);
+    public void setCcCourtName(String ccCourtName) {
+        this.ccCourtName = StringUtils.trimToNull(ccCourtName);
     }
 
     public void setLegalBase(String legalBase) {
@@ -187,24 +188,24 @@ public class JudgmentsParameters {
         this.judgmentDateTo = judgmentDateTo;
     }
 
-    public void setPersonnelType(PersonnelType personnelType) {
-        this.personnelType = personnelType;
+    public void setScPersonnelType(PersonnelType scPersonnelType) {
+        this.scPersonnelType = scPersonnelType;
     }
 
     public void setCourtType(CourtType courtType) {
         this.courtType = courtType;
     }
 
-    public void setCommonCourtType(CommonCourtType commonCourtType) {
-        this.commonCourtType = commonCourtType;
+    public void setCcCourtType(CommonCourtType ccCourtType) {
+        this.ccCourtType = ccCourtType;
     }
 
-    public void setCommonCourtId(Integer commonCourtId) {
-        this.commonCourtId = commonCourtId;
+    public void setCcCourtId(Integer ccCourtId) {
+        this.ccCourtId = ccCourtId;
     }
 
-    public void setCommonCourtCode(String commonCourtCode) {
-        this.commonCourtCode = StringUtils.trimToNull(commonCourtCode);
+    public void setCcCourtCode(String ccCourtCode) {
+        this.ccCourtCode = StringUtils.trimToNull(ccCourtCode);
     }
 
     public void setCcDivisionId(Integer ccDivisionId) {
@@ -256,8 +257,8 @@ public class JudgmentsParameters {
     @Override
     public int hashCode() {
         return Objects.hashCode(pagination, caseNumber, all, legalBase, referencedRegulation,
-                judgeName, personnelType, judgmentDateFrom, judgmentDateTo, courtType,
-                commonCourtType, commonCourtId, commonCourtCode, commonCourtName,
+                judgeName, scPersonnelType, judgmentDateFrom, judgmentDateTo, courtType,
+                ccCourtType, ccCourtId, ccCourtCode, ccCourtName,
                 ccDivisionId, ccDivisionCode, ccDivisionName, scChamberId,
                 scChamberName, scDivisionId, scDivisionName, judgmentTypes,
                 keywords);
@@ -278,14 +279,14 @@ public class JudgmentsParameters {
                 Objects.equal(this.legalBase, other.legalBase) &&
                 Objects.equal(this.referencedRegulation, other.referencedRegulation) &&
                 Objects.equal(this.judgeName, other.judgeName) &&
-                Objects.equal(this.personnelType, other.personnelType) &&
+                Objects.equal(this.scPersonnelType, other.scPersonnelType) &&
                 Objects.equal(this.judgmentDateFrom, other.judgmentDateFrom) &&
                 Objects.equal(this.judgmentDateTo, other.judgmentDateTo) &&
                 Objects.equal(this.courtType, other.courtType) &&
-                Objects.equal(this.commonCourtType, other.commonCourtType) &&
-                Objects.equal(this.commonCourtId, other.commonCourtId) &&
-                Objects.equal(this.commonCourtCode, other.commonCourtCode) &&
-                Objects.equal(this.commonCourtName, other.commonCourtName) &&
+                Objects.equal(this.ccCourtType, other.ccCourtType) &&
+                Objects.equal(this.ccCourtId, other.ccCourtId) &&
+                Objects.equal(this.ccCourtCode, other.ccCourtCode) &&
+                Objects.equal(this.ccCourtName, other.ccCourtName) &&
                 Objects.equal(this.ccDivisionId, other.ccDivisionId) &&
                 Objects.equal(this.ccDivisionCode, other.ccDivisionCode) &&
                 Objects.equal(this.ccDivisionName, other.ccDivisionName) &&
@@ -310,14 +311,14 @@ public class JudgmentsParameters {
                 .add("legalBase", legalBase)
                 .add("referencedRegulation", referencedRegulation)
                 .add("judgeName", judgeName)
-                .add("personnelType", personnelType)
+                .add("scPersonnelType", scPersonnelType)
                 .add("judgmentDateFrom", judgmentDateFrom)
                 .add("judgmentDateTo", judgmentDateTo)
                 .add("courtType", courtType)
-                .add("commonCourtType", commonCourtType)
-                .add("commonCourtId", commonCourtId)
-                .add("commonCourtCode", commonCourtCode)
-                .add("commonCourtName", commonCourtName)
+                .add("ccCourtType", ccCourtType)
+                .add("ccCourtId", ccCourtId)
+                .add("ccCourtCode", ccCourtCode)
+                .add("ccCourtName", ccCourtName)
                 .add("ccDivisionId", ccDivisionId)
                 .add("ccDivisionCode", ccDivisionCode)
                 .add("ccDivisionName", ccDivisionName)

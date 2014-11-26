@@ -175,11 +175,11 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         String judgeNameValue = "someJudgeName";
         String caseNumberValue = "someCaseNumber";
         String courtTypeValue = CourtType.ADMINISTRATIVE.name();
-        String commonCourtTypeValue = CommonCourt.CommonCourtType.APPEAL.name();
+        String ccCourtTypeValue = CommonCourt.CommonCourtType.APPEAL.name();
 
-        Integer commonCourtIdValue = 33;
-        String commonCourtCodeValue = "someCcCode";
-        String commonCourtNameValue = "someCcName";
+        Integer ccCourtIdValue = 33;
+        String ccCourtCodeValue = "someCcCode";
+        String ccCourtNameValue = "someCcName";
 
         Integer ccDivisionIdValue = 44;
         String ccDivisionCodeValue = "someCcDivisionCode";
@@ -203,16 +203,16 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .param(PAGE_SIZE, String.valueOf(pageSize))
                 .param(PAGE_NUMBER, String.valueOf(pageNumber))
                 .param(ALL, allValue)
-                .param(PERSONNEL_TYPE, personnelTypeValue)
+                .param(SC_PERSONNEL_TYPE, personnelTypeValue)
                 .param(LEGAL_BASE, legalBaseValue)
                 .param(REFERENCED_REGULATION, referencedRegulationValue)
                 .param(JUDGE_NAME, judgeNameValue)
                 .param(CASE_NUMBER, caseNumberValue)
                 .param(COURT_TYPE, courtTypeValue)
-                .param(COMMON_COURT_TYPE, commonCourtTypeValue)
-                .param(COMMON_COURT_ID, commonCourtIdValue.toString())
-                .param(COMMON_COURT_CODE, commonCourtCodeValue)
-                .param(COMMON_COURT_NAME, commonCourtNameValue)
+                .param(CC_COURT_TYPE, ccCourtTypeValue)
+                .param(CC_COURT_ID, ccCourtIdValue.toString())
+                .param(CC_COURT_CODE, ccCourtCodeValue)
+                .param(CC_COURT_NAME, ccCourtNameValue)
                 .param(CC_DIVISION_ID, ccDivisionIdValue.toString())
                 .param(CC_DIVISION_CODE, ccDivisionCodeValue)
                 .param(CC_DIVISION_NAME, ccDivisionNameValue)
@@ -239,10 +239,10 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".caseNumber").value(caseNumberValue))
                 .andExpect(jsonPath(prefix + ".courtType").value(courtTypeValue))
 
-                .andExpect(jsonPath(prefix + ".commonCourtType").value(commonCourtTypeValue))
-                .andExpect(jsonPath(prefix + ".commonCourtId").value(commonCourtIdValue))
-                .andExpect(jsonPath(prefix + ".commonCourtCode").value(commonCourtCodeValue))
-                .andExpect(jsonPath(prefix + ".commonCourtName").value(commonCourtNameValue))
+                .andExpect(jsonPath(prefix + ".ccCourtType").value(ccCourtTypeValue))
+                .andExpect(jsonPath(prefix + ".ccCourtId").value(ccCourtIdValue))
+                .andExpect(jsonPath(prefix + ".ccCourtCode").value(ccCourtCodeValue))
+                .andExpect(jsonPath(prefix + ".ccCourtName").value(ccCourtNameValue))
 
                 .andExpect(jsonPath(prefix + ".ccDivisionId").value(ccDivisionIdValue))
                 .andExpect(jsonPath(prefix + ".ccDivisionCode").value(ccDivisionCodeValue))
@@ -296,10 +296,10 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".caseNumber").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".courtType").value(isEmptyOrNullString()))
 
-                .andExpect(jsonPath(prefix + ".commonCourtType").value(isEmptyOrNullString()))
-                .andExpect(jsonPath(prefix + ".commonCourtId").value(nullValue()))
-                .andExpect(jsonPath(prefix + ".commonCourtCode").value(isEmptyOrNullString()))
-                .andExpect(jsonPath(prefix + ".commonCourtName").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".ccCourtType").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".ccCourtId").value(nullValue()))
+                .andExpect(jsonPath(prefix + ".ccCourtCode").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".ccCourtName").value(isEmptyOrNullString()))
 
                 .andExpect(jsonPath(prefix + ".ccDivisionId").value(nullValue()))
                 .andExpect(jsonPath(prefix + ".ccDivisionCode").value(isEmptyOrNullString()))

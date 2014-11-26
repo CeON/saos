@@ -17,10 +17,10 @@ import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.DATABASE_ID
  */
 class ParametersToCriteriaConverterTest extends Specification {
 
-    ParametersToCriteriaConverter converter;
+    JudgmentParametersToCriteriaConverter converter;
 
     void setup(){
-        converter = new ParametersToCriteriaConverter();
+        converter = new JudgmentParametersToCriteriaConverter();
     }
 
 
@@ -74,13 +74,13 @@ class ParametersToCriteriaConverterTest extends Specification {
             params.setLegalBase(legalBases)
             params.setJudgmentDateFrom(judgmentDateFrom)
             params.setJudgmentDateTo(judgmentDateTo)
-            params.setPersonnelType(personnelType)
+            params.setScPersonnelType(personnelType)
             params.setCourtType(courtType)
 
-            params.setCommonCourtType(commonCourtType)
-            params.setCommonCourtId(commonCourtId)
-            params.setCommonCourtCode(commonCourtCode)
-            params.setCommonCourtName(commonCourtName)
+            params.setCcCourtType(commonCourtType)
+            params.setCcCourtId(commonCourtId)
+            params.setCcCourtCode(commonCourtCode)
+            params.setCcCourtName(commonCourtName)
 
             params.setCcDivisionId(ccDivisionId)
             params.setCcDivisionCode(ccDivisionCode)

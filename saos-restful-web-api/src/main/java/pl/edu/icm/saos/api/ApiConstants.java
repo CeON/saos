@@ -66,11 +66,11 @@ public abstract class ApiConstants {
     public static final String REFERENCED_REGULATION = "referencedRegulation";
     public static final String JUDGE_NAME = "judgeName";
     public static final String COURT_TYPE = "courtType";
-    public static final String PERSONNEL_TYPE = "personnelType";
-    public static final String COMMON_COURT_TYPE = "commonCourtType";
-    public static final String COMMON_COURT_ID = "commonCourtId";
-    public static final String COMMON_COURT_CODE = "commonCourtCode";
-    public static final String COMMON_COURT_NAME = "commonCourtName";
+    public static final String SC_PERSONNEL_TYPE = "scPersonnelType";
+    public static final String CC_COURT_TYPE = "ccCourtType";
+    public static final String CC_COURT_ID = "ccCourtId";
+    public static final String CC_COURT_CODE = "ccCourtCode";
+    public static final String CC_COURT_NAME = "ccCourtName";
     public static final String CC_DIVISION_ID = "ccDivisionId";
     public static final String CC_DIVISION_CODE = "ccDivisionCode";
     public static final String CC_DIVISION_NAME = "ccDivisionName";

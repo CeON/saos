@@ -13,7 +13,7 @@ import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.DATABASE_ID
  * @author pavtel
  */
 @Service
-public class ParametersToCriteriaConverter {
+public class JudgmentParametersToCriteriaConverter {
 
     //------------------------ LOGIC --------------------------
 
@@ -32,16 +32,16 @@ public class ParametersToCriteriaConverter {
         criteria.setJudgeName(params.getJudgeName());
         criteria.setLegalBase(params.getLegalBase());
 
-        criteria.setCcCourtId(params.getCommonCourtId());
-        criteria.setCcCourtName(params.getCommonCourtName());
-        criteria.setCcCourtCode(params.getCommonCourtCode());
-        criteria.setCcCourtType(params.getCommonCourtType());
+        criteria.setCcCourtId(params.getCcCourtId());
+        criteria.setCcCourtName(params.getCcCourtName());
+        criteria.setCcCourtCode(params.getCcCourtCode());
+        criteria.setCcCourtType(params.getCcCourtType());
 
         criteria.setCcCourtDivisionId(params.getCcDivisionId());
         criteria.setCcCourtDivisionName(params.getCcDivisionName());
         criteria.setCcCourtDivisionCode(params.getCcDivisionCode());
 
-        criteria.setScPersonnelType(params.getPersonnelType());
+        criteria.setScPersonnelType(params.getScPersonnelType());
 
         criteria.setScCourtChamberId(params.getScChamberId());
         criteria.setScCourtChamberName(params.getScChamberName());

@@ -122,24 +122,24 @@ public class JudgmentsListSuccessRepresentationBuilder {
             uriComponentsBuilder.replaceQueryParam(COURT_TYPE, params.getCourtType());
         }
 
-        if(params.getPersonnelType() != null){
-            uriComponentsBuilder.replaceQueryParam(PERSONNEL_TYPE, params.getPersonnelType());
+        if(params.getScPersonnelType() != null){
+            uriComponentsBuilder.replaceQueryParam(SC_PERSONNEL_TYPE, params.getScPersonnelType());
         }
 
-        if(params.getCommonCourtType() != null){
-            uriComponentsBuilder.replaceQueryParam(COMMON_COURT_TYPE, params.getCommonCourtType());
+        if(params.getCcCourtType() != null){
+            uriComponentsBuilder.replaceQueryParam(CC_COURT_TYPE, params.getCcCourtType());
         }
 
-        if(params.getCommonCourtId() != null){
-            uriComponentsBuilder.replaceQueryParam(COMMON_COURT_ID, params.getCommonCourtId());
+        if(params.getCcCourtId() != null){
+            uriComponentsBuilder.replaceQueryParam(CC_COURT_ID, params.getCcCourtId());
         }
 
-        if(StringUtils.isNotBlank(params.getCommonCourtCode())){
-            uriComponentsBuilder.replaceQueryParam(COMMON_COURT_CODE, params.getCommonCourtCode());
+        if(StringUtils.isNotBlank(params.getCcCourtCode())){
+            uriComponentsBuilder.replaceQueryParam(CC_COURT_CODE, params.getCcCourtCode());
         }
 
-        if(StringUtils.isNotBlank(params.getCommonCourtName())){
-            uriComponentsBuilder.replaceQueryParam(COMMON_COURT_NAME, params.getCommonCourtName());
+        if(StringUtils.isNotBlank(params.getCcCourtName())){
+            uriComponentsBuilder.replaceQueryParam(CC_COURT_NAME, params.getCcCourtName());
         }
 
         if(params.getCcDivisionId() != null){
@@ -242,12 +242,12 @@ public class JudgmentsListSuccessRepresentationBuilder {
         queryTemplate.setCaseNumber(params.getCaseNumber());
         queryTemplate.setJudgeName(params.getJudgeName());
         queryTemplate.setCourtType(params.getCourtType());
-        queryTemplate.setPersonnelType(params.getPersonnelType());
+        queryTemplate.setScPersonnelType(params.getScPersonnelType());
 
-        queryTemplate.setCommonCourtType(params.getCommonCourtType());
-        queryTemplate.setCommonCourtId(params.getCommonCourtId());
-        queryTemplate.setCommonCourtCode(params.getCommonCourtCode());
-        queryTemplate.setCommonCourtName(params.getCommonCourtName());
+        queryTemplate.setCcCourtType(params.getCcCourtType());
+        queryTemplate.setCcCourtId(params.getCcCourtId());
+        queryTemplate.setCcCourtCode(params.getCcCourtCode());
+        queryTemplate.setCcCourtName(params.getCcCourtName());
 
         queryTemplate.setCcDivisionId(params.getCcDivisionId());
         queryTemplate.setCcDivisionCode(params.getCcDivisionCode());

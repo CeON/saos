@@ -21,13 +21,13 @@ public class JudgmentsApiSearchService {
     private SearchService<JudgmentSearchResult, JudgmentCriteria> judgmentsSearchService;
 
     @Autowired
-    private ParametersToCriteriaConverter converter;
+    private JudgmentParametersToCriteriaConverter converter;
 
 
     //------------------------ LOGIC --------------------------
 
     /**
-     * Finds judgment's indexed documents that meet search criteria (judgmentsParameters).
+     * Finds indexed judgment documents that meet the given search criteria (judgmentsParameters).
      * @param judgmentsParameters search criteria.
      * @return search result.
      */
@@ -48,7 +48,7 @@ public class JudgmentsApiSearchService {
         this.judgmentsSearchService = judgmentsSearchService;
     }
 
-    public void setParametersToCriteriaConverter(ParametersToCriteriaConverter parametersToCriteriaConverter) {
+    public void setParametersToCriteriaConverter(JudgmentParametersToCriteriaConverter parametersToCriteriaConverter) {
         this.converter = parametersToCriteriaConverter;
     }
 }
