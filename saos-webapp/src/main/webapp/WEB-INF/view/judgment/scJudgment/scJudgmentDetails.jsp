@@ -31,7 +31,7 @@
 			<c:if test="${!empty judgment.scChambers}" >
 				<li>
 					<div class="" >
-						<div class="label-title" ><spring:message code="judgment.chambers" />:</div>
+						<div class="label-title" ><spring:message code="judgment.supremeChambers" />:</div>
 						<div class="desc" >
 							<c:forEach items="${judgment.scChambers}" var="chamber">
 								<c:out value="${chamber.name}" />
@@ -44,7 +44,7 @@
 			<c:if test="${!empty judgment.scChamberDivision.name}" >
 				<li>
 					<div class="" >
-						<div class="label-title" ><spring:message code="judgment.chamberDivision" />:</div>
+						<div class="label-title" ><spring:message code="judgment.supremeChamberDivisionFullName" />:</div>
 						<div class="desc" >
 							<c:out value="${judgment.scChamberDivision.scChamber.name}" /> 
 							<c:out value="${judgment.scChamberDivision.name}" />
@@ -56,7 +56,7 @@
 			<c:if test="${!empty judgment.personnelType}" >
 				<li>
 					<div class="" >
-						<div class="label-title" ><spring:message code="judgment.personneltype" />:</div>
+						<div class="label-title" ><spring:message code="judgment.personnelType" />:</div>
 						<div class="desc" >
 							<c:set var="personnelType" value="judgment.personneltype.${fn:toLowerCase(judgment.personnelType)}" />
 							<spring:message code="${personnelType}" />
@@ -117,7 +117,7 @@
 		 --%>
 		
 		<c:if test="${!empty judgment.legalBases}" >
-			<h4><spring:message code="judgment.legalbases" />:</h4>
+			<h4><spring:message code="judgment.legalBases" />:</h4>
 			<div class="legalBases">	
 				<c:forEach items="${judgment.legalBases}" var="legalBase" >
 					<div class="legalBase"><c:out value="${legalBase}" /></div>
@@ -150,8 +150,8 @@
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h4 class="modal-title" id="myModalLabel"><spring:message code="judgment.full.header" /> </h4>
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"><spring:message code="button.close" /></span></button>
+		        <h4 class="modal-title" id="myModalLabel"><spring:message code="judgmentDetails.header" /> </h4>
 		      </div>
 		      <div class="modal-body">
 		      	<c:out value="${judgment.textContent}" escapeXml="false" />

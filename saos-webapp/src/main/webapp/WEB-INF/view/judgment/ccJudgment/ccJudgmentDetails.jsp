@@ -123,7 +123,7 @@
 	
 		 <!-- Button trigger modal -->
 		<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-		  <spring:message code="judgment.button.fullText" />
+		  <spring:message code="judgmentDetails.button.fullText" />
 		</button>
 	
 		<!-- Modal -->
@@ -131,8 +131,8 @@
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-		        <h4 class="modal-title" id="myModalLabel"><spring:message code="judgment.full.header" /> </h4>
+		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"><spring:message code="button.close" /></span></button>
+		        <h4 class="modal-title" id="myModalLabel"><spring:message code="judgmentDetails.header" /> </h4>
 		      </div>
 		      <div class="modal-body">
 		      	<c:out value="${judgment.textContent}" escapeXml="false" />

@@ -8,11 +8,11 @@
 			<div class="block-info" >
 			
 				<h3>
-				<spring:message code="carousel.search.header" />  
+				<spring:message code="home.carousel.searchHeader" />  
 				</h3>
 				
 				<p>
-				Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					<spring:message code="home.carousel.searchDescription" />
 				</p>
 			</div>
 		</div>
@@ -39,8 +39,8 @@
 		<h2 class="advert-header" ><spring:message code="home.header.idea" /></h2>
 	
 		<div class="item-desc" >
-			<h3><spring:message code="saos.welcome.header" /></h3>
-	 		<p><spring:message code="saos.welcome.text" /></p>
+			<h3><spring:message code="home.welcome.header" /></h3>
+	 		<p><spring:message code="home.welcome.text" /></p>
 		</div>
 	</div>
 </div>

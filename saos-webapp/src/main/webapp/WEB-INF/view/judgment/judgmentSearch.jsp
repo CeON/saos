@@ -36,7 +36,7 @@
 		
 			<c:if test="${resultsNo == 0}">
 				<div class="no-results">
-					<spring:message code="judgment.results.noRecords" />
+					<spring:message code="judgmentSearch.results.noRecords" />
 				</div>
 			</c:if>
 		
