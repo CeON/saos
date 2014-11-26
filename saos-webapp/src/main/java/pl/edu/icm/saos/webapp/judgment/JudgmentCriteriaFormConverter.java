@@ -23,13 +23,16 @@ public class JudgmentCriteriaFormConverter {
 		judgmentCriteria.setDateTo(judgmentCriteriaForm.getDateTo());
 				
 		judgmentCriteria.setJudgeName(judgmentCriteriaForm.getJudgeName());
-		judgmentCriteria.addKeyword(judgmentCriteriaForm.getKeyword());
 		judgmentCriteria.setCourtType(judgmentCriteriaForm.getCourtType());
 
 	    judgmentCriteria.setCcCourtId(judgmentCriteriaForm.getCommonCourtId());
 	    judgmentCriteria.setCcCourtDivisionId(judgmentCriteriaForm.getCommonCourtDivisionId());
+
 		
 		judgmentCriteria.setScJudgmentForm(judgmentCriteriaForm.getScJudgmentForm());
+
+		judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
+
 	    judgmentCriteria.setScCourtChamberId(judgmentCriteriaForm.getSupremeChamberId());
 	    judgmentCriteria.setScCourtChamberDivisionId(judgmentCriteriaForm.getSupremeChamberDivisionId());
 		
