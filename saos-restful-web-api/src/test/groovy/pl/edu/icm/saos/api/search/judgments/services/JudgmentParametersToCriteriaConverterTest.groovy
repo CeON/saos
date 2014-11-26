@@ -15,7 +15,7 @@ import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.DATABASE_ID
 /**
  * @author pavtel
  */
-class ParametersToCriteriaConverterTest extends Specification {
+class JudgmentParametersToCriteriaConverterTest extends Specification {
 
     JudgmentParametersToCriteriaConverter converter;
 
