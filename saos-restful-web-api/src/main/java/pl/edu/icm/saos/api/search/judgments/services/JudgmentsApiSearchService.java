@@ -11,7 +11,7 @@ import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.search.search.service.SearchService;
 
 /**
- * {@inheritDoc}
+ * Provides functionality for searching judgment's indexed documents is the Solr index.
  * @author pavtel
  */
 @Service
@@ -21,10 +21,16 @@ public class JudgmentsApiSearchService {
     private SearchService<JudgmentSearchResult, JudgmentCriteria> judgmentsSearchService;
 
     @Autowired
-    private ParametersToCriteriaConverter converter;
+    private JudgmentParametersToCriteriaConverter converter;
 
 
     //------------------------ LOGIC --------------------------
+
+    /**
+     * Finds indexed judgment documents that meet the given search criteria (judgmentsParameters).
+     * @param judgmentsParameters search criteria.
+     * @return search result.
+     */
     public SearchResults<JudgmentSearchResult> performSearch(JudgmentsParameters judgmentsParameters){
         Pagination pagination = judgmentsParameters.getPagination();
         Paging paging = converter.toPaging(pagination);
@@ -42,7 +48,7 @@ public class JudgmentsApiSearchService {
         this.judgmentsSearchService = judgmentsSearchService;
     }
 
-    public void setParametersToCriteriaConverter(ParametersToCriteriaConverter parametersToCriteriaConverter) {
+    public void setParametersToCriteriaConverter(JudgmentParametersToCriteriaConverter parametersToCriteriaConverter) {
         this.converter = parametersToCriteriaConverter;
     }
 }
