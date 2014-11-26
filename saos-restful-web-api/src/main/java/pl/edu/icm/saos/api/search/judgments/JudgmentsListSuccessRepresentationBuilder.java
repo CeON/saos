@@ -242,7 +242,7 @@ public class JudgmentsListSuccessRepresentationBuilder {
         queryTemplate.setCaseNumber(params.getCaseNumber());
         queryTemplate.setJudgeName(params.getJudgeName());
         queryTemplate.setCourtType(params.getCourtType());
-        queryTemplate.setScPersonnelType(params.getScPersonnelType());
+
 
         queryTemplate.setCcCourtType(params.getCcCourtType());
         queryTemplate.setCcCourtId(params.getCcCourtId());
@@ -253,6 +253,7 @@ public class JudgmentsListSuccessRepresentationBuilder {
         queryTemplate.setCcDivisionCode(params.getCcDivisionCode());
         queryTemplate.setCcDivisionName(params.getCcDivisionName());
 
+        queryTemplate.setScPersonnelType(params.getScPersonnelType());
         queryTemplate.setScChamberId(params.getScChamberId());
         queryTemplate.setScChamberName(params.getScChamberName());
         queryTemplate.setScDivisionId(params.getScDivisionId());
