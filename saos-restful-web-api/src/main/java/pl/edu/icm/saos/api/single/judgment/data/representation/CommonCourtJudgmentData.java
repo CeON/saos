@@ -1,7 +1,6 @@
 package pl.edu.icm.saos.api.single.judgment.data.representation;
 
 import com.google.common.base.Objects;
-import pl.edu.icm.saos.api.services.representations.success.Href;
 
 import java.io.Serializable;
 import java.util.List;
@@ -183,7 +182,6 @@ public class CommonCourtJudgmentData extends JudgmentData {
         private String name;
         private String code;
         private CommonCourtType type;
-        private Href parentCourt;
 
         //------------------------ GETTERS --------------------------
 
@@ -193,10 +191,6 @@ public class CommonCourtJudgmentData extends JudgmentData {
 
         public CommonCourtType getType() {
             return type;
-        }
-
-        public Href getParentCourt() {
-            return parentCourt;
         }
 
         public String getName() {
@@ -217,10 +211,6 @@ public class CommonCourtJudgmentData extends JudgmentData {
             this.type = type;
         }
 
-        public void setParentCourt(Href parentCourt) {
-            this.parentCourt = parentCourt;
-        }
-
         public void setName(String name) {
             this.name = name;
         }
@@ -233,7 +223,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(name, code, type, href, parentCourt);
+            return Objects.hashCode(name, code, type, href);
         }
 
         @Override
@@ -248,7 +238,6 @@ public class CommonCourtJudgmentData extends JudgmentData {
             return Objects.equal(this.code, other.code) &&
                     Objects.equal(this.type, other.type) &&
                     Objects.equal(this.href, other.href) &&
-                    Objects.equal(this.parentCourt, other.parentCourt) &&
                     Objects.equal(this.name, other.name)
                     ;
         }
@@ -261,7 +250,6 @@ public class CommonCourtJudgmentData extends JudgmentData {
                     .add("href", href)
                     .add("code", code)
                     .add("type", type)
-                    .add("parentCourt", parentCourt)
                     .add("name", name)
                     .toString();
         }

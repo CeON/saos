@@ -140,7 +140,6 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.division.court.name").value(JC.COURT_NAME))
                 .andExpect(jsonPath("$.data.division.court.type").value(JC.COURT_TYPE.name()))
 
-                .andExpect(jsonPath("$.data.division.court.parentCourt.href").value(endsWith(SINGLE_COURTS_PATH + "/" + objectsContext.getParentCourtId())))
                 ;
     }
 
