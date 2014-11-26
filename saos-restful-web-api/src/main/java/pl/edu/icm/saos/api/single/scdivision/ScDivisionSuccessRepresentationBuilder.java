@@ -61,6 +61,7 @@ public class ScDivisionSuccessRepresentationBuilder {
     }
 
     private void fillData(Data view, SupremeCourtChamberDivision division) {
+        view.setId(division.getId());
         view.setHref(linksBuilder.urlToScDivision(division.getId()));
         view.setName(division.getName());
         view.setFullName(division.getFullName());
@@ -70,6 +71,7 @@ public class ScDivisionSuccessRepresentationBuilder {
     private Chamber toChamber(SupremeCourtChamber scChamber) {
         Chamber view = new Chamber();
 
+        view.setId(scChamber.getId());
         view.setHref(linksBuilder.urlToScChamber(scChamber.getId()));
         view.setName(scChamber.getName());
 

@@ -20,9 +20,6 @@ public class SupremeCourtJudgmentItem extends JudgmentItem {
     protected Division division;
     protected List<Chamber> chambers;
 
-    public SupremeCourtJudgmentItem() {
-        apiJudgmentType = ApiJudgmentType.SUPREME_COURT;
-    }
 
     //------------------------ GETTERS --------------------------
 

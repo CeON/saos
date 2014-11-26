@@ -72,16 +72,19 @@ public class DivisionControllerTest extends PersistenceTestSupport {
 
         //then
         actions
+                .andExpect(jsonPath("$.data.id").value(objectsContext.getFirstDivisionId()))
                 .andExpect(jsonPath("$.data.href").value(endsWith(divisionPath)))
                 .andExpect(jsonPath("$.data.name").value(JC.DIVISION_NAME))
                 .andExpect(jsonPath("$.data.code").value(JC.DIVISION_CODE))
                 .andExpect(jsonPath("$.data.type").value(JC.DIVISION_TYPE_NAME))
 
+                .andExpect(jsonPath("$.data.court.id").value(objectsContext.getCommonCourtId()))
                 .andExpect(jsonPath("$.data.court.href").value(endsWith(courtPath)))
                 .andExpect(jsonPath("$.data.court.code").value(JC.COURT_CODE))
                 .andExpect(jsonPath("$.data.court.name").value(JC.COURT_NAME))
                 .andExpect(jsonPath("$.data.court.type").value(JC.COURT_TYPE.name()))
 
+                .andExpect(jsonPath("$.data.court.parentCourt.id").value(objectsContext.getParentCourtId()))
                 .andExpect(jsonPath("$.data.court.parentCourt.href").value(endsWith(parentCourtPath)))
 
         ;

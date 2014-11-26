@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.api.single.judgment.data.representation;
 
 import com.google.common.base.Objects;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
 import java.io.Serializable;
@@ -16,6 +17,8 @@ public class JudgmentData implements Serializable{
 
     private static final long serialVersionUID = 6335902286597178584L;
 
+    protected int id;
+    protected CourtType courtType;
     protected String href;
     protected List<CourtCase> courtCases;
     protected JudgmentType judgmentType;
@@ -80,7 +83,15 @@ public class JudgmentData implements Serializable{
         return judges;
     }
 
-    //------------------------ SETTERS --------------------------
+    public int getId() {
+        return id;
+    }
+
+    public CourtType getCourtType() {
+        return courtType;
+    }
+
+//------------------------ SETTERS --------------------------
 
     public void setHref(String href) {
         this.href = href;
@@ -130,11 +141,20 @@ public class JudgmentData implements Serializable{
         this.judges = judges;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setCourtType(CourtType courtType) {
+        this.courtType = courtType;
+    }
+
     //------------------------ HashCode & Equals --------------------------
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(href, courtCases, judgmentType,
+        return Objects.hashCode(id, courtType,
+                href, courtCases, judgmentType,
                 judgmentDate, judges,
                 source, courtReporters,
                 decision, summary, textContent,
@@ -150,7 +170,9 @@ public class JudgmentData implements Serializable{
             return false;
         }
         final JudgmentData other = (JudgmentData) obj;
-        return Objects.equal(this.href, other.href) &&
+        return Objects.equal(this.id, other.id) &&
+                Objects.equal(this.courtType, other.courtType) &&
+                Objects.equal(this.href, other.href) &&
                 Objects.equal(this.courtCases, other.courtCases)
                 && Objects.equal(this.judgmentType, other.judgmentType)
                 && Objects.equal(this.judgmentDate, other.judgmentDate)
@@ -170,6 +192,8 @@ public class JudgmentData implements Serializable{
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
+                .add("id", id)
+                .add("courtType", courtType)
                 .add("href", href)
                 .add("courtCases", courtCases)
                 .add("judgmentType", judgmentType)

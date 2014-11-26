@@ -3,9 +3,8 @@ package pl.edu.icm.saos.api.single.judgment.mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.api.services.links.LinksBuilder;
-import pl.edu.icm.saos.api.services.representations.success.Href;
-import pl.edu.icm.saos.api.single.judgment.views.CommonCourtJudgmentView;
 import pl.edu.icm.saos.api.single.judgment.data.representation.CommonCourtJudgmentData;
+import pl.edu.icm.saos.api.single.judgment.views.CommonCourtJudgmentView;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
@@ -81,11 +80,6 @@ public class CommonCourtJudgmentMapper {
         courtView.setCode(court.getCode());
         courtView.setType(court.getType());
 
-        if(court.getParentCourt() != null){
-            Href courtParent = new Href();
-            courtParent.setHref(linksBuilder.urlToCourt(court.getParentCourt().getId()));
-            courtView.setParentCourt(courtParent);
-        }
 
         return courtView;
     }

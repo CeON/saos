@@ -24,6 +24,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
 
         private static final long serialVersionUID = -4574495269995004724L;
 
+        private int id;
         private String href;
         private String name;
         private String code;
@@ -58,6 +59,10 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
             return divisions;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setHref(String href) {
@@ -84,11 +89,15 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
             this.divisions = divisions;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name, code, type, parentCourt, divisions);
+            return Objects.hashCode(id, href, name, code, type, parentCourt, divisions);
         }
 
         @Override
@@ -100,7 +109,8 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
                 return false;
             }
             final Data other = (Data) obj;
-            return Objects.equal(this.href, other.href) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
                     Objects.equal(this.name, other.name) &&
                     Objects.equal(this.code, other.code) &&
                     Objects.equal(this.type, other.type) &&
@@ -113,6 +123,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .add("code", code)
@@ -127,6 +138,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
 
         private static final long serialVersionUID = 94472416729120415L;
 
+        private int id;
         private String href;
 
         //------------------------ GETTERS --------------------------
@@ -135,17 +147,25 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
             return href;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setHref(String href) {
             this.href = href;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href);
+            return Objects.hashCode(id, href);
         }
 
         @Override
@@ -157,7 +177,8 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
                 return false;
             }
             final ParentCourt other = (ParentCourt) obj;
-            return Objects.equal(this.href, other.href);
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href);
         }
 
         //------------------------ toString --------------------------
@@ -165,6 +186,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .toString();
         }
@@ -173,6 +195,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
     public static class Division implements Serializable {
         private static final long serialVersionUID = 3020882061218701135L;
 
+        private int id;
         private String href;
         private String name;
 
@@ -186,6 +209,10 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
             return name;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setHref(String href) {
@@ -196,11 +223,15 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
             this.name = name;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name);
+            return Objects.hashCode(id, href, name);
         }
 
         @Override
@@ -212,7 +243,9 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
                 return false;
             }
             final Division other = (Division) obj;
-            return Objects.equal(this.href, other.href) && Objects.equal(this.name, other.name);
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
+                    Objects.equal(this.name, other.name);
         }
 
         //------------------------ toString --------------------------
@@ -220,6 +253,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .toString();
