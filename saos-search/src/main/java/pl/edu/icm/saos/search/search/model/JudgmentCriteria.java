@@ -213,7 +213,7 @@ public class JudgmentCriteria extends Criteria {
         this.judgeName = judgeName;
         return this;
     }
-    public JudgmentCriteria setKeyword(List<String> keywords) {
+    public JudgmentCriteria setKeywords(List<String> keywords) {
         this.keywords = keywords;
         return this;
     }

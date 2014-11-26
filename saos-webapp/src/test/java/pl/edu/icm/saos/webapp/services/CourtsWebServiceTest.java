@@ -41,6 +41,8 @@ public class CourtsWebServiceTest {
 	private ScChamberDivisionRepository scChamberDivisionRepository;
 	
 	
+	//------------------------ TESTS --------------------------
+	
 	@Test
 	public void getCommonCourts_correct_order() {
 		CommonCourt commonCourtOne = new CommonCourt();

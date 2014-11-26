@@ -15,6 +15,8 @@ public class CcDivisionComparatorTest {
 	private CcDivisionComparator ccDivisionComparator = new CcDivisionComparator();
 	
 	
+	//------------------------ TESTS --------------------------
+	
 	@Test
 	public void compare_number() {
 		CommonCourtDivision divisionOne = new CommonCourtDivision();

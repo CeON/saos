@@ -24,6 +24,9 @@ public class SimpleDivisionConverterTest {
 	
 	private String[] scDivisionChamberNames= {"Wydział Odwoławczo-Kasacyjny", "Wydział II"};
 	
+	
+	//------------------------ TESTS --------------------------
+	
 	@Test
 	public void convertCcDivisions_emptyList() {
 		List<CommonCourtDivision> ccDivisions = Lists.newArrayList();

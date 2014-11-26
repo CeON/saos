@@ -11,6 +11,8 @@ import org.junit.Test;
 public class ConvertRomanNumeralsTest {
 
 	
+	//------------------------ TESTS --------------------------
+	
 	@Test
 	public void decode() {
 		
