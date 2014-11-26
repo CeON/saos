@@ -14,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
@@ -23,12 +22,14 @@ import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
 import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
 
 import java.util.Arrays;
+import java.util.List;
 
-import static org.hamcrest.Matchers.endsWith;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,6 +37,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 import static pl.edu.icm.saos.api.ApiConstants.*;
 import static pl.edu.icm.saos.api.search.judgments.JudgmentJsonRepresentationVerifier.verifyBasicFields;
 import static pl.edu.icm.saos.api.services.Constansts.*;
+import static pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -166,21 +168,62 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         String allValue = "someAllValue";
         String judgmentDateFrom = "2010-01-21";
         String judgmentDateTo = "2020-10-13";
-        String personnelType = PersonnelType.FIVE_PERSON.name();
+        String personnelTypeValue = PersonnelType.FIVE_PERSON.name();
+
+        String legalBaseValue = "someLegalBase";
+        String referencedRegulationValue = "someReferencedRegulation";
+        String judgeNameValue = "someJudgeName";
+        String caseNumberValue = "someCaseNumber";
+        String courtTypeValue = CourtType.ADMINISTRATIVE.name();
+        String ccCourtTypeValue = CommonCourt.CommonCourtType.APPEAL.name();
+
+        Integer ccCourtIdValue = 33;
+        String ccCourtCodeValue = "someCcCode";
+        String ccCourtNameValue = "someCcName";
+
+        Integer ccDivisionIdValue = 44;
+        String ccDivisionCodeValue = "someCcDivisionCode";
+        String ccDivisionNameValue = "someCcDivisionName";
+
+        Integer scChamberIdValue = 55;
+        String scChamberNameValue = "someScChamberName";
+        Integer scDivisionIdValue = 66;
+        String scDivisionNameValue = "someScDivisionName";
+
+        String firstType = JudgmentType.DECISION.name();
+        String secondType = JudgmentType.REGULATION.name();
+        List<String> judgmentTypes = Arrays.asList(firstType, secondType);
+
+        String firstKeyword="someFirstKeyword";
+        String secondKeyword="someSecondKeyword";
+        List<String> keywords = Arrays.asList(firstKeyword, secondKeyword);
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
                 .param(PAGE_SIZE, String.valueOf(pageSize))
                 .param(PAGE_NUMBER, String.valueOf(pageNumber))
                 .param(ALL, allValue)
-                .param(COURT_NAME, JC.COURT_NAME)
-                .param(LEGAL_BASE, JC.FIRST_LEGAL_BASE)
-                .param(REFERENCED_REGULATION, JC.FIRST_REFERENCED_REGULATION_TEXT)
-                .param(JUDGE_NAME, JC.SECOND_JUDGE_NAME)
-                .param(KEYWORD, JC.SECOND_KEYWORD)
+                .param(SC_PERSONNEL_TYPE, personnelTypeValue)
+                .param(LEGAL_BASE, legalBaseValue)
+                .param(REFERENCED_REGULATION, referencedRegulationValue)
+                .param(JUDGE_NAME, judgeNameValue)
+                .param(CASE_NUMBER, caseNumberValue)
+                .param(COURT_TYPE, courtTypeValue)
+                .param(CC_COURT_TYPE, ccCourtTypeValue)
+                .param(CC_COURT_ID, ccCourtIdValue.toString())
+                .param(CC_COURT_CODE, ccCourtCodeValue)
+                .param(CC_COURT_NAME, ccCourtNameValue)
+                .param(CC_DIVISION_ID, ccDivisionIdValue.toString())
+                .param(CC_DIVISION_CODE, ccDivisionCodeValue)
+                .param(CC_DIVISION_NAME, ccDivisionNameValue)
+                .param(SC_CHAMBER_ID, scChamberIdValue.toString())
+                .param(SC_CHAMBER_NAME, scChamberNameValue)
+                .param(SC_DIVISION_ID, scDivisionIdValue.toString())
+                .param(SC_DIVISION_NAME, scDivisionNameValue)
+                .param(JUDGMENT_TYPES, judgmentTypes.toArray(new String[0]))
+                .param(KEYWORDS, keywords.toArray(new String[0]))
                 .param(JUDGMENT_DATE_FROM, judgmentDateFrom)
                 .param(JUDGMENT_DATE_TO, judgmentDateTo)
-                .param(PERSONNEL_TYPE, personnelType)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -189,17 +232,37 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         String prefix = "$.queryTemplate";
 
         actions
-                .andExpect(jsonPath(prefix+".all").value(allValue))
-                .andExpect(jsonPath(prefix+".courtName").value(JC.COURT_NAME))
-                .andExpect(jsonPath(prefix+".legalBase").value(JC.FIRST_LEGAL_BASE))
-                .andExpect(jsonPath(prefix+".referencedRegulation").value(JC.FIRST_REFERENCED_REGULATION_TEXT))
-                .andExpect(jsonPath(prefix+".judgeName").value(JC.SECOND_JUDGE_NAME))
-                .andExpect(jsonPath(prefix+".keyword").value(JC.SECOND_KEYWORD))
-                .andExpect(jsonPath(prefix+".personnelType").value(personnelType))
-                .andExpect(jsonPath(prefix+".judgmentDateFrom").value(judgmentDateFrom))
-                .andExpect(jsonPath(prefix+".judgmentDateTo").value(judgmentDateTo))
-                .andExpect(jsonPath(prefix+".pageSize").value(pageSize))
-                .andExpect(jsonPath(prefix+".pageNumber").value(pageNumber))
+                .andExpect(jsonPath(prefix + ".all").value(allValue))
+                .andExpect(jsonPath(prefix + ".legalBase").value(legalBaseValue))
+                .andExpect(jsonPath(prefix + ".referencedRegulation").value(referencedRegulationValue))
+                .andExpect(jsonPath(prefix + ".judgeName").value(judgeNameValue))
+                .andExpect(jsonPath(prefix + ".caseNumber").value(caseNumberValue))
+                .andExpect(jsonPath(prefix + ".courtType").value(courtTypeValue))
+
+                .andExpect(jsonPath(prefix + ".ccCourtType").value(ccCourtTypeValue))
+                .andExpect(jsonPath(prefix + ".ccCourtId").value(ccCourtIdValue))
+                .andExpect(jsonPath(prefix + ".ccCourtCode").value(ccCourtCodeValue))
+                .andExpect(jsonPath(prefix + ".ccCourtName").value(ccCourtNameValue))
+
+                .andExpect(jsonPath(prefix + ".ccDivisionId").value(ccDivisionIdValue))
+                .andExpect(jsonPath(prefix + ".ccDivisionCode").value(ccDivisionCodeValue))
+                .andExpect(jsonPath(prefix + ".ccDivisionName").value(ccDivisionNameValue))
+
+                .andExpect(jsonPath(prefix + ".scChamberId").value(scChamberIdValue))
+                .andExpect(jsonPath(prefix + ".scChamberName").value(scChamberNameValue))
+
+                .andExpect(jsonPath(prefix + ".scDivisionId").value(scDivisionIdValue))
+                .andExpect(jsonPath(prefix + ".scDivisionName").value(scDivisionNameValue))
+
+                .andExpect(jsonPath(prefix + ".judgmentTypes.[0]").value(firstType))
+                .andExpect(jsonPath(prefix + ".judgmentTypes.[1]").value(secondType))
+
+                .andExpect(jsonPath(prefix + ".keywords.[0]").value(firstKeyword))
+                .andExpect(jsonPath(prefix + ".keywords.[1]").value(secondKeyword))
+                .andExpect(jsonPath(prefix + ".judgmentDateFrom").value(judgmentDateFrom))
+                .andExpect(jsonPath(prefix + ".judgmentDateTo").value(judgmentDateTo))
+                .andExpect(jsonPath(prefix + ".pageSize").value(pageSize))
+                .andExpect(jsonPath(prefix + ".pageNumber").value(pageNumber))
 
         ;
     }
@@ -222,22 +285,40 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         String prefix = "$.queryTemplate";
 
 
-        String EMPTY_STRING = "";
-
         actions
                 .andExpect(jsonPath(prefix + ".pageSize").value(pageSize))
                 .andExpect(jsonPath(prefix + ".pageNumber").value(pageNumber))
 
-                .andExpect(jsonPath(prefix+".all").value(EMPTY_STRING))
-                .andExpect(jsonPath(prefix+".courtName").value(EMPTY_STRING))
-                .andExpect(jsonPath(prefix+".legalBase").value(EMPTY_STRING))
-                .andExpect(jsonPath(prefix+".referencedRegulation").value(EMPTY_STRING))
-                .andExpect(jsonPath(prefix+".judgeName").value(EMPTY_STRING))
-                .andExpect(jsonPath(prefix + ".keyword").value(EMPTY_STRING))
-                .andExpect(jsonPath(prefix+".judgmentDateFrom").value(EMPTY_STRING))
-                .andExpect(jsonPath(prefix + ".judgmentDateTo").value(EMPTY_STRING))
+                .andExpect(jsonPath(prefix + ".all").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".legalBase").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".referencedRegulation").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".judgeName").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".caseNumber").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".courtType").value(isEmptyOrNullString()))
 
-                ;
+                .andExpect(jsonPath(prefix + ".ccCourtType").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".ccCourtId").value(nullValue()))
+                .andExpect(jsonPath(prefix + ".ccCourtCode").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".ccCourtName").value(isEmptyOrNullString()))
+
+                .andExpect(jsonPath(prefix + ".ccDivisionId").value(nullValue()))
+                .andExpect(jsonPath(prefix + ".ccDivisionCode").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".ccDivisionName").value(isEmptyOrNullString()))
+
+                .andExpect(jsonPath(prefix + ".scChamberId").value(nullValue()))
+                .andExpect(jsonPath(prefix + ".scChamberName").value(isEmptyOrNullString()))
+
+                .andExpect(jsonPath(prefix + ".scDivisionId").value(nullValue()))
+                .andExpect(jsonPath(prefix + ".scDivisionName").value(isEmptyOrNullString()))
+
+                .andExpect(jsonPath(prefix + ".judgmentTypes").value(iterableWithSize(0)))
+
+                .andExpect(jsonPath(prefix + ".keywords").value(iterableWithSize(0)))
+
+                .andExpect(jsonPath(prefix + ".judgmentDateFrom").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".judgmentDateTo").value(isEmptyOrNullString()))
+
+        ;
 
     }
 
