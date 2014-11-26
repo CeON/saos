@@ -4,7 +4,7 @@ package pl.edu.icm.saos.webapp.common;
  * @author Łukasz Pawełczak
  *
  */
-public class ConvertRomanNumerals {
+public final class ConvertRomanNumerals {
 	
 	
 	//------------------------ LOGIC --------------------------

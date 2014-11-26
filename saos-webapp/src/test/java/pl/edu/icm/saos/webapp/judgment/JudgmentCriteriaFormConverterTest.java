@@ -22,7 +22,7 @@ public class JudgmentCriteriaFormConverterTest {
 	private LocalDate localDate[] = {new LocalDate(2014, 1, 2), new LocalDate(2015, 3, 22)};
 	
 	
-	//------------------------ LOGIC --------------------------
+	//------------------------ TESTS --------------------------
 	
 	@Test
 	public void convert() {

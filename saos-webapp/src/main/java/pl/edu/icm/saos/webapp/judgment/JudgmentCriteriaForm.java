@@ -10,6 +10,8 @@ import com.google.common.collect.Lists;
 import pl.edu.icm.saos.persistence.common.FormatConst;
 import pl.edu.icm.saos.persistence.model.CourtType;
 
+import pl.edu.icm.saos.webapp.format.MultiWordFormat;
+
 
 
 /**
@@ -30,7 +32,7 @@ public class JudgmentCriteriaForm {
     
     private String judgeName;
     
-    
+    @MultiWordFormat
     private List<String> keywords = Lists.newLinkedList();
     
     private CourtType courtType;

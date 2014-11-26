@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
-import pl.edu.icm.saos.webapp.format.KeywordsFormatter;
+import pl.edu.icm.saos.webapp.format.MultiWordFormatter;
 import pl.edu.icm.saos.webapp.format.StringTrimmingFormatter;
 
 
@@ -50,8 +50,7 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     public void addFormatters(FormatterRegistry registry) {
     	registry.addFormatterForFieldType(String.class, new StringTrimmingFormatter());
     	registry.addFormatterForFieldAnnotation(new DateTimeWithZoneFormatterFactory());
-    	registry.addFormatter(new KeywordsFormatter());
-    	//registry.addFormatterForField(new  KeywordsFormatter());
+    	registry.addFormatter(new MultiWordFormatter());
     }
 
     @Bean

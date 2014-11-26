@@ -1,6 +1,9 @@
 package pl.edu.icm.saos.webapp.judgment;
 
+
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
@@ -27,12 +30,15 @@ public class JudgmentCriteriaFormConverter {
 
 	    judgmentCriteria.setCcCourtId(judgmentCriteriaForm.getCommonCourtId());
 	    judgmentCriteria.setCcCourtDivisionId(judgmentCriteriaForm.getCommonCourtDivisionId());
-
 		
 		judgmentCriteria.setScJudgmentForm(judgmentCriteriaForm.getScJudgmentForm());
 
-		judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
-
+	    if (judgmentCriteriaForm.getKeywords() == null) {
+	    	judgmentCriteria.setKeywords(Lists.newLinkedList());
+	    } else {
+	    	judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
+	    }
+	    
 	    judgmentCriteria.setScCourtChamberId(judgmentCriteriaForm.getSupremeChamberId());
 	    judgmentCriteria.setScCourtChamberDivisionId(judgmentCriteriaForm.getSupremeChamberDivisionId());
 		
