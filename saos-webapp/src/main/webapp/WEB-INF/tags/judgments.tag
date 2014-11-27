@@ -9,7 +9,7 @@
 		<div class="row" >
 				<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
 					<c:set var="lowerCaseJudgmentType" value="${fn:toLowerCase(judgment.judgmentType)}" />
-					<div class="type" data-judgment-type="${lowerCaseJudgmentType}" ><spring:message code="judgment.judgmenttype.${fn:toLowerCase(judgment.judgmentType)}" /></div>
+					<div class="type" data-judgment-type="${lowerCaseJudgmentType}" ><spring:message code="judgment.${lowerCaseJudgmentType}" /></div>
 				</c:if>
 				<div class="case-number">
 					<a href="${contextPath}/judgments/${judgment.id}">
@@ -17,7 +17,7 @@
 					</a>
 				</div>
 				
-				<div class=""><span><spring:message code="judgment.results.date" />:</span><span class="date"><joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}" /></span></div>
+				<div class=""><span><spring:message code="judgment.date" />:</span><span class="date"><joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}" /></span></div>
 				
 				<c:if test="${!empty judgment.ccCourtName || !empty judgment.ccCourtDivisionName}" >
 				
@@ -44,7 +44,7 @@
 				
 				<c:if test="${!empty judgment.judges}" >
 					<div class="judges" >
-						<span><spring:message code="judgment.results.judges" />:</span>
+						<span><spring:message code="judgment.judges" />:</span>
 						<c:forEach items="${judgment.judges}" var="judge" >
 							<div class="judge"><c:out value="${judge.name}" /></div>
 						</c:forEach>	

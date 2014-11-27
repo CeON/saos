@@ -3,19 +3,18 @@
 
 <c:choose>
 	<%-- Common court judgment view --%>
-	<c:when test="${judgment.instanceOfCommonCourtJudgment}">
+	<c:when test="${judgment.courtType == 'COMMON'}">
 		<%@ include file="ccJudgment/ccJudgmentDetails.jsp" %>
 	</c:when>
 	
 	<%-- Supreme court judgment view --%>
-	<c:when test="${judgment.instanceOfSupremeCourtJudgment}">
+	<c:when test="${judgment.courtType == 'SUPREME'}">
 		<%@ include file="scJudgment/scJudgmentDetails.jsp" %>
 	</c:when>
 	
 	<%-- Administrative court judgment view --%>
-	<c:when test="${judgment.instanceOfAdministrativeCourtJudgment}">
+	<c:when test="${judgment.courtType == 'ADMINISTRATIVE'}">
 		
-	
 	</c:when>
 	
 	<c:otherwise>
