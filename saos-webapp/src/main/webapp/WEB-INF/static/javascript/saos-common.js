@@ -84,4 +84,6 @@ $(document).ready(function() {
     	stickyOptions: {enabled: true, topSpacing: 10},
     	settingsButton: {className: "filter-box-button"},
     });
+    
+    Keywords.get(contextPath + "/keywords");
 });

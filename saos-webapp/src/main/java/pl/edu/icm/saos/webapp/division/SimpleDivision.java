@@ -12,6 +12,8 @@ public class SimpleDivision {
 	private String name;
 	
 	
+	//------------------------ GETTERS --------------------------
+	
 	public String getId() {
 		return id;
 	}
@@ -20,6 +22,8 @@ public class SimpleDivision {
 		return name;
 	}
 
+	
+	//------------------------ SETTERS --------------------------
 	
 	public void setName(String name) {
 		this.name = name;
