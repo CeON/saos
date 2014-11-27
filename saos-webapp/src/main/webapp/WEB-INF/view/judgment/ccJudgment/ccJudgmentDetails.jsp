@@ -62,7 +62,7 @@
 									<c:if test="${!empty judge.specialRoles}" >
 										(
 										<c:forEach items="${judge.specialRoles}" var="role"  >
-											<spring:message code="judgment.judge.${fn:toLowerCase(role)}" />
+											<saos:enum value="${role}" />
 										</c:forEach>
 										)
 									</c:if>
