@@ -244,7 +244,10 @@ var SearchFilters = (function(){
 	
 	/* Clear target field e.g. input select */
 	clearField = function($field) {
-		if ($field.is("input")) {
+		
+		if ($field.is("input:checkbox")) {
+			$field.prop("checked", false);
+		} else if ($field.is("input")) {
 			$field.attr("value", "");
 		} else if ($field.is("select")) {
 			$field.removeAttr('selected')
