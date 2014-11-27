@@ -31,7 +31,7 @@
 			<c:if test="${!empty judgment.courtDivision.court.name}" >
 				<li>
 					<div class="" >
-						<div class="label-title" ><spring:message code="judgment.court" />:</div>
+						<div class="label-title" ><spring:message code="judgment.commonCourt" />:</div>
 						<div class="desc" >
 							<c:out value="${judgment.courtDivision.court.name}" />
 						</div>
@@ -42,7 +42,7 @@
 			<c:if test="${!empty judgment.courtDivision.name}" >
 				<li>
 					<div class="" >
-						<div class="label-title" ><spring:message code="judgment.division" />:</div>
+						<div class="label-title" ><spring:message code="judgment.commonDivision" />:</div>
 						<div class="desc" >
 							<c:out value="${judgment.courtDivision.name}" />
 						</div>
@@ -98,7 +98,7 @@
 		</c:if>
 		
 		<c:if test="${!empty judgment.legalBases}" >
-			<h4><spring:message code="judgment.legalbases" />:</h4>
+			<h4><spring:message code="judgment.legalBases" />:</h4>
 			<div class="legalBases">	
 				<c:forEach items="${judgment.legalBases}" var="legalBase" >
 					<div class="legalBase"><c:out value="${legalBase}" /></div>

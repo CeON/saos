@@ -58,8 +58,11 @@
 					<div class="" >
 						<div class="label-title" ><spring:message code="judgment.personnelType" />:</div>
 						<div class="desc" >
+							<%--
 							<c:set var="personnelType" value="judgment.personneltype.${fn:toLowerCase(judgment.personnelType)}" />
 							<spring:message code="${personnelType}" />
+							 --%>
+							<saos:enum value="${judgment.personnelType}" />
 						</div>
 					</div>
 				</li>
@@ -77,7 +80,7 @@
 									<c:if test="${!empty judge.specialRoles}" >
 										(
 										<c:forEach items="${judge.specialRoles}" var="role"  >
-											<spring:message code="judgment.judge.${fn:toLowerCase(role)}" />
+											<saos:enum value="${role}" />
 										</c:forEach>
 										)
 									</c:if>
@@ -142,7 +145,7 @@
 	
 		 <!-- Button trigger modal -->
 		<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-		  <spring:message code="judgment.button.fullText" />
+		  <spring:message code="judgmentDetails.button.fullText" />
 		</button>
 	
 		<!-- Modal -->
