@@ -142,21 +142,17 @@ public class JudgmentCriteria extends Criteria {
     
     //------------------------ SETTERS --------------------------
     
-    public JudgmentCriteria setAll(String all) {
+    public void setAll(String all) {
         this.all = all;
-        return this;
     }
-    public JudgmentCriteria setCaseNumber(String caseNumber) {
+    public void setCaseNumber(String caseNumber) {
         this.caseNumber = caseNumber;
-        return this;
     }
-    public JudgmentCriteria setDateFrom(LocalDate dateFrom) {
+    public void setDateFrom(LocalDate dateFrom) {
         this.dateFrom = dateFrom;
-        return this;
     }
-    public JudgmentCriteria setDateTo(LocalDate dateTo) {
+    public void setDateTo(LocalDate dateTo) {
         this.dateTo = dateTo;
-        return this;
     }
     public void setCourtType(CourtType courtType) {
         this.courtType = courtType;
@@ -164,16 +160,14 @@ public class JudgmentCriteria extends Criteria {
     public void setCcCourtType(CommonCourtType commonCourtType) {
         this.ccCourtType = commonCourtType;
     }
-    public JudgmentCriteria setCcCourtId(Integer courtId) {
+    public void setCcCourtId(Integer courtId) {
         this.ccCourtId = courtId;
-        return this;
     }
     public void setCcCourtCode(String courtCode) {
         this.ccCourtCode = courtCode;
     }
-    public JudgmentCriteria setCcCourtName(String courtName) {
+    public void setCcCourtName(String courtName) {
         this.ccCourtName = courtName;
-        return this;
     }
     public void setCcCourtDivisionId(Integer courtDivisionId) {
         this.ccCourtDivisionId = courtDivisionId;
@@ -199,24 +193,20 @@ public class JudgmentCriteria extends Criteria {
     public void setScCourtChamberDivisionName(String courtChamberDivisionName) {
         this.scCourtChamberDivisionName = courtChamberDivisionName;
     }
-    public void setJudgmentType(List<JudgmentType> judgmentTypes) {
+    public void setJudgmentTypes(List<JudgmentType> judgmentTypes) {
         this.judgmentTypes = judgmentTypes;
     }
-    public JudgmentCriteria setJudgeName(String judgeName) {
+    public void setJudgeName(String judgeName) {
         this.judgeName = judgeName;
-        return this;
     }
-    public JudgmentCriteria setKeyword(List<String> keywords) {
+    public void setKeyword(List<String> keywords) {
         this.keywords = keywords;
-        return this;
     }
-    public JudgmentCriteria setLegalBase(String legalBase) {
+    public void setLegalBase(String legalBase) {
         this.legalBase = legalBase;
-        return this;
     }
-    public JudgmentCriteria setReferencedRegulation(String referencedRegulation) {
+    public void setReferencedRegulation(String referencedRegulation) {
         this.referencedRegulation = referencedRegulation;
-        return this;
     }
 
     //------------------------ HashCode & Equals --------------------------

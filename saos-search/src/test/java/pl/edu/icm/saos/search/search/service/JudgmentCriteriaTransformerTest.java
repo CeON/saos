@@ -88,9 +88,9 @@ public class JudgmentCriteriaTransformerTest {
     
     @Test
     public void transformCriteria_TWO_CRITERIA() {
-        JudgmentCriteria criteria = new JudgmentCriteria()
-            .setCcCourtName("word1")
-            .setJudgeName("word2");
+        JudgmentCriteria criteria = new JudgmentCriteria();
+        criteria.setCcCourtName("word1");
+        criteria.setJudgeName("word2");
 
         String solrQuery = queryFactory.transformCriteria(criteria);
 
