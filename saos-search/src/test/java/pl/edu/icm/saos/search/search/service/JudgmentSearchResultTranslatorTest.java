@@ -1,10 +1,11 @@
 package pl.edu.icm.saos.search.search.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
-
-import org.junit.Assert;
 
 import org.apache.solr.common.SolrDocument;
 import org.joda.time.LocalDate;
@@ -70,21 +71,21 @@ public class JudgmentSearchResultTranslatorTest {
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         
         
-        Assert.assertEquals(1, result.getId());
-        Assert.assertEquals(1, result.getCaseNumbers().size());
-        Assert.assertTrue(result.getCaseNumbers().contains("AAAB1A"));
+        assertEquals(1, result.getId());
+        assertEquals(1, result.getCaseNumbers().size());
+        assertTrue(result.getCaseNumbers().contains("AAAB1A"));
         
-        Assert.assertEquals(new LocalDate(2014, 10, 7), result.getJudgmentDate());
-        Assert.assertEquals("SENTENCE", result.getJudgmentType());
+        assertEquals(new LocalDate(2014, 10, 7), result.getJudgmentDate());
+        assertEquals("SENTENCE", result.getJudgmentType());
         
-        Assert.assertEquals(2, result.getKeywords().size());
-        Assert.assertTrue(result.getKeywords().contains("some keyword"));
-        Assert.assertTrue(result.getKeywords().contains("some other keyword"));
+        assertEquals(2, result.getKeywords().size());
+        assertTrue(result.getKeywords().contains("some keyword"));
+        assertTrue(result.getKeywords().contains("some other keyword"));
         
-        Assert.assertEquals(3, result.getJudges().size());
-        Assert.assertTrue(result.getJudges().contains(new JudgeResult("Jan Kowalski", JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE)));
-        Assert.assertTrue(result.getJudges().contains(new JudgeResult("Jacek Zieliński", JudgeRole.REPORTING_JUDGE)));
-        Assert.assertTrue(result.getJudges().contains(new JudgeResult("Adam Nowak")));
+        assertEquals(3, result.getJudges().size());
+        assertTrue(result.getJudges().contains(new JudgeResult("Jan Kowalski", JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE)));
+        assertTrue(result.getJudges().contains(new JudgeResult("Jacek Zieliński", JudgeRole.REPORTING_JUDGE)));
+        assertTrue(result.getJudges().contains(new JudgeResult("Adam Nowak")));
     }
     
     @Test
@@ -101,13 +102,13 @@ public class JudgmentSearchResultTranslatorTest {
         
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         
-        Assert.assertEquals(Integer.valueOf(123), result.getCourtId());
-        Assert.assertEquals("15200000", result.getCourtCode());
-        Assert.assertEquals("Sąd Apelacyjny w Krakowie", result.getCourtName());
+        assertEquals(Integer.valueOf(123), result.getCcCourtId());
+        assertEquals("15200000", result.getCcCourtCode());
+        assertEquals("Sąd Apelacyjny w Krakowie", result.getCcCourtName());
 
-        Assert.assertEquals(Integer.valueOf(816), result.getCourtDivisionId());
-        Assert.assertEquals("0000503", result.getCourtDivisionCode());
-        Assert.assertEquals("I Wydział Cywilny", result.getCourtDivisionName());
+        assertEquals(Integer.valueOf(816), result.getCcCourtDivisionId());
+        assertEquals("0000503", result.getCcCourtDivisionCode());
+        assertEquals("I Wydział Cywilny", result.getCcCourtDivisionName());
     }
     
     @Test
@@ -120,17 +121,21 @@ public class JudgmentSearchResultTranslatorTest {
         doc.addField("scCourtChamber", "11|Izba Cywilna");
         doc.addField("scCourtChamber", "12|Izba Pracy");
         doc.addField("scCourtChamberDivisionId", 111);
-        doc.addField("scCourtChamberDivisionName", "Izba Cywilna Wydział III");
+        doc.addField("scCourtChamberDivisionName", "Wydział III");
+        doc.addField("scCourtDivisionsChamberId", 11);
+        doc.addField("scCourtDivisionsChamberName", "Izba Cywilna");
         
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         
-        Assert.assertEquals("wyrok SN", result.getScJudgmentForm());
-        Assert.assertEquals("JOINED_CHAMBERS", result.getPersonnelType());
-        Assert.assertTrue(result.getCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
-        Assert.assertTrue(result.getCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));
-        Assert.assertEquals(2, result.getCourtChambers().size());
-        Assert.assertEquals(Integer.valueOf(111), result.getCourtChamberDivisionId());
-        Assert.assertEquals("Izba Cywilna Wydział III", result.getCourtChamberDivisionName());
+        assertEquals("wyrok SN", result.getScJudgmentForm());
+        assertEquals("JOINED_CHAMBERS", result.getScPersonnelType());
+        assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
+        assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));
+        assertEquals(2, result.getScCourtChambers().size());
+        assertEquals(Integer.valueOf(111), result.getScCourtDivisionId());
+        assertEquals("Wydział III", result.getScCourtDivisionName());
+        assertEquals(Integer.valueOf(11), result.getScCourtDivisionsChamberId());
+        assertEquals("Izba Cywilna", result.getScCourtDivisionsChamberName());
     }
     
     @Test
@@ -142,7 +147,7 @@ public class JudgmentSearchResultTranslatorTest {
     	
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
 
-        Assert.assertEquals(0, result.getCourtChambers().size());
+        assertEquals(0, result.getScCourtChambers().size());
     }
     
     @Test
@@ -154,7 +159,7 @@ public class JudgmentSearchResultTranslatorTest {
         JudgmentSearchResult result = new JudgmentSearchResult();
         resultsTranslator.applyHighlighting(docHighlighting, result);
         
-        Assert.assertEquals("first fragment ... second fragment", result.getContent());
+        assertEquals("first fragment ... second fragment", result.getContent());
     }
     
 }

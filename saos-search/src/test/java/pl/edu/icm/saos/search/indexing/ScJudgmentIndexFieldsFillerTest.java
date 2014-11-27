@@ -55,7 +55,11 @@ public class ScJudgmentIndexFieldsFillerTest {
         // chambers
         SupremeCourtChamber firstChamber = BuildersFactory.supremeCourtChamber(11).name("ABC").build();
         SupremeCourtChamber secondChamber = BuildersFactory.supremeCourtChamber(12).name("DEF").build();
-        SupremeCourtChamberDivision division = BuildersFactory.supremeCourtChamberDivision(111).name("GHI").build();
+        SupremeCourtChamberDivision division = BuildersFactory.supremeCourtChamberDivision(111)
+                .name("GHI")
+                .fullName("full GHI")
+                .chamber(firstChamber)
+                .build();
         
         SupremeCourtJudgment chambersJudgment = BuildersFactory.supremeCourtJugmentWrapper(1)
                 .chamber(firstChamber)
@@ -68,7 +72,9 @@ public class ScJudgmentIndexFieldsFillerTest {
                 fieldFactory.create("scCourtChamberId", 11, 12),
                 fieldFactory.create("scCourtChamberName", "ABC", "DEF"),
                 fieldFactory.create("scCourtChamberDivisionId", 111),
-                fieldFactory.create("scCourtChamberDivisionName", "GHI")
+                fieldFactory.create("scCourtChamberDivisionName", "GHI"),
+                fieldFactory.create("scCourtDivisionsChamberId", 11),
+                fieldFactory.create("scCourtDivisionsChamberName", "ABC")
         );
         
         return new Object[][] {

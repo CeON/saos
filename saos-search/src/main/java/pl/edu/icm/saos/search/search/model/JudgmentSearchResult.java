@@ -15,18 +15,20 @@ public class JudgmentSearchResult extends Searchable {
     private String judgmentType;
     private LocalDate judgmentDate;
     
-    private Integer courtId;
-    private String courtCode;
-    private String courtName;
-    private Integer courtDivisionId;
-    private String courtDivisionCode;
-    private String courtDivisionName;
+    private Integer ccCourtId;
+    private String ccCourtCode;
+    private String ccCourtName;
+    private Integer ccCourtDivisionId;
+    private String ccCourtDivisionCode;
+    private String ccCourtDivisionName;
     
     private String scJudgmentForm;
-    private String personnelType;
-    private List<SupremeCourtChamberResult> courtChambers;
-    private Integer courtChamberDivisionId;
-    private String courtChamberDivisionName;
+    private String scPersonnelType;
+    private List<SupremeCourtChamberResult> scCourtChambers;
+    private Integer scCourtDivisionId;
+    private String scCourtDivisionName;
+    private Integer scCourtDivisionsChamberId;
+    private String scCourtDivisionsChamberName;
     
     private List<JudgeResult> judges;
     private List<String> keywords;
@@ -44,38 +46,44 @@ public class JudgmentSearchResult extends Searchable {
     public LocalDate getJudgmentDate() {
         return judgmentDate;
     }
-    public Integer getCourtId() {
-        return courtId;
+    public Integer getCcCourtId() {
+        return ccCourtId;
     }
-    public String getCourtCode() {
-        return courtCode;
+    public String getCcCourtCode() {
+        return ccCourtCode;
     }
-    public String getCourtName() {
-        return courtName;
+    public String getCcCourtName() {
+        return ccCourtName;
     }
-    public Integer getCourtDivisionId() {
-        return courtDivisionId;
+    public Integer getCcCourtDivisionId() {
+        return ccCourtDivisionId;
     }
-    public String getCourtDivisionCode() {
-        return courtDivisionCode;
+    public String getCcCourtDivisionCode() {
+        return ccCourtDivisionCode;
     }
-    public String getCourtDivisionName() {
-        return courtDivisionName;
+    public String getCcCourtDivisionName() {
+        return ccCourtDivisionName;
     }
     public String getScJudgmentForm() {
     	return scJudgmentForm;
     }
-    public String getPersonnelType() {
-        return personnelType;
+    public String getScPersonnelType() {
+        return scPersonnelType;
     }
-    public List<SupremeCourtChamberResult> getCourtChambers() {
-        return courtChambers;
+    public List<SupremeCourtChamberResult> getScCourtChambers() {
+        return scCourtChambers;
     }
-    public Integer getCourtChamberDivisionId() {
-        return courtChamberDivisionId;
+    public Integer getScCourtDivisionId() {
+        return scCourtDivisionId;
     }
-    public String getCourtChamberDivisionName() {
-        return courtChamberDivisionName;
+    public String getScCourtDivisionName() {
+        return scCourtDivisionName;
+    }
+    public Integer getScCourtDivisionsChamberId() {
+        return scCourtDivisionsChamberId;
+    }
+    public String getScCourtDivisionsChamberName() {
+        return scCourtDivisionsChamberName;
     }
     public List<JudgeResult> getJudges() {
         return judges;
@@ -99,38 +107,44 @@ public class JudgmentSearchResult extends Searchable {
     public void setJudgmentDate(LocalDate judgmentDate) {
         this.judgmentDate = judgmentDate;
     }
-    public void setCourtId(Integer courtId) {
-        this.courtId = courtId;
+    public void setCcCourtId(Integer ccCourtId) {
+        this.ccCourtId = ccCourtId;
     }
-    public void setCourtCode(String courtCode) {
-        this.courtCode = courtCode;
+    public void setCcCourtCode(String ccCourtCode) {
+        this.ccCourtCode = ccCourtCode;
     }
-    public void setCourtName(String courtName) {
-        this.courtName = courtName;
+    public void setCcCourtName(String ccCourtName) {
+        this.ccCourtName = ccCourtName;
     }
-    public void setCourtDivisionId(Integer courtDivisionId) {
-        this.courtDivisionId = courtDivisionId;
+    public void setCcCourtDivisionId(Integer ccCourtDivisionId) {
+        this.ccCourtDivisionId = ccCourtDivisionId;
     }
-    public void setCourtDivisionCode(String courtDivisionCode) {
-        this.courtDivisionCode = courtDivisionCode;
+    public void setCcCourtDivisionCode(String ccCourtDivisionCode) {
+        this.ccCourtDivisionCode = ccCourtDivisionCode;
     }
-    public void setCourtDivisionName(String courtDivisionName) {
-        this.courtDivisionName = courtDivisionName;
+    public void setCcCourtDivisionName(String ccCourtDivisionName) {
+        this.ccCourtDivisionName = ccCourtDivisionName;
+    }
+    public void setScPersonnelType(String scPersonnelType) {
+        this.scPersonnelType = scPersonnelType;
+    }
+    public void setScCourtChambers(List<SupremeCourtChamberResult> scCourtChambers) {
+        this.scCourtChambers = scCourtChambers;
     }
     public void setScJudgmentForm(String scJudgmentForm) {
     	this.scJudgmentForm = scJudgmentForm;
     }
-    public void setPersonnelType(String personnelType) {
-        this.personnelType = personnelType;
+    public void setScCourtDivisionId(Integer scCourtDivisionId) {
+        this.scCourtDivisionId = scCourtDivisionId;
     }
-    public void setCourtChambers(List<SupremeCourtChamberResult> courtChambers) {
-        this.courtChambers = courtChambers;
+    public void setScCourtDivisionName(String scCourtDivisionName) {
+        this.scCourtDivisionName = scCourtDivisionName;
     }
-    public void setCourtChamberDivisionId(Integer courtChamberDivisionId) {
-        this.courtChamberDivisionId = courtChamberDivisionId;
+    public void setScCourtDivisionsChamberId(Integer scCourtDivisionsChamberId) {
+        this.scCourtDivisionsChamberId = scCourtDivisionsChamberId;
     }
-    public void setCourtChamberDivisionName(String courtChamberDivisionName) {
-        this.courtChamberDivisionName = courtChamberDivisionName;
+    public void setScCourtDivisionsChamberName(String scCourtDivisionsChamberName) {
+        this.scCourtDivisionsChamberName = scCourtDivisionsChamberName;
     }
     public void setJudges(List<JudgeResult> judges) {
         this.judges = judges;

@@ -87,6 +87,8 @@
    <field name="scCourtChamberName" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="scCourtChamberDivisionId" type="int" indexed="true" stored="true" multiValued="false" />
    <field name="scCourtChamberDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="scCourtDivisionsChamberId" type="int" indexed="false" stored="true" multiValued="false" />
+   <field name="scCourtDivisionsChamberName" type="string" indexed="false" stored="true" multiValued="false" />
    
    <field name="judge" type="string" indexed="false" stored="true" multiValued="true" />
    <field name="judgeName" type="text_general" indexed="true" stored="true" multiValued="true" />
