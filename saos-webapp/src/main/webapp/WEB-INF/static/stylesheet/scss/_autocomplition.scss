@@ -1,0 +1,38 @@
+.suggestions-container {
+    left: 0;
+    position: absolute;
+    top: 20px;
+    width: 403px;
+    z-index: 2;
+}
+.suggestions-container ul {
+    background: none repeat scroll 0 0 #ffffff;
+    border-top: 1px dotted #aaa;
+    display: none;
+    margin-top: 0;
+}
+.suggestions-container ul li {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: inherit;
+    border-color: #888888;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 1px;
+    display: block;
+    font-size: 14px;
+    padding: 4px;
+}
+.suggestions-container ul li:first-child {
+}
+.suggestions-container ul li:last-child {
+    border-radius: 0 0 2px 2px;
+    border-width: 0 1px 1px;
+}
+.suggestions-container ul li.selected {
+    background: none repeat scroll 0 0 #ebebeb;
+    cursor: pointer;
+    font-weight: bold;
+}

@@ -24,6 +24,7 @@ var Keywords = {
 				 console.log(dataLength);
 				 
 				 for(j; j < dataLength; j += 1) {
+					 console.log(data[j].phrase);
 					 //options += prepareOption(data[j].id, data[j].phrase);
 				 }
 				 
@@ -36,6 +37,7 @@ var Keywords = {
 	
 		
 };
+
 
 
 /* This module requires jquery */
@@ -144,17 +146,23 @@ var Suggester = (function() {
             html = "",
             $data = "";
         
-        $.get("api/suggest?q=" + inputVal + "&field=" + searchField[searchName], function(data) {
-
-        })
+        //$.get("api/suggest?q=" + inputVal + "&field=" + searchField[searchName], function(data) {})
+        $.ajax("keywords/")
         .done(function(data) {
         	$data = $(data);
     		if($data.find('field').text() === searchField[searchName] && $data.find('q').text() === $field.attr('value')) {
     			
     			if($data.find("suggest").length > 0) {
-        			$suggestions.empty();
+        			var maxItems = 5,
+        				i = 0;
+    				
+    				$suggestions.empty();
+        			
         			$data.find("suggest").each(function(index) {
-        				html += "<li>" + $(this).text() + "</li>";
+        				if (i < maxItems) {
+        					html += "<li>" + $(this).text() + "</li>";
+    						i += 1;
+        				}
         			});
         			setSelectedItem(0, searchName);
         			$suggestions.prepend(html);
@@ -229,6 +237,8 @@ $.fn.inputSuggester = function(source) {
 }
 
 
+
+$("#input-search-keywords").inputSuggester({searchField: "all", searchName: "all"});
 
 
 
