@@ -4,12 +4,11 @@ import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.util.PersonNameNormalizer;
 import pl.edu.icm.saos.common.util.StringTools;
-
-import com.google.common.base.Preconditions;
 
 /**
  * Service that normalizes (corrects) imported judge names.
@@ -91,7 +90,9 @@ public class JudgeNameNormalizer {
      */
     public String normalize(String judgeName) {
         
-        Preconditions.checkNotNull(judgeName);
+        if (StringUtils.isBlank(judgeName)) {
+            return "";
+        }
         
         judgeName = PersonNameNormalizer.normalize(judgeName);
         

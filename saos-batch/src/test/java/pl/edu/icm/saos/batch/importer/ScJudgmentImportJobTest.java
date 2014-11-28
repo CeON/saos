@@ -6,6 +6,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static pl.edu.icm.saos.persistence.correction.model.ChangeOperation.UPDATE;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.JUDGMENT_TYPE;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
+import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
 
 import java.io.File;
 import java.io.IOException;
@@ -146,10 +150,10 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         assertEquals(6, judgmentCorrectionRepository.count());
         
         List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAll();
-        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.SC_CHAMBER_NAME, 3);
-        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGMENT_TYPE, 1);
-        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.SC_JUDGMENT_FORM_NAME, 1);
-        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGE_NAME, 1);
+        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, UPDATE, SupremeCourtChamber.class, NAME, 3);
+        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, UPDATE, SupremeCourtJudgment.class, JUDGMENT_TYPE, 1);
+        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, UPDATE, SupremeCourtJudgmentForm.class, NAME, 1);
+        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, UPDATE, Judge.class, CorrectedProperty.NAME, 1);
         
         assertCorrections_ded0b5bb7135cf1e196f80175ce07584();
     }
@@ -212,7 +216,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         assertEquals(4, judgmentCorrectionRepository.count());
         
         List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAll();
-        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.SC_CHAMBER_NAME, 4);
+        JudgmentCorrectionAssertUtils.assertJudgmentCorrections(judgmentCorrections, UPDATE, SupremeCourtChamber.class, NAME, 4);
         
         assertCorrections_ded0b5bb7135cf1e196f80175ce07584_afterUpdate();
     }
@@ -335,13 +339,17 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         
         assertEquals(4, judgmentCorrections.size());
         
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, null, null, CorrectedProperty.JUDGMENT_TYPE, "orzeczenie SN", "SENTENCE")));
+        JudgmentCorrection expectedCorrection = createFor(judgment).update(judgment).property(JUDGMENT_TYPE).oldValue("orzeczenie SN").newValue("SENTENCE").build();
+        assertTrue(judgmentCorrections.contains(expectedCorrection));
         
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, SupremeCourtChamber.class, judgment.getScChambers().get(0).getId(), CorrectedProperty.SC_CHAMBER_NAME, "Izba Administracyjna, Pracy i Ubezpieczeń Społecznych", "Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych")));
+        expectedCorrection = createFor(judgment).update(judgment.getScChambers().get(0)).property(NAME).oldValue("Izba Administracyjna, Pracy i Ubezpieczeń Społecznych").newValue("Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych").build();
+        assertTrue(judgmentCorrections.contains(expectedCorrection));
         
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, SupremeCourtJudgmentForm.class, judgment.getScJudgmentForm().getId(), CorrectedProperty.SC_JUDGMENT_FORM_NAME, "orzeczenie SN", "wyrok SN")));
+        expectedCorrection = createFor(judgment).update(judgment.getScJudgmentForm()).property(NAME).oldValue("orzeczenie SN").newValue("wyrok SN").build();
+        assertTrue(judgmentCorrections.contains(expectedCorrection));
         
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, Judge.class, judgment.getJudge("Stefania Szymańska").getId(), CorrectedProperty.JUDGE_NAME, "SSO Stefania Szymańska", "Stefania Szymańska")));
+        expectedCorrection = createFor(judgment).update(judgment.getJudge("Stefania Szymańska")).property(NAME).oldValue("SSO Stefania Szymańska").newValue("Stefania Szymańska").build();
+        assertTrue(judgmentCorrections.contains(expectedCorrection));
         
     }
     
@@ -355,7 +363,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         
         assertEquals(1, judgmentCorrections.size());
         
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, SupremeCourtChamber.class, judgment.getScChambers().get(0).getId(), CorrectedProperty.SC_CHAMBER_NAME, "Izba Administracyjna, Pracy i Ubezpieczeń Społecznych", "Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych")));
+        assertTrue(judgmentCorrections.contains(createFor(judgment).update(judgment.getScChambers().get(0)).property(NAME).oldValue("Izba Administracyjna, Pracy i Ubezpieczeń Społecznych").newValue("Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych").build()));
         
     }
 

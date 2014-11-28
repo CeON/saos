@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.importer.common.converter;
 
 import static pl.edu.icm.saos.common.util.StringTools.toRootLowerCase;
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createDelete;
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createUpdate;
 
 import java.util.List;
 
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.util.PersonNameNormalizer;
-import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.Judge;
@@ -43,21 +44,21 @@ public class JudgeConverter {
      */
     public Judge convertJudge(String judgeName, List<JudgeRole> specialRoles, ImportCorrectionList correctionList) {
         
-        Preconditions.checkArgument(StringUtils.isNotBlank(judgeName));
         Preconditions.checkNotNull(correctionList);
         
         String normalizedJudgeName = judgeNameNormalizer.normalize(judgeName);
         
         if (StringUtils.isBlank(normalizedJudgeName)) {
-            // TODO: add REMOVED correction operation (when the correction operation functionality will be available)
-            correctionList.addCorrection(new ImportCorrection(null, CorrectedProperty.JUDGE, judgeName, ""));
+            correctionList.addCorrection(createDelete(Judge.class).oldValue(judgeName).newValue(null).build());
             return null;
         }
         
         Judge judge = new Judge(normalizedJudgeName, specialRoles);
         
         if (!(PersonNameNormalizer.unify(judgeName).equals(toRootLowerCase(normalizedJudgeName)))) {
-            correctionList.addCorrection(new ImportCorrection(judge, CorrectedProperty.JUDGE_NAME, judgeName, normalizedJudgeName));
+            correctionList.addCorrection(createUpdate(judge)
+                                         .ofProperty(CorrectedProperty.NAME).oldValue(judgeName).newValue(normalizedJudgeName)
+                                         .build());
         }
         
         return judge;
