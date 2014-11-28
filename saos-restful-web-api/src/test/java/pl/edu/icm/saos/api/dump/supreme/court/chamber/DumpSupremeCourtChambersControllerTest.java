@@ -15,7 +15,7 @@ import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
-import pl.edu.icm.saos.persistence.common.TestObjectsFactory;
+import pl.edu.icm.saos.persistence.common.TestObjectFactory;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
-import static pl.edu.icm.saos.persistence.common.TestObjectsDefaultData.*;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
@@ -42,7 +42,7 @@ public class DumpSupremeCourtChambersControllerTest extends PersistenceTestSuppo
     private DumpScChambersListsSuccessRepresentationBuilder dumpScChambersRepresentationBuilder;
 
     @Autowired
-    private TestObjectsFactory testObjectsFactory;
+    private TestObjectFactory testObjectsFactory;
 
     private TestObjectContext testObjectContext;
 

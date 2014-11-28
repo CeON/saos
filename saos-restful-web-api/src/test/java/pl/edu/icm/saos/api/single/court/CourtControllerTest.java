@@ -14,7 +14,7 @@ import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
-import pl.edu.icm.saos.persistence.common.TestObjectsFactory;
+import pl.edu.icm.saos.persistence.common.TestObjectFactory;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 
 import static org.hamcrest.Matchers.endsWith;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.services.Constansts.SINGLE_COURTS_PATH;
 import static pl.edu.icm.saos.api.services.Constansts.SINGLE_DIVISIONS_PATH;
-import static pl.edu.icm.saos.persistence.common.TestObjectsDefaultData.*;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,7 +35,7 @@ public class CourtControllerTest extends PersistenceTestSupport {
     private CommonCourtRepository courtRepository;
 
     @Autowired
-    private TestObjectsFactory testObjectsFactory;
+    private TestObjectFactory testObjectsFactory;
 
     private TestObjectContext testObjectContext;
 

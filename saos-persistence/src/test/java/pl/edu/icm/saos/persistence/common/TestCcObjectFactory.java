@@ -15,38 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static pl.edu.icm.saos.persistence.common.TestObjectsDefaultData.*;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 /**
- * Provides factory methods for creating domain objects with default values
- * which can be used in tests.
  * @author pavtel
  */
 @Service
-public class TestObjectsFactory {
-
+public class TestCcObjectFactory {
 
     @Autowired
     private EntityManager entityManager;
 
 
     //------------------------ LOGIC --------------------------
-
-    /**
-     * Creates {@link TestObjectContext} hierarchy with default field data.
-     * @return TestObjectContext.
-     */
-    @Transactional
-    public TestObjectContext createTestObjectContext(boolean save){
-        CommonCourtJudgment ccJudgment = createCcJudgment(save);
-        SupremeCourtJudgment scJudgment = createScJudgment(save);
-
-        TestObjectContext testObjectContext = new TestObjectContext();
-        testObjectContext.setCcJudgment(ccJudgment);
-        testObjectContext.setScJudgment(scJudgment);
-
-        return testObjectContext;
-    }
 
     /**
      * Creates {@link CommonCourtJudgment} hierarchy with default field data.
@@ -59,50 +40,50 @@ public class TestObjectsFactory {
         CommonCourt commonCourt = createCcCourt(save);
         ccJudgment.setCourtDivision(commonCourt.getDivisions().get(0));
 
-        CourtCase courtCase = new CourtCase(CASE_NUMBER);
+        CourtCase courtCase = new CourtCase(CC_CASE_NUMBER);
         ccJudgment.addCourtCase(courtCase);
 
-        ccJudgment.addLegalBase(FIRST_LEGAL_BASE);
-        ccJudgment.addLegalBase(SECOND_LEGAL_BASE);
+        ccJudgment.addLegalBase(CC_FIRST_LEGAL_BASE);
+        ccJudgment.addLegalBase(CC_SECOND_LEGAL_BASE);
 
-        ccJudgment.addCourtReporter(FIRST_COURT_REPORTER);
-        ccJudgment.addCourtReporter(SECOND_COURT_REPORTER);
+        ccJudgment.addCourtReporter(CC_FIRST_COURT_REPORTER);
+        ccJudgment.addCourtReporter(CC_SECOND_COURT_REPORTER);
 
-        ccJudgment.setDecision(DECISION);
-        ccJudgment.setSummary(SUMMARY);
-        ccJudgment.setJudgmentType(JUDGMENT_TYPE);
-        ccJudgment.setTextContent(TEXT_CONTENT);
-        ccJudgment.setJudgmentDate(new LocalDate(DATE_YEAR, DATE_MONTH, DATE_DAY));
+        ccJudgment.setDecision(CC_DECISION);
+        ccJudgment.setSummary(CC_SUMMARY);
+        ccJudgment.setJudgmentType(CC_JUDGMENT_TYPE);
+        ccJudgment.setTextContent(CC_TEXT_CONTENT);
+        ccJudgment.setJudgmentDate(new LocalDate(CC_DATE_YEAR, CC_DATE_MONTH, CC_DATE_DAY));
 
 
         LawJournalEntry firstLawJournalEntry = new LawJournalEntry();
-        firstLawJournalEntry.setTitle(FIRST_REFERENCED_REGULATION_TITLE);
-        firstLawJournalEntry.setYear(FIRST_REFERENCED_REGULATION_YEAR);
-        firstLawJournalEntry.setJournalNo(FIRST_REFERENCED_REGULATION_JOURNAL_NO);
-        firstLawJournalEntry.setEntry(FIRST_REFERENCED_REGULATION_ENTRY);
+        firstLawJournalEntry.setTitle(CC_FIRST_REFERENCED_REGULATION_TITLE);
+        firstLawJournalEntry.setYear(CC_FIRST_REFERENCED_REGULATION_YEAR);
+        firstLawJournalEntry.setJournalNo(CC_FIRST_REFERENCED_REGULATION_JOURNAL_NO);
+        firstLawJournalEntry.setEntry(CC_FIRST_REFERENCED_REGULATION_ENTRY);
 
         JudgmentReferencedRegulation firstReferencedRegulation = new JudgmentReferencedRegulation();
-        firstReferencedRegulation.setRawText(FIRST_REFERENCED_REGULATION_TEXT);
+        firstReferencedRegulation.setRawText(CC_FIRST_REFERENCED_REGULATION_TEXT);
         firstReferencedRegulation.setLawJournalEntry(firstLawJournalEntry);
 
         LawJournalEntry secondLawJournalEntry = new LawJournalEntry();
-        secondLawJournalEntry.setTitle(SECOND_REFERENCED_REGULATION_TITLE);
-        secondLawJournalEntry.setYear(SECOND_REFERENCED_REGULATION_YEAR);
-        secondLawJournalEntry.setJournalNo(SECOND_REFERENCED_REGULATION_JOURNAL_NO);
-        secondLawJournalEntry.setEntry(SECOND_REFERENCED_REGULATION_ENTRY);
+        secondLawJournalEntry.setTitle(CC_SECOND_REFERENCED_REGULATION_TITLE);
+        secondLawJournalEntry.setYear(CC_SECOND_REFERENCED_REGULATION_YEAR);
+        secondLawJournalEntry.setJournalNo(CC_SECOND_REFERENCED_REGULATION_JOURNAL_NO);
+        secondLawJournalEntry.setEntry(CC_SECOND_REFERENCED_REGULATION_ENTRY);
 
         JudgmentReferencedRegulation secondReferencedRegulation = new JudgmentReferencedRegulation();
-        secondReferencedRegulation.setRawText(SECOND_REFERENCED_REGULATION_TEXT);
+        secondReferencedRegulation.setRawText(CC_SECOND_REFERENCED_REGULATION_TEXT);
         secondReferencedRegulation.setLawJournalEntry(secondLawJournalEntry);
 
         LawJournalEntry thirdLawJournalEntry = new LawJournalEntry();
-        thirdLawJournalEntry.setTitle(THIRD_REFERENCED_REGULATION_TITLE);
-        thirdLawJournalEntry.setYear(THIRD_REFERENCED_REGULATION_YEAR);
-        thirdLawJournalEntry.setJournalNo(THIRD_REFERENCED_REGULATION_JOURNAL_NO);
-        thirdLawJournalEntry.setEntry(THIRD_REFERENCED_REGULATION_ENTRY);
+        thirdLawJournalEntry.setTitle(CC_THIRD_REFERENCED_REGULATION_TITLE);
+        thirdLawJournalEntry.setYear(CC_THIRD_REFERENCED_REGULATION_YEAR);
+        thirdLawJournalEntry.setJournalNo(CC_THIRD_REFERENCED_REGULATION_JOURNAL_NO);
+        thirdLawJournalEntry.setEntry(CC_THIRD_REFERENCED_REGULATION_ENTRY);
 
         JudgmentReferencedRegulation thirdReferencedRegulation = new JudgmentReferencedRegulation();
-        thirdReferencedRegulation.setRawText(THIRD_REFERENCED_REGULATION_TEXT);
+        thirdReferencedRegulation.setRawText(CC_THIRD_REFERENCED_REGULATION_TEXT);
         thirdReferencedRegulation.setLawJournalEntry(thirdLawJournalEntry);
 
         ccJudgment.addReferencedRegulation(firstReferencedRegulation);
@@ -110,22 +91,20 @@ public class TestObjectsFactory {
         ccJudgment.addReferencedRegulation(thirdReferencedRegulation);
 
 
-        Judge firstJudge = new Judge(FIRST_JUDGE_NAME, FIRST_JUDGE_ROLE);
-        Judge secondJudge = new Judge(SECOND_JUDGE_NAME);
-        Judge thirdJudge = new Judge(THIRD_JUDGE_NAME);
+        Judge firstJudge = new Judge(CC_FIRST_JUDGE_NAME, CC_FIRST_JUDGE_ROLE);
+        Judge secondJudge = new Judge(CC_SECOND_JUDGE_NAME);
+        Judge thirdJudge = new Judge(CC_THIRD_JUDGE_NAME);
         ccJudgment.addJudge(firstJudge);
         ccJudgment.addJudge(secondJudge);
         ccJudgment.addJudge(thirdJudge);
 
 
         JudgmentSourceInfo sourceInfo = createJudgmentSourceInfo();
-        sourceInfo.setSourceCode(CC_SOURCE_CODE);
-        sourceInfo.setSourceJudgmentId(CC_SOURCE_JUDGMENT_ID);
         ccJudgment.setSourceInfo(sourceInfo);
 
 
-        CcJudgmentKeyword firstKeyword = new CcJudgmentKeyword(FIRST_KEYWORD);
-        CcJudgmentKeyword secondKeyword = new CcJudgmentKeyword(SECOND_KEYWORD);
+        CcJudgmentKeyword firstKeyword = new CcJudgmentKeyword(CC_FIRST_KEYWORD);
+        CcJudgmentKeyword secondKeyword = new CcJudgmentKeyword(CC_SECOND_KEYWORD);
         ccJudgment.addKeyword(firstKeyword);
         ccJudgment.addKeyword(secondKeyword);
 
@@ -154,79 +133,7 @@ public class TestObjectsFactory {
         return ccJudgment;
     }
 
-    /**
-     * Creates {@link SupremeCourtJudgment} hierarchy with default field data.
-     * @return SupremeCourtJudgment.
-     */
-    @Transactional
-    public SupremeCourtJudgment createScJudgment(boolean save){
-        SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
 
-        SupremeCourtChamber scChamber = createScChamber(save);
-        scJudgment.setScChamberDivision(scChamber.getDivisions().get(0));
-        scJudgment.addScChamber(scChamber);
-
-
-        CourtCase courtCase = new CourtCase(CASE_NUMBER);
-        scJudgment.addCourtCase(courtCase);
-
-        scJudgment.addLegalBase(FIRST_LEGAL_BASE);
-        scJudgment.addLegalBase(SECOND_LEGAL_BASE);
-
-        scJudgment.addCourtReporter(FIRST_COURT_REPORTER);
-        scJudgment.addCourtReporter(SECOND_COURT_REPORTER);
-
-        scJudgment.setDecision(DECISION);
-        scJudgment.setSummary(SUMMARY);
-        scJudgment.setJudgmentType(JUDGMENT_TYPE);
-        scJudgment.setTextContent(TEXT_CONTENT);
-        scJudgment.setJudgmentDate(new LocalDate(DATE_YEAR, DATE_MONTH, DATE_DAY));
-        scJudgment.setPersonnelType(SC_PERSONNEL_TYPE);
-
-
-        JudgmentSourceInfo sourceInfo = createJudgmentSourceInfo();
-        sourceInfo.setSourceCode(SC_SOURCE_CODE);
-        sourceInfo.setSourceJudgmentId(SC_SOURCE_JUDGMENT_ID);
-        scJudgment.setSourceInfo(sourceInfo);
-
-        SupremeCourtJudgmentForm scForm = new SupremeCourtJudgmentForm();
-        scForm.setName(SC_JUDGMENT_FORM_NAME);
-        scJudgment.setScJudgmentForm(scForm);
-
-        if(save){
-            entityManager.persist(scForm);
-            entityManager.persist(courtCase);
-            entityManager.persist(scJudgment);
-
-            entityManager.flush();
-        }
-
-        return scJudgment;
-    }
-
-    /**
-     * Creates {@link SupremeCourtChamber} hierarchy with default field data.
-     * @return SupremeCourtJudgment.
-     */
-    @Transactional
-    public SupremeCourtChamber createScChamber(boolean save){
-        SupremeCourtChamber scChamber = new SupremeCourtChamber();
-        scChamber.setName(SC_CHAMBER_NAME);
-
-        SupremeCourtChamberDivision scDivision = new SupremeCourtChamberDivision();
-        scDivision.setName(SC_FIRST_DIVISION_NAME);
-        scDivision.setFullName(SC_FIRST_DIVISION_FULL_NAME);
-        scChamber.addDivision(scDivision);
-
-        if(save){
-            entityManager.persist(scChamber);
-            entityManager.persist(scDivision);
-
-            entityManager.flush();
-        }
-
-        return scChamber;
-    }
 
     /**
      * Creates {@link CommonCourt} hierarchy with default field data.
@@ -280,37 +187,16 @@ public class TestObjectsFactory {
     public JudgmentSourceInfo createJudgmentSourceInfo(){
         JudgmentSourceInfo judgmentSourceInfo = new JudgmentSourceInfo();
 
-        judgmentSourceInfo.setSourceCode(SOURCE_CODE);
-        judgmentSourceInfo.setSourceJudgmentId(SOURCE_JUDGMENT_ID);
-        judgmentSourceInfo.setSourceJudgmentUrl(SOURCE_JUDGMENT_URL);
-        judgmentSourceInfo.setPublisher(SOURCE_PUBLISHER);
-        judgmentSourceInfo.setReviser(SOURCE_REVISER);
-        judgmentSourceInfo.setPublicationDate(new DateTime(SOURCE_PUBLICATION_DATE_IN_MILLISECONDS, DateTimeZone.UTC));
+        judgmentSourceInfo.setSourceCode(CC_SOURCE_CODE);
+        judgmentSourceInfo.setSourceJudgmentId(CC_SOURCE_JUDGMENT_ID);
+        judgmentSourceInfo.setSourceJudgmentUrl(CC_SOURCE_JUDGMENT_URL);
+        judgmentSourceInfo.setPublisher(CC_SOURCE_PUBLISHER);
+        judgmentSourceInfo.setReviser(CC_SOURCE_REVISER);
+        judgmentSourceInfo.setPublicationDate(new DateTime(SC_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS, DateTimeZone.UTC));
 
         return judgmentSourceInfo;
     }
 
-
-
-    /**
-     * Creates {@link SupremeCourtJudgment} with minimal set of fields (necessaries for storing in db)
-     * filled with random data.
-     * @return SupremeCourtJudgment
-     */
-    @Transactional
-    public SupremeCourtJudgment createSimpleScJudgment(boolean save){
-        SupremeCourtJudgment judgment = new SupremeCourtJudgment();
-        judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphanumeric(10)));
-        judgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
-        judgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphabetic(20));
-
-        if(save){
-            entityManager.persist(judgment);
-            entityManager.flush();
-        }
-
-        return judgment;
-    }
 
     /**
      * Creates {@link CommonCourtJudgment} with minimal set of fields (necessaries for storing in db)
@@ -332,16 +218,6 @@ public class TestObjectsFactory {
         return judgment;
     }
 
-    /**
-     * Creates list of {@link CommonCourtJudgment} with fields filled with random values.
-     * @return CommonCourtJudgment
-     */
-    @Transactional
-    public List<CommonCourtJudgment> createCcJudgmentListWithRandomData(boolean save){
-        List<CommonCourtJudgment> judgments = createCcJudgmentListWithRandomData(10, save);
-        return judgments;
-
-    }
 
     /**
      * Creates list of {@link CommonCourtJudgment} with fields filled with random values.
@@ -361,6 +237,39 @@ public class TestObjectsFactory {
 
     }
 
+
+    /**
+     * Creates list of {@link CcJudgmentKeyword} with random data and given size.
+     * @param size of the list.
+     * @return keywords list.
+     */
+    public List<CcJudgmentKeyword> createCcKeywordListWith(int size, boolean save){
+        Preconditions.checkArgument(size <= 0, "size should be positive");
+
+        List<CcJudgmentKeyword> ccKeywords = new ArrayList<>(size);
+
+        for(int i=0; i<size; ++i){
+            CcJudgmentKeyword keyword = new CcJudgmentKeyword(UUID.randomUUID().toString());
+            ccKeywords.add(keyword);
+        }
+
+        if(save){
+            ccKeywords.forEach(keyword -> entityManager.persist(keyword));
+            entityManager.flush();
+        }
+
+        return ccKeywords;
+    }
+
+    //------------------------ PRIVATE --------------------------
+    private CommonCourtDivisionType commonCourtDivisionType(String name, String code){
+        CommonCourtDivisionType commonCourtDivisionType = new CommonCourtDivisionType();
+        commonCourtDivisionType.setName(name);
+        commonCourtDivisionType.setCode(code);
+
+        return commonCourtDivisionType;
+    }
+
     @Transactional
     private CommonCourtJudgment createCcJudgmentWithRandomData(String prefix, boolean save){
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
@@ -375,7 +284,7 @@ public class TestObjectsFactory {
 
         ccJudgment.setDecision(prefix+RandomStringUtils.randomAlphabetic(5));
         ccJudgment.setSummary(prefix+RandomStringUtils.randomAlphabetic(5));
-        ccJudgment.setJudgmentType(JUDGMENT_TYPE);
+        ccJudgment.setJudgmentType(CC_JUDGMENT_TYPE);
         ccJudgment.setTextContent(prefix+RandomStringUtils.randomAlphabetic(5));
 
         int month = 1 + (int)(Math.random()*12);
@@ -419,42 +328,6 @@ public class TestObjectsFactory {
         }
 
         return ccJudgment;
-    }
-
-
-
-
-
-    /**
-     * Creates list of {@link CcJudgmentKeyword} with random data and given size.
-     * @param size of the list.
-     * @return keywords list.
-     */
-    public List<CcJudgmentKeyword> createCcKeywordListWith(int size, boolean save){
-        Preconditions.checkArgument(size <= 0, "size should be positive");
-
-        List<CcJudgmentKeyword> ccKeywords = new ArrayList<>(size);
-
-        for(int i=0; i<size; ++i){
-            CcJudgmentKeyword keyword = new CcJudgmentKeyword(UUID.randomUUID().toString());
-            ccKeywords.add(keyword);
-        }
-
-        if(save){
-            ccKeywords.forEach(keyword -> entityManager.persist(keyword));
-            entityManager.flush();
-        }
-
-        return ccKeywords;
-    }
-
-    //------------------------ PRIVATE --------------------------
-    private CommonCourtDivisionType commonCourtDivisionType(String name, String code){
-        CommonCourtDivisionType commonCourtDivisionType = new CommonCourtDivisionType();
-        commonCourtDivisionType.setName(name);
-        commonCourtDivisionType.setCode(code);
-
-        return commonCourtDivisionType;
     }
 
 

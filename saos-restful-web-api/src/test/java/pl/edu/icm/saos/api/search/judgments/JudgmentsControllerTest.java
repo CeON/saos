@@ -21,7 +21,7 @@ import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
-import pl.edu.icm.saos.persistence.common.TestObjectsFactory;
+import pl.edu.icm.saos.persistence.common.TestObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.services.Constansts.*;
-import static pl.edu.icm.saos.persistence.common.TestObjectsDefaultData.*;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 import static pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
@@ -61,7 +61,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     private JudgmentsApiSearchService apiSearchService;
 
     @Autowired
-    private TestObjectsFactory testObjectsFactory;
+    private TestObjectFactory testObjectsFactory;
 
     private TestObjectContext testObjectContext;
 
@@ -122,18 +122,18 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId())))
                 .andExpect(jsonPath("$.items.[0].courtCases").value(iterableWithSize(1)))
                 .andExpect(jsonPath("$.items.[0].courtCases.[0].caseNumber").value(CASE_NUMBER))
-                .andExpect(jsonPath("$.items.[0].judgmentType").value(JUDGMENT_TYPE.name()))
+                .andExpect(jsonPath("$.items.[0].judgmentType").value(CC_JUDGMENT_TYPE.name()))
 
-                .andExpect(jsonPath("$.items.[0].judgmentDate").value(DATE_YEAR + "-" + DATE_MONTH + "-" + DATE_DAY))
+                .andExpect(jsonPath("$.items.[0].judgmentDate").value(CC_DATE_YEAR + "-" + CC_DATE_MONTH + "-" + CC_DATE_DAY))
 
                 .andExpect(jsonPath("$.items.[0].judges").isArray())
                 .andExpect(jsonPath("$.items.[0].judges").value(iterableWithSize(3)))
-                .andExpect(jsonPath("$.items.[0].judges.[0].name").value(FIRST_JUDGE_NAME))
+                .andExpect(jsonPath("$.items.[0].judges.[0].name").value(CC_FIRST_JUDGE_NAME))
                 .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles").value(iterableWithSize(1)))
-                .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles.[0]").value(FIRST_JUDGE_ROLE.name()))
-                .andExpect(jsonPath("$.items.[0].judges.[1].name").value(SECOND_JUDGE_NAME))
+                .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles.[0]").value(CC_FIRST_JUDGE_ROLE.name()))
+                .andExpect(jsonPath("$.items.[0].judges.[1].name").value(CC_SECOND_JUDGE_NAME))
                 .andExpect(jsonPath("$.items.[0].judges.[1].specialRoles").value(emptyIterable()))
-                .andExpect(jsonPath("$.items.[0].judges.[2].name").value(THIRD_JUDGE_NAME))
+                .andExpect(jsonPath("$.items.[0].judges.[2].name").value(CC_THIRD_JUDGE_NAME))
                 .andExpect(jsonPath("$.items.[0].judges.[2].specialRoles").value(emptyIterable()))
 
 
@@ -152,7 +152,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
                 .andExpect(jsonPath("$.items.[0].division.court.type").doesNotExist())
 
-                .andExpect(jsonPath("$.items.[0].textContent").value(TEXT_CONTENT))
+                .andExpect(jsonPath("$.items.[0].textContent").value(CC_TEXT_CONTENT))
 
                 .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + testObjectContext.getCcFirstDivisionId())))
                 .andExpect(jsonPath("$.items.[0].division.name").value(CC_FIRST_DIVISION_NAME))

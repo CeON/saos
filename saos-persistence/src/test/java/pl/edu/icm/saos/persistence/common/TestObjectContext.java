@@ -33,9 +33,6 @@ public class TestObjectContext {
         return getCcDivisionId(1);
     }
 
-    private int getCcDivisionId(int divisionIndex){
-        return ccJudgment.getCourtDivision().getCourt().getDivisions().get(divisionIndex).getId();
-    }
 
     public CommonCourtJudgment getCcJudgment() {
         return ccJudgment;
@@ -68,5 +65,10 @@ public class TestObjectContext {
 
     public void setScJudgment(SupremeCourtJudgment scJudgment) {
         this.scJudgment = scJudgment;
+    }
+
+    //------------------------ PRIVATE --------------------------
+    private int getCcDivisionId(int divisionIndex){
+        return ccJudgment.getCourtDivision().getCourt().getDivisions().get(divisionIndex).getId();
     }
 }

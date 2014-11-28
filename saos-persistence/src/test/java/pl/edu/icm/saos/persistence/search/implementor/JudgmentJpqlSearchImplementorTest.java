@@ -9,7 +9,7 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.FieldsNames;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
-import pl.edu.icm.saos.persistence.common.TestObjectsFactory;
+import pl.edu.icm.saos.persistence.common.TestObjectFactory;
 import pl.edu.icm.saos.persistence.model.*;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
@@ -43,7 +43,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     private JudgmentRepository judgmentRepository;
 
     @Autowired
-    private TestObjectsFactory testObjectsFactory;
+    private TestObjectFactory testObjectsFactory;
 
 
     @Test
