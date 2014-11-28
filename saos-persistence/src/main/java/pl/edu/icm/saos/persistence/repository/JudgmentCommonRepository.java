@@ -28,5 +28,6 @@ public interface JudgmentCommonRepository<T extends Judgment> extends IndexableO
     @Query("select j from #{#entityName} j join j.courtCases_ courtCase where courtCase.caseNumber=:caseNumber and j.sourceInfo.sourceCode=:sourceCode")
     List<T> findBySourceCodeAndCaseNumber(@Param("sourceCode") SourceCode sourceCode, @Param("caseNumber") String caseNumber);
 
-    
+    @Query("select j.id from #{#entityName} j where j.sourceInfo.sourceCode=:sourceCode and j.indexed=true")
+    List<Integer> findIndexedIdsBySourceCode(@Param("sourceCode") SourceCode sourceCode);
 }
