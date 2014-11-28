@@ -14,14 +14,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.services.FieldsDefinition.JC;
-import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
-import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.common.TestObjectContext;
+import pl.edu.icm.saos.persistence.common.TestObjectsFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
@@ -34,9 +34,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.search.judgments.JudgmentJsonRepresentationVerifier.verifyBasicFields;
 import static pl.edu.icm.saos.api.services.Constansts.*;
+import static pl.edu.icm.saos.persistence.common.TestObjectsDefaultData.*;
 import static pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
@@ -51,11 +50,6 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     private MockMvc mockMvc;
 
 
-    @Autowired
-    private TestPersistenceObjectsFactory testPersistenceObjectsFactory;
-
-    private TestPersistenceObjectsContext objectsContext;
-
 
     @Autowired
     private JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder;
@@ -66,11 +60,16 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     @Autowired
     private JudgmentsApiSearchService apiSearchService;
 
+    @Autowired
+    private TestObjectsFactory testObjectsFactory;
+
+    private TestObjectContext testObjectContext;
+
     @Before
     public void setUp() throws Exception{
-        objectsContext = testPersistenceObjectsFactory.createPersistenceObjectsContext();
+        testObjectContext = testObjectsFactory.createTestObjectContext(true);
 
-        clearAndIndexJudgmentsInSolr(objectsContext);
+        clearAndIndexJudgmentsInSolr(testObjectContext);
 
 
         JudgmentsController judgmentsController = new JudgmentsController();
@@ -90,12 +89,12 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     @Autowired
     private JudgmentIndexingProcessor judgmentIndexingProcessor;
 
-    private void clearAndIndexJudgmentsInSolr(TestPersistenceObjectsContext objectsContext) throws Exception{
+    private void clearAndIndexJudgmentsInSolr(TestObjectContext testObjectContext) throws Exception{
         judgmentsServer.deleteByQuery("*:*");
         judgmentsServer.commit();
 
-        SolrInputDocument ccJudgmentDoc = judgmentIndexingProcessor.process(objectsContext.getCcJudgment());
-        SolrInputDocument scJudgmentDoc = judgmentIndexingProcessor.process(objectsContext.getScJudgment());
+        SolrInputDocument ccJudgmentDoc = judgmentIndexingProcessor.process(testObjectContext.getCcJudgment());
+        SolrInputDocument scJudgmentDoc = judgmentIndexingProcessor.process(testObjectContext.getScJudgment());
         judgmentsServer.add(
                 Arrays.asList(ccJudgmentDoc, scJudgmentDoc)
         );
@@ -110,16 +109,34 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     public void showJudgments__it_should_show_all_basic_judgment_fields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(PAGE_SIZE, "2")
-                .param(PAGE_NUMBER, "0")
+                .param(ApiConstants.PAGE_SIZE, "2")
+                .param(ApiConstants.PAGE_NUMBER, "0")
                 .accept(MediaType.APPLICATION_JSON));
         //then
 
-        verifyBasicFields(actions, "$.items.[0]", objectsContext);
 
         actions.andExpect(status().isOk());
 
+
         actions
+                .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId())))
+                .andExpect(jsonPath("$.items.[0].courtCases").value(iterableWithSize(1)))
+                .andExpect(jsonPath("$.items.[0].courtCases.[0].caseNumber").value(CASE_NUMBER))
+                .andExpect(jsonPath("$.items.[0].judgmentType").value(JUDGMENT_TYPE.name()))
+
+                .andExpect(jsonPath("$.items.[0].judgmentDate").value(DATE_YEAR + "-" + DATE_MONTH + "-" + DATE_DAY))
+
+                .andExpect(jsonPath("$.items.[0].judges").isArray())
+                .andExpect(jsonPath("$.items.[0].judges").value(iterableWithSize(3)))
+                .andExpect(jsonPath("$.items.[0].judges.[0].name").value(FIRST_JUDGE_NAME))
+                .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles").value(iterableWithSize(1)))
+                .andExpect(jsonPath("$.items.[0].judges.[0].specialRoles.[0]").value(FIRST_JUDGE_ROLE.name()))
+                .andExpect(jsonPath("$.items.[0].judges.[1].name").value(SECOND_JUDGE_NAME))
+                .andExpect(jsonPath("$.items.[0].judges.[1].specialRoles").value(emptyIterable()))
+                .andExpect(jsonPath("$.items.[0].judges.[2].name").value(THIRD_JUDGE_NAME))
+                .andExpect(jsonPath("$.items.[0].judges.[2].specialRoles").value(emptyIterable()))
+
+
                 .andExpect(jsonPath("$.items.[0].source").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].courtReporters").doesNotExist())
                 .andExpect(jsonPath("$.items.[0].decision").doesNotExist())
@@ -135,27 +152,28 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
                 .andExpect(jsonPath("$.items.[0].division.court.type").doesNotExist())
 
-                .andExpect(jsonPath("$.items.[0].textContent").value(JC.TEXT_CONTENT))
+                .andExpect(jsonPath("$.items.[0].textContent").value(TEXT_CONTENT))
 
-                .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + objectsContext.getFirstDivisionId())))
-                .andExpect(jsonPath("$.items.[0].division.name").value(JC.DIVISION_NAME))
-                .andExpect(jsonPath("$.items.[0].division.code").value(JC.DIVISION_CODE))
+                .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + testObjectContext.getCcFirstDivisionId())))
+                .andExpect(jsonPath("$.items.[0].division.name").value(CC_FIRST_DIVISION_NAME))
+                .andExpect(jsonPath("$.items.[0].division.code").value(CC_FIRST_DIVISION_CODE))
 
-                .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH + "/" + objectsContext.getCommonCourtId())))
-                .andExpect(jsonPath("$.items.[0].division.court.name").value(JC.COURT_NAME))
-                .andExpect(jsonPath("$.items.[0].division.court.code").value(JC.COURT_CODE))
+                .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH + "/" + testObjectContext.getCcCourtId())))
+                .andExpect(jsonPath("$.items.[0].division.court.name").value(CC_COURT_NAME))
+                .andExpect(jsonPath("$.items.[0].division.court.code").value(CC_COURT_CODE))
 
 
-                .andExpect(jsonPath("$.items.[1].href").value(endsWith("/api/judgments/" + objectsContext.getScJudgmentId())))
-                .andExpect(jsonPath("$.items.[1].personnelType").value(PersonnelType.FIVE_PERSON.name()))
+                .andExpect(jsonPath("$.items.[1].href").value(endsWith("/api/judgments/" + testObjectContext.getScJudgmentId())))
+                .andExpect(jsonPath("$.items.[1].personnelType").value(SC_PERSONNEL_TYPE.name()))
 
-                .andExpect(jsonPath("$.items.[1].division.href").value(endsWith("/api/scDivisions/" + objectsContext.getScDivisionId())))
-                .andExpect(jsonPath("$.items.[1].division.name").value(JC.SC_CHAMBER_DIVISION_NAME))
+                .andExpect(jsonPath("$.items.[1].division.href").value(endsWith("/api/scDivisions/" + testObjectContext.getScFirstDivisionId())))
+                .andExpect(jsonPath("$.items.[1].division.name").value(SC_FIRST_DIVISION_NAME))
 
-                .andExpect(jsonPath("$.items.[1].division.chambers.[0].href").value(endsWith("/api/scChambers/" + objectsContext.getScChamberId())))
-                .andExpect(jsonPath("$.items.[1].division.chambers.[0].name").value(JC.SC_FIRST_CHAMBER_NAME))
+                .andExpect(jsonPath("$.items.[1].division.chambers.[0].href").value(endsWith("/api/scChambers/" + testObjectContext.getScChamberId())))
+                .andExpect(jsonPath("$.items.[1].division.chambers.[0].name").value(SC_FIRST_CHAMBER_NAME))
 
         ;
+
     }
 
 
@@ -200,30 +218,30 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(PAGE_SIZE, String.valueOf(pageSize))
-                .param(PAGE_NUMBER, String.valueOf(pageNumber))
-                .param(ALL, allValue)
-                .param(SC_PERSONNEL_TYPE, personnelTypeValue)
-                .param(LEGAL_BASE, legalBaseValue)
-                .param(REFERENCED_REGULATION, referencedRegulationValue)
-                .param(JUDGE_NAME, judgeNameValue)
-                .param(CASE_NUMBER, caseNumberValue)
-                .param(COURT_TYPE, courtTypeValue)
-                .param(CC_COURT_TYPE, ccCourtTypeValue)
-                .param(CC_COURT_ID, ccCourtIdValue.toString())
-                .param(CC_COURT_CODE, ccCourtCodeValue)
-                .param(CC_COURT_NAME, ccCourtNameValue)
-                .param(CC_DIVISION_ID, ccDivisionIdValue.toString())
-                .param(CC_DIVISION_CODE, ccDivisionCodeValue)
-                .param(CC_DIVISION_NAME, ccDivisionNameValue)
-                .param(SC_CHAMBER_ID, scChamberIdValue.toString())
-                .param(SC_CHAMBER_NAME, scChamberNameValue)
-                .param(SC_DIVISION_ID, scDivisionIdValue.toString())
-                .param(SC_DIVISION_NAME, scDivisionNameValue)
-                .param(JUDGMENT_TYPES, judgmentTypes.toArray(new String[0]))
-                .param(KEYWORDS, keywords.toArray(new String[0]))
-                .param(JUDGMENT_DATE_FROM, judgmentDateFrom)
-                .param(JUDGMENT_DATE_TO, judgmentDateTo)
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(pageSize))
+                .param(ApiConstants.PAGE_NUMBER, String.valueOf(pageNumber))
+                .param(ApiConstants.ALL, allValue)
+                .param(ApiConstants.SC_PERSONNEL_TYPE, personnelTypeValue)
+                .param(ApiConstants.LEGAL_BASE, legalBaseValue)
+                .param(ApiConstants.REFERENCED_REGULATION, referencedRegulationValue)
+                .param(ApiConstants.JUDGE_NAME, judgeNameValue)
+                .param(ApiConstants.CASE_NUMBER, caseNumberValue)
+                .param(ApiConstants.COURT_TYPE, courtTypeValue)
+                .param(ApiConstants.CC_COURT_TYPE, ccCourtTypeValue)
+                .param(ApiConstants.CC_COURT_ID, ccCourtIdValue.toString())
+                .param(ApiConstants.CC_COURT_CODE, ccCourtCodeValue)
+                .param(ApiConstants.CC_COURT_NAME, ccCourtNameValue)
+                .param(ApiConstants.CC_DIVISION_ID, ccDivisionIdValue.toString())
+                .param(ApiConstants.CC_DIVISION_CODE, ccDivisionCodeValue)
+                .param(ApiConstants.CC_DIVISION_NAME, ccDivisionNameValue)
+                .param(ApiConstants.SC_CHAMBER_ID, scChamberIdValue.toString())
+                .param(ApiConstants.SC_CHAMBER_NAME, scChamberNameValue)
+                .param(ApiConstants.SC_DIVISION_ID, scDivisionIdValue.toString())
+                .param(ApiConstants.SC_DIVISION_NAME, scDivisionNameValue)
+                .param(ApiConstants.JUDGMENT_TYPES, judgmentTypes.toArray(new String[0]))
+                .param(ApiConstants.KEYWORDS, keywords.toArray(new String[0]))
+                .param(ApiConstants.JUDGMENT_DATE_FROM, judgmentDateFrom)
+                .param(ApiConstants.JUDGMENT_DATE_TO, judgmentDateTo)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -275,8 +293,8 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(PAGE_SIZE, String.valueOf(pageSize))
-                .param(PAGE_NUMBER, String.valueOf(pageNumber))
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(pageSize))
+                .param(ApiConstants.PAGE_NUMBER, String.valueOf(pageNumber))
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
@@ -348,8 +366,8 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(PAGE_SIZE, String.valueOf(pageSize))
-                .param(PAGE_NUMBER, String.valueOf(pageNumber))
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(pageSize))
+                .param(ApiConstants.PAGE_NUMBER, String.valueOf(pageNumber))
                 .accept(MediaType.APPLICATION_JSON)
         );
 
@@ -373,8 +391,8 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(PAGE_SIZE, String.valueOf(pageSize))
-                .param(PAGE_NUMBER, String.valueOf(pageNumber))
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(pageSize))
+                .param(ApiConstants.PAGE_NUMBER, String.valueOf(pageNumber))
         );
 
         //then

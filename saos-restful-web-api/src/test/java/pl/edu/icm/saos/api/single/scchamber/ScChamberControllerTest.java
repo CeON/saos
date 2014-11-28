@@ -10,18 +10,18 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import pl.edu.icm.saos.api.ApiTestConfiguration;
-import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
-import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.common.TestObjectContext;
+import pl.edu.icm.saos.persistence.common.TestObjectsFactory;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
+
 import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.services.FieldsDefinition.JC;
+import static pl.edu.icm.saos.persistence.common.TestObjectsDefaultData.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
@@ -35,18 +35,19 @@ public class ScChamberControllerTest extends PersistenceTestSupport {
     private ScChamberRepository scChamberRepository;
 
     @Autowired
-    private TestPersistenceObjectsFactory testPersistenceObjectsFactory;
+    private TestObjectsFactory testObjectsFactory;
+
+    private TestObjectContext testObjectContext;
 
     private MockMvc mockMvc;
 
     private String chambersPath;
 
-    private TestPersistenceObjectsContext objectsContext;
 
     @Before
     public void setUp(){
-        objectsContext = testPersistenceObjectsFactory.createPersistenceObjectsContext();
-        chambersPath = "/api/scChambers/"+objectsContext.getScChamberId();
+        testObjectContext = testObjectsFactory.createTestObjectContext(true);
+        chambersPath = "/api/scChambers/"+testObjectContext.getScChamberId();
 
         ScChamberController scChamberController = new ScChamberController();
         scChamberController.setScChamberRepository(scChamberRepository);
@@ -64,15 +65,15 @@ public class ScChamberControllerTest extends PersistenceTestSupport {
 
 
         //then
-        String divisionsPath = "/api/scDivisions/"+objectsContext.getScDivisionId();
+        String divisionsPath = "/api/scDivisions/"+testObjectContext.getScFirstDivisionId();
         actions
-                .andExpect(jsonPath("$.data.id").value(objectsContext.getScChamberId()))
+                .andExpect(jsonPath("$.data.id").value(testObjectContext.getScChamberId()))
                 .andExpect(jsonPath("$.data.href").value(endsWith(chambersPath)))
-                .andExpect(jsonPath("$.data.name").value(JC.SC_CHAMBER_NAME))
+                .andExpect(jsonPath("$.data.name").value(SC_CHAMBER_NAME))
 
-                .andExpect(jsonPath("$.data.divisions.[0].id").value(objectsContext.getScDivisionId()))
+                .andExpect(jsonPath("$.data.divisions.[0].id").value(testObjectContext.getScFirstDivisionId()))
                 .andExpect(jsonPath("$.data.divisions.[0].href").value(endsWith(divisionsPath)))
-                .andExpect(jsonPath("$.data.divisions.[0].name").value(JC.SC_CHAMBER_DIVISION_NAME))
+                .andExpect(jsonPath("$.data.divisions.[0].name").value(SC_FIRST_DIVISION_NAME))
         ;
 
     }
