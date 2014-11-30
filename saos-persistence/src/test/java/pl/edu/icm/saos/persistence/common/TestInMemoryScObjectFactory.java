@@ -11,7 +11,7 @@ import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 /**
  * @author pavtel
  */
-class TestInMemoryScObjectFactory {
+abstract class TestInMemoryScObjectFactory {
 
 
     //------------------------ LOGIC --------------------------

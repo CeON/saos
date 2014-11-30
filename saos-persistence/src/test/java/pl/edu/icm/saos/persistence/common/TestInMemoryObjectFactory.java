@@ -59,7 +59,7 @@ public abstract class TestInMemoryObjectFactory {
      * Creates {@link pl.edu.icm.saos.persistence.model.CommonCourt} hierarchy with default field data.
      * @return CommonCourt
      */
-    public static CommonCourt createCcCourt(boolean save){
+    public static CommonCourt createCcCourt(){
         return TestInMemoryCcObjectFactory.createCcCourt();
     }
 

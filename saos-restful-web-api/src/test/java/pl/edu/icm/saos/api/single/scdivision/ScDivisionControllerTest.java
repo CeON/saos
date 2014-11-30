@@ -14,7 +14,7 @@ import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
-import pl.edu.icm.saos.persistence.common.TestObjectFactory;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
 
 import static org.hamcrest.Matchers.endsWith;
@@ -36,7 +36,7 @@ public class ScDivisionControllerTest extends PersistenceTestSupport {
 
 
     @Autowired
-    private TestObjectFactory testObjectsFactory;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
     private TestObjectContext testObjectContext;
 
@@ -48,7 +48,7 @@ public class ScDivisionControllerTest extends PersistenceTestSupport {
 
     @Before
     public void setUp(){
-        testObjectContext = testObjectsFactory.createTestObjectContext(true);
+        testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
         divisionsPath = "/api/scDivisions/"+testObjectContext.getScFirstDivisionId();
         chambersPath = "/api/scChambers/"+testObjectContext.getScChamberId();
 

@@ -16,7 +16,7 @@ import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
-import pl.edu.icm.saos.persistence.common.TestObjectFactory;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,7 +43,7 @@ public class DumpCourtsControllerTest extends PersistenceTestSupport {
     private DumpCourtsListSuccessRepresentationBuilder dumpCourtsListSuccessRepresentationBuilder;
 
     @Autowired
-    private TestObjectFactory testObjectsFactory;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
     private TestObjectContext testObjectContext;
 
@@ -51,7 +51,7 @@ public class DumpCourtsControllerTest extends PersistenceTestSupport {
 
     @Before
     public void setUp(){
-        testObjectContext = testObjectsFactory.createTestObjectContext(true);
+        testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
 
         DumpCourtsController dumpCourtsController = new DumpCourtsController();
 

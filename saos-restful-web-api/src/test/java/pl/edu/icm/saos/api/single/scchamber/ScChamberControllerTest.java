@@ -14,14 +14,15 @@ import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
-import pl.edu.icm.saos.persistence.common.TestObjectFactory;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_CHAMBER_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_DIVISION_NAME;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
@@ -35,7 +36,7 @@ public class ScChamberControllerTest extends PersistenceTestSupport {
     private ScChamberRepository scChamberRepository;
 
     @Autowired
-    private TestObjectFactory testObjectsFactory;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
     private TestObjectContext testObjectContext;
 
@@ -46,7 +47,7 @@ public class ScChamberControllerTest extends PersistenceTestSupport {
 
     @Before
     public void setUp(){
-        testObjectContext = testObjectsFactory.createTestObjectContext(true);
+        testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
         chambersPath = "/api/scChambers/"+testObjectContext.getScChamberId();
 
         ScChamberController scChamberController = new ScChamberController();

@@ -15,7 +15,7 @@ import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
-import pl.edu.icm.saos.persistence.common.TestObjectFactory;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -26,7 +26,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.services.Constansts.*;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_KEYWORD;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,7 +40,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
     private JudgmentRepository judgmentRepository;
 
     @Autowired
-    private TestObjectFactory testObjectsFactory;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
     private TestObjectContext testObjectContext;
 
@@ -53,7 +52,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
 
     @Before
     public void setUp(){
-        testObjectContext = testObjectsFactory.createTestObjectContext(true);
+        testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
         ccJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId();
         scJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getScJudgmentId();
 

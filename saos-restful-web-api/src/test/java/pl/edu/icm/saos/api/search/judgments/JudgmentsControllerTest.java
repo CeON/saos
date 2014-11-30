@@ -21,7 +21,7 @@ import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
-import pl.edu.icm.saos.persistence.common.TestObjectFactory;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
@@ -61,13 +61,13 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     private JudgmentsApiSearchService apiSearchService;
 
     @Autowired
-    private TestObjectFactory testObjectsFactory;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
     private TestObjectContext testObjectContext;
 
     @Before
     public void setUp() throws Exception{
-        testObjectContext = testObjectsFactory.createTestObjectContext(true);
+        testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
 
         clearAndIndexJudgmentsInSolr(testObjectContext);
 

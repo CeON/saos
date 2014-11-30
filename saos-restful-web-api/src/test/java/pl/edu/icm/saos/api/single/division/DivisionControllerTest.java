@@ -14,7 +14,7 @@ import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
-import pl.edu.icm.saos.persistence.common.TestObjectFactory;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 
 import static org.hamcrest.Matchers.endsWith;
@@ -37,7 +37,7 @@ public class DivisionControllerTest extends PersistenceTestSupport {
     private DivisionSuccessRepresentationBuilder divisionSuccessRepresentationBuilder;
 
     @Autowired
-    private TestObjectFactory testObjectsFactory;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
     private TestObjectContext testObjectContext;
 
@@ -51,7 +51,7 @@ public class DivisionControllerTest extends PersistenceTestSupport {
 
     @Before
     public void setUp(){
-        testObjectContext = testObjectsFactory.createTestObjectContext(true);
+        testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
         divisionPath = SINGLE_DIVISIONS_PATH + "/" +testObjectContext.getCcFirstDivisionId();
         courtPath = SINGLE_COURTS_PATH + "/" +testObjectContext.getCcCourtId();
         parentCourtPath = SINGLE_COURTS_PATH + "/" +testObjectContext.getCcCourtParentId();
