@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.edu.icm.saos.persistence.repository.CcJudgmentKeywordRepository;
+import pl.edu.icm.saos.webapp.services.KeywordsWebService;
 
 /**
  * @author Łukasz Pawełczak
@@ -18,7 +19,7 @@ public class KeywordController {
 
 	
 	@Autowired
-	private CcJudgmentKeywordRepository ccJudgmentKeywordRepository;
+	private KeywordsWebService keywordsWebService;
 	
 	@Autowired
     private SimpleKeywordConverter simpleKeywordConverter;
@@ -29,7 +30,7 @@ public class KeywordController {
 	@RequestMapping("/keywords")
 	@ResponseBody
 	public List<SimpleKeyword> keywords() {
-		return simpleKeywordConverter.convertCcJudgmentKeywords(ccJudgmentKeywordRepository.findAll());
+		return simpleKeywordConverter.convertCcJudgmentKeywords(keywordsWebService.getCcJudgKeywords());
 	}
 	
 	

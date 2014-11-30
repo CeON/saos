@@ -66,7 +66,7 @@ var Suggester = (function() {
         }
         
         //selItem[searchName] = 0;
-        
+                
         createContainer($item, searchName);
         assignEvents($item, fieldId, searchName);
         
@@ -149,7 +149,61 @@ var Suggester = (function() {
         //$.get("api/suggest?q=" + inputVal + "&field=" + searchField[searchName], function(data) {})
         $.ajax("keywords/")
         .done(function(data) {
+        	
+        	var	dataLength = data.length;
+			 
+			 //console.log(dataLength);
+			 
+			 
+		 
+			 if(dataLength > 0) {
+     			var maxItems = 5,
+     				i = 0;
+ 				
+ 				$suggestions.empty();
+     			
+     			
+     			for(var j = 0; j < dataLength; j += 1) {
+     				var phrase = data[j].phrase;
+     				
+ 					if (phrase.indexOf($field.val().trim()) !== -1 ) {
+	     				if (i < maxItems) {
+	     					html += "<li>" + data[j].phrase + "</li>";
+	 						i += 1;
+	     				}
+ 					}
+   				
+     			}
+     			
+     			setSelectedItem(0, searchName);
+     			
+     			$suggestions.prepend(html);
+     			$suggestions.find("li").wrapInTag({ tag: 'b', words: [$field.val().trim()]});
+     			
+     			$suggestions.find("li").each(function(index) {
+     				$(this).on("click", function() {
+     					populateSearchField($field, searchName);
+     					setSelectedItem(null, searchName);
+     					loadSuggestions(fieldId, searchName, false);
+     				}).on("mouseover", function() {
+     					setSelectedItem(index, searchName);
+     				});        				
+     			});
+     			
+     			if (showData){
+     				$suggestions.show();
+     			} else {
+     				$suggestions.hide();
+     			}
+ 			} else {
+ 				$suggestions.empty();
+         		setSelectedItem(null, searchName);
+         	}
+			 
+			 
+			 /*
         	$data = $(data);
+        	
     		if($data.find('field').text() === searchField[searchName] && $data.find('q').text() === $field.attr('value')) {
     			
     			if($data.find("suggest").length > 0) {
@@ -165,6 +219,7 @@ var Suggester = (function() {
         				}
         			});
         			setSelectedItem(0, searchName);
+        			console.log(html);
         			$suggestions.prepend(html);
         			
         			$suggestions.find("li").each(function(index) {
@@ -186,7 +241,7 @@ var Suggester = (function() {
     				$suggestions.empty();
             		setSelectedItem(null, searchName);
             	}
-        	} 
+        	} */
         });
     },
     
@@ -219,7 +274,8 @@ var Suggester = (function() {
     	var $suggestions = $("#suggestions-" + searchName);
     	
     	if ((selItem[searchName] >= 0 && selItem[searchName] !== null  && selItem[searchName] !== undefined)) {
-    		$field.attr("value", $suggestions.find("li").eq(selItem[searchName]).text());
+    		
+    		$field.val($suggestions.find("li").eq(selItem[searchName]).text());
     	}
     };
     
@@ -238,7 +294,7 @@ $.fn.inputSuggester = function(source) {
 
 
 
-$("#input-search-keywords").inputSuggester({searchField: "all", searchName: "all"});
+
 
 
 

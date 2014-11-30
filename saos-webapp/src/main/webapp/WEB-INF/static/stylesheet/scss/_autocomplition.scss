@@ -1,15 +1,20 @@
 .suggestions-container {
     left: 0;
     position: absolute;
-    top: 20px;
-    width: 403px;
+    top: 33px;
+	width: 100%;
     z-index: 2;
 }
 .suggestions-container ul {
     background: none repeat scroll 0 0 #ffffff;
-    border-top: 1px dotted #aaa;
+    border-top: 1px dotted #ccc;
     display: none;
+    margin-left: 15px;
+	margin-right: 15px;
     margin-top: 0;
+    padding-left: 0px;
+    padding-bottom: 0px;
+    
 }
 .suggestions-container ul li {
     -moz-border-bottom-colors: none;
@@ -17,13 +22,13 @@
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
     background: inherit;
-    border-color: #888888;
+    border-color: #ccc;
     border-image: none;
     border-style: solid;
     border-width: 0 1px;
     display: block;
     font-size: 14px;
-    padding: 4px;
+    padding: 4px 12px;
 }
 .suggestions-container ul li:first-child {
 }
@@ -36,3 +41,4 @@
     cursor: pointer;
     font-weight: bold;
 }
+

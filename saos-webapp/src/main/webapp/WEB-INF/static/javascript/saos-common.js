@@ -85,5 +85,9 @@ $(document).ready(function() {
     	settingsButton: {className: "filter-box-button"},
     });
     
-    Keywords.get(contextPath + "/keywords");
+    
+    $("#input-search-keywords").inputSuggester({searchField: "all", searchName: "all"});
+    //Keywords.get(contextPath + "/keywords");
+    
+    
 });
