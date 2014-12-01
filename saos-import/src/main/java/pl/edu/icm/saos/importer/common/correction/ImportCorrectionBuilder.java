@@ -114,16 +114,16 @@ public class ImportCorrectionBuilder {
             checkState(this.importCorrection.getCorrectedProperty() == null);
             checkState(this.importCorrection.getDeletedObjectClass() == null);
             checkState(StringUtils.isNotBlank(this.importCorrection.getNewValue()));
-        };
+        }
         
         if (this.importCorrection.getChangeOperation().equals(ChangeOperation.UPDATE)) {
             checkState(this.importCorrection.getCorrectedProperty() != null);
             checkState(this.importCorrection.getDeletedObjectClass() == null);
             checkState(StringUtils.isNotBlank(this.importCorrection.getNewValue()));
-        };
+        }
        
         return this.importCorrection;
-    };
+    }
     
 
 

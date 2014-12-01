@@ -140,15 +140,15 @@ public class JudgmentCorrectionBuilder {
              checkState(this.judgmentCorrection.getCorrectedProperty() == null);
              checkState(this.judgmentCorrection.getCorrectedObjectId() != null);
              checkState(StringUtils.isNotBlank(this.judgmentCorrection.getNewValue()));
-        };
+        }
         
         if (this.judgmentCorrection.getChangeOperation().equals(ChangeOperation.UPDATE)) {
             checkState(this.judgmentCorrection.getCorrectedProperty() != null);
             checkState(StringUtils.isNotBlank(this.judgmentCorrection.getNewValue()));
-        };
+        }
        
         return this.judgmentCorrection;
-    };
+    }
     
 
     
