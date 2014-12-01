@@ -86,8 +86,12 @@ $(document).ready(function() {
     });
     
     
-    $("#input-search-keywords").inputSuggester({searchField: "all", searchName: "all"});
-    //Keywords.get(contextPath + "/keywords");
+    /* Add suggester to field CommonCourtKeywords,
+     * located in search form.
+     */
+    $("#input-search-keywords").autoComplitionSuggester({searchName: "cckeywords",
+    	url: contextPath + "/keywords/", maxSuggestions: 6, cssClass: "suggestions"});
+    
     
     
 });

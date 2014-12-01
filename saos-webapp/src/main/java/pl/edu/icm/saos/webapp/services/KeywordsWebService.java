@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.repository.CcJudgmentKeywordRepository;
 import pl.edu.icm.saos.webapp.common.StringComparator;
 
@@ -26,9 +25,9 @@ public class KeywordsWebService {
 	
 	//------------------------ LOGIC --------------------------
 	
-	public List<CcJudgmentKeyword> getCcJudgKeywords() {
+	public List<CcJudgmentKeyword> getCcJudgmentKeywords(String phrase) {
 		
-		List<CcJudgmentKeyword> keywords = ccJudgmentKeywordRepository.findAll();
+		List<CcJudgmentKeyword> keywords = ccJudgmentKeywordRepository.findAllByPhrasePart(phrase);
 		CcJudgmentKeywordComparator ccJudgmentKeywordComparator = new CcJudgmentKeywordComparator();
 		
 		Collections.sort(keywords, ccJudgmentKeywordComparator);
@@ -45,5 +44,13 @@ public class KeywordsWebService {
             return StringComparator.compare(keywordOne.getPhrase(), keywordTwo.getPhrase());
         }  
 	} 
+	
+	
+	//------------------------ SETTERS --------------------------
+	
+	//For unit tests
+	public void setCcJudgmentKeywordRepository(CcJudgmentKeywordRepository ccJudgmentKeywordRepository) {
+		this.ccJudgmentKeywordRepository = ccJudgmentKeywordRepository;
+	}
 	
 }

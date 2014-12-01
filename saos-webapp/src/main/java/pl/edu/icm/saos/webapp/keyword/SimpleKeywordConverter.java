@@ -6,8 +6,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import pl.edu.icm.saos.webapp.division.SimpleDivision;
 
 /**
  * Service for converting list of CcJudgmentKeyword into SimpleKeyword list.  

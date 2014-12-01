@@ -12,7 +12,7 @@ public class SimpleKeyword {
 	private String phrase;
 	
 	
-	//------------------------ SETTERS --------------------------
+	//------------------------ GETTERS --------------------------
 	
 	public String getId() {
 		return id;
@@ -23,7 +23,7 @@ public class SimpleKeyword {
 	}
 
 	
-	//------------------------ GETTERS --------------------------
+	//------------------------ SETTERS --------------------------
 	
 	public void setId(String id) {
 		this.id = id;
