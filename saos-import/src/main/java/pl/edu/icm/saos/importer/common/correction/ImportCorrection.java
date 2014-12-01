@@ -1,13 +1,11 @@
 package pl.edu.icm.saos.importer.common.correction;
 
-import org.apache.commons.lang3.StringUtils;
+import java.util.Objects;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
+import pl.edu.icm.saos.persistence.correction.model.ChangeOperation;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
-import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
-
-import com.google.common.base.Preconditions;
 
 /**
  * 
@@ -20,7 +18,9 @@ public class ImportCorrection {
 
     
     private DataObject correctedObject;
+    private Class<? extends DataObject> deletedObjectClass;
     private CorrectedProperty correctedProperty;
+    private ChangeOperation changeOperation;
     private String oldValue;
     private String newValue;
     
@@ -28,22 +28,14 @@ public class ImportCorrection {
     
     //------------------------ CONSTRUCTORS --------------------------
     
-    public ImportCorrection(DataObject correctedObject, CorrectedProperty correctedProperty, String oldValue, String newValue) {
-        Preconditions.checkNotNull(correctedProperty);
-        Preconditions.checkArgument(StringUtils.isNotBlank(oldValue) || StringUtils.isNotBlank(newValue));
-            
-        this.correctedObject = correctedObject;
-        this.correctedProperty = correctedProperty;
-        this.oldValue = oldValue;
-        this.newValue = newValue;
+    ImportCorrection() {
     }
     
     
     //------------------------ GETTERS --------------------------
     
     /**
-     * Corrected object that is a part of a judgment, e.g. {@link Judge} <br/>
-     * In case of simple direct judgment property (for example JudgmentType) it should be null 
+     * Corrected object. Must not be null if {@link #getChangeOperation()} does NOT equal {@link ChangeOperation#DELETE}
      */
     public DataObject getCorrectedObject() {
         return correctedObject;
@@ -58,6 +50,21 @@ public class ImportCorrection {
         return newValue;
     }
     
+    public ChangeOperation getChangeOperation() {
+        return changeOperation;
+    }
+
+    /**
+     * Class of the object that has not been imported. Must not be null
+     * if {@link #getChangeOperation()} equals {@link ChangeOperation#DELETE}
+     */
+    Class<? extends DataObject> getDeletedObjectClass() {
+        return deletedObjectClass;
+    }
+
+    
+
+
     
     //------------------------ SETTERS --------------------------
     
@@ -65,6 +72,31 @@ public class ImportCorrection {
         this.correctedObject = correctedObject;
     }
     
+
+    void setCorrectedProperty(CorrectedProperty correctedProperty) {
+        this.correctedProperty = correctedProperty;
+    }
+
+
+    void setChangeOperation(ChangeOperation changeOperation) {
+        this.changeOperation = changeOperation;
+    }
+
+
+    void setOldValue(String oldValue) {
+        this.oldValue = oldValue;
+    }
+
+
+    void setNewValue(String newValue) {
+        this.newValue = newValue;
+    }
+
+
+    void setDeletedObjectClass(Class<? extends DataObject> deletedObjectClass) {
+        this.deletedObjectClass = deletedObjectClass;
+    }
+
     
     
     //------------------------ HashCode & Equals --------------------------
@@ -72,56 +104,41 @@ public class ImportCorrection {
     
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((correctedObject == null) ? 0 : correctedObject.hashCode());
-        result = prime
-                * result
-                + ((correctedProperty == null) ? 0 : correctedProperty
-                        .hashCode());
-        result = prime * result
-                + ((newValue == null) ? 0 : newValue.hashCode());
-        result = prime * result
-                + ((oldValue == null) ? 0 : oldValue.hashCode());
-        return result;
+        return Objects.hash(this.correctedObject, this.deletedObjectClass, this.correctedProperty, this.changeOperation, this.oldValue, this.newValue);
     }
     
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ImportCorrection other = (ImportCorrection) obj;
-        if (correctedObject == null) {
-            if (other.correctedObject != null)
-                return false;
-        } else if (!correctedObject.equals(other.correctedObject))
-            return false;
-        if (correctedProperty != other.correctedProperty)
-            return false;
-        if (newValue == null) {
-            if (other.newValue != null)
-                return false;
-        } else if (!newValue.equals(other.newValue))
-            return false;
-        if (oldValue == null) {
-            if (other.oldValue != null)
-                return false;
-        } else if (!oldValue.equals(other.oldValue))
-            return false;
-        return true;
+        
+        if (obj == null) {
+           return false;
+        }
+        
+        if (getClass() != obj.getClass()) {
+           return false;
+        }
+        
+        final ImportCorrection other = (ImportCorrection) obj;
+        
+        return Objects.equals(this.correctedObject, other.correctedObject)
+                && Objects.equals(this.deletedObjectClass, other.deletedObjectClass)
+                && Objects.equals(this.correctedProperty, other.correctedProperty)
+                && Objects.equals(this.changeOperation, other.changeOperation)
+                && Objects.equals(this.oldValue, other.oldValue)
+                && Objects.equals(this.newValue, other.newValue);
+
     }
+
+
+    
 
     //------------------------ toString --------------------------
     
     @Override
     public String toString() {
-        return "ImportCorrection [correctedObject=" + correctedObject
-                + ", correctedProperty=" + correctedProperty + ", oldValue="
+        return "ImportCorrection [correctedObjectId=" + correctedObject.getId()
+                + ", correctedProperty=" + correctedProperty
+                + ", changeOperation=" + changeOperation + ", oldValue="
                 + oldValue + ", newValue=" + newValue + "]";
     }
 

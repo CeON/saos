@@ -1,12 +1,8 @@
 package pl.edu.icm.saos.importer.common.correction;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.collections.CollectionUtils;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
-import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -29,15 +25,7 @@ public class ImportCorrectionList {
     //------------------------ LOGIC --------------------------
     
     
-    public void addCorrection(DataObject correctedObject, CorrectedProperty correctedProperty, String oldValue, String newValue) {
-        
-        addCorrection(new ImportCorrection(correctedObject, correctedProperty, oldValue, newValue));
-    
-    }
-    
     public void addCorrection(ImportCorrection importCorrection) {
-        Preconditions.checkArgument(! hasImportCorrection(importCorrection.getCorrectedObject(), importCorrection.getCorrectedProperty()));
-        
         importCorrections.add(importCorrection);
      }
     
@@ -57,35 +45,11 @@ public class ImportCorrectionList {
         }
     }
     
-    /**
-     * Returns {@link ImportCorrection} with the given correctedObject and correctedProperty. Returns null
-     * if no correction that meets the specified criteria can be found in {@link #getImportCorrections()}<br/>
-     * The passed correctedObject can be null - in such a case the method tries to find import corrections with null
-     * correctedObject and correctedProperty that is equal to the passed one.
-     * 
-     */
-    public ImportCorrection getImportCorrection(DataObject correctedObject, CorrectedProperty correctedProperty) {
-        List<ImportCorrection> corrections = getImportCorrections().stream().filter(c->(c.getCorrectedObject()==correctedObject || (c.getCorrectedObject() == null && correctedObject==null)) && c.getCorrectedProperty()==correctedProperty).collect(Collectors.toList());
-        
-        if (CollectionUtils.isEmpty(corrections)) {
-            return null;
-        }
-    
-        return corrections.get(0);
-
-    }
-    
     public int getNumberOfCorrections() {
         return importCorrections.size();
     }
     
     
-    /**
-     * Uses {@link #getImportCorrection(DataObject, CorrectedProperty)}
-     */
-    public boolean hasImportCorrection(DataObject correctedObject, CorrectedProperty correctedProperty) {
-        return getImportCorrection(correctedObject, correctedProperty) != null;
-    }
     
     public boolean hasImportCorrection(ImportCorrection importCorrection) {
         return getImportCorrections().contains(importCorrection);

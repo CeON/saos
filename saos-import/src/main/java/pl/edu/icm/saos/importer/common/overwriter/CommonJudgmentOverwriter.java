@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
@@ -107,15 +106,13 @@ public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
                 oldJudgment.removeJudge(oldJudge);
             }
         }
-        for (Judge judge : newJudgment.getJudges()) {
-            Judge nJudge = new Judge(judge.getName(), judge.getSpecialRoles().toArray(new JudgeRole[1]));
+        for (Judge nJudge : newJudgment.getJudges()) {
             if (!oldJudgment.containsJudge(nJudge.getName())) {
                 oldJudgment.addJudge(nJudge);    
-                correctionList.changeCorrectedObject(judge, nJudge);
             } else {
                 Judge oldJudge = oldJudgment.getJudge(nJudge.getName());
                 oldJudge.setSpecialRoles(nJudge.getSpecialRoles());
-                correctionList.changeCorrectedObject(judge, oldJudge);
+                correctionList.changeCorrectedObject(nJudge, oldJudge);
             }
             
         }

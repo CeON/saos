@@ -8,6 +8,9 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static pl.edu.icm.saos.common.util.StringTools.toRootLowerCase;
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createDelete;
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createUpdate;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 
 import java.util.List;
 
@@ -18,9 +21,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import pl.edu.icm.saos.common.util.PersonNameNormalizer;
-import pl.edu.icm.saos.importer.common.correction.CorrectionAssertions;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
-import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
@@ -48,14 +49,7 @@ public class JudgeConverterTest {
     
     
     
-    //------------------------ LOGIC --------------------------
-    
-    
-    @Test(expected=IllegalArgumentException.class)
-    public void convert_judgeNameBlank() {
-   
-        judgeConverter.convertJudge(" ", correctionList);
-    }
+    //------------------------ TESTS --------------------------
     
     
     
@@ -85,7 +79,7 @@ public class JudgeConverterTest {
         assertNull(judge);
         
         assertEquals(1, correctionList.getNumberOfCorrections());
-        CorrectionAssertions.assertExistsCorrection(correctionList, CorrectedProperty.JUDGE, judgeName, "");
+        correctionList.hasImportCorrection(createDelete(Judge.class).oldValue(judgeName).newValue(null).build());
     }
     
     
@@ -113,7 +107,7 @@ public class JudgeConverterTest {
         assertEquals(0, judge.getSpecialRoles().size());
         
         assertEquals(1, correctionList.getNumberOfCorrections());
-        CorrectionAssertions.assertExistsCorrection(correctionList, judge, CorrectedProperty.JUDGE_NAME, judgeName, normalizedJudgeName);
+        correctionList.hasImportCorrection(createUpdate(judge).ofProperty(NAME).oldValue(judgeName).newValue(normalizedJudgeName).build());
     }
     
     

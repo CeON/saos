@@ -5,6 +5,9 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static pl.edu.icm.saos.batch.importer.JudgmentCorrectionAssertUtils.assertJudgmentCorrections;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.JUDGMENT_TYPE;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
+import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
 
 import java.util.List;
 
@@ -23,8 +26,10 @@ import pl.edu.icm.saos.batch.BatchTestSupport;
 import pl.edu.icm.saos.batch.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
+import pl.edu.icm.saos.persistence.correction.model.ChangeOperation;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
+import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
@@ -93,8 +98,8 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
      * ----------------------
      * 12420 SENTENCE, REASON -> SENTENCE
      * 14430 SENTENCE, REASON -> SENTENCE
-     * 14430 ANNA NOWAK * 2 -> ANNA NOWAK
-     * 14430 IZABELA KOMARZEWSKA * 2 -> IZABELA KOMARZEWSKA * 1
+     * 14430 ANNA NOWAK * 2 -> ANNA NOWAK // REMOVED ONE JUDGE
+     * 14430 IZABELA KOMARZEWSKA * 2 -> IZABELA KOMARZEWSKA * 1 // REMOVED ONE JUDGE
      * 14430 !222 -> // REMOVED JUDGE
      * 14430 Sędzia ANNA NOWAK -> ANNA NOWAK
      *  9435 REGULATION, REASON -> REGULATION
@@ -172,10 +177,9 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         assertEquals(7, judgmentCorrectionRepository.count());
         List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAll();
         
-        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGES_MORE_THAN_ONE_WITH_SAME_NAME, 2);
-        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGMENT_TYPE, 3);
-        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGE_NAME, 1);
-        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGE, 1);
+        assertJudgmentCorrections(judgmentCorrections, ChangeOperation.DELETE, Judge.class, null, 3);
+        assertJudgmentCorrections(judgmentCorrections, ChangeOperation.UPDATE, CommonCourtJudgment.class, JUDGMENT_TYPE, 3);
+        assertJudgmentCorrections(judgmentCorrections, ChangeOperation.UPDATE, Judge.class, CorrectedProperty.NAME, 1);
         
         assertJudgmentCorrections_14430();
     }
@@ -246,12 +250,11 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         assertEquals(7, judgmentCorrectionRepository.count());
         List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAll();
         
-        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGES_MORE_THAN_ONE_WITH_SAME_NAME, 2);
-        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGMENT_TYPE, 3);
-        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGE_NAME, 1);
-        assertJudgmentCorrections(judgmentCorrections, CorrectedProperty.JUDGE, 1);
-
+        assertJudgmentCorrections(judgmentCorrections, ChangeOperation.DELETE, Judge.class, null, 3);
+        assertJudgmentCorrections(judgmentCorrections, ChangeOperation.UPDATE, CommonCourtJudgment.class, JUDGMENT_TYPE, 3);
+        assertJudgmentCorrections(judgmentCorrections, ChangeOperation.UPDATE, Judge.class, CorrectedProperty.NAME, 1);
         
+                
         // corrections of judgment_12420
         
         assertEquals(0, judgmentCorrectionRepository.findAllByJudgmentId(judgment_12420.getId()).size());
@@ -267,8 +270,8 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgment_10869.getId());
         
         assertEquals(1, judgmentCorrections.size());
-        
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment_10869, null, null, CorrectedProperty.JUDGMENT_TYPE, "DECISION, REASON", "DECISION")));
+        JudgmentCorrection expectedCorrection = JudgmentCorrectionBuilder.createFor(judgment_10869).update(judgment_10869).property(JUDGMENT_TYPE).oldValue("DECISION, REASON").newValue("DECISION").build();
+        assertEquals(expectedCorrection, judgmentCorrections.get(0));
         
     }
     
@@ -292,15 +295,26 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         
         assertEquals(5, judgmentCorrections.size());
         
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, null, null, CorrectedProperty.JUDGMENT_TYPE, "SENTENCE, REASON", "SENTENCE")));
+        JudgmentCorrection expectedCorrection = createFor(judgment).update(judgment).property(JUDGMENT_TYPE).oldValue("SENTENCE, REASON").newValue("SENTENCE").build();
+        assertTrue(judgmentCorrections.contains(expectedCorrection));
         
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, Judge.class, judgment.getJudge("Izabela Komarzewska").getId(), CorrectedProperty.JUDGES_MORE_THAN_ONE_WITH_SAME_NAME, "Izabela Komarzewska", "")));
+        expectedCorrection = createFor(judgment).delete(Judge.class).oldValue("Izabela Komarzewska").newValue(null).build();
+        assertTrue(judgmentCorrections.contains(expectedCorrection));
         
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, Judge.class, judgment.getJudge("Anna Nowak").getId(), CorrectedProperty.JUDGES_MORE_THAN_ONE_WITH_SAME_NAME, "Anna Nowak", "")));
+        expectedCorrection = createFor(judgment).delete(Judge.class).oldValue("Anna Nowak").newValue(null).build();
+        assertTrue(judgmentCorrections.contains(expectedCorrection));
         
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, Judge.class, judgment.getJudge("Anna Nowak").getId(), CorrectedProperty.JUDGE_NAME, "Sędzia Anna Nowak", "Anna Nowak")));
+        expectedCorrection = createFor(judgment).delete(Judge.class).oldValue("!222").newValue(null).build();
+        assertTrue(judgmentCorrections.contains(expectedCorrection));
+
+        // we don't know which Anna Nowak has been updated - the one that later was deleted or the one that
+        // was saved to the database, that's why we have to check for one of them
+        JudgmentCorrection expectedCorrection1 = createFor(judgment).update(judgment.getJudge("Anna Nowak")).property(NAME).oldValue("Sędzia Anna Nowak").newValue("Anna Nowak").build();
+        JudgmentCorrection expectedCorrection2 = createFor(judgment).update(new Judge("Anna Nowak")).property(NAME).oldValue("Sędzia Anna Nowak").newValue("Anna Nowak").build();
         
-        assertTrue(judgmentCorrections.contains(new JudgmentCorrection(judgment, null, null, CorrectedProperty.JUDGE, "!222", "")));
+        assertTrue(judgmentCorrections.contains(expectedCorrection1) || judgmentCorrections.contains(expectedCorrection2));
+        
+
     }
     
     

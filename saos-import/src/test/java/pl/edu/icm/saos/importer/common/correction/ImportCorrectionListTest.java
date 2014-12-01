@@ -1,15 +1,15 @@
 package pl.edu.icm.saos.importer.common.correction;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createUpdate;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.JUDGMENT_TYPE;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
+import pl.edu.icm.saos.persistence.correction.model.ChangeOperation;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 
@@ -21,20 +21,29 @@ public class ImportCorrectionListTest {
 
     private ImportCorrectionList correctionList = new ImportCorrectionList();
     
+    
+    
     private Judge judgeJanNowak = new Judge("Jan Nowak");
-    private ImportCorrection correctionJudgeNameNowak = new ImportCorrection(judgeJanNowak, CorrectedProperty.JUDGE_NAME, "Sędzia " + judgeJanNowak.getName(), judgeJanNowak.getName());
+    private ImportCorrection correctionJudgeNameNowak = null; 
     
     private Judge judgeJanKowalski = new Judge("Jan Kowalski");
-    private ImportCorrection correctionJudgeNameKowalski = new ImportCorrection(judgeJanKowalski, CorrectedProperty.JUDGE_NAME, "Sędzia " + judgeJanKowalski.getName(), judgeJanKowalski.getName());
+    private ImportCorrection correctionJudgeNameKowalski = null;
     
     private String newJudgmentTypeName = "sentence";
     private String oldJudgmentTypeName = "orzeczenie";
-    private ImportCorrection correctionJudgmentType = new ImportCorrection(null, CorrectedProperty.JUDGMENT_TYPE, newJudgmentTypeName, oldJudgmentTypeName);
+    private ImportCorrection correctionJudgmentType = null;
     
     
     
     @Before
     public void before() {
+        
+        correctionJudgeNameNowak = createUpdate(judgeJanNowak).ofProperty(NAME).oldValue("Sędzia " + judgeJanNowak.getName()).newValue(judgeJanNowak.getName()).build();
+        
+        correctionJudgeNameKowalski = createUpdate(judgeJanKowalski).ofProperty(NAME).oldValue("Sędzia " + judgeJanKowalski.getName()).newValue(judgeJanKowalski.getName()).build();
+        
+        correctionJudgmentType = createUpdate(null).ofProperty(JUDGMENT_TYPE).oldValue(oldJudgmentTypeName).newValue(newJudgmentTypeName).build();
+        
         correctionList.addCorrection(correctionJudgeNameNowak);
         correctionList.addCorrection(correctionJudgeNameKowalski);
         correctionList.addCorrection(correctionJudgmentType);
@@ -42,7 +51,7 @@ public class ImportCorrectionListTest {
     
     
     
-    //------------------------ LOGIC --------------------------
+    //------------------------ TESTS --------------------------
     
     @Test
     public void getNumberOfCorrections() {
@@ -53,37 +62,17 @@ public class ImportCorrectionListTest {
     
     
     @Test
-    public void hasImportCorrection_CorrectedObjectNotNull() {
+    public void hasImportCorrection() {
         
-        assertTrue(correctionList.hasImportCorrection(judgeJanKowalski, CorrectedProperty.JUDGE_NAME));
-        assertFalse(correctionList.hasImportCorrection(judgeJanKowalski, CorrectedProperty.JUDGMENT_TYPE));
+        assertTrue(correctionList.hasImportCorrection(correctionJudgeNameNowak));
+        assertTrue(correctionList.hasImportCorrection(correctionJudgeNameKowalski));
+        assertTrue(correctionList.hasImportCorrection(correctionJudgmentType));
         
-    }
-    
-    
-    @Test
-    public void hasImportCorrection_CorrectedObjectNull() {
+        ImportCorrection correctionJudgeNameKowalskiNew = createUpdate(judgeJanKowalski).ofProperty(NAME).oldValue("Sędzia " + judgeJanKowalski.getName()).newValue(judgeJanKowalski.getName()).build();
+        assertTrue(correctionList.hasImportCorrection(correctionJudgeNameKowalski));
         
-        assertTrue(correctionList.hasImportCorrection(null, CorrectedProperty.JUDGMENT_TYPE));
-        assertFalse(correctionList.hasImportCorrection(null, CorrectedProperty.JUDGE_NAME));
-        
-    }
-    
-    
-    @Test
-    public void getImportCorrection_CorrectedObjectNotNull() {
-        
-        assertEquals(correctionJudgeNameKowalski, correctionList.getImportCorrection(judgeJanKowalski, CorrectedProperty.JUDGE_NAME));
-        assertNull(correctionList.getImportCorrection(judgeJanKowalski, CorrectedProperty.JUDGMENT_TYPE));
-        
-    }
-    
-    
-    @Test
-    public void getImportCorrection_CorrectedObjectNull() {
-        
-        assertNull(correctionList.getImportCorrection(null, CorrectedProperty.JUDGE_NAME));
-        assertEquals(correctionJudgmentType, correctionList.getImportCorrection(null, CorrectedProperty.JUDGMENT_TYPE));
+        correctionJudgeNameKowalskiNew.setChangeOperation(ChangeOperation.CREATE);
+        assertTrue(correctionList.hasImportCorrection(correctionJudgeNameKowalski));
         
     }
     
@@ -94,8 +83,7 @@ public class ImportCorrectionListTest {
         Judge judgeJanNowakowski = new Judge("Jan Nowakowski");
         correctionList.changeCorrectedObject(judgeJanNowak, judgeJanNowakowski);
         
-        assertNotNull(correctionList.getImportCorrection(judgeJanNowakowski, CorrectedProperty.JUDGE_NAME));
-        assertEquals(correctionJudgeNameNowak, correctionList.getImportCorrection(judgeJanNowakowski, CorrectedProperty.JUDGE_NAME));
+        assertTrue(correctionJudgeNameNowak.getCorrectedObject() == judgeJanNowakowski);
         
     }
     

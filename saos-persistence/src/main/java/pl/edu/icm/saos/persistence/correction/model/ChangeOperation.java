@@ -4,9 +4,10 @@ package pl.edu.icm.saos.persistence.correction.model;
  * @author Łukasz Dumiszewski
  */
 
-public enum CorrectedProperty {
+public enum ChangeOperation {
 
-    JUDGMENT_TYPE,
+    CREATE,
+    UPDATE,
+    DELETE
     
-    NAME
 }

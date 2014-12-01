@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -239,15 +241,17 @@ public class SourceCcJudgmentExtractorTest {
         String janOlkowski = "Jan Olkowski";
         String adamNowak = "Adam Nowak";
         String wrongName = "!! 11";
+        String nullName = null;
         
         sJudgment.setChairman(janOlkowski);
-        sJudgment.setJudges(Lists.newArrayList(janOlkowski, adamNowak, wrongName));
+        sJudgment.setJudges(Lists.newArrayList(janOlkowski, adamNowak, wrongName, nullName));
         
         Judge judgeJanOlkowski = new Judge(janOlkowski, JudgeRole.PRESIDING_JUDGE);
         Judge judgeAdamNowak = new Judge(adamNowak);
         when(judgeConverter.convertJudge(janOlkowski, Lists.newArrayList(JudgeRole.PRESIDING_JUDGE), correctionList)).thenReturn(judgeJanOlkowski);
         when(judgeConverter.convertJudge(adamNowak, correctionList)).thenReturn(judgeAdamNowak);
         when(judgeConverter.convertJudge(wrongName, correctionList)).thenReturn(null); // shouldn't be added nor cause NullPointer
+        when(judgeConverter.convertJudge(nullName, correctionList)).thenReturn(null); // shouldn't be added nor cause NullPointer
         
         
         // execute
@@ -269,6 +273,14 @@ public class SourceCcJudgmentExtractorTest {
             }
         }
         
+        
+        
+        verify(judgeConverter).convertJudge(janOlkowski, Lists.newArrayList(JudgeRole.PRESIDING_JUDGE), correctionList);
+        verify(judgeConverter).convertJudge(adamNowak, correctionList);
+        verify(judgeConverter).convertJudge(wrongName, correctionList); 
+        verify(judgeConverter).convertJudge(nullName, correctionList); 
+        verifyNoMoreInteractions(judgeConverter);
+ 
     }
 
     

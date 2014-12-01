@@ -7,6 +7,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createUpdate;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 
 import java.util.List;
 
@@ -19,12 +21,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
-import pl.edu.icm.saos.importer.common.correction.CorrectionAssertions;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.Source;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.SourceScJudge;
-import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
@@ -384,7 +385,8 @@ public class SourceScJudgmentExtractorTest {
         assertThat(scJudgment.getScChambers(), Matchers.containsInAnyOrder(scChamber0, scChamber1));
         
         assertEquals(1, correctionList.getNumberOfCorrections());
-        CorrectionAssertions.assertExistsCorrection(correctionList, scChamber0, CorrectedProperty.SC_CHAMBER_NAME, scChamberName0, normalizedScChamberName0);
+        ImportCorrection expectedCorrection = createUpdate(scChamber0).ofProperty(NAME).oldValue(scChamberName0).newValue(normalizedScChamberName0).build();
+        assertEquals(expectedCorrection, correctionList.getImportCorrections().get(0));
         
     }
 
@@ -495,8 +497,10 @@ public class SourceScJudgmentExtractorTest {
         // assert
         assertTrue(scJudgment.getScJudgmentForm() == scjForm);
         assertEquals(1, correctionList.getNumberOfCorrections());
-        CorrectionAssertions.assertExistsCorrection(correctionList, scjForm, CorrectedProperty.SC_JUDGMENT_FORM_NAME, judgmentFormName, normalizedJudgmentFormName);
-        
+
+        ImportCorrection expectedCorrection = createUpdate(scjForm).ofProperty(NAME).oldValue(judgmentFormName).newValue(normalizedJudgmentFormName).build();
+        assertEquals(expectedCorrection, correctionList.getImportCorrections().get(0));
+
     }
     
     
