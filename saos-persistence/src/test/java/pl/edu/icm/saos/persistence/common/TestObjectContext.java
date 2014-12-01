@@ -59,11 +59,11 @@ public class TestObjectContext {
     }
 
     //------------------------ SETTERS --------------------------
-    public void setCcJudgment(CommonCourtJudgment ccJudgment) {
+    void setCcJudgment(CommonCourtJudgment ccJudgment) {
         this.ccJudgment = ccJudgment;
     }
 
-    public void setScJudgment(SupremeCourtJudgment scJudgment) {
+    void setScJudgment(SupremeCourtJudgment scJudgment) {
         this.scJudgment = scJudgment;
     }
 

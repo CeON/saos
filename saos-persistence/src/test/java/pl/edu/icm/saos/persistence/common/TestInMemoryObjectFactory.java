@@ -11,8 +11,9 @@ import java.util.List;
  * See also {@link TestPersistenceObjectFactory}
  * @author pavtel
  */
-public abstract class TestInMemoryObjectFactory {
-
+public final class TestInMemoryObjectFactory {
+    private TestInMemoryObjectFactory() {
+    }
 
     //------------------------ LOGIC --------------------------
     /**
@@ -96,8 +97,8 @@ public abstract class TestInMemoryObjectFactory {
      * @param size of the list.
      * @return keywords list.
      */
-    public static List<CcJudgmentKeyword> createCcKeywordListWith(int size){
-        return TestInMemoryCcObjectFactory.createCcKeywordListWith(size);
+    public static List<CcJudgmentKeyword> createCcKeywordListWithRandomData(int size){
+        return TestInMemoryCcObjectFactory.createCcKeywordListWithRandomData(size);
     }
 
 

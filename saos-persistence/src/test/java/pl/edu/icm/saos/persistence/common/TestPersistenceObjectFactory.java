@@ -127,8 +127,8 @@ public class TestPersistenceObjectFactory {
      * @return keywords list.
      */
     @Transactional
-    public List<CcJudgmentKeyword> createCcKeywordListWith(int size){
-        List<CcJudgmentKeyword> keywords = TestInMemoryObjectFactory.createCcKeywordListWith(size);
+    public List<CcJudgmentKeyword> createCcKeywordListWithRandomData(int size){
+        List<CcJudgmentKeyword> keywords = TestInMemoryObjectFactory.createCcKeywordListWithRandomData(size);
         keywords.forEach(keyword -> entityManager.persist(keyword));
         entityManager.flush();
 

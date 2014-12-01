@@ -16,9 +16,9 @@ import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 /**
  * @author pavtel
  */
-abstract class TestInMemoryCcObjectFactory {
-
-
+final class TestInMemoryCcObjectFactory {
+    private TestInMemoryCcObjectFactory() {
+    }
     //------------------------ LOGIC --------------------------
     /**
      * Creates {@link pl.edu.icm.saos.persistence.model.CommonCourtJudgment} hierarchy with default field data.
@@ -115,6 +115,7 @@ abstract class TestInMemoryCcObjectFactory {
      * Creates {@link CommonCourt} hierarchy with default field data.
      * @return CommonCourt
      */
+
     static CommonCourt createCcCourt(){
         CommonCourt commonCourt = new CommonCourt();
 
@@ -179,7 +180,6 @@ abstract class TestInMemoryCcObjectFactory {
         }
 
         return judgments;
-
     }
 
 
@@ -188,7 +188,7 @@ abstract class TestInMemoryCcObjectFactory {
      * @param size of the list.
      * @return keywords list.
      */
-    static List<CcJudgmentKeyword> createCcKeywordListWith(int size){
+    static List<CcJudgmentKeyword> createCcKeywordListWithRandomData(int size){
         Preconditions.checkArgument(size <= 0, "size should be positive");
 
         List<CcJudgmentKeyword> ccKeywords = new ArrayList<>(size);
