@@ -2,12 +2,14 @@ package pl.edu.icm.saos.importer.common.converter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createDelete;
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createUpdate;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,9 +27,7 @@ import org.mockito.stubbing.Answer;
 import org.springframework.util.ReflectionUtils;
 
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
-import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
-import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
@@ -400,7 +400,7 @@ public class JudgmentConverterImplTest {
             public List<Judge> answer(InvocationOnMock invocation) throws Throwable {
                 Object[] args = invocation.getArguments();
                 ImportCorrectionList correctionList = (ImportCorrectionList)args[1];
-                correctionList.addCorrection(adamKowalski2, CorrectedProperty.JUDGE_NAME, "Sędzia Adam Kowalski", adamKowalski2.getName());
+                correctionList.addCorrection(createUpdate(adamKowalski2).ofProperty(NAME).oldValue("Sędzia Adam Kowalski").newValue(adamKowalski2.getName()).build());
                 return judges;
             }
         }).when(judgmentDataExtractor).extractJudges(eq(sourceJudgment), any(ImportCorrectionList.class));
@@ -422,14 +422,8 @@ public class JudgmentConverterImplTest {
         
         // assert corrections
         
-        assertEquals(2, jWithCorrectionList.getCorrectionList().getImportCorrections().size());
-        ImportCorrection correctionMoreThanOneWithSameName = jWithCorrectionList.getCorrectionList().getImportCorrection(adamKowalski1, CorrectedProperty.JUDGES_MORE_THAN_ONE_WITH_SAME_NAME);
-        assertNotNull(correctionMoreThanOneWithSameName);
-        assertEquals(adamKowalski2.getName(), correctionMoreThanOneWithSameName.getOldValue());
-        
-        ImportCorrection changeNameCorrection = jWithCorrectionList.getCorrectionList().getImportCorrection(adamKowalski1, CorrectedProperty.JUDGE_NAME);
-        assertNotNull(changeNameCorrection);
-        assertEquals("Sędzia Adam Kowalski", changeNameCorrection.getOldValue());
+        assertTrue(jWithCorrectionList.getCorrectionList().hasImportCorrection(createUpdate(adamKowalski2).ofProperty(NAME).oldValue("Sędzia Adam Kowalski").newValue(adamKowalski2.getName()).build()));
+        assertTrue(jWithCorrectionList.getCorrectionList().hasImportCorrection(createDelete(Judge.class).oldValue(adamKowalski2.getName()).newValue(null).build()));
         
         
     }

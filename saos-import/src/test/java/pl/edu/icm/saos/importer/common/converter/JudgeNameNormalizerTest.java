@@ -143,4 +143,11 @@ public class JudgeNameNormalizerTest {
     }
     
     
+    @Test
+    public void normalize_Blank() {
+        
+        assertEquals("", judgeNameNormalizer.normalize("         "));
+        assertEquals("", judgeNameNormalizer.normalize(null));
+    }
+    
 }

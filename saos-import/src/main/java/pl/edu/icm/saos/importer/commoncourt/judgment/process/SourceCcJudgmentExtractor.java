@@ -1,5 +1,8 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createUpdate;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.JUDGMENT_TYPE;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -16,7 +19,6 @@ import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
-import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
@@ -177,7 +179,7 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
         
         List<Judge> judges = Lists.newArrayList();
         
-        if (StringUtils.isNotBlank(sourceJudgment.getChairman())) {
+        if (StringUtils.isNotBlank(sourceJudgment.getChairman())) { // it's correct for chairman to be empty
             Judge judge = judgeConverter.convertJudge(sourceJudgment.getChairman(), Lists.newArrayList(JudgeRole.PRESIDING_JUDGE), correctionList);
             if (judge != null) {
                 judges.add(judge);
@@ -198,11 +200,7 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
                 continue;
             }
             
-            if (StringUtils.isBlank(judgeName)) {
-                continue;
-            }
-
-            Judge judge = judgeConverter.convertJudge(judgeName, correctionList);
+            Judge judge = judgeConverter.convertJudge(judgeName, correctionList); 
             
             if (judge != null) {
                 judges.add(judge);
@@ -246,7 +244,7 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
         if (sjTypes.size() > 1 || judgmentType == null) {
             String oldValue = sjTypes.stream().reduce((t, u) -> t + ", " + u).get();
             judgmentType = judgmentType==null? JudgmentType.SENTENCE: judgmentType;
-            correctionList.addCorrection(new ImportCorrection(null, CorrectedProperty.JUDGMENT_TYPE, oldValue, judgmentType.name()));
+            correctionList.addCorrection(createUpdate(null).ofProperty(JUDGMENT_TYPE).oldValue(oldValue).newValue(judgmentType.name()).build());
         }
         
         return judgmentType;

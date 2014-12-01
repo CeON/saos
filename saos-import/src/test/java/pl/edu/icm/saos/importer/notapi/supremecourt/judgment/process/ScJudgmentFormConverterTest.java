@@ -2,15 +2,16 @@ package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createUpdate;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.JUDGMENT_TYPE;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import pl.edu.icm.saos.importer.common.correction.CorrectionAssertions;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
-import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 
 /**
@@ -55,7 +56,10 @@ public class ScJudgmentFormConverterTest {
         // assert
         
         assertEquals(JudgmentType.SENTENCE, judgmentType);
-        assertJudgmentTypeCorrection("", JudgmentType.SENTENCE);
+        
+        assertEquals(1, correctionList.getNumberOfCorrections());
+        ImportCorrection expectedCorrection = createUpdate(null).ofProperty(JUDGMENT_TYPE).oldValue("").newValue(judgmentType.name()).build();
+        assertEquals(expectedCorrection, correctionList.getImportCorrections().get(0));
         
     }
 
@@ -163,7 +167,7 @@ public class ScJudgmentFormConverterTest {
         // assert
         
         assertEquals(JudgmentType.SENTENCE, judgmentType);
-        assertJudgmentTypeCorrection(judgmentFormName.trim(), JudgmentType.SENTENCE);
+        //assertJudgmentTypeCorrection(judgmentFormName.trim(), JudgmentType.SENTENCE);
         
         
     }
@@ -171,11 +175,6 @@ public class ScJudgmentFormConverterTest {
     
     //------------------------ PRIVATE --------------------------
     
-    private void assertJudgmentTypeCorrection(String expectedOldValue, JudgmentType expectedNewValue) {
-        assertEquals(1, correctionList.getNumberOfCorrections());
-        CorrectionAssertions.assertExistsCorrection(correctionList, CorrectedProperty.JUDGMENT_TYPE, expectedOldValue, expectedNewValue.name());
-        
-    }
     
     private void setFormNameNormalizerMockToNotChanging(String judgmentFormName) {
         when(scJudgmentFormNameNormalizer.normalize(judgmentFormName)).thenReturn(judgmentFormName);

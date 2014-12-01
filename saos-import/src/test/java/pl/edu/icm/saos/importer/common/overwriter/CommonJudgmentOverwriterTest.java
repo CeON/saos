@@ -2,9 +2,8 @@ package pl.edu.icm.saos.importer.common.overwriter;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 
 import java.util.List;
 
@@ -18,8 +17,8 @@ import org.powermock.reflect.Whitebox;
 import pl.edu.icm.saos.common.testcommon.category.FastTest;
 import pl.edu.icm.saos.importer.common.JudgmentSourceInfoAssertUtils;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
-import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
@@ -175,7 +174,8 @@ public class CommonJudgmentOverwriterTest {
         newJudgment.addJudge(new Judge("Szymon Woźniak"));
         newJudgment.addJudge(new Judge("Szymon W"));
         
-        correctionList.addCorrection(new ImportCorrection(newAnnaNowak, CorrectedProperty.JUDGE_NAME, "Sędzia Anna Nowak", newAnnaNowak.getName()));
+        ImportCorrection judgeNameCorrection = ImportCorrectionBuilder.createUpdate(newAnnaNowak).ofProperty(NAME).oldValue("Sędzia Anna Nowak").newValue(newAnnaNowak.getName()).build(); 
+        correctionList.addCorrection(judgeNameCorrection);
         
      
         // execute
@@ -199,11 +199,8 @@ public class CommonJudgmentOverwriterTest {
         
         
         // check if the reference to a corrected object in the import correction has changed
-        assertNull(correctionList.getImportCorrection(newAnnaNowak, CorrectedProperty.JUDGE_NAME));
-        ImportCorrection changedImportCorrection = correctionList.getImportCorrection(oldAnnaNowak, CorrectedProperty.JUDGE_NAME);
-        assertNotNull(changedImportCorrection);
-        assertEquals(oldAnnaNowak.getName(), changedImportCorrection.getNewValue());
-        assertEquals("Sędzia Anna Nowak", changedImportCorrection.getOldValue());
+        assertTrue(correctionList.hasImportCorrection(judgeNameCorrection));
+        assertTrue(judgeNameCorrection.getCorrectedObject() == oldAnnaNowak);
     }
     
     

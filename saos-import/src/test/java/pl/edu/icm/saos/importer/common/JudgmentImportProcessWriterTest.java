@@ -5,6 +5,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.powermock.reflect.Whitebox;
 
+import pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
@@ -76,20 +78,25 @@ public class JudgmentImportProcessWriterTest {
     
         // given 
         
-        JudgmentWithCorrectionList<Judgment> jwc1 = new JudgmentWithCorrectionList<>(createScJudgment(), createCorrectionList());
-        JudgmentWithCorrectionList<Judgment> jwc2 = new JudgmentWithCorrectionList<>(createScJudgment(), createCorrectionList());
-        JudgmentWithCorrectionList<Judgment> jwc3 = new JudgmentWithCorrectionList<>(createScJudgment(), createCorrectionList());
+        JudgmentWithCorrectionList<Judgment> jwc1 = new JudgmentWithCorrectionList<>(createScJudgment(), createImportCorrectionList());
+        JudgmentWithCorrectionList<Judgment> jwc2 = new JudgmentWithCorrectionList<>(createScJudgment(), createImportCorrectionList());
+        JudgmentWithCorrectionList<Judgment> jwc3 = new JudgmentWithCorrectionList<>(createScJudgment(), createImportCorrectionList());
         
         @SuppressWarnings("unchecked")
         List<JudgmentWithCorrectionList<Judgment>> judgmentsWithCorrectionList = Lists.newArrayList(jwc1, jwc2, jwc3);
         
-        List<JudgmentCorrection> j1Corrections = Lists.newArrayList(new JudgmentCorrection(jwc1.getJudgment(), Judge.class, 1, CorrectedProperty.JUDGE_NAME, "Sędzia Jan", "Jan"));
+        
+        List<JudgmentCorrection> j1Corrections = createJudgmentCorrections(jwc1.getJudgment(), 1);
+        
         when(importCorrectionConverter.convertToJudgmentCorrections(jwc1.getJudgment(), jwc1.getCorrectionList().getImportCorrections())).thenReturn(j1Corrections);
         
-        List<JudgmentCorrection> j2Corrections = Lists.newArrayList(new JudgmentCorrection(jwc2.getJudgment(), Judge.class, 2, CorrectedProperty.JUDGE_NAME, "Sędzia Jan", "Jan"));
+        
+        List<JudgmentCorrection> j2Corrections = createJudgmentCorrections(jwc2.getJudgment(), 2);
+        
         when(importCorrectionConverter.convertToJudgmentCorrections(jwc2.getJudgment(), jwc2.getCorrectionList().getImportCorrections())).thenReturn(j2Corrections);
         
-        List<JudgmentCorrection> j3Corrections = Lists.newArrayList(new JudgmentCorrection(jwc3.getJudgment(), Judge.class, 3, CorrectedProperty.JUDGE_NAME, "Sędzia Jan", "Jan"));
+        
+        List<JudgmentCorrection> j3Corrections = createJudgmentCorrections(jwc3.getJudgment(), 3);
         when(importCorrectionConverter.convertToJudgmentCorrections(jwc3.getJudgment(), jwc3.getCorrectionList().getImportCorrections())).thenReturn(j3Corrections);
         
         
@@ -115,6 +122,8 @@ public class JudgmentImportProcessWriterTest {
     }
 
 
+
+    
     
     
     //------------------------ PRIVATE --------------------------
@@ -128,11 +137,31 @@ public class JudgmentImportProcessWriterTest {
         return scJudgment1;
     }
     
-    private ImportCorrectionList createCorrectionList() {
+    
+    private ImportCorrectionList createImportCorrectionList() {
         ImportCorrectionList correctionList = new ImportCorrectionList();
-        correctionList.addCorrection(new Judge(randomAlphabetic(12)), CorrectedProperty.JUDGE_NAME, randomAlphabetic(23), randomAlphabetic(12));
+        correctionList.addCorrection(ImportCorrectionBuilder.createUpdate(new Judge(randomAlphabetic(12)))
+                                        .ofProperty(CorrectedProperty.NAME)
+                                        .oldValue(randomAlphabetic(23))
+                                        .newValue(randomAlphabetic(12))
+                                        .build());
+                             
         return correctionList;
     }
     
+    
+    private List<JudgmentCorrection> createJudgmentCorrections(Judgment judgment, int judgeId) {
+        
+        Judge judge = new Judge("AAAA");
+        Whitebox.setInternalState(judge, "id", judgeId);
+        
+        List<JudgmentCorrection> j1Corrections = Lists.newArrayList(createFor(judgment)
+                                                        .update(judge)
+                                                        .property(CorrectedProperty.NAME)
+                                                        .oldValue("Sędzia Jan").newValue("Jan")
+                                                        .build());
+        return j1Corrections;
+    }
+
     
 }

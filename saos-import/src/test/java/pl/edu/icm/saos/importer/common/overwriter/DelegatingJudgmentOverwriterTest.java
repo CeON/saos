@@ -9,9 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
-import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 
@@ -42,7 +40,6 @@ public class DelegatingJudgmentOverwriterTest {
         delegatingJudgmentOverwriter.setCommonJudgmentOverwriter(commonJudgmentOverwriter);
         delegatingJudgmentOverwriter.setSpecificJudgmentOverwriter(specificJudgmentOverwriter);
         
-        correctionList.addCorrection(new ImportCorrection(null, CorrectedProperty.JUDGE_NAME, "old name", "new name"));
     }
     
     

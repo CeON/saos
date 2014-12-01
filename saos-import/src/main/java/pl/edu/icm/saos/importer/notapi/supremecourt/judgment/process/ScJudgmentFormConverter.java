@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process;
 
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createUpdate;
+
 import java.util.Locale;
 import java.util.Map;
 
@@ -7,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
@@ -58,7 +59,12 @@ class ScJudgmentFormConverter {
         
         if (judgmentType == null || scJudgmentFormNameNormalizer.isChangedByNormalization(judgmentFormName)) {
             judgmentType = judgmentType==null? JudgmentType.SENTENCE: judgmentType;
-            correctionList.addCorrection(new ImportCorrection(null, CorrectedProperty.JUDGMENT_TYPE, StringUtils.trim(judgmentFormName), judgmentType.name()));
+            
+            correctionList.addCorrection(createUpdate(null)
+                                             .ofProperty(CorrectedProperty.JUDGMENT_TYPE)
+                                             .oldValue(StringUtils.trim(judgmentFormName))
+                                             .newValue(judgmentType.name())
+                                             .build());
         }
         
         return judgmentType;

@@ -1,11 +1,12 @@
 package pl.edu.icm.saos.importer.common.converter;
 
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createDelete;
+
 import java.util.List;
 
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
-import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -99,17 +100,9 @@ public class JudgmentConverterImpl<JUDGMENT extends Judgment, SOURCE_JUDGMENT> i
             if (!judgment.containsJudge(judge.getName())) {
                 judgment.addJudge(judge);
             } else {
-                addSameNameCorrection(judgment, correctionList, judge);
+                ImportCorrection importCorrection = createDelete(Judge.class).oldValue(judge.getName()).newValue(null).build();
+                correctionList.addCorrection(importCorrection);
             }
-        }
-    }
-
-
-    private void addSameNameCorrection(JUDGMENT judgment, ImportCorrectionList correctionList, Judge judge) {
-        correctionList.changeCorrectedObject(judge, judgment.getJudge(judge.getName()));
-        ImportCorrection sameNameImportCorrection = new ImportCorrection(judgment.getJudge(judge.getName()), CorrectedProperty.JUDGES_MORE_THAN_ONE_WITH_SAME_NAME, judge.getName(), "");
-        if (!correctionList.hasImportCorrection(sameNameImportCorrection)) {
-            correctionList.addCorrection(sameNameImportCorrection);
         }
     }
 

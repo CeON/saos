@@ -1,5 +1,8 @@
 package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process;
 
+import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder.createUpdate;
+import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,11 +14,9 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
-import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.SourceScJudge;
-import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
@@ -94,10 +95,6 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
         List<Judge> judges = Lists.newArrayList();
         
         for (SourceScJudge scJudge : sourceJudgment.getJudges()) {
-            
-            if (StringUtils.isBlank(scJudge.getName())) {
-                continue;
-            }
             
             List<JudgeRole> roles = scJudge.getSpecialRoles().stream().map(role->JudgeRole.valueOf(role)).collect(Collectors.toList());
             Judge judge = judgeConverter.convertJudge(scJudge.getName(), roles, correctionList);
@@ -215,7 +212,9 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     private void checkAndSaveCorrection(ImportCorrectionList correctionList, SupremeCourtChamber scChamber, String scChamberName, String normalizedChamberName) {
         
         if (scChamberNameNormalizer.isChangedByNormalization(scChamberName)) {
-            correctionList.addCorrection(new ImportCorrection(scChamber, CorrectedProperty.SC_CHAMBER_NAME, scChamberName.trim(), normalizedChamberName));
+            correctionList.addCorrection(createUpdate(scChamber)
+                                           .ofProperty(NAME).oldValue(scChamberName.trim()).newValue(normalizedChamberName)
+                                           .build());
         }
     }
 
@@ -254,7 +253,9 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     private void checkAndSaveCorrection(ImportCorrectionList correctionList, SupremeCourtJudgmentForm scJudgmentForm, String sourceScJudgmentFormName, String normalizedJudgmentFormName) {
         
         if (scJudgmentFormNameNormalizer.isChangedByNormalization(sourceScJudgmentFormName)) {
-            correctionList.addCorrection(new ImportCorrection(scJudgmentForm, CorrectedProperty.SC_JUDGMENT_FORM_NAME, sourceScJudgmentFormName, normalizedJudgmentFormName));
+            correctionList.addCorrection(createUpdate(scJudgmentForm)
+                                           .ofProperty(NAME).oldValue(sourceScJudgmentFormName).newValue(normalizedJudgmentFormName)
+                                           .build());
         }
         
     }

@@ -6,7 +6,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.common.DataObject;
+import pl.edu.icm.saos.persistence.correction.model.ChangeOperation;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
+import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 import com.google.common.base.Preconditions;
@@ -18,31 +20,36 @@ import com.google.common.base.Preconditions;
 public class ImportCorrectionConverter {
 
     
+    
     //------------------------ LOGIC --------------------------
     
     
     public JudgmentCorrection convertToJudgmentCorrection(Judgment judgment, ImportCorrection importCorrection) {
         
-        DataObject correctedObject = importCorrection.getCorrectedObject();
+        Preconditions.checkNotNull(importCorrection);
+        Preconditions.checkNotNull(judgment);
         
-        if (correctedObject != null) {
-            Preconditions.checkArgument(correctedObject.isPersisted());
+        JudgmentCorrectionBuilder jCorrectionBuilder = JudgmentCorrectionBuilder.createFor(judgment);
+        
+        if (importCorrection.getChangeOperation().equals(ChangeOperation.UPDATE)) {
+            jCorrectionBuilder.update(getCorrectedObject(importCorrection, judgment));
         }
         
-        Class<? extends DataObject> correctedObjectClass = null;
-        Integer correctedObjectId = null;
-        
-        if (correctedObject != null) {
-            correctedObjectClass = correctedObject.getClass();
-            correctedObjectId = correctedObject.getId();
+        else if (importCorrection.getChangeOperation().equals(ChangeOperation.CREATE)) {
+            jCorrectionBuilder.create(getCorrectedObject(importCorrection, judgment));
         }
         
-        JudgmentCorrection jCorrection = new JudgmentCorrection(judgment, correctedObjectClass, correctedObjectId, 
-                                                                importCorrection.getCorrectedProperty(), importCorrection.getOldValue(), 
-                                                                importCorrection.getNewValue());
+        else {
+            jCorrectionBuilder.delete(importCorrection.getDeletedObjectClass());
+        }
         
-        return jCorrection;
+        return jCorrectionBuilder.property(importCorrection.getCorrectedProperty())
+                                             .oldValue(importCorrection.getOldValue())
+                                             .newValue(importCorrection.getNewValue())
+                                             .build();
     }
+
+
     
     
     public List<JudgmentCorrection> convertToJudgmentCorrections(Judgment judgment, List<ImportCorrection> importCorrections) {
@@ -50,5 +57,25 @@ public class ImportCorrectionConverter {
         return importCorrections.stream().map(c->convertToJudgmentCorrection(judgment, c)).collect(Collectors.toList());
  
     }
+ 
+    
+    //------------------------ PRIVATE --------------------------
+    
+    
+
+
+
+    private DataObject getCorrectedObject(ImportCorrection importCorrection, Judgment judgment) {
+        
+        DataObject correctedObject = importCorrection.getCorrectedObject();
+        
+        if (correctedObject == null) {
+            correctedObject = judgment;
+        }
+        
+        
+        return correctedObject;
+    }
+ 
     
 }

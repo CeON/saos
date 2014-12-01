@@ -1,6 +1,9 @@
 package pl.edu.icm.saos.persistence.correction.model;
 
+import java.util.Objects;
+
 import javax.persistence.Cacheable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -42,6 +45,8 @@ public class JudgmentCorrection extends DataObject {
     
     private CorrectedProperty correctedProperty;
     
+    private ChangeOperation changeOperation;
+    
     private String oldValue;
     
     private String newValue;
@@ -53,19 +58,8 @@ public class JudgmentCorrection extends DataObject {
     //------------------------ CONSTRUCTORS --------------------------
     
     
-    public JudgmentCorrection() {
+    JudgmentCorrection() {
         super();
-    }
-    
-
-    public JudgmentCorrection(Judgment judgment, Class<? extends DataObject> correctedObjectClass, Integer correctedObjectId, CorrectedProperty correctedProperty, String oldValue, String newValue) {
-        this();
-        this.judgment = judgment;
-        this.correctedObjectClass = correctedObjectClass;
-        this.correctedObjectId = correctedObjectId;
-        this.correctedProperty = correctedProperty;
-        this.oldValue = oldValue;
-        this.newValue = newValue;
     }
     
     //------------------------ GETTERS --------------------------
@@ -77,7 +71,7 @@ public class JudgmentCorrection extends DataObject {
         return id;
     }
 
-    @ManyToOne
+    @ManyToOne(optional=false)
     public Judgment getJudgment() {
         return judgment;
     }
@@ -90,10 +84,19 @@ public class JudgmentCorrection extends DataObject {
         return newValue;
     }
 
+    /**
+     * Class of the object whose property has been changed. 
+     */
+    @Column(nullable = false)
     public Class<? extends DataObject> getCorrectedObjectClass() {
         return correctedObjectClass;
     }
 
+    /**
+     * Id of the object whose property has been changed <br/>
+     * null - in case of {@link ChangeOperation#DELETE} or in case of {@link ChangeOperation#UPDATE}
+     * if the updated object was deleted later
+     */
     public Integer getCorrectedObjectId() {
         return correctedObjectId;
     }
@@ -103,115 +106,95 @@ public class JudgmentCorrection extends DataObject {
         return correctedProperty;
     }
 
+    @Enumerated(EnumType.STRING)
+    public ChangeOperation getChangeOperation() {
+        return changeOperation;
+    }
+
+
 
     //------------------------ SETTERS --------------------------
 
     
 
-    public void setOldValue(String oldValue) {
+    void setOldValue(String oldValue) {
         this.oldValue = oldValue;
     }
 
-    public void setNewValue(String newValue) {
+    void setNewValue(String newValue) {
         this.newValue = newValue;
     }
 
-    public void setJudgment(Judgment judgment) {
+    void setJudgment(Judgment judgment) {
         this.judgment = judgment;
     }
 
-    public void setCorrectedObjectClass(Class<? extends DataObject> correctedObjectClass) {
+    void setCorrectedObjectClass(Class<? extends DataObject> correctedObjectClass) {
         this.correctedObjectClass = correctedObjectClass;
     }
 
-    public void setCorrectedObjectId(Integer correctedObjectId) {
+    void setCorrectedObjectId(Integer correctedObjectId) {
         this.correctedObjectId = correctedObjectId;
     }
 
-    public void setCorrectedProperty(CorrectedProperty correctedProperty) {
+    void setCorrectedProperty(CorrectedProperty correctedProperty) {
         this.correctedProperty = correctedProperty;
     }
-
+    
+    void setChangeOperation(ChangeOperation changeOperation) {
+        this.changeOperation = changeOperation;
+    }
+    
     
     
     //------------------------ HashCode & Equals --------------------------
     
-    
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime
-                * result
-                + ((correctedObjectClass == null) ? 0 : correctedObjectClass
-                        .hashCode());
-        result = prime
-                * result
-                + ((correctedObjectId == null) ? 0 : correctedObjectId
-                        .hashCode());
-        result = prime
-                * result
-                + ((correctedProperty == null) ? 0 : correctedProperty
-                        .hashCode());
-        result = prime * result
-                + ((judgment == null) ? 0 : judgment.hashCode());
-        result = prime * result
-                + ((newValue == null) ? 0 : newValue.hashCode());
-        result = prime * result
-                + ((oldValue == null) ? 0 : oldValue.hashCode());
-        return result;
+        return Objects.hash(judgment, correctedObjectClass, correctedObjectId, correctedProperty, changeOperation, oldValue, newValue);
     }
-
+    
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        JudgmentCorrection other = (JudgmentCorrection) obj;
-        if (correctedObjectClass == null) {
-            if (other.correctedObjectClass != null)
-                return false;
-        } else if (!correctedObjectClass.equals(other.correctedObjectClass))
-            return false;
-        if (correctedObjectId == null) {
-            if (other.correctedObjectId != null)
-                return false;
-        } else if (!correctedObjectId.equals(other.correctedObjectId))
-            return false;
-        if (correctedProperty != other.correctedProperty)
-            return false;
-        if (judgment == null) {
-            if (other.judgment != null)
-                return false;
-        } else if (!judgment.equals(other.judgment))
-            return false;
-        if (newValue == null) {
-            if (other.newValue != null)
-                return false;
-        } else if (!newValue.equals(other.newValue))
-            return false;
-        if (oldValue == null) {
-            if (other.oldValue != null)
-                return false;
-        } else if (!oldValue.equals(other.oldValue))
-            return false;
-        return true;
+        
+        if (obj == null) {
+           return false;
+        }
+        
+        if (getClass() != obj.getClass()) {
+           return false;
+        }
+        
+        final JudgmentCorrection other = (JudgmentCorrection) obj;
+        
+        return Objects.equals(this.judgment, other.judgment)
+                && Objects.equals(this.correctedObjectClass, other.correctedObjectClass)
+                && Objects.equals(this.correctedObjectId, other.correctedObjectId)
+                && Objects.equals(this.correctedProperty, other.correctedProperty)
+                && Objects.equals(this.changeOperation, other.changeOperation)
+                && Objects.equals(this.oldValue, other.oldValue)
+                && Objects.equals(this.newValue, other.newValue);
+
     }
 
+
+   
     
     //------------------------ toString --------------------------
     
     @Override
     public String toString() {
         return "JudgmentCorrection [judgmentId=" + judgment.getId()
+                + ", changeOperation=" + changeOperation
                 + ", correctedObjectClass=" + correctedObjectClass
                 + ", correctedObjectId=" + correctedObjectId
                 + ", correctedProperty=" + correctedProperty + ", oldValue="
                 + oldValue + ", newValue=" + newValue + "]";
     }
-    
+
+
+ 
+
+
     
 }

@@ -3,6 +3,7 @@ package pl.edu.icm.saos.persistence.correction;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
 
 import java.util.List;
 
@@ -17,7 +18,6 @@ import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
-import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
@@ -53,7 +53,11 @@ public class JudgmentCorrectionRepositoryTest extends PersistenceTestSupport {
         
         judgment = testJudgmentFactory.createFullCcJudgment(true);
         
-        judgmentCorrection = new JudgmentCorrection(judgment, Judge.class, judgment.getJudges().get(0).getId(), CorrectedProperty.JUDGE_NAME, "sedzia Jan KOWALSKI", "Jan Kowalski");
+        judgmentCorrection = createFor(judgment).update(judgment.getJudges().get(0))
+                                                      .property(CorrectedProperty.NAME)
+                                                      .oldValue("sedzia Jan KOWALSKI")
+                                                      .newValue("Jan Kowalski")
+                                                      .build();
         
         judgmentCorrectionRepository.save(judgmentCorrection);
         
@@ -86,8 +90,13 @@ public class JudgmentCorrectionRepositoryTest extends PersistenceTestSupport {
         
         // given 
         
-        JudgmentCorrection judgmentCorrection2 = new JudgmentCorrection(judgment, null, null, CorrectedProperty.JUDGMENT_TYPE, "xxx", "ccc");
-        
+        JudgmentCorrection judgmentCorrection2 = createFor(judgment).update(judgment)
+                                                   .property(CorrectedProperty.JUDGMENT_TYPE)
+                                                   .oldValue("xxx")
+                                                   .newValue("ccc")
+                                                   .build();
+ 
+                
         judgmentCorrectionRepository.save(judgmentCorrection2);
         
         
@@ -111,7 +120,11 @@ public class JudgmentCorrectionRepositoryTest extends PersistenceTestSupport {
         
         // given 
         
-        JudgmentCorrection judgmentCorrection2 = new JudgmentCorrection(judgment, null, null, CorrectedProperty.JUDGMENT_TYPE, "xxx", "ccc");
+        JudgmentCorrection judgmentCorrection2 = createFor(judgment).update(judgment)
+                                                    .property(CorrectedProperty.JUDGMENT_TYPE)
+                                                    .oldValue("xxx")
+                                                    .newValue("ccc")
+                                                    .build();
         
         judgmentCorrectionRepository.save(judgmentCorrection2);
         
