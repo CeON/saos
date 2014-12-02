@@ -10,7 +10,7 @@ public final class EnrichmentTagTypes {
 
     
     private EnrichmentTagTypes() {
-        throw new IllegalStateException("may not by instantiated");
+        throw new IllegalStateException("may not be instantiated");
     }
     
     
