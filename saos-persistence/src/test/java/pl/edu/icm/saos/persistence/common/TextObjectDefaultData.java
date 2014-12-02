@@ -5,7 +5,10 @@ import pl.edu.icm.saos.persistence.model.*;
 /**
  * @author pavtel
  */
-public abstract class TextObjectDefaultData {
+public final class TextObjectDefaultData {
+
+    private TextObjectDefaultData() {
+    }
 
     public static final String CC_CASE_NUMBER = "00112233";
     public static final String SC_CASE_NUMBER = "00223344";
