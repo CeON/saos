@@ -59,7 +59,7 @@ public class PersistenceConfiguration {
     public EntityManagerFactory entityManagerFactory() {
        LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
        emf.setDataSource(dataSource());
-       emf.setPackagesToScan(new String[] {"pl.edu.icm.saos.persistence.model", "pl.edu.icm.saos.persistence.correction.model"});
+       emf.setPackagesToScan(new String[] {"pl.edu.icm.saos.persistence"});
        emf.setSharedCacheMode(SharedCacheMode.ENABLE_SELECTIVE);
        HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
        emf.setJpaVendorAdapter(vendorAdapter);
