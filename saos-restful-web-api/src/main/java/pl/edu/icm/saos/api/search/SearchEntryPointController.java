@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.icm.saos.api.entry.point.LinkWithDescription;
 import pl.edu.icm.saos.api.entry.point.LinkWithDescriptionBuilder;
-import pl.edu.icm.saos.api.search.courts.CourtsController;
 import pl.edu.icm.saos.api.search.judgments.JudgmentsController;
 
 import static pl.edu.icm.saos.api.entry.point.LinkWithDescriptionBuilder.createLinksRepresentation;
 
 /**
+ * Creates view for search entry point.
  * @author pavtel
  */
 @Controller
@@ -25,18 +25,13 @@ public class SearchEntryPointController {
     @ResponseBody
     public ResponseEntity<Object> show()  {
 
-        LinkWithDescription courts = new LinkWithDescriptionBuilder()
-                .rel("courts")
-                .href(CourtsController.class)
-                .description("Allows search courts")
-                .build();
 
         LinkWithDescription judgments = new LinkWithDescriptionBuilder()
                 .rel("judgments")
                 .href(JudgmentsController.class)
-                .description("Allows serach judgments")
+                .description("Allows search judgments")
                 .build();
 
-        return new ResponseEntity<>(createLinksRepresentation(courts, judgments), HttpStatus.OK);
+        return new ResponseEntity<>(createLinksRepresentation(judgments), HttpStatus.OK);
     }
 }
