@@ -27,9 +27,9 @@ public class KeywordController {
 	
     //------------------------ LOGIC --------------------------	
 	
-	@RequestMapping("/keywords/{phrase}")
+	@RequestMapping("/ccKeywords/{phrase}")
 	@ResponseBody
-	public List<SimpleKeyword> keywords(@PathVariable("phrase") String phrase) {
+	public List<SimpleKeyword> ccKeywords(@PathVariable("phrase") String phrase) {
 		return simpleKeywordConverter.convertCcJudgmentKeywords(keywordsWebService.getCcJudgmentKeywords(phrase));
 	}
 	

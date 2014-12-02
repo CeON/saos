@@ -1,5 +1,5 @@
 /*
- * Suggester - module that enables autocomplition.  
+ * Suggester - module that enables autocompletion.  
  * 
  * Module requires:
  * - jquery
@@ -56,7 +56,7 @@ var Suggester = (function() {
     
     
     /* Assign event methods to search field:
-     * - turn off default autocomplition,
+     * - turn off default autocompletion,
      * - turn off default events keyup & keypress,
      * - on event keyup load suggestions.
      */
@@ -206,7 +206,7 @@ var Suggester = (function() {
     	$suggestions.show();
     },
     
-    /* Set value of search field to selected suggestion */
+    /* Change value of search field to match value of selected suggestion */
     populateSearchField = function($field, searchName) {
     	var $suggestions = $("#suggestions-" + searchName);
     	

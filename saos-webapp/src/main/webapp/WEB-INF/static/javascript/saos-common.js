@@ -86,11 +86,11 @@ $(document).ready(function() {
     });
     
     
-    /* Add suggester to field CommonCourtKeywords,
-     * located in search form.
+    /* Search form view.
+     * Autocompletion added to search field CommonCourtKeywords.
      */
     $("#input-search-keywords").autoComplitionSuggester({searchName: "cckeywords",
-    	url: contextPath + "/keywords/", maxSuggestions: 6, cssClass: "suggestions"});
+    	url: contextPath + "/ccKeywords/", maxSuggestions: 6, cssClass: "suggestions"});
     
     
     
