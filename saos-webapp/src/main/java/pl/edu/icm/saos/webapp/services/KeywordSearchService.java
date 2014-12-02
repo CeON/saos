@@ -16,16 +16,20 @@ import pl.edu.icm.saos.webapp.common.StringComparator;
  *
  */
 @Service
-public class KeywordsWebService {
+public class KeywordSearchService {
 
 	
-	@Autowired
 	private CcJudgmentKeywordRepository ccJudgmentKeywordRepository;
 	
 	
 	//------------------------ LOGIC --------------------------
 	
-	public List<CcJudgmentKeyword> getCcJudgmentKeywords(String phrase) {
+	
+	/**
+     * Finds list of {@link CcJudgmentKeyword} with the given part of phrase ({@link CcJudgmentKeyword#getPhrase()})
+     * and returns it. Returned list contains keywords sorted alphabetically by phrase {@link CcJudgmentKeyword#getPhrase()}.
+     */
+	public List<CcJudgmentKeyword> findCcJudgmentKeywords(String phrase) {
 		
 		List<CcJudgmentKeyword> keywords = ccJudgmentKeywordRepository.findAllByPhrasePart(phrase);
 		CcJudgmentKeywordComparator ccJudgmentKeywordComparator = new CcJudgmentKeywordComparator();
@@ -48,7 +52,7 @@ public class KeywordsWebService {
 	
 	//------------------------ SETTERS --------------------------
 	
-	//For unit tests
+	@Autowired
 	public void setCcJudgmentKeywordRepository(CcJudgmentKeywordRepository ccJudgmentKeywordRepository) {
 		this.ccJudgmentKeywordRepository = ccJudgmentKeywordRepository;
 	}

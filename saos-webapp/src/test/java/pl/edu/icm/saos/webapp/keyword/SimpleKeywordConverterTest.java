@@ -9,9 +9,6 @@ import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 
 import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import pl.edu.icm.saos.webapp.division.SimpleDivision;
-import pl.edu.icm.saos.webapp.division.SimpleDivisionConverter;
 
 import com.google.common.collect.Lists;
 
@@ -38,7 +35,7 @@ public class SimpleKeywordConverterTest {
 	}
 
 	@Test
-	public void convertCcJudgmentKeywords_correct() {
+	public void convertCcJudgmentKeywords_convertion_ok() {
 		//given
 		int idOne = 5;
 		int idTwo = 15;

@@ -89,8 +89,7 @@ $(document).ready(function() {
     /* Search form view.
      * Autocompletion added to search field CommonCourtKeywords.
      */
-    $("#input-search-keywords").autoComplitionSuggester({searchName: "cckeywords",
-    	url: contextPath + "/ccKeywords/", maxSuggestions: 6, cssClass: "suggestions"});
+    $("#input-search-keywords").autoCompletionSuggester({url: contextPath + "/ccKeywords/"});
     
     
     

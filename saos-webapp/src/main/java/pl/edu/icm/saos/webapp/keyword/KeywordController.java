@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pl.edu.icm.saos.webapp.services.KeywordsWebService;
+import pl.edu.icm.saos.webapp.services.KeywordSearchService;
 
 /**
  * @author Łukasz Pawełczak
@@ -19,18 +19,18 @@ public class KeywordController {
 
 	
 	@Autowired
-	private KeywordsWebService keywordsWebService;
+	private KeywordSearchService keywordsWebService;
 	
 	@Autowired
-    private SimpleKeywordConverter simpleKeywordConverter;
+	private SimpleKeywordConverter simpleKeywordConverter;
 	
 	
     //------------------------ LOGIC --------------------------	
 	
 	@RequestMapping("/ccKeywords/{phrase}")
 	@ResponseBody
-	public List<SimpleKeyword> ccKeywords(@PathVariable("phrase") String phrase) {
-		return simpleKeywordConverter.convertCcJudgmentKeywords(keywordsWebService.getCcJudgmentKeywords(phrase));
+	public List<SimpleKeyword> searchCcKeywords(@PathVariable("phrase") String phrase) {
+		return simpleKeywordConverter.convertCcJudgmentKeywords(keywordsWebService.findCcJudgmentKeywords(phrase));
 	}
 	
 	

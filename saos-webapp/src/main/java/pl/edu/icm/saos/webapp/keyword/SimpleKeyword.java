@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.webapp.keyword;
 
 /**
- * Simple keyword DTO for use with ajax search form, mainly for autocomplition  
+ * Simple keyword DTO for use with ajax search form, mainly for autocompletion  
  * 
  * @author Łukasz Pawełczak
  * 

@@ -50,9 +50,49 @@ public class CcJudgmentKeywordRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
-    public void findAllByPhrasePart_null() {
+    public void findAllByPhrasePart_search_ok() {
     	//given
-    	String phrasePart = "";
+    	String keyword = "dobra osobiste";
+    	
+    	List<CcJudgmentKeyword> keywords = Arrays.asList(new CcJudgmentKeyword(keyword));
+    	keywords.forEach(k -> ccJudgmentKeywordRepository.save(k));
+    	
+    	//when
+    	List<CcJudgmentKeyword> actual = ccJudgmentKeywordRepository.findAllByPhrasePart(keyword);
+    	
+    	//then
+    	assertThat(actual, Matchers.containsInAnyOrder(new CcJudgmentKeyword(keyword)));
+    }
+    
+    
+    @Test
+    public void findAllByPhrasePart_search_by_phrase_starting_part_ok() {
+    	//given
+    	String keywordOne = "dobra osobiste";
+    	String keywordTwo = "nieznalezione słowo";
+    	
+    	List<CcJudgmentKeyword> keywords = Arrays.asList(new CcJudgmentKeyword(keywordOne), new CcJudgmentKeyword(keywordTwo));
+    	keywords.forEach(keyword -> ccJudgmentKeywordRepository.save(keyword));
+    	String phrasePartOne = "dob";
+    	String phrasePartTwo = "dobra os";
+    	
+    	//when
+    	List<CcJudgmentKeyword> actualOne = ccJudgmentKeywordRepository.findAllByPhrasePart(phrasePartOne);
+    	List<CcJudgmentKeyword> actualTwo = ccJudgmentKeywordRepository.findAllByPhrasePart(phrasePartTwo);
+    	
+    	//then
+    	assertThat(actualOne, Matchers.containsInAnyOrder(new CcJudgmentKeyword(keywordOne)));
+    	assertThat(actualTwo, Matchers.containsInAnyOrder(new CcJudgmentKeyword(keywordOne)));
+    }
+    
+    @Test
+    public void findAllByPhrasePart_search_by_phrase_part_in_middle() {
+    	//given
+    	String keywordOne = "dobra osobiste";
+    	
+    	List<CcJudgmentKeyword> keywords = Arrays.asList(new CcJudgmentKeyword(keywordOne));
+    	keywords.forEach(keyword -> ccJudgmentKeywordRepository.save(keyword));
+    	String phrasePart = "bra";
     	
     	//when
     	List<CcJudgmentKeyword> actual = ccJudgmentKeywordRepository.findAllByPhrasePart(phrasePart);
@@ -60,21 +100,29 @@ public class CcJudgmentKeywordRepositoryTest extends PersistenceTestSupport {
     	//then
     	assertEquals(0, actual.size());
     }
-    
+
     @Test
-    public void findAllByPhrasePart_correct() {
+    public void findAllByPhrasePart_case_insensitive() {
     	//given
-    	List<CcJudgmentKeyword> keywords = Arrays.asList(new CcJudgmentKeyword("abcCos"), new CcJudgmentKeyword("abcDos"), new CcJudgmentKeyword("bbb"));
+    	String keywordOne = "dobra osobiste";
+    	String keywordTwo = "DOBRA OSOBISTE";
+    	String keywordThree = "DoBrA OsObIsTe";
+    	
+    	String phraseOne = "DOBRA";
+    	String phraseTwo = "dobra";
+    	String phraseThree = "dObRa";
+    			
+    	List<CcJudgmentKeyword> keywords = Arrays.asList(new CcJudgmentKeyword(keywordOne), new CcJudgmentKeyword(keywordTwo), new CcJudgmentKeyword(keywordThree));
     	keywords.forEach(keyword -> ccJudgmentKeywordRepository.save(keyword));
-    	String phrasePart = "abc";
     	
     	//when
-    	List<CcJudgmentKeyword> actual = ccJudgmentKeywordRepository.findAllByPhrasePart(phrasePart);
+    	List<CcJudgmentKeyword> actualOne = ccJudgmentKeywordRepository.findAllByPhrasePart(phraseOne);
+    	List<CcJudgmentKeyword> actualTwo = ccJudgmentKeywordRepository.findAllByPhrasePart(phraseTwo);
+    	List<CcJudgmentKeyword> actualThree = ccJudgmentKeywordRepository.findAllByPhrasePart(phraseThree);
     	
     	//then
-    	assertThat(actual, Matchers.containsInAnyOrder(new CcJudgmentKeyword("abcCos"), new CcJudgmentKeyword("abcDos")));
-    	
-    }
-
-    
+    	assertThat(actualOne, Matchers.containsInAnyOrder(new CcJudgmentKeyword(keywordOne), new CcJudgmentKeyword(keywordTwo), new CcJudgmentKeyword(keywordThree)));
+    	assertThat(actualTwo, Matchers.containsInAnyOrder(new CcJudgmentKeyword(keywordOne), new CcJudgmentKeyword(keywordTwo), new CcJudgmentKeyword(keywordThree)));
+    	assertThat(actualThree, Matchers.containsInAnyOrder(new CcJudgmentKeyword(keywordOne), new CcJudgmentKeyword(keywordTwo), new CcJudgmentKeyword(keywordThree)));
+    } 
 }
