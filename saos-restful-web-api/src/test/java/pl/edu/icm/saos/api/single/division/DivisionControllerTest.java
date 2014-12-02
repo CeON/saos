@@ -10,21 +10,20 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import pl.edu.icm.saos.api.ApiTestConfiguration;
-import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
-import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.common.TestObjectContext;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
+
 import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.services.Constansts.SINGLE_COURTS_PATH;
 import static pl.edu.icm.saos.api.services.Constansts.SINGLE_DIVISIONS_PATH;
-import static pl.edu.icm.saos.api.services.FieldsDefinition.JC;
-
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
@@ -38,11 +37,13 @@ public class DivisionControllerTest extends PersistenceTestSupport {
     private DivisionSuccessRepresentationBuilder divisionSuccessRepresentationBuilder;
 
     @Autowired
-    private TestPersistenceObjectsFactory testPersistenceObjectsFactory;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
+
+    private TestObjectContext testObjectContext;
+
 
     private MockMvc mockMvc;
 
-    private TestPersistenceObjectsContext objectsContext;
 
     private String divisionPath;
     private String courtPath;
@@ -50,10 +51,10 @@ public class DivisionControllerTest extends PersistenceTestSupport {
 
     @Before
     public void setUp(){
-        objectsContext = testPersistenceObjectsFactory.createPersistenceObjectsContext();
-        divisionPath = SINGLE_DIVISIONS_PATH + "/" +objectsContext.getFirstDivisionId();
-        courtPath = SINGLE_COURTS_PATH + "/" +objectsContext.getCommonCourtId();
-        parentCourtPath = SINGLE_COURTS_PATH + "/" +objectsContext.getParentCourtId();
+        testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
+        divisionPath = SINGLE_DIVISIONS_PATH + "/" +testObjectContext.getCcFirstDivisionId();
+        courtPath = SINGLE_COURTS_PATH + "/" +testObjectContext.getCcCourtId();
+        parentCourtPath = SINGLE_COURTS_PATH + "/" +testObjectContext.getCcCourtParentId();
 
         DivisionController divisionController = new DivisionController();
 
@@ -72,19 +73,19 @@ public class DivisionControllerTest extends PersistenceTestSupport {
 
         //then
         actions
-                .andExpect(jsonPath("$.data.id").value(objectsContext.getFirstDivisionId()))
+                .andExpect(jsonPath("$.data.id").value(testObjectContext.getCcFirstDivisionId()))
                 .andExpect(jsonPath("$.data.href").value(endsWith(divisionPath)))
-                .andExpect(jsonPath("$.data.name").value(JC.DIVISION_NAME))
-                .andExpect(jsonPath("$.data.code").value(JC.DIVISION_CODE))
-                .andExpect(jsonPath("$.data.type").value(JC.DIVISION_TYPE_NAME))
+                .andExpect(jsonPath("$.data.name").value(CC_FIRST_DIVISION_NAME))
+                .andExpect(jsonPath("$.data.code").value(CC_FIRST_DIVISION_CODE))
+                .andExpect(jsonPath("$.data.type").value(CC_FIRST_DIVISION_TYPE_NAME))
 
-                .andExpect(jsonPath("$.data.court.id").value(objectsContext.getCommonCourtId()))
+                .andExpect(jsonPath("$.data.court.id").value(testObjectContext.getCcCourtId()))
                 .andExpect(jsonPath("$.data.court.href").value(endsWith(courtPath)))
-                .andExpect(jsonPath("$.data.court.code").value(JC.COURT_CODE))
-                .andExpect(jsonPath("$.data.court.name").value(JC.COURT_NAME))
-                .andExpect(jsonPath("$.data.court.type").value(JC.COURT_TYPE.name()))
+                .andExpect(jsonPath("$.data.court.code").value(CC_COURT_CODE))
+                .andExpect(jsonPath("$.data.court.name").value(CC_COURT_NAME))
+                .andExpect(jsonPath("$.data.court.type").value(CC_COURT_TYPE.name()))
 
-                .andExpect(jsonPath("$.data.court.parentCourt.id").value(objectsContext.getParentCourtId()))
+                .andExpect(jsonPath("$.data.court.parentCourt.id").value(testObjectContext.getCcCourtParentId()))
                 .andExpect(jsonPath("$.data.court.parentCourt.href").value(endsWith(parentCourtPath)))
 
         ;

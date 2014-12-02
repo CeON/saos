@@ -10,20 +10,20 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.support.TestPersistenceObjectsContext;
-import pl.edu.icm.saos.api.support.TestPersistenceObjectsFactory;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.common.TestObjectContext;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
-import static pl.edu.icm.saos.api.services.FieldsDefinition.JC;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
@@ -42,15 +42,16 @@ public class DumpSupremeCourtChambersControllerTest extends PersistenceTestSuppo
     private DumpScChambersListsSuccessRepresentationBuilder dumpScChambersRepresentationBuilder;
 
     @Autowired
-    private TestPersistenceObjectsFactory testPersistenceObjectsFactory;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
+
+    private TestObjectContext testObjectContext;
 
 
     private MockMvc mockMvc;
-    private TestPersistenceObjectsContext objectsContext;
 
     @Before
     public void setUp(){
-        objectsContext = testPersistenceObjectsFactory.createPersistenceObjectsContext();
+        testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
 
         DumpSupremeCourtChambersController scChambersController = new DumpSupremeCourtChambersController();
         scChambersController.setDatabaseSearchService(databaseSearchService);
@@ -72,14 +73,14 @@ public class DumpSupremeCourtChambersControllerTest extends PersistenceTestSuppo
         String pathPrefix = "$.items.[0]";
 
         actions
-                .andExpect(jsonPath(pathPrefix + ".id").value(objectsContext.getScChamberId()))
-                .andExpect(jsonPath(pathPrefix + ".name").value(JC.SC_CHAMBER_NAME))
+                .andExpect(jsonPath(pathPrefix + ".id").value(testObjectContext.getScChamberId()))
+                .andExpect(jsonPath(pathPrefix + ".name").value(SC_CHAMBER_NAME))
 
                 .andExpect(jsonPath(pathPrefix + ".divisions").isArray())
 
-                .andExpect(jsonPath(pathPrefix + ".divisions.[0].id").value(objectsContext.getScDivisionId()))
-                .andExpect(jsonPath(pathPrefix + ".divisions.[0].name").value(JC.SC_CHAMBER_DIVISION_NAME))
-                .andExpect(jsonPath(pathPrefix + ".divisions.[0].fullName").value(JC.SC_CHAMBER_DIVISION_FULL_NAME))
+                .andExpect(jsonPath(pathPrefix + ".divisions.[0].id").value(testObjectContext.getScFirstDivisionId()))
+                .andExpect(jsonPath(pathPrefix + ".divisions.[0].name").value(SC_FIRST_DIVISION_NAME))
+                .andExpect(jsonPath(pathPrefix + ".divisions.[0].fullName").value(SC_FIRST_DIVISION_FULL_NAME))
         ;
     }
 

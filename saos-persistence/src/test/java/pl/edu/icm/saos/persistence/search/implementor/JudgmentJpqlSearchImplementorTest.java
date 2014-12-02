@@ -1,38 +1,27 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.iterableWithSize;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertEquals;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.FieldsNames;
-import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.CourtType;
-import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
+import pl.edu.icm.saos.persistence.model.*;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Tests integration  between
@@ -43,8 +32,7 @@ import pl.edu.icm.saos.persistence.search.result.SearchResult;
 public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     
 
-    @Autowired
-    private TestJudgmentFactory testJudgmentFactory;
+
 
     @Autowired
     private DatabaseSearchService databaseSearchService;
@@ -52,12 +40,14 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Autowired
     private JudgmentRepository judgmentRepository;
 
+    @Autowired
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
+
 
     @Test
     public void search__it_should_not_throw_lazy_exception_for_empty_scChambers_list(){
         //given
-        SupremeCourtJudgment scJudgment = TestJudgmentFactory.createSimpleScJudgment();
-        judgmentRepository.save(scJudgment);
+        SupremeCourtJudgment scJudgment = testPersistenceObjectFactory.createSimpleScJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -75,8 +65,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
 
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_court_cases(){
-        CommonCourtJudgment firstJudgment = TestJudgmentFactory.createSimpleCcJudgment();
-        judgmentRepository.save(firstJudgment);
+        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -92,8 +81,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
 
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_judges_list(){
-        CommonCourtJudgment firstJudgment = TestJudgmentFactory.createSimpleCcJudgment();
-        judgmentRepository.save(firstJudgment);
+        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -108,8 +96,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
 
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_courtReporters_list(){
-        CommonCourtJudgment firstJudgment = TestJudgmentFactory.createSimpleCcJudgment();
-        judgmentRepository.save(firstJudgment);
+        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -125,8 +112,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_legalBases_list(){
         //given
-        CommonCourtJudgment firstJudgment = TestJudgmentFactory.createSimpleCcJudgment();
-        judgmentRepository.save(firstJudgment);
+        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -142,8 +128,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_referencedRegulations_list(){
-        CommonCourtJudgment firstJudgment = TestJudgmentFactory.createSimpleCcJudgment();
-        judgmentRepository.save(firstJudgment);
+        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -158,8 +143,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
 
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_keywords_list(){
-        CommonCourtJudgment firstJudgment = TestJudgmentFactory.createSimpleCcJudgment();
-        judgmentRepository.save(firstJudgment);
+        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -178,7 +162,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Test
     public void search__it_should_find_judgments_with_all_basic_fields(){
         //given
-        CommonCourtJudgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
+        CommonCourtJudgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
                 .filter();
 
@@ -196,7 +180,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         assertThat("case numbers",actualJudgment.getCourtCases(), containsListInAnyOrder(ccJudgment.getCourtCases()));
         assertThat("creation date", actualJudgment.getCreationDate(), is(ccJudgment.getCreationDate()));
         assertThat("judges", actualJudgment.getJudges(), containsListInAnyOrder(ccJudgment.getJudges()));
-        assertThat("all roles ", extractRolesNames(actualJudgment.getJudges()), containsInAnyOrder(Judge.JudgeRole.PRESIDING_JUDGE.name(), Judge.JudgeRole.REPORTING_JUDGE.name()));
+        assertThat("all roles ", extractRolesNames(actualJudgment.getJudges()), containsInAnyOrder(Judge.JudgeRole.PRESIDING_JUDGE.name()));
         assertThat("judge's role", actualJudgment.getJudges().get(0).getSpecialRoles().get(0), is(Judge.JudgeRole.PRESIDING_JUDGE));
 
         assertThat("court reporters", actualJudgment.getCourtReporters(), containsListInAnyOrder(ccJudgment.getCourtReporters()));
@@ -215,7 +199,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Test
     public void search__it_should_find_common_court_judgments_with_all_basic_fields(){
         //given
-        CommonCourtJudgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
+        CommonCourtJudgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
                 .filter();
 
@@ -239,7 +223,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Test
     public void search__it_should_find_supreme_court_judgment_with_all_basic_fields(){
         //given
-        SupremeCourtJudgment scJudgment = testJudgmentFactory.createFullScJudgment(true);
+        SupremeCourtJudgment scJudgment = testPersistenceObjectFactory.createScJudgment();
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
                 .filter();
 
@@ -266,7 +250,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Test
     public void search__it_should_find_subList_of_judgments_ordered_by_judgmentDate(){
         //given
-        List<CommonCourtJudgment> judgments = testJudgmentFactory.createSimpleCcJudgments(true);
+        List<CommonCourtJudgment> judgments = testPersistenceObjectFactory.createCcJudgmentListWithRandomData(4);
         judgments.sort((first, second) -> first.getJudgmentDate().compareTo(second.getJudgmentDate()));
 
 
@@ -292,7 +276,9 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Test
     public void search__it_should_find_judgments_between_startJudgmentDate_and_endJudgmentDate(){
         //given
-        List<CommonCourtJudgment> judgments = testJudgmentFactory.createSimpleCcJudgments(true);
+        List<CommonCourtJudgment> judgments = testPersistenceObjectFactory.createCcJudgmentListWithRandomData(4);
+
+
         CommonCourtJudgment givenJudgment = judgments.get(3);
         LocalDate localDate = givenJudgment.getJudgmentDate();
         LocalDate startJudgmentDate = localDate.minusDays(1);
@@ -318,7 +304,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Test
     public void search__it_should_find_judgments_sorted_by_id_up(){
         //given
-        List<CommonCourtJudgment> judgments = testJudgmentFactory.createSimpleCcJudgments(true);
+        List<CommonCourtJudgment> judgments = testPersistenceObjectFactory.createCcJudgmentListWithRandomData(10);
         sortByCaseNumberDown(judgments);
 
         List<Integer> sortedJudgmentsIds = sort(extractIds(judgments));
@@ -343,7 +329,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Test
     public void search__it_should_find_judgments_that_are_modified_after_first_search(){
         //given
-        List<CommonCourtJudgment> judgments = testJudgmentFactory.createSimpleCcJudgments(true);
+        List<CommonCourtJudgment> judgments = testPersistenceObjectFactory.createCcJudgmentListWithRandomData(10);
 
         JudgmentSearchFilter simpleSearchFilter = JudgmentSearchFilter.builder()
                 .filter();
