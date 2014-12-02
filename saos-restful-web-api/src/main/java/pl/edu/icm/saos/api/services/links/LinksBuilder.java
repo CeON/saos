@@ -2,16 +2,14 @@ package pl.edu.icm.saos.api.services.links;
 
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
 import pl.edu.icm.saos.api.single.court.CourtController;
-import pl.edu.icm.saos.api.search.courts.CourtsController;
 import pl.edu.icm.saos.api.single.division.DivisionController;
 import pl.edu.icm.saos.api.single.judgment.JudgmentController;
 import pl.edu.icm.saos.api.single.scchamber.ScChamberController;
 import pl.edu.icm.saos.api.single.scdivision.ScDivisionController;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static pl.edu.icm.saos.api.ApiConstants.*;
+import static pl.edu.icm.saos.api.ApiConstants.SELF;
 
 /**
  * Provides functionality for links creation for linked data.
@@ -69,10 +67,6 @@ public class LinksBuilder {
 
     public Link linkToCourt(int courtId){
         return linkFor(CourtController.class, courtId);
-    }
-
-    public UriComponentsBuilder courtsUriBuilder(){
-        return linkTo(CourtsController.class).toUriComponentsBuilder();
     }
 
     public Link linkToCourt(int courtId, String relName){
