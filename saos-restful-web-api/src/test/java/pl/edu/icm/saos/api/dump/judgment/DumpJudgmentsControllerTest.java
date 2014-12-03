@@ -29,8 +29,8 @@ import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.services.Constansts.DATE_FORMAT;
-import static pl.edu.icm.saos.api.services.Constansts.DUMP_JUDGMENTS_PATH;
+import static pl.edu.icm.saos.api.services.Constants.DATE_FORMAT;
+import static pl.edu.icm.saos.api.services.Constants.DUMP_JUDGMENTS_PATH;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 

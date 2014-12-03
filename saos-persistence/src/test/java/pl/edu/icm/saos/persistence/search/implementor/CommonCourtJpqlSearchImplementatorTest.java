@@ -5,7 +5,7 @@ import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.*;
 public class CommonCourtJpqlSearchImplementatorTest extends PersistenceTestSupport {
 
     @Autowired
-    private TestJudgmentFactory testJudgmentFactory;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
     @Autowired
     private DatabaseSearchService databaseSearchService;
@@ -72,7 +72,7 @@ public class CommonCourtJpqlSearchImplementatorTest extends PersistenceTestSuppo
     @Test
     public void search__it_should_find_all_CommonCourt_Basic_Fields_With_Its_All_Divisions_Fields(){
         //given
-        CommonCourt commonCourt = testJudgmentFactory.createFullCommonCourt(true);
+        CommonCourt commonCourt = testPersistenceObjectFactory.createCcCourt(false);
 
         CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
                 .filter();
@@ -100,7 +100,7 @@ public class CommonCourtJpqlSearchImplementatorTest extends PersistenceTestSuppo
     @Test
     public void search__it_should_find_subList_of_courts_ordered_by_id(){
         //given
-        List<CommonCourt> commonCourts = testJudgmentFactory.createSimpleCommonCourts(true);
+        List<CommonCourt> commonCourts = testPersistenceObjectFactory.createCcCourtListWithRandomData(4);
 
         commonCourts.sort((first, second) -> Integer.compare(first.getId(), second.getId()));
 

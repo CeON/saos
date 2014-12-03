@@ -7,12 +7,12 @@ import javax.transaction.Transactional;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
+import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
@@ -34,7 +34,7 @@ public class OptimisticLockingTest extends PersistenceTestSupport {
     @Transactional
     public void lock() {
     
-        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createSimpleCcJudgment();
+        CommonCourtJudgment ccJudgment = TestInMemoryObjectFactory.createSimpleCcJudgment();
         Assert.assertEquals(0, ccJudgment.getVer());
         entityManager.persist(ccJudgment);
         Assert.assertEquals(0, ccJudgment.getVer());
@@ -62,12 +62,12 @@ public class OptimisticLockingTest extends PersistenceTestSupport {
     @Test(expected=OptimisticLockException.class)
     @Transactional
     public void lock_LocalVerGreater() {
-        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createSimpleCcJudgment();
+        CommonCourtJudgment ccJudgment = TestInMemoryObjectFactory.createSimpleCcJudgment();
         entityManager.persist(ccJudgment);
         entityManager.flush();
         entityManager.clear();
-        
-        ReflectionFieldSetter.setField(ccJudgment, "ver", 2);
+
+        Whitebox.setInternalState(ccJudgment, "ver", 2);
         entityManager.merge(ccJudgment);
         entityManager.flush();
         

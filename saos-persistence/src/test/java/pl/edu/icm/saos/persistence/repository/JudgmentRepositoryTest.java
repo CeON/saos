@@ -22,7 +22,8 @@ import org.springframework.data.domain.PageRequest;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
+import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -42,9 +43,9 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Autowired
     private JudgmentRepository judgmentRepository;
-    
+
     @Autowired
-    private TestJudgmentFactory testJudgmentFactory;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
     
     
     
@@ -73,7 +74,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void findOneBySourceCodeAndSourceJudgmentId_FOUND() {
-        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createSimpleCcJudgment();
+        CommonCourtJudgment ccJudgment = TestInMemoryObjectFactory.createSimpleCcJudgment();
         JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
         sourceInfo.setSourceCode(SourceCode.COMMON_COURT);
         sourceInfo.setSourceJudgmentId("1123");
@@ -121,7 +122,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void findOneAndInitialize_Judgment() {
-        Judgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
+        Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
         Judgment dbJudgment = judgmentRepository.findOneAndInitialize(ccJudgment.getId());
         assertNotNull(dbJudgment);
         dbJudgment.getJudges().size();
@@ -135,7 +136,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
 
     @Test
     public void findOneAndInitialize_CommonCourtJudgment() {
-        Judgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
+        Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
         CommonCourtJudgment dbJudgment = judgmentRepository.findOneAndInitialize(ccJudgment.getId());
         assertNotNull(dbJudgment);
         dbJudgment.getCourtDivision().getCourt().getCode();
@@ -145,7 +146,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
 
     @Test
     public void findOneAndInitialize_SupremeCourtJudgment() {
-        Judgment scJudgment = testJudgmentFactory.createFullScJudgment(true);
+        Judgment scJudgment = testPersistenceObjectFactory.createScJudgment();
         SupremeCourtJudgment dbJudgment = judgmentRepository.findOneAndInitialize(scJudgment.getId());
         assertNotNull(dbJudgment);
         dbJudgment.getScChamberDivision().getName();
@@ -156,7 +157,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test(expected=LazyInitializationException.class)
     public void findOne_Uninitialized() {
-        Judgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
+        Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
         Judgment dbJudgment = judgmentRepository.findOne(ccJudgment.getId());
         assertNotNull(dbJudgment);
         dbJudgment.getJudges().size();
@@ -297,8 +298,8 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void delete_JudgmentIds() {
-        Judgment ccJudgment = testJudgmentFactory.createFullCcJudgment(true);
-        Judgment scJudgment = testJudgmentFactory.createFullScJudgment(true);
+        Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
+        Judgment scJudgment = testPersistenceObjectFactory.createScJudgment();
         
         judgmentRepository.delete(Lists.newArrayList(ccJudgment.getId(), scJudgment.getId()));
         
