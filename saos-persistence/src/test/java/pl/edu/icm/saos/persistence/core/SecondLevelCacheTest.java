@@ -1,23 +1,22 @@
 package pl.edu.icm.saos.persistence.core;
 
-import javax.persistence.Cache;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.hibernate.Session;
 import org.hibernate.stat.Statistics;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
+import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+
+import javax.persistence.Cache;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * @author Łukasz Dumiszewski
@@ -43,7 +42,7 @@ public class SecondLevelCacheTest extends PersistenceTestSupport {
         Statistics statistics = ((Session)(entityManager.getDelegate())).getSessionFactory().getStatistics();
         statistics.clear();
         
-        Judgment judgment = TestJudgmentFactory.createSimpleCcJudgment();
+        Judgment judgment = TestInMemoryObjectFactory.createSimpleCcJudgment();
         judgmentRepository.save(judgment);
         
         judgmentRepository.findOne(judgment.getId());

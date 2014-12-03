@@ -1,27 +1,24 @@
 package pl.edu.icm.saos.search.indexing;
 
-import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
-
-import java.util.Collections;
-import java.util.List;
-
+import com.google.common.collect.Lists;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import pl.edu.icm.saos.persistence.builder.BuildersFactory;
+import org.powermock.reflect.Whitebox;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
-import com.google.common.collect.Lists;
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import java.util.List;
+
+import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
 
 /**
  * @author madryk
@@ -36,36 +33,51 @@ public class ScJudgmentIndexFieldsFillerTest {
     @DataProvider
     public static Object[][] scJudgmentsFieldData() {
         SolrInputFieldFactory fieldFactory = new SolrInputFieldFactory();
-        
+        //constants
+        final String textContent = "some content";
+        final int scJudgmentId = 1;
+        final PersonnelType personnelType = PersonnelType.THREE_PERSON;
+
+
         // basic
-        SupremeCourtJudgment basicJudgment = BuildersFactory.supremeCourtJugmentWrapper(1)
-                .textContent("some content")
-                .build();
+        SupremeCourtJudgment basicJudgment = new SupremeCourtJudgment();
+        basicJudgment.setTextContent(textContent);
+        Whitebox.setInternalState(basicJudgment, "id", scJudgmentId);
+
         List<SolrInputField> basicFields = Lists.newArrayList(
-                fieldFactory.create("databaseId", 1),
-                fieldFactory.create("content", "some content"));
+                fieldFactory.create("databaseId", scJudgmentId),
+                fieldFactory.create("content", textContent));
         
         // personnel type
-        SupremeCourtJudgment personnelTypeJudgment = BuildersFactory.supremeCourtJugmentWrapper(1)
-                .personnelType(PersonnelType.THREE_PERSON)
-                .build();
-        List<SolrInputField> personnelTypeFields = Collections.singletonList(
-                fieldFactory.create("scPersonnelType", "THREE_PERSON"));
+        SupremeCourtJudgment personnelTypeJudgment = new SupremeCourtJudgment();
+        personnelTypeJudgment.setPersonnelType(personnelType);
+        Whitebox.setInternalState(personnelTypeJudgment, "id", scJudgmentId);
+
+        List<SolrInputField> personnelTypeFields = Lists.newArrayList(
+                fieldFactory.create("databaseId", scJudgmentId),
+                fieldFactory.create("scPersonnelType", personnelType.name()));
 
         // chambers
-        SupremeCourtChamber firstChamber = BuildersFactory.supremeCourtChamber(11).name("ABC").build();
-        SupremeCourtChamber secondChamber = BuildersFactory.supremeCourtChamber(12).name("DEF").build();
-        SupremeCourtChamberDivision division = BuildersFactory.supremeCourtChamberDivision(111)
-                .name("GHI")
-                .fullName("full GHI")
-                .chamber(firstChamber)
-                .build();
-        
-        SupremeCourtJudgment chambersJudgment = BuildersFactory.supremeCourtJugmentWrapper(1)
-                .chamber(firstChamber)
-                .chamber(secondChamber)
-                .division(division)
-                .build();
+        SupremeCourtChamber firstChamber = new SupremeCourtChamber();
+        Whitebox.setInternalState(firstChamber, "id", 11);
+        firstChamber.setName("ABC");
+
+        SupremeCourtChamber secondChamber = new SupremeCourtChamber();
+        Whitebox.setInternalState(secondChamber, "id", 12);
+        secondChamber.setName("DEF");
+
+        SupremeCourtChamberDivision division = new SupremeCourtChamberDivision();
+        Whitebox.setInternalState(division, "id", 111);
+        division.setName("GHI");
+        division.setFullName("full GHI");
+        division.setScChamber(firstChamber);
+
+        SupremeCourtJudgment chambersJudgment = new SupremeCourtJudgment();
+        Whitebox.setInternalState(chambersJudgment, "id", scJudgmentId);
+        chambersJudgment.addScChamber(firstChamber);
+        chambersJudgment.addScChamber(secondChamber);
+        chambersJudgment.setScChamberDivision(division);
+
         List<SolrInputField> chambersFields = Lists.newArrayList(
                 fieldFactory.create("courtType", "SUPREME"),
                 fieldFactory.create("scCourtChamber", "11|ABC", "12|DEF"),

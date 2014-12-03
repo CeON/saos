@@ -1,16 +1,5 @@
 package pl.edu.icm.saos.batch.indexer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.IntStream;
-
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -31,31 +20,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptException;
-
 import pl.edu.icm.saos.batch.BatchTestSupport;
 import pl.edu.icm.saos.batch.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
+import pl.edu.icm.saos.persistence.common.TextObjectDefaultData;
+import pl.edu.icm.saos.persistence.model.*;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
-import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.persistence.model.SourceCode;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.IntStream;
+
+import static org.junit.Assert.*;
 
 /**
  * @author madryk
@@ -86,6 +74,9 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
     @Autowired
     @Qualifier("solrJudgmentsServer")
     private SolrServer solrJudgmentsServer;
+
+    @Autowired
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
     
     
     private List<CommonCourtDivision> divisions;
@@ -163,17 +154,31 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
         assertEquals(1, response.getResults().getNumFound());
         SolrDocument doc = response.getResults().get(0);
         
-        assertSolrDocumentValues(doc, JudgmentIndexField.KEYWORD, "keyword1");
+        assertSolrDocumentValues(doc, JudgmentIndexField.KEYWORD, TextObjectDefaultData.CC_FIRST_KEYWORD, TextObjectDefaultData.CC_SECOND_KEYWORD);
         assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE, "COMMON");
-        assertSolrDocumentValues(doc, JudgmentIndexField.CASE_NUMBER, "ABCA");
-        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGMENT_TYPE, "SENTENCE");
+        assertSolrDocumentValues(doc, JudgmentIndexField.CASE_NUMBER, TextObjectDefaultData.CC_CASE_NUMBER);
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGMENT_TYPE, TextObjectDefaultData.CC_JUDGMENT_TYPE.name());
         
-        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE, "Adam Nowak");
-        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_NAME, "Adam Nowak");
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE,
+                TextObjectDefaultData.CC_FIRST_JUDGE_NAME + "|" + TextObjectDefaultData.CC_FIRST_JUDGE_ROLE.name(),
+                TextObjectDefaultData.CC_SECOND_JUDGE_NAME,
+                TextObjectDefaultData.CC_THIRD_JUDGE_NAME);
+        assertSolrDocumentValues(doc, JudgmentIndexField.JUDGE_NAME,
+                TextObjectDefaultData.CC_FIRST_JUDGE_NAME,
+                TextObjectDefaultData.CC_SECOND_JUDGE_NAME,
+                TextObjectDefaultData.CC_THIRD_JUDGE_NAME
+        );
         
-        assertSolrDocumentValues(doc, JudgmentIndexField.LEGAL_BASE, "legalBase");
-        assertSolrDocumentValues(doc, JudgmentIndexField.REFERENCED_REGULATION, "referencedRegulation");
-        assertSolrDocumentValues(doc, JudgmentIndexField.CONTENT, "content");
+        assertSolrDocumentValues(doc, JudgmentIndexField.LEGAL_BASE,
+                TextObjectDefaultData.CC_FIRST_LEGAL_BASE,
+                TextObjectDefaultData.CC_SECOND_LEGAL_BASE);
+
+        assertSolrDocumentValues(doc, JudgmentIndexField.REFERENCED_REGULATION,
+                TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_TEXT,
+                TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_TEXT,
+                TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_TEXT);
+
+        assertSolrDocumentValues(doc, JudgmentIndexField.CONTENT, TextObjectDefaultData.CC_TEXT_CONTENT);
     }
     
     private void assertSolrDocumentValues(SolrDocument doc, JudgmentIndexField field, String ... fieldValues) {
@@ -210,22 +215,8 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
     }
     
     private void generateCcJudgmentForAssertion() {
-        CommonCourtJudgment judgment = new CommonCourtJudgment();
-        
-        judgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
-        judgment.getSourceInfo().setSourceJudgmentId("ABCDE");
-        judgment.setJudgmentType(JudgmentType.SENTENCE);
-        judgment.addCourtCase(new CourtCase("ABCA"));
-        judgment.addJudge(new Judge("Adam Nowak"));
-        judgment.addLegalBase("legalBase");
-        JudgmentReferencedRegulation referencedRegulation = new JudgmentReferencedRegulation();
-        referencedRegulation.setRawText("referencedRegulation");
-        judgment.addReferencedRegulation(referencedRegulation);
-        judgment.setTextContent("content");
-        judgment.setCourtDivision(divisions.get(0));
-        judgment.addKeyword(new CcJudgmentKeyword("keyword1"));
-        
-        judgmentRepository.save(judgment);
+
+        CommonCourtJudgment judgment = testPersistenceObjectFactory.createCcJudgment();
         ccJudgmentForAssertionId = judgment.getId();
     }
 

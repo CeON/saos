@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
-import static pl.edu.icm.saos.api.services.Constansts.DUMP_COURTS_PATH;
+import static pl.edu.icm.saos.api.services.Constants.DUMP_COURTS_PATH;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)

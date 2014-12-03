@@ -1,6 +1,5 @@
 package pl.edu.icm.saos.persistence.common;
 
-import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -27,7 +26,7 @@ final class TestInMemoryCcObjectFactory {
     static CommonCourtJudgment createCcJudgment(){
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
 
-        CommonCourt commonCourt = createCcCourt();
+        CommonCourt commonCourt = createCcCourt(true);
         ccJudgment.setCourtDivision(commonCourt.getDivisions().get(0));
 
         CourtCase courtCase = new CourtCase(CC_CASE_NUMBER);
@@ -116,18 +115,20 @@ final class TestInMemoryCcObjectFactory {
      * @return CommonCourt
      */
 
-    static CommonCourt createCcCourt(){
+    static CommonCourt createCcCourt(boolean withParent){
         CommonCourt commonCourt = new CommonCourt();
 
         commonCourt.setName(CC_COURT_NAME);
         commonCourt.setCode(CC_COURT_CODE);
         commonCourt.setType(CC_COURT_TYPE);
 
-        CommonCourt parent = new CommonCourt();
-        parent.setName(CC_COURT_PARENT_NAME);
-        parent.setType(CC_COURT_PARENT_TYPE);
-        parent.setCode(CC_COURT_PARENT_CODE);
-        commonCourt.setParentCourt(parent);
+        if(withParent) {
+            CommonCourt parent = new CommonCourt();
+            parent.setName(CC_COURT_PARENT_NAME);
+            parent.setType(CC_COURT_PARENT_TYPE);
+            parent.setCode(CC_COURT_PARENT_CODE);
+            commonCourt.setParentCourt(parent);
+        }
 
         CommonCourtDivision firstCcDivision = new CommonCourtDivision();
         firstCcDivision.setCode(CC_FIRST_DIVISION_CODE);
@@ -148,6 +149,20 @@ final class TestInMemoryCcObjectFactory {
     }
 
 
+    /**
+     * Creates list of {@link CommonCourt} with fields filled with random values.
+     * @param size of the list.
+     * @return list of CommonCourt
+     */
+    static List<CommonCourt> createCcCourtListWithRandomData(int size){
+        List<CommonCourt> courts = new ArrayList<>(size);
+        for(int i=0; i<size; ++i){
+            CommonCourt ccCourt = createCcCourtWithRandomDataForIndex(i);
+            courts.add(ccCourt);
+        }
+
+        return courts;
+    }
 
 
     /**
@@ -169,7 +184,7 @@ final class TestInMemoryCcObjectFactory {
     /**
      * Creates list of {@link CommonCourtJudgment} with fields filled with random values.
      * @param size of the list.
-     * @return CommonCourtJudgment
+     * @return list of CommonCourtJudgment
      */
     static List<CommonCourtJudgment> createCcJudgmentListWithRandomData(int size){
         List<CommonCourtJudgment> judgments = new ArrayList<>(size);
@@ -189,8 +204,6 @@ final class TestInMemoryCcObjectFactory {
      * @return keywords list.
      */
     static List<CcJudgmentKeyword> createCcKeywordListWithRandomData(int size){
-        Preconditions.checkArgument(size <= 0, "size should be positive");
-
         List<CcJudgmentKeyword> ccKeywords = new ArrayList<>(size);
 
         for(int i=0; i<size; ++i){
@@ -256,6 +269,32 @@ final class TestInMemoryCcObjectFactory {
 
 
         return ccJudgment;
+    }
+
+    private static CommonCourt createCcCourtWithRandomDataForIndex(int i) {
+        CommonCourt commonCourt = new CommonCourt();
+
+        String prefix = i+"__";
+
+        commonCourt.setName(prefix + RandomStringUtils.randomAlphabetic(5));
+        commonCourt.setCode(RandomStringUtils.randomNumeric(8));
+        commonCourt.setType(getRandomCourtType());
+
+        return commonCourt;
+    }
+
+    private static CommonCourt.CommonCourtType getRandomCourtType(){
+        int nr_of_commonCourtTypes = CommonCourt.CommonCourtType.values().length;
+        int randomIndex  = (int)(Math.random()*nr_of_commonCourtTypes);
+        int i = 0;
+        for(CommonCourt.CommonCourtType courtType : CommonCourt.CommonCourtType.values()){
+            if(i == randomIndex){
+                return courtType;
+            }
+            ++i;
+        }
+
+        return CommonCourt.CommonCourtType.REGIONAL;
     }
 
 

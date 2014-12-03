@@ -1,25 +1,18 @@
 package pl.edu.icm.saos.persistence.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
-import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
+import pl.edu.icm.saos.persistence.model.*;
+
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Łukasz Dumiszewski
@@ -45,7 +38,7 @@ public class CcJudgmentRepositoryTest  extends PersistenceTestSupport {
     
     @Test
     public void findOneBySourceCodeAndSourceJudgmentId_FOUND() {
-        CommonCourtJudgment ccJudgment = TestJudgmentFactory.createSimpleCcJudgment();
+        CommonCourtJudgment ccJudgment = TestInMemoryObjectFactory.createSimpleCcJudgment();
         JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
         sourceInfo.setSourceCode(SourceCode.COMMON_COURT);
         sourceInfo.setSourceJudgmentId("1123");

@@ -24,7 +24,7 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.services.Constansts.*;
+import static pl.edu.icm.saos.api.services.Constants.*;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 

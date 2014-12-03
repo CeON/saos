@@ -77,10 +77,22 @@ public class TestPersistenceObjectFactory {
      * @return CommonCourt
      */
     @Transactional
-    public CommonCourt createCcCourt(){
-        CommonCourt ccCourt = TestInMemoryObjectFactory.createCcCourt();
+    public CommonCourt createCcCourt(boolean withParent){
+        CommonCourt ccCourt = TestInMemoryObjectFactory.createCcCourt(withParent);
         saveCcCourt(ccCourt, true);
         return ccCourt;
+    }
+
+    /**
+     * Creates list of {@link CommonCourt} with fields filled with random values.
+     * @param size of the list.
+     * @return list of CommonCourt
+     */
+    @Transactional
+    public List<CommonCourt> createCcCourtListWithRandomData(int size){
+        List<CommonCourt> commonCourts = TestInMemoryCcObjectFactory.createCcCourtListWithRandomData(size);
+        commonCourts.forEach(ccCourt -> saveCcCourt(ccCourt, true));
+        return commonCourts;
     }
 
 
@@ -157,10 +169,13 @@ public class TestPersistenceObjectFactory {
 
     @Transactional
     private void saveCcCourt(CommonCourt ccCourt, boolean flush){
-        CommonCourt parentCourt = ccCourt.getParentCourt();
-
         entityManager.persist(ccCourt);
-        entityManager.persist(parentCourt);
+
+        CommonCourt parentCourt = ccCourt.getParentCourt();
+        if(parentCourt != null){
+            entityManager.persist(parentCourt);
+        }
+
         for (CommonCourtDivision ccDivision : ccCourt.getDivisions()) {
             entityManager.persist(ccDivision.getType());
         }
