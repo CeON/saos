@@ -3,6 +3,7 @@ package pl.edu.icm.saos.api.search.judgments.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
+import pl.edu.icm.saos.api.search.judgments.parameters.Sort;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
@@ -33,7 +34,8 @@ public class JudgmentsApiSearchService {
      */
     public SearchResults<JudgmentSearchResult> performSearch(JudgmentsParameters judgmentsParameters){
         Pagination pagination = judgmentsParameters.getPagination();
-        Paging paging = converter.toPaging(pagination);
+        Sort sort = judgmentsParameters.getSort();
+        Paging paging = converter.toPaging(pagination, sort);
         JudgmentCriteria judgmentCriteria = converter.toCriteria(judgmentsParameters);
 
         SearchResults<JudgmentSearchResult> resultSearchResults = judgmentsSearchService.search(judgmentCriteria, paging);

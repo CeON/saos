@@ -12,6 +12,7 @@ import pl.edu.icm.saos.api.search.judgments.mapping.SearchCommonCourtJudgmentIte
 import pl.edu.icm.saos.api.search.judgments.mapping.SearchJudgmentItemMapper;
 import pl.edu.icm.saos.api.search.judgments.mapping.SearchSupremeCourtJudgmentItemMapper;
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
+import pl.edu.icm.saos.api.search.judgments.parameters.Sort;
 import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
@@ -183,8 +184,11 @@ public class JudgmentsListSuccessRepresentationBuilder {
         }
 
         if(!params.getJudgmentTypes().isEmpty()){
-            uriComponentsBuilder.replaceQueryParam(JUDGMENT_TYPES, params.getJudgmentTypes());
+            uriComponentsBuilder.replaceQueryParam(JUDGMENT_TYPES, params.getJudgmentTypes().toArray());
         }
+
+        uriComponentsBuilder.replaceQueryParam(SORTING_FIELD, params.getSort().getSortingField().name());
+        uriComponentsBuilder.replaceQueryParam(SORTING_DIRECTION, params.getSort().getSortingDirection().name());
 
         String path = uriComponentsBuilder.build().encode().toUriString();
         return new Link(path, relName);
@@ -266,6 +270,10 @@ public class JudgmentsListSuccessRepresentationBuilder {
 
         queryTemplate.setPageNumber(pagination.getPageNumber());
         queryTemplate.setPageSize(pagination.getPageSize());
+
+        Sort sort = params.getSort();
+        queryTemplate.setSortingField(sort.getSortingField());
+        queryTemplate.setSortingDirection(sort.getSortingDirection());
 
         queryTemplate.setJudgmentDateFrom(dateMapping.toISO8601Format(params.getJudgmentDateFrom()));
         queryTemplate.setJudgmentDateTo(dateMapping.toISO8601Format(params.getJudgmentDateTo()));

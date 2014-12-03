@@ -4,6 +4,8 @@ import com.google.common.base.Objects;
 import pl.edu.icm.saos.api.search.judgments.item.representation.SearchJudgmentItem;
 import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
 import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+import pl.edu.icm.saos.search.search.model.Sorting;
 
 import java.io.Serializable;
 import java.util.List;
@@ -25,6 +27,9 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
 
         private int pageNumber;
         private int pageSize;
+
+        private JudgmentIndexField sortingField;
+        private Sorting.Direction sortingDirection;
 
         private String all;
         private String legalBase;
@@ -155,6 +160,13 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             return judgmentDateTo;
         }
 
+        public JudgmentIndexField getSortingField() {
+            return sortingField;
+        }
+
+        public Sorting.Direction getSortingDirection() {
+            return sortingDirection;
+        }
 
         //------------------------ SETTERS --------------------------
 
@@ -254,12 +266,20 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.judgmentDateTo = judgmentDateTo;
         }
 
+        public void setSortingField(JudgmentIndexField sortingField) {
+            this.sortingField = sortingField;
+        }
+
+        public void setSortingDirection(Sorting.Direction sortingDirection) {
+            this.sortingDirection = sortingDirection;
+        }
 
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(pageNumber, pageSize, all, legalBase,
+            return Objects.hashCode(pageNumber, pageSize, sortingField, sortingDirection,
+                    all, legalBase,
                     referencedRegulation, judgeName, caseNumber, scPersonnelType,
                     courtType, ccCourtType, ccCourtId, ccCourtCode,
                     ccCourtName, ccDivisionId, ccDivisionCode, ccDivisionName,
@@ -278,6 +298,8 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             final QueryTemplate other = (QueryTemplate) obj;
             return Objects.equal(this.pageNumber, other.pageNumber) &&
                     Objects.equal(this.pageSize, other.pageSize) &&
+                    Objects.equal(this.sortingField, other.sortingField) &&
+                    Objects.equal(this.sortingDirection, other.sortingDirection) &&
                     Objects.equal(this.all, other.all) &&
                     Objects.equal(this.legalBase, other.legalBase) &&
                     Objects.equal(this.referencedRegulation, other.referencedRegulation) &&
@@ -311,6 +333,8 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             return Objects.toStringHelper(this)
                     .add("pageNumber", pageNumber)
                     .add("pageSize", pageSize)
+                    .add("sortingField", sortingField)
+                    .add("sortingDirection", sortingDirection)
                     .add("all", all)
                     .add("legalBase", legalBase)
                     .add("referencedRegulation", referencedRegulation)
