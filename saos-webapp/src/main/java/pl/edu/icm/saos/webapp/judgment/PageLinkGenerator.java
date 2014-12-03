@@ -10,6 +10,9 @@ public class PageLinkGenerator {
     
     private static final String PAGE_NO_PARAM_NAME = "page";
     
+    
+	//------------------------ LOGIC --------------------------
+    
     /**
      * Generates a base search page link. It is used in UI to create links to specific search result pages.
      * The base link will contain the full request URL with all query parameters except the page number parameter (it will be added later in UI during creating specific search result pages).

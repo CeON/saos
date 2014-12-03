@@ -29,6 +29,9 @@ public class JudgmentsWebSearchService {
     @Autowired 
     private PagingConverter pagingConverter;
     
+    
+	//------------------------ LOGIC --------------------------
+    
 	public SearchResults<JudgmentSearchResult> search(JudgmentCriteriaForm judgmentCriteriaForm, Pageable pageable) {
 		
 		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);

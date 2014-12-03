@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class SiteController {
 
 	
+	//------------------------ LOGIC --------------------------
+	
     @RequestMapping("/")
     public String home(ModelMap model) {
         

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/errors")
 public class ErrorController {
 
+	
+	//------------------------ LOGIC --------------------------
 
     @RequestMapping("/404")
     public String error404() {
