@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
+import pl.edu.icm.saos.api.search.judgments.parameters.Sort;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
 import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
@@ -54,12 +55,15 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
     @ResponseBody
     public ResponseEntity<Object> showJudgments(@ModelAttribute JudgmentsParameters judgmentsParameters,
                                                              @RequestParam(value = PAGE_SIZE, required = false, defaultValue = Pagination.DEFAULT_PAGE_SIZE) int pageSize,
-                                                             @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = "0") int pageNumber
+                                                             @RequestParam(value = PAGE_NUMBER, required = false, defaultValue = "0") int pageNumber,
+                                                             @ModelAttribute Sort sort
+
     ) throws WrongRequestParameterException {
 
 
         Pagination pagination = parametersExtractor.extractAndValidatePagination(pageSize, pageNumber);
         judgmentsParameters.setPagination(pagination);
+        judgmentsParameters.setSort(sort);
 
         SearchResults<JudgmentSearchResult> searchResults = apiSearchService.performSearch(judgmentsParameters);
 

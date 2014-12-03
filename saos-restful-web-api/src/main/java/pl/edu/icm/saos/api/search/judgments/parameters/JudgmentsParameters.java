@@ -25,6 +25,7 @@ public class JudgmentsParameters {
     //******* fields **************
 
     private Pagination pagination;
+    private Sort sort;
     private String all;
     private String legalBase;
     private String referencedRegulation;
@@ -55,6 +56,7 @@ public class JudgmentsParameters {
 
     private List<JudgmentType> judgmentTypes = Collections.emptyList();
     private List<String> keywords = Collections.emptyList();
+
 
 
     //------------------------ GETTERS --------------------------
@@ -151,6 +153,10 @@ public class JudgmentsParameters {
 
     public String getCaseNumber() {
         return caseNumber;
+    }
+
+    public Sort getSort() {
+        return sort;
     }
 
     //------------------------ SETTERS --------------------------
@@ -252,11 +258,15 @@ public class JudgmentsParameters {
         this.caseNumber = caseNumber;
     }
 
+    public void setSort(Sort sort) {
+        this.sort = sort;
+    }
+
     //------------------------ HashCode & Equals --------------------------
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(pagination, caseNumber, all, legalBase, referencedRegulation,
+        return Objects.hashCode(pagination, sort, caseNumber, all, legalBase, referencedRegulation,
                 judgeName, scPersonnelType, judgmentDateFrom, judgmentDateTo, courtType,
                 ccCourtType, ccCourtId, ccCourtCode, ccCourtName,
                 ccDivisionId, ccDivisionCode, ccDivisionName, scChamberId,
@@ -274,6 +284,7 @@ public class JudgmentsParameters {
         }
         final JudgmentsParameters other = (JudgmentsParameters) obj;
         return Objects.equal(this.pagination, other.pagination) &&
+                Objects.equal(this.sort, other.sort) &&
                 Objects.equal(this.caseNumber, other.caseNumber) &&
                 Objects.equal(this.all, other.all) &&
                 Objects.equal(this.legalBase, other.legalBase) &&
@@ -306,6 +317,7 @@ public class JudgmentsParameters {
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("pagination", pagination)
+                .add("sort", sort)
                 .add("caseNumber", caseNumber)
                 .add("all", all)
                 .add("legalBase", legalBase)

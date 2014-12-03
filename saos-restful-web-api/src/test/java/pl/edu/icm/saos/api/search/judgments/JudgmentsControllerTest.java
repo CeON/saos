@@ -3,6 +3,7 @@ package pl.edu.icm.saos.api.search.judgments;
 
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.common.SolrInputDocument;
+import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -24,7 +25,9 @@ import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
+import pl.edu.icm.saos.search.search.model.Sorting;
 
 import java.util.Arrays;
 import java.util.List;
@@ -177,12 +180,65 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     }
 
 
+    @Test
+    public void showJudgments__it_should_sort_by_judgment_date_descending() throws Exception{
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_SIZE, "1")
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param("sortingField", JudgmentIndexField.JUDGMENT_DATE.name())
+                .param("sortingDirection", Sorting.Direction.DESC.name())
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        LocalDate ccJudgmentDate = new LocalDate(CC_DATE_YEAR, CC_DATE_MONTH, CC_DATE_DAY);
+        LocalDate scJudgmentDate = new LocalDate(SC_DATE_YEAR, SC_DATE_MONTH, SC_DATE_DAY);
+
+        if(ccJudgmentDate.isAfter(scJudgmentDate)){
+            actions
+                    .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId())));
+        } else {
+            actions
+                    .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getScJudgmentId())));
+        }
+
+    }
+
+    @Test
+    public void showJudgments__it_should_sort_by_judgment_date_ascending() throws Exception{
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_SIZE, "1")
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param("sortingField", JudgmentIndexField.JUDGMENT_DATE.name())
+                .param("sortingDirection", Sorting.Direction.ASC.name())
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        LocalDate ccJudgmentDate = new LocalDate(CC_DATE_YEAR, CC_DATE_MONTH, CC_DATE_DAY);
+        LocalDate scJudgmentDate = new LocalDate(SC_DATE_YEAR, SC_DATE_MONTH, SC_DATE_DAY);
+
+        if(ccJudgmentDate.isAfter(scJudgmentDate)){
+            actions
+                    .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getScJudgmentId())));
+        } else {
+            actions
+                    .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId())));
+        }
+
+    }
+
+
 
     @Test
     public void showJudgments__it_should_show_request_parameters() throws Exception {
         //given
         int pageSize = 11;
         int pageNumber = 5;
+
+        String sortingFieldValue = JudgmentIndexField.JUDGMENT_DATE.name();
+        String sortingDirectionValue = Sorting.Direction.ASC.name();
+
         String allValue = "someAllValue";
         String judgmentDateFrom = "2010-01-21";
         String judgmentDateTo = "2020-10-13";
@@ -220,6 +276,8 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
                 .param(ApiConstants.PAGE_SIZE, String.valueOf(pageSize))
                 .param(ApiConstants.PAGE_NUMBER, String.valueOf(pageNumber))
+                .param(ApiConstants.SORTING_FIELD, sortingFieldValue)
+                .param(ApiConstants.SORTING_DIRECTION, sortingDirectionValue)
                 .param(ApiConstants.ALL, allValue)
                 .param(ApiConstants.SC_PERSONNEL_TYPE, personnelTypeValue)
                 .param(ApiConstants.LEGAL_BASE, legalBaseValue)
@@ -279,9 +337,12 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".keywords.[1]").value(secondKeyword))
                 .andExpect(jsonPath(prefix + ".judgmentDateFrom").value(judgmentDateFrom))
                 .andExpect(jsonPath(prefix + ".judgmentDateTo").value(judgmentDateTo))
+
                 .andExpect(jsonPath(prefix + ".pageSize").value(pageSize))
                 .andExpect(jsonPath(prefix + ".pageNumber").value(pageNumber))
 
+                .andExpect(jsonPath(prefix + ".sortingField").value(sortingFieldValue))
+                .andExpect(jsonPath(prefix + ".sortingDirection").value(sortingDirectionValue))
         ;
     }
 
