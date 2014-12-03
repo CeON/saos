@@ -1,27 +1,24 @@
 package pl.edu.icm.saos.persistence.correction;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
-
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
-import com.google.common.collect.Lists;
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
 
 /**
  * @author Łukasz Dumiszewski
@@ -35,10 +32,7 @@ public class JudgmentCorrectionRepositoryTest extends PersistenceTestSupport {
     private JudgmentCorrectionRepository judgmentCorrectionRepository;
     
     @Autowired
-    private TestJudgmentFactory testJudgmentFactory;
-    
-    @Autowired
-    private JudgmentRepository judgmentRepository;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
     
     
     // data
@@ -51,7 +45,7 @@ public class JudgmentCorrectionRepositoryTest extends PersistenceTestSupport {
     @Before
     public void before() {
         
-        judgment = testJudgmentFactory.createFullCcJudgment(true);
+        judgment = testPersistenceObjectFactory.createCcJudgment();
         
         judgmentCorrection = createFor(judgment).update(judgment.getJudges().get(0))
                                                       .property(CorrectedProperty.NAME)

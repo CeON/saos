@@ -60,8 +60,17 @@ public final class TestInMemoryObjectFactory {
      * Creates {@link pl.edu.icm.saos.persistence.model.CommonCourt} hierarchy with default field data.
      * @return CommonCourt
      */
-    public static CommonCourt createCcCourt(){
-        return TestInMemoryCcObjectFactory.createCcCourt();
+    public static CommonCourt createCcCourt(boolean withParent){
+        return TestInMemoryCcObjectFactory.createCcCourt(withParent);
+    }
+
+    /**
+     * Creates list of {@link CommonCourt} with fields filled with random values.
+     * @param size of the list.
+     * @return list of CommonCourt
+     */
+    public static List<CommonCourt> createCcCourtListWithRandomData(int size){
+        return TestInMemoryCcObjectFactory.createCcCourtListWithRandomData(size);
     }
 
 

@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.services.Constansts.*;
+import static pl.edu.icm.saos.api.services.Constants.*;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 import static pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;

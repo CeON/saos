@@ -1,24 +1,21 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.iterableWithSize;
-
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.persistence.common.TestJudgmentFactory;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.SupremeCourtChamberSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
+
+import java.util.List;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 /**
  * Tests integration between
@@ -28,8 +25,9 @@ import pl.edu.icm.saos.persistence.search.result.SearchResult;
 @Category(SlowTest.class)
 public class SupremeCourtChamberJpqlSearchImplementatorTest extends PersistenceTestSupport {
 
+
     @Autowired
-    private TestJudgmentFactory testJudgmentFactory;
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
     @Autowired
     private DatabaseSearchService databaseSearchService;
@@ -63,7 +61,7 @@ public class SupremeCourtChamberJpqlSearchImplementatorTest extends PersistenceT
     @Test
     public void search__it_should_find_all_scChambers_Basic_Fields_With_Its_All_Divisions_Fields(){
         //given
-        SupremeCourtChamber scChamber = testJudgmentFactory.createFullSupremeCourtChamber(true);
+        SupremeCourtChamber scChamber = testPersistenceObjectFactory.createScChamber();
 
         SupremeCourtChamberSearchFilter searchFilter = SupremeCourtChamberSearchFilter.builder()
                 .filter();
@@ -79,7 +77,7 @@ public class SupremeCourtChamberJpqlSearchImplementatorTest extends PersistenceT
 
         assertThat("chamber name ", actualChamber.getName(), is(scChamber.getName()));
 
-        assertThat(actualChamber.getDivisions(), iterableWithSize(2));
+        assertThat(actualChamber.getDivisions(), iterableWithSize(scChamber.getDivisions().size()));
         assertThat("divisions ", actualChamber.getDivisions(), containsListInAnyOrder(scChamber.getDivisions()));
 
     }
