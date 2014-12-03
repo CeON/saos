@@ -25,7 +25,10 @@ import pl.edu.icm.saos.webapp.division.SimpleDivisionConverter;
 import pl.edu.icm.saos.webapp.services.CourtsWebService;
 import pl.edu.icm.saos.webapp.services.JudgmentsWebSearchService;
 
-
+/**
+ * @author Łukasz Pawełczak
+ *
+ */
 @Controller("webJudgmentController")
 public class JudgmentController {
 
