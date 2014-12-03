@@ -17,6 +17,8 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 public class SimpleDivisionConverter {
 	
 	
+	//------------------------ LOGIC --------------------------
+	
 	public List<SimpleDivision> convertCcDivisions(List<CommonCourtDivision> ccDivisions) {
 		return ccDivisions.stream()
 			.map(ccDivision -> convertFromCcDivision(ccDivision))
@@ -28,6 +30,9 @@ public class SimpleDivisionConverter {
 			.map(scChamberDivision -> convertFromScChamberDivision(scChamberDivision))
 			.collect(Collectors.toList());
 	}
+	
+	
+	//------------------------ PRIVATE --------------------------
 	
 	private SimpleDivision convertFromCcDivision(CommonCourtDivision commonCourtDivision) {
 		SimpleDivision simpleDivision = new SimpleDivision();

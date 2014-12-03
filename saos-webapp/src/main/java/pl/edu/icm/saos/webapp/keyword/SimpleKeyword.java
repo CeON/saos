@@ -1,15 +1,15 @@
-package pl.edu.icm.saos.webapp.division;
+package pl.edu.icm.saos.webapp.keyword;
 
 /**
- * Simple division DTO for use with ajax in search form select 
+ * Simple keyword DTO for use with ajax search form, mainly for autocompletion  
  * 
  * @author Łukasz Pawełczak
+ * 
  */
-public class SimpleDivision {
-	
-	
+public class SimpleKeyword {
+
 	private String id;
-	private String name;
+	private String phrase;
 	
 	
 	//------------------------ GETTERS --------------------------
@@ -18,18 +18,18 @@ public class SimpleDivision {
 		return id;
 	}
 	
-	public String getName() {
-		return name;
+	public String getPhrase() {
+		return phrase;
 	}
 
 	
 	//------------------------ SETTERS --------------------------
 	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public void setPhrase(String phrase) {
+		this.phrase = phrase;
 	}
 }

@@ -84,4 +84,13 @@ $(document).ready(function() {
     	stickyOptions: {enabled: true, topSpacing: 10},
     	settingsButton: {className: "filter-box-button"},
     });
+    
+    
+    /* Search form view.
+     * Autocompletion added to search field CommonCourtKeywords.
+     */
+    $("#input-search-keywords").autoCompletionSuggester({url: contextPath + "/ccKeywords/"});
+    
+    
+    
 });
