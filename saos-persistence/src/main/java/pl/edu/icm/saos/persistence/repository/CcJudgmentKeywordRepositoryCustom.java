@@ -12,7 +12,7 @@ public interface CcJudgmentKeywordRepositoryCustom {
 
 	/**
      * Finds list of {@link CcJudgmentKeyword} with the given part of phrase ({@link CcJudgmentKeyword#getPhrase()})
-     * and returns it.
+     * and returns it. Returned list contains keywords sorted alphabetically by phrase {@link CcJudgmentKeyword#getPhrase()}.
      */
 	List<CcJudgmentKeyword> findAllByPhrasePart(String phrasePart);
 }

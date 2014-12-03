@@ -125,4 +125,43 @@ public class CcJudgmentKeywordRepositoryTest extends PersistenceTestSupport {
     	assertThat(actualTwo, Matchers.containsInAnyOrder(new CcJudgmentKeyword(keywordOne), new CcJudgmentKeyword(keywordTwo), new CcJudgmentKeyword(keywordThree)));
     	assertThat(actualThree, Matchers.containsInAnyOrder(new CcJudgmentKeyword(keywordOne), new CcJudgmentKeyword(keywordTwo), new CcJudgmentKeyword(keywordThree)));
     } 
+    
+    @Test
+    public void findAllByPhrasePart_correct_order() {
+    	//given
+    	String keywordOne = "paserstwo";
+    	String keywordTwo = "pasma procesowe";
+    	
+    	List<CcJudgmentKeyword> keywords = Arrays.asList(new CcJudgmentKeyword(keywordOne), new CcJudgmentKeyword(keywordTwo));
+    	keywords.forEach(keyword -> ccJudgmentKeywordRepository.save(keyword));
+    	String phrasePart = "pas";
+    	
+    	//when
+    	List<CcJudgmentKeyword> actual = ccJudgmentKeywordRepository.findAllByPhrasePart(phrasePart);
+    	
+    	//then
+    	assertEquals(2, actual.size());
+    	assertEquals(keywordOne, actual.get(0).getPhrase());
+    	assertEquals(keywordTwo, actual.get(1).getPhrase());
+    }
+    
+    @Test
+    public void findAllByPhrasePart_polish_words() {
+    	//given
+    	String keywordOne = "słowo służebność";
+    	String keywordTwo = "słowo zadośćuczynienies";
+    	
+    	List<CcJudgmentKeyword> keywords = Arrays.asList(new CcJudgmentKeyword(keywordOne), new CcJudgmentKeyword(keywordTwo));
+    	keywords.forEach(keyword -> ccJudgmentKeywordRepository.save(keyword));
+    	String phrasePart = "słowo";
+    	
+    	//when
+    	List<CcJudgmentKeyword> actual = ccJudgmentKeywordRepository.findAllByPhrasePart(phrasePart);
+    	
+    	//then
+    	assertEquals(2, actual.size());
+    	assertEquals(keywordOne, actual.get(0).getPhrase());
+    	assertEquals(keywordTwo, actual.get(1).getPhrase());
+    }
+    
 }

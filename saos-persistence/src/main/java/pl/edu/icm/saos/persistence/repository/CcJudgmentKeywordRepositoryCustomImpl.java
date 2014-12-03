@@ -21,21 +21,21 @@ public class CcJudgmentKeywordRepositoryCustomImpl implements CcJudgmentKeywordR
 
 	
 	@Autowired
-    private EntityManager entityManager;
+	private EntityManager entityManager;
 
 	
 	//------------------------ LOGIC --------------------------
 	
-    @Override
-    @Transactional
+	@Override
+	@Transactional
 	public List<CcJudgmentKeyword> findAllByPhrasePart(String phrasePart) {
-    	
-    	Query query = entityManager.createQuery("select keyword from " + CcJudgmentKeyword.class.getName() + " keyword where lower(keyword.phrase) like :phrasePart");
-    	query.setParameter("phrasePart", phrasePart.toLowerCase() + "%");
-    	
-    	List<CcJudgmentKeyword> keywords = query.getResultList();
-    	
-    	return keywords;
+		Query query = entityManager.createQuery("select keyword from " + CcJudgmentKeyword.class.getName() 
+						+ " keyword where lower(keyword.phrase) like :phrasePart order by keyword.phrase asc");
+		
+		query.setParameter("phrasePart", phrasePart.toLowerCase() + "%");
+		List<CcJudgmentKeyword> keywords = query.getResultList();
+		
+		return keywords;
 	}
 	
 }

@@ -21,7 +21,8 @@ var Suggester = (function() {
      * and assign load suggestions methods to input field.
      * 
      * @param $field input field connected to suggester
-     * @param source config parameters in json format e.g. {url: "defaultUrl"}
+     * @param source config parameters(json):
+     * 		- url - the url location of service that provides list of suggestions e.g. "{contextPath}/keywords"
      */
     
     init = function($field, source) {

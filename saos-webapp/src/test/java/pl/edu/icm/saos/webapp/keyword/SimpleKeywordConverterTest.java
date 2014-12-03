@@ -35,7 +35,7 @@ public class SimpleKeywordConverterTest {
 	}
 
 	@Test
-	public void convertCcJudgmentKeywords_convertion_ok() {
+	public void convertCcJudgmentKeywords() {
 		//given
 		int idOne = 5;
 		int idTwo = 15;
