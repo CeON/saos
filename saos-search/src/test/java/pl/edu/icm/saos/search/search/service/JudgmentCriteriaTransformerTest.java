@@ -54,7 +54,7 @@ public class JudgmentCriteriaTransformerTest {
                 
                 { "+caseNumber:ZXC1", new JudgmentCriteriaBuilder().withCaseNumber("ZXC1").build() },
                 { "+judgmentType:DECISION", new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.DECISION).build() },
-                { "judgmentType:DECISION judgmentType:SENTENCE", new JudgmentCriteriaBuilder()
+                { "+(judgmentType:DECISION judgmentType:SENTENCE)", new JudgmentCriteriaBuilder()
                         .withJudgmentType(JudgmentType.DECISION).withJudgmentType(JudgmentType.SENTENCE).build() },
                 { "+courtType:ADMINISTRATIVE", new JudgmentCriteriaBuilder().withCourtType(CourtType.ADMINISTRATIVE).build() },
                 

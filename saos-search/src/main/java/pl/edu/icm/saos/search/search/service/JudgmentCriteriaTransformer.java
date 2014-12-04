@@ -30,10 +30,10 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
     public String transformCriteria(JudgmentCriteria criteria) {
         List<String> list = Lists.newLinkedList();
         
+        list.add(criterionTransformer.transformCriterionWithParsing(JudgmentIndexField.CONTENT, criteria.getAll()));
         list.addAll(transformCommonCourtCriteria(criteria));
         list.addAll(transformSupremeCourtCriteria(criteria));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.COURT_TYPE, criteria.getCourtType()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CONTENT, criteria.getAll()));
         list.add(criterionTransformer.transformDateRangeCriterion(
                 JudgmentIndexField.JUDGMENT_DATE, criteria.getDateFrom(), criteria.getDateTo()));
         list.add(criterionTransformer.transformMultivaluedEnumCriterion(JudgmentIndexField.JUDGMENT_TYPE, criteria.getJudgmentTypes(), Operator.OR));
