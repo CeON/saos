@@ -51,7 +51,7 @@ $(document).ready(function() {
     	
     	filters: [{button: ".judge", searchfield: "#input-search-judge", filterfield: "filter-judge"},
 		           {button: ".keyword", searchfield: "#input-search-keywords", filterfield: "filter-keyword", selectFormType: "#radio-court-common"},
-		           {button: ".type", searchfield: "[name='judgmentType']", filterfield: "filter-judgment-type"},
+		           {button: ".type", searchfield: "[name='judgmentTypes']", filterfield: "filter-judgment-type"},
 		           {button: ".date", searchfield: "#datepicker_from, #datepicker_to", filterfield: "filter-judgment-date-from"},
 				   {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court", selectFormType: "#radio-court-common"},
 				   {button: ".chamber", searchfield: "#select-supreme-chamber", filterfield: "filter-supreme-chamber", selectFormType: "#radio-court-supreme"}],

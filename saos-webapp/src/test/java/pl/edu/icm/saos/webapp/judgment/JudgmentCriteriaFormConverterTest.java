@@ -6,6 +6,11 @@ import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+
+import org.hamcrest.Matchers;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.common.collect.Lists;
 
@@ -26,10 +31,15 @@ public class JudgmentCriteriaFormConverterTest {
 	
 	@Test
 	public void convert() {
+		//given
 		JudgmentCriteriaForm judgmentCriteriaForm = createCriteriaForm();
 		
+		
+		//when
 		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
 		
+		
+		//then
 		assertEquals(judgmentCriteriaForm.getAll(), judgmentCriteria.getAll());
 		assertEquals(judgmentCriteriaForm.getSignature(), judgmentCriteria.getCaseNumber());
 
@@ -46,12 +56,53 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getSupremeChamberDivisionId(), judgmentCriteria.getScCourtChamberDivisionId());
 		
 		assertEquals(judgmentCriteriaForm.getJudgeName(), judgmentCriteria.getJudgeName());
+		
 		assertEquals(1, judgmentCriteria.getKeywords().size());
 		assertEquals(judgmentCriteriaForm.getKeywords(), judgmentCriteria.getKeywords());
+		
+		assertEquals(2, judgmentCriteria.getJudgmentTypes().size());
+		assertThat(judgmentCriteria.getJudgmentTypes(), Matchers.containsInAnyOrder(JudgmentType.SENTENCE, JudgmentType.DECISION));
+		
 		assertEquals(judgmentCriteriaForm.getLegalBase(), judgmentCriteria.getLegalBase());
 		assertEquals(judgmentCriteriaForm.getReferencedRegulation(), judgmentCriteria.getReferencedRegulation());
 	}
 
+	@Test
+	public void convert_no_keywords() {
+		//given
+		JudgmentCriteriaForm judgmentCriteriaForm = new JudgmentCriteriaForm();
+		judgmentCriteriaForm.setKeywords(null);
+		
+		//when
+		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
+		
+		//then
+		assertEquals(0, judgmentCriteria.getKeywords().size());
+	}
+	
+	@Test
+	public void convert_no_judgmemtType() {
+		//given
+		JudgmentCriteriaForm judgmentCriteriaForm = new JudgmentCriteriaForm();
+		judgmentCriteriaForm.setJudgmentTypes(null);
+		
+		//when
+		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
+		
+		//then
+		assertEquals(0, judgmentCriteria.getJudgmentTypes().size());
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void convert_wrong_judgmemtType_enum_values() {
+		//given
+		JudgmentCriteriaForm judgmentCriteriaForm = new JudgmentCriteriaForm();
+		judgmentCriteriaForm.setJudgmentTypes(Lists.newArrayList("sentencja"));
+		
+		//when
+		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
+	}
+	
 	
 	//------------------------ PRIVATE --------------------------
 	
@@ -76,6 +127,7 @@ public class JudgmentCriteriaFormConverterTest {
 		
 		judgmentCriteriaForm.setJudgeName("Judge Dredd");
 		judgmentCriteriaForm.setKeywords(Lists.newArrayList("very important keyword"));
+		judgmentCriteriaForm.setJudgmentTypes(Lists.newArrayList("sentence", "decision"));
 		judgmentCriteriaForm.setLegalBase("12.55");
 		judgmentCriteriaForm.setReferencedRegulation("Art. 4.6");
 		

@@ -8,8 +8,9 @@
 	
 		<div class="row" >
 				<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
-					<c:set var="lowerCaseJudgmentType" value="${fn:toLowerCase(judgment.judgmentType)}" />
-					<div class="type" data-judgment-type="${lowerCaseJudgmentType}" ><spring:message code="judgment.${lowerCaseJudgmentType}" /></div>
+					<div class="type" data-judgment-type="${judgment.judgmentType}" >
+						<spring:message code="pl.edu.icm.saos.persistence.model.Judgment$JudgmentType.${judgment.judgmentType}" />
+					</div>
 				</c:if>
 				<div class="case-number">
 					<a href="${contextPath}/judgments/${judgment.id}">

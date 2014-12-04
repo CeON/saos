@@ -35,19 +35,17 @@
 
 	
 	<%-- Judgment type --%> 
-	<c:if test="${!empty judgmentCriteriaForm.judgmentType}">
+	<c:if test="${!empty judgmentCriteriaForm.judgmentTypes}">
 		<p><spring:message code="judgmentSearch.formField.judgmentType" />:</p>
-		<c:forEach var="enumValue" items="${enumJudgmentType}" varStatus="status">
-			<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
-			<c:forEach items="${judgmentCriteriaForm.judgmentType}" var="judgmentType" >
-				<c:if test="${judgmentType == lowerCaseEnumValue}" >
-					<div class="filter-item" id="filter-judgment-type" data-assigned-field="checkbox-${lowerCaseEnumValue}">
-						<div data-tooltip-text="<spring:message code='judgmentSearch.filterBox.removeFilter' />"><saos:enum value="${enumValue}" /></div>
-					</div>
-				</c:if>
-			</c:forEach>
+		<c:forEach items="${judgmentCriteriaForm.judgmentTypes}" var="judgmentType" >
+			<div class="filter-item" id="filter-judgment-type" data-assigned-field="checkbox-${fn:toLowerCase(judgmentType)}">
+				<div data-tooltip-text="<spring:message code='judgmentSearch.filterBox.removeFilter' />">
+					<spring:message code="pl.edu.icm.saos.persistence.model.Judgment$JudgmentType.${judgmentType}" />
+				</div>
+			</div>
 		</c:forEach>
 	</c:if>
+	
 	
 	<saos:filterField assignedField="input-search-judge" label="judgmentSearch.formField.judge" filterValue="${judgmentCriteriaForm.judgeName}" id="filter-judge"></saos:filterField>
 	

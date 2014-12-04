@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.common.FormatConst;
 import pl.edu.icm.saos.persistence.model.CourtType;
-
 import pl.edu.icm.saos.webapp.format.MultiWordFormat;
 
 
@@ -44,7 +43,9 @@ public class JudgmentCriteriaForm {
     private Integer supremeChamberId;
     private Integer supremeChamberDivisionId;
     
-    private String[] judgmentType;
+    
+    private List<String> judgmentTypes = Lists.newLinkedList();
+    
     private String legalBase;
     private String referencedRegulation;
     
@@ -99,8 +100,8 @@ public class JudgmentCriteriaForm {
 		return supremeChamberDivisionId;
 	}
 	
-	public String[] getJudgmentType() {
-		return judgmentType;
+	public List<String> getJudgmentTypes() {
+		return judgmentTypes;
 	}
 	
 	public String getLegalBase() {
@@ -161,8 +162,8 @@ public class JudgmentCriteriaForm {
 		this.supremeChamberDivisionId = supremeChamberDivisionId;
 	}
 	
-	public void setJudgmentType(String[] judgmentType) {
-		this.judgmentType = judgmentType;
+	public void setJudgmentTypes(List<String> judgmentTypes) {
+		this.judgmentTypes = judgmentTypes;
 	}
 
 	public void setLegalBase(String legalBase) {
