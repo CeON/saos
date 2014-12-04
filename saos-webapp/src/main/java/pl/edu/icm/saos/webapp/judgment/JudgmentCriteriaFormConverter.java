@@ -43,6 +43,7 @@ public class JudgmentCriteriaFormConverter {
 	    	judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
 	    }
 	    
+	    judgmentCriteria.setScPersonnelType(judgmentCriteriaForm.getScPersonnelType());
 	    judgmentCriteria.setScCourtChamberId(judgmentCriteriaForm.getSupremeChamberId());
 	    judgmentCriteria.setScCourtChamberDivisionId(judgmentCriteriaForm.getSupremeChamberDivisionId());
 		

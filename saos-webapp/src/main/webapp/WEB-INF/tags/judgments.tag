@@ -45,7 +45,13 @@
 				
 				<c:if test="${!empty judgment.judges}" >
 					<div class="judges" >
-						<span><spring:message code="judgment.judges" />:</span>
+						<span>
+							<spring:message code="judgment.judges" />
+							<c:if test="${!empty judgment.scPersonnelType && judgment.scPersonnelType != null}" >
+								<div class="personnel-type" ><spring:message code="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment$PersonnelType.${judgment.scPersonnelType}" /></div>
+							</c:if>
+							:
+						</span>
 						<c:forEach items="${judgment.judges}" var="judge" >
 							<div class="judge"><c:out value="${judge.name}" /></div>
 						</c:forEach>	

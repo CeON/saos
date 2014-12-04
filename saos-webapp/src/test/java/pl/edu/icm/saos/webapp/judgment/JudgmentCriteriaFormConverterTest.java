@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
 import org.hamcrest.Matchers;
 
@@ -51,6 +52,7 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getCommonCourtId(), judgmentCriteria.getCcCourtId());
 		assertEquals(judgmentCriteriaForm.getCommonCourtDivisionId(), judgmentCriteria.getCcCourtDivisionId());
 		
+		assertEquals(judgmentCriteriaForm.getScPersonnelType(), judgmentCriteria.getScPersonnelType());
 		assertEquals(judgmentCriteriaForm.getScJudgmentForm(), judgmentCriteria.getScJudgmentForm());
 		assertEquals(judgmentCriteriaForm.getSupremeChamberId(), judgmentCriteria.getScCourtChamberId());
 		assertEquals(judgmentCriteriaForm.getSupremeChamberDivisionId(), judgmentCriteria.getScCourtChamberDivisionId());
@@ -121,13 +123,14 @@ public class JudgmentCriteriaFormConverterTest {
 		judgmentCriteriaForm.setCommonCourtId(12);
 		judgmentCriteriaForm.setCommonCourtDivisionId(15);
 		
+		judgmentCriteriaForm.setScPersonnelType(PersonnelType.FIVE_PERSON);
 		judgmentCriteriaForm.setScJudgmentForm("wyrok SN");
 		judgmentCriteriaForm.setSupremeChamberId(13);
 		judgmentCriteriaForm.setSupremeChamberDivisionId(14);
 		
 		judgmentCriteriaForm.setJudgeName("Judge Dredd");
 		judgmentCriteriaForm.setKeywords(Lists.newArrayList("very important keyword"));
-		judgmentCriteriaForm.setJudgmentTypes(Lists.newArrayList("sentence", "decision"));
+		judgmentCriteriaForm.setJudgmentTypes(Lists.newArrayList("SENTENCE", "DECISION"));
 		judgmentCriteriaForm.setLegalBase("12.55");
 		judgmentCriteriaForm.setReferencedRegulation("Art. 4.6");
 		

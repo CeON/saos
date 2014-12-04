@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.common.FormatConst;
 import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.webapp.format.MultiWordFormat;
 
 
@@ -39,6 +40,7 @@ public class JudgmentCriteriaForm {
     private Integer commonCourtId;
     private Integer commonCourtDivisionId;
     
+    private PersonnelType scPersonnelType;
     private String scJudgmentForm;
     private Integer supremeChamberId;
     private Integer supremeChamberDivisionId;
@@ -86,6 +88,10 @@ public class JudgmentCriteriaForm {
 	
 	public Integer getCommonCourtDivisionId() {
 		return commonCourtDivisionId;
+	}
+	
+	public PersonnelType getScPersonnelType() {
+		return scPersonnelType;
 	}
 	
 	public String getScJudgmentForm() {
@@ -148,6 +154,10 @@ public class JudgmentCriteriaForm {
 	
 	public void setCommonCourtDivisionId(Integer commonCourtDivisionId) {
 		this.commonCourtDivisionId = commonCourtDivisionId;
+	}
+	
+	public void setScPersonnelType(PersonnelType scPersonnelType) {
+		this.scPersonnelType = scPersonnelType;
 	}
 
 	public void setScJudgmentForm(String scJudgmentForm) {
