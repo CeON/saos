@@ -1,13 +1,6 @@
 package pl.edu.icm.saos.persistence.model;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 
@@ -23,7 +16,6 @@ public class AdministrativeCourtJudgment extends Judgment {
     private AdministrativeBody respondentType;
     private AdministrativeCaseType caseType;
     private String shortDecision;
-    private List<AdministrativeCourtJudgmentKeyword> keywords;
     
     
     //------------------------ GETTERS --------------------------
@@ -47,14 +39,7 @@ public class AdministrativeCourtJudgment extends Judgment {
         return shortDecision;
     }
     
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "assigned_adm_judgment_keyword",
-            joinColumns = {@JoinColumn(name = "fk_judgment", nullable = false, updatable = false) }, 
-            inverseJoinColumns = {@JoinColumn(name = "fk_keyword", nullable = false, updatable = false) })
-    public List<AdministrativeCourtJudgmentKeyword> getKeywords() {
-        return keywords;
-    }
-    
+   
     @Transient
     @Override
     public CourtType getCourtType() {
@@ -80,8 +65,6 @@ public class AdministrativeCourtJudgment extends Judgment {
         this.shortDecision = shortDecision;
     }
     
-    public void setKeywords(List<AdministrativeCourtJudgmentKeyword> keywords) {
-        this.keywords = keywords;
-    }
+    
         
 }

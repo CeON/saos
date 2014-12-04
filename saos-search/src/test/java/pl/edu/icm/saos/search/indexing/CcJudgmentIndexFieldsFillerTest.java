@@ -1,27 +1,30 @@
 package pl.edu.icm.saos.search.indexing;
 
-import com.google.common.collect.Lists;
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.reflect.Whitebox;
-import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
+
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
-import java.util.Collections;
-import java.util.List;
-
-import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
+import com.google.common.collect.Lists;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 /**
  * @author madryk
@@ -51,11 +54,15 @@ public class CcJudgmentIndexFieldsFillerTest {
         
         
         // keywords
-        List<CcJudgmentKeyword> keywords = TestInMemoryObjectFactory.createCcKeywordListWithRandomData(2);
+        JudgmentKeyword keyword1 = new JudgmentKeyword(CourtType.COMMON, UUID.randomUUID().toString());
+        JudgmentKeyword keyword2 = new JudgmentKeyword(CourtType.COMMON, UUID.randomUUID().toString());
+        
         CommonCourtJudgment keywordsJudgment = new CommonCourtJudgment();
-        keywords.forEach(keyword -> keywordsJudgment.addKeyword(keyword));
+        keywordsJudgment.addKeyword(keyword1);
+        keywordsJudgment.addKeyword(keyword2);
+        
         List<SolrInputField> keywordsFields = Collections.singletonList(
-                fieldFactory.create("keyword", keywords.get(0).getPhrase(), keywords.get(1).getPhrase()));
+                fieldFactory.create("keyword", keyword1.getPhrase(), keyword2.getPhrase()));
 
         
         

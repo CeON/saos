@@ -22,17 +22,19 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import pl.edu.icm.saos.importer.common.JudgmentKeywordCreator;
 import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
@@ -54,7 +56,7 @@ public class SourceCcJudgmentExtractorTest {
     
     @Mock private CcDivisionRepository ccDivisionRepository;
     
-    @Mock private CcJudgmentKeywordCreator ccJudgmentKeywordCreator;
+    @Mock private JudgmentKeywordCreator ccJudgmentKeywordCreator;
     
     @Mock private LawJournalEntryCreator lawJournalEntryCreator;
     
@@ -428,10 +430,10 @@ public class SourceCcJudgmentExtractorTest {
         List<String> themePhrases = Lists.newArrayList("QWERTY", "KKKKOOOOLLLl");
         sJudgment.setThemePhrases(themePhrases);
         
-        List<CcJudgmentKeyword> keywords = createKeywords(themePhrases);
+        List<JudgmentKeyword> keywords = createKeywords(themePhrases);
         
         for (int i = 0; i < themePhrases.size(); i++) {
-            when(ccJudgmentKeywordCreator.getOrCreateCcJudgmentKeyword(Mockito.eq(themePhrases.get(i).trim().toLowerCase()))).thenReturn(keywords.get(i));
+            when(ccJudgmentKeywordCreator.getOrCreateJudgmentKeyword(CourtType.COMMON, themePhrases.get(i).trim())).thenReturn(keywords.get(i));
         }
         
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
@@ -531,11 +533,10 @@ public class SourceCcJudgmentExtractorTest {
     }
 
     
-    private List<CcJudgmentKeyword> createKeywords(List<String> themePhrases) {
-        List<CcJudgmentKeyword> keywords = Lists.newArrayList();
+    private List<JudgmentKeyword> createKeywords(List<String> themePhrases) {
+        List<JudgmentKeyword> keywords = Lists.newArrayList();
         for (String themePhrase : themePhrases) {
-            CcJudgmentKeyword keyword = new CcJudgmentKeyword();
-            keyword.setPhrase(themePhrase.toLowerCase());
+            JudgmentKeyword keyword = new JudgmentKeyword(CourtType.COMMON, themePhrase);
             keywords.add(keyword);
         }
         return keywords;

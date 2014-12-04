@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 
 /**
  * Service for converting list of CcJudgmentKeyword into SimpleKeyword list.  
@@ -18,19 +18,19 @@ public class SimpleKeywordConverter {
 	
 	//------------------------ LOGIC --------------------------
 	
-	public List<SimpleKeyword> convertCcJudgmentKeywords(List<CcJudgmentKeyword> ccJudgmentKeywords) {
-		return ccJudgmentKeywords.stream()
-			.map(ccJudgmentKeyword -> convertFromCcJudgmentKeyword(ccJudgmentKeyword))
+	public List<SimpleKeyword> convertJudgmentKeywords(List<JudgmentKeyword> judgmentKeywords) {
+		return judgmentKeywords.stream()
+			.map(judgmentKeyword -> convertFromJudgmentKeyword(judgmentKeyword))
 			.collect(Collectors.toList());
 	}
 
 	
 	//------------------------ PRIVATE --------------------------
 	
-	private SimpleKeyword convertFromCcJudgmentKeyword(CcJudgmentKeyword ccJudgmentKeyword) {
+	private SimpleKeyword convertFromJudgmentKeyword(JudgmentKeyword judgmentKeyword) {
 		SimpleKeyword simpleKeyword = new SimpleKeyword();
-		simpleKeyword.setId(Integer.toString(ccJudgmentKeyword.getId()));
-		simpleKeyword.setPhrase(ccJudgmentKeyword.getPhrase());
+		simpleKeyword.setId(judgmentKeyword.getId());
+		simpleKeyword.setPhrase(judgmentKeyword.getPhrase());
 		return simpleKeyword;
 	}
 }

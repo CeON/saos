@@ -5,7 +5,6 @@ import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.JUD
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -14,19 +13,21 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.importer.common.JudgmentKeywordCreator;
 import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -47,7 +48,7 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     
     private CcDivisionRepository ccDivisionRepository;
     
-    private CcJudgmentKeywordCreator ccJudgmentKeywordCreator;
+    private JudgmentKeywordCreator judgmentKeywordCreator;
     
     private LawJournalEntryCreator lawJournalEntryCreator;
     
@@ -65,8 +66,8 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     @Override
     public void convertSpecific(CommonCourtJudgment ccJudgment, SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         
-        List<CcJudgmentKeyword> keywords = extractKeywords(sourceJudgment, correctionList);
-        for (CcJudgmentKeyword keyword : keywords) {
+        List<JudgmentKeyword> keywords = extractKeywords(sourceJudgment, correctionList);
+        for (JudgmentKeyword keyword : keywords) {
             if (!ccJudgment.containsKeyword(keyword)) {
                 ccJudgment.addKeyword(keyword);
             }
@@ -267,14 +268,13 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
         return division;
     }
     
-    private List<CcJudgmentKeyword> extractKeywords(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        List<CcJudgmentKeyword> keywords = Lists.newArrayList();
+    private List<JudgmentKeyword> extractKeywords(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        List<JudgmentKeyword> keywords = Lists.newArrayList();
         if (CollectionUtils.isEmpty(sourceJudgment.getThemePhrases())) {
             return keywords;
         }
         for (String themePhrase : sourceJudgment.getThemePhrases()) {
-            themePhrase = themePhrase.toLowerCase(Locale.ROOT);
-            CcJudgmentKeyword keyword = ccJudgmentKeywordCreator.getOrCreateCcJudgmentKeyword(themePhrase);
+            JudgmentKeyword keyword = judgmentKeywordCreator.getOrCreateJudgmentKeyword(CourtType.COMMON, themePhrase);
             keywords.add(keyword);
         }
         return keywords;
@@ -297,8 +297,8 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     }
 
     @Autowired
-    public void setCcJudgmentKeywordCreator(CcJudgmentKeywordCreator ccJudgmentKeywordCreator) {
-        this.ccJudgmentKeywordCreator = ccJudgmentKeywordCreator;
+    public void setCcJudgmentKeywordCreator(JudgmentKeywordCreator ccJudgmentKeywordCreator) {
+        this.judgmentKeywordCreator = ccJudgmentKeywordCreator;
     }
 
     @Autowired
