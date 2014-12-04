@@ -17,6 +17,9 @@ public class PagingConverter {
 	@Autowired
 	private SortingConverter sortingConverter;
 	
+	
+	//------------------------ LOGIC --------------------------
+	
 	public Paging convert(Pageable pageable) {
 		
 		Sorting sorting = sortingConverter.convert(pageable.getSort());
