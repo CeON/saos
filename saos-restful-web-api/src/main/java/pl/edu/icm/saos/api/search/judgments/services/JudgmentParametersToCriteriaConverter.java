@@ -2,12 +2,11 @@ package pl.edu.icm.saos.api.search.judgments.services;
 
 import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
+import pl.edu.icm.saos.api.search.judgments.parameters.Sort;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.Paging;
 import pl.edu.icm.saos.search.search.model.Sorting;
-
-import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.DATABASE_ID;
 
 /**
  * @author pavtel
@@ -59,12 +58,15 @@ public class JudgmentParametersToCriteriaConverter {
     }
 
     /**
-     * Converts {@link pl.edu.icm.saos.api.search.parameters.Pagination Pagination} into
+     * Converts {@link pl.edu.icm.saos.api.search.parameters.Pagination Pagination} and
+     * {@link pl.edu.icm.saos.api.search.judgments.parameters.Sort Sort} into
      * {@link pl.edu.icm.saos.search.search.model.Paging Paging}
      * @param pagination to process.
+     * @param sort to process.
      * @return Paging
      */
-    public Paging toPaging(Pagination pagination){
-        return new Paging(pagination.getPageNumber(), pagination.getPageSize(), new Sorting(DATABASE_ID.getFieldName(), Sorting.Direction.ASC));
+    public Paging toPaging(Pagination pagination, Sort sort){
+        return new Paging(pagination.getPageNumber(), pagination.getPageSize(),
+                new Sorting(sort.getSortingFieldName(), sort.getSortingDirection()));
     }
 }

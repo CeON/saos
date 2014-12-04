@@ -1,17 +1,17 @@
 package pl.edu.icm.saos.api.search.judgments.services
 import org.joda.time.LocalDate
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters
+import pl.edu.icm.saos.api.search.judgments.parameters.Sort
 import pl.edu.icm.saos.api.search.parameters.Pagination
 import pl.edu.icm.saos.persistence.model.CommonCourt
 import pl.edu.icm.saos.persistence.model.CourtType
 import pl.edu.icm.saos.persistence.model.Judgment
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria
 import pl.edu.icm.saos.search.search.model.Paging
 import pl.edu.icm.saos.search.search.model.Sorting
 import spock.lang.Specification
-
-import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.DATABASE_ID
 /**
  * @author pavtel
  */
@@ -24,17 +24,23 @@ class JudgmentParametersToCriteriaConverterTest extends Specification {
     }
 
 
-    def "it should return Paging sorted by id ascending"(){
+    def "it should return Paging"(){
         given:
             int pageSize = 22
             int pageNumber = 10
             def pagination = new Pagination(pageSize, pageNumber)
 
+            JudgmentIndexField field = JudgmentIndexField.JUDGMENT_DATE
+            Sorting.Direction direction = Sorting.Direction.DESC
+            def sort = new Sort();
+            sort.setSortingField(field)
+            sort.setSortingDirection(direction)
+
         when:
-            Paging actual = converter.toPaging(pagination)
+            Paging actual = converter.toPaging(pagination, sort)
 
         then:
-            def expected = new Paging(pageNumber, pageSize, new Sorting(DATABASE_ID.getFieldName(), Sorting.Direction.ASC))
+            def expected = new Paging(pageNumber, pageSize, new Sorting(field.fieldName, direction))
             actual == expected
     }
 

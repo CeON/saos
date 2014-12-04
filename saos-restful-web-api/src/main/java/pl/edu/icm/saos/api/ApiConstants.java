@@ -18,6 +18,9 @@ public abstract class ApiConstants {
     public static final String PAGE_SIZE = "pageSize";
     public static final String PAGE_NUMBER = "pageNumber";
 
+    public static final String SORTING_FIELD = "sortingField";
+    public static final String SORTING_DIRECTION = "sortingDirection";
+
     public static final String ALL = "all";
 
     public static final String CODE = "code";
