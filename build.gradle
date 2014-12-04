@@ -68,7 +68,10 @@ subprojects {
 
         'org.apache.solr:solr-core' :'org.apache.solr:solr-core:4.9.0',
         'org.apache.solr:solr-solrj' :'org.apache.solr:solr-solrj:4.9.0',
-        'org.springframework.data:spring-data-solr' :'org.springframework.data:spring-data-solr:1.2.2.RELEASE',
+        'org.apache.lucene:lucene-analyzers-morfologik' :'org.apache.lucene:lucene-analyzers-morfologik:4.9.0',
+        'org.carrot2:morfologik-fsa' :'org.carrot2:morfologik-fsa:1.9.0',
+        'org.carrot2:morfologik-polish' :'org.carrot2:morfologik-polish:1.9.0',
+        'org.carrot2:morfologik-stemming' :'org.carrot2:morfologik-stemming:1.9.0',
        
         'org.springframework:spring-context' :'org.springframework:spring-context:'+springVersion,
         'org.springframework:spring-webmvc' :'org.springframework:spring-webmvc:'+springVersion,

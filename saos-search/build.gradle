@@ -4,7 +4,16 @@ dependencies {
     testCompile project(path:':saos-persistence', configuration:'testArtifacts')
         
     testCompile lib.'org.apache.solr:solr-core'
+    testCompile lib.'org.apache.lucene:lucene-analyzers-morfologik'
+    /** testCompile lib.'org.carrot2:morfologik-fsa'
+    testCompile lib.'org.carrot2:morfologik-polish'
+    testCompile lib.'org.carrot2:morfologik-stemming' */
+    
     testArtifacts lib.'org.apache.solr:solr-core'
+    testArtifacts lib.'org.apache.lucene:lucene-analyzers-morfologik'
+    /** testArtifacts lib.'org.carrot2:morfologik-fsa'
+    testArtifacts lib.'org.carrot2:morfologik-polish'
+    testArtifacts lib.'org.carrot2:morfologik-stemming' */
     
     compile lib.'org.springframework:spring-context'
     compile lib.'org.springframework.batch:spring-batch-core'
