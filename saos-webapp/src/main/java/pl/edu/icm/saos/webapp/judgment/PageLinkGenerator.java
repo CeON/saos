@@ -21,10 +21,10 @@ private static final String PAGE_NO_PARAM_NAME = "page";
 	 */
 	public static String generateSearchPageBaseLink(HttpServletRequest request, String pageNoParameterName) {
 		String pageLink = request.getRequestURL().toString() + "?";
-	if (request.getQueryString()!=null) {
-		pageLink += request.getQueryString();
-	}
-	return pageLink.replaceAll("[\\&]*"+pageNoParameterName+"\\=[0-9]*", "");
+		if (request.getQueryString()!=null) {
+			pageLink += request.getQueryString();
+		}
+		return pageLink.replaceAll("[\\&]*"+pageNoParameterName+"\\=[0-9]*", "");
 	}
 	
 	/**
