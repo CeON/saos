@@ -46,28 +46,17 @@ public class JudgmentCriteriaFormConverter {
 	    judgmentCriteria.setScPersonnelType(judgmentCriteriaForm.getScPersonnelType());
 	    judgmentCriteria.setScCourtChamberId(judgmentCriteriaForm.getSupremeChamberId());
 	    judgmentCriteria.setScCourtChamberDivisionId(judgmentCriteriaForm.getSupremeChamberDivisionId());
-		
-	    judgmentCriteria.setJudgmentTypes(convertJudgmentTypes(judgmentCriteriaForm.getJudgmentTypes()));
+	    
+	    if (judgmentCriteriaForm.getJudgmentTypes() == null) {
+	    	judgmentCriteria.setJudgmentTypes(Lists.newLinkedList());
+	    } else {
+	    	judgmentCriteria.setJudgmentTypes(Lists.newArrayList(judgmentCriteriaForm.getJudgmentTypes()));
+	    }
 	    
 	    judgmentCriteria.setLegalBase(judgmentCriteriaForm.getLegalBase());
 		judgmentCriteria.setReferencedRegulation(judgmentCriteriaForm.getReferencedRegulation());
 	    
 		return judgmentCriteria;
-	}
-
-	
-	//------------------------ PRIVATE --------------------------
-	
-	/*
-	 *  Converts list of strings to list of {@link JudgmentType} and returns it.
-	 */
-	private List<JudgmentType> convertJudgmentTypes(List<String> judgmentTypes) {
-		
-		if (judgmentTypes == null) {
-			return Lists.newArrayList();
-		} else {
-			return judgmentTypes.stream().map(j -> JudgmentType.valueOf(j)).collect(Collectors.toList());
-		}
 	}
 	
 }

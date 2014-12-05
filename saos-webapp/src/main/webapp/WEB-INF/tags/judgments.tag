@@ -9,7 +9,7 @@
 		<div class="row" >
 				<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
 					<div class="type" data-judgment-type="${judgment.judgmentType}" >
-						<spring:message code="pl.edu.icm.saos.persistence.model.Judgment$JudgmentType.${judgment.judgmentType}" />
+						<saos:enum value="${judgment.judgmentType}" ></saos:enum>
 					</div>
 				</c:if>
 				<div class="case-number">
@@ -48,7 +48,9 @@
 						<span>
 							<spring:message code="judgment.judges" />
 							<c:if test="${!empty judgment.scPersonnelType && judgment.scPersonnelType != null}" >
-								<div class="personnel-type" ><spring:message code="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment$PersonnelType.${judgment.scPersonnelType}" /></div>
+								<div class="personnel-type" >
+									<saos:enum value="${judgment.scPersonnelType}" />
+								</div>
 							</c:if>
 							:
 						</span>

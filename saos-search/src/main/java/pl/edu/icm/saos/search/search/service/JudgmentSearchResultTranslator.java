@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.JudgeResult;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
@@ -40,8 +42,12 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
         List<String> caseNumbers = fieldFetcher.fetchValues(document, JudgmentIndexField.CASE_NUMBER);
         result.setCaseNumbers(caseNumbers);
         
-        String judgmentType = fieldFetcher.fetchValue(document, JudgmentIndexField.JUDGMENT_TYPE);
-        result.setJudgmentType(judgmentType);
+        String judgmentTypeString = fieldFetcher.fetchValue(document, JudgmentIndexField.JUDGMENT_TYPE);
+        
+        if (judgmentTypeString != null) {
+	    	JudgmentType judgmentType = JudgmentType.valueOf(judgmentTypeString);
+	    	result.setJudgmentType(judgmentType);
+        }
         
         LocalDate judgmentDate = fieldFetcher.fetchDateValue(document, JudgmentIndexField.JUDGMENT_DATE);
         result.setJudgmentDate(judgmentDate);
@@ -96,8 +102,12 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
     	String judgmentForm = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_JUDGMENT_FORM);
         result.setScJudgmentForm(judgmentForm);
     	
-        String personnelType = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_PERSONNEL_TYPE);
-        result.setScPersonnelType(personnelType);
+        String personnelTypeString = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_PERSONNEL_TYPE);
+        
+        if (personnelTypeString != null) {
+            PersonnelType personnelType = PersonnelType.valueOf(personnelTypeString);
+	    	result.setScPersonnelType(personnelType);
+        }
         
         List<Pair<String, List<String>>> chambers = fieldFetcher.fetchValuesWithAttributes(document, JudgmentIndexField.SC_COURT_CHAMBER);
         List<SupremeCourtChamberResult> chambersResult = Lists.newLinkedList();

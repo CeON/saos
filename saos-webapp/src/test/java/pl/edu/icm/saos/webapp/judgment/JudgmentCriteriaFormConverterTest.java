@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.webapp.judgment;
 
 import static org.junit.Assert.assertEquals;
+import groovy.transform.builder.InitializerStrategy.SET;
 
 import org.joda.time.LocalDate;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.hamcrest.Matchers;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
@@ -95,6 +97,7 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(0, judgmentCriteria.getJudgmentTypes().size());
 	}
 	
+	/*
 	@Test(expected=IllegalArgumentException.class)
 	public void convert_wrong_judgmemtType_enum_values() {
 		//given
@@ -104,6 +107,7 @@ public class JudgmentCriteriaFormConverterTest {
 		//when
 		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
 	}
+	*/
 	
 	
 	//------------------------ PRIVATE --------------------------
@@ -130,7 +134,7 @@ public class JudgmentCriteriaFormConverterTest {
 		
 		judgmentCriteriaForm.setJudgeName("Judge Dredd");
 		judgmentCriteriaForm.setKeywords(Lists.newArrayList("very important keyword"));
-		judgmentCriteriaForm.setJudgmentTypes(Lists.newArrayList("SENTENCE", "DECISION"));
+		judgmentCriteriaForm.setJudgmentTypes(Sets.newHashSet(JudgmentType.SENTENCE, JudgmentType.DECISION));
 		judgmentCriteriaForm.setLegalBase("12.55");
 		judgmentCriteriaForm.setReferencedRegulation("Art. 4.6");
 		

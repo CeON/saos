@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.webapp.judgment;
 
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,6 +10,7 @@ import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.common.FormatConst;
 import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.webapp.format.MultiWordFormat;
 
@@ -33,7 +35,7 @@ public class JudgmentCriteriaForm {
     private String judgeName;
     
     @MultiWordFormat
-    private List<String> keywords = Lists.newLinkedList();
+    private List<String> keywords;
     
     private CourtType courtType;
     
@@ -46,10 +48,12 @@ public class JudgmentCriteriaForm {
     private Integer supremeChamberDivisionId;
     
     
-    private List<String> judgmentTypes = Lists.newLinkedList();
+    private Set<JudgmentType> judgmentTypes;
     
     private String legalBase;
     private String referencedRegulation;
+    
+    
     
     
     //------------------------ GETTERS --------------------------
@@ -106,7 +110,7 @@ public class JudgmentCriteriaForm {
 		return supremeChamberDivisionId;
 	}
 	
-	public List<String> getJudgmentTypes() {
+	public Set<JudgmentType> getJudgmentTypes() {
 		return judgmentTypes;
 	}
 	
@@ -172,7 +176,7 @@ public class JudgmentCriteriaForm {
 		this.supremeChamberDivisionId = supremeChamberDivisionId;
 	}
 	
-	public void setJudgmentTypes(List<String> judgmentTypes) {
+	public void setJudgmentTypes(Set<JudgmentType> judgmentTypes) {
 		this.judgmentTypes = judgmentTypes;
 	}
 

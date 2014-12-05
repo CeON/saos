@@ -40,7 +40,7 @@
 		<c:forEach items="${judgmentCriteriaForm.judgmentTypes}" var="judgmentType" >
 			<div class="filter-item" id="filter-judgment-type" data-assigned-field="checkbox-${fn:toLowerCase(judgmentType)}">
 				<div data-tooltip-text="<spring:message code='judgmentSearch.filterBox.removeFilter' />">
-					<spring:message code="pl.edu.icm.saos.persistence.model.Judgment$JudgmentType.${judgmentType}" />
+					<saos:enum value="${judgmentType}" />
 				</div>
 			</div>
 		</c:forEach>

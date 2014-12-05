@@ -5,6 +5,8 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 import java.util.List;
 
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+
 /**
  *  Represents single item in items field in the
  * {@link pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView SearchJudgmentsView}
@@ -14,12 +16,12 @@ import java.util.List;
 public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
     private static final long serialVersionUID = -2267420542588216734L;
 
-    private String personnelType;
+    private PersonnelType personnelType;
     private Division division;
 
     //------------------------ GETTERS --------------------------
 
-    public String getPersonnelType() {
+    public PersonnelType getPersonnelType() {
         return personnelType;
     }
 
@@ -29,7 +31,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
 
     //------------------------ SETTERS --------------------------
 
-    public void setPersonnelType(String personnelType) {
+    public void setPersonnelType(PersonnelType personnelType) {
         this.personnelType = personnelType;
     }
 

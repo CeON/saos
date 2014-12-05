@@ -183,7 +183,7 @@ public class JudgmentSearchServiceTest {
         
         assertEquals(1, result.getCaseNumbers().size());
         assertEquals("III AUa 271/12", result.getCaseNumbers().get(0));
-        assertEquals("SENTENCE", result.getJudgmentType());
+        assertEquals(JudgmentType.SENTENCE, result.getJudgmentType());
         
         LocalDate expectedDate = new LocalDate(2012, 5, 15);
         assertEquals(expectedDate, result.getJudgmentDate());
@@ -239,7 +239,7 @@ public class JudgmentSearchServiceTest {
         assertEquals(21, result.getId());
         
         assertEquals("wyrok SN", result.getScJudgmentForm() );
-        assertEquals("JOINED_CHAMBERS",result.getScPersonnelType());
+        assertEquals(PersonnelType.JOINED_CHAMBERS,result.getScPersonnelType());
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));
         assertEquals(Integer.valueOf(111), result.getScCourtDivisionId());
