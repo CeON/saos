@@ -30,7 +30,7 @@ public class KeywordController {
 	
 	@RequestMapping("/keywords/{courtType}/{phrase}")
 	@ResponseBody
-	public List<SimpleKeyword> searchCcKeywords(@PathVariable("courtType") CourtType courtType, @PathVariable("phrase") String phrase) {
+	public List<SimpleKeyword> searchKeywords(@PathVariable("courtType") CourtType courtType, @PathVariable("phrase") String phrase) {
 		return simpleKeywordConverter.convertJudgmentKeywords(judgmentKeywordRepository.findAllByCourtTypeAndPhrasePart(courtType, phrase));
 	}
 	
