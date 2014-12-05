@@ -97,18 +97,6 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(0, judgmentCriteria.getJudgmentTypes().size());
 	}
 	
-	/*
-	@Test(expected=IllegalArgumentException.class)
-	public void convert_wrong_judgmemtType_enum_values() {
-		//given
-		JudgmentCriteriaForm judgmentCriteriaForm = new JudgmentCriteriaForm();
-		judgmentCriteriaForm.setJudgmentTypes(Lists.newArrayList("sentencja"));
-		
-		//when
-		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
-	}
-	*/
-	
 	
 	//------------------------ PRIVATE --------------------------
 	
