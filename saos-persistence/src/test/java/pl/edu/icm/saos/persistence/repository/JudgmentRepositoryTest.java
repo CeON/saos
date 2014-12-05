@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.persistence.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -226,30 +227,8 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         assertEquals(0, notIndexed.size());
     }
     
-    public void findAllIndexedIds_FOUND() {
-        Judgment firstJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
-        Judgment secondJudgment = createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
-        createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
-        firstJudgment.markAsIndexed();
-        secondJudgment.markAsIndexed();
-        judgmentRepository.save(Lists.newArrayList(firstJudgment, secondJudgment));
-        
-        List<Integer> allIndexed = judgmentRepository.findAllIndexedIds();
-        
-        assertThat(allIndexed, containsInAnyOrder(firstJudgment.getId(), secondJudgment.getId()));
-    }
-    
-    public void findAllIndexedIds_NOT_FOUND() {
-        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
-        judgmentRepository.save(judgment);
-        
-        List<Integer> allIndexed = judgmentRepository.findAllIndexedIds();
-        
-        assertEquals(0, allIndexed.size());
-    }
-    
     @Test
-    public void findIndexedIdsBySourceCode_FOUND() {
+    public void markAllAsNotIndexed() {
         CommonCourtJudgment ccJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         SupremeCourtJudgment scJudgment = createScJudgment(SourceCode.SUPREME_COURT, "2", "AAA2");
         ccJudgment.markAsIndexed();
@@ -257,23 +236,31 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         judgmentRepository.save(ccJudgment);
         judgmentRepository.save(scJudgment);
         
-        List<Integer> ccIndexed = judgmentRepository.findIndexedIdsBySourceCode(SourceCode.COMMON_COURT);
+        judgmentRepository.markAllAsNotIndexed();
         
-        assertEquals(1, ccIndexed.size());
-        assertEquals(Integer.valueOf(ccJudgment.getId()), ccIndexed.get(0));
+        Judgment actualCcJudgment = judgmentRepository.findOne(ccJudgment.getId());
+        Judgment actualScJudgment = judgmentRepository.findOne(scJudgment.getId());
+        
+        assertFalse(actualCcJudgment.isIndexed());
+        assertFalse(actualScJudgment.isIndexed());
     }
     
     @Test
-    public void findIndexedIdsBySourceCode_NOT_FOUND() {
+    public void markAsNotIndexedBySourceCode() {
         CommonCourtJudgment ccJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         SupremeCourtJudgment scJudgment = createScJudgment(SourceCode.SUPREME_COURT, "2", "AAA2");
+        ccJudgment.markAsIndexed();
         scJudgment.markAsIndexed();
         judgmentRepository.save(ccJudgment);
         judgmentRepository.save(scJudgment);
         
-        List<Integer> ccIndexed = judgmentRepository.findIndexedIdsBySourceCode(SourceCode.COMMON_COURT);
+        judgmentRepository.markAsNotIndexedBySourceCode(SourceCode.COMMON_COURT);
         
-        assertEquals(0, ccIndexed.size());
+        Judgment actualCcJudgment = judgmentRepository.findOne(ccJudgment.getId());
+        Judgment actualScJudgment = judgmentRepository.findOne(scJudgment.getId());
+        
+        assertEquals(false, actualCcJudgment.isIndexed());
+        assertEquals(true, actualScJudgment.isIndexed());
     }
 
     @Test

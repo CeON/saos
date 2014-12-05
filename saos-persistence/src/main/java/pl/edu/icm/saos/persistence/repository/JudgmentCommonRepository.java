@@ -2,6 +2,9 @@ package pl.edu.icm.saos.persistence.repository;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -28,6 +31,9 @@ public interface JudgmentCommonRepository<T extends Judgment> extends IndexableO
     @Query("select j from #{#entityName} j join j.courtCases_ courtCase where courtCase.caseNumber=:caseNumber and j.sourceInfo.sourceCode=:sourceCode")
     List<T> findBySourceCodeAndCaseNumber(@Param("sourceCode") SourceCode sourceCode, @Param("caseNumber") String caseNumber);
 
-    @Query("select j.id from #{#entityName} j where j.sourceInfo.sourceCode=:sourceCode and j.indexed=true")
-    List<Integer> findIndexedIdsBySourceCode(@Param("sourceCode") SourceCode sourceCode);
+    
+    @Modifying
+    @Transactional
+    @Query("update #{#entityName} j set j.indexed=false where j.indexed=true and j.sourceInfo.sourceCode=:sourceCode")
+    void markAsNotIndexedBySourceCode(@Param("sourceCode") SourceCode sourceCode);
 }

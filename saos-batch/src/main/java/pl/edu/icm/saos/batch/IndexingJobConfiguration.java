@@ -14,16 +14,17 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingReader;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingWriter;
-import pl.edu.icm.saos.search.indexing.JudgmentResetIndexFlagProcessor;
-import pl.edu.icm.saos.search.indexing.JudgmentResetIndexFlagReader;
-import pl.edu.icm.saos.search.indexing.JudgmentResetIndexFlagWriter;
+import pl.edu.icm.saos.search.indexing.ResetJudgmentIndexFlagStepExecutionListener;
 
 @Configuration
 @ComponentScan
 public class IndexingJobConfiguration {
+    
+    private final static int INDEXING_CHUNK_SIZE = 10;
     
     @Autowired
     private JobBuilderFactory jobs;
@@ -47,13 +48,7 @@ public class IndexingJobConfiguration {
     // reseting indexed flag beans
     
     @Autowired
-    private JudgmentResetIndexFlagReader judgmentResetIndexFlagReader;
-    
-    @Autowired
-    private JudgmentResetIndexFlagProcessor judgmentResetIndexFlagProcessor;
-    
-    @Autowired
-    private JudgmentResetIndexFlagWriter judgmentResetIndexFlagWriter;
+    private ResetJudgmentIndexFlagStepExecutionListener resetJudgmentIndexFlagStepExecutionListener;
     
     
     //------------------------ LOGIC --------------------------
@@ -61,15 +56,26 @@ public class IndexingJobConfiguration {
     @Bean
     @Autowired
     public Job judgmentIndexingJob(TaskExecutor judgmentIndexingTaskExecutor) {
-        return jobs.get("INDEX_NOT_INDEXED_JUDGMENTS").start(judgmentIndexingProcessStep(judgmentIndexingTaskExecutor)).incrementer(new RunIdIncrementer()).build();
+        return jobs.get("INDEX_NOT_INDEXED_JUDGMENTS")
+                .start(judgmentIndexingProcessStep(judgmentIndexingTaskExecutor))
+                .incrementer(new RunIdIncrementer())
+                .build();
     }
     
+    /**
+     * Job that reindexes all judgments.
+     * It supports job parameter <code>sourceCode</code>. It limits reindexing
+     * to judgments with {@link JudgmentSourceInfo#getSourceCode()} equals to
+     * parameter value.
+     * 
+     * @param judgmentIndexingTaskExecutor
+     * @return
+     */
     @Bean
     @Autowired
     public Job judgmentReindexingJob(TaskExecutor judgmentIndexingTaskExecutor) {
         return jobs.get("REINDEX_JUDGMENTS")
-                .start(judgmentResetIndexFlagStep())
-                .next(judgmentIndexingProcessStep(judgmentIndexingTaskExecutor))
+                .start(judgmentReindexingProcessStep(judgmentIndexingTaskExecutor))
                 .incrementer(new RunIdIncrementer())
                 .build();
     }
@@ -84,7 +90,7 @@ public class IndexingJobConfiguration {
     @Bean
     @Autowired
     protected Step judgmentIndexingProcessStep(TaskExecutor judgmentIndexingTaskExecutor) {
-        return steps.get("judgmentIndexingStep").<Judgment, SolrInputDocument> chunk(10)
+        return steps.get("judgmentIndexingStep").<Judgment, SolrInputDocument> chunk(INDEXING_CHUNK_SIZE)
                 .reader(judgmentIndexingReader)
                 .processor(judgmentIndexingProcessor)
                 .writer(judgmentIndexingWriter)
@@ -93,11 +99,13 @@ public class IndexingJobConfiguration {
     }
     
     @Bean
-    protected Step judgmentResetIndexFlagStep() {
-        return steps.get("judgmentResetIndexFlagStep").<Judgment, Judgment> chunk(1000)
-                .reader(judgmentResetIndexFlagReader)
-                .processor(judgmentResetIndexFlagProcessor)
-                .writer(judgmentResetIndexFlagWriter)
+    protected Step judgmentReindexingProcessStep(TaskExecutor judgmentIndexingTaskExecutor) {
+        return steps.get("judgmentResetIndexFlagStep").<Judgment, SolrInputDocument> chunk(INDEXING_CHUNK_SIZE)
+                .reader(judgmentIndexingReader)
+                .processor(judgmentIndexingProcessor)
+                .writer(judgmentIndexingWriter)
+                .listener(resetJudgmentIndexFlagStepExecutionListener)
+                .taskExecutor(judgmentIndexingTaskExecutor)
                 .build();
     }
 }

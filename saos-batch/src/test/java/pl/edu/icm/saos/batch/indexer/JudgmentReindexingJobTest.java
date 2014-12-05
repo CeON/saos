@@ -90,7 +90,6 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         JobExecution jobExecution = jobLauncher.run(judgmentReindexingJob, new JobParameters());
         
         assertStepWriteCount(jobExecution, 0, ALL_JUDGMENTS_COUNT);
-        assertStepWriteCount(jobExecution, 1, ALL_JUDGMENTS_COUNT);
         solrJudgmentsServer.commit();
         
         assertAllMarkedAsIndexed();
@@ -105,7 +104,6 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         JobExecution jobExecution = jobLauncher.run(judgmentReindexingJob, jobParameters);
         
         assertStepWriteCount(jobExecution, 0, SUPREME_COURT_JUDGMENTS_COUNT);
-        assertStepWriteCount(jobExecution, 1, SUPREME_COURT_JUDGMENTS_COUNT);
         solrJudgmentsServer.commit();
         
         assertAllMarkedAsIndexed();
