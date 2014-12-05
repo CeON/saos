@@ -44,7 +44,7 @@ public class JudgmentKeywordCreatorTest {
 
     
     @Test
-    public void testGetOrCreateJudgmentKeyword_Create() {
+    public void getOrCreateJudgmentKeyword_Create() {
         
         // given
         
@@ -69,7 +69,7 @@ public class JudgmentKeywordCreatorTest {
     
     
     @Test
-    public void testGetOrCreateCcJudgmentKeyword_Get() {
+    public void getOrCreateJudgmentKeyword_Get() {
         
         // given
         
