@@ -10,6 +10,8 @@ import static org.hamcrest.Matchers.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -71,6 +73,26 @@ public class JudgmentSearchServiceTest {
         return new Object[][] {
             { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder("następuje").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder("other").build() },
+            
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnienie").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnienia").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnieniu").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnieniem").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnień").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnieniom").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnieniami").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnieniach").build() },
+            
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechać").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechałem").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechałeś").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechał").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechała").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechało").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechaliśmy").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechaliście").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechali").build() },
+            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechały").build() },
             
             { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withDateRange(new LocalDate(2012, 5, 15), new LocalDate(2012, 5, 15)).build() },
             { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withDateFrom(new LocalDate(2014, 9, 3)).build() },
@@ -260,7 +282,13 @@ public class JudgmentSearchServiceTest {
         JudgmentSearchResult result = results.getResults().get(0);
         assertEquals(41808, result.getId());
         
-        assertEquals(4, StringUtils.countMatches(result.getContent(), "<em>świadków</em>"));
+        Pattern highlightPattern = Pattern.compile("<em>\\S+</em>");
+        Matcher highlightMatcher = highlightPattern.matcher(result.getContent());
+        List<String> highlights = Lists.newArrayList();
+        while (highlightMatcher.find()) {
+            highlights.add(highlightMatcher.group());
+        }
+        assertThat(highlights, contains("<em>świadków</em>", "<em>Świadkowie</em>", "<em>świadkowie</em>", "<em>świadek</em>"));
         assertEquals(3, StringUtils.countMatches(result.getContent(), " ... "));
     }
     
@@ -413,7 +441,7 @@ public class JudgmentSearchServiceTest {
         doc.addField("scCourtDivisionsChamberId", "11");
         doc.addField("scCourtDivisionsChamberName", "Izba Cywilna");
         
-        doc.addField("content", "someContent 11 content 12 111");
+        doc.addField("content", "someContent 11 content 12 111 przedawnienia zaniechał");
         
         return doc;
     }
