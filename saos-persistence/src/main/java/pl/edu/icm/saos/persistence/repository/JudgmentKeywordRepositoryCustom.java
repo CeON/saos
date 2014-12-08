@@ -14,7 +14,7 @@ public interface JudgmentKeywordRepositoryCustom {
 	/**
      * Returns list of {@link JudgmentKeyword}s with the given courtType and phrase (the case is ignored) that begins with the phrasePart 
      * (see: {@link JudgmentKeyword#getCourtType} and {@link JudgmentKeyword#getPhrase()}) <br/>
-     * Returned keywords are sorted alphabetically by phrase {@link CcJudgmentKeyword#getPhrase()}.
+     * Returned keywords are sorted alphabetically by phrase {@link JudgmentKeyword#getPhrase()}.
      */
 	List<JudgmentKeyword> findAllByCourtTypeAndPhrasePart(CourtType courtType, String phrasePart);
 }

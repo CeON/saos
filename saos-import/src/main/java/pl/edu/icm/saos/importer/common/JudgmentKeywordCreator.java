@@ -19,6 +19,13 @@ public class JudgmentKeywordCreator {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Returns {@link JudgmentKeyword} with {@link JudgmentKeyword#getCourtType()}
+     * equal to courtType and {@link JudgmentKeyword#getPhrase()} equal to phrase (case in ignored).
+     * If the appropriate judgmentKeyword cannot be found, then one is created, saved in a datasource and returned<br/>
+     * 
+     * @see JudgmentKeyword#JudgmentKeyword(CourtType, String) 
+     */
     public JudgmentKeyword getOrCreateJudgmentKeyword(CourtType courtType, String phrase) {
         JudgmentKeyword keyword = judgmentKeywordRepository.findOneByCourtTypeAndPhraseIgnoreCase(courtType, phrase);
         if (keyword == null) {

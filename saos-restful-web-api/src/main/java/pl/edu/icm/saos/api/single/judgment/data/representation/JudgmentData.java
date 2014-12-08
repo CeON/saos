@@ -1,13 +1,13 @@
 package pl.edu.icm.saos.api.single.judgment.data.representation;
 
-import com.google.common.base.Objects;
-import pl.edu.icm.saos.persistence.model.CourtType;
-import pl.edu.icm.saos.persistence.model.SourceCode;
-
 import java.io.Serializable;
 import java.util.List;
 
-import static pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.SourceCode;
+
+import com.google.common.base.Objects;
 
 /**
  * Represent common {@link pl.edu.icm.saos.persistence.model.Judgment Judgmnet} fields.
@@ -17,20 +17,21 @@ public class JudgmentData implements Serializable{
 
     private static final long serialVersionUID = 6335902286597178584L;
 
-    protected int id;
-    protected CourtType courtType;
-    protected String href;
-    protected List<CourtCase> courtCases;
-    protected JudgmentType judgmentType;
-    protected String judgmentDate;
-    protected List<Judge> judges;
-    protected Source source;
-    protected List<String> courtReporters;
-    protected String decision;
-    protected String summary;
-    protected String textContent;
-    protected List<String> legalBases;
-    protected List<ReferencedRegulations> referencedRegulations;
+    private int id;
+    private CourtType courtType;
+    private String href;
+    private List<CourtCase> courtCases;
+    private JudgmentType judgmentType;
+    private String judgmentDate;
+    private List<Judge> judges;
+    private Source source;
+    private List<String> courtReporters;
+    private String decision;
+    private String summary;
+    private String textContent;
+    private List<String> legalBases;
+    private List<ReferencedRegulations> referencedRegulations;
+    private List<String> keywords;
 
 
     //------------------------ GETTERS --------------------------
@@ -90,8 +91,12 @@ public class JudgmentData implements Serializable{
     public CourtType getCourtType() {
         return courtType;
     }
+    
+    public List<String> getKeywords() {
+        return keywords;
+    }
 
-//------------------------ SETTERS --------------------------
+    //------------------------ SETTERS --------------------------
 
     public void setHref(String href) {
         this.href = href;
@@ -148,6 +153,13 @@ public class JudgmentData implements Serializable{
     public void setCourtType(CourtType courtType) {
         this.courtType = courtType;
     }
+    
+    public void setKeywords(List<String> keywords) {
+        this.keywords = keywords;
+    }
+    
+
+
 
     //------------------------ HashCode & Equals --------------------------
 
@@ -158,7 +170,7 @@ public class JudgmentData implements Serializable{
                 judgmentDate, judges,
                 source, courtReporters,
                 decision, summary, textContent,
-                legalBases, referencedRegulations);
+                legalBases, referencedRegulations, keywords);
     }
 
     @Override
@@ -183,7 +195,8 @@ public class JudgmentData implements Serializable{
                 && Objects.equal(this.summary, other.summary)
                 && Objects.equal(this.textContent, other.textContent)
                 && Objects.equal(this.legalBases, other.legalBases)
-                && Objects.equal(this.referencedRegulations, other.referencedRegulations);
+                && Objects.equal(this.referencedRegulations, other.referencedRegulations)
+                && Objects.equal(this.keywords, other.keywords);
     }
 
 
@@ -214,6 +227,8 @@ public class JudgmentData implements Serializable{
 
     public static class Judge implements Serializable {
 
+        private static final long serialVersionUID = 1L;
+        
         private String name;
         private List<String> specialRoles;
 
@@ -507,5 +522,7 @@ public class JudgmentData implements Serializable{
                     .toString();
         }
     }
+
+   
 
 }

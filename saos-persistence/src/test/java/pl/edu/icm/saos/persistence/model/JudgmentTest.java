@@ -299,7 +299,7 @@ public class JudgmentTest {
 	    JudgmentKeyword keyword = new JudgmentKeyword(CourtType.COMMON, "a phrase");
 	    judgment.addKeyword(keyword);
 	        
-	    // assert
+	    // execute & assert
 	        
 	    assertTrue(judgment.containsKeyword(keyword.getPhrase()));
 	    assertFalse(judgment.containsKeyword(keyword.getPhrase()+"ABC"));

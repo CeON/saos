@@ -1,11 +1,11 @@
 package pl.edu.icm.saos.api.single.judgment.data.representation;
 
-import com.google.common.base.Objects;
-
 import java.io.Serializable;
 import java.util.List;
 
-import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents {@link pl.edu.icm.saos.persistence.model.SupremeCourtJudgment SupremeCourtJudgment} fields.
@@ -84,18 +84,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("href", href)
-                .add("courtCases", courtCases)
-                .add("judgmentType", judgmentType)
-                .add("judgmentDate", judgmentDate)
-                .add("judges", judges)
-                .add("source", source)
-                .add("courtReporters", courtReporters)
-                .add("decision", decision)
-                .add("summary", summary)
-                .add("textContent", textContent)
-                .add("legalBases", legalBases)
-                .add("referencedRegulation", referencedRegulations)
+                .add("super", super.toString())
                 .add("personnelType", personnelType)
                 .add("form", form)
                 .add("division", division)

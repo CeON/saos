@@ -1,21 +1,27 @@
 package pl.edu.icm.saos.api.single.judgment.mapping;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.stereotype.Service;
-import pl.edu.icm.saos.api.services.dates.DateMapping;
-import pl.edu.icm.saos.api.services.links.LinksBuilder;
-import pl.edu.icm.saos.api.single.judgment.views.JudgmentView;
-import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData;
-import pl.edu.icm.saos.persistence.model.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.Source;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.api.services.dates.DateMapping;
+import pl.edu.icm.saos.api.services.links.LinksBuilder;
+import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData;
+import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.Source;
+import pl.edu.icm.saos.api.single.judgment.views.JudgmentView;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 
 /**
  * Converts {@link pl.edu.icm.saos.persistence.model.Judgment Judgmnent's} fields.
@@ -65,6 +71,8 @@ public class JudgmentMapper {
         data.setTextContent(judgment.getTextContent());
         data.setLegalBases(toSimpleList(judgment.getLegalBases()));
         data.setReferencedRegulations(toReferencedRegulation(judgment.getReferencedRegulations()));
+        data.setKeywords(toListFromKeywords(judgment.getKeywords()));
+        
     }
 
     public List<JudgmentData.Judge> toJudges(List<Judge> judges) {
@@ -163,6 +171,24 @@ public class JudgmentMapper {
 
         return regulations;
     }
+    
+    /**
+     * Maps {@link pl.edu.icm.saos.persistence.model.JudgmentKeyword keywords} into their names.
+     * @param keywords to process.
+     * @return list of keywords names.
+     */
+    public List<String> toListFromKeywords(List<JudgmentKeyword> keywords) {
+        if(keywords == null) {
+            keywords = Collections.emptyList();
+        }
+
+        List<String> list = keywords.stream()
+                .map(JudgmentKeyword::getPhrase)
+                .collect(Collectors.toList());
+
+        return list;
+    }
+
 
     //------------------------ SETTERS --------------------------
 
