@@ -1,11 +1,10 @@
 package pl.edu.icm.saos.api.single.judgment.data.representation;
 
-import com.google.common.base.Objects;
-
 import java.io.Serializable;
-import java.util.List;
 
-import static pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents {@link pl.edu.icm.saos.persistence.model.CommonCourtJudgment CommonCourtJudgment} fields.
@@ -16,32 +15,25 @@ public class CommonCourtJudgmentData extends JudgmentData {
     private static final long serialVersionUID = 4320631178927257196L;
 
     protected Division division;
-    protected List<String> keywords;
-
+    
     //------------------------ GETTERS --------------------------
 
     public Division getDivision() {
         return division;
     }
 
-    public List<String> getKeywords() {
-        return keywords;
-    }
     //------------------------ SETTERS --------------------------
 
     public void setDivision(Division division) {
         this.division = division;
     }
 
-    public void setKeywords(List<String> keywords) {
-        this.keywords = keywords;
-    }
-
+    
     //------------------------ HashCode & Equals --------------------------
 
     @Override
     public int hashCode() {
-        return 31 * super.hashCode() + Objects.hashCode(division, keywords);
+        return 31 * super.hashCode() + Objects.hashCode(division);
     }
 
     @Override
@@ -56,7 +48,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
             return false;
         }
         final CommonCourtJudgmentData other = (CommonCourtJudgmentData) obj;
-        return Objects.equal(this.division, other.division) && Objects.equal(this.keywords, other.keywords);
+        return Objects.equal(this.division, other.division);
     }
 
 
@@ -65,18 +57,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("href", href)
-                .add("courtCases", courtCases)
-                .add("judgmentType", judgmentType)
-                .add("judgmentDate", judgmentDate)
-                .add("source", source)
-                .add("courtReporters", courtReporters)
-                .add("decision", decision)
-                .add("summary", summary)
-                .add("textContent", textContent)
-                .add("legalBases", legalBases)
-                .add("referencedRegulations", referencedRegulations)
-                .add("keywords", keywords)
+                .add("super", super.toString())
                 .add("division", division)
                 .toString();
     }

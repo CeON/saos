@@ -89,8 +89,7 @@ $(document).ready(function() {
     /* Search form view.
      * Autocompletion added to search field CommonCourtKeywords.
      */
-    $("#input-search-keywords").autoCompletionSuggester({url: contextPath + "/ccKeywords/"});
-    
+    $("#input-search-keywords").autoCompletionSuggester({url: contextPath + "/keywords/COMMON/"}); // TODO: autoCompletionSuggester should have a different path for a different courtType selected
     
     
 });

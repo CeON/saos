@@ -1,21 +1,27 @@
 package pl.edu.icm.saos.api.single.judgment.mapping;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.stereotype.Service;
-import pl.edu.icm.saos.api.services.dates.DateMapping;
-import pl.edu.icm.saos.api.services.links.LinksBuilder;
-import pl.edu.icm.saos.api.single.judgment.views.JudgmentView;
-import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData;
-import pl.edu.icm.saos.persistence.model.*;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.Source;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.api.services.dates.DateMapping;
+import pl.edu.icm.saos.api.services.links.LinksBuilder;
+import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData;
+import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.Source;
+import pl.edu.icm.saos.api.single.judgment.views.JudgmentView;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 
 /**
  * Converts {@link pl.edu.icm.saos.persistence.model.Judgment Judgmnent's} fields.
@@ -44,28 +50,6 @@ public class JudgmentMapper {
     }
 
 
-
-    private List<Link> toLinks(Judgment judgment) {
-        Link link = linksBuilder.linkToJudgment(judgment.getId());
-        return Arrays.asList(link);
-    }
-
-    private void fillData(JudgmentData data, Judgment judgment) {
-        data.setId(judgment.getId());
-        data.setCourtType(judgment.getCourtType());
-        data.setHref(linksBuilder.urlToJudgment(judgment.getId()));
-        data.setJudgmentType(judgment.getJudgmentType());
-        data.setJudgmentDate(dateMapping.toISO8601Format(judgment.getJudgmentDate()));
-        data.setJudges(toJudges(judgment.getJudges()));
-        data.setCourtCases(toCourtCases(judgment.getCourtCases()));
-        data.setSource(toSource(judgment.getSourceInfo()));
-        data.setCourtReporters(toSimpleList(judgment.getCourtReporters()));
-        data.setDecision(judgment.getDecision());
-        data.setSummary(judgment.getSummary());
-        data.setTextContent(judgment.getTextContent());
-        data.setLegalBases(toSimpleList(judgment.getLegalBases()));
-        data.setReferencedRegulations(toReferencedRegulation(judgment.getReferencedRegulations()));
-    }
 
     public List<JudgmentData.Judge> toJudges(List<Judge> judges) {
         if(judges == null) {
@@ -103,13 +87,6 @@ public class JudgmentMapper {
         return courtCases.stream()
                 .map(courtCase -> toCourtCaseView(courtCase))
                 .collect(Collectors.toList());
-    }
-
-
-    private JudgmentData.CourtCase toCourtCaseView(CourtCase courtCase) {
-        JudgmentData.CourtCase courtCaseView = new JudgmentData.CourtCase();
-        courtCaseView.setCaseNumber(courtCase.getCaseNumber());
-        return courtCaseView;
     }
 
 
@@ -163,7 +140,61 @@ public class JudgmentMapper {
 
         return regulations;
     }
+    
+    /**
+     * Maps {@link pl.edu.icm.saos.persistence.model.JudgmentKeyword keywords} into their names.
+     * @param keywords to process.
+     * @return list of keywords names.
+     */
+    public List<String> toListFromKeywords(List<JudgmentKeyword> keywords) {
+        if(keywords == null) {
+            keywords = Collections.emptyList();
+        }
 
+        List<String> list = keywords.stream()
+                .map(JudgmentKeyword::getPhrase)
+                .collect(Collectors.toList());
+
+        return list;
+    }
+
+
+    //------------------------ PRIVATE --------------------------
+    
+    private List<Link> toLinks(Judgment judgment) {
+        Link link = linksBuilder.linkToJudgment(judgment.getId());
+        return Arrays.asList(link);
+    }
+    
+
+    private void fillData(JudgmentData data, Judgment judgment) {
+        data.setId(judgment.getId());
+        data.setCourtType(judgment.getCourtType());
+        data.setHref(linksBuilder.urlToJudgment(judgment.getId()));
+        data.setJudgmentType(judgment.getJudgmentType());
+        data.setJudgmentDate(dateMapping.toISO8601Format(judgment.getJudgmentDate()));
+        data.setJudges(toJudges(judgment.getJudges()));
+        data.setCourtCases(toCourtCases(judgment.getCourtCases()));
+        data.setSource(toSource(judgment.getSourceInfo()));
+        data.setCourtReporters(toSimpleList(judgment.getCourtReporters()));
+        data.setDecision(judgment.getDecision());
+        data.setSummary(judgment.getSummary());
+        data.setTextContent(judgment.getTextContent());
+        data.setLegalBases(toSimpleList(judgment.getLegalBases()));
+        data.setReferencedRegulations(toReferencedRegulation(judgment.getReferencedRegulations()));
+        data.setKeywords(toListFromKeywords(judgment.getKeywords()));
+        
+    }
+    
+    private JudgmentData.CourtCase toCourtCaseView(CourtCase courtCase) {
+        JudgmentData.CourtCase courtCaseView = new JudgmentData.CourtCase();
+        courtCaseView.setCaseNumber(courtCase.getCaseNumber());
+        return courtCaseView;
+    }
+
+
+
+    
     //------------------------ SETTERS --------------------------
 
     public void setLinksBuilder(LinksBuilder linksBuilder) {

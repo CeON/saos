@@ -1,18 +1,23 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import pl.edu.icm.saos.persistence.model.*;
-import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
-import pl.edu.icm.saos.persistence.search.result.SearchResult;
+import static com.google.common.collect.Maps.newHashMap;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.google.common.collect.Maps.newHashMap;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
+import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
 /**
  * @author pavtel
@@ -112,11 +117,11 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
     }
 
     private void initializeCommonCourtJudgmentSpecificFields(List<Integer> judgmentIds) {
-        initializeCommonCourtKeywords(judgmentIds);
+        initializeKeywords(judgmentIds);
     }
 
-    private void initializeCommonCourtKeywords(List<Integer> judgmentIds) {
-        setIdsParameterAndExecuteQuery(" select judgment from "+ CommonCourtJudgment.class.getName()+" judgment left join fetch judgment.keywords_ keyword where judgment.id in (:ids) ",
+    private void initializeKeywords(List<Integer> judgmentIds) {
+        setIdsParameterAndExecuteQuery(" select judgment from "+ Judgment.class.getName()+" judgment left join fetch judgment.keywords_ keyword where judgment.id in (:ids) ",
                 judgmentIds);
     }
 

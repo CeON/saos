@@ -2,6 +2,7 @@ package pl.edu.icm.saos.api.dump.judgment.mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import pl.edu.icm.saos.api.dump.judgment.item.representation.CommonCourtJudgmentItem;
 import pl.edu.icm.saos.api.single.judgment.mapping.CommonCourtJudgmentMapper;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
@@ -29,7 +30,6 @@ public class DumpCommonCourtJudgmentItemMapper {
      */
     public void fillJudgmentsFieldsToItemRepresentation(CommonCourtJudgmentItem item, CommonCourtJudgment judgment){
         item.setDivision(toDivision(judgment.getCourtDivision()));
-        item.setKeywords(commonCourtJudgmentMapper.toListFromKeywords(judgment.getKeywords()));
     }
 
     //------------------------ PRIVATE --------------------------

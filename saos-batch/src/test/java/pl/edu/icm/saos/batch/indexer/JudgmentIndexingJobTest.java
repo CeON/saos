@@ -32,16 +32,17 @@ import org.springframework.jdbc.datasource.init.ScriptException;
 import pl.edu.icm.saos.batch.BatchTestSupport;
 import pl.edu.icm.saos.batch.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
@@ -276,7 +277,7 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
             CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
             fillJudgment(ccJudgment, i);
             
-            ccJudgment.addKeyword(new CcJudgmentKeyword("keyword" + i));
+            ccJudgment.addKeyword(new JudgmentKeyword(CourtType.COMMON, "keyword" + i));
             ccJudgment.setCourtDivision(division);
             
             judgmentRepository.save(ccJudgment);

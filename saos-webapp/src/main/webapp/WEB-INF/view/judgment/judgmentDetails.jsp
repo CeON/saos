@@ -138,20 +138,16 @@
 		</ul>
 	
 	
-		<%-- CommonCourtJudgment properties --%>
-		<c:if test="${judgment.courtType == 'COMMON'}" >
-			
-			<c:if test="${!empty judgment.keywords}" >
-				<h4><spring:message code="judgment.keywords" />:</h4>
-				<div class="keywords">	
-					<c:forEach items="${judgment.keywords}" var="keyword" >
-						<div class="keyword"><c:out value="${keyword.phrase}" /></div>
-					</c:forEach>
-				</div>
-			</c:if>
-			
+		<c:if test="${!empty judgment.keywords}" >
+			<h4><spring:message code="judgment.keywords" />:</h4>
+			<div class="keywords">	
+				<c:forEach items="${judgment.keywords}" var="keyword" >
+					<div class="keyword"><c:out value="${keyword.phrase}" /></div>
+				</c:forEach>
+			</div>
 		</c:if>
 		
+			
 		<c:if test="${!empty judgment.legalBases}" >
 			<h4><spring:message code="judgment.legalBases" />:</h4>
 			<div class="legalBases">	

@@ -1,27 +1,38 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.persistence.common.FieldsNames;
-import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
-import pl.edu.icm.saos.persistence.model.*;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
-import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
-import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
-import pl.edu.icm.saos.persistence.search.result.SearchResult;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.common.FieldsNames;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
+import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
+import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
 /**
  * Tests integration  between
@@ -277,8 +288,11 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     public void search__it_should_find_judgments_between_startJudgmentDate_and_endJudgmentDate(){
         //given
         List<CommonCourtJudgment> judgments = testPersistenceObjectFactory.createCcJudgmentListWithRandomData(4);
-
-
+        judgments.get(0).setJudgmentDate(judgments.get(3).getJudgmentDate().minusMonths(1));
+        judgments.get(1).setJudgmentDate(judgments.get(3).getJudgmentDate().minusMonths(1));
+        judgments.get(2).setJudgmentDate(judgments.get(3).getJudgmentDate().minusMonths(1));
+        judgmentRepository.save(judgments);
+        
         CommonCourtJudgment givenJudgment = judgments.get(3);
         LocalDate localDate = givenJudgment.getJudgmentDate();
         LocalDate startJudgmentDate = localDate.minusDays(1);

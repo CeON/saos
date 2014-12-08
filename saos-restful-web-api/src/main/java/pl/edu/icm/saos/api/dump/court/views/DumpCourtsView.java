@@ -13,11 +13,11 @@ import static pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
  * Represents dump court's view.
  * @author pavtel
  */
-public class DumpCourtsView extends CollectionRepresentation<Item, QueryTemplate, Info>{
+public class DumpCourtsView extends CollectionRepresentation<DumpCourtItem, QueryTemplate, Info>{
 
     private static final long serialVersionUID = -708083153744057397L;
 
-    public static class Item implements Serializable {
+    public static class DumpCourtItem implements Serializable {
         private static final long serialVersionUID = -8050957944518505399L;
 
         private int id;
@@ -95,7 +95,7 @@ public class DumpCourtsView extends CollectionRepresentation<Item, QueryTemplate
             if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
-            final Item other = (Item) obj;
+            final DumpCourtItem other = (DumpCourtItem) obj;
             return Objects.equal(this.id, other.id) &&
                     Objects.equal(this.name, other.name) &&
                     Objects.equal(this.type, other.type) &&

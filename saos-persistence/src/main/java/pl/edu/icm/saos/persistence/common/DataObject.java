@@ -39,7 +39,7 @@ public abstract class DataObject {
         return creationDate;
     }
     
-    /** every instance needs to provided it with a proper GeneratedValue annotation */
+    /** every instance needs to provide a proper GeneratedValue annotation */
     @Transient
     public abstract int getId();
 
@@ -77,6 +77,7 @@ public abstract class DataObject {
     }
     
     //------------------------ SETTERS --------------------------
+    
     /** for hibernate */
     @SuppressWarnings("unused")
     private void setVer(int ver) {

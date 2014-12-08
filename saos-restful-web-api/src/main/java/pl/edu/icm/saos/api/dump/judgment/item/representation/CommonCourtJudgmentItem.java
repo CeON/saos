@@ -1,9 +1,8 @@
 package pl.edu.icm.saos.api.dump.judgment.item.representation;
 
-import com.google.common.base.Objects;
-
 import java.io.Serializable;
-import java.util.List;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents item in items field in the {@link pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView DumpJudgmentsView}.
@@ -13,18 +12,15 @@ import java.util.List;
 public class CommonCourtJudgmentItem extends JudgmentItem {
     private static final long serialVersionUID = -3745880268225685827L;
 
-    protected Division division;
-    protected List<String> keywords;
+    private Division division;
 
 
     //------------------------ GETTERS --------------------------
+ 
     public Division getDivision() {
         return division;
     }
 
-    public List<String> getKeywords() {
-        return keywords;
-    }
 
     //------------------------ SETTERS --------------------------
 
@@ -33,16 +29,12 @@ public class CommonCourtJudgmentItem extends JudgmentItem {
         this.division = division;
     }
 
-    public void setKeywords(List<String> keywords) {
-        this.keywords = keywords;
-    }
-
     //------------------------ HashCode & Equals --------------------------
 
 
     @Override
     public int hashCode() {
-        return 31 * super.hashCode() + Objects.hashCode(division, keywords);
+        return 31 * super.hashCode() + Objects.hashCode(division);
     }
 
     @Override
@@ -57,7 +49,7 @@ public class CommonCourtJudgmentItem extends JudgmentItem {
             return false;
         }
         final CommonCourtJudgmentItem other = (CommonCourtJudgmentItem) obj;
-        return Objects.equal(this.division, other.division) && Objects.equal(this.keywords, other.keywords);
+        return Objects.equal(this.division, other.division);
     }
 
     //------------------------ toString --------------------------
@@ -66,19 +58,8 @@ public class CommonCourtJudgmentItem extends JudgmentItem {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("id", id)
-                .add("courtCases", courtCases)
-                .add("judgmentType", judgmentType)
-                .add("JudgmentDate", JudgmentDate)
-                .add("judges", judges)
-                .add("source", source)
-                .add("courtReporters", courtReporters)
-                .add("summary", summary)
-                .add("textContent", textContent)
-                .add("legalBases", legalBases)
-                .add("referencedRegulations", referencedRegulations)
+                .add("super", super.toString())
                 .add("division", division)
-                .add("keywords", keywords)
                 .toString();
     }
 

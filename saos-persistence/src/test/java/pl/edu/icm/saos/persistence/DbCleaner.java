@@ -8,13 +8,13 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
@@ -39,8 +39,8 @@ public class DbCleaner {
         deleteAll(LawJournalEntry.class);
         deleteAllSql("judgment_court_reporter");
         deleteAllSql("judge_role");
-        deleteAllSql("assigned_cc_judgment_keyword");
-        deleteAll(CcJudgmentKeyword.class);
+        deleteAllSql("assigned_judgment_keyword");
+        deleteAll(JudgmentKeyword.class);
         deleteAll(Judge.class);
         deleteAllSql("judgment_legal_bases");
         deleteAll(CourtCase.class);

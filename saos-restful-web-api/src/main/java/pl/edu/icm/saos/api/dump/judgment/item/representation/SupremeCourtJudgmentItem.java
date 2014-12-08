@@ -1,11 +1,11 @@
 package pl.edu.icm.saos.api.dump.judgment.item.representation;
 
-import com.google.common.base.Objects;
-
 import java.io.Serializable;
 import java.util.List;
 
-import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents item in items field in the {@link pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView DumpJudgmentsView}.
@@ -15,10 +15,10 @@ import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelTy
 public class SupremeCourtJudgmentItem extends JudgmentItem {
     private static final long serialVersionUID = 3511467718051492156L;
 
-    protected PersonnelType personnelType;
-    protected Form form;
-    protected Division division;
-    protected List<Chamber> chambers;
+    private PersonnelType personnelType;
+    private Form form;
+    private Division division;
+    private List<Chamber> chambers;
 
 
     //------------------------ GETTERS --------------------------
@@ -85,29 +85,19 @@ public class SupremeCourtJudgmentItem extends JudgmentItem {
     }
 
     //------------------------ toString --------------------------
-
+    
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("id", id)
-                .add("courtCases", courtCases)
-                .add("judgmentType", judgmentType)
-                .add("JudgmentDate", JudgmentDate)
-                .add("judges", judges)
-                .add("source", source)
-                .add("decision", decision)
-                .add("courtReporters", courtReporters)
-                .add("summary", summary)
-                .add("textContent", textContent)
-                .add("legalBases", legalBases)
-                .add("referencedRegulations", referencedRegulations)
-                .add("personnelType", personnelType)
-                .add("form", form)
-                .add("division", division)
-                .add("chambers", chambers)
+                .add("super", super.toString())
+                .add("personnelType", getPersonnelType())
+                .add("form", getForm())
+                .add("division", getDivision())
+                .add("chambers", getChambers())
                 .toString();
     }
-
+    
+    
     public static class Form implements Serializable {
         private static final long serialVersionUID = -1876029900371851361L;
 

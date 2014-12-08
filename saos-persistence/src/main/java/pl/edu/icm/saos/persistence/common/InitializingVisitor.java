@@ -24,7 +24,6 @@ public class InitializingVisitor implements Visitor {
         initializeJudgment(judgment);
         JpaUtils.initialize(judgment.getCourtDivision());
         JpaUtils.initialize(judgment.getCourtDivision().getCourt());
-        JpaUtils.initialize(judgment.getKeywords());
     }
 
     
@@ -49,6 +48,7 @@ public class InitializingVisitor implements Visitor {
     private void initializeJudgment(Judgment judgment) {
         JpaUtils.initialize(judgment.getCourtReporters());
         JpaUtils.initialize(judgment.getLegalBases());
+        JpaUtils.initialize(judgment.getKeywords());
         
     }
     
