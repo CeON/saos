@@ -1,8 +1,6 @@
 package pl.edu.icm.saos.search.indexing;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +32,7 @@ public class ResetJudgmentIndexFlagStepExecutionListenerTest {
         
         resetJudgmentIndexFlagStepExecutionListener.beforeStep(new StepExecution("stepName", new JobExecution(1L)));
         
-        verify(judgmentRepository, times(1)).markAllAsNotIndexed();
+        verify(judgmentRepository, times(1)).markAsNotIndexedBySourceCode(null);
         
     }
     

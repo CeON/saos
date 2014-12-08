@@ -228,25 +228,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
-    public void markAllAsNotIndexed() {
-        CommonCourtJudgment ccJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
-        SupremeCourtJudgment scJudgment = createScJudgment(SourceCode.SUPREME_COURT, "2", "AAA2");
-        ccJudgment.markAsIndexed();
-        scJudgment.markAsIndexed();
-        judgmentRepository.save(ccJudgment);
-        judgmentRepository.save(scJudgment);
-        
-        judgmentRepository.markAllAsNotIndexed();
-        
-        Judgment actualCcJudgment = judgmentRepository.findOne(ccJudgment.getId());
-        Judgment actualScJudgment = judgmentRepository.findOne(scJudgment.getId());
-        
-        assertFalse(actualCcJudgment.isIndexed());
-        assertFalse(actualScJudgment.isIndexed());
-    }
-    
-    @Test
-    public void markAsNotIndexedBySourceCode() {
+    public void markAsNotIndexedBySourceCode_ONLY_CC_JUDGMENTS() {
         CommonCourtJudgment ccJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         SupremeCourtJudgment scJudgment = createScJudgment(SourceCode.SUPREME_COURT, "2", "AAA2");
         ccJudgment.markAsIndexed();
@@ -259,8 +241,26 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         Judgment actualCcJudgment = judgmentRepository.findOne(ccJudgment.getId());
         Judgment actualScJudgment = judgmentRepository.findOne(scJudgment.getId());
         
-        assertEquals(false, actualCcJudgment.isIndexed());
-        assertEquals(true, actualScJudgment.isIndexed());
+        assertFalse(actualCcJudgment.isIndexed());
+        assertTrue(actualScJudgment.isIndexed());
+    }
+    
+    @Test
+    public void markAsNotIndexedBySourceCode_ALL_JUDGMENTS() {
+        CommonCourtJudgment ccJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        SupremeCourtJudgment scJudgment = createScJudgment(SourceCode.SUPREME_COURT, "2", "AAA2");
+        ccJudgment.markAsIndexed();
+        scJudgment.markAsIndexed();
+        judgmentRepository.save(ccJudgment);
+        judgmentRepository.save(scJudgment);
+        
+        judgmentRepository.markAsNotIndexedBySourceCode(null);
+        
+        Judgment actualCcJudgment = judgmentRepository.findOne(ccJudgment.getId());
+        Judgment actualScJudgment = judgmentRepository.findOne(scJudgment.getId());
+        
+        assertFalse(actualCcJudgment.isIndexed());
+        assertFalse(actualScJudgment.isIndexed());
     }
 
     @Test

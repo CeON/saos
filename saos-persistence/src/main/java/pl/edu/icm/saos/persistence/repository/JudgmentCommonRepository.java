@@ -31,9 +31,14 @@ public interface JudgmentCommonRepository<T extends Judgment> extends IndexableO
     @Query("select j from #{#entityName} j join j.courtCases_ courtCase where courtCase.caseNumber=:caseNumber and j.sourceInfo.sourceCode=:sourceCode")
     List<T> findBySourceCodeAndCaseNumber(@Param("sourceCode") SourceCode sourceCode, @Param("caseNumber") String caseNumber);
 
-    
+    /**
+     * Change {@link Judgment judgments} indexed flag with given
+     * {@link SourceCode} to <code>false</code>.
+     * @param sourceCode - if <code>null</code> then marks all judgments as
+     * not indexed
+     */
     @Modifying
     @Transactional
-    @Query("update #{#entityName} j set j.indexed=false where j.indexed=true and j.sourceInfo.sourceCode=:sourceCode")
+    @Query("update #{#entityName} j set j.indexed=false where j.indexed=true and (j.sourceInfo.sourceCode=:sourceCode or :sourceCode is null)")
     void markAsNotIndexedBySourceCode(@Param("sourceCode") SourceCode sourceCode);
 }

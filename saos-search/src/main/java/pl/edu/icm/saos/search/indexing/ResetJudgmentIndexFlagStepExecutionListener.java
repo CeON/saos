@@ -1,6 +1,6 @@
 package pl.edu.icm.saos.search.indexing;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.EnumUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
@@ -33,12 +33,8 @@ public class ResetJudgmentIndexFlagStepExecutionListener implements StepExecutio
     
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        if (StringUtils.isNotBlank(sourceCode)) {
-            SourceCode sc = SourceCode.valueOf(StringUtils.upperCase(sourceCode));
-            judgmentRepository.markAsNotIndexedBySourceCode(sc);
-        } else {
-            judgmentRepository.markAllAsNotIndexed();
-        }
+        SourceCode sc = EnumUtils.getEnum(SourceCode.class, sourceCode);
+        judgmentRepository.markAsNotIndexedBySourceCode(sc);
     }
 
     @Override
