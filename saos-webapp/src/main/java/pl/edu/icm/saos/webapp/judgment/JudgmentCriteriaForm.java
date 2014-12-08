@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.webapp.judgment;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class JudgmentCriteriaForm {
     private String judgeName;
     
     @MultiWordFormat
-    private List<String> keywords;
+    private List<String> keywords = Lists.newArrayList();
     
     private CourtType courtType;
     
@@ -47,12 +48,10 @@ public class JudgmentCriteriaForm {
     private Integer supremeChamberId;
     private Integer supremeChamberDivisionId;
     
-    
-    private Set<JudgmentType> judgmentTypes;
+    private Set<JudgmentType> judgmentTypes = new HashSet<JudgmentType>();
     
     private String legalBase;
     private String referencedRegulation;
-    
     
     
     
@@ -79,7 +78,11 @@ public class JudgmentCriteriaForm {
 	}
 	
 	public List<String> getKeywords() {
-		return keywords;
+		if (keywords == null) {
+			return Lists.newArrayList();
+		} else {
+			return keywords;
+		}
 	}
 	
 	public CourtType getCourtType() {
@@ -111,7 +114,11 @@ public class JudgmentCriteriaForm {
 	}
 	
 	public Set<JudgmentType> getJudgmentTypes() {
-		return judgmentTypes;
+		if (judgmentTypes == null) {
+			return new HashSet<JudgmentType>();
+		} else {
+			return judgmentTypes;	
+		}
 	}
 	
 	public String getLegalBase() {

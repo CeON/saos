@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
@@ -37,21 +38,13 @@ public class JudgmentCriteriaFormConverter {
 		
 		judgmentCriteria.setScJudgmentForm(judgmentCriteriaForm.getScJudgmentForm());
 
-	    if (judgmentCriteriaForm.getKeywords() == null) {
-	    	judgmentCriteria.setKeywords(Lists.newLinkedList());
-	    } else {
-	    	judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
-	    }
+    	judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
 	    
 	    judgmentCriteria.setScPersonnelType(judgmentCriteriaForm.getScPersonnelType());
 	    judgmentCriteria.setScCourtChamberId(judgmentCriteriaForm.getSupremeChamberId());
 	    judgmentCriteria.setScCourtChamberDivisionId(judgmentCriteriaForm.getSupremeChamberDivisionId());
 	    
-	    if (judgmentCriteriaForm.getJudgmentTypes() == null) {
-	    	judgmentCriteria.setJudgmentTypes(Lists.newLinkedList());
-	    } else {
-	    	judgmentCriteria.setJudgmentTypes(Lists.newArrayList(judgmentCriteriaForm.getJudgmentTypes()));
-	    }
+    	judgmentCriteria.setJudgmentTypes(Lists.newArrayList(judgmentCriteriaForm.getJudgmentTypes()));
 	    
 	    judgmentCriteria.setLegalBase(judgmentCriteriaForm.getLegalBase());
 		judgmentCriteria.setReferencedRegulation(judgmentCriteriaForm.getReferencedRegulation());

@@ -1,6 +1,9 @@
 package pl.edu.icm.saos.webapp.judgment;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.HashSet;
+
 import groovy.transform.builder.InitializerStrategy.SET;
 
 import org.joda.time.LocalDate;
@@ -69,32 +72,6 @@ public class JudgmentCriteriaFormConverterTest {
 		
 		assertEquals(judgmentCriteriaForm.getLegalBase(), judgmentCriteria.getLegalBase());
 		assertEquals(judgmentCriteriaForm.getReferencedRegulation(), judgmentCriteria.getReferencedRegulation());
-	}
-
-	@Test
-	public void convert_no_keywords() {
-		//given
-		JudgmentCriteriaForm judgmentCriteriaForm = new JudgmentCriteriaForm();
-		judgmentCriteriaForm.setKeywords(null);
-		
-		//when
-		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
-		
-		//then
-		assertEquals(0, judgmentCriteria.getKeywords().size());
-	}
-	
-	@Test
-	public void convert_no_judgmemtType() {
-		//given
-		JudgmentCriteriaForm judgmentCriteriaForm = new JudgmentCriteriaForm();
-		judgmentCriteriaForm.setJudgmentTypes(null);
-		
-		//when
-		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
-		
-		//then
-		assertEquals(0, judgmentCriteria.getJudgmentTypes().size());
 	}
 	
 	
