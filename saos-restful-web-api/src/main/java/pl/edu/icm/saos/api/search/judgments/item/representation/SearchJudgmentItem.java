@@ -17,13 +17,13 @@ public class SearchJudgmentItem implements Serializable{
 
     private static final long serialVersionUID = -4979928756161430538L;
 
-    protected String href;
-    protected List<CourtCase> courtCases;
-    protected String judgmentType;
-    protected String JudgmentDate;
-    protected List<Judge> judges;
-    protected String textContent;
-    protected List<String> keywords;
+    private String href;
+    private List<CourtCase> courtCases;
+    private String judgmentType;
+    private String JudgmentDate;
+    private List<Judge> judges;
+    private String textContent;
+    private List<String> keywords;
 
     //------------------------ GETTERS --------------------------
 

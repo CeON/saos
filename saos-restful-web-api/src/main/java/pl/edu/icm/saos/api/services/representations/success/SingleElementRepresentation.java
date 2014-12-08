@@ -10,7 +10,7 @@ public class SingleElementRepresentation<DATA> extends SuccessRepresentation {
 
     private static final long serialVersionUID = -1601095442499004941L;
 
-    protected DATA data;
+    private DATA data;
 
     //------------------------ GETTERS --------------------------
 
@@ -52,7 +52,7 @@ public class SingleElementRepresentation<DATA> extends SuccessRepresentation {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("links", links)
+                .addValue(super.toString())
                 .add("data", data)
                 .toString();
     }
