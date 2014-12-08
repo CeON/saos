@@ -36,6 +36,7 @@ public class SearchCommonCourtJudgmentItemMapper {
     private Division toDivision(JudgmentSearchResult judgment) {
         Division view = new Division();
         view.setHref(linksBuilder.urlToCcDivision(judgment.getCcCourtDivisionId()));
+        view.setId(judgment.getCcCourtDivisionId());
         view.setCode(judgment.getCcCourtDivisionCode());
         view.setName(judgment.getCcCourtDivisionName());
         view.setCourt(toCourt(judgment));
@@ -45,6 +46,7 @@ public class SearchCommonCourtJudgmentItemMapper {
     private Court toCourt(JudgmentSearchResult judgment) {
         Court view = new Court();
         view.setHref(linksBuilder.urlToCourt(judgment.getCcCourtId()));
+        view.setId(judgment.getCcCourtId());
         view.setCode(judgment.getCcCourtCode());
         view.setName(judgment.getCcCourtName());
         return view;

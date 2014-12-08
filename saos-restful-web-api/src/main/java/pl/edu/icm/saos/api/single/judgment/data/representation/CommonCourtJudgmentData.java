@@ -67,6 +67,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
     public static class Division implements Serializable {
         private static final long serialVersionUID = -4459795985457420810L;
 
+        private int id;
         private String name;
         private String href;
         private String code;
@@ -95,6 +96,10 @@ public class CommonCourtJudgmentData extends JudgmentData {
             return href;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setCode(String code) {
@@ -117,11 +122,15 @@ public class CommonCourtJudgmentData extends JudgmentData {
             this.href = href;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(name, href, code, type, court);
+            return Objects.hashCode(id, name, href, code, type, court);
         }
 
         @Override
@@ -133,7 +142,8 @@ public class CommonCourtJudgmentData extends JudgmentData {
                 return false;
             }
             final Division other = (Division) obj;
-            return Objects.equal(this.name, other.name) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.name, other.name) &&
                     Objects.equal(this.href, other.href) &&
                     Objects.equal(this.code, other.code) &&
                     Objects.equal(this.type, other.type) &&
@@ -147,6 +157,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("name", name)
                     .add("href", href)
                     .add("code", code)
@@ -160,6 +171,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
         private static final long serialVersionUID = 6190992824642185703L;
 
         private String href;
+        private int id;
         private String name;
         private String code;
         private CommonCourtType type;
@@ -182,6 +194,10 @@ public class CommonCourtJudgmentData extends JudgmentData {
             return href;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setCode(String code) {
@@ -200,11 +216,15 @@ public class CommonCourtJudgmentData extends JudgmentData {
             this.href = href;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(name, code, type, href);
+            return Objects.hashCode(id, name, code, type, href);
         }
 
         @Override
@@ -216,7 +236,8 @@ public class CommonCourtJudgmentData extends JudgmentData {
                 return false;
             }
             final Court other = (Court) obj;
-            return Objects.equal(this.code, other.code) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.code, other.code) &&
                     Objects.equal(this.type, other.type) &&
                     Objects.equal(this.href, other.href) &&
                     Objects.equal(this.name, other.name)
@@ -228,6 +249,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("code", code)
                     .add("type", type)

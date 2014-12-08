@@ -42,6 +42,7 @@ public class CommonCourtJudgmentMapper {
         Division divisionView = new Division();
 
         divisionView.setHref(linksBuilder.urlToCcDivision(courtDivision.getId()));
+        divisionView.setId(courtDivision.getId());
         divisionView.setName(courtDivision.getName());
         divisionView.setCode(courtDivision.getCode());
         divisionView.setType(courtDivision.getType().getName());
@@ -54,6 +55,7 @@ public class CommonCourtJudgmentMapper {
         CommonCourtJudgmentData.Court courtView = new CommonCourtJudgmentData.Court();
 
         courtView.setHref(linksBuilder.urlToCourt(court.getId()));
+        courtView.setId(court.getId());
         courtView.setName(court.getName());
         courtView.setCode(court.getCode());
         courtView.setType(court.getType());

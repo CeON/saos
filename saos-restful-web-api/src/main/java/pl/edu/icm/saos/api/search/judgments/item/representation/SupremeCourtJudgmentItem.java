@@ -81,6 +81,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
         private static final long serialVersionUID = -8801751085086840339L;
 
         private String href;
+        private int id;
         private String name;
         private List<Chamber> chambers;
 
@@ -89,6 +90,10 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
 
         public String getHref() {
             return href;
+        }
+
+        public int getId() {
+            return id;
         }
 
         public String getName() {
@@ -105,6 +110,10 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
             this.href = href;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         public void setName(String name) {
             this.name = name;
         }
@@ -117,7 +126,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name, chambers);
+            return Objects.hashCode(id, href, name, chambers);
         }
 
         @Override
@@ -129,7 +138,8 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
                 return false;
             }
             final Division other = (Division) obj;
-            return Objects.equal(this.href, other.href) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
                     Objects.equal(this.name, other.name) &&
                     Objects.equal(this.chambers, other.chambers);
         }
@@ -139,6 +149,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .add("chambers", chambers)
@@ -150,6 +161,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
         private static final long serialVersionUID = -5507770923252323958L;
 
         private String href;
+        private int id;
         private String name;
 
 
@@ -157,6 +169,10 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
 
         public String getHref() {
             return href;
+        }
+
+        public int getId() {
+            return id;
         }
 
         public String getName() {
@@ -169,6 +185,10 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
             this.href = href;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         public void setName(String name) {
             this.name = name;
         }
@@ -177,7 +197,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name);
+            return Objects.hashCode(id, href, name);
         }
 
         @Override
@@ -189,7 +209,9 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
                 return false;
             }
             final Chamber other = (Chamber) obj;
-            return Objects.equal(this.href, other.href) && Objects.equal(this.name, other.name);
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
+                    Objects.equal(this.name, other.name);
         }
 
         //------------------------ toString --------------------------
@@ -197,6 +219,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .toString();

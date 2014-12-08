@@ -83,6 +83,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.judges").isArray())
                 .andExpect(jsonPath("$.data.judges").value(iterableWithSize(3)))
                 .andExpect(jsonPath("$.data.judges.[0].name").value(CC_FIRST_JUDGE_NAME))
+                .andExpect(jsonPath("$.data.judges.[0].function").value(CC_FIRST_JUDGE_FUNCTION))
                 .andExpect(jsonPath("$.data.judges.[0].specialRoles").value(iterableWithSize(1)))
                 .andExpect(jsonPath("$.data.judges.[0].specialRoles.[0]").value(CC_FIRST_JUDGE_ROLE.name()))
                 .andExpect(jsonPath("$.data.judges.[1].name").value(CC_SECOND_JUDGE_NAME))
@@ -148,11 +149,13 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.keywords.[1]").value(CC_SECOND_KEYWORD))
 
                 .andExpect(jsonPath("$.data.division.href").value(endsWith(SINGLE_DIVISIONS_PATH +"/"+testObjectContext.getCcFirstDivisionId())))
+                .andExpect(jsonPath("$.data.division.id").value(testObjectContext.getCcFirstDivisionId()))
                 .andExpect(jsonPath("$.data.division.name").value(CC_FIRST_DIVISION_NAME))
                 .andExpect(jsonPath("$.data.division.code").value(CC_FIRST_DIVISION_CODE))
                 .andExpect(jsonPath("$.data.division.type").value(CC_FIRST_DIVISION_TYPE_NAME))
 
                 .andExpect(jsonPath("$.data.division.court.href").value(endsWith(SINGLE_COURTS_PATH+"/"+testObjectContext.getCcCourtId())))
+                .andExpect(jsonPath("$.data.division.court.id").value(testObjectContext.getCcCourtId()))
                 .andExpect(jsonPath("$.data.division.court.code").value(CC_COURT_CODE))
                 .andExpect(jsonPath("$.data.division.court.name").value(CC_COURT_NAME))
                 .andExpect(jsonPath("$.data.division.court.type").value(CC_COURT_TYPE.name()))
@@ -173,14 +176,17 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.href").value(endsWith(scJudgmentPath)))
                 .andExpect(jsonPath("$.data.personnelType").value(SC_PERSONNEL_TYPE.name()))
 
-                .andExpect(jsonPath("$.data.form.name").value(SC_JUDGMENT_FORM_NAME))
+                .andExpect(jsonPath("$.data.judgmentForm.name").value(SC_JUDGMENT_FORM_NAME))
 
                 .andExpect(jsonPath("$.data.division.href").value(endsWith("/api/scDivisions/" + testObjectContext.getScFirstDivisionId())))
+                .andExpect(jsonPath("$.data.division.id").value(testObjectContext.getScFirstDivisionId()))
                 .andExpect(jsonPath("$.data.division.name").value(SC_FIRST_DIVISION_NAME))
                 .andExpect(jsonPath("$.data.division.chamber.href").value(endsWith("/api/scChambers/" + testObjectContext.getScChamberId())))
+                .andExpect(jsonPath("$.data.division.chamber.id").value(testObjectContext.getScChamberId()))
                 .andExpect(jsonPath("$.data.division.chamber.name").value(SC_CHAMBER_NAME))
 
                 .andExpect(jsonPath("$.data.chambers.[0].href").value(endsWith("/api/scChambers/" + testObjectContext.getScFirstChamberId())))
+                .andExpect(jsonPath("$.data.chambers.[0].id").value(testObjectContext.getScFirstChamberId()))
                 .andExpect(jsonPath("$.data.chambers.[0].name").value(SC_FIRST_CHAMBER_NAME))
 
                 ;

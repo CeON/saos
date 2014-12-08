@@ -42,6 +42,7 @@ public class SearchSupremeCourtJudgmentItemMapper {
         Division view = new Division();
 
         view.setHref(linksBuilder.urlToScDivision(judgment.getScCourtDivisionId()));
+        view.setId(judgment.getScCourtDivisionId());
         view.setName(judgment.getScCourtDivisionName());
         view.setChambers(toChambers(judgment.getScCourtChambers()));
 
@@ -62,6 +63,7 @@ public class SearchSupremeCourtJudgmentItemMapper {
         Chamber view = new Chamber();
 
         view.setHref(linksBuilder.urlToScChamber(chamber.getId()));
+        view.setId(chamber.getId());
         view.setName(chamber.getName());
 
         return view;

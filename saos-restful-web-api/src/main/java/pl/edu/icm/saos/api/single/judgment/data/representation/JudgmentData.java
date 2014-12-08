@@ -230,12 +230,17 @@ public class JudgmentData implements Serializable{
         private static final long serialVersionUID = 1L;
         
         private String name;
+        private String function;
         private List<String> specialRoles;
 
         //------------------------ GETTERS --------------------------
 
         public String getName() {
             return name;
+        }
+
+        public String getFunction() {
+            return function;
         }
 
         public List<String> getSpecialRoles() {
@@ -248,6 +253,10 @@ public class JudgmentData implements Serializable{
             this.name = name;
         }
 
+        public void setFunction(String function) {
+            this.function = function;
+        }
+
         public void setSpecialRoles(List<String> specialRoles) {
             this.specialRoles = specialRoles;
         }
@@ -256,7 +265,7 @@ public class JudgmentData implements Serializable{
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(name, specialRoles);
+            return Objects.hashCode(name, function, specialRoles);
         }
 
         @Override
@@ -269,6 +278,7 @@ public class JudgmentData implements Serializable{
             }
             final Judge other = (Judge) obj;
             return Objects.equal(this.name, other.name) &&
+                    Objects.equal(this.function, other.function) &&
                     Objects.equal(this.specialRoles, other.specialRoles);
         }
 
@@ -278,6 +288,7 @@ public class JudgmentData implements Serializable{
         public String toString() {
             return Objects.toStringHelper(this)
                     .add("name", name)
+                    .add("function", function)
                     .add("specialRoles", specialRoles)
                     .toString();
         }
