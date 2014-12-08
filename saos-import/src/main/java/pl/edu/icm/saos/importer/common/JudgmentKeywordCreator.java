@@ -21,7 +21,7 @@ public class JudgmentKeywordCreator {
     
     /**
      * Returns {@link JudgmentKeyword} with {@link JudgmentKeyword#getCourtType()}
-     * equal to courtType and {@link JudgmentKeyword#getPhrase()} equal to phrase (case in ignored).
+     * equal to courtType and {@link JudgmentKeyword#getPhrase()} equal to phrase (case is ignored).
      * If the appropriate judgmentKeyword cannot be found, then one is created, saved in a datasource and returned<br/>
      * 
      * @see JudgmentKeyword#JudgmentKeyword(CourtType, String) 
