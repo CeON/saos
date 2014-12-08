@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.search;
+package pl.edu.icm.saos.webapp.judgment.search;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;

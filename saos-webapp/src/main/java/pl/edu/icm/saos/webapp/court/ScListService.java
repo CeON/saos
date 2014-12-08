@@ -27,6 +27,9 @@ public class ScListService {
     
     private ScChamberDivisionRepository scChamberDivisionRepository;
     
+    @Autowired
+    private SimpleDivisionConverter simpleDivisionConverter;
+    
 	
 	//------------------------ LOGIC --------------------------
 	
@@ -40,14 +43,14 @@ public class ScListService {
 		return chambers;
 	}
 	
-	public List<SupremeCourtChamberDivision> findScChamberDivisions(int chamberId) {
+	public List<SimpleDivision> findScChamberDivisions(int chamberId) {
 		
 		List<SupremeCourtChamberDivision> chamberDivisions = scChamberDivisionRepository.findAllByScChamberId(chamberId);
 		pl.edu.icm.saos.webapp.court.ScChamberDivisionComparator scChamberDivisionComparator = new pl.edu.icm.saos.webapp.court.ScChamberDivisionComparator();
 		
 		Collections.sort(chamberDivisions, scChamberDivisionComparator);
 		
-		return chamberDivisions;
+		return simpleDivisionConverter.convertScChamberDivisions(chamberDivisions);
 	}
 	
 	

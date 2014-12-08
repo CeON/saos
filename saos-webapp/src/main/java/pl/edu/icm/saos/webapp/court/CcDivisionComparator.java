@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.webapp.court;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import pl.edu.icm.saos.webapp.common.ConvertRomanNumerals;
+import pl.edu.icm.saos.webapp.common.RomanNumberConverter;
 
 /**
  * @author Łukasz Pawełczak
@@ -22,10 +22,10 @@ public class CcDivisionComparator extends DivisionComparator<CommonCourtDivision
 	protected int getNumber(String name) {
 		String[] array = name.split(" ", 2);
 		
-		if (array.length < 2 || !ConvertRomanNumerals.isRomanNumeral(array[0])) {
+		if (array.length < 2 || !RomanNumberConverter.isRomanNumber(array[0])) {
 			return 0;
 		} else {
-			return ConvertRomanNumerals.decode(array[0]);
+			return RomanNumberConverter.decode(array[0]);
 		}
 	}
 	

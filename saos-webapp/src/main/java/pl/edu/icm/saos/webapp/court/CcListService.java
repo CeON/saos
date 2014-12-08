@@ -26,6 +26,9 @@ public class CcListService {
 	
     private CcDivisionRepository ccDivisionRepository;
     
+    @Autowired
+    private SimpleDivisionConverter simpleDivisionConverter;
+    
 	
 	//------------------------ LOGIC --------------------------
 	
@@ -39,14 +42,14 @@ public class CcListService {
 		return courts;
 	}
 	
-	public List<CommonCourtDivision> findCcDivisions(int courtId) {
+	public List<SimpleDivision> findCcDivisions(int courtId) {
 		
-		List<CommonCourtDivision> divisions = ccDivisionRepository.findAllByCourtId(courtId);
+		List<CommonCourtDivision> courtDivisions = ccDivisionRepository.findAllByCourtId(courtId);
 		pl.edu.icm.saos.webapp.court.CcDivisionComparator ccDivisionComparator = new pl.edu.icm.saos.webapp.court.CcDivisionComparator();
 		
-		Collections.sort(divisions, ccDivisionComparator);
+		Collections.sort(courtDivisions, ccDivisionComparator);
 		
-		return divisions;
+		return simpleDivisionConverter.convertCcDivisions(courtDivisions);
 	}
 	
 	

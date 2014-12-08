@@ -6,7 +6,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
@@ -24,11 +23,10 @@ public class JudgmentDetailController {
     //------------------------ LOGIC --------------------------
 	
 	@RequestMapping("/judgments/{judgmentId}")
-	public String JudgmentSignleResult(ModelMap model, @PathVariable int judgmentId) {
+	public String JudgmentSignleResult(ModelMap model, @PathVariable("judgmentId") Integer judgmentId) {
 		
-		Judgment judgment = judgmentRepository.findOneAndInitialize(judgmentId);
-		model.addAttribute("judgment", judgment);
+		model.addAttribute("judgment", judgmentRepository.findOneAndInitialize(judgmentId));
 		
-		return "singleResult";
+		return "judgmentDetails";
 	}
 }

@@ -53,4 +53,16 @@ public enum JudgmentIndexField implements IndexField {
     public String getFieldName() {
         return fieldName;
     }
+    
+    public static boolean hasFieldName(String property) {
+    	boolean propertyExists = false;
+    	
+    	for (JudgmentIndexField judgmentIndexField : JudgmentIndexField.values()) {
+    		if (judgmentIndexField.fieldName == property) {
+    			propertyExists = true;
+    		}
+    	}
+    	
+    	return propertyExists;
+    }
 }

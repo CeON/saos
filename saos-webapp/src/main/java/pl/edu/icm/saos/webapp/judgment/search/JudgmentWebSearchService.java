@@ -11,7 +11,6 @@ import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.search.search.service.SearchService;
 import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaForm;
 import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaFormConverter;
-import pl.edu.icm.saos.webapp.search.PagingConverter;
 
 /**
  * @author Łukasz Pawełczak

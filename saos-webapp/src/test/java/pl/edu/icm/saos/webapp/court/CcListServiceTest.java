@@ -36,6 +36,7 @@ public class CcListServiceTest {
 	
 	@Test
 	public void findCommonCourts_correct_order() {
+		//given
 		CommonCourt commonCourtOne = new CommonCourt();
 		commonCourtOne.setName("Sąd w Aninie");
 		CommonCourt commonCourtTwo = new CommonCourt();
@@ -47,8 +48,13 @@ public class CcListServiceTest {
 		
 		when(commonCourtRepository.findAll()).thenReturn(courtsWrongOrder);
 		ccListService.setCommonCourtRepository(commonCourtRepository);
+		
+		
+		//when
 		List<CommonCourt> courts = ccListService.findCommonCourts();
 		
+		
+		//then
 		assertEquals(3, courts.size());
 		assertEquals(courts.get(0).getName(), commonCourtOne.getName());
 		assertEquals(courts.get(1).getName(), commonCourtTwo.getName());
@@ -57,6 +63,7 @@ public class CcListServiceTest {
 	
 	@Test
 	public void findCcDivisions_correct_order() {
+		//given
 		CommonCourtDivision ccDivisionOne = new CommonCourtDivision();
 		ccDivisionOne.setName("I Wydział Cywilny");
 		CommonCourtDivision ccDivisionTwo = new CommonCourtDivision();
@@ -68,8 +75,13 @@ public class CcListServiceTest {
 		
 		when(ccDivisionRepository.findAllByCourtId(1)).thenReturn(divisionsWrongOrder);
 		ccListService.setCcDivisionRepository(ccDivisionRepository);
-		List<CommonCourtDivision> divisions = ccListService.findCcDivisions(1);
 		
+		
+		//when
+		List<SimpleDivision> divisions = ccListService.findCcDivisions(1);
+		
+		
+		//then
 		assertEquals(3, divisions.size());
 		assertEquals(divisions.get(0).getName(), ccDivisionOne.getName());
 		assertEquals(divisions.get(1).getName(), ccDivisionTwo.getName());
@@ -78,6 +90,7 @@ public class CcListServiceTest {
 	
 	@Test
 	public void findCcDivisions_correct_order_names_without_roman_numbers() {
+		//given
 		CommonCourtDivision ccDivisionOne = new CommonCourtDivision();
 		ccDivisionOne.setName("Wydział Cywilny");
 		CommonCourtDivision ccDivisionTwo = new CommonCourtDivision();
@@ -89,8 +102,13 @@ public class CcListServiceTest {
 		
 		when(ccDivisionRepository.findAllByCourtId(1)).thenReturn(divisionsWrongOrder);
 		ccListService.setCcDivisionRepository(ccDivisionRepository);
-		List<CommonCourtDivision> divisions = ccListService.findCcDivisions(1);
 		
+		
+		//when
+		List<SimpleDivision> divisions = ccListService.findCcDivisions(1);
+		
+		
+		//then
 		assertEquals(3, divisions.size());
 		assertEquals(divisions.get(0).getName(), ccDivisionOne.getName());
 		assertEquals(divisions.get(1).getName(), ccDivisionTwo.getName());

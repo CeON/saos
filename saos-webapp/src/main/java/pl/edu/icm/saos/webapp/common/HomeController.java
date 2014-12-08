@@ -13,7 +13,7 @@ public class HomeController {
 	@RequestMapping("/")
 	public String home(ModelMap model) {
 	    
-		return "content";
+		return "home";
 	}
 	
 	@RequestMapping("/angular/")

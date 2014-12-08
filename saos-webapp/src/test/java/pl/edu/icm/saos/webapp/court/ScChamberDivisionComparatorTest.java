@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.division;
+package pl.edu.icm.saos.webapp.court;
 
 import static org.junit.Assert.*;
 

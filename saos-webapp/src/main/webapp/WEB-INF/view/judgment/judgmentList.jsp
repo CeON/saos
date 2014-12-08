@@ -1,12 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
-<%@ attribute name="items" required="true" rtexprvalue="true" type="java.util.Collection"%>
 
-<c:forEach var="judgment" items="${items}" >
+<c:forEach var="judgment" items="${judgments}" >
 
 	<div class="judgment row" >
 	
 		<div class="row" >
+		
 				<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
 					<c:set var="lowerCaseJudgmentType" value="${fn:toLowerCase(judgment.judgmentType)}" />
 					<div class="type" data-judgment-type="${lowerCaseJudgmentType}" ><spring:message code="judgment.${lowerCaseJudgmentType}" /></div>
@@ -40,7 +41,6 @@
 					</div>
 				
 				</c:if>
-				
 				
 				<c:if test="${!empty judgment.judges}" >
 					<div class="judges" >

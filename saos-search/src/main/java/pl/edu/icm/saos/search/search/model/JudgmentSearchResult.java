@@ -34,7 +34,13 @@ public class JudgmentSearchResult extends Searchable {
     private List<String> keywords;
     private String content;
 
+    
+    //------------------------ LOGIC --------------------------
 
+    public static int getTotalPageNumber(long totalResults, int pageSize) {
+    	return (int)(totalResults/pageSize);
+    }
+    
     //------------------------ GETTERS --------------------------
 
     public List<String> getCaseNumbers() {

@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.search;
+package pl.edu.icm.saos.webapp.judgment.search;
 
 import java.util.Iterator;
 
@@ -22,6 +22,23 @@ public class SortingConverter {
 	
 	
 	//------------------------ LOGIC --------------------------
+	
+	/*
+	public Sorting convert(Sort sort) {
+		Iterator<Order> order = sort.iterator();
+		
+		//get one sorting field, if empty set sorting to by relevance
+		if (order.hasNext()) {
+			Order next = order.next(); 
+			String property = next.getProperty();
+			
+			if (JudgmentIndexField.hasFieldName(property)) {
+				return new Sorting(JudgmentIndexField.valueOf(property).getFieldName(), convertDirection(next.getDirection()));
+			}
+		} 
+		
+		return Sorting.relevanceSorting();
+	}*/
 	
 	public Sorting convert(Sort sort) {
 		Iterator<Order> order = sort.iterator();

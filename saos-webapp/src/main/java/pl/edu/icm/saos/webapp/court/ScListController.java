@@ -15,19 +15,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class ScListController {
 
+	
     @Autowired
     private ScListService scListService;
 
-    @Autowired
-    private SimpleDivisionConverter simpleDivisionConverter;
-	
     
 	//------------------------ LOGIC --------------------------    
     
-	@RequestMapping("sc/courts/{supremeChamberId}/chamberDivisions/list")
+	@RequestMapping("sc/chambers/{supremeChamberId}/chamberDivisions/list")
 	@ResponseBody
-	public List<SimpleDivision> findChamberDivisionList(@PathVariable("supremeChamberId") int supremeChamberId) {
-		return simpleDivisionConverter.convertScChamberDivisions(scListService.findScChamberDivisions(supremeChamberId));
+	public List<SimpleDivision> listChamberDivisions(@PathVariable("supremeChamberId") int supremeChamberId) {
+		return scListService.findScChamberDivisions(supremeChamberId);
 	}
     
 }

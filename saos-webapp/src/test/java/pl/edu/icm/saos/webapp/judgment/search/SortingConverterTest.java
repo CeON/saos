@@ -1,13 +1,16 @@
-package pl.edu.icm.saos.webapp.search;
+package pl.edu.icm.saos.webapp.judgment.search;
 
 import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.Sorting;
+import pl.edu.icm.saos.webapp.judgment.search.SortingConverter;
 
 /**
  * @author Łukasz Pawełczak
@@ -24,16 +27,20 @@ public class SortingConverterTest {
 	
 	@Test
 	public void convert() {
-		Sorting sorting = new Sorting(fieldName, Sorting.Direction.ASC);
+		//given
 		Order orderAsc = new Order(Direction.ASC, fieldName);
 		Order orderDesc = new Order(Direction.DESC, fieldName);
 		Sort sortAsc = new Sort(orderAsc);
 		Sort sortDesc = new Sort(orderDesc);
 
-		assertEquals(JudgmentIndexField.valueOf(fieldName).getFieldName(), sortingConverter.convert(sortAsc).getFieldName());
-		assertEquals(Sorting.Direction.ASC, sortingConverter.convert(sortAsc).getDirection());
-		assertEquals(Sorting.Direction.DESC, sortingConverter.convert(sortDesc).getDirection());
-		assertEquals(sorting.getDirection(), sortingConverter.convert(sortAsc).getDirection());
+		//when
+		Sorting actualASC = sortingConverter.convert(sortAsc);
+		Sorting actualDESC = sortingConverter.convert(sortDesc);
+		
+		//then
+		assertEquals(JudgmentIndexField.valueOf(fieldName).getFieldName(), actualASC.getFieldName());
+		assertEquals(Sorting.Direction.ASC, actualASC.getDirection());
+		assertEquals(Sorting.Direction.DESC, actualDESC.getDirection());
 	}
 	
 	@Test
@@ -49,7 +56,7 @@ public class SortingConverterTest {
 		Order order = new Order(null, fieldName);
 		Sort sort = new Sort(order);
 
-		assertEquals(Sorting.Direction.ASC, sortingConverter.convert(sort).getDirection());
+		assertEquals(Sorting.Direction.DESC, sortingConverter.convert(sort).getDirection());
 	}
 
 }

@@ -3,7 +3,9 @@ package pl.edu.icm.saos.webapp.judgment;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author Łukasz Pawełczak
+ * @author Łukasz Dumiszewski, Łukasz Pawełczak
+ * 
+ * Copied from project CRPD
  *
  */
 public class PageLinkGenerator {

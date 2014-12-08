@@ -4,7 +4,6 @@
     <!-- ************* Main template definition -->
     <definition name="template" template="/WEB-INF/view/template/mainTemplate.jsp">
         <put-attribute name="top" value="/WEB-INF/view/template/header.jsp" />
-        <put-attribute name="navigation" value="/WEB-INF/view/template/navigation.jsp" />
         <put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
     </definition>
     
@@ -26,26 +25,19 @@
 	        <put-attribute name="content" value="/WEB-INF/view/angular/search.jsp" />
 	    </definition>
 
+
     <!-- ************* General  -->
     
-    <definition name="index" extends="template">
-        <put-attribute name="content" value="/WEB-INF/view/index.jsp" />
-    </definition>
-    
     <definition name="home" extends="template">
-        <put-attribute name="content" value="/WEB-INF/view/home.jsp" />
+        <put-attribute name="content" value="/WEB-INF/view/home/home.jsp" />
     </definition>
     
-    <definition name="singleResult" extends="template">
+    <definition name="judgmentDetails" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentDetails.jsp" />
     </definition>
     
-    <definition name="search" extends="template">
+    <definition name="judgmentSearch" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentSearch.jsp" />
-    </definition>
-    
-    <definition name="content" extends="template">
-        <put-attribute name="content" value="/WEB-INF/view/template/content.jsp" />
     </definition>
     
     

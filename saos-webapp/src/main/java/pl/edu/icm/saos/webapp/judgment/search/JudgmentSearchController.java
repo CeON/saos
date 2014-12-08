@@ -1,7 +1,5 @@
 package pl.edu.icm.saos.webapp.judgment.search;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +17,6 @@ import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.webapp.court.CcListService;
 import pl.edu.icm.saos.webapp.court.ScListService;
-import pl.edu.icm.saos.webapp.court.SimpleDivision;
-import pl.edu.icm.saos.webapp.court.SimpleDivisionConverter;
 import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaForm;
 import pl.edu.icm.saos.webapp.judgment.PageLinkGenerator;
 
@@ -44,9 +40,7 @@ public class JudgmentSearchController {
     @Autowired
     private JudgmentWebSearchService judgmentsWebSearchService;
 	
-    @Autowired
-    private SimpleDivisionConverter simpleDivisionConverter;
-	
+    
     //------------------------ LOGIC --------------------------
     
 	@RequestMapping(value="/search", method=RequestMethod.GET)
@@ -60,42 +54,30 @@ public class JudgmentSearchController {
 		model.addAttribute("resultSearch", searchResults);
 		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
 		
-		addTotalNumberOfPagesToModel(searchResults.getTotalResults(), pageable.getPageSize(), model);
+		model.addAttribute("totalPages", JudgmentSearchResult.getTotalPageNumber(searchResults.getTotalResults(), pageable.getPageSize()));
 		
 		addCommonCourtsToModel(judgmentCriteriaForm, model);
-		addSupremeCourtsToModel(judgmentCriteriaForm, model);
+		addSupremeChambersToModel(judgmentCriteriaForm, model);
 		
-		return "search";
+		return "judgmentSearch";
 	}
 	
 	
 	//------------------------ PRIVATE --------------------------
 	
-	private void addTotalNumberOfPagesToModel(long totalResults, int pageSize, ModelMap model) {
-		model.addAttribute("totalPages", (int)Math.ceil(((double)totalResults)/((double)pageSize)));
-	}
-	
 	private void addCommonCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
 		model.addAttribute("commonCourts", ccListService.findCommonCourts());
 		
 		if (judgmentCriteriaForm.getCommonCourtId() != null) {
-			model.addAttribute("commonCourtDivisions", getCcDivisionList(judgmentCriteriaForm.getCommonCourtId()));
+			model.addAttribute("commonCourtDivisions", ccListService.findCcDivisions(judgmentCriteriaForm.getCommonCourtId()));
 		}
 	}
 	
-	private List<SimpleDivision> getCcDivisionList(int commonCourtId) {
-		return simpleDivisionConverter.convertCcDivisions(ccListService.findCcDivisions(commonCourtId));
-	}
-	
-	private void addSupremeCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
+	private void addSupremeChambersToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
 		model.addAttribute("supremeChambers", scListService.findScChambers());
 		
 		if (judgmentCriteriaForm.getSupremeChamberId() != null) {
-			model.addAttribute("supremeChamberDivisions", getSupremeChamberDivisionList(judgmentCriteriaForm.getSupremeChamberId()));
+			model.addAttribute("supremeChamberDivisions", scListService.findScChamberDivisions(judgmentCriteriaForm.getSupremeChamberId()));
 		}
-	}
-	
-	private List<SimpleDivision> getSupremeChamberDivisionList(int supremeChamberId) {
-		return simpleDivisionConverter.convertScChamberDivisions(scListService.findScChamberDivisions(supremeChamberId));
-	}
+	}	
 }

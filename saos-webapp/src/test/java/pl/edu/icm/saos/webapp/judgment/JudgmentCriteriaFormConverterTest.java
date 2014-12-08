@@ -26,10 +26,15 @@ public class JudgmentCriteriaFormConverterTest {
 	
 	@Test
 	public void convert() {
+		//given
 		JudgmentCriteriaForm judgmentCriteriaForm = createCriteriaForm();
 		
+		
+		//when
 		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
 		
+		
+		//then
 		assertEquals(judgmentCriteriaForm.getAll(), judgmentCriteria.getAll());
 		assertEquals(judgmentCriteriaForm.getSignature(), judgmentCriteria.getCaseNumber());
 

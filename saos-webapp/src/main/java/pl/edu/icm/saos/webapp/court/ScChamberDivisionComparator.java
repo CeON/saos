@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.webapp.court;
 
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
-import pl.edu.icm.saos.webapp.common.ConvertRomanNumerals;
+import pl.edu.icm.saos.webapp.common.RomanNumberConverter;
 
 /**
  * @author Łukasz Pawełczak
@@ -23,10 +23,10 @@ public class ScChamberDivisionComparator extends DivisionComparator<SupremeCourt
 		
 		String lastWord = name.substring(name.lastIndexOf(" ") + 1);
 		
-		if (!ConvertRomanNumerals.isRomanNumeral(lastWord) || lastWord.compareTo("") == 0) {
+		if (!RomanNumberConverter.isRomanNumber(lastWord) || lastWord.compareTo("") == 0) {
 			return 0;
 		} else {
-			return ConvertRomanNumerals.decode(lastWord);
+			return RomanNumberConverter.decode(lastWord);
 		}
 		
 	}

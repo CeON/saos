@@ -37,6 +37,7 @@ public class ScListServiceTest {
 	
 	@Test
 	public void findScChambers_correct_order() {
+		//when
 		SupremeCourtChamber scChamberOne = new SupremeCourtChamber();
 		scChamberOne.setName("Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych");
 		SupremeCourtChamber scChamberTwo = new SupremeCourtChamber();
@@ -46,8 +47,12 @@ public class ScListServiceTest {
 		
 		when(scChamberRepository.findAll()).thenReturn(chambersWrongOrder);
 		scListService.setScChamberRepository(scChamberRepository);
+		
+		//when
 		List<SupremeCourtChamber> chambers = scListService.findScChambers();
 		
+		
+		//then
 		assertEquals(2, chambers.size());
 		assertEquals(chambers.get(0).getName(), scChamberOne.getName());
 		assertEquals(chambers.get(1).getName(), scChamberTwo.getName());
@@ -55,6 +60,7 @@ public class ScListServiceTest {
 	
 	@Test
 	public void findScChamberDivisions_correct_order() {
+		//given
 		SupremeCourtChamberDivision sccDivisionOne = new SupremeCourtChamberDivision();
 		sccDivisionOne.setName("Wydział Odwoławczo-Kasacyjny");
 		SupremeCourtChamberDivision sccDivisionTwo = new SupremeCourtChamberDivision();
@@ -66,12 +72,17 @@ public class ScListServiceTest {
 		
 		when(scChamberDivisionRepository.findAllByScChamberId(1)).thenReturn(divisionsWrongOrder);
 		scListService.setScChamberDivisionRepository(scChamberDivisionRepository);
-		List<SupremeCourtChamberDivision> chambers = scListService.findScChamberDivisions(1);
 		
-		assertEquals(3, chambers.size());
-		assertEquals(chambers.get(0).getName(), sccDivisionOne.getName());
-		assertEquals(chambers.get(1).getName(), sccDivisionTwo.getName());
-		assertEquals(chambers.get(2).getName(), sccDivisionThree.getName());
+		
+		//when
+		List<SimpleDivision> chamberDivisions = scListService.findScChamberDivisions(1);
+		
+		
+		//then
+		assertEquals(3, chamberDivisions.size());
+		assertEquals(chamberDivisions.get(0).getName(), sccDivisionOne.getName());
+		assertEquals(chamberDivisions.get(1).getName(), sccDivisionTwo.getName());
+		assertEquals(chamberDivisions.get(2).getName(), sccDivisionThree.getName());
 	}
 
 }
