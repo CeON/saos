@@ -1,5 +1,16 @@
 package pl.edu.icm.saos.batch.indexer;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.IntStream;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -20,30 +31,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptException;
+
 import pl.edu.icm.saos.batch.BatchTestSupport;
 import pl.edu.icm.saos.batch.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.common.TextObjectDefaultData;
-import pl.edu.icm.saos.persistence.model.*;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
+import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.IntStream;
-
-import static org.junit.Assert.*;
 
 /**
  * @author madryk
@@ -208,7 +223,7 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
         
         fillJudgment(ccJudgment, textContent);
-        IntStream.range(1, 6).forEach(x -> ccJudgment.addKeyword(new CcJudgmentKeyword(RandomStringUtils.randomAlphabetic(5*x))));
+        IntStream.range(1, 6).forEach(x -> ccJudgment.addKeyword(new JudgmentKeyword(CourtType.COMMON, RandomStringUtils.randomAlphabetic(5*x))));
         ccJudgment.setCourtDivision(divisions.get(divisionIndex));
         
         judgmentRepository.save(ccJudgment);

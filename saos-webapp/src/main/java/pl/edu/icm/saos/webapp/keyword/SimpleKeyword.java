@@ -8,13 +8,13 @@ package pl.edu.icm.saos.webapp.keyword;
  */
 public class SimpleKeyword {
 
-	private String id;
+	private int id;
 	private String phrase;
 	
 	
 	//------------------------ GETTERS --------------------------
 	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 	
@@ -25,7 +25,7 @@ public class SimpleKeyword {
 	
 	//------------------------ SETTERS --------------------------
 	
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	

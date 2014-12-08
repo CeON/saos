@@ -46,7 +46,7 @@ appender("FILE", RollingFileAppender) {
 
 root(toLevel(props.logLevel ?: "INFO"), ["STDOUT", "FILE"])
 
-println "===Logger levels==="
+println "===Test logger levels==="
 for (e in props) {
     println e.key + ":" + e.value
   if (e.key.startsWith('logger.')) { logger(e.key[7..-1], toLevel(e.value.trim())) }

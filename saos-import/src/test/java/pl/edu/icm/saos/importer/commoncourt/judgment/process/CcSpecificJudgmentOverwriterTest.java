@@ -8,10 +8,11 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 
 
 /**
@@ -60,9 +61,9 @@ public class CcSpecificJudgmentOverwriterTest {
     @Test
     public void overwriteJudgment_Keywords() {
         
-        CcJudgmentKeyword keywordABC = new CcJudgmentKeyword("ABC");
-        CcJudgmentKeyword keywordDEF = new CcJudgmentKeyword("DEF");
-        CcJudgmentKeyword keywordGHI = new CcJudgmentKeyword("GHI");
+        JudgmentKeyword keywordABC = new JudgmentKeyword(CourtType.COMMON, "ABC");
+        JudgmentKeyword keywordDEF = new JudgmentKeyword(CourtType.COMMON, "DEF");
+        JudgmentKeyword keywordGHI = new JudgmentKeyword(CourtType.COMMON, "GHI");
         
         
         oldJudgment.addKeyword(keywordABC);

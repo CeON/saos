@@ -1,8 +1,11 @@
 package pl.edu.icm.saos.persistence.common;
 
-import pl.edu.icm.saos.persistence.model.*;
-
 import java.util.List;
+
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
 /**
  * Provides factory methods for model object creation.
@@ -101,14 +104,7 @@ public final class TestInMemoryObjectFactory {
         return TestInMemoryCcObjectFactory.createCcJudgmentListWithRandomData(size);
     }
 
-    /**
-     * Creates list of {@link pl.edu.icm.saos.persistence.model.CcJudgmentKeyword} with random data and given size.
-     * @param size of the list.
-     * @return keywords list.
-     */
-    public static List<CcJudgmentKeyword> createCcKeywordListWithRandomData(int size){
-        return TestInMemoryCcObjectFactory.createCcKeywordListWithRandomData(size);
-    }
+
 
 
 }

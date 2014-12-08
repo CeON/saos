@@ -3,12 +3,12 @@ package pl.edu.icm.saos.search.indexing;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 /**
@@ -38,8 +38,8 @@ public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
     
     //------------------------ PRIVATE --------------------------
     
-    private void fillKeywords(SolrInputDocument doc, CommonCourtJudgment item) {
-        for (CcJudgmentKeyword keyword : item.getKeywords()) {
+    private void fillKeywords(SolrInputDocument doc, CommonCourtJudgment judgment) {
+        for (JudgmentKeyword keyword : judgment.getKeywords()) {
             fieldAdder.addField(doc, JudgmentIndexField.KEYWORD, keyword.getPhrase());
         }
     }

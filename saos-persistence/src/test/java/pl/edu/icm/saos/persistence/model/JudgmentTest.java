@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 
@@ -20,10 +21,15 @@ import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import com.googlecode.catchexception.CatchException;
 import com.googlecode.catchexception.apis.CatchExceptionAssertJ;
 
-public abstract class JudgmentTestSupport {
+/**
+ * 
+ * @author Łukasz Pawełczak
+ *
+ */
+public class JudgmentTest {
 
 	
-	protected Judgment judgment;
+	protected Judgment judgment = new CommonCourtJudgment();
 	
 	private Map<String, Judge> JudgesMap = new HashMap<String, Judge>(); 
 	
@@ -42,6 +48,7 @@ public abstract class JudgmentTestSupport {
 	
 	private static final String[] COURT_REPORTERS = {"Jan Nowak", "Adam Z"};
 	
+	@Before
 	public void before() {
 	    initializeCourtCases();
         initializeJudges();
@@ -49,6 +56,8 @@ public abstract class JudgmentTestSupport {
 		initializeCourtReporters();
 	}
 
+	
+	//------------------------ TESTS --------------------------
 	
 	@Test
 	public void getCourtCase_Found() {
@@ -222,6 +231,135 @@ public abstract class JudgmentTestSupport {
     }
     
 	
+	//--- keywords ---
+	
+	@Test
+	public void addKeyword() {
+	    
+	    // given
+	    
+	    assertEquals(0, judgment.getKeywords().size());
+        
+	    
+	    // execute
+	    
+	    JudgmentKeyword keyword = new JudgmentKeyword(CourtType.COMMON, "a phrase");
+	    judgment.addKeyword(keyword);
+	    
+	    
+	    // assert
+	    
+	    assertEquals(1, judgment.getKeywords().size());
+	    assertTrue(keyword == judgment.getKeywords().get(0));
+	    
+	}
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+    public void addKeyword_IllegalCourtType() {
+        
+        // execute
+        
+        JudgmentKeyword keyword = new JudgmentKeyword(CourtType.ADMINISTRATIVE, "a phrase");
+        judgment.addKeyword(keyword);
+        
+    }
+	
+	
+	@Test(expected=IllegalArgumentException.class)
+    public void addKeyword_AlreadyAdded() {
+        
+	    // execute
+	    
+        judgment.addKeyword(new JudgmentKeyword(CourtType.COMMON, "a phrase"));
+        judgment.addKeyword(new JudgmentKeyword(CourtType.COMMON, "a phrase"));
+        
+    }
+    
+	
+	public void getKeyword() {
+        
+	    // given
+	    
+	    JudgmentKeyword keyword = new JudgmentKeyword(CourtType.COMMON, "a phrase");
+	    judgment.addKeyword(keyword);
+	    
+	    // assert
+        
+	    assertNotNull(judgment.getKeyword(keyword.getPhrase()));
+        assertTrue(keyword == judgment.getKeyword(keyword.getPhrase()));
+        assertNull(judgment.getKeyword(keyword.getPhrase()+"ABC"));
+    }
+    
+	
+	public void containsKeyword_String() {
+	        
+	    // given
+	        
+	    JudgmentKeyword keyword = new JudgmentKeyword(CourtType.COMMON, "a phrase");
+	    judgment.addKeyword(keyword);
+	        
+	    // execute & assert
+	        
+	    assertTrue(judgment.containsKeyword(keyword.getPhrase()));
+	    assertFalse(judgment.containsKeyword(keyword.getPhrase()+"ABC"));
+	}
+	
+	
+	public void containsKeyword_JudgmentKeyword() {
+        
+        // given
+            
+        JudgmentKeyword keyword = new JudgmentKeyword(CourtType.COMMON, "a phrase");
+        judgment.addKeyword(keyword);
+            
+        // assert
+            
+        assertTrue(judgment.containsKeyword(new JudgmentKeyword(CourtType.COMMON, keyword.getPhrase())));
+        assertFalse(judgment.containsKeyword(new JudgmentKeyword(CourtType.COMMON, keyword.getPhrase()+"ABC")));
+    }
+	
+	
+	public void removeKeyword() {
+        
+        // given
+            
+        JudgmentKeyword keyword1 = new JudgmentKeyword(CourtType.COMMON, "a phrase 1");
+        judgment.addKeyword(keyword1);
+        JudgmentKeyword keyword2 = new JudgmentKeyword(CourtType.COMMON, "a phrase 2");
+        judgment.addKeyword(keyword2);
+            
+        // execute
+        
+        judgment.removeKeyword(new JudgmentKeyword(CourtType.COMMON, keyword1.getPhrase()));
+        
+        // assert
+        
+        assertFalse(judgment.containsKeyword(keyword1));
+        assertTrue(judgment.containsKeyword(keyword2));
+    }
+	
+	
+	public void removeAllKeywords() {
+	    
+	    // given
+        
+        JudgmentKeyword keyword1 = new JudgmentKeyword(CourtType.COMMON, "a phrase 1");
+        judgment.addKeyword(keyword1);
+        JudgmentKeyword keyword2 = new JudgmentKeyword(CourtType.COMMON, "a phrase 2");
+        judgment.addKeyword(keyword2);
+            
+        // execute
+        
+        judgment.removeAllKeywords();
+        
+        // assert
+        
+        assertFalse(judgment.containsKeyword(keyword1));
+        assertFalse(judgment.containsKeyword(keyword2));
+	}
+	
+	
 	//------------------------ PRIVATE --------------------------
 	
 	private void initializeCourtCases() {
@@ -247,12 +385,12 @@ public abstract class JudgmentTestSupport {
 	private void initializeRegulations() {
 		LawJournalEntry lawJournalEntry = new LawJournalEntry();
 		
-		createAndAssignRegualtion(referencedRegualtionText[0], lawJournalEntry);
-		createAndAssignRegualtion(referencedRegualtionText[1], null);
-		createAndAssignRegualtion(referencedRegualtionText[2], null);
+		createAndAssignRegulation(referencedRegualtionText[0], lawJournalEntry);
+		createAndAssignRegulation(referencedRegualtionText[1], null);
+		createAndAssignRegulation(referencedRegualtionText[2], null);
 	}
 	
-	private void createAndAssignRegualtion(String rawText, LawJournalEntry lawJournalEntry) {
+	private void createAndAssignRegulation(String rawText, LawJournalEntry lawJournalEntry) {
 		JudgmentReferencedRegulation jreferencedRegulation = new JudgmentReferencedRegulation();
 		jreferencedRegulation.setRawText(rawText);
 		jreferencedRegulation.setLawJournalEntry(lawJournalEntry);

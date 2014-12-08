@@ -1,16 +1,79 @@
 package pl.edu.icm.saos.persistence.common;
 
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_CASE_NUMBER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_PARENT_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_PARENT_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_PARENT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_DAY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_MONTH;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DECISION;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_COURT_REPORTER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_TYPE_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_TYPE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_ROLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_KEYWORD;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_LEGAL_BASE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_ENTRY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_JOURNAL_NO;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_TITLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_JUDGMENT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_COURT_REPORTER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_DIVISION_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_DIVISION_TYPE_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_DIVISION_TYPE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_KEYWORD;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_LEGAL_BASE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_ENTRY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_JOURNAL_NO;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_TITLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_JUDGMENT_ID;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_JUDGMENT_URL;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_PUBLISHER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_REVISER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SUMMARY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_TEXT_CONTENT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_ENTRY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_JOURNAL_NO;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_TITLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
-import pl.edu.icm.saos.persistence.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
-
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.SourceCode;
 
 /**
  * @author pavtel
@@ -99,8 +162,8 @@ final class TestInMemoryCcObjectFactory {
         ccJudgment.setSourceInfo(sourceInfo);
 
 
-        CcJudgmentKeyword firstKeyword = new CcJudgmentKeyword(CC_FIRST_KEYWORD);
-        CcJudgmentKeyword secondKeyword = new CcJudgmentKeyword(CC_SECOND_KEYWORD);
+        JudgmentKeyword firstKeyword = new JudgmentKeyword(CourtType.COMMON, CC_FIRST_KEYWORD);
+        JudgmentKeyword secondKeyword = new JudgmentKeyword(CourtType.COMMON, CC_SECOND_KEYWORD);
         ccJudgment.addKeyword(firstKeyword);
         ccJudgment.addKeyword(secondKeyword);
 
@@ -198,21 +261,6 @@ final class TestInMemoryCcObjectFactory {
     }
 
 
-    /**
-     * Creates list of {@link CcJudgmentKeyword} with random data and given size.
-     * @param size of the list.
-     * @return keywords list.
-     */
-    static List<CcJudgmentKeyword> createCcKeywordListWithRandomData(int size){
-        List<CcJudgmentKeyword> ccKeywords = new ArrayList<>(size);
-
-        for(int i=0; i<size; ++i){
-            CcJudgmentKeyword keyword = new CcJudgmentKeyword(UUID.randomUUID().toString());
-            ccKeywords.add(keyword);
-        }
-
-        return ccKeywords;
-    }
 
     //------------------------ PRIVATE --------------------------
     private static CommonCourtDivisionType commonCourtDivisionType(String name, String code){
@@ -262,8 +310,8 @@ final class TestInMemoryCcObjectFactory {
         ccJudgment.getSourceInfo().setSourceJudgmentUrl("http://example.com/" + RandomStringUtils.randomAlphabetic(20));
 
 
-        CcJudgmentKeyword firstKeyword = new CcJudgmentKeyword(RandomStringUtils.randomAlphanumeric(18));
-        CcJudgmentKeyword secondKeyword = new CcJudgmentKeyword(RandomStringUtils.randomAlphanumeric(19));
+        JudgmentKeyword firstKeyword = new JudgmentKeyword(CourtType.COMMON, RandomStringUtils.randomAlphanumeric(18));
+        JudgmentKeyword secondKeyword = new JudgmentKeyword(CourtType.COMMON, RandomStringUtils.randomAlphanumeric(19));
         ccJudgment.addKeyword(firstKeyword);
         ccJudgment.addKeyword(secondKeyword);
 

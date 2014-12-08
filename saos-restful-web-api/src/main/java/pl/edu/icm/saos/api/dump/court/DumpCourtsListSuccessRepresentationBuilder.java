@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.Item;
+import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.DumpCourtItem;
 import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.QueryTemplate;
 
 /**
@@ -48,16 +48,16 @@ public class DumpCourtsListSuccessRepresentationBuilder {
     }
 
     //------------------------ PRIVATE --------------------------
-    private List<Item> toItems(List<CommonCourt> commonCourts) {
-        List<Item> items = commonCourts.stream()
+    private List<DumpCourtItem> toItems(List<CommonCourt> commonCourts) {
+        List<DumpCourtItem> items = commonCourts.stream()
                 .map(court -> toItem(court))
                 .collect(Collectors.toList());
 
         return items;
     }
 
-    private Item toItem(CommonCourt court){
-        Item item = new Item();
+    private DumpCourtItem toItem(CommonCourt court){
+        DumpCourtItem item = new DumpCourtItem();
         dumpCourtItemMapper.fillCommonCourtFieldsToItemRepresentation(item, court);
         return item;
     }

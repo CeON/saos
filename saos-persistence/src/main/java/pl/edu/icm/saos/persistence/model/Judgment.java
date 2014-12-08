@@ -1,20 +1,47 @@
 package pl.edu.icm.saos.persistence.model;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.PreUpdate;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
+
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.util.ObjectUtils;
+
 import pl.edu.icm.saos.common.visitor.Visitor;
 import pl.edu.icm.saos.persistence.common.IndexableObject;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
-import javax.persistence.*;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 
 /**
@@ -63,6 +90,7 @@ public abstract class Judgment extends IndexableObject {
     
     private List<String> legalBases = Lists.newArrayList();
     private List<JudgmentReferencedRegulation> referencedRegulations = Lists.newArrayList();
+    private List<JudgmentKeyword> keywords = Lists.newArrayList();
     
     private JudgmentType judgmentType;
 
@@ -153,6 +181,20 @@ public abstract class Judgment extends IndexableObject {
     }
 
     
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "assigned_judgment_keyword",
+            joinColumns = {@JoinColumn(name = "fk_judgment", nullable = false, updatable = false) }, 
+            inverseJoinColumns = {@JoinColumn(name = "fk_keyword", nullable = false, updatable = false) })
+    private List<JudgmentKeyword> getKeywords_() {
+        return keywords;
+    }
+    
+    
+    @Transient
+    public List<JudgmentKeyword> getKeywords() {
+        return ImmutableList.copyOf(getKeywords_());
+    }
+
     
     @Enumerated(EnumType.STRING)
     public JudgmentType getJudgmentType() {
@@ -192,7 +234,12 @@ public abstract class Judgment extends IndexableObject {
         return modificationDate;
     }
 
+    
+    
     //------------------------ LOGIC --------------------------
+    
+    
+    //--- court cases ---
     
     @Transient
     public boolean isSingleCourtCase() {
@@ -233,6 +280,8 @@ public abstract class Judgment extends IndexableObject {
         courtCases.clear();
     }
     
+    
+    //--- judges ---
     
     public void addJudge(Judge judge) { 
         Preconditions.checkArgument(!this.containsJudge(judge.getName()));
@@ -286,6 +335,8 @@ public abstract class Judgment extends IndexableObject {
     }
     
     
+    //--- legal bases ---
+    
     public void addLegalBase(String legalBase) {
         Preconditions.checkArgument(!containsLegalBase(legalBase));
         
@@ -300,7 +351,9 @@ public abstract class Judgment extends IndexableObject {
         this.legalBases.remove(legalBase);
     }
     
-
+    
+    //--- court reporters ---
+    
     public void addCourtReporter(String courtReporter) {
         Preconditions.checkArgument(!StringUtils.isBlank(courtReporter));
         Preconditions.checkArgument(!containsCourtReporter(courtReporter));
@@ -316,6 +369,8 @@ public abstract class Judgment extends IndexableObject {
         this.courtReporters.remove(courtReporter);
     }
     
+  
+    //--- referenced regulations ---
     
     public void addReferencedRegulation(JudgmentReferencedRegulation regulation) {
         Preconditions.checkArgument(!this.containsReferencedRegulation(regulation));
@@ -344,6 +399,45 @@ public abstract class Judgment extends IndexableObject {
         return false;
     }
     
+
+    //--- keywords ---
+    
+    public void addKeyword(JudgmentKeyword keyword) {
+        Preconditions.checkArgument(!containsKeyword(keyword));
+        Preconditions.checkArgument(keyword.getCourtType().equals(getCourtType()));
+        
+        this.keywords.add(keyword);
+    }
+    
+    public void removeAllKeywords() {
+        this.keywords.clear();
+    }
+    
+    public void removeKeyword(JudgmentKeyword keyword) {
+        this.keywords.remove(keyword);
+    }
+    
+    @Transient
+    public JudgmentKeyword getKeyword(String phrase) {
+        for (JudgmentKeyword keyword : this.keywords) {
+            if (keyword.getPhrase().equalsIgnoreCase(phrase)) {
+                return keyword;
+            }
+        }
+        return null;
+    }
+    
+    public boolean containsKeyword(String phrase) {
+        return getKeyword(phrase) != null;
+    }
+    
+    public boolean containsKeyword(JudgmentKeyword keyword) {
+        return keywords.contains(keyword);
+    }
+    
+    
+    
+    //--- other ---
     
     @Override
     public void passVisitorDown(Visitor visitor) {
@@ -396,7 +490,12 @@ public abstract class Judgment extends IndexableObject {
     private void setLegalBases_(List<String> legalBases) {
         this.legalBases = legalBases;
     }
-
+    
+    @SuppressWarnings("unused") /** for hibernate */
+    private void setKeywords_(List<JudgmentKeyword> keywords) {
+        this.keywords = keywords;
+    }
+    
     public void setJudgmentType(JudgmentType judgmentType) {
         this.judgmentType = judgmentType;
     }
@@ -469,6 +568,7 @@ public abstract class Judgment extends IndexableObject {
     }
 
     
-
+    
+   
     
 }

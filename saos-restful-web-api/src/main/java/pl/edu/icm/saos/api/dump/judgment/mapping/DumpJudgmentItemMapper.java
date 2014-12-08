@@ -2,6 +2,7 @@ package pl.edu.icm.saos.api.dump.judgment.mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import pl.edu.icm.saos.api.dump.judgment.item.representation.JudgmentItem;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
 import pl.edu.icm.saos.api.single.judgment.mapping.JudgmentMapper;
@@ -25,23 +26,25 @@ public class DumpJudgmentItemMapper {
 
     /**
      * Fills item's fields using judgment.
-     * @param item representation.
+     * @param judgmentItem representation.
      * @param judgment to process.
      */
-    public void fillJudgmentsFieldsToRepresentation(JudgmentItem item, Judgment judgment){
-        item.setId(judgment.getId());
-        item.setCourtCases(judgmentMapper.toCourtCases(judgment.getCourtCases()));
-        item.setCourtReporters(judgmentMapper.toSimpleList(judgment.getCourtReporters()));
-        item.setJudges(judgmentMapper.toJudges(judgment.getJudges()));
-        item.setJudgmentDate(dateMapping.toISO8601Format(judgment.getJudgmentDate()));
-        item.setJudgmentType(judgment.getJudgmentType());
-        item.setLegalBases(judgmentMapper.toSimpleList(judgment.getLegalBases()));
-        item.setSummary(judgment.getSummary());
-        item.setTextContent(judgment.getTextContent());
-        item.setSource(judgmentMapper.toSource(judgment.getSourceInfo()));
-        item.setDecision(judgment.getDecision());
-        item.setReferencedRegulations(judgmentMapper.toReferencedRegulation(judgment.getReferencedRegulations()));
-        item.setCourtType(judgment.getCourtType());
+    public void fillJudgmentsFieldsToRepresentation(JudgmentItem judgmentItem, Judgment judgment){
+        judgmentItem.setId(judgment.getId());
+        judgmentItem.setCourtCases(judgmentMapper.toCourtCases(judgment.getCourtCases()));
+        judgmentItem.setCourtReporters(judgmentMapper.toSimpleList(judgment.getCourtReporters()));
+        judgmentItem.setJudges(judgmentMapper.toJudges(judgment.getJudges()));
+        judgmentItem.setJudgmentDate(dateMapping.toISO8601Format(judgment.getJudgmentDate()));
+        judgmentItem.setJudgmentType(judgment.getJudgmentType());
+        judgmentItem.setLegalBases(judgmentMapper.toSimpleList(judgment.getLegalBases()));
+        judgmentItem.setSummary(judgment.getSummary());
+        judgmentItem.setTextContent(judgment.getTextContent());
+        judgmentItem.setSource(judgmentMapper.toSource(judgment.getSourceInfo()));
+        judgmentItem.setDecision(judgment.getDecision());
+        judgmentItem.setReferencedRegulations(judgmentMapper.toReferencedRegulation(judgment.getReferencedRegulations()));
+        judgmentItem.setCourtType(judgment.getCourtType());
+        judgmentItem.setKeywords(judgmentMapper.toListFromKeywords(judgment.getKeywords()));
+        
     }
 
     //------------------------ SETTERS --------------------------

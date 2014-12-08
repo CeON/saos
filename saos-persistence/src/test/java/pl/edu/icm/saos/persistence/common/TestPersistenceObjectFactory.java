@@ -1,12 +1,20 @@
 package pl.edu.icm.saos.persistence.common;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import pl.edu.icm.saos.persistence.model.*;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
 /**
  * Provides factory methods for model object creation.
@@ -131,20 +139,6 @@ public class TestPersistenceObjectFactory {
         judgments.forEach(ccJudgment -> saveCcJudgment(ccJudgment));
 
         return judgments;
-    }
-
-    /**
-     * Creates list of {@link pl.edu.icm.saos.persistence.model.CcJudgmentKeyword} with random data and given size.
-     * @param size of the list.
-     * @return keywords list.
-     */
-    @Transactional
-    public List<CcJudgmentKeyword> createCcKeywordListWithRandomData(int size){
-        List<CcJudgmentKeyword> keywords = TestInMemoryObjectFactory.createCcKeywordListWithRandomData(size);
-        keywords.forEach(keyword -> entityManager.persist(keyword));
-        entityManager.flush();
-
-        return keywords;
     }
 
 

@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pl.edu.icm.saos.persistence.repository.CcJudgmentKeywordRepository;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.repository.JudgmentKeywordRepository;
 
 /**
  * @author Łukasz Pawełczak
@@ -19,7 +20,7 @@ public class KeywordController {
 
 	
 	@Autowired
-	private CcJudgmentKeywordRepository ccJudgmentKeywordRepository;
+	private JudgmentKeywordRepository judgmentKeywordRepository;
 	
 	@Autowired
 	private SimpleKeywordConverter simpleKeywordConverter;
@@ -27,10 +28,10 @@ public class KeywordController {
 	
     //------------------------ LOGIC --------------------------	
 	
-	@RequestMapping("/ccKeywords/{phrase}")
+	@RequestMapping("/keywords/{courtType}/{phrase}")
 	@ResponseBody
-	public List<SimpleKeyword> searchCcKeywords(@PathVariable("phrase") String phrase) {
-		return simpleKeywordConverter.convertCcJudgmentKeywords(ccJudgmentKeywordRepository.findAllByPhrasePart(phrase));
+	public List<SimpleKeyword> searchKeywords(@PathVariable("courtType") CourtType courtType, @PathVariable("phrase") String phrase) {
+		return simpleKeywordConverter.convertJudgmentKeywords(judgmentKeywordRepository.findAllByCourtTypeAndPhrasePart(courtType, phrase));
 	}
 	
 	

@@ -139,7 +139,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         for (int i=0; i<COMMON_COURT_JUDGMENTS_COUNT; ++i) {
             CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
             ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
-            ccJudgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.random(50));
+            ccJudgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphabetic(50));
             
             ccJudgment.markAsIndexed();
             judgmentRepository.save(ccJudgment);
@@ -154,7 +154,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         for (int i=0; i<SUPREME_COURT_JUDGMENTS_COUNT; ++i) {
             SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
             scJudgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
-            scJudgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.random(50));
+            scJudgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphabetic(50));
             
             scJudgment.markAsIndexed();
             judgmentRepository.save(scJudgment);

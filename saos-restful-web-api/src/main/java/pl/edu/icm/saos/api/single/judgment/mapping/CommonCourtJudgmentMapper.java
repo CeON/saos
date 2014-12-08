@@ -2,19 +2,14 @@ package pl.edu.icm.saos.api.single.judgment.mapping;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import pl.edu.icm.saos.api.services.links.LinksBuilder;
 import pl.edu.icm.saos.api.single.judgment.data.representation.CommonCourtJudgmentData;
+import pl.edu.icm.saos.api.single.judgment.data.representation.CommonCourtJudgmentData.Division;
 import pl.edu.icm.saos.api.single.judgment.views.CommonCourtJudgmentView;
-import pl.edu.icm.saos.persistence.model.CcJudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static pl.edu.icm.saos.api.single.judgment.data.representation.CommonCourtJudgmentData.Division;
 
 /**
  * Converts {@link pl.edu.icm.saos.persistence.model.CommonCourtJudgment CommonCourtJudgmnet} specific fields.
@@ -37,26 +32,9 @@ public class CommonCourtJudgmentMapper {
         fillData(representation.getData(), judgment);
     }
 
-    /**
-     * Maps {@link pl.edu.icm.saos.persistence.model.CcJudgmentKeyword CcKeywords} into their names.
-     * @param keywords to process.
-     * @return list of keywords names.
-     */
-    public List<String> toListFromKeywords(List<CcJudgmentKeyword> keywords) {
-        if(keywords == null) {
-            keywords = Collections.emptyList();
-        }
-
-        List<String> list = keywords.stream()
-                .map(CcJudgmentKeyword::getPhrase)
-                .collect(Collectors.toList());
-
-        return list;
-    }
 
     //------------------------ PRIVATE --------------------------
     private void fillData(CommonCourtJudgmentData data, CommonCourtJudgment judgment) {
-        data.setKeywords(toListFromKeywords(judgment.getKeywords()));
         data.setDivision(toDivision(judgment.getCourtDivision()));
     }
 

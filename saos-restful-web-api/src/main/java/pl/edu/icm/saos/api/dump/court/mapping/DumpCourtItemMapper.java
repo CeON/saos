@@ -9,11 +9,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.Item;
+import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.DumpCourtItem;
 
 /**
  * Provides functionality for mapping {@link pl.edu.icm.saos.persistence.model.CommonCourt CommonCourt}
- * into {@link pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.Item Item}.
+ * into {@link pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.DumpCourtItem Item}.
  * @author pavtel
  */
 @Service
@@ -27,7 +27,7 @@ public class DumpCourtItemMapper {
      * @param item representation.
      * @param court to process.
      */
-    public void fillCommonCourtFieldsToItemRepresentation(Item item, CommonCourt court){
+    public void fillCommonCourtFieldsToItemRepresentation(DumpCourtItem item, CommonCourt court){
         item.setId(court.getId());
         item.setName(court.getName());
         item.setType(court.getType());
