@@ -16,7 +16,4 @@ public interface IndexableObjectRepository<I extends IndexableObject> {
     @Query("select i.id from #{#entityName} i where i.indexed=false")
     List<Integer> findAllNotIndexedIds();
     
-    @Query("select i.id from #{#entityName} i where i.indexed=true")
-    List<Integer> findAllIndexedIds();
-    
 }
