@@ -80,6 +80,7 @@ final class TestInMemoryScObjectFactory {
 
 
         Judge firstJudge = new Judge(SC_FIRST_JUDGE_NAME, SC_FIRST_JUDGE_ROLE);
+        firstJudge.setFunction(SC_FIRST_JUDGE_FUNCTION);
         Judge secondJudge = new Judge(SC_SECOND_JUDGE_NAME, SC_SECOND_JUDGE_ROLE);
         scJudgment.addJudge(firstJudge);
         scJudgment.addJudge(secondJudge);

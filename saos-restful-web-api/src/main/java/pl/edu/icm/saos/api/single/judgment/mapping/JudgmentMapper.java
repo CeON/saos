@@ -87,6 +87,7 @@ public class JudgmentMapper {
             JudgmentData.Judge judgeView = new JudgmentData.Judge();
             judgeView.setName(judge.getName());
             judgeView.setSpecialRoles(rolesNames);
+            judgeView.setFunction(judge.getFunction());
 
             judgesView.add(judgeView);
         }

@@ -73,6 +73,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
         private static final long serialVersionUID = -5553581160268600211L;
 
         private String href;
+        private int id;
         private String name;
         private String code;
         private Court court;
@@ -81,6 +82,10 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
 
         public String getHref() {
             return href;
+        }
+
+        public int getId() {
+            return id;
         }
 
         public String getName() {
@@ -101,6 +106,10 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
             this.href = href;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         public void setName(String name) {
             this.name = name;
         }
@@ -117,7 +126,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name, code, court);
+            return Objects.hashCode(id, href, name, code, court);
         }
 
         @Override
@@ -129,7 +138,8 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
                 return false;
             }
             final Division other = (Division) obj;
-            return Objects.equal(this.href, other.href) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
                     Objects.equal(this.name, other.name) &&
                     Objects.equal(this.code, other.code) &&
                     Objects.equal(this.court, other.court);
@@ -140,6 +150,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .add("code", code)
@@ -152,6 +163,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
         private static final long serialVersionUID = -1875340722763537635L;
 
         private String href;
+        private int id;
         private String code;
         private String name;
 
@@ -159,6 +171,10 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
 
         public String getHref() {
             return href;
+        }
+
+        public int getId() {
+            return id;
         }
 
         public String getCode() {
@@ -175,6 +191,10 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
             this.href = href;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         public void setCode(String code) {
             this.code = code;
         }
@@ -187,7 +207,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, code, name);
+            return Objects.hashCode(id, href, code, name);
         }
 
         @Override
@@ -199,7 +219,10 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
                 return false;
             }
             final Court other = (Court) obj;
-            return Objects.equal(this.href, other.href) && Objects.equal(this.code, other.code) && Objects.equal(this.name, other.name);
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
+                    Objects.equal(this.code, other.code) &&
+                    Objects.equal(this.name, other.name);
         }
 
         //------------------------ toString --------------------------
@@ -207,6 +230,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("code", code)
                     .add("name", name)

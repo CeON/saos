@@ -43,7 +43,7 @@ public class SupremeCourtJudgmentMapper {
     private void fillData(SupremeCourtJudgmentData data, SupremeCourtJudgment judgment) {
         data.setPersonnelType(judgment.getPersonnelType());
         data.setDivision(toDivisionView(judgment.getScChamberDivision()));
-        data.setForm(toFormView(judgment.getScJudgmentForm()));
+        data.setJudgmentForm(toFormView(judgment.getScJudgmentForm()));
         data.setChambers(toChambersView(judgment.getScChambers()));
     }
 
@@ -53,6 +53,7 @@ public class SupremeCourtJudgmentMapper {
         Division view = new Division();
 
         view.setHref(linksBuilder.urlToScDivision(division.getId()));
+        view.setId(division.getId());
         view.setName(division.getName());
         view.setChamber(toChamberView(division.getScChamber()));
 
@@ -63,6 +64,7 @@ public class SupremeCourtJudgmentMapper {
         Chamber view = new Chamber();
 
         view.setHref(linksBuilder.urlToScChamber(chamber.getId()));
+        view.setId(chamber.getId());
         view.setName(chamber.getName());
 
         return view;

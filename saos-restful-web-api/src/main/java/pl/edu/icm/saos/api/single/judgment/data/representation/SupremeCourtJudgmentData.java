@@ -15,7 +15,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
     private static final long serialVersionUID = 9192584970769834239L;
 
     protected PersonnelType personnelType;
-    protected Form form;
+    protected Form judgmentForm;
     protected Division division;
     protected List<Chamber> chambers;
 
@@ -24,8 +24,8 @@ public class SupremeCourtJudgmentData extends JudgmentData {
         return personnelType;
     }
 
-    public Form getForm() {
-        return form;
+    public Form getJudgmentForm() {
+        return judgmentForm;
     }
 
     public Division getDivision() {
@@ -41,8 +41,8 @@ public class SupremeCourtJudgmentData extends JudgmentData {
         this.personnelType = personnelType;
     }
 
-    public void setForm(Form form) {
-        this.form = form;
+    public void setJudgmentForm(Form judgmentForm) {
+        this.judgmentForm = judgmentForm;
     }
 
     public void setDivision(Division division) {
@@ -58,7 +58,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
 
     @Override
     public int hashCode() {
-        return 31 * super.hashCode() + Objects.hashCode(personnelType, form, division, chambers);
+        return 31 * super.hashCode() + Objects.hashCode(personnelType, judgmentForm, division, chambers);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
         }
         final SupremeCourtJudgmentData other = (SupremeCourtJudgmentData) obj;
         return Objects.equal(this.personnelType, other.personnelType) &&
-                Objects.equal(this.form, other.form) &&
+                Objects.equal(this.judgmentForm, other.judgmentForm) &&
                 Objects.equal(this.division, other.division) &&
                 Objects.equal(this.chambers, other.chambers);
     }
@@ -97,7 +97,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
                 .add("legalBases", legalBases)
                 .add("referencedRegulation", referencedRegulations)
                 .add("personnelType", personnelType)
-                .add("form", form)
+                .add("judgmentForm", judgmentForm)
                 .add("division", division)
                 .add("chambers", chambers)
                 .toString();
@@ -150,6 +150,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
         private static final long serialVersionUID = -4521773159723379249L;
 
         private String href;
+        private int id;
         private String name;
         private Chamber chamber;
 
@@ -167,6 +168,10 @@ public class SupremeCourtJudgmentData extends JudgmentData {
             return chamber;
         }
 
+        public int getId() {
+            return id;
+        }
+
         //------------------------ SETTERS --------------------------
 
         public void setHref(String href) {
@@ -181,11 +186,15 @@ public class SupremeCourtJudgmentData extends JudgmentData {
             this.chamber = chamber;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name, chamber);
+            return Objects.hashCode(id, href, name, chamber);
         }
 
         @Override
@@ -197,7 +206,8 @@ public class SupremeCourtJudgmentData extends JudgmentData {
                 return false;
             }
             final Division other = (Division) obj;
-            return Objects.equal(this.href, other.href) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
                     Objects.equal(this.name, other.name) &&
                     Objects.equal(this.chamber, other.chamber);
         }
@@ -207,6 +217,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .add("chamber", chamber)
@@ -218,12 +229,17 @@ public class SupremeCourtJudgmentData extends JudgmentData {
         private static final long serialVersionUID = 7877817346120144973L;
 
         private String href;
+        private int id;
         private String name;
 
         //------------------------ GETTERS --------------------------
 
         public String getHref() {
             return href;
+        }
+
+        public int getId() {
+            return id;
         }
 
         public String getName() {
@@ -236,6 +252,10 @@ public class SupremeCourtJudgmentData extends JudgmentData {
             this.href = href;
         }
 
+        public void setId(int id) {
+            this.id = id;
+        }
+
         public void setName(String name) {
             this.name = name;
         }
@@ -244,7 +264,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(href, name);
+            return Objects.hashCode(id, href, name);
         }
 
         @Override
@@ -256,7 +276,8 @@ public class SupremeCourtJudgmentData extends JudgmentData {
                 return false;
             }
             final Chamber other = (Chamber) obj;
-            return Objects.equal(this.href, other.href) &&
+            return Objects.equal(this.id, other.id) &&
+                    Objects.equal(this.href, other.href) &&
                     Objects.equal(this.name, other.name);
         }
 
@@ -265,6 +286,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
         @Override
         public String toString() {
             return Objects.toStringHelper(this)
+                    .add("id", id)
                     .add("href", href)
                     .add("name", name)
                     .toString();

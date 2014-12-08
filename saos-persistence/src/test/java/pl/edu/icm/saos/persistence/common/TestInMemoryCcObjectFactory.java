@@ -81,6 +81,7 @@ final class TestInMemoryCcObjectFactory {
 
 
         Judge firstJudge = new Judge(CC_FIRST_JUDGE_NAME, CC_FIRST_JUDGE_ROLE);
+        firstJudge.setFunction(CC_FIRST_JUDGE_FUNCTION);
         Judge secondJudge = new Judge(CC_SECOND_JUDGE_NAME);
         Judge thirdJudge = new Judge(CC_THIRD_JUDGE_NAME);
         ccJudgment.addJudge(firstJudge);
