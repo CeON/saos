@@ -16,7 +16,7 @@ public class ChamberView extends SingleElementRepresentation<Data>{
     private static final long serialVersionUID = 5060953088977952916L;
 
     public ChamberView() {
-        data = new Data();
+        setData(new Data());
     }
 
     public static class Data implements Serializable {

@@ -12,11 +12,11 @@ public class CollectionRepresentation<ITEM, QUERY_TEMPLATE, INFO>  extends Succe
 
     private static final long serialVersionUID = -7666954281326403905L;
 
-    protected List<ITEM> items;
+    private List<ITEM> items;
 
-    protected QUERY_TEMPLATE queryTemplate;
+    private QUERY_TEMPLATE queryTemplate;
 
-    protected INFO info;
+    private INFO info;
 
     //------------------------ GETTERS --------------------------
 
@@ -75,7 +75,7 @@ public class CollectionRepresentation<ITEM, QUERY_TEMPLATE, INFO>  extends Succe
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("links", links)
+                .addValue(super.toString())
                 .add("items", items)
                 .add("queryTemplate", queryTemplate)
                 .add("info", info)

@@ -1,10 +1,9 @@
 package pl.edu.icm.saos.api.single.judgment.data.representation;
 
-import java.io.Serializable;
-
+import com.google.common.base.Objects;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 
-import com.google.common.base.Objects;
+import java.io.Serializable;
 
 /**
  * Represents {@link pl.edu.icm.saos.persistence.model.CommonCourtJudgment CommonCourtJudgment} fields.
@@ -14,7 +13,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
 
     private static final long serialVersionUID = 4320631178927257196L;
 
-    protected Division division;
+    private Division division;
     
     //------------------------ GETTERS --------------------------
 

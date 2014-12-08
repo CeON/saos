@@ -11,6 +11,6 @@ public class SupremeCourtJudgmentView extends JudgmentView<SupremeCourtJudgmentD
     private static final long serialVersionUID = 1744977675668551385L;
 
     public SupremeCourtJudgmentView() {
-        data = new SupremeCourtJudgmentData();
+        setData(new SupremeCourtJudgmentData());
     }
 }

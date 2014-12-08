@@ -12,7 +12,7 @@ public class CommonCourtJudgmentView extends JudgmentView<CommonCourtJudgmentDat
     private static final long serialVersionUID = -7944438807547287041L;
 
     public CommonCourtJudgmentView() {
-        data = new CommonCourtJudgmentData();
+        setData(new CommonCourtJudgmentData());
     }
 
 }

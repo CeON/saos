@@ -14,7 +14,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
 
     private static final long serialVersionUID = -5527886583609335584L;
 
-    protected Division division;
+    private Division division;
 
     //------------------------ GETTERS --------------------------
 
@@ -56,13 +56,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
-                .add("href", href)
-                .add("courtCases", courtCases)
-                .add("judgmentType", judgmentType)
-                .add("JudgmentDate", JudgmentDate)
-                .add("judges", judges)
-                .add("textContent", textContent)
-                .add("keywords", keywords)
+                .addValue(super.toString())
                 .add("division", division)
                 .toString();
     }

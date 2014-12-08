@@ -17,7 +17,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
     private static final long serialVersionUID = -3626348086588845698L;
 
     public DivisionView() {
-        data = new Data();
+        setData(new Data());
     }
 
     public static class Data implements Serializable {

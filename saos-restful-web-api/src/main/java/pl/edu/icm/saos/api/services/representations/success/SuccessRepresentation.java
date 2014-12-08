@@ -15,7 +15,7 @@ public class SuccessRepresentation implements Serializable{
 
     private static final long serialVersionUID = 4450730190745381336L;
 
-    protected List<Link> links;
+    private List<Link> links;
 
 
 
