@@ -38,11 +38,11 @@
 		    
 		    <div class="form-group">
 				<label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.judgmentType" />:</label>
-			    <div class="col-sm-6">
-				  <div class="checkbox">
-			   	        <saos:enumCheckboxes path="judgmentType" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" />
-			   </div>
-			 </div>
+				<div class="col-sm-6">
+					<div class="checkbox">
+		   	    	    <saos:enumCheckboxes path="judgmentTypes" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" />
+			   		</div>
+			 	</div>
 			</div>
 		    
 		    <saos:formFieldText path="judgeName" labelName="input-search-judge" labelText="judgmentSearch.formField.judge" />

@@ -2,12 +2,23 @@ package pl.edu.icm.saos.webapp.judgment;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashSet;
+
+import groovy.transform.builder.InitializerStrategy.SET;
+
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+
+import org.hamcrest.Matchers;
+
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
@@ -26,10 +37,15 @@ public class JudgmentCriteriaFormConverterTest {
 	
 	@Test
 	public void convert() {
+		//given
 		JudgmentCriteriaForm judgmentCriteriaForm = createCriteriaForm();
 		
+		
+		//when
 		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
 		
+		
+		//then
 		assertEquals(judgmentCriteriaForm.getAll(), judgmentCriteria.getAll());
 		assertEquals(judgmentCriteriaForm.getSignature(), judgmentCriteria.getCaseNumber());
 
@@ -41,17 +57,23 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getCommonCourtId(), judgmentCriteria.getCcCourtId());
 		assertEquals(judgmentCriteriaForm.getCommonCourtDivisionId(), judgmentCriteria.getCcCourtDivisionId());
 		
+		assertEquals(judgmentCriteriaForm.getScPersonnelType(), judgmentCriteria.getScPersonnelType());
 		assertEquals(judgmentCriteriaForm.getScJudgmentForm(), judgmentCriteria.getScJudgmentForm());
 		assertEquals(judgmentCriteriaForm.getSupremeChamberId(), judgmentCriteria.getScCourtChamberId());
 		assertEquals(judgmentCriteriaForm.getSupremeChamberDivisionId(), judgmentCriteria.getScCourtChamberDivisionId());
 		
 		assertEquals(judgmentCriteriaForm.getJudgeName(), judgmentCriteria.getJudgeName());
+		
 		assertEquals(1, judgmentCriteria.getKeywords().size());
 		assertEquals(judgmentCriteriaForm.getKeywords(), judgmentCriteria.getKeywords());
+		
+		assertEquals(2, judgmentCriteria.getJudgmentTypes().size());
+		assertThat(judgmentCriteria.getJudgmentTypes(), Matchers.containsInAnyOrder(JudgmentType.SENTENCE, JudgmentType.DECISION));
+		
 		assertEquals(judgmentCriteriaForm.getLegalBase(), judgmentCriteria.getLegalBase());
 		assertEquals(judgmentCriteriaForm.getReferencedRegulation(), judgmentCriteria.getReferencedRegulation());
 	}
-
+	
 	
 	//------------------------ PRIVATE --------------------------
 	
@@ -70,12 +92,14 @@ public class JudgmentCriteriaFormConverterTest {
 		judgmentCriteriaForm.setCommonCourtId(12);
 		judgmentCriteriaForm.setCommonCourtDivisionId(15);
 		
+		judgmentCriteriaForm.setScPersonnelType(PersonnelType.FIVE_PERSON);
 		judgmentCriteriaForm.setScJudgmentForm("wyrok SN");
 		judgmentCriteriaForm.setSupremeChamberId(13);
 		judgmentCriteriaForm.setSupremeChamberDivisionId(14);
 		
 		judgmentCriteriaForm.setJudgeName("Judge Dredd");
 		judgmentCriteriaForm.setKeywords(Lists.newArrayList("very important keyword"));
+		judgmentCriteriaForm.setJudgmentTypes(Sets.newHashSet(JudgmentType.SENTENCE, JudgmentType.DECISION));
 		judgmentCriteriaForm.setLegalBase("12.55");
 		judgmentCriteriaForm.setReferencedRegulation("Art. 4.6");
 		

@@ -7,10 +7,10 @@
 <div class="form-group">
 	<label for="" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.personnelType" />:</label>
    	<div class="col-sm-7">
-    	<select class="form-control" id="personnel-type" >
+    	<form:select path="scPersonnelType" class="form-control" id="input-search-personnel-type" >
     		<option></option>
-    		<saos:enumOptions enumType="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType" />
-    	</select>
+    		<saos:enumOptions enumType="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType" selected="${judgmentCriteriaForm.scPersonnelType}" dataTag="true"/>
+    	</form:select>
 	</div>
 </div>
 

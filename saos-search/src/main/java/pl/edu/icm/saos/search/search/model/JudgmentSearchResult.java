@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+
 /**
  * Result of searching judgments
  * 
@@ -12,7 +15,7 @@ import org.joda.time.LocalDate;
 public class JudgmentSearchResult extends Searchable {
 
     private List<String> caseNumbers;
-    private String judgmentType;
+    private JudgmentType judgmentType;
     private LocalDate judgmentDate;
     
     private Integer ccCourtId;
@@ -23,7 +26,7 @@ public class JudgmentSearchResult extends Searchable {
     private String ccCourtDivisionName;
     
     private String scJudgmentForm;
-    private String scPersonnelType;
+    private PersonnelType scPersonnelType;
     private List<SupremeCourtChamberResult> scCourtChambers;
     private Integer scCourtDivisionId;
     private String scCourtDivisionName;
@@ -40,7 +43,7 @@ public class JudgmentSearchResult extends Searchable {
     public List<String> getCaseNumbers() {
         return caseNumbers;
     }
-    public String getJudgmentType() {
+    public JudgmentType getJudgmentType() {
         return judgmentType;
     }
     public LocalDate getJudgmentDate() {
@@ -67,7 +70,7 @@ public class JudgmentSearchResult extends Searchable {
     public String getScJudgmentForm() {
     	return scJudgmentForm;
     }
-    public String getScPersonnelType() {
+    public PersonnelType getScPersonnelType() {
         return scPersonnelType;
     }
     public List<SupremeCourtChamberResult> getScCourtChambers() {
@@ -101,7 +104,7 @@ public class JudgmentSearchResult extends Searchable {
     public void setCaseNumbers(List<String> caseNumbers) {
         this.caseNumbers = caseNumbers;
     }
-    public void setJudgmentType(String judgmentType) {
+    public void setJudgmentType(JudgmentType judgmentType) {
         this.judgmentType = judgmentType;
     }
     public void setJudgmentDate(LocalDate judgmentDate) {
@@ -125,7 +128,7 @@ public class JudgmentSearchResult extends Searchable {
     public void setCcCourtDivisionName(String ccCourtDivisionName) {
         this.ccCourtDivisionName = ccCourtDivisionName;
     }
-    public void setScPersonnelType(String scPersonnelType) {
+    public void setScPersonnelType(PersonnelType scPersonnelType) {
         this.scPersonnelType = scPersonnelType;
     }
     public void setScCourtChambers(List<SupremeCourtChamberResult> scCourtChambers) {
