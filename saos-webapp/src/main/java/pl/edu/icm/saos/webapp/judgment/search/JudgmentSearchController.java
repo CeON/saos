@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.judgment;
+package pl.edu.icm.saos.webapp.judgment.search;
 
 import java.util.List;
 
@@ -11,12 +11,9 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
@@ -24,14 +21,17 @@ import pl.edu.icm.saos.webapp.court.CcListService;
 import pl.edu.icm.saos.webapp.court.ScListService;
 import pl.edu.icm.saos.webapp.court.SimpleDivision;
 import pl.edu.icm.saos.webapp.court.SimpleDivisionConverter;
-import pl.edu.icm.saos.webapp.judgment.search.JudgmentWebSearchService;
+import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaForm;
+import pl.edu.icm.saos.webapp.judgment.PageLinkGenerator;
 
 /**
  * @author Łukasz Pawełczak
  *
  */
-public class JudgmentController {
+@Controller
+public class JudgmentSearchController {
 
+	
     @Autowired
 	private JudgmentRepository judgmentRepository;
     
@@ -43,10 +43,9 @@ public class JudgmentController {
     
     @Autowired
     private JudgmentWebSearchService judgmentsWebSearchService;
-
+	
     @Autowired
     private SimpleDivisionConverter simpleDivisionConverter;
-
 	
     //------------------------ LOGIC --------------------------
     
@@ -68,19 +67,7 @@ public class JudgmentController {
 		
 		return "search";
 	}
-
-	@RequestMapping("/search/courtDivision/{commonCourtId}")
-	@ResponseBody
-	public List<SimpleDivision> division(@PathVariable("commonCourtId") int commonCourtId) {
-		return getCcDivisionList(commonCourtId);
-	}
 	
-	@RequestMapping("/search/chamberDivision/{supremeChamberId}")
-	@ResponseBody
-	public List<SimpleDivision> chamberDivision(@PathVariable("supremeChamberId") int supremeChamberId) {
-		return getSupremeChamberDivisionList(supremeChamberId);
-	}
-
 	
 	//------------------------ PRIVATE --------------------------
 	

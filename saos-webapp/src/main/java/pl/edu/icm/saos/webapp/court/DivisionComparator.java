@@ -1,8 +1,9 @@
-package pl.edu.icm.saos.webapp.division;
+package pl.edu.icm.saos.webapp.court;
 
+import java.text.Collator;
 import java.util.Comparator;
 
-import pl.edu.icm.saos.webapp.common.StringComparator;
+import pl.edu.icm.saos.webapp.common.WebappConst;
 
 /**
  * @author Łukasz Pawełczak
@@ -23,7 +24,7 @@ public abstract class DivisionComparator<T> implements Comparator<T> {
 		
 		/* if both names do not contain roman numbers, compare them using simple alphabetic comparation */
 		if (romanNumberOne == 0 && romanNumberTwo == 0) {
-            return StringComparator.compare(divisionNameOne, divisionNameTwo);
+            return Collator.getInstance(WebappConst.LOCALE_PL).compare(divisionNameOne, divisionNameTwo);
 		} else {
 			return (romanNumberOne - romanNumberTwo);
 		}

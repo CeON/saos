@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.division;
+package pl.edu.icm.saos.webapp.court;
 
 /**
  * Simple division DTO for use with ajax in search form select 

@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.services;
+package pl.edu.icm.saos.webapp.judgment.search;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +18,7 @@ import pl.edu.icm.saos.webapp.search.PagingConverter;
  *
  */
 @Service
-public class JudgmentsWebSearchService {
+public class JudgmentWebSearchService {
 
     @Autowired
     private SearchService<JudgmentSearchResult, JudgmentCriteria> judgmentsSearchService;

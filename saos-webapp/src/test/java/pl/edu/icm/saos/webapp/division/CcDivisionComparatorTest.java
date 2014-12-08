@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.webapp.court.CcDivisionComparator;
 
 /**
  * @author Łukasz Pawełczak

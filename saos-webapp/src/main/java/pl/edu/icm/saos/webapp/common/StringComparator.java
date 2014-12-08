@@ -7,6 +7,7 @@ import java.util.Locale;
  * @author Łukasz Pawełczak
  *
  */
+/*
 public class StringComparator {
 	
 	
@@ -17,3 +18,5 @@ public class StringComparator {
 		return collator.compare(stringOne, stringTwo);
 	}
 }
+*/
+

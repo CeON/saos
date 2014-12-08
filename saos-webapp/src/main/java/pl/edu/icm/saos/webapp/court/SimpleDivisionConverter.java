@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.division;
+package pl.edu.icm.saos.webapp.court;
 
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.division;
+package pl.edu.icm.saos.webapp.court;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.webapp.common.ConvertRomanNumerals;

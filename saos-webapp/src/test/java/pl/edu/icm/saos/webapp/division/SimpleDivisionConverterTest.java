@@ -12,6 +12,8 @@ import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
+import pl.edu.icm.saos.webapp.court.SimpleDivision;
+import pl.edu.icm.saos.webapp.court.SimpleDivisionConverter;
 
 /**
  * @author Łukasz Pawełczak
