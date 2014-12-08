@@ -106,7 +106,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     }
 
 
-    //*** END CONFIGURATION ***
+    //------------------------ TESTS --------------------------
 
     @Test
     public void showJudgments__it_should_show_all_basic_judgment_fields() throws Exception {
@@ -152,16 +152,17 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
                 .andExpect(jsonPath("$.items.[0].division.type").doesNotExist())
 
-
                 .andExpect(jsonPath("$.items.[0].division.court.type").doesNotExist())
 
                 .andExpect(jsonPath("$.items.[0].textContent").value(CC_TEXT_CONTENT))
 
                 .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + testObjectContext.getCcFirstDivisionId())))
+                .andExpect(jsonPath("$.items.[0].division.id").value(testObjectContext.getCcFirstDivisionId()))
                 .andExpect(jsonPath("$.items.[0].division.name").value(CC_FIRST_DIVISION_NAME))
                 .andExpect(jsonPath("$.items.[0].division.code").value(CC_FIRST_DIVISION_CODE))
 
                 .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH + "/" + testObjectContext.getCcCourtId())))
+                .andExpect(jsonPath("$.items.[0].division.court.id").value(testObjectContext.getCcCourtId()))
                 .andExpect(jsonPath("$.items.[0].division.court.name").value(CC_COURT_NAME))
                 .andExpect(jsonPath("$.items.[0].division.court.code").value(CC_COURT_CODE))
 
@@ -170,9 +171,11 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.items.[1].personnelType").value(SC_PERSONNEL_TYPE.name()))
 
                 .andExpect(jsonPath("$.items.[1].division.href").value(endsWith("/api/scDivisions/" + testObjectContext.getScFirstDivisionId())))
+                .andExpect(jsonPath("$.items.[1].division.id").value(testObjectContext.getScFirstDivisionId()))
                 .andExpect(jsonPath("$.items.[1].division.name").value(SC_FIRST_DIVISION_NAME))
 
                 .andExpect(jsonPath("$.items.[1].division.chambers.[0].href").value(endsWith("/api/scChambers/" + testObjectContext.getScChamberId())))
+                .andExpect(jsonPath("$.items.[1].division.chambers.[0].id").value(testObjectContext.getScChamberId()))
                 .andExpect(jsonPath("$.items.[1].division.chambers.[0].name").value(SC_FIRST_CHAMBER_NAME))
 
         ;

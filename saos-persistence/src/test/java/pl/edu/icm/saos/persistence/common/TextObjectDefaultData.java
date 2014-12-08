@@ -94,11 +94,13 @@ public final class TextObjectDefaultData {
 
     public static final String CC_FIRST_JUDGE_NAME = "Ewa Sniegocka";
     public static final Judge.JudgeRole CC_FIRST_JUDGE_ROLE = Judge.JudgeRole.PRESIDING_JUDGE;
+    public static final String CC_FIRST_JUDGE_FUNCTION = "CC first function";
     public static final String CC_SECOND_JUDGE_NAME = "Irena Piotrowska";
     public static final String CC_THIRD_JUDGE_NAME = "Ewa Zalewska";
 
     public static final String SC_FIRST_JUDGE_NAME = "Katarzyna Zima";
     public static final Judge.JudgeRole SC_FIRST_JUDGE_ROLE = Judge.JudgeRole.PRESIDING_JUDGE;
+    public static final String SC_FIRST_JUDGE_FUNCTION = "SC first function";
     public static final String SC_SECOND_JUDGE_NAME = "Urszula Zawadzka";
     public static final Judge.JudgeRole SC_SECOND_JUDGE_ROLE = Judge.JudgeRole.REASONS_FOR_JUDGMENT_AUTHOR;
 
