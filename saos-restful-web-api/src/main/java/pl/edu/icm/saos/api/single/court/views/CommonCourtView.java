@@ -17,7 +17,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
     private static final long serialVersionUID = -1345285608722368168L;
 
     public CommonCourtView() {
-        data = new Data();
+        setData(new Data());
     }
 
     public static class Data implements Serializable {

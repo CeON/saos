@@ -1,11 +1,10 @@
 package pl.edu.icm.saos.api.single.judgment.data.representation;
 
-import java.io.Serializable;
-import java.util.List;
-
+import com.google.common.base.Objects;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
-import com.google.common.base.Objects;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * Represents {@link pl.edu.icm.saos.persistence.model.SupremeCourtJudgment SupremeCourtJudgment} fields.
@@ -14,10 +13,10 @@ import com.google.common.base.Objects;
 public class SupremeCourtJudgmentData extends JudgmentData {
     private static final long serialVersionUID = 9192584970769834239L;
 
-    protected PersonnelType personnelType;
-    protected Form judgmentForm;
-    protected Division division;
-    protected List<Chamber> chambers;
+    private PersonnelType personnelType;
+    private Form judgmentForm;
+    private Division division;
+    private List<Chamber> chambers;
 
     //------------------------ GETTERS --------------------------
     public PersonnelType getPersonnelType() {
