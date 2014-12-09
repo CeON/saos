@@ -230,8 +230,6 @@ final class TestInMemoryCcObjectFactory {
         TestInMemoryObjectFactoryHelper.fillJudgmentWithRandomData(ccJudgment, prefix, numericPrefix);
         
         ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
-        ccJudgment.getSourceInfo().setSourceJudgmentId(prefix+RandomStringUtils.randomAlphabetic(20));
-        ccJudgment.getSourceInfo().setSourceJudgmentUrl("http://example.com/" + RandomStringUtils.randomAlphabetic(20));
 
         CcJudgmentKeyword firstKeyword = new CcJudgmentKeyword(RandomStringUtils.randomAlphanumeric(18));
         CcJudgmentKeyword secondKeyword = new CcJudgmentKeyword(RandomStringUtils.randomAlphanumeric(19));

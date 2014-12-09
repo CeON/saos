@@ -20,7 +20,11 @@ final class TestInMemoryObjectFactoryHelper {
     private TestInMemoryObjectFactoryHelper() { }
     
     /**
-     * Fills {@link Judgment} with random values
+     * Fills {@link Judgment} with random values.
+     * This method requires to provide prefixes. When these prefixes are
+     * unique then method guarantees uniqueness of created values that have
+     * to be different from each other when adding to database.
+     * 
      * @param judgment to fill
      * @param prefix - unique String prefix among randomly created judgments
      * @param numericPrefix - unique int prefix among randomly created judgments
@@ -78,5 +82,9 @@ final class TestInMemoryObjectFactoryHelper {
         judgment.addJudge(secondJudge);
         judgment.addJudge(thirdJudge);
 
+
+        judgment.getSourceInfo().setSourceJudgmentId(prefix+RandomStringUtils.randomAlphabetic(20));
+        judgment.getSourceInfo().setSourceJudgmentUrl("http://example.com/" + RandomStringUtils.randomAlphabetic(20));
+        
     }
 }

@@ -164,8 +164,6 @@ final class TestInMemoryScObjectFactory {
         TestInMemoryObjectFactoryHelper.fillJudgmentWithRandomData(scJudgment, prefix, numericPrefix);
         
         scJudgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
-        scJudgment.getSourceInfo().setSourceJudgmentId(prefix+RandomStringUtils.randomAlphabetic(20));
-        scJudgment.getSourceInfo().setSourceJudgmentUrl("http://example.com/" + RandomStringUtils.randomAlphabetic(20));
 
         scJudgment.setPersonnelType(getRandomScPersonnelType());
         
