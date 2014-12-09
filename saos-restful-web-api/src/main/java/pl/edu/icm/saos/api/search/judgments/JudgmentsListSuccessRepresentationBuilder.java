@@ -16,6 +16,10 @@ import pl.edu.icm.saos.api.search.judgments.parameters.Sort;
 import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
+import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateFromTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateToTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 
@@ -25,8 +29,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.Info;
-import static pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.QueryTemplate;
+import static pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.*;
 
 /**
  * Provides functionality for building success object view for list of judgments.
@@ -245,10 +248,10 @@ public class JudgmentsListSuccessRepresentationBuilder {
         queryTemplate.setReferencedRegulation(params.getReferencedRegulation());
         queryTemplate.setCaseNumber(params.getCaseNumber());
         queryTemplate.setJudgeName(params.getJudgeName());
-        queryTemplate.setCourtType(params.getCourtType());
+        queryTemplate.setCourtType(new CourtTypeTemplate(params.getCourtType()));
 
 
-        queryTemplate.setCcCourtType(params.getCcCourtType());
+        queryTemplate.setCcCourtType(new CommonCourtTypeTemplate(params.getCcCourtType()));
         queryTemplate.setCcCourtId(params.getCcCourtId());
         queryTemplate.setCcCourtCode(params.getCcCourtCode());
         queryTemplate.setCcCourtName(params.getCcCourtName());
@@ -257,26 +260,26 @@ public class JudgmentsListSuccessRepresentationBuilder {
         queryTemplate.setCcDivisionCode(params.getCcDivisionCode());
         queryTemplate.setCcDivisionName(params.getCcDivisionName());
 
-        queryTemplate.setScPersonnelType(params.getScPersonnelType());
+        queryTemplate.setScPersonnelType(new PersonnelTypeTemplate(params.getScPersonnelType()));
         queryTemplate.setScChamberId(params.getScChamberId());
         queryTemplate.setScChamberName(params.getScChamberName());
         queryTemplate.setScDivisionId(params.getScDivisionId());
         queryTemplate.setScDivisionName(params.getScDivisionName());
 
-        queryTemplate.setJudgmentTypes(params.getJudgmentTypes());
+        queryTemplate.setJudgmentTypes(new JudgmentTypesTemplate(params.getJudgmentTypes()));
         queryTemplate.setKeywords(params.getKeywords());
 
         Pagination pagination = params.getPagination();
 
-        queryTemplate.setPageNumber(pagination.getPageNumber());
-        queryTemplate.setPageSize(pagination.getPageSize());
+        queryTemplate.setPageNumber(new PageNumberTemplate(pagination.getPageNumber()));
+        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize()));
 
         Sort sort = params.getSort();
-        queryTemplate.setSortingField(sort.getSortingField());
-        queryTemplate.setSortingDirection(sort.getSortingDirection());
+        queryTemplate.setSortingField(new SortingFieldTemplate(sort.getSortingField()));
+        queryTemplate.setSortingDirection(new SortingDirectionTemplate(sort.getSortingDirection()));
 
-        queryTemplate.setJudgmentDateFrom(dateMapping.toISO8601Format(params.getJudgmentDateFrom()));
-        queryTemplate.setJudgmentDateTo(dateMapping.toISO8601Format(params.getJudgmentDateTo()));
+        queryTemplate.setJudgmentDateFrom(new JudgmentDateFromTemplate(dateMapping.toISO8601Format(params.getJudgmentDateFrom())));
+        queryTemplate.setJudgmentDateTo(new JudgmentDateToTemplate(dateMapping.toISO8601Format(params.getJudgmentDateTo())));
 
         return queryTemplate;
     }

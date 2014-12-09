@@ -33,6 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -316,9 +317,9 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".referencedRegulation").value(referencedRegulationValue))
                 .andExpect(jsonPath(prefix + ".judgeName").value(judgeNameValue))
                 .andExpect(jsonPath(prefix + ".caseNumber").value(caseNumberValue))
-                .andExpect(jsonPath(prefix + ".courtType").value(courtTypeValue))
+                .andExpect(jsonPath(prefix + ".courtType.value").value(courtTypeValue))
 
-                .andExpect(jsonPath(prefix + ".ccCourtType").value(ccCourtTypeValue))
+                .andExpect(jsonPath(prefix + ".ccCourtType.value").value(ccCourtTypeValue))
                 .andExpect(jsonPath(prefix + ".ccCourtId").value(ccCourtIdValue))
                 .andExpect(jsonPath(prefix + ".ccCourtCode").value(ccCourtCodeValue))
                 .andExpect(jsonPath(prefix + ".ccCourtName").value(ccCourtNameValue))
@@ -333,24 +334,24 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".scDivisionId").value(scDivisionIdValue))
                 .andExpect(jsonPath(prefix + ".scDivisionName").value(scDivisionNameValue))
 
-                .andExpect(jsonPath(prefix + ".judgmentTypes.[0]").value(firstType))
-                .andExpect(jsonPath(prefix + ".judgmentTypes.[1]").value(secondType))
+                .andExpect(jsonPath(prefix + ".judgmentTypes.value.[0]").value(firstType))
+                .andExpect(jsonPath(prefix + ".judgmentTypes.value.[1]").value(secondType))
 
                 .andExpect(jsonPath(prefix + ".keywords.[0]").value(firstKeyword))
                 .andExpect(jsonPath(prefix + ".keywords.[1]").value(secondKeyword))
-                .andExpect(jsonPath(prefix + ".judgmentDateFrom").value(judgmentDateFrom))
-                .andExpect(jsonPath(prefix + ".judgmentDateTo").value(judgmentDateTo))
+                .andExpect(jsonPath(prefix + ".judgmentDateFrom.value").value(judgmentDateFrom))
+                .andExpect(jsonPath(prefix + ".judgmentDateTo.value").value(judgmentDateTo))
 
-                .andExpect(jsonPath(prefix + ".pageSize").value(pageSize))
-                .andExpect(jsonPath(prefix + ".pageNumber").value(pageNumber))
+                .andExpect(jsonPath(prefix + ".pageSize.value").value(pageSize))
+                .andExpect(jsonPath(prefix + ".pageNumber.value").value(pageNumber))
 
-                .andExpect(jsonPath(prefix + ".sortingField").value(sortingFieldValue))
-                .andExpect(jsonPath(prefix + ".sortingDirection").value(sortingDirectionValue))
+                .andExpect(jsonPath(prefix + ".sortingField.value").value(sortingFieldValue))
+                .andExpect(jsonPath(prefix + ".sortingDirection.value").value(sortingDirectionValue))
         ;
     }
 
     @Test
-    public void showJudgments__it_should_show_only_pagination_parameters_if_none_is_specified() throws Exception{
+    public void showJudgments__it_should_show_only_pagination_and_sort_parameters_if_none_is_specified() throws Exception{
         //given
         int pageSize = 11;
         int pageNumber = 5;
@@ -366,19 +367,19 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
         String prefix = "$.queryTemplate";
 
-
         actions
-                .andExpect(jsonPath(prefix + ".pageSize").value(pageSize))
-                .andExpect(jsonPath(prefix + ".pageNumber").value(pageNumber))
+
+                .andExpect(jsonPath(prefix + ".pageSize.value").value(pageSize))
+                .andExpect(jsonPath(prefix + ".pageNumber.value").value(pageNumber))
 
                 .andExpect(jsonPath(prefix + ".all").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".legalBase").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".referencedRegulation").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".judgeName").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".caseNumber").value(isEmptyOrNullString()))
-                .andExpect(jsonPath(prefix + ".courtType").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".courtType.value").value(isEmptyOrNullString()))
 
-                .andExpect(jsonPath(prefix + ".ccCourtType").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".ccCourtType.value").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".ccCourtId").value(nullValue()))
                 .andExpect(jsonPath(prefix + ".ccCourtCode").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".ccCourtName").value(isEmptyOrNullString()))
@@ -393,13 +394,14 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".scDivisionId").value(nullValue()))
                 .andExpect(jsonPath(prefix + ".scDivisionName").value(isEmptyOrNullString()))
 
-                .andExpect(jsonPath(prefix + ".judgmentTypes").value(iterableWithSize(0)))
+                .andExpect(jsonPath(prefix + ".judgmentTypes.value").value(iterableWithSize(0)))
 
                 .andExpect(jsonPath(prefix + ".keywords").value(iterableWithSize(0)))
+                .andExpect(jsonPath(prefix + ".judgmentDateFrom.value").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".judgmentDateTo.value").value(isEmptyOrNullString()))
 
-                .andExpect(jsonPath(prefix + ".judgmentDateFrom").value(isEmptyOrNullString()))
-                .andExpect(jsonPath(prefix + ".judgmentDateTo").value(isEmptyOrNullString()))
-
+                .andExpect(jsonPath(prefix + ".sortingField.value").value(JudgmentIndexField.DATABASE_ID.name()))
+                .andExpect(jsonPath(prefix + ".sortingDirection.value").value(Sorting.Direction.ASC.name()))
         ;
 
     }
