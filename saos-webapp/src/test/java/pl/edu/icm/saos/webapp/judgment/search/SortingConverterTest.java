@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.powermock.reflect.Whitebox;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
@@ -45,18 +46,17 @@ public class SortingConverterTest {
 	
 	@Test
 	public void convert_relevance() {
+		//given
 		Order order = new Order(Direction.DESC, "RELEVANCE");
 		Sort sort = new Sort(order);
 		
-		assertEquals(Sorting.relevanceSorting().getFieldName(), sortingConverter.convert(sort).getFieldName());
+		//when
+		Sorting actual = sortingConverter.convert(sort);
+		
+		
+		//then
+		assertEquals(Sorting.relevanceSorting().getFieldName(), actual.getFieldName());
 	}
-	
-	@Test
-	public void convert_noDirection() {
-		Order order = new Order(null, fieldName);
-		Sort sort = new Sort(order);
 
-		assertEquals(Sorting.Direction.DESC, sortingConverter.convert(sort).getDirection());
-	}
 
 }

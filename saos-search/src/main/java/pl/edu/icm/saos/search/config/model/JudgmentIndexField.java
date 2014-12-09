@@ -58,7 +58,7 @@ public enum JudgmentIndexField implements IndexField {
     	boolean propertyExists = false;
     	
     	for (JudgmentIndexField judgmentIndexField : JudgmentIndexField.values()) {
-    		if (judgmentIndexField.fieldName == property) {
+    		if (judgmentIndexField.name().equals(property)) {
     			propertyExists = true;
     		}
     	}

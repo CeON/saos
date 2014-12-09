@@ -23,10 +23,15 @@ public class MultiWordFormatterTest {
 	
 	@Test
 	public void print_SIMPLE() {
+		//given
 		List<String> entry = Lists.newArrayList("slowo1", "slowo2", "slowo3");
-		String output = "slowo1, slowo2, slowo3";
+		String expected = "slowo1, slowo2, slowo3";
 		
-		assertEquals(output, multiWordFormatter.print(entry, null));
+		//when
+		String actual = multiWordFormatter.print(entry, null);
+		
+		//then
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -38,33 +43,51 @@ public class MultiWordFormatterTest {
 	@Test
 	public void parse_SIMPLE() throws ParseException {
 		String entry = "slowo1, slowo2, slowo3";
-		List<String> output = Lists.newArrayList("slowo1", "slowo2", "slowo3");
+		List<String> expected = Lists.newArrayList("slowo1", "slowo2", "slowo3");
 		
-		assertEquals(output, multiWordFormatter.parse(entry, null));
+		//when
+		List<String> actual = multiWordFormatter.parse(entry, null);
+		
+		//then
+		assertEquals(expected, actual);
 	}
 
 	@Test
 	public void parse_TRIM() throws ParseException {
 		String entry = " slowo1 ,   slowo2 ";
-		List<String> output = Lists.newArrayList("slowo1", "slowo2");
+		List<String> expected = Lists.newArrayList("slowo1", "slowo2");
 		
-		assertEquals(output, multiWordFormatter.parse(entry, null));
+		//when
+		List<String> actual = multiWordFormatter.parse(entry, null);
+		
+		//then
+		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void parse_COMPLEX() throws ParseException {
+		//given
 		String entry = "Zbyszek Brzęczy-szczykiewicz, sędzia. anna-maria wesołowska";
-		List<String> output = Lists.newArrayList("Zbyszek Brzęczy-szczykiewicz", "sędzia. anna-maria wesołowska");
+		List<String> expected = Lists.newArrayList("Zbyszek Brzęczy-szczykiewicz", "sędzia. anna-maria wesołowska");
 		
-		assertEquals(output, multiWordFormatter.parse(entry, null));
+		//when
+		List<String> actual = multiWordFormatter.parse(entry, null);
+		
+		//then
+		assertEquals(expected, actual);
 	}
 	
 	@Test
 	public void parse_COMMAS() throws ParseException {
+		//given
 		String entry = ",.,b, . ,";
-		List<String> output = Lists.newArrayList("",".","b", ".");
+		List<String> expected = Lists.newArrayList("",".","b", ".");
 		
-		assertEquals(output, multiWordFormatter.parse(entry, null));
+		//when
+		List<String> actual = multiWordFormatter.parse(entry, null);
+		
+		//then
+		assertEquals(expected, actual);
 	}
 	
 }
