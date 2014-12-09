@@ -16,17 +16,17 @@ import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 public class JudgmentDetailController {
 
 	
-    @Autowired
+	@Autowired
 	private JudgmentRepository judgmentRepository;
-    
-    
-    //------------------------ LOGIC --------------------------
+	
+	
+	//------------------------ LOGIC --------------------------
 	
 	@RequestMapping("/judgments/{judgmentId}")
 	public String JudgmentSignleResult(ModelMap model, @PathVariable("judgmentId") Integer judgmentId) {
-		
+	
 		model.addAttribute("judgment", judgmentRepository.findOneAndInitialize(judgmentId));
-		
-		return "judgmentDetails";
+	
+	return "judgmentDetails";
 	}
 }

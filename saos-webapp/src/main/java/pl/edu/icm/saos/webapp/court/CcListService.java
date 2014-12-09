@@ -21,14 +21,14 @@ import pl.edu.icm.saos.webapp.common.WebappConst;
 @Service
 public class CcListService {
 
+		
+	private CommonCourtRepository commonCourtRepository;
 	
-    private CommonCourtRepository commonCourtRepository;
+	private CcDivisionRepository ccDivisionRepository;
 	
-    private CcDivisionRepository ccDivisionRepository;
-    
-    private SimpleDivisionConverter simpleDivisionConverter;
-    
-	
+	private SimpleDivisionConverter simpleDivisionConverter;
+	    
+		
 	//------------------------ LOGIC --------------------------
 	
 	public List<CommonCourt> findCommonCourts() {
@@ -57,10 +57,10 @@ public class CcListService {
 	//------------------------ PRIVATE --------------------------
 	
 	private class CommonCourtComparator implements Comparator<CommonCourt> {
-		
+			
 		public int compare(CommonCourt courtOne, CommonCourt courtTwo) {
-            return Collator.getInstance(WebappConst.LOCALE_PL).compare(courtOne.getName(), courtTwo.getName());
-        }  
+			return Collator.getInstance(WebappConst.LOCALE_PL).compare(courtOne.getName(), courtTwo.getName());
+		}  
 	} 
 	
 	
@@ -80,4 +80,5 @@ public class CcListService {
 	public void setSimpleDivisionConverter(SimpleDivisionConverter simpleDivisionConverter) {
 		this.simpleDivisionConverter = simpleDivisionConverter;
 	}
+
 }

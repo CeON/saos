@@ -24,11 +24,11 @@ public class ScListService {
 
 	
 	private ScChamberRepository scChamberRepository;
-    
-    private ScChamberDivisionRepository scChamberDivisionRepository;
-    
-    private SimpleDivisionConverter simpleDivisionConverter;
-    
+	
+	private ScChamberDivisionRepository scChamberDivisionRepository;
+	
+	private SimpleDivisionConverter simpleDivisionConverter;
+	
 	
 	//------------------------ LOGIC --------------------------
 	
@@ -43,7 +43,7 @@ public class ScListService {
 	}
 	
 	public List<SimpleDivision> findScChamberDivisions(int chamberId) {
-		
+	
 		List<SupremeCourtChamberDivision> chamberDivisions = scChamberDivisionRepository.findAllByScChamberId(chamberId);
 		ScChamberDivisionComparator scChamberDivisionComparator = new ScChamberDivisionComparator();
 		
@@ -59,7 +59,7 @@ public class ScListService {
 		
 		public int compare(SupremeCourtChamber chamberOne, SupremeCourtChamber chamberTwo) {
 			return Collator.getInstance(WebappConst.LOCALE_PL).compare(chamberOne.getName(), chamberTwo.getName());
-        }
+		}
 	}
 	
 	
@@ -79,4 +79,5 @@ public class ScListService {
 	public void setSimpleDivisionConverter(SimpleDivisionConverter simpleDivisionConverter) {
 		this.simpleDivisionConverter = simpleDivisionConverter;
 	}
+
 }

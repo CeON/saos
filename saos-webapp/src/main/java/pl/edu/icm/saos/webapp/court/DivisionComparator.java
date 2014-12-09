@@ -22,16 +22,16 @@ public abstract class DivisionComparator<T> implements Comparator<T> {
 		int romanNumberOne = getNumber(divisionNameOne);
 		int romanNumberTwo = getNumber(divisionNameTwo);
 		
-		/* if both names do not contain roman numbers, compare them using simple alphabetic comparation */
+		// if both names do not contain roman numbers, compare them using simple alphabetic comparation 
 		if (romanNumberOne == 0 && romanNumberTwo == 0) {
-            return Collator.getInstance(WebappConst.LOCALE_PL).compare(divisionNameOne, divisionNameTwo);
+			return Collator.getInstance(WebappConst.LOCALE_PL).compare(divisionNameOne, divisionNameTwo);
 		} else {
 			return (romanNumberOne - romanNumberTwo);
 		}
-    }  
+	}  
 	
 	protected abstract String getName(T division);
 	
 	protected abstract int getNumber(String name);
-	
+
 }

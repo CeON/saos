@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class CcListController {	
     
-    @Autowired
-    private CcListService ccListService;
-    
+	@Autowired
+	private CcListService ccListService;
+
 
 	//------------------------ LOGIC --------------------------
-    
+	
 	@RequestMapping("cc/courts/{commonCourtId}/courtDivisions/list")
 	@ResponseBody
 	public List<SimpleDivision> listCourtDivisions(@PathVariable("commonCourtId") int commonCourtId) {

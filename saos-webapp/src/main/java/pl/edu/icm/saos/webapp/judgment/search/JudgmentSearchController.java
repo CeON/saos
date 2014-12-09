@@ -28,28 +28,28 @@ import pl.edu.icm.saos.webapp.judgment.PageLinkGenerator;
 public class JudgmentSearchController {
 
 	
-    @Autowired
+	@Autowired
 	private JudgmentRepository judgmentRepository;
-    
-    @Autowired
-    private CcListService ccListService;
-    
-    @Autowired
-    private ScListService scListService;
-    
-    @Autowired
-    private JudgmentWebSearchService judgmentsWebSearchService;
 	
-    
-    //------------------------ LOGIC --------------------------
-    
+	@Autowired
+	private CcListService ccListService;
+	
+	@Autowired
+	private ScListService scListService;
+	
+	@Autowired
+	private JudgmentWebSearchService judgmentsWebSearchService;
+	
+	
+	//------------------------ LOGIC --------------------------
+	
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String JudgmentSearchResults(@ModelAttribute("judgmentCriteriaForm") JudgmentCriteriaForm judgmentCriteriaForm,
-			@SortDefault(sort="JUDGMENT_DATE", direction=Sort.Direction.DESC) Pageable pageable,
-			ModelMap model, HttpServletRequest request) {
-
+	@SortDefault(sort="JUDGMENT_DATE", direction=Sort.Direction.DESC) Pageable pageable,
+		ModelMap model, HttpServletRequest request) {
+		
 		SearchResults<JudgmentSearchResult> searchResults = judgmentsWebSearchService.search(judgmentCriteriaForm, pageable);
-
+		
 		model.addAttribute("pageable", pageable);
 		model.addAttribute("resultSearch", searchResults);
 		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
@@ -80,4 +80,5 @@ public class JudgmentSearchController {
 			model.addAttribute("supremeChamberDivisions", scListService.findScChamberDivisions(judgmentCriteriaForm.getSupremeChamberId()));
 		}
 	}	
+
 }
