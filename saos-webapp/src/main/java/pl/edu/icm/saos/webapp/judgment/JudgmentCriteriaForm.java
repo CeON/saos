@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.webapp.judgment;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,7 +11,8 @@ import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.common.FormatConst;
 import pl.edu.icm.saos.persistence.model.CourtType;
-
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.webapp.format.MultiWordFormat;
 
 
@@ -33,20 +36,23 @@ public class JudgmentCriteriaForm {
     private String judgeName;
     
     @MultiWordFormat
-    private List<String> keywords = Lists.newLinkedList();
+    private List<String> keywords = Lists.newArrayList();
     
     private CourtType courtType;
     
     private Integer commonCourtId;
     private Integer commonCourtDivisionId;
     
+    private PersonnelType scPersonnelType;
     private String scJudgmentForm;
     private Integer supremeChamberId;
     private Integer supremeChamberDivisionId;
     
-    private String[] judgmentType;
+    private Set<JudgmentType> judgmentTypes = new HashSet<JudgmentType>();
+    
     private String legalBase;
     private String referencedRegulation;
+    
     
     
     //------------------------ GETTERS --------------------------
@@ -72,7 +78,11 @@ public class JudgmentCriteriaForm {
 	}
 	
 	public List<String> getKeywords() {
-		return keywords;
+		if (keywords == null) {
+			return Lists.newArrayList();
+		} else {
+			return keywords;
+		}
 	}
 	
 	public CourtType getCourtType() {
@@ -87,6 +97,10 @@ public class JudgmentCriteriaForm {
 		return commonCourtDivisionId;
 	}
 	
+	public PersonnelType getScPersonnelType() {
+		return scPersonnelType;
+	}
+	
 	public String getScJudgmentForm() {
 		return scJudgmentForm;
 	}
@@ -99,8 +113,12 @@ public class JudgmentCriteriaForm {
 		return supremeChamberDivisionId;
 	}
 	
-	public String[] getJudgmentType() {
-		return judgmentType;
+	public Set<JudgmentType> getJudgmentTypes() {
+		if (judgmentTypes == null) {
+			return new HashSet<JudgmentType>();
+		} else {
+			return judgmentTypes;	
+		}
 	}
 	
 	public String getLegalBase() {
@@ -148,6 +166,10 @@ public class JudgmentCriteriaForm {
 	public void setCommonCourtDivisionId(Integer commonCourtDivisionId) {
 		this.commonCourtDivisionId = commonCourtDivisionId;
 	}
+	
+	public void setScPersonnelType(PersonnelType scPersonnelType) {
+		this.scPersonnelType = scPersonnelType;
+	}
 
 	public void setScJudgmentForm(String scJudgmentForm) {
 		this.scJudgmentForm = scJudgmentForm;
@@ -161,8 +183,8 @@ public class JudgmentCriteriaForm {
 		this.supremeChamberDivisionId = supremeChamberDivisionId;
 	}
 	
-	public void setJudgmentType(String[] judgmentType) {
-		this.judgmentType = judgmentType;
+	public void setJudgmentTypes(Set<JudgmentType> judgmentTypes) {
+		this.judgmentTypes = judgmentTypes;
 	}
 
 	public void setLegalBase(String legalBase) {

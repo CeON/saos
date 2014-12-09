@@ -8,8 +8,9 @@
 	
 		<div class="row" >
 				<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
-					<c:set var="lowerCaseJudgmentType" value="${fn:toLowerCase(judgment.judgmentType)}" />
-					<div class="type" data-judgment-type="${lowerCaseJudgmentType}" ><spring:message code="judgment.${lowerCaseJudgmentType}" /></div>
+					<div class="type" data-judgment-type="${judgment.judgmentType}" >
+						<saos:enum value="${judgment.judgmentType}" ></saos:enum>
+					</div>
 				</c:if>
 				<div class="case-number">
 					<a href="${contextPath}/judgments/${judgment.id}">
@@ -44,7 +45,15 @@
 				
 				<c:if test="${!empty judgment.judges}" >
 					<div class="judges" >
-						<span><spring:message code="judgment.judges" />:</span>
+						<span>
+							<spring:message code="judgment.judges" />
+							<c:if test="${!empty judgment.scPersonnelType && judgment.scPersonnelType != null}" >
+								<div class="personnel-type" >
+									<saos:enum value="${judgment.scPersonnelType}" />
+								</div>
+							</c:if>
+							:
+						</span>
 						<c:forEach items="${judgment.judges}" var="judge" >
 							<div class="judge"><c:out value="${judge.name}" /></div>
 						</c:forEach>	

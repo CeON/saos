@@ -5,6 +5,7 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 import java.util.List;
 
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import static pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.CourtCase;
 import static pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.Judge;
 
@@ -19,11 +20,12 @@ public class SearchJudgmentItem implements Serializable{
 
     private String href;
     private List<CourtCase> courtCases;
-    private String judgmentType;
+    private JudgmentType judgmentType;
     private String JudgmentDate;
     private List<Judge> judges;
     private String textContent;
     private List<String> keywords;
+
 
     //------------------------ GETTERS --------------------------
 
@@ -35,7 +37,7 @@ public class SearchJudgmentItem implements Serializable{
         return courtCases;
     }
 
-    public String getJudgmentType() {
+    public JudgmentType getJudgmentType() {
         return judgmentType;
     }
 
@@ -65,7 +67,7 @@ public class SearchJudgmentItem implements Serializable{
         this.courtCases = courtCases;
     }
 
-    public void setJudgmentType(String judgmentType) {
+    public void setJudgmentType(JudgmentType judgmentType) {
         this.judgmentType = judgmentType;
     }
 

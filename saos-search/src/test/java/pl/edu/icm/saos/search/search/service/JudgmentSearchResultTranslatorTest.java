@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.StringListMap;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
@@ -76,7 +77,7 @@ public class JudgmentSearchResultTranslatorTest {
         assertTrue(result.getCaseNumbers().contains("AAAB1A"));
         
         assertEquals(new LocalDate(2014, 10, 7), result.getJudgmentDate());
-        assertEquals("SENTENCE", result.getJudgmentType());
+        assertEquals(JudgmentType.SENTENCE, result.getJudgmentType());
         
         assertEquals(2, result.getKeywords().size());
         assertTrue(result.getKeywords().contains("some keyword"));
@@ -128,7 +129,7 @@ public class JudgmentSearchResultTranslatorTest {
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         
         assertEquals("wyrok SN", result.getScJudgmentForm());
-        assertEquals("JOINED_CHAMBERS", result.getScPersonnelType());
+        assertEquals(PersonnelType.JOINED_CHAMBERS, result.getScPersonnelType());
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));
         assertEquals(2, result.getScCourtChambers().size());

@@ -471,6 +471,19 @@ form.search {
 			margin-right: 8px;
 		}
 		
+		.personnel-type {
+			@include filter-underline();
+			display: inline-block;
+			
+			&:after {
+				content: ")";
+			}
+			
+			&:before {
+				content: "(";
+			}
+		}
+		
 		.extract {
 			border: {
 				color: $grey-border;

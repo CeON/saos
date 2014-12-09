@@ -101,6 +101,11 @@ var SearchFilters = (function(){
 							} else if($searchFormField.is("select")) {
 								return function() {
 									selectFormType($selectFormType);
+									
+									$searchFormField.find("option").each(function() {
+										var $this = $(this);
+										$this.attr("data-content", ($this.attr("data-content")+"").trim());
+									});
 									$searchFormField.find("option[data-content='" + filterValue + "']").attr('selected', 'selected');
 									$searchFormField.trigger("change");
 									submitForm();
