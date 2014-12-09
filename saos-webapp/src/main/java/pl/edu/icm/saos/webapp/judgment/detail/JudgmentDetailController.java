@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
+ * Provides view of single judgment.
  * @author Łukasz Pawełczak
  *
  */
@@ -23,10 +24,10 @@ public class JudgmentDetailController {
 	//------------------------ LOGIC --------------------------
 	
 	@RequestMapping("/judgments/{judgmentId}")
-	public String JudgmentSignleResult(ModelMap model, @PathVariable("judgmentId") Integer judgmentId) {
+	public String showJudgmentDetail(ModelMap model, @PathVariable("judgmentId") Integer judgmentId) {
 	
 		model.addAttribute("judgment", judgmentRepository.findOneAndInitialize(judgmentId));
 	
-	return "judgmentDetails";
+		return "judgmentDetails";
 	}
 }

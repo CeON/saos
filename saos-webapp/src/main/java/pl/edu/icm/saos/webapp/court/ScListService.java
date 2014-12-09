@@ -16,6 +16,8 @@ import pl.edu.icm.saos.webapp.common.WebappConst;
 
 
 /**
+ * Service that provides methods for finding lists of supreme courts
+ * and supreme court division chambers.   
  * @author Łukasz Pawełczak
  *
  */
@@ -32,22 +34,32 @@ public class ScListService {
 	
 	//------------------------ LOGIC --------------------------
 	
+	/**
+	 * Find all supreme court chambers. Returned list is sorted by {@link ScChamberComparator}.
+	 * 
+	 * @return list of {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamber}
+	 */
 	public List<SupremeCourtChamber> findScChambers() {
 		
 		List<SupremeCourtChamber> chambers = scChamberRepository.findAll();
-		ScChamberComparator scChamberComparator = new ScChamberComparator();
 		
-		Collections.sort(chambers, scChamberComparator);
+		Collections.sort(chambers, new ScChamberComparator());
 		
 		return chambers;
 	}
 	
+	/**
+	 * Find all supreme court chamber divisions by supreme court chamber id.
+	 * Returned list is sorted by {@link ScChamberDivisionComparator}.
+	 * 
+	 * @param chamberId - chamber division id
+	 * @return list of {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision}
+	 */
 	public List<SimpleDivision> findScChamberDivisions(int chamberId) {
 	
 		List<SupremeCourtChamberDivision> chamberDivisions = scChamberDivisionRepository.findAllByScChamberId(chamberId);
-		ScChamberDivisionComparator scChamberDivisionComparator = new ScChamberDivisionComparator();
 		
-		Collections.sort(chamberDivisions, scChamberDivisionComparator);
+		Collections.sort(chamberDivisions, new ScChamberDivisionComparator());
 		
 		return simpleDivisionConverter.convertScChamberDivisions(chamberDivisions);
 	}

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
+ * Provides view of supreme court chamber divisions in json format.
  * @author Łukasz Pawełczak
  *
  */

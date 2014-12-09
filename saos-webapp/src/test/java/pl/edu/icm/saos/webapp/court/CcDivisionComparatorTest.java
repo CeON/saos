@@ -31,8 +31,8 @@ public class CcDivisionComparatorTest {
 		
 		assertEquals(-1, ccDivisionComparator.compare(divisionOne, divisionTwo));
 		assertEquals(1, ccDivisionComparator.compare(divisionTwo, divisionOne));
-		assertEquals(6, ccDivisionComparator.compare(divisionThree, divisionTwo));
-		assertEquals(3, ccDivisionComparator.compare(divisionFour, divisionThree));
+		assertEquals(1, ccDivisionComparator.compare(divisionThree, divisionTwo));
+		assertEquals(1, ccDivisionComparator.compare(divisionFour, divisionThree));
 	}
 	
 	@Test

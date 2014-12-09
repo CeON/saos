@@ -4,6 +4,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
+/**
+ * Provides simple home view.
+ * @author Łukasz Pawełczak
+ *
+ */
 @Controller
 public class HomeController {
 

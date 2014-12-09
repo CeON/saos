@@ -3,42 +3,66 @@ package pl.edu.icm.saos.webapp.common;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 /**
  * @author Łukasz Pawełczak
  *
  */
+@RunWith(DataProviderRunner.class)
 public class RomanNumberConverterTest {
 
+	
+	@DataProvider
+	public static Object[][] decodeResultsData() {
+		
+		return new Object[][] {
+				{1, "I"},
+				{2, "II"},
+				{3, "III"},
+				{4, "IV"},
+				{5, "V"},
+				{6, "VI"},
+				{7, "VII"},
+				{8, "VIII"},
+				{9, "IX"},
+				{10, "X"},
+				{11, "XI"},
+				{12, "XII"},
+				{13, "XIII"},
+				{14, "XIV"},
+				{15, "XV"},
+				{16, "XVI"},
+				{17, "XVII"},
+				{18, "XVIII"},
+				{19, "XIX"},
+		};
+	}
+	
 	
 	//------------------------ TESTS --------------------------
 	
 	@Test
-	public void decode() {
+	@UseDataProvider("decodeResultsData")
+	public void decode(int expected, String romanNumber) {
 		
-		assertEquals(1, RomanNumberConverter.decode("I"));
-		assertEquals(2, RomanNumberConverter.decode("II"));
-		assertEquals(3, RomanNumberConverter.decode("III"));
-		assertEquals(4, RomanNumberConverter.decode("IV"));
-		assertEquals(5, RomanNumberConverter.decode("V"));
-		assertEquals(6, RomanNumberConverter.decode("VI"));
-		assertEquals(7, RomanNumberConverter.decode("VII"));
-		assertEquals(8, RomanNumberConverter.decode("VIII"));
-		assertEquals(9, RomanNumberConverter.decode("IX"));
-		assertEquals(10, RomanNumberConverter.decode("X"));
-		assertEquals(11, RomanNumberConverter.decode("XI"));
-		assertEquals(12, RomanNumberConverter.decode("XII"));
-		assertEquals(13, RomanNumberConverter.decode("XIII"));
-		assertEquals(14, RomanNumberConverter.decode("XIV"));
-		assertEquals(15, RomanNumberConverter.decode("XV"));
+		assertEquals(expected,  RomanNumberConverter.decode(romanNumber));
 	}
 	
 	@Test
-	public void isRomanNumber() {
+	public void isRomanNumber_simple_string_with_roman_number() {
 		
 		assertTrue(RomanNumberConverter.isRomanNumber("I"));
 		assertTrue(RomanNumberConverter.isRomanNumber("IX"));
 		assertTrue(RomanNumberConverter.isRomanNumber("IV"));
+	}
+	
+	@Test
+	public void isRomanNumber_incorrect_string() {
 		
 		assertFalse(RomanNumberConverter.isRomanNumber(""));
 		assertFalse(RomanNumberConverter.isRomanNumber("Wydział"));

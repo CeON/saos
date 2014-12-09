@@ -31,6 +31,10 @@ public final class RomanNumberConverter {
 	  return str.matches("(?:([MDCLXVI])(?!\\1{3,}))+");
 	}
 	
+	public static boolean isNotRomanNumber(String str) {
+		return !isRomanNumber(str);
+	}
+	
 	//------------------------ PRIVATE --------------------------
 	
 	private static int decodeSingle(char letter) {

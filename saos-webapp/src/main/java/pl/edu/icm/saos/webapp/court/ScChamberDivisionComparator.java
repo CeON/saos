@@ -17,13 +17,13 @@ public class ScChamberDivisionComparator extends DivisionComparator<SupremeCourt
 		return division.getName();
 	}
 	
-	/* Get arabic number from chamber division name. Division name must contain roman as last word, if not method returns 0. */
+	/* Get arabic number from chamber division name. Division name must contain Roman number as last word, if not method returns 0. */
 	@Override
 	protected int getNumber(String name) {
 		
 		String lastWord = name.substring(name.lastIndexOf(" ") + 1);
 		
-		if (!RomanNumberConverter.isRomanNumber(lastWord) || lastWord.compareTo("") == 0) {
+		if (RomanNumberConverter.isNotRomanNumber(lastWord) || lastWord.compareTo("") == 0) {
 			return 0;
 		} else {
 			return RomanNumberConverter.decode(lastWord);

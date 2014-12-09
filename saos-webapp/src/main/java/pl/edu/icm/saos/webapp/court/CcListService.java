@@ -15,6 +15,7 @@ import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.webapp.common.WebappConst;
 
 /**
+ * Service that finds and provides lists of common courts and common court divisions.   
  * @author Łukasz Pawełczak
  *
  */
@@ -31,24 +32,32 @@ public class CcListService {
 		
 	//------------------------ LOGIC --------------------------
 	
+	/**
+	 * Finds and returns all common courts.
+	 * 
+	 * @return list of {@link pl.edu.icm.saos.persistence.model.CommonCourt}
+	 */
 	public List<CommonCourt> findCommonCourts() {
 		
 		List<CommonCourt> courts = commonCourtRepository.findAll();
-		CommonCourtComparator commonCourtComparator = new CommonCourtComparator();
 		
-		Collections.sort(courts, commonCourtComparator);
+		Collections.sort(courts, new CommonCourtComparator());
 		
 		return courts;
 	}
 	
+	/**
+	 * Finds list of common court division by common court id. 
+	 * Returned list is sorted with {@link CcDivisionComparator}.
+	 * 
+	 * @param courtId - common court id
+	 * @return list of {@link pl.edu.icm.saos.persistence.model.CommonCourtDivision}
+	 */
 	public List<SimpleDivision> findCcDivisions(int courtId) {
 		
 		List<CommonCourtDivision> courtDivisions = ccDivisionRepository.findAllByCourtId(courtId);
-		CcDivisionComparator ccDivisionComparator = new CcDivisionComparator();
 		
-		Collections.sort(courtDivisions, ccDivisionComparator);
-		
-		simpleDivisionConverter.getClass();
+		Collections.sort(courtDivisions, new CcDivisionComparator());
 		
 		return simpleDivisionConverter.convertCcDivisions(courtDivisions);
 	}

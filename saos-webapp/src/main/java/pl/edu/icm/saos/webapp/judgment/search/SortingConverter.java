@@ -10,6 +10,8 @@ import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.Sorting;
 
 /**
+ * Provides functionality of converting {@link org.springframework.data.domain.Sort} into
+ * {@link pl.edu.icm.saos.search.search.model.Sorting}
  * @author Łukasz Pawełczak
  *
  */
@@ -26,7 +28,9 @@ public class SortingConverter {
 	public Sorting convert(Sort sort) {
 		Iterator<Order> order = sort.iterator();
 		
-		//get one sorting field, if empty set sorting to by relevance
+		/**
+		 * Get one sorting property, if it is not valid use sorting by relevance.
+		 */
 		if (order.hasNext()) {
 			Order next = order.next(); 
 			String property = next.getProperty();

@@ -17,12 +17,12 @@ public class CcDivisionComparator extends DivisionComparator<CommonCourtDivision
 		return division.getName();
 	}
 	
-	/* Get arabic number from division name. Division name must contain roman as first word, if not method returns 0. */
+	/* Get arabic number from division name. Division name must contain Roman number as first word, if not method returns 0. */
 	@Override
 	protected int getNumber(String name) {
 		String[] array = name.split(" ", 2);
 		
-		if (array.length < 2 || !RomanNumberConverter.isRomanNumber(array[0])) {
+		if (array.length < 2 || RomanNumberConverter.isNotRomanNumber(array[0])) {
 			return 0;
 		} else {
 			return RomanNumberConverter.decode(array[0]);

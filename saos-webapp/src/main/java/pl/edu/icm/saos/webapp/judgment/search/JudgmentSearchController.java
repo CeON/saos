@@ -21,6 +21,7 @@ import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaForm;
 import pl.edu.icm.saos.webapp.judgment.PageLinkGenerator;
 
 /**
+ * Controller for judgment search view.
  * @author Łukasz Pawełczak
  *
  */
@@ -44,7 +45,7 @@ public class JudgmentSearchController {
 	//------------------------ LOGIC --------------------------
 	
 	@RequestMapping(value="/search", method=RequestMethod.GET)
-	public String JudgmentSearchResults(@ModelAttribute("judgmentCriteriaForm") JudgmentCriteriaForm judgmentCriteriaForm,
+	public String judgmentSearchResults(@ModelAttribute("judgmentCriteriaForm") JudgmentCriteriaForm judgmentCriteriaForm,
 	@SortDefault(sort="JUDGMENT_DATE", direction=Sort.Direction.DESC) Pageable pageable,
 		ModelMap model, HttpServletRequest request) {
 		
