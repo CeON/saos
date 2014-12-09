@@ -26,6 +26,8 @@ public class ScListServiceTest {
 	
 	private ScListService scListService = new ScListService();
 	
+	private SimpleDivisionConverter simpleDivisionConverter = new SimpleDivisionConverter();
+	
 	@Mock
 	private ScChamberRepository scChamberRepository;
 	
@@ -47,6 +49,8 @@ public class ScListServiceTest {
 		
 		when(scChamberRepository.findAll()).thenReturn(chambersWrongOrder);
 		scListService.setScChamberRepository(scChamberRepository);
+		scListService.setSimpleDivisionConverter(simpleDivisionConverter);
+		
 		
 		//when
 		List<SupremeCourtChamber> chambers = scListService.findScChambers();
@@ -72,6 +76,7 @@ public class ScListServiceTest {
 		
 		when(scChamberDivisionRepository.findAllByScChamberId(1)).thenReturn(divisionsWrongOrder);
 		scListService.setScChamberDivisionRepository(scChamberDivisionRepository);
+		scListService.setSimpleDivisionConverter(simpleDivisionConverter);
 		
 		
 		//when

@@ -10,7 +10,7 @@
 
 
 <head>
-	<%@ include file="../common/includeCssJsLibs.jsp" %>
+	<saos:cssJsInit></saos:cssJsInit>
 </head>
 
 <body>

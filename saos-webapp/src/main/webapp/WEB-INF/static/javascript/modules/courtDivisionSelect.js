@@ -34,7 +34,7 @@ var CourtDivisionSelect = (function() {
 						var selectedCourtId = $court.find("option:selected").attr("value");
 						
 						if (selectedCourtId !== "") {
-							$.ajax(divisionUrl + selectedCourtId)
+							$.ajax(divisionUrl.replace("{id}", selectedCourtId))
 							 .done(function(data) {
 								 var options = prepareOption("", ""),
 								 	 j = 0,

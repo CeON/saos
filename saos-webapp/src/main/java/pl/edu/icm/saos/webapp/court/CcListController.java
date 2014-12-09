@@ -18,9 +18,6 @@ public class CcListController {
     @Autowired
     private CcListService ccListService;
     
-    @Autowired
-    private SimpleDivisionConverter simpleDivisionConverter;
-    
 
 	//------------------------ LOGIC --------------------------
     

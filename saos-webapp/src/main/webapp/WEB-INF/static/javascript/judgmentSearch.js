@@ -12,8 +12,8 @@ var jsInitInJudgmentSearch = function() {
 	
 	//Search form - init select court & division
 	CourtDivisionSelect.run({
-		fields: [{court: "#select-common-court", divisionId: "#select-common-division", divisionUrl: contextPath + "/search/courtDivision/"},
-		         {court: "#select-supreme-chamber", divisionId: "#select-supreme-chamber-division", divisionUrl: contextPath + "/search/chamberDivision/"}]
+		fields: [{court: "#select-common-court", divisionId: "#select-common-division", divisionUrl: contextPath + "/cc/courts/{id}/courtDivisions/list"},
+		         {court: "#select-supreme-chamber", divisionId: "#select-supreme-chamber-division", divisionUrl: contextPath + "/sc/chambers/{id}/chamberDivisions/list"}]
 	});
 	
 	
@@ -37,10 +37,10 @@ var jsInitInJudgmentSearch = function() {
 				   {button: ".chamber", searchfield: "#select-supreme-chamber", filterfield: "filter-supreme-chamber", selectFormType: "#radio-court-supreme"}],
 		
 		advanceFilter: [{button: ".division", searchfield: "#select-common-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
-						url: contextPath + "/search/courtDivision/",
+						url: contextPath + "/cc/courts/{id}/courtDivisions/list",
 						parent : {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court"}},
 						{button: ".chamber-division", searchfield: "#select-supreme-chamber-division", filterfield: "filter-supreme-chamber-division", selectFormType: "#radio-court-supreme",
-						url: contextPath + "/search/chamberDivision/",
+						url: contextPath + "/sc/chambers/{id}/chamberDivisions/list",
 						parent : {button: ".chamber", searchfield: "#select-supreme-chamber", filterfield: "filter-supreme-chamber"}}],
 	});
 	

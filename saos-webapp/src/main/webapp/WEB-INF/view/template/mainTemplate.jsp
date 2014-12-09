@@ -10,7 +10,7 @@
     <head>
     <meta charset="UTF-8" />
     
-	<%@ include file="../common/includeCssJsLibs.jsp" %>
+	<saos:cssJsInit></saos:cssJsInit>
     
         
     <title><spring:message code="saos.fullname"/></title>
