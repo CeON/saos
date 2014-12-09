@@ -367,12 +367,27 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
     public static class SortingFieldTemplate extends QueryParameterRepresentation<JudgmentIndexField, List<JudgmentIndexField>>{
         private static final long serialVersionUID = -5638335893706303434L;
 
+        //------------------------ CONSTRUCTORS --------------------------
         public SortingFieldTemplate(JudgmentIndexField value) {
             super(value);
             setDescription("Represents the field by which you want to sort a list of items");
             setAllowedValues(Arrays.asList(
                     JudgmentIndexField.DATABASE_ID,
-                    JudgmentIndexField.JUDGMENT_DATE
+                    JudgmentIndexField.JUDGMENT_DATE,
+                    JudgmentIndexField.CASE_NUMBER,
+                    JudgmentIndexField.CC_COURT_TYPE,
+                    JudgmentIndexField.CC_COURT_ID,
+                    JudgmentIndexField.CC_COURT_CODE,
+                    JudgmentIndexField.CC_COURT_NAME,
+                    JudgmentIndexField.CC_COURT_DIVISION_ID,
+                    JudgmentIndexField.CC_COURT_DIVISION_CODE,
+                    JudgmentIndexField.CC_COURT_DIVISION_NAME,
+                    JudgmentIndexField.SC_JUDGMENT_FORM,
+                    JudgmentIndexField.SC_PERSONNEL_TYPE,
+                    JudgmentIndexField.SC_COURT_DIVISION_ID,
+                    JudgmentIndexField.SC_COURT_DIVISION_NAME,
+                    JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID,
+                    JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_NAME
             ));
         }
     }
@@ -380,6 +395,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
     public static class SortingDirectionTemplate extends QueryParameterRepresentation<Sorting.Direction, List<Sorting.Direction>>{
         private static final long serialVersionUID = 8917970749795757918L;
 
+        //------------------------ CONSTRUCTORS --------------------------
         public SortingDirectionTemplate(Sorting.Direction value) {
             super(value);
             setDescription("Represents the direction in which to sort a list of items");
@@ -390,6 +406,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
     public static class CourtTypeTemplate extends QueryParameterRepresentation<CourtType, List<CourtType>>{
         private static final long serialVersionUID = -5960115107797888865L;
 
+        //------------------------ CONSTRUCTORS --------------------------
         public CourtTypeTemplate(CourtType value) {
             super(value);
             setDescription("Represents judgment's court type");
@@ -400,6 +417,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
     public static class CommonCourtTypeTemplate extends QueryParameterRepresentation<CommonCourtType, List<CommonCourtType>>{
         private static final long serialVersionUID = -7541018805220453662L;
 
+        //------------------------ CONSTRUCTORS --------------------------
         public CommonCourtTypeTemplate(CommonCourtType value) {
             super(value);
             setDescription("Represents common court type");
@@ -410,6 +428,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
     public static class PersonnelTypeTemplate extends  QueryParameterRepresentation<PersonnelType, List<PersonnelType>>{
         private static final long serialVersionUID = 6620872440916892736L;
 
+        //------------------------ CONSTRUCTORS --------------------------
         public PersonnelTypeTemplate(PersonnelType value) {
             super(value);
             setDescription("Represents supreme court judgment's personnel type");
@@ -420,6 +439,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
     public static class JudgmentTypesTemplate extends QueryParameterRepresentation<List<JudgmentType>,  List<JudgmentType>>{
         private static final long serialVersionUID = -2990420104646534232L;
 
+        //------------------------ CONSTRUCTORS --------------------------
         public JudgmentTypesTemplate(List<JudgmentType> value) {
             super(value);
             setDescription("Represents list of judgments types");

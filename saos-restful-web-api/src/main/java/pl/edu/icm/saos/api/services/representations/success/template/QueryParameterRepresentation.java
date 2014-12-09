@@ -16,6 +16,7 @@ public class QueryParameterRepresentation<VALUE, ALLOWED_VALUES> implements Seri
     private String description;
     private ALLOWED_VALUES allowedValues;
 
+    //------------------------ CONSTRUCTORS --------------------------
     public QueryParameterRepresentation(VALUE value) {
         this.value = value;
     }
