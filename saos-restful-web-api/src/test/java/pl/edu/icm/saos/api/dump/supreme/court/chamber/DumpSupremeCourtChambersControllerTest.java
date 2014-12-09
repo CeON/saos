@@ -98,8 +98,8 @@ public class DumpSupremeCourtChambersControllerTest extends PersistenceTestSuppo
 
         //then
         actions
-                .andExpect(jsonPath("$.queryTemplate.pageSize").value(pageSize))
-                .andExpect(jsonPath("$.queryTemplate.pageNumber").value(pageNumber))
+                .andExpect(jsonPath("$.queryTemplate.pageSize.value").value(pageSize))
+                .andExpect(jsonPath("$.queryTemplate.pageNumber.value").value(pageNumber))
         ;
     }
 

@@ -2,6 +2,8 @@ package pl.edu.icm.saos.api.dump.supreme.court.chamber.views;
 
 import com.google.common.base.Objects;
 import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
+import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
 
 import java.io.Serializable;
 import java.util.List;
@@ -154,28 +156,30 @@ public class DumpScChambersView extends CollectionRepresentation<Item, QueryTemp
     public static class QueryTemplate implements Serializable {
         private static final long serialVersionUID = -9175231935730751891L;
 
-        private int pageSize;
-        private int pageNumber;
+        private PageSizeTemplate pageSize;
+        private PageNumberTemplate pageNumber;
 
         //------------------------ GETTERS --------------------------
 
-        public int getPageSize() {
+        public PageSizeTemplate getPageSize() {
             return pageSize;
         }
 
-        public int getPageNumber() {
+        public PageNumberTemplate getPageNumber() {
             return pageNumber;
         }
 
+
         //------------------------ SETTERS --------------------------
 
-        public void setPageSize(int pageSize) {
+        public void setPageSize(PageSizeTemplate pageSize) {
             this.pageSize = pageSize;
         }
 
-        public void setPageNumber(int pageNumber) {
+        public void setPageNumber(PageNumberTemplate pageNumber) {
             this.pageNumber = pageNumber;
         }
+
 
         //------------------------ HashCode & Equals --------------------------
 
