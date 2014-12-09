@@ -5,11 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import pl.edu.icm.saos.api.dump.judgment.item.representation.CommonCourtJudgmentItem;
 import pl.edu.icm.saos.api.dump.judgment.item.representation.JudgmentItem;
-import pl.edu.icm.saos.api.dump.judgment.mapping.DumpCommonCourtJudgmentItemMapper;
-import pl.edu.icm.saos.api.dump.judgment.mapping.DumpJudgmentItemMapper;
 import pl.edu.icm.saos.api.dump.judgment.item.representation.SupremeCourtJudgmentItem;
 import pl.edu.icm.saos.api.dump.judgment.mapping.DumpCommonCourtJudgmentItemMapper;
 import pl.edu.icm.saos.api.dump.judgment.mapping.DumpJudgmentItemMapper;
@@ -18,6 +15,10 @@ import pl.edu.icm.saos.api.dump.judgment.parameters.RequestDumpJudgmentsParamete
 import pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
+import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateFromTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateToTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.QueryTemplate;
+import static pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.*;
 
 /**
  * Provides functionality for building success object view for dump list of judgments.
@@ -156,11 +157,11 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
     private QueryTemplate toQueryTemplate(Pagination pagination, String startDate, String endDate, String modificationDate) {
 
         QueryTemplate queryTemplate = new QueryTemplate();
-        queryTemplate.setPageNumber(pagination.getPageNumber());
-        queryTemplate.setPageSize(pagination.getPageSize());
-        queryTemplate.setJudgmentStartDate(StringUtils.trimToEmpty(startDate));
-        queryTemplate.setJudgmentEndDate(StringUtils.trimToEmpty(endDate));
-        queryTemplate.setSinceModificationDate(StringUtils.trimToEmpty(modificationDate));
+        queryTemplate.setPageNumber(new PageNumberTemplate(pagination.getPageNumber()));
+        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize()));
+        queryTemplate.setJudgmentStartDate(new JudgmentDateFromTemplate(StringUtils.trimToEmpty(startDate)));
+        queryTemplate.setJudgmentEndDate(new JudgmentDateToTemplate(StringUtils.trimToEmpty(endDate)));
+        queryTemplate.setSinceModificationDate(new SinceModificationDateTemplate(StringUtils.trimToEmpty(modificationDate)));
 
         return queryTemplate;
     }

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
+import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
@@ -111,8 +113,8 @@ public class DumpScChambersListsSuccessRepresentationBuilder {
     private QueryTemplate toQueryTemplate(Pagination pagination) {
         QueryTemplate queryTemplate = new QueryTemplate();
 
-        queryTemplate.setPageNumber(pagination.getPageNumber());
-        queryTemplate.setPageSize(pagination.getPageSize());
+        queryTemplate.setPageNumber(new PageNumberTemplate(pagination.getPageNumber()));
+        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize()));
 
         return queryTemplate;
     }

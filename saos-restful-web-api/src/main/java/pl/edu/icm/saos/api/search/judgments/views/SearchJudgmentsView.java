@@ -3,11 +3,13 @@ package pl.edu.icm.saos.api.search.judgments.views;
 import com.google.common.base.Objects;
 import pl.edu.icm.saos.api.search.judgments.item.representation.SearchJudgmentItem;
 import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
+import pl.edu.icm.saos.api.services.representations.success.template.*;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.search.model.Sorting;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 import static pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.Info;
@@ -25,11 +27,11 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
     public static class QueryTemplate implements Serializable {
         private static final long serialVersionUID = -3393160167574039256L;
 
-        private int pageNumber;
-        private int pageSize;
+        private PageNumberTemplate pageNumber;
+        private PageSizeTemplate pageSize;
 
-        private JudgmentIndexField sortingField;
-        private Sorting.Direction sortingDirection;
+        private SortingFieldTemplate sortingField;
+        private SortingDirectionTemplate sortingDirection;
 
         private String all;
         private String legalBase;
@@ -38,9 +40,9 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
         private String caseNumber;
 
 
-        private CourtType courtType;
+        private CourtTypeTemplate courtType;
 
-        private CommonCourtType ccCourtType;
+        private CommonCourtTypeTemplate ccCourtType;
         private Integer ccCourtId;
         private String ccCourtCode;
         private String ccCourtName;
@@ -49,27 +51,35 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
         private String ccDivisionCode;
         private String ccDivisionName;
 
-        private PersonnelType scPersonnelType;
+        private PersonnelTypeTemplate scPersonnelType;
         private Integer scChamberId;
         private String scChamberName;
         private Integer scDivisionId;
         private String scDivisionName;
 
-        private List<JudgmentType> judgmentTypes;
+        private JudgmentTypesTemplate judgmentTypes;
         private List<String> keywords;
 
 
-        private String judgmentDateFrom;
-        private String judgmentDateTo;
+        private JudgmentDateFromTemplate judgmentDateFrom;
+        private JudgmentDateToTemplate judgmentDateTo;
 
         //------------------------ GETTERS --------------------------
 
-        public int getPageNumber() {
+        public PageNumberTemplate getPageNumber() {
             return pageNumber;
         }
 
-        public int getPageSize() {
+        public PageSizeTemplate getPageSize() {
             return pageSize;
+        }
+
+        public SortingFieldTemplate getSortingField() {
+            return sortingField;
+        }
+
+        public SortingDirectionTemplate getSortingDirection() {
+            return sortingDirection;
         }
 
         public String getAll() {
@@ -92,15 +102,11 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             return caseNumber;
         }
 
-        public PersonnelType getScPersonnelType() {
-            return scPersonnelType;
-        }
-
-        public CourtType getCourtType() {
+        public CourtTypeTemplate getCourtType() {
             return courtType;
         }
 
-        public CommonCourtType getCcCourtType() {
+        public CommonCourtTypeTemplate getCcCourtType() {
             return ccCourtType;
         }
 
@@ -128,6 +134,10 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             return ccDivisionName;
         }
 
+        public PersonnelTypeTemplate getScPersonnelType() {
+            return scPersonnelType;
+        }
+
         public Integer getScChamberId() {
             return scChamberId;
         }
@@ -144,7 +154,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             return scDivisionName;
         }
 
-        public List<JudgmentType> getJudgmentTypes() {
+        public JudgmentTypesTemplate getJudgmentTypes() {
             return judgmentTypes;
         }
 
@@ -152,30 +162,31 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             return keywords;
         }
 
-        public String getJudgmentDateFrom() {
+        public JudgmentDateFromTemplate getJudgmentDateFrom() {
             return judgmentDateFrom;
         }
 
-        public String getJudgmentDateTo() {
+        public JudgmentDateToTemplate getJudgmentDateTo() {
             return judgmentDateTo;
         }
 
-        public JudgmentIndexField getSortingField() {
-            return sortingField;
-        }
-
-        public Sorting.Direction getSortingDirection() {
-            return sortingDirection;
-        }
 
         //------------------------ SETTERS --------------------------
 
-        public void setPageNumber(int pageNumber) {
+        public void setPageNumber(PageNumberTemplate pageNumber) {
             this.pageNumber = pageNumber;
         }
 
-        public void setPageSize(int pageSize) {
+        public void setPageSize(PageSizeTemplate pageSize) {
             this.pageSize = pageSize;
+        }
+
+        public void setSortingField(SortingFieldTemplate sortingField) {
+            this.sortingField = sortingField;
+        }
+
+        public void setSortingDirection(SortingDirectionTemplate sortingDirection) {
+            this.sortingDirection = sortingDirection;
         }
 
         public void setAll(String all) {
@@ -198,15 +209,11 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.caseNumber = caseNumber;
         }
 
-        public void setScPersonnelType(PersonnelType scPersonnelType) {
-            this.scPersonnelType = scPersonnelType;
-        }
-
-        public void setCourtType(CourtType courtType) {
+        public void setCourtType(CourtTypeTemplate courtType) {
             this.courtType = courtType;
         }
 
-        public void setCcCourtType(CommonCourtType ccCourtType) {
+        public void setCcCourtType(CommonCourtTypeTemplate ccCourtType) {
             this.ccCourtType = ccCourtType;
         }
 
@@ -234,6 +241,10 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.ccDivisionName = ccDivisionName;
         }
 
+        public void setScPersonnelType(PersonnelTypeTemplate scPersonnelType) {
+            this.scPersonnelType = scPersonnelType;
+        }
+
         public void setScChamberId(Integer scChamberId) {
             this.scChamberId = scChamberId;
         }
@@ -250,7 +261,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.scDivisionName = scDivisionName;
         }
 
-        public void setJudgmentTypes(List<JudgmentType> judgmentTypes) {
+        public void setJudgmentTypes(JudgmentTypesTemplate judgmentTypes) {
             this.judgmentTypes = judgmentTypes;
         }
 
@@ -258,20 +269,12 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.keywords = keywords;
         }
 
-        public void setJudgmentDateFrom(String judgmentDateFrom) {
+        public void setJudgmentDateFrom(JudgmentDateFromTemplate judgmentDateFrom) {
             this.judgmentDateFrom = judgmentDateFrom;
         }
 
-        public void setJudgmentDateTo(String judgmentDateTo) {
+        public void setJudgmentDateTo(JudgmentDateToTemplate judgmentDateTo) {
             this.judgmentDateTo = judgmentDateTo;
-        }
-
-        public void setSortingField(JudgmentIndexField sortingField) {
-            this.sortingField = sortingField;
-        }
-
-        public void setSortingDirection(Sorting.Direction sortingDirection) {
-            this.sortingDirection = sortingDirection;
         }
 
         //------------------------ HashCode & Equals --------------------------
@@ -358,6 +361,69 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
                     .add("judgmentDateFrom", judgmentDateFrom)
                     .add("judgmentDateTo", judgmentDateTo)
                     .toString();
+        }
+    }
+
+    public static class SortingFieldTemplate extends QueryParameterRepresentation<JudgmentIndexField, List<JudgmentIndexField>>{
+        private static final long serialVersionUID = -5638335893706303434L;
+
+        public SortingFieldTemplate(JudgmentIndexField value) {
+            super(value);
+            setDescription("Represents the field by which you want to sort a list of items");
+            setAllowedValues(Arrays.asList(
+                    JudgmentIndexField.DATABASE_ID,
+                    JudgmentIndexField.JUDGMENT_DATE
+            ));
+        }
+    }
+
+    public static class SortingDirectionTemplate extends QueryParameterRepresentation<Sorting.Direction, List<Sorting.Direction>>{
+        private static final long serialVersionUID = 8917970749795757918L;
+
+        public SortingDirectionTemplate(Sorting.Direction value) {
+            super(value);
+            setDescription("Represents the direction in which to sort a list of items");
+            setAllowedValues(Arrays.asList(Sorting.Direction.values()));
+        }
+    }
+
+    public static class CourtTypeTemplate extends QueryParameterRepresentation<CourtType, List<CourtType>>{
+        private static final long serialVersionUID = -5960115107797888865L;
+
+        public CourtTypeTemplate(CourtType value) {
+            super(value);
+            setDescription("Represents judgment's court type");
+            setAllowedValues(Arrays.asList(CourtType.values()));
+        }
+    }
+
+    public static class CommonCourtTypeTemplate extends QueryParameterRepresentation<CommonCourtType, List<CommonCourtType>>{
+        private static final long serialVersionUID = -7541018805220453662L;
+
+        public CommonCourtTypeTemplate(CommonCourtType value) {
+            super(value);
+            setDescription("Represents common court type");
+            setAllowedValues(Arrays.asList(CommonCourtType.values()));
+        }
+    }
+
+    public static class PersonnelTypeTemplate extends  QueryParameterRepresentation<PersonnelType, List<PersonnelType>>{
+        private static final long serialVersionUID = 6620872440916892736L;
+
+        public PersonnelTypeTemplate(PersonnelType value) {
+            super(value);
+            setDescription("Represents supreme court judgment's personnel type");
+            setAllowedValues(Arrays.asList(PersonnelType.values()));
+        }
+    }
+
+    public static class JudgmentTypesTemplate extends QueryParameterRepresentation<List<JudgmentType>,  List<JudgmentType>>{
+        private static final long serialVersionUID = -2990420104646534232L;
+
+        public JudgmentTypesTemplate(List<JudgmentType> value) {
+            super(value);
+            setDescription("Represents list of judgments types");
+            setAllowedValues(Arrays.asList(JudgmentType.values()));
         }
     }
 

@@ -236,11 +236,11 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
 
         //then
         actions
-                .andExpect(jsonPath("$.queryTemplate.pageSize").value(pageSize))
-                .andExpect(jsonPath("$.queryTemplate.pageNumber").value(pageNumber))
-                .andExpect(jsonPath("$.queryTemplate.judgmentStartDate").value(judgmentStartDate))
-                .andExpect(jsonPath("$.queryTemplate.judgmentEndDate").value(judgmentEndDate))
-                .andExpect(jsonPath("$.queryTemplate.sinceModificationDate").value(sinceModificationDate))
+                .andExpect(jsonPath("$.queryTemplate.pageSize.value").value(pageSize))
+                .andExpect(jsonPath("$.queryTemplate.pageNumber.value").value(pageNumber))
+                .andExpect(jsonPath("$.queryTemplate.judgmentStartDate.value").value(judgmentStartDate))
+                .andExpect(jsonPath("$.queryTemplate.judgmentEndDate.value").value(judgmentEndDate))
+                .andExpect(jsonPath("$.queryTemplate.sinceModificationDate.value").value(sinceModificationDate))
         ;
     }
 

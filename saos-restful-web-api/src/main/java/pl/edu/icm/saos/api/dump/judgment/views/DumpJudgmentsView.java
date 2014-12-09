@@ -3,6 +3,7 @@ package pl.edu.icm.saos.api.dump.judgment.views;
 import com.google.common.base.Objects;
 import pl.edu.icm.saos.api.dump.judgment.item.representation.JudgmentItem;
 import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
+import pl.edu.icm.saos.api.services.representations.success.template.*;
 
 import java.io.Serializable;
 
@@ -22,55 +23,57 @@ public class DumpJudgmentsView extends CollectionRepresentation<JudgmentItem,Que
 
         private static final long serialVersionUID = 2917013631537796073L;
 
-        private int pageNumber;
-        private int pageSize;
-        private String judgmentStartDate;
-        private String judgmentEndDate;
-        private String sinceModificationDate;
+        private PageNumberTemplate pageNumber;
+        private PageSizeTemplate pageSize;
+        private JudgmentDateFromTemplate judgmentStartDate;
+        private JudgmentDateToTemplate judgmentEndDate;
+        private SinceModificationDateTemplate sinceModificationDate;
 
         //------------------------ GETTERS --------------------------
 
-        public int getPageNumber() {
+        public PageNumberTemplate getPageNumber() {
             return pageNumber;
         }
 
-        public int getPageSize() {
+        public PageSizeTemplate getPageSize() {
             return pageSize;
         }
 
-        public String getJudgmentStartDate() {
+        public JudgmentDateFromTemplate getJudgmentStartDate() {
             return judgmentStartDate;
         }
 
-        public String getJudgmentEndDate() {
+        public JudgmentDateToTemplate getJudgmentEndDate() {
             return judgmentEndDate;
         }
 
-        public String getSinceModificationDate() {
+        public SinceModificationDateTemplate getSinceModificationDate() {
             return sinceModificationDate;
         }
 
+
         //------------------------ SETTERS --------------------------
 
-        public void setPageNumber(int pageNumber) {
+        public void setPageNumber(PageNumberTemplate pageNumber) {
             this.pageNumber = pageNumber;
         }
 
-        public void setPageSize(int pageSize) {
+        public void setPageSize(PageSizeTemplate pageSize) {
             this.pageSize = pageSize;
         }
 
-        public void setJudgmentStartDate(String judgmentStartDate) {
+        public void setJudgmentStartDate(JudgmentDateFromTemplate judgmentStartDate) {
             this.judgmentStartDate = judgmentStartDate;
         }
 
-        public void setJudgmentEndDate(String judgmentEndDate) {
+        public void setJudgmentEndDate(JudgmentDateToTemplate judgmentEndDate) {
             this.judgmentEndDate = judgmentEndDate;
         }
 
-        public void setSinceModificationDate(String sinceModificationDate) {
+        public void setSinceModificationDate(SinceModificationDateTemplate sinceModificationDate) {
             this.sinceModificationDate = sinceModificationDate;
         }
+
 
         //------------------------ HashCode & Equals --------------------------
 
@@ -102,6 +105,14 @@ public class DumpJudgmentsView extends CollectionRepresentation<JudgmentItem,Que
                     .add("judgmentEndDate", judgmentEndDate)
                     .add("sinceModificationDate", sinceModificationDate)
                     .toString();
+        }
+    }
+
+    public static class SinceModificationDateTemplate extends QueryParameterRepresentation<String, String>{
+        public SinceModificationDateTemplate(String value) {
+            super(value);
+            setDescription("Allows you to select judgments which were modified later than the specified dateTime");
+            setAllowedValues("DateTime in format : yyyy-MM-dd'T'HH:mm:ss.SSS");
         }
     }
 
