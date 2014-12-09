@@ -120,6 +120,14 @@ public class TestPersistenceObjectFactory {
         return ccJudgment;
     }
 
+    @Transactional
+    public List<SupremeCourtJudgment> createScJudgmentListWithRandomData(int size){
+        List<SupremeCourtJudgment> judgments = TestInMemoryObjectFactory.createScJudgmentListWithRandomData(size);
+        judgments.forEach(scJudgment -> saveScJudgment(scJudgment));
+        
+        return judgments;
+    }
+    
     /**
      * Creates list of {@link CommonCourtJudgment} with fields filled with random values.
      * @param size of the list.
