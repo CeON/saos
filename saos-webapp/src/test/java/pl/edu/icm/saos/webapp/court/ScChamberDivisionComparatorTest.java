@@ -32,8 +32,8 @@ public class ScChamberDivisionComparatorTest {
 		
 		assertEquals(-1, scChamberDivisionComparator.compare(divisionOne, divisionTwo));
 		assertEquals(1, scChamberDivisionComparator.compare(divisionTwo, divisionOne));
-		assertEquals(4, scChamberDivisionComparator.compare(divisionThree, divisionOne));
-		assertEquals(6, scChamberDivisionComparator.compare(divisionFour, divisionOne));
+		assertEquals(1, scChamberDivisionComparator.compare(divisionThree, divisionOne));
+		assertEquals(1, scChamberDivisionComparator.compare(divisionFour, divisionOne));
 	}
 
 	@Test
