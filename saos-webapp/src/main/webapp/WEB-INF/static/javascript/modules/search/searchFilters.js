@@ -170,7 +170,7 @@ var SearchFilters = (function(){
 								.removeAttr("disabled")
 								.removeAttr("selected");
 			
-							$.ajax(filterUrl.replace("id", selectedCourtId))
+							$.ajax(filterUrl.replace("{id}", selectedCourtId))
 							 .done(function(data) {
 								 var i = 0,
 								 	 length = data.length,
