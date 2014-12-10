@@ -3,6 +3,11 @@ package pl.edu.icm.saos.webapp.court;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.webapp.court.ScChamberDivisionComparator;
@@ -11,29 +16,78 @@ import pl.edu.icm.saos.webapp.court.ScChamberDivisionComparator;
  * @author Łukasz Pawełczak
  *
  */
+@RunWith(DataProviderRunner.class)
 public class ScChamberDivisionComparatorTest {
 
 	ScChamberDivisionComparator scChamberDivisionComparator = new ScChamberDivisionComparator();
 	
 	
-	//------------------------ TESTS --------------------------
-	
-	@Test
-	public void compare_numbers() {
+	@DataProvider
+	public static Object[][] scChamberDivisionPositiveData() {
 		SupremeCourtChamberDivision divisionOne = new SupremeCourtChamberDivision();
-		divisionOne.setName("Wydział III");
+		divisionOne.setName("Wydział I");
+		SupremeCourtChamberDivision divisionTwo = new SupremeCourtChamberDivision();
+		divisionTwo.setName("Wydział III");
+		SupremeCourtChamberDivision divisionThree = new SupremeCourtChamberDivision();
+		divisionThree.setName("Wydział IX");
+		
+		return new Object[][] {
+				{divisionTwo, divisionOne},
+				{divisionThree, divisionOne},
+				{divisionThree, divisionTwo}
+		};
+	}
+	
+	@DataProvider
+	public static Object[][] scChamberDivisionNegativeData() {
+		SupremeCourtChamberDivision divisionOne = new SupremeCourtChamberDivision();
+		divisionOne.setName("Wydział IX");
 		SupremeCourtChamberDivision divisionTwo = new SupremeCourtChamberDivision();
 		divisionTwo.setName("Wydział IV");
 		SupremeCourtChamberDivision divisionThree = new SupremeCourtChamberDivision();
-		divisionThree.setName("Wydział VII");
-		SupremeCourtChamberDivision divisionFour = new SupremeCourtChamberDivision();
-		divisionFour.setName("Wydział IX");
+		divisionThree.setName("Wydział I");
 		
+		return new Object[][] {
+				{divisionTwo, divisionOne},
+				{divisionThree, divisionOne},
+				{divisionThree, divisionTwo}
+		};
+	}
+	
+	@DataProvider
+	public static Object[][] scChamberDivisionEqualsZeroData() {
+		SupremeCourtChamberDivision divisionOne = new SupremeCourtChamberDivision();
+		divisionOne.setName("Wydział IX");
+		SupremeCourtChamberDivision divisionTwo = new SupremeCourtChamberDivision();
+		divisionTwo.setName("Wydział IX");
 		
-		assertEquals(-1, scChamberDivisionComparator.compare(divisionOne, divisionTwo));
-		assertEquals(1, scChamberDivisionComparator.compare(divisionTwo, divisionOne));
-		assertEquals(1, scChamberDivisionComparator.compare(divisionThree, divisionOne));
-		assertEquals(1, scChamberDivisionComparator.compare(divisionFour, divisionOne));
+		return new Object[][] {
+				{divisionTwo, divisionOne}
+		};
+	}
+	
+	
+	//------------------------ TESTS --------------------------
+	
+	@Test
+	@UseDataProvider("scChamberDivisionPositiveData")
+	public void compare_positive(SupremeCourtChamberDivision divisionOne, SupremeCourtChamberDivision divisionTwo) {
+		
+		assertTrue(0 < scChamberDivisionComparator.compare(divisionOne, divisionTwo));
+	}
+	
+	@Test
+	@UseDataProvider("scChamberDivisionNegativeData")
+	public void compare_negative(SupremeCourtChamberDivision divisionOne, SupremeCourtChamberDivision divisionTwo) {
+		
+		assertTrue(0 > scChamberDivisionComparator.compare(divisionOne, divisionTwo));
+	}
+	
+	@Test
+	@UseDataProvider("scChamberDivisionEqualsZeroData")
+	public void compare_equals_zero(SupremeCourtChamberDivision divisionOne, SupremeCourtChamberDivision divisionTwo) {
+		
+		assertTrue(0 == scChamberDivisionComparator.compare(divisionOne, divisionTwo));
 	}
 
 	@Test
