@@ -17,8 +17,8 @@ public abstract class DivisionComparator<T> implements Comparator<T> {
 	//------------------------ LOGIC --------------------------
 	
 	/** 
-	 * Compare divisions by roman numbers contained in division name.
-	 * If two division names does not contain roman number, compare it alphabetically. 
+	 * Compare divisions by Roman numbers contained in division name.
+	 * If two division names does not contain Roman number, compare it alphabetically. 
 	 */ 
 	public int compare(T divisionOne, T divisionTwo) {
 		String divisionNameOne = getName(divisionOne); 
@@ -26,9 +26,7 @@ public abstract class DivisionComparator<T> implements Comparator<T> {
 		int romanNumberOne = getNumber(divisionNameOne);
 		int romanNumberTwo = getNumber(divisionNameTwo);
 		
-		/** 
-		 * If both names do not contain roman numbers, compare them using simple alphabetic comparation 
-		 */
+		// If both names do not contain v numbers, compare them using simple alphabetic comparison.
 		if (romanNumberOne == 0 && romanNumberTwo == 0) {
 			return Collator.getInstance(WebappConst.LOCALE_PL).compare(divisionNameOne, divisionNameTwo);
 		} else {

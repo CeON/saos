@@ -17,7 +17,9 @@ public class CcDivisionComparator extends DivisionComparator<CommonCourtDivision
 		return division.getName();
 	}
 	
-	/* Get arabic number from division name. Division name must contain Roman number as first word, if not method returns 0. */
+	/** 
+	 * Get Arabic number from division name. Division name must contain Roman number as first word, if not method returns 0. 
+	 */
 	@Override
 	protected int getNumber(String name) {
 		String[] array = name.split(" ", 2);

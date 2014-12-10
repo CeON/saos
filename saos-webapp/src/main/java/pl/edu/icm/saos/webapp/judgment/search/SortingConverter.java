@@ -24,13 +24,17 @@ public class SortingConverter {
 	
 	//------------------------ LOGIC --------------------------
 	
-	
+	/**
+	 * Method converts object {@link org.springframework.data.domain.Sort} into {@link pl.edu.icm.saos.search.search.model.Sorting}.
+	 * If Sort object contains incorrect value of sort field, method returns sorting by relevance. 
+	 * 
+	 * @param sort {@link org.springframework.data.domain.Sort} 
+	 * @return {@link pl.edu.icm.saos.search.search.model.Sorting}
+	 */
 	public Sorting convert(Sort sort) {
 		Iterator<Order> order = sort.iterator();
 		
-		/**
-		 * Get one sorting property, if it is not valid use sorting by relevance.
-		 */
+		// Get one sorting property, if it is not valid use sorting by relevance.
 		if (order.hasNext()) {
 			Order next = order.next(); 
 			String property = next.getProperty();

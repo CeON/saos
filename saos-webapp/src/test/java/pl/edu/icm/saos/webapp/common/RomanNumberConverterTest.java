@@ -43,6 +43,29 @@ public class RomanNumberConverterTest {
 		};
 	}
 	
+	@DataProvider
+	public static Object[][] simpleStringData() {
+		
+		return new Object[][] {
+				{true, "I"},
+				{true, "IX"},
+				{true, "IV"},
+				{true, "VIII"},
+				{true, "XIX"}
+		};
+	}
+	
+	@DataProvider
+	public static Object[][] incorrectStringData() {
+		
+		return new Object[][] {
+				{false, ""},
+				{false, "Wydział"},
+				{false, "X Wydział"},
+				{false, "WydziałI"},
+		};
+	}
+	
 	
 	//------------------------ TESTS --------------------------
 	
@@ -54,20 +77,17 @@ public class RomanNumberConverterTest {
 	}
 	
 	@Test
-	public void isRomanNumber_simple_string_with_roman_number() {
+	@UseDataProvider("simpleStringData")
+	public void isRomanNumber_simple_string_with_roman_number(boolean expected, String romanNumber) {
 		
-		assertTrue(RomanNumberConverter.isRomanNumber("I"));
-		assertTrue(RomanNumberConverter.isRomanNumber("IX"));
-		assertTrue(RomanNumberConverter.isRomanNumber("IV"));
+		assertEquals(expected, RomanNumberConverter.isRomanNumber(romanNumber));
 	}
 	
 	@Test
-	public void isRomanNumber_incorrect_string() {
+	@UseDataProvider("incorrectStringData")
+	public void isRomanNumber_incorrect_string(boolean expected, String romanNumber) {
 		
-		assertFalse(RomanNumberConverter.isRomanNumber(""));
-		assertFalse(RomanNumberConverter.isRomanNumber("Wydział"));
-		assertFalse(RomanNumberConverter.isRomanNumber("X Wydział"));
-		assertFalse(RomanNumberConverter.isRomanNumber("WydziałI"));
+		assertEquals(expected, RomanNumberConverter.isRomanNumber(romanNumber));
 	}
 
 }
