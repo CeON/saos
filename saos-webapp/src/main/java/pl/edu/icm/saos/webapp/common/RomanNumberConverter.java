@@ -4,7 +4,7 @@ package pl.edu.icm.saos.webapp.common;
  * @author Łukasz Pawełczak
  *
  */
-public final class ConvertRomanNumerals {
+public final class RomanNumberConverter {
 	
 	
 	//------------------------ LOGIC --------------------------
@@ -27,8 +27,12 @@ public final class ConvertRomanNumerals {
 		return result;
 	}
  
-	public static boolean isRomanNumeral(String str) {
+	public static boolean isRomanNumber(String str) {
 	  return str.matches("(?:([MDCLXVI])(?!\\1{3,}))+");
+	}
+	
+	public static boolean isNotRomanNumber(String str) {
+		return !isRomanNumber(str);
 	}
 	
 	//------------------------ PRIVATE --------------------------

@@ -10,7 +10,7 @@
 
 
 <head>
-	<saos:cssjsInit></saos:cssjsInit>
+	<saos:cssJsInit></saos:cssJsInit>
 </head>
 
 <body>

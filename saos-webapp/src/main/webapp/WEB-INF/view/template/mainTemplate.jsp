@@ -10,7 +10,7 @@
     <head>
     <meta charset="UTF-8" />
     
-	<saos:cssjsInit></saos:cssjsInit>
+	<saos:cssJsInit></saos:cssJsInit>
     
         
     <title><spring:message code="saos.fullname"/></title>
@@ -33,20 +33,15 @@
 	        <header>
 	            <tiles:insertAttribute name="top" />
 	        </header>
-	
-			<nav class="menu" >
-				<tiles:insertAttribute name="navigation" />
-	        </nav>
 	              
             <tiles:insertAttribute name="content" flush="false" />
 	        
-	        
 	        <div class="push"></div>
         </div>
+        
         <footer>
        		<tiles:insertAttribute name="footer" /> 
         </footer>
-       
         
     </body>
 </html>

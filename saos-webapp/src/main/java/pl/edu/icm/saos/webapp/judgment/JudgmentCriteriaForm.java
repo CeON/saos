@@ -194,7 +194,6 @@ public class JudgmentCriteriaForm {
 	public void setReferencedRegulation(String referencedRegulation) {
 		this.referencedRegulation = referencedRegulation;
 	}
-
-        
+   
 }
 

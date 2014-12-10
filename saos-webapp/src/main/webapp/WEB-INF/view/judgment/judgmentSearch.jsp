@@ -22,6 +22,14 @@
  	<c:set var="resultsListClass" value="width-full" />
  </c:if>
 
+<script>
+$(document).ready(function() {
+	jsInitInJudgmentSearch();
+});
+</script>
+
+
+
 <div class="container search-results">
 
 	<%@ include file="judgmentSearchForm.jsp" %>
@@ -32,7 +40,7 @@
 	
 		<div class="col-md-9 ${resultsListClass}">	
 		
-			<saos:judgments items="${judgments}" />
+			<%@ include file="judgmentList.jsp" %>
 		
 			<c:if test="${resultsNo == 0}">
 				<div class="no-results">

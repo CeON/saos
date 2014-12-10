@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.services;
+package pl.edu.icm.saos.webapp.judgment.search;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -11,14 +11,13 @@ import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.search.search.service.SearchService;
 import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaForm;
 import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaFormConverter;
-import pl.edu.icm.saos.webapp.search.PagingConverter;
 
 /**
  * @author Łukasz Pawełczak
  *
  */
 @Service
-public class JudgmentsWebSearchService {
+public class JudgmentWebSearchService {
 
     @Autowired
     private SearchService<JudgmentSearchResult, JudgmentCriteria> judgmentsSearchService;

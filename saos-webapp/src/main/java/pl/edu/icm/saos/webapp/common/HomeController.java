@@ -1,11 +1,17 @@
-package pl.edu.icm.saos.webapp;
+package pl.edu.icm.saos.webapp.common;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
+/**
+ * Provides simple home view.
+ * @author Łukasz Pawełczak
+ *
+ */
 @Controller
-public class SiteController {
+public class HomeController {
 
 
 	//------------------------ LOGIC --------------------------
@@ -13,19 +19,7 @@ public class SiteController {
 	@RequestMapping("/")
 	public String home(ModelMap model) {
 	    
-		return "content";
-	}
-	
-	@RequestMapping("/old/")
-	public String oldHome() {
-		
-		return "home"; 
-	}
-	
-	@RequestMapping("/old/search")
-	public String oldSearch() {
-		
-		return "basicSearch";
+		return "home";
 	}
 	
 	@RequestMapping("/angular/")

@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.division;
+package pl.edu.icm.saos.webapp.court;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +12,8 @@ import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
+import pl.edu.icm.saos.webapp.court.SimpleDivision;
+import pl.edu.icm.saos.webapp.court.SimpleDivisionConverter;
 
 /**
  * @author Łukasz Pawełczak
@@ -29,15 +31,20 @@ public class SimpleDivisionConverterTest {
 	
 	@Test
 	public void convertCcDivisions_emptyList() {
+		//given
 		List<CommonCourtDivision> ccDivisions = Lists.newArrayList();
+		
+		//when
 		List<SimpleDivision> convertedSimpleDivisions = simpleDivisionConverter.convertCcDivisions(ccDivisions);
 		
+		//then
 		assertNotNull(convertedSimpleDivisions);
 		assertEquals(0, convertedSimpleDivisions.size());
 	}
 	
 	@Test
 	public void convertCcDivisions_Same() {
+		//given
 		int idOne = 111;
 		int idTwo = 222;
 		CommonCourtDivision ccDivisionOne = new CommonCourtDivision();
@@ -49,8 +56,10 @@ public class SimpleDivisionConverterTest {
 		
 		List<CommonCourtDivision> ccDivisions = Arrays.asList(ccDivisionOne, ccDivisionTwo);
 		
+		//when
 		List<SimpleDivision> convertedSimpleDivisions = simpleDivisionConverter.convertCcDivisions(ccDivisions);
 		
+		//then
 		assertEquals(ccDivisionNames.length, convertedSimpleDivisions.size());
 		assertEquals(String.valueOf(idOne), convertedSimpleDivisions.get(0).getId());
 		assertEquals(String.valueOf(idTwo), convertedSimpleDivisions.get(1).getId());
@@ -60,15 +69,20 @@ public class SimpleDivisionConverterTest {
 	
 	@Test
 	public void convertScDivisionChambers_emptyList() {
+		//given
 		List<SupremeCourtChamberDivision> scChamberDivisions = Lists.newArrayList();
+		
+		//when
 		List<SimpleDivision> convertedSimpleDivisions = simpleDivisionConverter.convertScChamberDivisions(scChamberDivisions);
 		
+		//then
 		assertNotNull(convertedSimpleDivisions);
 		assertEquals(0, convertedSimpleDivisions.size());
 	}
 	
 	@Test
 	public void convertScDivisionChambers_Same() {
+		//given
 		int idOne = 111;
 		int idTwo = 222;
 		SupremeCourtChamberDivision scChamberDivisionOne = new SupremeCourtChamberDivision();
@@ -80,8 +94,10 @@ public class SimpleDivisionConverterTest {
 		
 		List<SupremeCourtChamberDivision> scChamberDivisions =  Arrays.asList(scChamberDivisionOne, scChamberDivisionTwo);
 		
+		//when
 		List<SimpleDivision> convertedSimpleDivisions = simpleDivisionConverter.convertScChamberDivisions(scChamberDivisions);
 		
+		//then
 		assertEquals(scDivisionChamberNames.length, convertedSimpleDivisions.size());
 		assertEquals(String.valueOf(idOne), convertedSimpleDivisions.get(0).getId());
 		assertEquals(String.valueOf(idTwo), convertedSimpleDivisions.get(1).getId());

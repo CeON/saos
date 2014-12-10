@@ -8,7 +8,10 @@
 </c:if>
 
 <div class="filter-box ${showFilterBox}" id="filter-box">
-	<p><spring:message code="judgmentSearch.filterBox.header" /><span id="filter-hide" class="filter-hide" data-toggle="tooltip" data-placement="right" title="<spring:message code='judgmentSearch.filterBox.hide' />"></span></p>
+	<p>
+		<spring:message code="judgmentSearch.filterBox.header" />
+		<span id="filter-hide" class="filter-hide" data-toggle="tooltip" data-placement="right" title="<spring:message code='judgmentSearch.filterBox.hide' />"></span>
+	</p>
 	
 	<saos:filterField assignedField="input-search-all" label="judgmentSearch.formField.all" filterValue="${judgmentCriteriaForm.all}" id="filter-all"></saos:filterField>
 	

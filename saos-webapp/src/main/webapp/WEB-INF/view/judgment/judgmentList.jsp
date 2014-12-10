@@ -1,12 +1,13 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
-<%@ attribute name="items" required="true" rtexprvalue="true" type="java.util.Collection"%>
 
-<c:forEach var="judgment" items="${items}" >
+<c:forEach var="judgment" items="${judgments}" >
 
 	<div class="judgment row" >
 	
 		<div class="row" >
+		
 				<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
 					<div class="type" data-judgment-type="${judgment.judgmentType}" >
 						<saos:enum value="${judgment.judgmentType}" ></saos:enum>
@@ -41,7 +42,6 @@
 					</div>
 				
 				</c:if>
-				
 				
 				<c:if test="${!empty judgment.judges}" >
 					<div class="judges" >

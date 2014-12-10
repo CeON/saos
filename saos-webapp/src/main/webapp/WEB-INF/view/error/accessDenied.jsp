@@ -12,7 +12,7 @@
 <head>
    	<spring:eval expression="@exposedProperties.getProperty('webapp.version')" var="webappVersion" />
     
-    <saos:cssjsInit></saos:cssjsInit>
+    <saos:cssJsInit></saos:cssJsInit>
 
 </head>
 
