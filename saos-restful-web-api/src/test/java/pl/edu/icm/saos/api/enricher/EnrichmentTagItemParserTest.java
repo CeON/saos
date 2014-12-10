@@ -72,7 +72,7 @@ public class EnrichmentTagItemParserTest {
     
     
     @Test(expected=ValidationException.class)
-    public void parse_JudgeNameNull() {
+    public void parse_ShouldThrowValidationException() {
         
         // given
         
