@@ -471,6 +471,11 @@ form.search {
 			margin-right: 8px;
 		}
 		
+		.judgment-form {
+			@include filter-underline();
+			display: inline-block;
+		}
+		
 		.personnel-type {
 			@include filter-underline();
 			display: inline-block;

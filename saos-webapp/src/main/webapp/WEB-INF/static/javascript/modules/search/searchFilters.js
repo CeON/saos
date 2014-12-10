@@ -156,6 +156,7 @@ var SearchFilters = (function(){
 					parentSearchField = advanceFilter[j].parent.searchfield,
 					searchField = advanceFilter[j].searchfield,
 					filterUrl = advanceFilter[j].url,
+					getUrl = advanceFilter[j].getUrl,
 					divisionName = $thisButton.text();
 				
 				$thisButton.click(
@@ -165,17 +166,16 @@ var SearchFilters = (function(){
 								selectedCourtId = "";
 								
 							selectFormType($selectFormType, false);
-							//clearField($(advanceFilter.parent.searchfield));
 							selectedCourtId = $(parentSearchField)
-																.find("option[data-content='" + selectedCourt + "']")
-																.attr('selected', 'selected')
-																.val();
+												.find("option[data-content='" + selectedCourt + "']")
+												.attr('selected', 'selected')
+												.val();
 							
 							$(searchField)
 								.removeAttr("disabled")
 								.removeAttr("selected");
 			
-							$.ajax(filterUrl.replace("{id}", selectedCourtId))
+							$.ajax(getUrl(selectedCourtId))
 							 .done(function(data) {
 								 var i = 0,
 								 	 length = data.length,

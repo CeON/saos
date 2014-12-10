@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.webapp.court.CcListService;
@@ -31,6 +32,9 @@ public class JudgmentSearchController {
 	
 	@Autowired
 	private JudgmentRepository judgmentRepository;
+	
+	@Autowired
+	private ScJudgmentFormRepository scJudgmentFormRepository;
 	
 	@Autowired
 	private CcListService ccListService;
@@ -54,11 +58,12 @@ public class JudgmentSearchController {
 		model.addAttribute("pageable", pageable);
 		model.addAttribute("resultSearch", searchResults);
 		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
-		
 		model.addAttribute("totalPages", JudgmentSearchResult.getTotalPageNumber(searchResults.getTotalResults(), pageable.getPageSize()));
 		
 		addCommonCourtsToModel(judgmentCriteriaForm, model);
-		addSupremeChambersToModel(judgmentCriteriaForm, model);
+		addSupremeCourtChambersToModel(judgmentCriteriaForm, model);
+		
+		model.addAttribute("scJudgmentForms", scJudgmentFormRepository.findAll());
 		
 		return "judgmentSearch";
 	}
@@ -74,7 +79,7 @@ public class JudgmentSearchController {
 		}
 	}
 	
-	private void addSupremeChambersToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
+	private void addSupremeCourtChambersToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
 		model.addAttribute("supremeChambers", scListService.findScChambers());
 		
 		if (judgmentCriteriaForm.getSupremeChamberId() != null) {
