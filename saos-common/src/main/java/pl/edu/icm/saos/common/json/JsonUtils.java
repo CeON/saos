@@ -1,8 +1,6 @@
-package pl.edu.icm.saos.importer.notapi.common;
+package pl.edu.icm.saos.common.json;
 
 import java.io.IOException;
-
-import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -14,9 +12,12 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
  * Json utilities
  * @author Łukasz Dumiszewski
  */
-@Service("jsonUtils")
-public class JsonUtils {
+public final class JsonUtils {
 
+    
+    private JsonUtils() {
+        throw new IllegalArgumentException("may not be instantiated");
+    }
     
     /**  
      * Returns next node as string. The next node is a node that is an array element or the whole object
@@ -28,9 +29,9 @@ public class JsonUtils {
      * parser with default codec
      * 
      * */
-    public String nextNode(JsonParser jp) throws JsonParseException, IOException, IllegalStateException {
+    public static String nextNode(JsonParser jp) throws JsonParseException, IOException, IllegalStateException {
         JsonToken current = jp.nextToken();
-        if (current == JsonToken.START_ARRAY) {
+        if (current == JsonToken.START_ARRAY || current == JsonToken.START_OBJECT) {
            jp.nextToken();
         } else if (current == JsonToken.END_ARRAY) {
             return null;

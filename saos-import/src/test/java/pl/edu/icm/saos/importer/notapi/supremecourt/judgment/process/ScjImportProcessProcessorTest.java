@@ -13,12 +13,12 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import pl.edu.icm.saos.common.json.JsonItemParser;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgmentParser;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
@@ -36,7 +36,7 @@ public class ScjImportProcessProcessorTest {
     
     // services
     
-    @Mock private SourceScJudgmentParser sourceScJudgmentParser;
+    @Mock private JsonItemParser<SourceScJudgment> sourceScJudgmentParser;
     
     @Mock private JudgmentConverter<SupremeCourtJudgment, SourceScJudgment> sourceScJudgmentConverter;
     

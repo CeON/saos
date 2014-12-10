@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.notapi.common;
+package pl.edu.icm.saos.common.json;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -23,9 +23,7 @@ public class JsonUtilsTest {
     
     JsonFactory jsonFactory = new MappingJsonFactory();
             
-    private JsonUtils jsonUtils = new JsonUtils();
-    
-    
+        
     @Before
     public void before() throws JsonParseException, IOException {
     }
@@ -41,7 +39,7 @@ public class JsonUtilsTest {
         
         
         // Execute
-        String nodeStr = jsonUtils.nextNode(jsonParser);
+        String nodeStr = JsonUtils.nextNode(jsonParser);
 
         // Assert
         assertEquals(content.replaceAll("\\s", ""), nodeStr);
@@ -61,7 +59,7 @@ public class JsonUtilsTest {
         
         
         // Execute
-        String nodeStr = jsonUtils.nextNode(jsonParser);
+        String nodeStr = JsonUtils.nextNode(jsonParser);
         
         // Assert
         assertEquals(element1.replaceAll("\\s", ""), nodeStr);
@@ -69,14 +67,14 @@ public class JsonUtilsTest {
         
         
         // Execute 2. time
-        nodeStr = jsonUtils.nextNode(jsonParser);
+        nodeStr = JsonUtils.nextNode(jsonParser);
         
         // Assert
         assertEquals(element2.replaceAll("\\s", ""), nodeStr);
         
         
         // Execute 3. time
-        nodeStr = jsonUtils.nextNode(jsonParser);
+        nodeStr = JsonUtils.nextNode(jsonParser);
         
         // Assert
         assertNull(nodeStr);

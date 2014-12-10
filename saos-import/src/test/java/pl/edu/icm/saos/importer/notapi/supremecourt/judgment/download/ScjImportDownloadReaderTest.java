@@ -21,8 +21,7 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.batch.item.ExecutionContext;
 
 import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
-import pl.edu.icm.saos.importer.notapi.common.JsonUtils;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.ScjImportDownloadReader;
+import pl.edu.icm.saos.importer.notapi.common.JsonUtilService;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -40,15 +39,19 @@ public class ScjImportDownloadReaderTest {
     
     private JsonFactory jsonFactory = mock(JsonFactory.class);
     
-    private JsonUtils jsonUtils = mock(JsonUtils.class);
+    private JsonUtilService jsonUtilService = mock(JsonUtilService.class);
     
     
     
     @Before
     public void before() {
+        
         scjImportDownloadReader.setScjImportFileUtils(importFileUtils);
+        
         scjImportDownloadReader.setJsonFactory(jsonFactory);
-        scjImportDownloadReader.setJsonUtils(jsonUtils);
+        
+        scjImportDownloadReader.setJsonUtilService(jsonUtilService);
+        
     }
     
 
@@ -131,7 +134,7 @@ public class ScjImportDownloadReaderTest {
         
         when(importFileUtils.getReader(Mockito.eq(currentFile))).thenReturn(fileReader);
         when(jsonFactory.createParser(Mockito.eq(fileReader))).thenReturn(jsonParser);
-        when(jsonUtils.nextNode(Mockito.eq(jsonParser))).thenReturn(nextNode);
+        when(jsonUtilService.nextNode(Mockito.eq(jsonParser))).thenReturn(nextNode);
         
         resetDownloadReaderInternal(currentFile, null, null, importFiles);
         
@@ -145,7 +148,7 @@ public class ScjImportDownloadReaderTest {
         
         verify(importFileUtils).getReader(Mockito.eq(currentFile));
         verify(jsonFactory).createParser(Mockito.eq(fileReader));
-        verify(jsonUtils).nextNode(Mockito.eq(jsonParser));
+        verify(jsonUtilService).nextNode(Mockito.eq(jsonParser));
         
         assertDownloadReaderState(currentFile, fileReader, jsonParser, importFiles.get(0));
         
@@ -174,8 +177,8 @@ public class ScjImportDownloadReaderTest {
         
         when(importFileUtils.getReader(Mockito.eq(currentFile2Loop))).thenReturn(fileReader2Loop);
         when(jsonFactory.createParser(Mockito.eq(fileReader2Loop))).thenReturn(jsonParser2Loop);
-        when(jsonUtils.nextNode(Mockito.eq(jsonParser))).thenReturn(null);
-        when(jsonUtils.nextNode(Mockito.eq(jsonParser2Loop))).thenReturn(node2Loop);
+        when(jsonUtilService.nextNode(Mockito.eq(jsonParser))).thenReturn(null);
+        when(jsonUtilService.nextNode(Mockito.eq(jsonParser2Loop))).thenReturn(node2Loop);
         
         
         
@@ -192,8 +195,8 @@ public class ScjImportDownloadReaderTest {
         verify(jsonFactory, Mockito.never()).createParser(Mockito.eq(fileReader));
         verify(jsonFactory).createParser(Mockito.eq(fileReader2Loop));
         
-        verify(jsonUtils).nextNode(Mockito.eq(jsonParser));
-        verify(jsonUtils).nextNode(Mockito.eq(jsonParser2Loop));
+        verify(jsonUtilService).nextNode(Mockito.eq(jsonParser));
+        verify(jsonUtilService).nextNode(Mockito.eq(jsonParser2Loop));
         
         assertDownloadReaderState(currentFile2Loop, fileReader2Loop, jsonParser2Loop);
         
