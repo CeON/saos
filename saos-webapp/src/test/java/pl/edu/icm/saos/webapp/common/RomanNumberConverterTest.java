@@ -44,25 +44,26 @@ public class RomanNumberConverterTest {
 	}
 	
 	@DataProvider
-	public static Object[][] simpleStringData() {
+	public static String[] simpleStringData() {
 		
-		return new Object[][] {
-				{true, "I"},
-				{true, "IX"},
-				{true, "IV"},
-				{true, "VIII"},
-				{true, "XIX"}
+		return new String[] {
+				"I",
+				"IX",
+				"IV",
+				"VIII",
+				"XIX"
 		};
 	}
 	
+	
 	@DataProvider
-	public static Object[][] incorrectStringData() {
+	public static String[] incorrectStringData() {
 		
-		return new Object[][] {
-				{false, ""},
-				{false, "Wydział"},
-				{false, "X Wydział"},
-				{false, "WydziałI"},
+		return new String[] {
+				"",
+				"Wydział",
+				"X Wydział",
+				"WydziałI",
 		};
 	}
 	
@@ -78,16 +79,16 @@ public class RomanNumberConverterTest {
 	
 	@Test
 	@UseDataProvider("simpleStringData")
-	public void isRomanNumber_simple_string_with_roman_number(boolean expected, String romanNumber) {
+	public void isRomanNumber_simple_string_with_roman_number(String romanNumber) {
 		
-		assertEquals(expected, RomanNumberConverter.isRomanNumber(romanNumber));
+		assertTrue(RomanNumberConverter.isRomanNumber(romanNumber));
 	}
 	
 	@Test
 	@UseDataProvider("incorrectStringData")
-	public void isRomanNumber_incorrect_string(boolean expected, String romanNumber) {
+	public void isRomanNumber_incorrect_string(String romanNumber) {
 		
-		assertEquals(expected, RomanNumberConverter.isRomanNumber(romanNumber));
+		assertFalse(RomanNumberConverter.isRomanNumber(romanNumber));
 	}
 
 }
