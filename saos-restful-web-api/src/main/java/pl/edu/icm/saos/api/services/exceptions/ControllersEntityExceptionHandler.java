@@ -1,9 +1,13 @@
 package pl.edu.icm.saos.api.services.exceptions;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindException;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.edu.icm.saos.api.services.exceptions.status.ErrorStatus;
 import pl.edu.icm.saos.api.services.representations.ErrorRepresentation;
@@ -11,6 +15,8 @@ import pl.edu.icm.saos.api.services.representations.ErrorRepresentation;
 import java.util.Map;
 
 /**
+ * Exception handler for restful api controllers.
+ * Every controller in restful api should extend this handler.
  * @author pavtel
  */
 public class ControllersEntityExceptionHandler {
@@ -22,7 +28,7 @@ public class ControllersEntityExceptionHandler {
     private String errorDocumentationSite;
 
 
-    //----------- BUSINESS METHODS -------------------
+    //------------------------ LOGIC --------------------------
     @ExceptionHandler(ElementDoesNotExistException.class)
     public ResponseEntity<Map<String, Object>> handelIllegalArgumentError(Exception ex){
         ErrorStatus errorStatus = ErrorStatus.ELEMENT_DOES_NOT_EXIST_ERROR;
@@ -42,18 +48,37 @@ public class ControllersEntityExceptionHandler {
         return createErrorResponse(builder, errorStatus);
     }
 
+    @ExceptionHandler(BindException.class)
+    public ResponseEntity<Map<String, Object>> handleConversionFailedError(BindException ex) {
+        ErrorStatus errorStatus = ErrorStatus.WRONG_REQUEST_PARAMETER_ERROR;
+
+        ErrorRepresentation.Builder builder = create(errorStatus, ex);
+
+        if(causedByFieldError(ex)){
+            FieldError fieldError = extractFieldError(ex);
+            builder.propertyName(fieldError.getField());
+            String message = String.format("parameter '%s' can't have value '%s'", fieldError.getField(), fieldError.getRejectedValue());
+            builder.message(message);
+        }
+
+
+        return createErrorResponse(builder, errorStatus);
+    }
+
     @ExceptionHandler({RuntimeException.class, Exception.class})
     public ResponseEntity<Map<String, Object>> handleGeneralError(Exception ex) {
-        ex.printStackTrace();
+
         ErrorStatus errorStatus = ErrorStatus.GENERAL_INTERNAL_ERROR;
 
         ErrorRepresentation.Builder builder = create(errorStatus, ex);
+
+
+        log.warn("general exception: "+ ExceptionUtils.getStackTrace(ex));
 
         return createErrorResponse(builder, errorStatus);
     }
 
 
-    //-----------END BUSINESS METHODS -----------------
 
 
     //----------- PRIVATE ----------------------------
@@ -72,7 +97,19 @@ public class ControllersEntityExceptionHandler {
         Map<String, Object> representation = builder.build();
         return new ResponseEntity<>(representation, errorStatus.httpStatus());
     }
-    //----------- END PRIVATE --------------------------
+
+    private boolean causedByFieldError(BindException ex){
+        if(!ex.getAllErrors().isEmpty()){
+            ObjectError error = ex.getAllErrors().get(0);
+            return error instanceof FieldError;
+        } else {
+            return false;
+        }
+    }
+
+    private FieldError extractFieldError(BindException ex){
+        return (FieldError) ex.getAllErrors().get(0);
+    }
 
 
     //----------------- setters ----------------------
