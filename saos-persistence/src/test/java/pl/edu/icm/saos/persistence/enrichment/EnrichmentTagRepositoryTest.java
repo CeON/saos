@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -33,11 +34,11 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
     public void before() {
         
         enrichmentTag.setTagType(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS);
-        enrichmentTag.setValue("{caseNumbers: {caseNumber: 123, caseNumber: 234}}");
+        enrichmentTag.setValue("{\"caseNumbers\": [\"123\", \"234\"]}");
         
     }
     
-    //------------------------ LOGIC --------------------------
+    //------------------------ TESTS --------------------------
     
     @Test
     public void saveAndFind() {
@@ -55,6 +56,20 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
         assertEquals(enrichmentTag, dbEnrichmentTag);
         
 
+    }
+    
+    
+    @Test(expected=DataIntegrityViolationException.class)
+    public void save_InvalidJsonValue() {
+        
+        // given
+        enrichmentTag.setValue("{key:\"fff\"");
+        
+        // execute
+        
+        enrichmentTagRepository.save(enrichmentTag);
+        
+        
     }
    
 }
