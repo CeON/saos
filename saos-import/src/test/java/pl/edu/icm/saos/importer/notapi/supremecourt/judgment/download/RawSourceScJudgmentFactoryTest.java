@@ -8,11 +8,12 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.RawSourceScJudgmentFactory;
+import pl.edu.icm.saos.common.json.JsonItemParser;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgmentParser;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.Source;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
@@ -27,13 +28,20 @@ public class RawSourceScJudgmentFactoryTest {
 
     private RawSourceScJudgmentFactory simpleRawSourceScJudgmentFactory = new RawSourceScJudgmentFactory();
     
-    private SourceScJudgmentParser sourceScJudgmentParser = Mockito.mock(SourceScJudgmentParser.class);
+    @Mock private JsonItemParser<SourceScJudgment> sourceScJudgmentParser;
     
     
     @Before
     public void before() {
+        
+        MockitoAnnotations.initMocks(this);
+        
         simpleRawSourceScJudgmentFactory.setSourceScJudgmentParser(sourceScJudgmentParser);
     }
+    
+    
+    
+    //------------------------ TESTS --------------------------
     
     
     @Test

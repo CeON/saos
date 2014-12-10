@@ -4,8 +4,8 @@ package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.common.json.JsonItemParser;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgmentParser;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
 /**
@@ -15,7 +15,7 @@ import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 class RawSourceScJudgmentFactory {
 
     
-    private SourceScJudgmentParser sourceScJudgmentParser;
+    private JsonItemParser<SourceScJudgment> sourceScJudgmentParser;
     
     
     
@@ -35,7 +35,7 @@ class RawSourceScJudgmentFactory {
     //------------------------ PRIVATE --------------------------
     
     @Autowired
-    public void setSourceScJudgmentParser(SourceScJudgmentParser sourceScJudgmentParser) {
+    public void setSourceScJudgmentParser(JsonItemParser<SourceScJudgment> sourceScJudgmentParser) {
         this.sourceScJudgmentParser = sourceScJudgmentParser;
     }
     
