@@ -14,7 +14,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
 import pl.edu.icm.saos.persistence.common.DataObject;
+import pl.edu.icm.saos.persistence.common.StringJsonUserType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
@@ -30,6 +35,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Cacheable(true)
 @SequenceGenerator(name = "seq_enrichment_tag", allocationSize = 1, sequenceName = "seq_enrichment_tag")
+@TypeDefs( {@TypeDef( name= "StringJsonObject", typeClass = StringJsonUserType.class)})
 public class EnrichmentTag extends DataObject {
 
     
@@ -74,6 +80,7 @@ public class EnrichmentTag extends DataObject {
     /**
      * String value of the tag in json format.
      */
+    @Type(type = "StringJsonObject" )
     public String getValue() {
         return value;
     }
