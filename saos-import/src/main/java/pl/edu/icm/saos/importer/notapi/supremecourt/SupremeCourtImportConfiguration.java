@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverterImpl;
@@ -34,6 +36,9 @@ public class SupremeCourtImportConfiguration {
     @Autowired
     private SourceScJudgmentExtractor sourceScJudgmentExtractor;
     
+    @Autowired 
+    private CommonValidator commonValidator;   
+    
     
     @Autowired 
     @Qualifier("scSpecificJudgmentOverwriter")
@@ -57,7 +62,14 @@ public class SupremeCourtImportConfiguration {
         MappingJsonFactory factory = new MappingJsonFactory();
         factory.enable(Feature.ALLOW_COMMENTS);
         return factory;
-        
+    }
+    
+    @Bean
+    public JsonItemParser<SourceScJudgment> sourceScJudgmentParser() {
+        JsonItemParser<SourceScJudgment> sourceScJudgmentParser = new JsonItemParser<>(SourceScJudgment.class);
+        sourceScJudgmentParser.setCommonValidator(commonValidator);
+        sourceScJudgmentParser.setJsonFactory(jsonFactory());
+        return sourceScJudgmentParser;
     }
     
     

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.importer.common.ImportException;
 import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
-import pl.edu.icm.saos.importer.notapi.common.JsonUtils;
+import pl.edu.icm.saos.importer.notapi.common.JsonUtilService;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -36,7 +36,7 @@ public class ScjImportDownloadReader implements ItemStreamReader<String> {
     
     private ImportFileUtils scjImportFileUtils;
     
-    private JsonUtils jsonUtils;
+    private JsonUtilService jsonUtilService;
     
     private JsonFactory jsonFactory;
     
@@ -68,7 +68,7 @@ public class ScjImportDownloadReader implements ItemStreamReader<String> {
             jsonParser = jsonFactory.createParser(fileReader);
         }
         
-        String judgment = jsonUtils.nextNode(jsonParser);
+        String judgment = jsonUtilService.nextNode(jsonParser);
         
         if (judgment != null) {
             return StringUtils.trim(judgment);
@@ -140,8 +140,8 @@ public class ScjImportDownloadReader implements ItemStreamReader<String> {
     }
 
     @Autowired
-    public void setJsonUtils(JsonUtils jsonUtils) {
-        this.jsonUtils = jsonUtils;
+    public void setJsonUtilService(JsonUtilService jsonUtilService) {
+        this.jsonUtilService = jsonUtilService;
     }
 
     @Autowired

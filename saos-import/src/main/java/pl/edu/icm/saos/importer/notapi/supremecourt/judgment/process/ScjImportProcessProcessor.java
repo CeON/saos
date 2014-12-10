@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.common.json.JsonItemParser;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgmentParser;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
@@ -27,7 +27,7 @@ public class ScjImportProcessProcessor implements ItemProcessor<RawSourceScJudgm
     private Logger log = LoggerFactory.getLogger(ScjImportProcessProcessor.class);
     
     
-    private SourceScJudgmentParser sourceScJudgmentParser;
+    private JsonItemParser<SourceScJudgment> sourceScJudgmentParser;
     
     private JudgmentConverter<SupremeCourtJudgment, SourceScJudgment> sourceScJudgmentConverter;
     
@@ -86,7 +86,7 @@ public class ScjImportProcessProcessor implements ItemProcessor<RawSourceScJudgm
     //------------------------ SETTERS --------------------------
     
     @Autowired
-    public void setSourceScJudgmentParser(SourceScJudgmentParser sourceScJudgmentParser) {
+    public void setSourceScJudgmentParser(JsonItemParser<SourceScJudgment> sourceScJudgmentParser) {
         this.sourceScJudgmentParser = sourceScJudgmentParser;
     }
 
