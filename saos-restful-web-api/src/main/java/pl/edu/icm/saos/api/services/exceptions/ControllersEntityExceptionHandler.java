@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.api.services.exceptions;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,10 +67,13 @@ public class ControllersEntityExceptionHandler {
 
     @ExceptionHandler({RuntimeException.class, Exception.class})
     public ResponseEntity<Map<String, Object>> handleGeneralError(Exception ex) {
-//        ex.printStackTrace();
+
         ErrorStatus errorStatus = ErrorStatus.GENERAL_INTERNAL_ERROR;
 
         ErrorRepresentation.Builder builder = create(errorStatus, ex);
+
+
+        log.warn("general exception: "+ ExceptionUtils.getStackTrace(ex));
 
         return createErrorResponse(builder, errorStatus);
     }
