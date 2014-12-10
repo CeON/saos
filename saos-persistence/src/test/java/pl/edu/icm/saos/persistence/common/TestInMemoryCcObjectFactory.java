@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
+
 import pl.edu.icm.saos.persistence.model.*;
 
 import java.util.ArrayList;
@@ -190,7 +191,7 @@ final class TestInMemoryCcObjectFactory {
         List<CommonCourtJudgment> judgments = new ArrayList<>(size);
         for(int i=0; i<size; ++i){
             String prefix = i + "__";
-            CommonCourtJudgment judgment = createCcJudgmentWithRandomData(prefix);
+            CommonCourtJudgment judgment = createCcJudgmentWithRandomData(prefix, i);
             judgments.add(judgment);
         }
 
@@ -209,49 +210,17 @@ final class TestInMemoryCcObjectFactory {
     }
 
 
-    private static CommonCourtJudgment createCcJudgmentWithRandomData(String prefix){
+    private static CommonCourtJudgment createCcJudgmentWithRandomData(String prefix, int numericPrefix){
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
-
-        ccJudgment.addCourtCase(new CourtCase(prefix+RandomStringUtils.randomAlphanumeric(10)));
-
-        ccJudgment.addLegalBase(RandomStringUtils.randomAlphabetic(8));
-        ccJudgment.addLegalBase(RandomStringUtils.randomAlphabetic(8));
-
-        ccJudgment.addCourtReporter(RandomStringUtils.randomAlphabetic(4)+" "+RandomStringUtils.randomAlphabetic(5));
-        ccJudgment.addCourtReporter(RandomStringUtils.randomAlphabetic(5)+" "+RandomStringUtils.randomAlphabetic(6));
-
-        ccJudgment.setDecision(prefix+RandomStringUtils.randomAlphabetic(5));
-        ccJudgment.setSummary(prefix+RandomStringUtils.randomAlphabetic(5));
-        ccJudgment.setJudgmentType(CC_JUDGMENT_TYPE);
-        ccJudgment.setTextContent(prefix+RandomStringUtils.randomAlphabetic(5));
-
-        int month = 1 + (int)(Math.random()*12);
-        int day = 1 +(int)(Math.random()*28);
-        ccJudgment.setJudgmentDate(new LocalDate(2000, month, day));
-
-
-
-
-        Judge firstJudge = new Judge(RandomStringUtils.randomAlphabetic(4)+" "+RandomStringUtils.randomAlphabetic(8),
-                Judge.JudgeRole.PRESIDING_JUDGE);
-        Judge secondJudge = new Judge(RandomStringUtils.randomAlphabetic(5)+" "+RandomStringUtils.randomAlphabetic(7),
-                Judge.JudgeRole.REPORTING_JUDGE);
-        Judge thirdJudge = new Judge(RandomStringUtils.randomAlphabetic(6)+" "+RandomStringUtils.randomAlphabetic(6));
-        ccJudgment.addJudge(firstJudge);
-        ccJudgment.addJudge(secondJudge);
-        ccJudgment.addJudge(thirdJudge);
-
-
+        TestInMemoryObjectFactoryHelper.fillJudgmentWithRandomData(ccJudgment, prefix, numericPrefix);
+        
         ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
-        ccJudgment.getSourceInfo().setSourceJudgmentId(prefix+RandomStringUtils.randomAlphabetic(20));
-        ccJudgment.getSourceInfo().setSourceJudgmentUrl("http://example.com/" + RandomStringUtils.randomAlphabetic(20));
 
 
         JudgmentKeyword firstKeyword = new JudgmentKeyword(CourtType.COMMON, RandomStringUtils.randomAlphanumeric(18));
         JudgmentKeyword secondKeyword = new JudgmentKeyword(CourtType.COMMON, RandomStringUtils.randomAlphanumeric(19));
         ccJudgment.addKeyword(firstKeyword);
         ccJudgment.addKeyword(secondKeyword);
-
 
         return ccJudgment;
     }

@@ -1,11 +1,16 @@
 package pl.edu.icm.saos.persistence.common;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
-import pl.edu.icm.saos.persistence.model.*;
 
+import pl.edu.icm.saos.persistence.model.*;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 /**
@@ -136,5 +141,43 @@ final class TestInMemoryScObjectFactory {
         return judgment;
     }
 
+    /**
+     * Creates list of {@link SupremeCourtJudgment} with fields filled with random values.
+     * @param size of the list.
+     * @return list of SupremeCourtJudgment
+     */
+    static List<SupremeCourtJudgment> createScJudgmentListWithRandomData(int size){
+        List<SupremeCourtJudgment> judgments = new ArrayList<>();
+        for(int i=0; i<size; ++i){
+            String prefix = i + "__";
+            SupremeCourtJudgment judgment = createScJudgmentWithRandomData(prefix, i);
+            judgments.add(judgment);
+        }
+
+        return judgments;
+    }
+
+
+    //------------------------ PRIVATE --------------------------
+
+    private static SupremeCourtJudgment createScJudgmentWithRandomData(String prefix, int numericPrefix){
+        SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
+        TestInMemoryObjectFactoryHelper.fillJudgmentWithRandomData(scJudgment, prefix, numericPrefix);
+        
+        scJudgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
+
+        scJudgment.setPersonnelType(getRandomScPersonnelType());
+        
+        SupremeCourtJudgmentForm judgmentForm = new SupremeCourtJudgmentForm();
+        judgmentForm.setName(RandomStringUtils.randomAlphabetic(10));
+        scJudgment.setScJudgmentForm(judgmentForm);
+
+        return scJudgment;
+    }
+    
+    private static PersonnelType getRandomScPersonnelType() {
+        int valuesSize = PersonnelType.values().length;
+        return PersonnelType.values()[RandomUtils.nextInt(0, valuesSize)];
+    }
 
 }

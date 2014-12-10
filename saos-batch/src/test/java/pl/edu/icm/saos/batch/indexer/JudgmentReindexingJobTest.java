@@ -5,11 +5,8 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -32,6 +29,7 @@ import org.springframework.jdbc.datasource.init.ScriptException;
 
 import pl.edu.icm.saos.batch.BatchTestSupport;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -56,15 +54,15 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     private JudgmentRepository judgmentRepository;
     
     @Autowired
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
+    
+    @Autowired
     @Qualifier("solrJudgmentsServer")
     private SolrServer solrJudgmentsServer;
     
     private final static int COMMON_COURT_JUDGMENTS_COUNT = 15;
     private final static int SUPREME_COURT_JUDGMENTS_COUNT = 19;
     private final static int ALL_JUDGMENTS_COUNT = COMMON_COURT_JUDGMENTS_COUNT + SUPREME_COURT_JUDGMENTS_COUNT;
-    
-    private Map<Integer, Integer> ccIdMapping;
-    private Map<Integer, Integer> scIdMapping;
     
     
     @Before
@@ -132,33 +130,18 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     }
     
     private void generateIndexedCcJudgments() {
-        ccIdMapping = new HashMap<Integer, Integer>();
-        
-        for (int i=0; i<COMMON_COURT_JUDGMENTS_COUNT; ++i) {
-            CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
-            ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
-            ccJudgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphabetic(50));
-            
-            ccJudgment.markAsIndexed();
-            judgmentRepository.save(ccJudgment);
-            ccIdMapping.put(i, ccJudgment.getId());
-        }
+        List<CommonCourtJudgment> ccJudgments = testPersistenceObjectFactory
+                .createCcJudgmentListWithRandomData(COMMON_COURT_JUDGMENTS_COUNT);
+        ccJudgments.forEach(x -> x.markAsIndexed());
+        judgmentRepository.save(ccJudgments);
         judgmentRepository.flush();
     }
     
     private void generateIndexedScJudgments() {
-        scIdMapping = new HashMap<Integer, Integer>();
-        
-        for (int i=0; i<SUPREME_COURT_JUDGMENTS_COUNT; ++i) {
-            SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
-            scJudgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
-            scJudgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphabetic(50));
-            
-            scJudgment.markAsIndexed();
-            judgmentRepository.save(scJudgment);
-            
-            scIdMapping.put(i, scJudgment.getId());
-        }
+        List<SupremeCourtJudgment> scJudgments = testPersistenceObjectFactory
+                .createScJudgmentListWithRandomData(SUPREME_COURT_JUDGMENTS_COUNT);
+        scJudgments.forEach(x -> x.markAsIndexed());
+        judgmentRepository.save(scJudgments);
         judgmentRepository.flush();
     }
 }

@@ -96,9 +96,18 @@ public final class TestInMemoryObjectFactory {
     }
 
     /**
+     * Creates list of {@link SupremeCourtJudgment} with fields filled with random values.
+     * @param size of the list.
+     * @return list of SupremeCourtJudgment
+     */
+    public static List<SupremeCourtJudgment> createScJudgmentListWithRandomData(int size){
+        return TestInMemoryScObjectFactory.createScJudgmentListWithRandomData(size);
+    }
+    
+    /**
      * Creates list of {@link CommonCourtJudgment} with fields filled with random values.
      * @param size of the list.
-     * @return CommonCourtJudgment
+     * @return list of CommonCourtJudgment
      */
     public static List<CommonCourtJudgment> createCcJudgmentListWithRandomData(int size){
         return TestInMemoryCcObjectFactory.createCcJudgmentListWithRandomData(size);
