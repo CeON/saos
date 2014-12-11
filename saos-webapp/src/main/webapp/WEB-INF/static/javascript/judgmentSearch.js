@@ -76,8 +76,12 @@ var jsInitInJudgmentSearch = function() {
 	/* Search form view.
 	 * Autocompletion added to search field CommonCourtKeywords.
 	 */
-    $("#input-search-keywords").autoCompletionSuggester({url: contextPath + "/keywords/COMMON/"}); // TODO: autoCompletionSuggester should have a different path for a different courtType selected
+    $("#input-search-keywords")
+    	.autoCompletionSuggester({
+    		getUrl: function(id) {
+    			return contextPath + "/keywords/COMMON/{id}".replace("{id}", id);
+    		} 
+    	});
     
-
 }
  
