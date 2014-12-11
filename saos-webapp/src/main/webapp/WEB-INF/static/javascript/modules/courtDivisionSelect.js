@@ -26,7 +26,7 @@ var CourtDivisionSelect = (function() {
 			$(fields[i].court).each(function() {
 				var $court = $(this),
 					$divisionId = $(fields[i].divisionId),
-					divisionUrl = fields[i].divisionUrl;
+					getDivisionUrl = fields[i].getDivisionUrl;
 				
 				$court.change((function() {
 					/* Get divisions by court id and fill element 'select' divisions with received items */
@@ -34,7 +34,7 @@ var CourtDivisionSelect = (function() {
 						var selectedCourtId = $court.find("option:selected").attr("value");
 						
 						if (selectedCourtId !== "") {
-							$.ajax(divisionUrl.replace("{id}", selectedCourtId))
+							$.ajax(getDivisionUrl(selectedCourtId))
 							 .done(function(data) {
 								 var options = prepareOption("", ""),
 								 	 j = 0,

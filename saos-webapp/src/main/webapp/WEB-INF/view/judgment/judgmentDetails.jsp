@@ -86,6 +86,17 @@
 					</li>
 				</c:if>
 				
+				<c:if test="${!empty judgment.scJudgmentForm}" >
+					<li>
+						<div class="" >
+							<div class="label-title" ><spring:message code="judgment.scJudgmentForm" />:</div>
+							<div class="desc" >
+								<c:out value="${judgment.scJudgmentForm.name}" />
+							</div>
+						</div>
+					</li>
+				</c:if>
+				
 				<c:if test="${!empty judgment.personnelType}" >
 					<li>
 						<div class="" >

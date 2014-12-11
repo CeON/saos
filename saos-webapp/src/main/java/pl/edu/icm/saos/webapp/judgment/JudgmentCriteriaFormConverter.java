@@ -1,15 +1,9 @@
 package pl.edu.icm.saos.webapp.judgment;
 
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
-import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
 /**

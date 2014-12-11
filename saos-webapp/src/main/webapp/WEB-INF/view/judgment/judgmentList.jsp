@@ -21,6 +21,7 @@
 				
 				<div class=""><span><spring:message code="judgment.date" />:</span><span class="date"><joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}" /></span></div>
 				
+				<%-- CommonCourt & CommonCourtDivision  --%>
 				<c:if test="${!empty judgment.ccCourtName || !empty judgment.ccCourtDivisionName}" >
 				
 					<div class="court-desc">
@@ -31,6 +32,7 @@
 				
 				</c:if>
 				
+				<%-- SupremeCourtChamber & SupremeCourtChamberDivision  --%>
 				<c:if test="${!empty judgment.scCourtDivisionsChamberName || !empty judgment.scCourtDivisionName}" >
 				
 					<div class="court-desc">
@@ -46,17 +48,23 @@
 				<c:if test="${!empty judgment.judges}" >
 					<div class="judges" >
 						<span>
-							<spring:message code="judgment.judges" />
-							<c:if test="${!empty judgment.scPersonnelType && judgment.scPersonnelType != null}" >
-								<div class="personnel-type" >
-									<saos:enum value="${judgment.scPersonnelType}" />
-								</div>
-							</c:if>
-							:
+							<spring:message code="judgment.judges" />:
 						</span>
 						<c:forEach items="${judgment.judges}" var="judge" >
 							<div class="judge"><c:out value="${judge.name}" /></div>
 						</c:forEach>	
+					</div>
+				</c:if>
+				
+				<%-- SupremeCourtJudgmentForm --%>
+				<c:if test="${!empty judgment.scJudgmentForm}" >
+					<div class="" >
+						<span>
+							<spring:message code="judgment.scJudgmentForm" />:
+						</span>
+						<span class="judgment-form">
+							<c:out value="${judgment.scJudgmentForm}" />
+						</span>	
 					</div>
 				</c:if>
 				
