@@ -17,6 +17,7 @@ import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
+import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
@@ -28,6 +29,7 @@ import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.services.Constants.DATE_FORMAT;
 import static pl.edu.icm.saos.api.services.Constants.DUMP_JUDGMENTS_PATH;
@@ -72,9 +74,12 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
 
         mockMvc = standaloneSetup(dumpJudgmentsController)
                 .setConversionService(conversionService)
+                .addInterceptors(new RestrictParamsHandlerInterceptor())
                 .build();
 
     }
+
+    //------------------------ TESTS --------------------------
 
     @Test
     public void it_should_show_all_judgments_fields() throws Exception {
@@ -242,6 +247,19 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath("$.queryTemplate.judgmentEndDate.value").value(judgmentEndDate))
                 .andExpect(jsonPath("$.queryTemplate.sinceModificationDate.value").value(sinceModificationDate))
         ;
+
+        actions.andExpect(status().isOk());
+    }
+
+    @Test
+    public void it_should_not_allow_incorrect_request_parameter_name() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param("some_incorrect_parameter_name", "")
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        actions.andExpect(status().isBadRequest());
     }
 
 

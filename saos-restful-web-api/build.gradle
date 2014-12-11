@@ -18,4 +18,5 @@ dependencies {
     testCompile lib.'com.jayway.jsonpath:json-path'
     testCompile lib.'com.jayway.jsonpath:json-path-assert'
     testCompile lib.'javax.servlet:javax.servlet-api'
+    providedCompile lib.'javax.servlet:javax.servlet-api'
 }

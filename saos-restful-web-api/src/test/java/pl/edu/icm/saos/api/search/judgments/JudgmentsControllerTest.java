@@ -19,6 +19,7 @@ import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
+import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
@@ -82,6 +83,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         judgmentsController.setParametersExtractor(parametersExtractor);
 
         mockMvc = standaloneSetup(judgmentsController)
+                .addInterceptors(new RestrictParamsHandlerInterceptor())
                 .build();
     }
 
@@ -470,5 +472,16 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect((jsonPath(prefix + "[?(@.rel==next)].href[0]").exists()))
         ;
 
+    }
+
+    @Test
+    public void showJudgments__it_should_not_allow_incorrect_request_parameter_name() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param("some_incorrect_parameter_name", "")
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        actions.andExpect(status().isBadRequest());
     }
 }

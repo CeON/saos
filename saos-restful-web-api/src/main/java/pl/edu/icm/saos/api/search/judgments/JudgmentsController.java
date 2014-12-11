@@ -17,6 +17,7 @@ import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
+import pl.edu.icm.saos.api.services.interceptor.RestrictParamsNames;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 
@@ -36,7 +37,6 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(JudgmentsController.class);
 
 
-    //******* fields *************
     @Autowired
     private JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder;
 
@@ -46,12 +46,12 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
     @Autowired
     private ParametersExtractor parametersExtractor;
 
-    //*********** END fields ***************
 
 
     //------------------------ LOGIC --------------------------
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RestrictParamsNames
     @ResponseBody
     public ResponseEntity<Object> showJudgments(@ModelAttribute JudgmentsParameters judgmentsParameters,
                                                              @RequestParam(value = PAGE_SIZE, required = false, defaultValue = Pagination.DEFAULT_PAGE_SIZE) int pageSize,
