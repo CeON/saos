@@ -15,4 +15,7 @@ public enum CourtType {
     /** pl. sąd administracyjny */
     ADMINISTRATIVE,
     
+    /** pl. trybunał konstytucyjny */
+    CONSTITUTIONAL_TRIBUNAL
+    
 }
