@@ -23,14 +23,13 @@ import org.junit.experimental.categories.Category;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 
 import pl.edu.icm.saos.batch.BatchTestSupport;
 import pl.edu.icm.saos.batch.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
-import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
@@ -60,8 +59,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     
     
     @Autowired
-    @Qualifier("scjImportFileUtils")
-    private ImportFileUtils importFileUtils;
+    private JsonImportDownloadReader scjImportDownloadReader;
     
     @Autowired
     private Job scJudgmentImportJob;
@@ -88,7 +86,6 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     private JudgmentRepository judgmentRepository;
     
     @Autowired
-    @Qualifier("scjImportDateTimeFormatter")
     private ImportDateTimeFormatter importDateTimeFormatter;
     
     @Autowired
@@ -392,7 +389,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     private void resetImportDir(String importDirClasspath) {
         try {
             File importDir = new ClassPathResource(importDirClasspath).getFile();
-            importFileUtils.setImportDir(importDir.getAbsolutePath());
+            scjImportDownloadReader.setImportDir(importDir.getAbsolutePath());
         } catch (IOException e) {
             throw new IllegalArgumentException(e);
         }

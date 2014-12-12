@@ -33,7 +33,7 @@ import pl.edu.icm.saos.batch.admin.SaosJobServiceAdapter;
  */
 @Configuration
 @EnableBatchProcessing
-@Import({ CcjImportJobConfiguration.class, ScjImportJobConfiguration.class, IndexingJobConfiguration.class })
+@Import({ CcjImportJobConfiguration.class, ScjImportJobConfiguration.class, CtjImportJobConfiguration.class, IndexingJobConfiguration.class })
 public class BatchConfiguration implements BatchConfigurer {
     
     @Autowired
