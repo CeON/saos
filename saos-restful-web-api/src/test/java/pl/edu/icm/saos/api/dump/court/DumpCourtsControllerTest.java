@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
+import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
@@ -21,6 +22,7 @@ import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
@@ -61,8 +63,11 @@ public class DumpCourtsControllerTest extends PersistenceTestSupport {
 
 
         mockMvc = standaloneSetup(dumpCourtsController)
+                .addInterceptors(new RestrictParamsHandlerInterceptor())
                 .build();
     }
+
+    //------------------------ TESTS --------------------------
 
     @Test
     public void it_should_show_all_courts_fields_with_divisions_fields() throws Exception {
@@ -114,6 +119,17 @@ public class DumpCourtsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.queryTemplate.pageSize.value").value(pageSize))
                 .andExpect(jsonPath("$.queryTemplate.pageNumber.value").value(pageNumber))
         ;
+    }
+
+    @Test
+    public void it_should_not_allow_incorrect_request_parameter_name() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(DUMP_COURTS_PATH)
+                .param("some_incorrect_parameter_name", "")
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        actions.andExpect(status().isBadRequest());
     }
 
 }

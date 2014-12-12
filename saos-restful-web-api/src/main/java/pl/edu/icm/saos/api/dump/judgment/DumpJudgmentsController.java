@@ -13,6 +13,7 @@ import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
+import pl.edu.icm.saos.api.services.interceptor.RestrictParamsNames;
 import pl.edu.icm.saos.persistence.common.FieldsNames;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
@@ -24,6 +25,7 @@ import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
 
 /**
+ * Represents page of list of judgments in dump service
  * @author pavtel
  */
 @Controller
@@ -40,7 +42,9 @@ public class DumpJudgmentsController extends ControllersEntityExceptionHandler{
     private DumpJudgmentsListSuccessRepresentationBuilder dumpJudgmentsListSuccessRepresentationBuilder;
 
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    //------------------------ LOGIC --------------------------
+    @RequestMapping(value = "",  method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RestrictParamsNames
     @ResponseBody
     public ResponseEntity<Object> showJudgments(
             @ModelAttribute RequestDumpJudgmentsParameters requestDumpJudgmentsParameters,
