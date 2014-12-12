@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json;
+package pl.edu.icm.saos.importer.notapi.common;
 
 import java.io.IOException;
 

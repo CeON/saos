@@ -18,6 +18,7 @@ import pl.edu.icm.saos.common.json.JsonItemParser;
 import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
+import pl.edu.icm.saos.importer.notapi.common.DateTimeDeserializer;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.Source;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.SourceScJudge;
 
@@ -65,7 +66,7 @@ public class SourceScJudgmentParserTest {
         jsonContent = JsonNormalizer.normalizeJson(jsonContent);
         
         sourceScJudgmentParser.setJsonFactory(new MappingJsonFactory());
-        DateTimeDeserializer.setScjImportDateTimeFormatter(dateTimeFormatter);
+        DateTimeDeserializer.setImportDateTimeFormatter(dateTimeFormatter);
         
         sourceScJudgmentParser.setCommonValidator(commonValidator);
         

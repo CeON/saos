@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download;
+package pl.edu.icm.saos.importer.notapi.common;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -21,6 +21,7 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.batch.item.ExecutionContext;
 
 import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.JsonUtilService;
 
 import com.fasterxml.jackson.core.JsonFactory;
@@ -30,10 +31,10 @@ import com.fasterxml.jackson.core.JsonParser;
  * @author Łukasz Dumiszewski
  */
 
-public class ScjImportDownloadReaderTest {
+public class JsonImportDownloadReaderTest {
 
     
-    private ScjImportDownloadReader scjImportDownloadReader = new ScjImportDownloadReader();
+    private JsonImportDownloadReader jsonImportDownloadReader = new JsonImportDownloadReader();
     
     private ImportFileUtils importFileUtils = mock(ImportFileUtils.class);
     
@@ -41,16 +42,20 @@ public class ScjImportDownloadReaderTest {
     
     private JsonUtilService jsonUtilService = mock(JsonUtilService.class);
     
+    private String importDir = "/path/to/files/";
+    
     
     
     @Before
     public void before() {
         
-        scjImportDownloadReader.setScjImportFileUtils(importFileUtils);
+        jsonImportDownloadReader.setImportDir(importDir);
         
-        scjImportDownloadReader.setJsonFactory(jsonFactory);
+        jsonImportDownloadReader.setImportFileUtils(importFileUtils);
         
-        scjImportDownloadReader.setJsonUtilService(jsonUtilService);
+        jsonImportDownloadReader.setJsonFactory(jsonFactory);
+        
+        jsonImportDownloadReader.setJsonUtilService(jsonUtilService);
         
     }
     
@@ -65,14 +70,14 @@ public class ScjImportDownloadReaderTest {
         File importFile2 = new File("f2.json");
         File importFile3 = new File("f3.json");
         List<File> importFiles = Lists.newArrayList(importFile1, importFile2, importFile3);
-        when(importFileUtils.listImportFiles()).thenReturn(importFiles);
+        when(importFileUtils.listImportFiles(importDir)).thenReturn(importFiles);
         
         ExecutionContext ctx = Mockito.mock(ExecutionContext.class);
         
         
         // execute tested method
         
-        scjImportDownloadReader.open(ctx);
+        jsonImportDownloadReader.open(ctx);
         
         
         // assert
@@ -95,7 +100,7 @@ public class ScjImportDownloadReaderTest {
         
         // execute
         
-        String result = scjImportDownloadReader.read();
+        String result = jsonImportDownloadReader.read();
         
         // assert
         
@@ -116,7 +121,7 @@ public class ScjImportDownloadReaderTest {
         
         // execute
         
-        scjImportDownloadReader.read();
+        jsonImportDownloadReader.read();
         
         
     }
@@ -141,7 +146,7 @@ public class ScjImportDownloadReaderTest {
         
         // execute
         
-        String judgment = scjImportDownloadReader.read();
+        String judgment = jsonImportDownloadReader.read();
         
         
         // assert 
@@ -184,7 +189,7 @@ public class ScjImportDownloadReaderTest {
         
         // execute
         
-        String judgment = scjImportDownloadReader.read();
+        String judgment = jsonImportDownloadReader.read();
         
         
         // assert
@@ -224,13 +229,13 @@ public class ScjImportDownloadReaderTest {
     
     private void assertDownloadReaderState(File currentFile, Reader fileReader, JsonParser jsonParser, File ... importFiles) {
         
-        assertEquals(jsonParser, Whitebox.<JsonParser> getInternalState(scjImportDownloadReader, "jsonParser"));
+        assertEquals(jsonParser, Whitebox.<JsonParser> getInternalState(jsonImportDownloadReader, "jsonParser"));
         
-        assertEquals(fileReader, Whitebox.<Reader> getInternalState(scjImportDownloadReader, "fileReader"));
+        assertEquals(fileReader, Whitebox.<Reader> getInternalState(jsonImportDownloadReader, "fileReader"));
         
-        assertEquals(currentFile, Whitebox.<Reader> getInternalState(scjImportDownloadReader, "currentFile"));
+        assertEquals(currentFile, Whitebox.<Reader> getInternalState(jsonImportDownloadReader, "currentFile"));
         
-        List<File> internalImportFiles = Whitebox.<List<File>> getInternalState(scjImportDownloadReader, "importFiles");
+        List<File> internalImportFiles = Whitebox.<List<File>> getInternalState(jsonImportDownloadReader, "importFiles");
         
         assertThat(internalImportFiles, Matchers.containsInAnyOrder(importFiles));
     
@@ -240,13 +245,13 @@ public class ScjImportDownloadReaderTest {
     
     private void resetDownloadReaderInternal(File currentFile, Reader reader, JsonParser jsonParser, List<File> importFiles) {
         
-        Whitebox.setInternalState(scjImportDownloadReader, "currentFile", currentFile);
+        Whitebox.setInternalState(jsonImportDownloadReader, "currentFile", currentFile);
         
-        Whitebox.setInternalState(scjImportDownloadReader, "fileReader", reader);
+        Whitebox.setInternalState(jsonImportDownloadReader, "fileReader", reader);
         
-        Whitebox.setInternalState(scjImportDownloadReader, "jsonParser", jsonParser);
+        Whitebox.setInternalState(jsonImportDownloadReader, "jsonParser", jsonParser);
         
-        Whitebox.setInternalState(scjImportDownloadReader, "importFiles", new LinkedList<File>(importFiles));
+        Whitebox.setInternalState(jsonImportDownloadReader, "importFiles", new LinkedList<File>(importFiles));
         
         
     }
