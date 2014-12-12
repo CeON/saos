@@ -26,8 +26,6 @@ import com.google.common.base.Preconditions;
 public class ImportFileUtils {
 
     
-    private String importDir;
-    
     private String[] eligibleFileExtensions;
     
     private String fileCharset = "UTF-8";
@@ -43,11 +41,11 @@ public class ImportFileUtils {
      * <br/>
      * Never returns null.
      */
-    public Collection<File> listImportFiles() {
+    public Collection<File> listImportFiles(String importDir) {
         
         Preconditions.checkState(importDir != null);
         
-        return FileUtils.listFiles(new File(importDir), eligibleFileExtensions, true);
+        return FileUtils.listFiles(new File(StringUtils.appendIfMissing(importDir, "/")), eligibleFileExtensions, true);
     }
 
     /**
@@ -82,11 +80,6 @@ public class ImportFileUtils {
     
     //------------------------ SETTERS --------------------------
     
-    public void setImportDir(String importDir) {
-        this.importDir = StringUtils.appendIfMissing(importDir, "/");
-    }
-    
-
     /**
      * @param eligibleFileExtensions File extensions that will be taken into consideration by
      * {@link #listImportFiles()}

@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json;
+package pl.edu.icm.saos.importer.notapi.common;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class DateTimeDeserializer extends StdScalarDeserializer<DateTime> {
     
     private static final long serialVersionUID = 1L;
 
-    private static ImportDateTimeFormatter scjImportDateTimeFormatter;
+    private static ImportDateTimeFormatter importDateTimeFormatter;
     
     
     protected DateTimeDeserializer() {
@@ -29,7 +29,7 @@ public class DateTimeDeserializer extends StdScalarDeserializer<DateTime> {
 
     
     /**
-     * Deserializes {@link JsonParser#getText()} into {@link DateTime} using {{@link #setScjImportDateTimeFormatter(ImportDateTimeFormatter)}
+     * Deserializes {@link JsonParser#getText()} into {@link DateTime} using {{@link #setImportDateTimeFormatter(ImportDateTimeFormatter)}
      */
     @Override
     public DateTime deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
@@ -37,14 +37,14 @@ public class DateTimeDeserializer extends StdScalarDeserializer<DateTime> {
         if (str.length() == 0) {
             return null;
         }
-        return scjImportDateTimeFormatter.parse(str);
+        return importDateTimeFormatter.parse(str);
     }
 
 
     //------------------------ SETTERS --------------------------
     
-    public static void setScjImportDateTimeFormatter(ImportDateTimeFormatter scjImportDateTimeFormatter) {
-        DateTimeDeserializer.scjImportDateTimeFormatter = scjImportDateTimeFormatter;
+    public static void setImportDateTimeFormatter(ImportDateTimeFormatter scjImportDateTimeFormatter) {
+        DateTimeDeserializer.importDateTimeFormatter = scjImportDateTimeFormatter;
     }
 
 }

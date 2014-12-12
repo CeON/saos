@@ -1,5 +1,4 @@
-package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download;
-
+package pl.edu.icm.saos.importer.notapi.common;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,12 +12,8 @@ import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.importer.common.ImportException;
-import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
-import pl.edu.icm.saos.importer.notapi.common.JsonUtilService;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -26,19 +21,19 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 /**
- * Simple supreme court judgment import - download - reader
+ * Json files based import - download - reader
  *  
  * @author Łukasz Dumiszewski
  */
-@Service
-public class ScjImportDownloadReader implements ItemStreamReader<String> {
-
+public class JsonImportDownloadReader implements ItemStreamReader<String> {
     
-    private ImportFileUtils scjImportFileUtils;
+    private ImportFileUtils importFileUtils;
     
     private JsonUtilService jsonUtilService;
     
     private JsonFactory jsonFactory;
+    
+    private String importDir;
     
     
     
@@ -61,7 +56,7 @@ public class ScjImportDownloadReader implements ItemStreamReader<String> {
         
         if (fileReader == null) {
             Preconditions.checkState(jsonParser == null || jsonParser.isClosed()); 
-            fileReader = scjImportFileUtils.getReader(currentFile);
+            fileReader = importFileUtils.getReader(currentFile);
         }
         
         if (jsonParser == null || jsonParser.isClosed()) {
@@ -85,7 +80,7 @@ public class ScjImportDownloadReader implements ItemStreamReader<String> {
     
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        importFiles = Lists.newLinkedList(scjImportFileUtils.listImportFiles());
+        importFiles = Lists.newLinkedList(importFileUtils.listImportFiles(importDir));
         currentFile = importFiles.poll();
         fileReader = null;
         jsonParser = null;
@@ -134,18 +129,20 @@ public class ScjImportDownloadReader implements ItemStreamReader<String> {
 
     //------------------------ SETTERS --------------------------
     
-    @Autowired
-    public void setScjImportFileUtils(ImportFileUtils scjImportFileUtils) {
-        this.scjImportFileUtils = scjImportFileUtils;
+    public void setImportDir(String importDir) {
+        this.importDir = importDir;
+    }
+    
+    public void setImportFileUtils(ImportFileUtils importFileUtils) {
+        this.importFileUtils = importFileUtils;
     }
 
-    @Autowired
     public void setJsonUtilService(JsonUtilService jsonUtilService) {
         this.jsonUtilService = jsonUtilService;
     }
 
-    @Autowired
     public void setJsonFactory(JsonFactory jsonFactory) {
         this.jsonFactory = jsonFactory;
     }
+
 }

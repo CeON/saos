@@ -8,6 +8,9 @@ import javax.validation.constraints.NotNull;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import pl.edu.icm.saos.importer.notapi.common.DateTimeDeserializer;
+import pl.edu.icm.saos.importer.notapi.common.LocalDateIsoDeserializer;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.common.collect.Lists;

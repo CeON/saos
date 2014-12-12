@@ -52,8 +52,6 @@ public class ImportFileUtilsTest {
         
         createImportFiles(importDir);
        
-        importFileUtils.setImportDir(importDir.getAbsolutePath());
-       
     }
 
     
@@ -70,7 +68,7 @@ public class ImportFileUtilsTest {
     public void listImportFiles() {
         importFileUtils.setEligibleFileExtensions(new String[]{"json.gz", "json"});
          
-        Collection<File> files = importFileUtils.listImportFiles();
+        Collection<File> files = importFileUtils.listImportFiles(importDir.getAbsolutePath());
         
         assertEquals(2, files.size());
         assertTrue(files.contains(importFileJsonGz));
