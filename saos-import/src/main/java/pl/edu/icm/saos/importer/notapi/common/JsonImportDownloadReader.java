@@ -12,6 +12,7 @@ import org.springframework.batch.item.ItemStreamReader;
 import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.importer.common.ImportException;
 
@@ -133,14 +134,17 @@ public class JsonImportDownloadReader implements ItemStreamReader<String> {
         this.importDir = importDir;
     }
     
+    @Autowired
     public void setImportFileUtils(ImportFileUtils importFileUtils) {
         this.importFileUtils = importFileUtils;
     }
 
+    @Autowired
     public void setJsonUtilService(JsonUtilService jsonUtilService) {
         this.jsonUtilService = jsonUtilService;
     }
 
+    @Autowired
     public void setJsonFactory(JsonFactory jsonFactory) {
         this.jsonFactory = jsonFactory;
     }

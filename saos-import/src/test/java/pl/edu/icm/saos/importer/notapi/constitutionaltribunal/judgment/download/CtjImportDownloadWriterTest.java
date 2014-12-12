@@ -31,6 +31,7 @@ public class CtjImportDownloadWriterTest {
     @Test
     public void write() throws Exception {
         
+        // given
         RawSourceCtJudgment firstRawJudgment = new RawSourceCtJudgment();
         firstRawJudgment.setJsonContent("jsonContent");
         RawSourceCtJudgment secondRawJudgment = new RawSourceCtJudgment();
@@ -39,9 +40,11 @@ public class CtjImportDownloadWriterTest {
         List<RawSourceCtJudgment> rJudgments = Lists.newArrayList(firstRawJudgment, secondRawJudgment);
         
         
+        // execute
         ctjImportDownloadWriter.write(rJudgments);
         
         
+        // assert
         verify(rawSourceCtJudgmentRepository).save(eq(rJudgments));
     }
     

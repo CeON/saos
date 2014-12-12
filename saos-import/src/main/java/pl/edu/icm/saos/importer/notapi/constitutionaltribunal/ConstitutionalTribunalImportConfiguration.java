@@ -47,9 +47,6 @@ public class ConstitutionalTribunalImportConfiguration {
     public JsonImportDownloadReader ctjImportDownloadReader(@Value("${import.judgments.constitutionalTribunal.dir}") String importDir) {
         JsonImportDownloadReader ctjImportDownloadReader = new JsonImportDownloadReader();
         ctjImportDownloadReader.setImportDir(importDir);
-        ctjImportDownloadReader.setImportFileUtils(importFileUtils);
-        ctjImportDownloadReader.setJsonFactory(jsonFactory);
-        ctjImportDownloadReader.setJsonUtilService(jsonUtilService);
         
         return ctjImportDownloadReader;
     }

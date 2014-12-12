@@ -12,9 +12,7 @@ import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverterImpl;
 import pl.edu.icm.saos.importer.common.overwriter.DelegatingJudgmentOverwriter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
-import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
-import pl.edu.icm.saos.importer.notapi.common.JsonUtilService;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.SourceScJudgmentExtractor;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -34,16 +32,10 @@ public class SupremeCourtImportConfiguration {
     private SourceScJudgmentExtractor sourceScJudgmentExtractor;
     
     @Autowired 
-    private CommonValidator commonValidator;   
-    
-    @Autowired
-    private ImportFileUtils importFileUtils;
+    private CommonValidator commonValidator;
     
     @Autowired
     private MappingJsonFactory jsonFactory;
-    
-    @Autowired
-    private JsonUtilService jsonUtilService;
     
     
     @Autowired 
@@ -71,9 +63,6 @@ public class SupremeCourtImportConfiguration {
     public JsonImportDownloadReader scjImportDownloadReader(@Value("${import.judgments.supremeCourt.dir}") String importDir) {
         JsonImportDownloadReader scjImportDownloadReader = new JsonImportDownloadReader();
         scjImportDownloadReader.setImportDir(importDir);
-        scjImportDownloadReader.setImportFileUtils(importFileUtils);
-        scjImportDownloadReader.setJsonFactory(jsonFactory);
-        scjImportDownloadReader.setJsonUtilService(jsonUtilService);
         
         return scjImportDownloadReader;
     }
