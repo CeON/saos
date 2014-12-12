@@ -56,7 +56,7 @@ public class CtjImportJobConfiguration {
             .reader(ctjImportDownloadReader)
             .processor(ctjImportDownloadProcessor)
             .writer(ctjImportDownloadWriter)
-//            .listener(ctjImportDownloadStepExecutionListener)
+            .listener(ctjImportDownloadStepExecutionListener)
             .build();
     } 
 }
