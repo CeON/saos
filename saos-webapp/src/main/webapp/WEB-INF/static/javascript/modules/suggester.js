@@ -11,7 +11,7 @@ var Suggester = (function() {
     
     var space = {},
     	selItem = [],
-    	url = [],
+    	getUrl = [],
     	
     	maxElementsInList = 10,
     	cssClass = "suggestions";
@@ -22,14 +22,14 @@ var Suggester = (function() {
      * 
      * @param $field input field connected to suggester
      * @param source config parameters(json):
-     * 		- url - the url location of service that provides list of suggestions e.g. "{contextPath}/keywords"
+     * 		- getUrl - function that takes one @param id and returns url location with list of suggestions e.g. "{contextPath}/keywords"
      */
     
     init = function($field, source) {
         var fieldId = $field.attr("id");
         
-        if (source.url !== undefined) {
-        	url[fieldId] = source.url;
+        if (source.getUrl !== undefined) {
+        	getUrl[fieldId] = source.getUrl;
         }
       
         createContainer($field);
@@ -133,7 +133,7 @@ var Suggester = (function() {
         	return;
         }
         
-        $.ajax(url[fieldId] + inputVal)
+        $.ajax(getUrl[fieldId](inputVal))
         .done(function(data) {
         	
         	var dataLength = data.length;
