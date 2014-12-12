@@ -16,6 +16,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import org.assertj.core.util.Lists;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 
@@ -35,7 +37,7 @@ public class ConstitutionalTribunalJudgmentDissentingOpinion extends DataObject 
     
     private String textContent;
     
-    private List<String> authors;
+    private List<String> authors = Lists.newArrayList();
     
     
     //------------------------ GETTERS --------------------------
