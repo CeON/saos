@@ -1,3 +1,5 @@
+configurations { provided}
+
 dependencies {
     testCompile project(path:':saos-common', configuration:'testArtifacts')
     testCompile project(path:':saos-persistence', configuration:'testArtifacts')
@@ -18,5 +20,11 @@ dependencies {
     testCompile lib.'com.jayway.jsonpath:json-path'
     testCompile lib.'com.jayway.jsonpath:json-path-assert'
     testCompile lib.'javax.servlet:javax.servlet-api'
-    providedCompile lib.'javax.servlet:javax.servlet-api'
+    provided lib.'javax.servlet:javax.servlet-api'
 }
+
+sourceSets.main.compileClasspath += configurations.provided
+sourceSets.test.compileClasspath += configurations.provided
+sourceSets.test.runtimeClasspath += configurations.provided
+
+eclipse.classpath.plusConfigurations += configurations.provided
