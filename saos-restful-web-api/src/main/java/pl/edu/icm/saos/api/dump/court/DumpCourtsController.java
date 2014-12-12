@@ -15,6 +15,7 @@ import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
+import pl.edu.icm.saos.api.services.interceptor.RestrictParamsNames;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.CommonCourtSearchFilter;
@@ -25,6 +26,7 @@ import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
 
 /**
+ * Represents page of list of common courts in dump service
  * @author pavtel
  */
 @Controller
@@ -41,7 +43,10 @@ public class DumpCourtsController extends ControllersEntityExceptionHandler {
     private DumpCourtsListSuccessRepresentationBuilder dumpCourtsListSuccessRepresentationBuilder;
 
 
+
+    //------------------------ LOGIC --------------------------
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RestrictParamsNames
     @ResponseBody
     public ResponseEntity<Object> showCourts(
             @RequestParam(value = PAGE_SIZE, required = false, defaultValue = Pagination.DEFAULT_PAGE_SIZE) int pageSize,
