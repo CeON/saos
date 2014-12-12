@@ -5,7 +5,7 @@
 <div class="container judgment-page block">
 
 	<c:if test="${!empty judgment.judgmentType}" >
-		<div class="type">
+		<div class="judgment-type">
 			<spring:message code="judgment.${fn:toLowerCase(judgment.judgmentType)}" />
 		</div>
 	</c:if> 

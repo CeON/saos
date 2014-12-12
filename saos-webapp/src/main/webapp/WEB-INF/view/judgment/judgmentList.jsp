@@ -9,7 +9,7 @@
 		<div class="row" >
 		
 				<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
-					<div class="type" data-judgment-type="${judgment.judgmentType}" >
+					<div class="judgment-type" data-filter-value="${judgment.judgmentType}" >
 						<saos:enum value="${judgment.judgmentType}" ></saos:enum>
 					</div>
 				</c:if>
@@ -24,10 +24,10 @@
 				<%-- CommonCourt & CommonCourtDivision  --%>
 				<c:if test="${!empty judgment.ccCourtName || !empty judgment.ccCourtDivisionName}" >
 				
-					<div class="court-desc">
-						<span class="court"><c:out value="${judgment.ccCourtName}" /></span>
-						 - 
-						<span class="division" ><c:out value="${judgment.ccCourtDivisionName}" /></span>
+					<div class="court-desc">					
+						<saos:propertyWithFilter value="${judgment.ccCourtName}" filterValue="${judgment.ccCourtId}" cssClass="court" />
+						<span>-</span>
+						<saos:propertyWithFilter value="${judgment.ccCourtDivisionName}" filterValue="${judgment.ccCourtDivisionId}" cssClass="division" /> 
 					</div>
 				
 				</c:if>
@@ -36,11 +36,9 @@
 				<c:if test="${!empty judgment.scCourtDivisionsChamberName || !empty judgment.scCourtDivisionName}" >
 				
 					<div class="court-desc">
-						<span class="chamber">
-							<c:out value="${judgment.scCourtDivisionsChamberName}" />
-						</span>
+						<saos:propertyWithFilter value="${judgment.scCourtDivisionsChamberName}" filterValue="${judgment.scCourtDivisionId}" cssClass="chamber" />
 						<span>-</span>
-						<span class="chamber-division" ><c:out value="${judgment.scCourtDivisionName}" /></span>
+						<saos:propertyWithFilter value="${judgment.scCourtDivisionName}" filterValue="${judgment.scCourtDivisionsChamberId}" cssClass="chamber-division" />
 					</div>
 				
 				</c:if>

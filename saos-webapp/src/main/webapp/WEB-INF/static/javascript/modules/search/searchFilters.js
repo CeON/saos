@@ -15,7 +15,7 @@ var SearchFilters = (function(){
 		filterItemClass = "filter-item",
 		removeButtonClass = "remove-button",
 		assignedField = "data-assigned-field",
-		dataJudgmentType = "data-judgment-type",
+		dataFilterValue = "data-filter-value",
 		
 		parentContainer = ".judgment-list",
 		
@@ -29,16 +29,12 @@ var SearchFilters = (function(){
 						parent : {button: "", searchfield: "", filterfield: ""}}],
 		
 		
-	/***** PRIVATE METHODS *****/	
+	//------------------------ PRIVATE --------------------------
 		
 	init = function(source) {
 		
 		if (source.formId !== "") {
 			form = source.formId;
-		}
-		
-		if (source.divisionsUrl !== "") {
-			advanceFilterUrl = source.advanceFilterUrl;
 		}
 		
 		if (source.removeAll !== "") {
@@ -82,7 +78,9 @@ var SearchFilters = (function(){
 									$searchFormField.each(function() {
 										var $this = $(this);
 										
-										filterValue = $thisButton.attr(dataJudgmentType);
+										if ($thisButton.attr(dataFilterValue) !== undefined) {
+											filterValue = $thisButton.attr(dataFilterValue);
+										}
 
 										if($this.val() === filterValue) {
 											selectFormType($selectFormType);
@@ -100,13 +98,13 @@ var SearchFilters = (function(){
 								};
 							} else if($searchFormField.is("select")) {
 								return function() {
-									selectFormType($selectFormType);
 									
-									$searchFormField.find("option").each(function() {
-										var $this = $(this);
-										$this.attr("data-content", ($this.attr("data-content")+"").trim());
-									});
-									$searchFormField.find("option[data-content='" + filterValue + "']").attr('selected', 'selected');
+									if ($thisButton.attr(dataFilterValue) !== undefined) {
+										filterValue = $thisButton.attr(dataFilterValue);
+									}
+									
+									selectFormType($selectFormType);
+									$searchFormField.find("option[value='" + filterValue + "']").attr('selected', 'selected');
 									$searchFormField.trigger("change");
 									submitForm();
 								};
@@ -155,19 +153,18 @@ var SearchFilters = (function(){
 					parentButton = advanceFilter[j].parent.button,
 					parentSearchField = advanceFilter[j].parent.searchfield,
 					searchField = advanceFilter[j].searchfield,
-					filterUrl = advanceFilter[j].url,
 					getUrl = advanceFilter[j].getUrl,
 					divisionName = $thisButton.text();
 				
 				$thisButton.click(
 					(function() {
 						return function() {
-							var selectedCourt = $thisButton.parent().find(parentButton).text().trim(),
+							var selectedCourt = $thisButton.parent().find(parentButton).attr(dataFilterValue).trim(),
 								selectedCourtId = "";
 								
 							selectFormType($selectFormType, false);
 							selectedCourtId = $(parentSearchField)
-												.find("option[data-content='" + selectedCourt + "']")
+												.find("option[value='" + selectedCourt + "']")
 												.attr('selected', 'selected')
 												.val();
 							
@@ -286,7 +283,7 @@ var SearchFilters = (function(){
 		$(form + "").submit();
 	};
 	
-	/***** PUBLIC *****/
+	//------------------------ PUBLIC --------------------------
 	
 	space.run = function(source) {
 		init(source);
