@@ -167,7 +167,7 @@ public class RestrictParamsHandlerInterceptor extends HandlerInterceptorAdapter 
         private boolean writableProperty;
         private String name;
 
-        //------------------------ CONTROLLERS --------------------------
+        //------------------------ CONSTRUCTORS --------------------------
         public PropertyNameWrapper(boolean writableProperty, String name) {
             this.writableProperty = writableProperty;
             this.name = name;
