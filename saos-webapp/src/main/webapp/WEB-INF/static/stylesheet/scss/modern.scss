@@ -435,7 +435,7 @@ form.search {
 			margin-bottom: 6px;
 		}
 		
-		.type {
+		.judgment-type {
 			@include filter-underline();
 			border-color: #888;
 			bottom: -3px;
@@ -677,7 +677,7 @@ form.search {
 		padding-left: 0px;
 	}
 
-	.type {
+	.judgment-type {
 		color: #888;
 	    font-weight: 300;
 	    margin-bottom: 10px;

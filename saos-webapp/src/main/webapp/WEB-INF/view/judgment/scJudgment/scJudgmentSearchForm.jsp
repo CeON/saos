@@ -7,9 +7,9 @@
 	<label for="select-search-judgment-form" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.scJudgmentForm" />:</label>
    	<div class="col-sm-7">
 		<form:select path="scJudgmentForm" id="select-search-judgment-form" class="form-control" >
-		 	<option ></option>
+		 	<option></option>
 			<c:forEach items="${scJudgmentForms}" var="judgmentForm" >
-				<option value="${judgmentForm.name}" <c:if test="${judgmentCriteriaForm.scJudgmentForm == judgmentForm.name}" >selected="selected"</c:if> data-content="${judgmentForm.name}" >
+				<option value="${judgmentForm.name}" <c:if test="${judgmentCriteriaForm.scJudgmentForm == judgmentForm.name}" >selected="selected"</c:if> >
 					<c:out value="${judgmentForm.name}" />
 				</option>
 			</c:forEach>
@@ -23,7 +23,7 @@
    	<div class="col-sm-7">
     	<form:select path="scPersonnelType" class="form-control" id="select-search-personnel-type" >
     		<option></option>
-    		<saos:enumOptions enumType="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType" selected="${judgmentCriteriaForm.scPersonnelType}" dataTag="true"/>
+    		<saos:enumOptions enumType="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType" selected="${judgmentCriteriaForm.scPersonnelType}" />
     	</form:select>
 	</div>
 </div>
