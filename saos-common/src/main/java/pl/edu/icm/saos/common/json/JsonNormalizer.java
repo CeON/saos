@@ -22,11 +22,14 @@ public class JsonNormalizer {
     }
     
     
+    //------------------------ CONSTRUCTORS --------------------------
     
     private JsonNormalizer()  {
         throw new IllegalStateException("may not be instantiated");
     }
     
+    
+    //------------------------ LOGIC --------------------------
     
     /**
      * Changes passed json into a standard double quoted one: replaces single quotes with double-quotes, adds

@@ -4,9 +4,14 @@ import javax.validation.Validation;
 import javax.validation.ValidatorFactory;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import pl.edu.icm.saos.common.json.JsonUtilService;
 import pl.edu.icm.saos.common.validation.CommonValidator;
+
+import com.fasterxml.jackson.core.JsonParser.Feature;
+import com.fasterxml.jackson.databind.MappingJsonFactory;
 
 /**
  * @author Łukasz Dumiszewski
@@ -17,6 +22,7 @@ import pl.edu.icm.saos.common.validation.CommonValidator;
  * @author Łukasz Dumiszewski
  */
 @Configuration
+@ComponentScan
 public class CommonConfiguration {
 
     @Bean
@@ -25,6 +31,18 @@ public class CommonConfiguration {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         commonValidator.setValidator(factory.getValidator());
         return commonValidator;
+    }
+    
+    @Bean
+    public MappingJsonFactory jsonFactory() {
+        MappingJsonFactory factory = new MappingJsonFactory();
+        factory.enable(Feature.ALLOW_COMMENTS);
+        return factory;
+    }
+    
+    @Bean
+    public JsonUtilService jsonUtilService() {
+        return new JsonUtilService();
     }
     
 }

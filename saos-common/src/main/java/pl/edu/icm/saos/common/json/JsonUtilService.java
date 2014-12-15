@@ -1,23 +1,19 @@
-package pl.edu.icm.saos.importer.notapi.common;
+package pl.edu.icm.saos.common.json;
 
 import java.io.IOException;
 
-import org.springframework.stereotype.Service;
-
-import pl.edu.icm.saos.common.json.JsonUtils;
-
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 
 /**
  * @author Łukasz Dumiszewski
  */
-@Service("jsonUtilService")
 public class JsonUtilService {
 
     /**
      * Invokes {@link JsonUtils#nextNode(JsonParser)}
      */
-    public String nextNode(JsonParser jp) throws IOException {
+    public String nextNode(JsonParser jp) throws JsonParseException, IOException, IllegalStateException {
         return JsonUtils.nextNode(jp);
     }
     

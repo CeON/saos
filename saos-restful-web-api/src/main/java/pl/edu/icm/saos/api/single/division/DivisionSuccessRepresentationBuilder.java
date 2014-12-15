@@ -1,24 +1,25 @@
 package pl.edu.icm.saos.api.single.division;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.stereotype.Component;
-import pl.edu.icm.saos.api.services.links.LinksBuilder;
-import pl.edu.icm.saos.api.single.division.views.DivisionView;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import static pl.edu.icm.saos.api.ApiConstants.COURT;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static pl.edu.icm.saos.api.ApiConstants.COURT;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.api.services.links.LinksBuilder;
+import pl.edu.icm.saos.api.single.division.views.DivisionView;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 
 /**
  * Provides functionality for building success object view for single division.
  * Success object can be easily serialized as json.
  * @author pavtel
  */
-@Component
+@Service
 public class DivisionSuccessRepresentationBuilder {
 
     @Autowired

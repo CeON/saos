@@ -2,6 +2,8 @@ package pl.edu.icm.saos.common.json;
 
 import java.io.IOException;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.common.validation.CommonValidator;
@@ -39,10 +41,10 @@ public class JsonItemParser<T> {
      * Parses the given jsonContent into T <br/> <br/>
      * Uses {@link JsonParser} created by {@link JsonFactory#createParser(String)}. The parser has
      * the {@link Feature#ALLOW_COMMENTS} enabled. <br/>
-     * Validates the parsed object with {@link CommonValidator#validate(Object)} <br/>
+     * Validates the parsed object with {@link CommonValidator#validateEx(Object)} <br/>
      *  
      */
-    public T parse(String jsonContent) throws JsonItemParseException {
+    public T parse(String jsonContent) throws JsonItemParseException, ValidationException {
         try {
             
             JsonParser jsonParser = jsonFactory.createParser(jsonContent);
@@ -55,7 +57,7 @@ public class JsonItemParser<T> {
             return item;
             
         } catch (IOException e) {
-            throw new JsonItemParseException(e);
+            throw new JsonItemParseException(jsonContent, e.getMessage(), e);
         }
     }
 

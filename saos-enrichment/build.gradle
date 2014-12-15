@@ -1,0 +1,19 @@
+dependencies {
+    testCompile project(path:':saos-common', configuration:'testArtifacts')
+    testCompile project(path:':saos-persistence', configuration:'testArtifacts')
+    
+    compile project(':saos-persistence')
+    
+    compile lib.'org.springframework:spring-web'
+    compile lib.'org.springframework:spring-webmvc'
+    compile(lib.'org.springframework.hateoas') {
+        exclude group: 'org.springframework', module:'spring-web'
+        exclude group: 'org.springframework', module:'spring-webmvc'
+    }
+    compile lib.'com.fasterxml.jackson.core:jackson-annotations'
+    compile lib.'com.fasterxml.jackson.core:jackson-databind'
+    compile lib.'com.fasterxml.jackson.core:jackson-core'
+    compile lib.'javax.servlet:javax.servlet-api'
+    
+    compile lib.'commons-fileupload:commons-fileupload'
+}

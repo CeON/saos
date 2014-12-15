@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.api.single.judgment;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.api.single.judgment.mapping.CommonCourtJudgmentMapper;
 import pl.edu.icm.saos.api.single.judgment.mapping.JudgmentMapper;
@@ -19,7 +19,7 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
  * Success object can be easily serialized as json.
  * @author pavtel
  */
-@Component("singleJudgmentSuccessRepresentationBuilder")
+@Service("singleJudgmentSuccessRepresentationBuilder")
 public class SingleJudgmentSuccessRepresentationBuilder {
 
     @Autowired

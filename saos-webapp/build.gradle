@@ -6,11 +6,10 @@ apply plugin: 'eclipse-wtp'
 dependencies {
     testCompile project(path:':saos-common', configuration:'testArtifacts')
     
-    //compile project(':saos-persistence')
-    //compile project(':saos-import')
     compile project(path:':saos-batch')
     compile project(path:':saos-restful-web-api')
     compile project(path:':saos-search')
+    compile project(path:':saos-enrichment')
     
     compile lib.'org.apache.tiles:tiles-jsp'
     providedCompile lib.'javax.servlet:javax.servlet-api'

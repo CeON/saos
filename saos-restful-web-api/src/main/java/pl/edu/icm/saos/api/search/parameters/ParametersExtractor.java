@@ -1,13 +1,8 @@
 package pl.edu.icm.saos.api.search.parameters;
 
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.LocalDate;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import pl.edu.icm.saos.api.services.dates.DatesFactory;
-import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
+import static org.apache.commons.lang3.StringUtils.removeStart;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,15 +11,22 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static org.apache.commons.lang3.StringUtils.removeStart;
-import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
-import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDate;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.api.services.dates.DatesFactory;
+import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 
 /**
  * Provides functionality for extracting request parameters.
  * @author pavtel
  */
-@Component("parametersExtractor")
+@Service("parametersExtractor")
 public class ParametersExtractor {
 
     //********* fields *********

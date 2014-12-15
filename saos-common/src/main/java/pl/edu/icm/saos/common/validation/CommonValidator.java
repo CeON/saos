@@ -21,7 +21,7 @@ public class CommonValidator {
      * 
      * @param object object to validate
      */
-    public <T> void validateEx(T object) {
+    public <T> void validateEx(T object) throws ValidationException {
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(object);
         if (constraintViolations.size()>0) {
             throw new ValidationException(constraintViolations.toString());

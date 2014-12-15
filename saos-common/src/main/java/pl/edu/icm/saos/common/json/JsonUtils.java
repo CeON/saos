@@ -31,7 +31,7 @@ public final class JsonUtils {
      * */
     public static String nextNode(JsonParser jp) throws JsonParseException, IOException, IllegalStateException {
         JsonToken current = jp.nextToken();
-        if (current == JsonToken.START_ARRAY || current == JsonToken.START_OBJECT) {
+        if (current == JsonToken.START_ARRAY) {
            jp.nextToken();
         } else if (current == JsonToken.END_ARRAY) {
             return null;

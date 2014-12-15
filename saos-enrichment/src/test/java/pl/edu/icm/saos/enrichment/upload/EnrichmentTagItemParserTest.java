@@ -1,13 +1,10 @@
-package pl.edu.icm.saos.api.enricher;
+package pl.edu.icm.saos.enrichment.upload;
 
 import static org.junit.Assert.assertEquals;
-
-import javax.validation.ValidationException;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import pl.edu.icm.saos.common.json.JsonItemParser;
@@ -53,7 +50,7 @@ public class EnrichmentTagItemParserTest {
     
     
     @Test
-    public void parse() {
+    public void parse_ObjectValue() {
         
         // execute
         
@@ -71,18 +68,21 @@ public class EnrichmentTagItemParserTest {
     }
     
     
-    @Test(expected=ValidationException.class)
-    public void parse_ShouldThrowValidationException() {
-        
-        // given
-        
-        Mockito.doThrow(ValidationException.class).when(commonValidator).validateEx(Mockito.any(EnrichmentTagItem.class));
+    @Test
+    public void parse_StringValue() {
         
         // execute
         
-        enrichmentTagItemParser.parse(jsonContent);
+        EnrichmentTagItem enrichmentTagItem = enrichmentTagItemParser.parse(jsonContent);
+        enrichmentTagItem.setValue("\"text value\"");
         
+        // assert
+        
+        assertEquals(123, enrichmentTagItem.getJudgmentId());
+        assertEquals("SIMILAR_JUDGMENTS", enrichmentTagItem.getTagType());   
+        assertEquals("\"text value\"", enrichmentTagItem.getValue());
     }
+    
     
     
     
