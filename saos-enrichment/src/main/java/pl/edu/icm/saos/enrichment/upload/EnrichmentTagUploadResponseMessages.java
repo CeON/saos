@@ -19,7 +19,9 @@ public final class EnrichmentTagUploadResponseMessages {
     public static final String ERROR_UNSUPPORTED_HTTP_CONTENT_TYPE = "unsupported http content type"; 
     public static final String ERROR_EMPTY_DATA = "empty enrichment tag data"; 
     public static final String ERROR_INVALID_JSON_FORMAT = "invalid JSON format"; 
-    public static final String ERROR_INTERVAL_SERVER_ERROR = "internal server error occurred";
+    public static final String ERROR_INVALID_DATA = "invalid data";
+    public static final String ERROR_INTERVAL_SERVER_ERROR = "internal server error";
     public static final String ERROR_MAX_UPLOAD_SIZE_EXCEEDED = "max upload size exceeded";
     public static final String ERROR_SAME_TAG_ALREADY_UPLOADED = "same tag already uploaded"; 
+    public static final String ERROR_IO = "I/O error";
 }

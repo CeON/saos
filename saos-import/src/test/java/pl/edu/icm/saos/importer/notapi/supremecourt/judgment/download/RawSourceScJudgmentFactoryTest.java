@@ -55,7 +55,7 @@ public class RawSourceScJudgmentFactoryTest {
         Source source = new Source();
         source.setSourceJudgmentId("1112223334444");
         sourceJudgment.setSource(source);
-        Mockito.when(sourceScJudgmentParser.parse(Mockito.eq(jsonContent))).thenReturn(sourceJudgment);
+        Mockito.when(sourceScJudgmentParser.parseAndValidate(Mockito.eq(jsonContent))).thenReturn(sourceJudgment);
         
         
         // execute

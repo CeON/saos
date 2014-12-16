@@ -43,10 +43,10 @@ public class EnrichmentConfiguration {
         
     @Bean
     public JsonItemParser<EnrichmentTagItem> enrichmentTagItemParser() {
-        JsonItemParser<EnrichmentTagItem> sourceScJudgmentParser = new JsonItemParser<>(EnrichmentTagItem.class);
-        sourceScJudgmentParser.setCommonValidator(commonValidator);
-        sourceScJudgmentParser.setJsonFactory(jsonFactory);
-        return sourceScJudgmentParser;
+        JsonItemParser<EnrichmentTagItem> enrichmentTagItemParser = new JsonItemParser<>(EnrichmentTagItem.class);
+        enrichmentTagItemParser.setCommonValidator(commonValidator);
+        enrichmentTagItemParser.setJsonFactory(jsonFactory);
+        return enrichmentTagItemParser;
     }
     
     

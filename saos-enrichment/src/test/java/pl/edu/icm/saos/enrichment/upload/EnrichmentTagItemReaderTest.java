@@ -81,7 +81,7 @@ public class EnrichmentTagItemReaderTest {
         when(jsonUtilService.nextNode(jsonParser)).thenReturn(jsonNode);
         
         EnrichmentTagItem enrichmentTagItem = Mockito.mock(EnrichmentTagItem.class);
-        when(enrichmentTagItemParser.parse(jsonNode)).thenReturn(enrichmentTagItem);
+        when(enrichmentTagItemParser.parseAndValidate(jsonNode)).thenReturn(enrichmentTagItem);
         
         // execute
         

@@ -16,8 +16,11 @@ public class CommonValidator {
     private Validator validator;
     
     
+    
+    //------------------------ LOGIC --------------------------
+    
     /**
-     * Validates using {@link #setValidator(Validator)}
+     * Validates the passed object using {@link #setValidator(Validator)}
      * 
      * @param object object to validate
      */
@@ -29,9 +32,13 @@ public class CommonValidator {
     }
 
     
+    /**
+     * Validates the passed object using {@link #setValidator(Validator)}
+     */
     public <T> Set<ConstraintViolation<T>> validate(T object) {
         return validator.validate(object);
     }
+    
     
     //------------------------ SETTERS --------------------------
     

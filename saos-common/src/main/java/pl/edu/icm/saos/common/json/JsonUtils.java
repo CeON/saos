@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
+import com.google.common.base.Preconditions;
 
 /**
  * Json utilities
@@ -20,16 +21,23 @@ public final class JsonUtils {
     }
     
     /**  
+     * TODO: This method is a kind of strange, see: https://github.com/CeON/saos/issues/377
+     * 
      * Returns next node as string. The next node is a node that is an array element or the whole object
      * in case there is one element only (not array of elements).<br/>
      * Returns null if there is no next node, for example when the traversing of array has reached an end.
      * <br/>   
      * 
-     * @throws IllegalStateException if the jsonParser has no codec; you can use {@link MappingJsonFactory} for creating
+     * @throws IllegalArgumentException if the {@link JsonParser#getCodec()} == null. You can use {@link MappingJsonFactory} for creating
      * parser with default codec
+     * @throws JsonParseException if the nextNode cannot be parsed
+     * @throws IOException if I/O error occured
      * 
      * */
-    public static String nextNode(JsonParser jp) throws JsonParseException, IOException, IllegalStateException {
+    public static String nextNode(JsonParser jp) throws IOException {
+        
+        Preconditions.checkArgument(jp.getCodec() != null);
+        
         JsonToken current = jp.nextToken();
         if (current == JsonToken.START_ARRAY) {
            jp.nextToken();

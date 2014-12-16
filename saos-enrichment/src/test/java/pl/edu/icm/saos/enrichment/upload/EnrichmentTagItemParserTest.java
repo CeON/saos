@@ -11,6 +11,7 @@ import pl.edu.icm.saos.common.json.JsonItemParser;
 import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 
 /**
@@ -50,11 +51,11 @@ public class EnrichmentTagItemParserTest {
     
     
     @Test
-    public void parse_ObjectValue() {
+    public void parse_ObjectValue() throws JsonParseException {
         
         // execute
         
-        EnrichmentTagItem enrichmentTagItem = enrichmentTagItemParser.parse(jsonContent);
+        EnrichmentTagItem enrichmentTagItem = enrichmentTagItemParser.parseAndValidate(jsonContent);
         
         
         // assert
@@ -69,11 +70,11 @@ public class EnrichmentTagItemParserTest {
     
     
     @Test
-    public void parse_StringValue() {
+    public void parse_StringValue() throws JsonParseException {
         
         // execute
         
-        EnrichmentTagItem enrichmentTagItem = enrichmentTagItemParser.parse(jsonContent);
+        EnrichmentTagItem enrichmentTagItem = enrichmentTagItemParser.parseAndValidate(jsonContent);
         enrichmentTagItem.setValue("\"text value\"");
         
         // assert

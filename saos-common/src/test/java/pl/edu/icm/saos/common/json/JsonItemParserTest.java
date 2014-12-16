@@ -17,6 +17,7 @@ import org.mockito.Mockito;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonParser.Feature;
 
@@ -55,7 +56,7 @@ public class JsonItemParserTest {
     //------------------------ TESTS --------------------------
     
     @Test
-    public void parse() throws JsonItemParseException, IOException {
+    public void parseAndValidate() throws IOException {
         
         // given
         
@@ -67,7 +68,7 @@ public class JsonItemParserTest {
         
         // execute
         
-        String retValue = jsonItemParser.parse(jsonContent);
+        String retValue = jsonItemParser.parseAndValidate(jsonContent);
         
         
         // assert
@@ -80,7 +81,7 @@ public class JsonItemParserTest {
     
     
     @Test(expected = ValidationException.class)
-    public void parse_JsonItemException() throws JsonItemParseException, IOException {
+    public void parseAndValidate_ValidationException() throws IOException {
         
         // given
         
@@ -92,7 +93,7 @@ public class JsonItemParserTest {
         
         // execute
         
-        jsonItemParser.parse(jsonContent);
+        jsonItemParser.parseAndValidate(jsonContent);
         
        
     }
@@ -100,8 +101,8 @@ public class JsonItemParserTest {
     
     
     @SuppressWarnings("unchecked")
-    @Test(expected = JsonItemParseException.class)
-    public void parse_JsonItemParseException() throws JsonItemParseException, IOException {
+    @Test(expected = JsonParseException.class)
+    public void parseAndValidate_JsonParseException() throws IOException {
         
         // given
         
@@ -112,7 +113,7 @@ public class JsonItemParserTest {
         
         // execute
         
-        jsonItemParser.parse(jsonContent);
+        jsonItemParser.parseAndValidate(jsonContent);
         
        
     }

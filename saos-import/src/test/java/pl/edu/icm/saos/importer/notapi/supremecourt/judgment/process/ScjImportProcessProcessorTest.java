@@ -25,6 +25,8 @@ import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 import pl.edu.icm.saos.persistence.repository.RawSourceScJudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentRepository;
 
+import com.fasterxml.jackson.core.JsonParseException;
+
 /**
  * @author Łukasz Dumiszewski
  */
@@ -78,13 +80,13 @@ public class ScjImportProcessProcessorTest {
     //------------------------ LOGIC --------------------------
     
     @Test
-    public void process_OldJudgmentNotFound() {
+    public void process_OldJudgmentNotFound() throws JsonParseException {
         
         // given
         
         rJudgment.setJsonContent("12121212esfcsfc");
         
-        when(sourceScJudgmentParser.parse(rJudgment.getJsonContent())).thenReturn(sourceScJudgment);
+        when(sourceScJudgmentParser.parseAndValidate(rJudgment.getJsonContent())).thenReturn(sourceScJudgment);
         
         scJudgment.getSourceInfo().setSourceJudgmentId("AAAXXX");
         when(sourceScJudgmentConverter.convertJudgment(sourceScJudgment)).thenReturn(jWithCorrectionList);
@@ -106,7 +108,7 @@ public class ScjImportProcessProcessorTest {
         assertTrue(rJudgment.isProcessed());
         assertNotNull(rJudgment.getProcessingDate());
         
-        verify(sourceScJudgmentParser).parse(rJudgment.getJsonContent());
+        verify(sourceScJudgmentParser).parseAndValidate(rJudgment.getJsonContent());
         verify(sourceScJudgmentConverter).convertJudgment(sourceScJudgment);
         verify(scJudgmentRepository).findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId());
         verify(rawSourceScJudgmentRepository).save(rJudgment);
@@ -118,13 +120,13 @@ public class ScjImportProcessProcessorTest {
     
     
     @Test
-    public void process_OldJudgmentFound() {
+    public void process_OldJudgmentFound() throws JsonParseException {
         
         // given
         
         rJudgment.setJsonContent("12121212esfcsfc");
         
-        when(sourceScJudgmentParser.parse(rJudgment.getJsonContent())).thenReturn(sourceScJudgment);
+        when(sourceScJudgmentParser.parseAndValidate(rJudgment.getJsonContent())).thenReturn(sourceScJudgment);
         
         scJudgment.getSourceInfo().setSourceJudgmentId("ABCXYZ");
         when(sourceScJudgmentConverter.convertJudgment(sourceScJudgment)).thenReturn(jWithCorrectionList);
@@ -147,7 +149,7 @@ public class ScjImportProcessProcessorTest {
         assertTrue(rJudgment.isProcessed());
         assertNotNull(rJudgment.getProcessingDate());
         
-        verify(sourceScJudgmentParser).parse(rJudgment.getJsonContent());
+        verify(sourceScJudgmentParser).parseAndValidate(rJudgment.getJsonContent());
         verify(sourceScJudgmentConverter).convertJudgment(sourceScJudgment);
         verify(scJudgmentRepository).findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId());
         verify(judgmentOverwriter).overwriteJudgment(oldScJudgment, scJudgment, correctionList);

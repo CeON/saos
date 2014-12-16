@@ -5,7 +5,6 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.common.json.JsonItemParseException;
 import pl.edu.icm.saos.common.json.JsonItemParser;
 import pl.edu.icm.saos.common.json.JsonUtilService;
 
@@ -31,8 +30,11 @@ public class EnrichmentTagItemReader {
     /**
      * Reads next json object from the given jsonParser by using {@link JsonUtilService#nextNode(JsonParser)}
      * and parses it to {@link EnrichmentTagItem}
+     * @throws IOException if some I/O error occurred
+     * @throws JsonParseException if the next json token cannot be parsed to EnrichmentTagItem
+     * @throws ValidationException if the next EnrichmentTagItem is not valid
      */
-    public EnrichmentTagItem nextEnrichmentTagItem(JsonParser jsonParser) throws JsonParseException, IllegalStateException, JsonItemParseException, IOException {
+    public EnrichmentTagItem nextEnrichmentTagItem(JsonParser jsonParser) throws IOException, JsonParseException {
      
         String nextNode = jsonUtilService.nextNode(jsonParser);
     
@@ -42,7 +44,7 @@ public class EnrichmentTagItemReader {
         
         }
         
-        return enrichmentTagItemParser.parse(nextNode);
+        return enrichmentTagItemParser.parseAndValidate(nextNode);
         
         
     }
