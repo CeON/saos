@@ -20,9 +20,7 @@ import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import org.springframework.batch.item.ExecutionContext;
 
-import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
-import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
-import pl.edu.icm.saos.importer.notapi.common.JsonUtilService;
+import pl.edu.icm.saos.common.json.JsonUtilService;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;

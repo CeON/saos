@@ -14,6 +14,7 @@ import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import pl.edu.icm.saos.common.json.JsonUtilService;
 import pl.edu.icm.saos.importer.common.ImportException;
 
 import com.fasterxml.jackson.core.JsonFactory;

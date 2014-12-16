@@ -37,7 +37,7 @@ public class GeneralConfiguration {
     }
     
     @Bean
-    public MessageSource messageSource() {
+    public MessageSource webMessageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasenames("classpath:message/common");
         messageSource.setFallbackToSystemLocale(false);

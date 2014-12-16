@@ -1,15 +1,23 @@
 package pl.edu.icm.saos.webapp;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.config.SpringDataWebConfiguration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -22,11 +30,22 @@ import pl.edu.icm.saos.webapp.format.StringTrimmingFormatter;
 
 
 @Configuration
-@ComponentScan (basePackages = {"pl.edu.icm.saos.webapp", "pl.edu.icm.saos.api"})
+@ComponentScan(basePackages={"pl.edu.icm.saos"}, useDefaultFilters=false, includeFilters={@Filter(type=FilterType.ANNOTATION, value=Controller.class), 
+                                    @Filter(type=FilterType.ANNOTATION, value=RestController.class), 
+                                    @Filter(type=FilterType.ANNOTATION, value=ControllerAdvice.class)})
 @EnableWebMvc
 public class WebappConfiguration extends SpringDataWebConfiguration {
 
+   
+    @Autowired
+    @Qualifier("webMessageSource")
+    private MessageSource messageSource;
     
+    
+    @Bean
+    public MessageSource messageSource() {
+        return messageSource;
+    }
     
     @Bean
     public TilesViewResolver viewResolver() {

@@ -19,7 +19,7 @@ public class BatchAdminServletInitializer extends AbstractAnnotationConfigDispat
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class<?>[] { BatchAdminConfiguration.class };
+        return new Class<?>[] {BatchAdminConfiguration.class };
     }
 
     @Override

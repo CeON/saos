@@ -21,6 +21,7 @@ import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.Sour
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.SourceCtDissentingOpinion;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.SourceCtJudge;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 
 /**
@@ -79,11 +80,11 @@ public class SourceCtJudgmentParserTest {
     //------------------------ TESTS --------------------------
     
     @Test
-    public void parse() {
+    public void parse() throws JsonParseException {
         
         // execute
         
-        SourceCtJudgment sourceScJudgment = sourceScJudgmentParser.parse(jsonContent);
+        SourceCtJudgment sourceScJudgment = sourceScJudgmentParser.parseAndValidate(jsonContent);
         
         
         // assert
@@ -125,7 +126,7 @@ public class SourceCtJudgmentParserTest {
     }
     
     @Test(expected=ValidationException.class)
-    public void parse_INVALID() {
+    public void parse_INVALID() throws JsonParseException {
         
         // given
         
@@ -134,6 +135,6 @@ public class SourceCtJudgmentParserTest {
         
         // execute
         
-        sourceScJudgmentParser.parse(jsonContent);
+        sourceScJudgmentParser.parseAndValidate(jsonContent);
     }
 }

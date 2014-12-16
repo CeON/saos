@@ -1,17 +1,11 @@
 package pl.edu.icm.saos.importer;
 
 import javax.annotation.PostConstruct;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-
-import com.fasterxml.jackson.core.JsonParser.Feature;
-import com.fasterxml.jackson.databind.MappingJsonFactory;
 
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.commoncourt.CommonCourtImportConfiguration;
@@ -19,6 +13,9 @@ import pl.edu.icm.saos.importer.notapi.common.DateTimeDeserializer;
 import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.ConstitutionalTribunalImportConfiguration;
 import pl.edu.icm.saos.importer.notapi.supremecourt.SupremeCourtImportConfiguration;
+
+import com.fasterxml.jackson.core.JsonParser.Feature;
+import com.fasterxml.jackson.databind.MappingJsonFactory;
 
 /**
  * @author Łukasz Dumiszewski
@@ -29,11 +26,6 @@ import pl.edu.icm.saos.importer.notapi.supremecourt.SupremeCourtImportConfigurat
 public class ImportConfiguration {
 
     
-    @Bean
-    public Validator validator() {
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        return factory.getValidator();
-    }
     
     @Bean
     public MappingJsonFactory jsonFactory() {

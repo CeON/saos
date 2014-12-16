@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
+import com.fasterxml.jackson.core.JsonParseException;
+
 /**
  * Simple supreme court judgment import - download - processor
  * 
@@ -17,7 +19,7 @@ public class ScjImportDownloadProcessor implements ItemProcessor<String, RawSour
     private RawSourceScJudgmentFactory rawSourceScJudgmentFactory;
     
     @Override
-    public RawSourceScJudgment process(String jsonContent) {
+    public RawSourceScJudgment process(String jsonContent) throws JsonParseException {
         return rawSourceScJudgmentFactory.createRawSourceScJudgment(jsonContent);
     }
     

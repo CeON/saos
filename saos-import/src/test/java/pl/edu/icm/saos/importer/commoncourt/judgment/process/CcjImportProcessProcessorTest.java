@@ -8,9 +8,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -58,8 +56,6 @@ public class CcjImportProcessProcessorTest {
     @Mock
     private ImportCorrectionList correctionList;
     
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
    
 
     @Before

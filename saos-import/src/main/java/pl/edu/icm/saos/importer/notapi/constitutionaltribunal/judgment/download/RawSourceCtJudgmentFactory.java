@@ -7,6 +7,8 @@ import pl.edu.icm.saos.common.json.JsonItemParser;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 
+import com.fasterxml.jackson.core.JsonParseException;
+
 /**
  * Creates {@link RawSourceCtJudgment} from json
  * 
@@ -21,10 +23,10 @@ class RawSourceCtJudgmentFactory {
     
     //------------------------ LOGIC --------------------------
     
-    public RawSourceCtJudgment createRawSourceCtJudgment(String jsonContent) {
+    public RawSourceCtJudgment createRawSourceCtJudgment(String jsonContent) throws JsonParseException {
         RawSourceCtJudgment rawJudgment = new RawSourceCtJudgment();
         rawJudgment.setJsonContent(jsonContent);
-        SourceCtJudgment sourceCtJudgment = sourceCtJudgmentParser.parse(jsonContent);
+        SourceCtJudgment sourceCtJudgment = sourceCtJudgmentParser.parseAndValidate(jsonContent);
         rawJudgment.setSourceId(sourceCtJudgment.getSource().getSourceJudgmentId());
         return rawJudgment;
     }

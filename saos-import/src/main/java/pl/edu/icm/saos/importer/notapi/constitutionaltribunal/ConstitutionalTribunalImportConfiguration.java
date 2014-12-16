@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.json.JsonUtilService;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
-import pl.edu.icm.saos.importer.notapi.common.JsonUtilService;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 
 import com.fasterxml.jackson.databind.MappingJsonFactory;

@@ -1,30 +1,35 @@
 package pl.edu.icm.saos.api.dump.court;
 
+import static pl.edu.icm.saos.api.ApiConstants.NEXT;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+import static pl.edu.icm.saos.api.ApiConstants.PREV;
+import static pl.edu.icm.saos.api.ApiConstants.SELF;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import pl.edu.icm.saos.api.dump.court.mapping.DumpCourtItemMapper;
 import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView;
+import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.DumpCourtItem;
+import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.QueryTemplate;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
 import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.DumpCourtItem;
-import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.QueryTemplate;
-
 /**
  * Provides functionality for building success object view for dump list of courts.
  * @author pavtel
  */
-@Component
+@Service
 public class DumpCourtsListSuccessRepresentationBuilder {
 
 

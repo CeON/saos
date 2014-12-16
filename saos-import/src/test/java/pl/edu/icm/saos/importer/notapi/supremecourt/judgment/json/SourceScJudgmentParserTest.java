@@ -22,6 +22,7 @@ import pl.edu.icm.saos.importer.notapi.common.DateTimeDeserializer;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.Source;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.SourceScJudge;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 
 /**
@@ -74,7 +75,7 @@ public class SourceScJudgmentParserTest {
     
     
     @Test
-    public void parse() {
+    public void parse() throws JsonParseException {
         
         // given
         
@@ -84,7 +85,7 @@ public class SourceScJudgmentParserTest {
         
         // execute
         
-        SourceScJudgment sourceScJudgment = sourceScJudgmentParser.parse(jsonContent);
+        SourceScJudgment sourceScJudgment = sourceScJudgmentParser.parseAndValidate(jsonContent);
         
         
         // assert
@@ -120,7 +121,7 @@ public class SourceScJudgmentParserTest {
     
     
     @Test(expected=ValidationException.class)
-    public void parse_JudgeNameNull() {
+    public void parse_JudgeNameNull() throws JsonParseException {
         
         // given
         
@@ -131,7 +132,7 @@ public class SourceScJudgmentParserTest {
         
         // execute
         
-        sourceScJudgmentParser.parse(jsonContent);
+        sourceScJudgmentParser.parseAndValidate(jsonContent);
         
     }
     

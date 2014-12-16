@@ -1,25 +1,26 @@
 package pl.edu.icm.saos.api.single.court;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Link;
-import org.springframework.stereotype.Component;
-import pl.edu.icm.saos.api.services.links.LinksBuilder;
-import pl.edu.icm.saos.api.single.court.views.CommonCourtView;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import static pl.edu.icm.saos.api.ApiConstants.PARENT_COURT;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.edu.icm.saos.api.ApiConstants.PARENT_COURT;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.api.services.links.LinksBuilder;
+import pl.edu.icm.saos.api.single.court.views.CommonCourtView;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 
 /**
  * Provides functionality for building success object view for single court.
  * Success object can be serialized as json.
  * @author pavtel
  */
-@Component
+@Service
 public class SingleCourtSuccessRepresentationBuilder {
 
     @Autowired

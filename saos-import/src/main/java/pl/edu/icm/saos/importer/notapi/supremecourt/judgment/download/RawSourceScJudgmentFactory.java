@@ -8,6 +8,8 @@ import pl.edu.icm.saos.common.json.JsonItemParser;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
+import com.fasterxml.jackson.core.JsonParseException;
+
 /**
  * @author Łukasz Dumiszewski
  */
@@ -21,10 +23,10 @@ class RawSourceScJudgmentFactory {
     
     //------------------------ LOGIC --------------------------
     
-    public RawSourceScJudgment createRawSourceScJudgment(String jsonContent) {
+    public RawSourceScJudgment createRawSourceScJudgment(String jsonContent) throws JsonParseException {
         RawSourceScJudgment judgment = new RawSourceScJudgment();
         judgment.setJsonContent(jsonContent);
-        SourceScJudgment sourceScJudgment = sourceScJudgmentParser.parse(jsonContent);
+        SourceScJudgment sourceScJudgment = sourceScJudgmentParser.parseAndValidate(jsonContent);
         judgment.setMultiChambers(sourceScJudgment.getSupremeCourtChambers().size()>1);
         judgment.setSourceId(sourceScJudgment.getSource().getSourceJudgmentId());
         return judgment;

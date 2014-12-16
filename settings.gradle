@@ -3,6 +3,7 @@ include 'saos-common',
         'saos-import',
         'saos-batch',
         'saos-search',
+        'saos-enrichment',
         'saos-restful-web-api',
         'saos-webapp'
 include 'saos-webapp/grunt'

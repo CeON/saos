@@ -18,6 +18,8 @@ import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 import pl.edu.icm.saos.persistence.repository.RawSourceScJudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentRepository;
 
+import com.fasterxml.jackson.core.JsonParseException;
+
 /**
  * @author Łukasz Dumiszewski
  */
@@ -42,12 +44,12 @@ public class ScjImportProcessProcessor implements ItemProcessor<RawSourceScJudgm
     //------------------------ LOGIC --------------------------
     
     @Override
-    public JudgmentWithCorrectionList<SupremeCourtJudgment> process(RawSourceScJudgment rJudgment) {
+    public JudgmentWithCorrectionList<SupremeCourtJudgment> process(RawSourceScJudgment rJudgment) throws JsonParseException {
         
         log.trace("Processing: rawSourceScJudgment id={}", rJudgment.getId());
 
         
-        SourceScJudgment sourceScJudgment = sourceScJudgmentParser.parse(rJudgment.getJsonContent());
+        SourceScJudgment sourceScJudgment = sourceScJudgmentParser.parseAndValidate(rJudgment.getJsonContent());
         
         JudgmentWithCorrectionList<SupremeCourtJudgment> judgmentWithCorrectionList = sourceScJudgmentConverter.convertJudgment(sourceScJudgment);
         

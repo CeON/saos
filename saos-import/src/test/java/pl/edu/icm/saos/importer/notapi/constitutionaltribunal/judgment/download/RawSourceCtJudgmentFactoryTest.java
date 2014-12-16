@@ -48,7 +48,7 @@ public class RawSourceCtJudgmentFactoryTest {
         Source source = new Source();
         source.setSourceJudgmentId("1112223334444");
         sourceJudgment.setSource(source);
-        when(sourceCtJudgmentParser.parse(eq(jsonContent))).thenReturn(sourceJudgment);
+        when(sourceCtJudgmentParser.parseAndValidate(eq(jsonContent))).thenReturn(sourceJudgment);
         
         
         // execute
