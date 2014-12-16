@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download;
+package pl.edu.icm.saos.importer.notapi.common;
 
 import static org.junit.Assert.assertTrue;
 
@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.ScjImportDownloadProcessor;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.RawSourceScJudgmentFactory;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
@@ -14,16 +14,16 @@ import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
  * @author Łukasz Dumiszewski
  */
 
-public class ScjImportDownloadProcessorTest {
+public class JsonImportDownloadProcessorTest {
 
-    private ScjImportDownloadProcessor scjImportProcessor = new ScjImportDownloadProcessor();
+    private JsonImportDownloadProcessor<RawSourceScJudgment> scjImportProcessor = new JsonImportDownloadProcessor<RawSourceScJudgment>();
     
     private RawSourceScJudgmentFactory simpleRawSourceScJudgmentFactory = Mockito.mock(RawSourceScJudgmentFactory.class);
     
     
     @Before
     public void before() {
-        scjImportProcessor.setSimpleRawSourceScJudgmentFactory(simpleRawSourceScJudgmentFactory);
+        scjImportProcessor.setRawSourceJudgmentFactory(simpleRawSourceScJudgmentFactory);
     }
     
     @Test
@@ -33,7 +33,7 @@ public class ScjImportDownloadProcessorTest {
         RawSourceScJudgment rJudgment = new RawSourceScJudgment();
         rJudgment.setJsonContent(content);
         
-        Mockito.when(simpleRawSourceScJudgmentFactory.createRawSourceScJudgment(Mockito.eq(content))).thenReturn(rJudgment);
+        Mockito.when(simpleRawSourceScJudgmentFactory.createRawSourceJudgment(Mockito.eq(content))).thenReturn(rJudgment);
         
         RawSourceScJudgment retRJudgment = scjImportProcessor.process(content);
         

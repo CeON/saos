@@ -53,7 +53,7 @@ public class RawSourceCtJudgmentFactoryTest {
         
         // execute
         
-        RawSourceCtJudgment rawSourceJudgment = rawSourceCtJudgmentFactory.createRawSourceCtJudgment(jsonContent);
+        RawSourceCtJudgment rawSourceJudgment = rawSourceCtJudgmentFactory.createRawSourceJudgment(jsonContent);
     
     
         // assert

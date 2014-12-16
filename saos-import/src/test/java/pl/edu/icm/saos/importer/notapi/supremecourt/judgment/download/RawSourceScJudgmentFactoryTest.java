@@ -60,7 +60,7 @@ public class RawSourceScJudgmentFactoryTest {
         
         // execute
         
-        RawSourceScJudgment rawSourceJudgment = simpleRawSourceScJudgmentFactory.createRawSourceScJudgment(jsonContent);
+        RawSourceScJudgment rawSourceJudgment = simpleRawSourceScJudgmentFactory.createRawSourceJudgment(jsonContent);
     
     
         // assert

@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import pl.edu.icm.saos.importer.common.JudgmentImportDownloadWriter;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
-import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.download.CtjImportDownloadProcessor;
-import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.download.CtjImportDownloadStepExecutionListener;
-import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.download.CtjImportDownloadWriter;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 
 @Configuration
@@ -35,13 +35,14 @@ public class CtjImportJobConfiguration {
     private JsonImportDownloadReader ctjImportDownloadReader;
     
     @Autowired
-    private CtjImportDownloadProcessor ctjImportDownloadProcessor;
+    @Qualifier("ctjImportDownloadProcessor")
+    private JsonImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor;
     
     @Autowired
-    private CtjImportDownloadWriter ctjImportDownloadWriter;
+    private JudgmentImportDownloadWriter ctjImportDownloadWriter;
     
     @Autowired
-    private CtjImportDownloadStepExecutionListener ctjImportDownloadStepExecutionListener;
+    private JsonImportDownloadStepExecutionListener ctjImportDownloadStepExecutionListener;
     
     
     

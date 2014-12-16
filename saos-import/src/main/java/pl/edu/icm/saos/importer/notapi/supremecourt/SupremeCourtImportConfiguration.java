@@ -12,10 +12,14 @@ import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverterImpl;
 import pl.edu.icm.saos.importer.common.overwriter.DelegatingJudgmentOverwriter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.RawSourceScJudgmentFactory;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.SourceScJudgmentExtractor;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 
@@ -36,6 +40,9 @@ public class SupremeCourtImportConfiguration {
     
     @Autowired
     private MappingJsonFactory jsonFactory;
+    
+    @Autowired
+    private RawSourceScJudgmentFactory rawSourceScJudgmentFactory;
     
     
     @Autowired 
@@ -65,6 +72,22 @@ public class SupremeCourtImportConfiguration {
         scjImportDownloadReader.setImportDir(importDir);
         
         return scjImportDownloadReader;
+    }
+    
+    @Bean
+    public JsonImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor() {
+        JsonImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor = new JsonImportDownloadProcessor<RawSourceScJudgment>();
+        scjImportDownloadProcessor.setRawSourceJudgmentFactory(rawSourceScJudgmentFactory);
+        
+        return scjImportDownloadProcessor;
+    }
+    
+    @Bean
+    public JsonImportDownloadStepExecutionListener scjImportDownloadStepExecutionListener() {
+        JsonImportDownloadStepExecutionListener stepExecutionListener = new JsonImportDownloadStepExecutionListener();
+        stepExecutionListener.setRawJudgmentClass(RawSourceScJudgment.class);
+        
+        return stepExecutionListener;
     }
     
     

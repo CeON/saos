@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.importer.notapi.common.RawSourceJudgmentFactory;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 
@@ -13,7 +14,7 @@ import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
  * @author madryk
  */
 @Service
-class RawSourceCtJudgmentFactory {
+public class RawSourceCtJudgmentFactory implements RawSourceJudgmentFactory<RawSourceCtJudgment> {
 
     @Autowired
     private JsonItemParser<SourceCtJudgment> sourceCtJudgmentParser;
@@ -21,7 +22,8 @@ class RawSourceCtJudgmentFactory {
     
     //------------------------ LOGIC --------------------------
     
-    public RawSourceCtJudgment createRawSourceCtJudgment(String jsonContent) {
+    @Override
+    public RawSourceCtJudgment createRawSourceJudgment(String jsonContent) {
         RawSourceCtJudgment rawJudgment = new RawSourceCtJudgment();
         rawJudgment.setJsonContent(jsonContent);
         SourceCtJudgment sourceCtJudgment = sourceCtJudgmentParser.parse(jsonContent);
