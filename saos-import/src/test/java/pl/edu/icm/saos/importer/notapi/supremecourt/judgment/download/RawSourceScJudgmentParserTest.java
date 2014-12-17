@@ -60,7 +60,7 @@ public class RawSourceScJudgmentParserTest {
         
         // execute
         
-        RawSourceScJudgment rawSourceJudgment = simpleRawSourceScJudgmentParser.createRawSourceJudgment(jsonContent);
+        RawSourceScJudgment rawSourceJudgment = simpleRawSourceScJudgmentParser.parseRawSourceJudgment(jsonContent);
     
     
         // assert

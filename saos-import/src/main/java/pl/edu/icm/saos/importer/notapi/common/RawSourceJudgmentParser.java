@@ -16,5 +16,5 @@ public interface RawSourceJudgmentParser<T extends RawSourceJudgment> {
      * @param item
      * @return rawSourceJudgment
      */
-    T createRawSourceJudgment(String item);
+    T parseRawSourceJudgment(String item);
 }

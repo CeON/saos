@@ -33,7 +33,7 @@ public class StringItemImportDownloadProcessorTest {
         RawSourceScJudgment rJudgment = new RawSourceScJudgment();
         rJudgment.setJsonContent(content);
         
-        Mockito.when(simpleRawSourceScJudgmentParser.createRawSourceJudgment(Mockito.eq(content))).thenReturn(rJudgment);
+        Mockito.when(simpleRawSourceScJudgmentParser.parseRawSourceJudgment(Mockito.eq(content))).thenReturn(rJudgment);
         
         RawSourceScJudgment retRJudgment = scjImportProcessor.process(content);
         

@@ -23,7 +23,7 @@ public class RawSourceScJudgmentParser implements RawSourceJudgmentParser<RawSou
     //------------------------ LOGIC --------------------------
     
     @Override
-    public RawSourceScJudgment createRawSourceJudgment(String jsonContent) {
+    public RawSourceScJudgment parseRawSourceJudgment(String jsonContent) {
         RawSourceScJudgment judgment = new RawSourceScJudgment();
         judgment.setJsonContent(jsonContent);
         SourceScJudgment sourceScJudgment = sourceScJudgmentParser.parse(jsonContent);

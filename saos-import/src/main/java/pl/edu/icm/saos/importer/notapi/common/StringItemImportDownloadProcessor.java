@@ -20,7 +20,7 @@ public class StringItemImportDownloadProcessor<T extends RawSourceJudgment> impl
     
     @Override
     public T process(String item) {
-        return rawSourceJudgmentParser.createRawSourceJudgment(item);
+        return rawSourceJudgmentParser.parseRawSourceJudgment(item);
     }
     
     
