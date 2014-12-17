@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.webapp;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
@@ -14,7 +16,6 @@ import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.config.SpringDataWebConfiguration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +24,9 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
-import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
+
 import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
+import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.webapp.format.MultiWordFormatter;
 import pl.edu.icm.saos.webapp.format.StringTrimmingFormatter;
 
@@ -35,6 +37,10 @@ import pl.edu.icm.saos.webapp.format.StringTrimmingFormatter;
                                     @Filter(type=FilterType.ANNOTATION, value=ControllerAdvice.class)})
 @EnableWebMvc
 public class WebappConfiguration extends SpringDataWebConfiguration {
+
+    @Autowired
+    private HttpMessageConverter<?> mappingJackson2HttpMessageConverter;
+    
 
    
     @Autowired
@@ -79,9 +85,9 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
         registry.addInterceptor(new RestrictParamsHandlerInterceptor());
     }
 
-    @Bean
-    public HttpMessageConverter<?> mappingJackson2HttpMessageConverter() {
-        return new MappingJackson2HttpMessageConverter();
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> httpMessageConverters) {
+        httpMessageConverters.add(mappingJackson2HttpMessageConverter);
     }
     
     /** Properties exposed to view */
