@@ -6,11 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import pl.edu.icm.saos.common.json.JsonItemParser;
-import pl.edu.icm.saos.common.json.JsonUtilService;
 import pl.edu.icm.saos.common.validation.CommonValidator;
-import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
+import pl.edu.icm.saos.importer.notapi.common.StringItemImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
+import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.download.RawSourceCtJudgmentParser;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 
@@ -27,10 +29,7 @@ public class ConstitutionalTribunalImportConfiguration {
     private MappingJsonFactory jsonFactory;
     
     @Autowired
-    private ImportFileUtils importFileUtils;
-    
-    @Autowired
-    private JsonUtilService jsonUtilService;
+    private RawSourceCtJudgmentParser rawSourceCtJudgmentParser;
     
     
     //------------------------ BEANS --------------------------
@@ -49,5 +48,21 @@ public class ConstitutionalTribunalImportConfiguration {
         ctjImportDownloadReader.setImportDir(importDir);
         
         return ctjImportDownloadReader;
+    }
+    
+    @Bean
+    public StringItemImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor() {
+        StringItemImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor = new StringItemImportDownloadProcessor<RawSourceCtJudgment>();
+        ctjImportDownloadProcessor.setRawSourceJudgmentParser(rawSourceCtJudgmentParser);
+        
+        return ctjImportDownloadProcessor;
+    }
+    
+    @Bean
+    public NotApiImportDownloadStepExecutionListener ctjImportDownloadStepExecutionListener() {
+        NotApiImportDownloadStepExecutionListener stepExecutionListener = new NotApiImportDownloadStepExecutionListener();
+        stepExecutionListener.setRawJudgmentClass(RawSourceCtJudgment.class);
+        
+        return stepExecutionListener;
     }
 }

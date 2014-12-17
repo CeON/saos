@@ -3,10 +3,6 @@ package pl.edu.icm.saos.persistence.model.importer.notapi;
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import pl.edu.icm.saos.persistence.common.ColumnDefinitionConst;
@@ -23,7 +19,6 @@ import pl.edu.icm.saos.persistence.model.importer.RawSourceJudgment;
 @Table(schema="importer", name="notapi_raw_source_sc_judgment")
 @Entity
 @Cacheable(true)
-@SequenceGenerator(name = "seq_notapi_raw_source_sc_judgment", allocationSize = 1, sequenceName = "seq_notapi_raw_source_sc_judgment")
 public class RawSourceScJudgment extends RawSourceJudgment {
     
     private boolean multiChambers;
@@ -35,13 +30,6 @@ public class RawSourceScJudgment extends RawSourceJudgment {
       
     
     //------------------------ GETTERS --------------------------
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_notapi_raw_source_sc_judgment")
-    @Override
-    public int getId() {
-        return id;
-    }
 
     @Column(nullable=false)
     public String getJsonContent() {

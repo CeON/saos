@@ -4,11 +4,7 @@ import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -24,7 +20,6 @@ import org.joda.time.DateTime;
     uniqueConstraints={@UniqueConstraint(name="sourceIdDataMd5_Unique", columnNames={"sourceId", "dataMd5"})})
 @Entity
 @Cacheable(true)
-@SequenceGenerator(name = "seq_raw_source_cc_judgment", allocationSize = 1, sequenceName = "seq_raw_source_cc_judgment")
 public class RawSourceCcJudgment extends RawSourceJudgment {
     
     private String caseNumber;
@@ -39,13 +34,6 @@ public class RawSourceCcJudgment extends RawSourceJudgment {
     
     
     //------------------------ GETTERS --------------------------
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_raw_source_cc_judgment")
-    @Override
-    public int getId() {
-        return id;
-    }
     
     public String getTextMetadata() {
         return textMetadata;

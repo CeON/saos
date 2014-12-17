@@ -48,6 +48,7 @@ public class JsonImportDownloadReader implements ItemStreamReader<String> {
     private Reader fileReader;
     
     
+    //------------------------ LOGIC --------------------------
     
     @Override
     public String read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {

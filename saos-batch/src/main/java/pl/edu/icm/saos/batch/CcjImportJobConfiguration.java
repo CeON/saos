@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
+import pl.edu.icm.saos.importer.common.JudgmentImportDownloadWriter;
 import pl.edu.icm.saos.importer.common.JudgmentImportProcessWriter;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.commoncourt.court.CcImportJobExecutionListener;
@@ -24,7 +25,6 @@ import pl.edu.icm.saos.importer.commoncourt.court.CommonCourtImportWriter;
 import pl.edu.icm.saos.importer.commoncourt.court.XmlCommonCourt;
 import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDownloadProcessor;
 import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDownloadReader;
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDownloadWriter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentTextData;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessProcessor;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessReader;
@@ -62,7 +62,7 @@ public class CcjImportJobConfiguration {
     }
     
     @Autowired
-    private CcjImportDownloadWriter ccjImportDownloadWriter;
+    private JudgmentImportDownloadWriter ccjImportDownloadWriter;
     
     @Autowired
     private CcjImportDownloadProcessor ccjImportDownloadProcessor;

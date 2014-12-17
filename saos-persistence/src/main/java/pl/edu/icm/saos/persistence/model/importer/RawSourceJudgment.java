@@ -1,7 +1,13 @@
 package pl.edu.icm.saos.persistence.model.importer;
 
 import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.SequenceGenerator;
 
 import org.joda.time.DateTime;
 
@@ -11,7 +17,9 @@ import pl.edu.icm.saos.persistence.common.DataObject;
 /**
  * @author Łukasz Dumiszewski
  */
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@SequenceGenerator(name = "seq_raw_source_judgment", allocationSize = 1, sequenceName = "seq_raw_source_judgment")
 public abstract class RawSourceJudgment extends DataObject {
     
     private String sourceId;
@@ -21,6 +29,13 @@ public abstract class RawSourceJudgment extends DataObject {
     
     
     //------------------------ GETTERS --------------------------
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_raw_source_judgment")
+    @Override
+    public int getId() {
+        return id;
+    }
     
     /** Is completely processed? (and is not supposed to be processed again) */
     @Column(columnDefinition=ColumnDefinitionConst.BOOLEAN_NOT_NULL_DEFUALT_FALSE)

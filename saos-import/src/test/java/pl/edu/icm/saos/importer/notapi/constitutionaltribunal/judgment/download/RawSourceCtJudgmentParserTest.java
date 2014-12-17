@@ -25,9 +25,9 @@ import com.fasterxml.jackson.core.JsonParseException;
  * @author madryk
  */
 @RunWith(MockitoJUnitRunner.class)
-public class RawSourceCtJudgmentFactoryTest {
+public class RawSourceCtJudgmentParserTest {
 
-    private RawSourceCtJudgmentFactory rawSourceCtJudgmentFactory = new  RawSourceCtJudgmentFactory();
+    private RawSourceCtJudgmentParser rawSourceCtJudgmentParser = new  RawSourceCtJudgmentParser();
     
     @Mock
     private JsonItemParser<SourceCtJudgment> sourceCtJudgmentParser;
@@ -35,11 +35,11 @@ public class RawSourceCtJudgmentFactoryTest {
     
     @Before
     public void before() {
-        rawSourceCtJudgmentFactory.setSourceCtJudgmentParser(sourceCtJudgmentParser);
+        rawSourceCtJudgmentParser.setSourceCtJudgmentParser(sourceCtJudgmentParser);
     }
     
     @Test
-    public void createRawSourceCtJudgment() throws JsonParseException, IOException {
+    public void parseRawSourceJudgment() throws JsonParseException, IOException {
         
         // given
         
@@ -53,7 +53,7 @@ public class RawSourceCtJudgmentFactoryTest {
         
         // execute
         
-        RawSourceCtJudgment rawSourceJudgment = rawSourceCtJudgmentFactory.createRawSourceCtJudgment(jsonContent);
+        RawSourceCtJudgment rawSourceJudgment = rawSourceCtJudgmentParser.parseRawSourceJudgment(jsonContent);
     
     
         // assert

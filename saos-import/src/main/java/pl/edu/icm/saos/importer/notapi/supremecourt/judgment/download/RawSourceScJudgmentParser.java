@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.importer.notapi.common.RawSourceJudgmentParser;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
@@ -13,8 +14,8 @@ import com.fasterxml.jackson.core.JsonParseException;
 /**
  * @author Łukasz Dumiszewski
  */
-@Service("rawSourceScJudgmentFactory")
-class RawSourceScJudgmentFactory {
+@Service("rawSourceScJudgmentParser")
+public class RawSourceScJudgmentParser implements RawSourceJudgmentParser<RawSourceScJudgment> {
 
     
     private JsonItemParser<SourceScJudgment> sourceScJudgmentParser;
@@ -23,7 +24,8 @@ class RawSourceScJudgmentFactory {
     
     //------------------------ LOGIC --------------------------
     
-    public RawSourceScJudgment createRawSourceScJudgment(String jsonContent) throws JsonParseException {
+    @Override
+    public RawSourceScJudgment parseRawSourceJudgment(String jsonContent) throws JsonParseException {
         RawSourceScJudgment judgment = new RawSourceScJudgment();
         judgment.setJsonContent(jsonContent);
         SourceScJudgment sourceScJudgment = sourceScJudgmentParser.parseAndValidate(jsonContent);
