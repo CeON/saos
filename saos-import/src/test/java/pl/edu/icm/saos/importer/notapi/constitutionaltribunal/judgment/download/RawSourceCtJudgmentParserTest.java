@@ -39,7 +39,7 @@ public class RawSourceCtJudgmentParserTest {
     }
     
     @Test
-    public void createRawSourceCtJudgment() throws JsonParseException, IOException {
+    public void parseRawSourceJudgment() throws JsonParseException, IOException {
         
         // given
         
