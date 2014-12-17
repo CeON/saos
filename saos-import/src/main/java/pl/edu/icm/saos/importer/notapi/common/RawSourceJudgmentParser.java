@@ -3,18 +3,18 @@ package pl.edu.icm.saos.importer.notapi.common;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceJudgment;
 
 /**
- * Creates {@link RawSourceJudgment} from json
+ * Creates {@link RawSourceJudgment} from {@literal String}
  * 
  * @author madryk
  * @param <T> - type of created {@link RawSourceJudgment}
  */
-public interface RawSourceJudgmentFactory<T extends RawSourceJudgment> {
+public interface RawSourceJudgmentParser<T extends RawSourceJudgment> {
 
     /**
-     * Creates {@link RawSourceJudgment} from json {@literal String}
+     * Creates {@link RawSourceJudgment} from {@literal String}
      * 
-     * @param jsonContent
+     * @param item
      * @return rawSourceJudgment
      */
-    T createRawSourceJudgment(String jsonContent);
+    T createRawSourceJudgment(String item);
 }

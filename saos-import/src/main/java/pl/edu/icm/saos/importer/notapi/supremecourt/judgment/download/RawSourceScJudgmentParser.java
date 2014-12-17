@@ -5,15 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.json.JsonItemParser;
-import pl.edu.icm.saos.importer.notapi.common.RawSourceJudgmentFactory;
+import pl.edu.icm.saos.importer.notapi.common.RawSourceJudgmentParser;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
 /**
  * @author Łukasz Dumiszewski
  */
-@Service("rawSourceScJudgmentFactory")
-public class RawSourceScJudgmentFactory implements RawSourceJudgmentFactory<RawSourceScJudgment> {
+@Service("rawSourceScJudgmentParser")
+public class RawSourceScJudgmentParser implements RawSourceJudgmentParser<RawSourceScJudgment> {
 
     
     private JsonItemParser<SourceScJudgment> sourceScJudgmentParser;

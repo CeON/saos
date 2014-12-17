@@ -13,9 +13,9 @@ import pl.edu.icm.saos.persistence.repository.RawSourceJudgmentRepository;
 /**
  * @author Łukasz Dumiszewski
  */
-public class JsonImportDownloadStepExecutionListener implements StepExecutionListener {
+public class NotApiImportDownloadStepExecutionListener implements StepExecutionListener {
 
-    private static Logger log = LoggerFactory.getLogger(JsonImportDownloadStepExecutionListener.class);
+    private static Logger log = LoggerFactory.getLogger(NotApiImportDownloadStepExecutionListener.class);
     
     
     private RawSourceJudgmentRepository rawJudgmentRepository;

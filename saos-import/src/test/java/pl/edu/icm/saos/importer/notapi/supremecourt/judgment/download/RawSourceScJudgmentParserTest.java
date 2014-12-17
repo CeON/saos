@@ -24,9 +24,9 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 
-public class RawSourceScJudgmentFactoryTest {
+public class RawSourceScJudgmentParserTest {
 
-    private RawSourceScJudgmentFactory simpleRawSourceScJudgmentFactory = new RawSourceScJudgmentFactory();
+    private RawSourceScJudgmentParser simpleRawSourceScJudgmentParser = new RawSourceScJudgmentParser();
     
     @Mock private JsonItemParser<SourceScJudgment> sourceScJudgmentParser;
     
@@ -36,7 +36,7 @@ public class RawSourceScJudgmentFactoryTest {
         
         MockitoAnnotations.initMocks(this);
         
-        simpleRawSourceScJudgmentFactory.setSourceScJudgmentParser(sourceScJudgmentParser);
+        simpleRawSourceScJudgmentParser.setSourceScJudgmentParser(sourceScJudgmentParser);
     }
     
     
@@ -60,7 +60,7 @@ public class RawSourceScJudgmentFactoryTest {
         
         // execute
         
-        RawSourceScJudgment rawSourceJudgment = simpleRawSourceScJudgmentFactory.createRawSourceJudgment(jsonContent);
+        RawSourceScJudgment rawSourceJudgment = simpleRawSourceScJudgmentParser.createRawSourceJudgment(jsonContent);
     
     
         // assert

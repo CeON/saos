@@ -12,10 +12,10 @@ import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverterImpl;
 import pl.edu.icm.saos.importer.common.overwriter.DelegatingJudgmentOverwriter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
-import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
+import pl.edu.icm.saos.importer.notapi.common.StringItemImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
-import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadStepExecutionListener;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.RawSourceScJudgmentFactory;
+import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.RawSourceScJudgmentParser;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.SourceScJudgmentExtractor;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -42,7 +42,7 @@ public class SupremeCourtImportConfiguration {
     private MappingJsonFactory jsonFactory;
     
     @Autowired
-    private RawSourceScJudgmentFactory rawSourceScJudgmentFactory;
+    private RawSourceScJudgmentParser rawSourceScJudgmentParser;
     
     
     @Autowired 
@@ -75,16 +75,16 @@ public class SupremeCourtImportConfiguration {
     }
     
     @Bean
-    public JsonImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor() {
-        JsonImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor = new JsonImportDownloadProcessor<RawSourceScJudgment>();
-        scjImportDownloadProcessor.setRawSourceJudgmentFactory(rawSourceScJudgmentFactory);
+    public StringItemImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor() {
+        StringItemImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor = new StringItemImportDownloadProcessor<RawSourceScJudgment>();
+        scjImportDownloadProcessor.setRawSourceJudgmentParser(rawSourceScJudgmentParser);
         
         return scjImportDownloadProcessor;
     }
     
     @Bean
-    public JsonImportDownloadStepExecutionListener scjImportDownloadStepExecutionListener() {
-        JsonImportDownloadStepExecutionListener stepExecutionListener = new JsonImportDownloadStepExecutionListener();
+    public NotApiImportDownloadStepExecutionListener scjImportDownloadStepExecutionListener() {
+        NotApiImportDownloadStepExecutionListener stepExecutionListener = new NotApiImportDownloadStepExecutionListener();
         stepExecutionListener.setRawJudgmentClass(RawSourceScJudgment.class);
         
         return stepExecutionListener;

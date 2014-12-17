@@ -12,9 +12,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import pl.edu.icm.saos.importer.common.JudgmentImportDownloadWriter;
-import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
+import pl.edu.icm.saos.importer.notapi.common.StringItemImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
-import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 
 @Configuration
@@ -36,13 +36,13 @@ public class CtjImportJobConfiguration {
     
     @Autowired
     @Qualifier("ctjImportDownloadProcessor")
-    private JsonImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor;
+    private StringItemImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor;
     
     @Autowired
     private JudgmentImportDownloadWriter ctjImportDownloadWriter;
     
     @Autowired
-    private JsonImportDownloadStepExecutionListener ctjImportDownloadStepExecutionListener;
+    private NotApiImportDownloadStepExecutionListener ctjImportDownloadStepExecutionListener;
     
     
     

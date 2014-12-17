@@ -6,24 +6,24 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.RawSourceScJudgmentFactory;
+import pl.edu.icm.saos.importer.notapi.common.StringItemImportDownloadProcessor;
+import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.download.RawSourceScJudgmentParser;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
 /**
  * @author Łukasz Dumiszewski
  */
 
-public class JsonImportDownloadProcessorTest {
+public class StringItemImportDownloadProcessorTest {
 
-    private JsonImportDownloadProcessor<RawSourceScJudgment> scjImportProcessor = new JsonImportDownloadProcessor<RawSourceScJudgment>();
+    private StringItemImportDownloadProcessor<RawSourceScJudgment> scjImportProcessor = new StringItemImportDownloadProcessor<RawSourceScJudgment>();
     
-    private RawSourceScJudgmentFactory simpleRawSourceScJudgmentFactory = Mockito.mock(RawSourceScJudgmentFactory.class);
+    private RawSourceScJudgmentParser simpleRawSourceScJudgmentParser = Mockito.mock(RawSourceScJudgmentParser.class);
     
     
     @Before
     public void before() {
-        scjImportProcessor.setRawSourceJudgmentFactory(simpleRawSourceScJudgmentFactory);
+        scjImportProcessor.setRawSourceJudgmentParser(simpleRawSourceScJudgmentParser);
     }
     
     @Test
@@ -33,7 +33,7 @@ public class JsonImportDownloadProcessorTest {
         RawSourceScJudgment rJudgment = new RawSourceScJudgment();
         rJudgment.setJsonContent(content);
         
-        Mockito.when(simpleRawSourceScJudgmentFactory.createRawSourceJudgment(Mockito.eq(content))).thenReturn(rJudgment);
+        Mockito.when(simpleRawSourceScJudgmentParser.createRawSourceJudgment(Mockito.eq(content))).thenReturn(rJudgment);
         
         RawSourceScJudgment retRJudgment = scjImportProcessor.process(content);
         

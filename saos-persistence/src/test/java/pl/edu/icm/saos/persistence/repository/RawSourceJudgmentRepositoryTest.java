@@ -31,15 +31,18 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void deleteAllWithClass() {
+        // given 
         createRawScJudgment("id1", "aaa1");
         createRawScJudgment("id2", "aaa2");
         RawSourceCtJudgment rCtJudgment = createRawCtJudgment("id3", "aaa3");
         RawSourceCcJudgment rCcJudgment = createRawCcJudgment("aaa4");
         
         
+        // execute
         rawSourceJudgmentRepository.deleteAllWithClass(RawSourceScJudgment.class);
         
         
+        // assert
         List<RawSourceJudgment> rawJudgments = rawSourceJudgmentRepository.findAll();
         List<Integer> rawJudgmentsIds = rawJudgments.stream()
                 .map(x -> x.getId())

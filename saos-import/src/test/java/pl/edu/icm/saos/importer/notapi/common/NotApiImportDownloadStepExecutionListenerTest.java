@@ -16,9 +16,9 @@ import pl.edu.icm.saos.persistence.repository.RawSourceJudgmentRepository;
 /**
  * @author madryk
  */
-public class JsonImportDownloadStepExecutionListenerTest {
+public class NotApiImportDownloadStepExecutionListenerTest {
 
-    private JsonImportDownloadStepExecutionListener stepExecutionListener = new JsonImportDownloadStepExecutionListener();
+    private NotApiImportDownloadStepExecutionListener stepExecutionListener = new NotApiImportDownloadStepExecutionListener();
     
     private RawSourceJudgmentRepository rawSourceJudgmentRepository = mock(RawSourceJudgmentRepository.class);
     
