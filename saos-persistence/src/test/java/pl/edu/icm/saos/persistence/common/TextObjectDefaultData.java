@@ -136,7 +136,7 @@ public final class TextObjectDefaultData {
 
     public static final SourceCode CC_SOURCE_CODE = SourceCode.COMMON_COURT;
     public static final SourceCode SC_SOURCE_CODE = SourceCode.SUPREME_COURT;
-    public static final SourceCode CT_SOURCE_CODE = SourceCode.COMMON_COURT;
+    public static final SourceCode CT_SOURCE_CODE = SourceCode.CONSTITUTIONAL_TRIBUNAL;
     public static final SourceCode SOURCE_CODE = CC_SOURCE_CODE;
 
 

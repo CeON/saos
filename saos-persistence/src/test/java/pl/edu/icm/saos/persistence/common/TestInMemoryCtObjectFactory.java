@@ -115,7 +115,7 @@ final class TestInMemoryCtObjectFactory {
     static ConstitutionalTribunalJudgment createSimpleCtJudgment(){
         ConstitutionalTribunalJudgment judgment = new ConstitutionalTribunalJudgment();
         judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphanumeric(10)));
-        judgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
+        judgment.getSourceInfo().setSourceCode(SourceCode.CONSTITUTIONAL_TRIBUNAL);
         judgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphabetic(20));
 
 
@@ -140,17 +140,17 @@ final class TestInMemoryCtObjectFactory {
 
     //------------------------ PRIVATE --------------------------
     private static ConstitutionalTribunalJudgment createCtJudgmentWithRandomData(String prefix, int numericPrefix) {
-        ConstitutionalTribunalJudgment ccJudgment = new ConstitutionalTribunalJudgment();
-        TestInMemoryObjectFactoryHelper.fillJudgmentWithRandomData(ccJudgment, prefix, numericPrefix);
+        ConstitutionalTribunalJudgment ctJudgment = new ConstitutionalTribunalJudgment();
+        TestInMemoryObjectFactoryHelper.fillJudgmentWithRandomData(ctJudgment, prefix, numericPrefix);
 
-        ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
+        ctJudgment.getSourceInfo().setSourceCode(SourceCode.CONSTITUTIONAL_TRIBUNAL);
 
 
         JudgmentKeyword firstKeyword = new JudgmentKeyword(CourtType.CONSTITUTIONAL_TRIBUNAL, RandomStringUtils.randomAlphanumeric(18));
         JudgmentKeyword secondKeyword = new JudgmentKeyword(CourtType.CONSTITUTIONAL_TRIBUNAL, RandomStringUtils.randomAlphanumeric(19));
-        ccJudgment.addKeyword(firstKeyword);
-        ccJudgment.addKeyword(secondKeyword);
+        ctJudgment.addKeyword(firstKeyword);
+        ctJudgment.addKeyword(secondKeyword);
 
-        return ccJudgment;
+        return ctJudgment;
     }
 }
