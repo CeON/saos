@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.batch.indexer;
+package pl.edu.icm.saos.batch.core.indexer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -30,8 +30,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptException;
 
-import pl.edu.icm.saos.batch.BatchTestSupport;
-import pl.edu.icm.saos.batch.JobForcingExecutor;
+import pl.edu.icm.saos.batch.core.BatchTestSupport;
+import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.common.TextObjectDefaultData;
