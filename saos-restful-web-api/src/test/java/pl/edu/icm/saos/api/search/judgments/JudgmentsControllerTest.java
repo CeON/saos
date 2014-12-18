@@ -49,7 +49,7 @@ import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelTy
 @Category(SlowTest.class)
 public class JudgmentsControllerTest extends PersistenceTestSupport {
 
-    private static final int NR_OF_JUDGMENTS_STORED_IN_DB = 2;
+    private static final int NR_OF_JUDGMENTS_STORED_IN_SOLR_INDEX = 2;
 
 
     private MockMvc mockMvc;
@@ -422,7 +422,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         String prefix = "$.info";
 
         actions
-                .andExpect(jsonPath(prefix+".totalResults").value(is(NR_OF_JUDGMENTS_STORED_IN_DB)))
+                .andExpect(jsonPath(prefix+".totalResults").value(is(NR_OF_JUDGMENTS_STORED_IN_SOLR_INDEX)))
                 ;
     }
 
@@ -430,7 +430,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     public void showJudgments__it_should_not_show_next_link() throws Exception {
         //given
         int pageSize = 2;
-        int pageNumber = NR_OF_JUDGMENTS_STORED_IN_DB /pageSize;
+        int pageNumber = NR_OF_JUDGMENTS_STORED_IN_SOLR_INDEX /pageSize;
 
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
@@ -454,7 +454,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         //given
         int pageSize = 1;
         int nrOfElementsOnTheNextPage = 1;
-        int pageNumber = (NR_OF_JUDGMENTS_STORED_IN_DB - nrOfElementsOnTheNextPage) / pageSize - 1; // minus one as page numbers starts from 0
+        int pageNumber = (NR_OF_JUDGMENTS_STORED_IN_SOLR_INDEX - nrOfElementsOnTheNextPage) / pageSize - 1; // minus one as page numbers starts from 0
 
 
         //when

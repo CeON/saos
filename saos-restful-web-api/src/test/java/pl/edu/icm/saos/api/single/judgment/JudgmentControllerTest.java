@@ -49,12 +49,14 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
 
     private String ccJudgmentPath;
     private String scJudgmentPath;
+    private String ctJudgmentPath;
 
     @Before
     public void setUp(){
         testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
         ccJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId();
         scJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getScJudgmentId();
+        ctJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCtJudgmentId();
 
         JudgmentController judgmentController = new JudgmentController();
 
@@ -191,6 +193,31 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
 
                 ;
     }
+
+    @Test
+    public void it_should_show_all_ctJudgments_fields() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(ctJudgmentPath)
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        actions
+                .andExpect(jsonPath("$.data.id").value(testObjectContext.getCtJudgmentId()))
+                .andExpect(jsonPath("$.data.courtType").value(CourtType.CONSTITUTIONAL_TRIBUNAL.name()))
+                .andExpect(jsonPath("$.data.href").value(endsWith(ctJudgmentPath)))
+
+                .andExpect(jsonPath("$.data.dissentingOpinions").value(iterableWithSize(2)))
+
+                .andExpect(jsonPath("$.data.dissentingOpinions.[0].textContent").value(CT_FIRST_DISSENTING_OPINION_TEXT))
+                .andExpect(jsonPath("$.data.dissentingOpinions.[0].authors.[0]").value(CT_FIRST_DISSENTING_OPINION_FIRST_AUTHOR))
+                .andExpect(jsonPath("$.data.dissentingOpinions.[0].authors.[1]").value(CT_FIRST_DISSENTING_OPINION_SECOND_AUTHOR))
+
+                .andExpect(jsonPath("$.data.dissentingOpinions.[1].textContent").value(CT_SECOND_DISSENTING_OPINION_TEXT))
+                .andExpect(jsonPath("$.data.dissentingOpinions.[1].authors.[0]").value(CT_SECOND_DISSENTING_OPINION_FIRST_AUTHOR))
+
+        ;
+    }
+
 
     @Test
     public void it_should_show_links() throws Exception {

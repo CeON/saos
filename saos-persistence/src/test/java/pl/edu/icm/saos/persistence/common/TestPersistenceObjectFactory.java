@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.persistence.common;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -8,13 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.model.*;
 
 /**
  * Provides factory methods for model object creation.
@@ -42,6 +37,7 @@ public class TestPersistenceObjectFactory {
 
         saveCcJudgment(testObjectContext.getCcJudgment());
         saveScJudgment(testObjectContext.getScJudgment());
+        saveCtJudgment(testObjectContext.getCtJudgment());
 
         return testObjectContext;
     }
@@ -66,6 +62,17 @@ public class TestPersistenceObjectFactory {
         SupremeCourtJudgment scJudgment = TestInMemoryObjectFactory.createScJudgment();
         saveScJudgment(scJudgment);
         return scJudgment;
+    }
+
+    /**
+     * Creates {@link ConstitutionalTribunalJudgment} hierarchy with default field data.
+     * @return ConstitutionalTribunalJudgment.
+     */
+    @Transactional
+    public ConstitutionalTribunalJudgment createCtJudgment(){
+        ConstitutionalTribunalJudgment ctJudgment = TestInMemoryCtObjectFactory.createCtJudgment();
+        saveCtJudgment(ctJudgment);
+        return ctJudgment;
     }
 
     /**
@@ -128,6 +135,18 @@ public class TestPersistenceObjectFactory {
         return ccJudgment;
     }
 
+    /**
+     * Creates {@link ConstitutionalTribunalJudgment} with minimal set of fields (necessaries for storing in db)
+     * filled with random data.
+     * @return ConstitutionalTribunalJudgment
+     */
+    @Transactional
+    public ConstitutionalTribunalJudgment createSimpleCtJudgment(){
+        ConstitutionalTribunalJudgment ctJudgment = TestInMemoryCtObjectFactory.createSimpleCtJudgment();
+        saveCtJudgment(ctJudgment);
+        return ctJudgment;
+    }
+
     @Transactional
     public List<SupremeCourtJudgment> createScJudgmentListWithRandomData(int size){
         List<SupremeCourtJudgment> judgments = TestInMemoryObjectFactory.createScJudgmentListWithRandomData(size);
@@ -145,6 +164,19 @@ public class TestPersistenceObjectFactory {
     public List<CommonCourtJudgment> createCcJudgmentListWithRandomData(int size){
         List<CommonCourtJudgment> judgments = TestInMemoryObjectFactory.createCcJudgmentListWithRandomData(size);
         judgments.forEach(ccJudgment -> saveCcJudgment(ccJudgment));
+
+        return judgments;
+    }
+
+    /**
+     * Creates list of {@link ConstitutionalTribunalJudgment} with fields filled with random values.
+     * @param size of the list.
+     * @return list of ConstitutionalTribunalJudgment
+     */
+    @Transactional
+    public List<ConstitutionalTribunalJudgment> createCtJudgmentListWithRandomData(int size){
+        List<ConstitutionalTribunalJudgment> judgments = TestInMemoryCtObjectFactory.createCtJudgmentListWithRandomData(size);
+        judgments.forEach(ctJudgment -> saveCtJudgment(ctJudgment));
 
         return judgments;
     }
@@ -205,6 +237,17 @@ public class TestPersistenceObjectFactory {
         }
 
         entityManager.persist(scJudgment);
+
+        entityManager.flush();
+    }
+
+    @Transactional
+    private void saveCtJudgment(ConstitutionalTribunalJudgment ctJudgment){
+        for(JudgmentReferencedRegulation referencedRegulation: ctJudgment.getReferencedRegulations()){
+            entityManager.persist(referencedRegulation.getLawJournalEntry());
+        }
+
+        entityManager.persist(ctJudgment);
 
         entityManager.flush();
     }

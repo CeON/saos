@@ -168,10 +168,10 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath(pathPrefix + ".division.id").value(testObjectContext.getScFirstDivisionId()))
                 .andExpect(jsonPath(pathPrefix + ".chambers.[0].id").value(testObjectContext.getScFirstChamberId()))
 
-                .andExpect(jsonPath(pathPrefix+".judgmentDate").value(SC_DATE_YEAR + "-" + SC_DATE_MONTH + "-" + SC_DATE_DAY))
+                .andExpect(jsonPath(pathPrefix + ".judgmentDate").value(SC_DATE_YEAR + "-" + SC_DATE_MONTH + "-" + SC_DATE_DAY))
 
                 .andExpect(jsonPath(pathPrefix+".judges").isArray())
-                .andExpect(jsonPath(pathPrefix+".judges").value(iterableWithSize(2)))
+                .andExpect(jsonPath(pathPrefix + ".judges").value(iterableWithSize(2)))
                 .andExpect(jsonPath(pathPrefix+".judges.[0].name").value(SC_FIRST_JUDGE_NAME))
                 .andExpect(jsonPath(pathPrefix+".judges.[0].specialRoles").value(iterableWithSize(1)))
                 .andExpect(jsonPath(pathPrefix+".judges.[0].specialRoles.[0]").value(SC_FIRST_JUDGE_ROLE.name()))
@@ -179,44 +179,107 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath(pathPrefix+".judges.[1].specialRoles").value(SC_SECOND_JUDGE_ROLE.name()))
 
 
-                .andExpect(jsonPath(pathPrefix+".source.code").value(SC_SOURCE_CODE.name()))
-                .andExpect(jsonPath(pathPrefix+".source.judgmentUrl").value(SC_SOURCE_JUDGMENT_URL))
+                .andExpect(jsonPath(pathPrefix + ".source.code").value(SC_SOURCE_CODE.name()))
+                .andExpect(jsonPath(pathPrefix + ".source.judgmentUrl").value(SC_SOURCE_JUDGMENT_URL))
                 .andExpect(jsonPath(pathPrefix+".source.judgmentId").value(SC_SOURCE_JUDGMENT_ID))
                 .andExpect(jsonPath(pathPrefix+".source.publisher").value(SC_SOURCE_PUBLISHER))
                 .andExpect(jsonPath(pathPrefix+".source.reviser").value(SC_SOURCE_REVISER))
                 .andExpect(jsonPath(pathPrefix+".source.publicationDate").value(new DateTime(SC_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS).toString(DATE_FORMAT)))
 
-                .andExpect(jsonPath(pathPrefix+".courtReporters").value(iterableWithSize(2)))
-                .andExpect(jsonPath(pathPrefix+".courtReporters.[0]").value(SC_FIRST_COURT_REPORTER))
+                .andExpect(jsonPath(pathPrefix + ".courtReporters").value(iterableWithSize(2)))
+                .andExpect(jsonPath(pathPrefix + ".courtReporters.[0]").value(SC_FIRST_COURT_REPORTER))
                 .andExpect(jsonPath(pathPrefix+".courtReporters.[1]").value(SC_SECOND_COURT_REPORTER))
 
-                .andExpect(jsonPath(pathPrefix+".decision").value(SC_DECISION))
-                .andExpect(jsonPath(pathPrefix+".summary").value(SC_SUMMARY))
+                .andExpect(jsonPath(pathPrefix + ".decision").value(SC_DECISION))
+                .andExpect(jsonPath(pathPrefix + ".summary").value(SC_SUMMARY))
                 .andExpect(jsonPath(pathPrefix+".textContent").value(SC_TEXT_CONTENT))
 
-                .andExpect(jsonPath(pathPrefix+".legalBases").value(iterableWithSize(2)))
-                .andExpect(jsonPath(pathPrefix+".legalBases.[0]").value(SC_FIRST_LEGAL_BASE))
+                .andExpect(jsonPath(pathPrefix + ".legalBases").value(iterableWithSize(2)))
+                .andExpect(jsonPath(pathPrefix + ".legalBases.[0]").value(SC_FIRST_LEGAL_BASE))
                 .andExpect(jsonPath(pathPrefix+".legalBases.[1]").value(SC_SECOND_LEGAL_BASE))
 
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations").value(iterableWithSize(3)))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalTitle").value(SC_FIRST_REFERENCED_REGULATION_TITLE))
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations").value(iterableWithSize(3)))
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[0].journalTitle").value(SC_FIRST_REFERENCED_REGULATION_TITLE))
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalNo").value(SC_FIRST_REFERENCED_REGULATION_JOURNAL_NO))
                 .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[0].journalEntry").value(SC_FIRST_REFERENCED_REGULATION_ENTRY))
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalYear").value(SC_FIRST_REFERENCED_REGULATION_YEAR))
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].text").value(SC_FIRST_REFERENCED_REGULATION_TEXT))
 
                 .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[1].journalTitle").value(SC_SECOND_REFERENCED_REGULATION_TITLE))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalNo").value(SC_SECOND_REFERENCED_REGULATION_JOURNAL_NO))
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[1].journalNo").value(SC_SECOND_REFERENCED_REGULATION_JOURNAL_NO))
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalEntry").value(SC_SECOND_REFERENCED_REGULATION_ENTRY))
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalYear").value(SC_SECOND_REFERENCED_REGULATION_YEAR))
                 .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[1].text").value(SC_SECOND_REFERENCED_REGULATION_TEXT))
 
                 .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[2].journalTitle").value(SC_THIRD_REFERENCED_REGULATION_TITLE))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalNo").value(SC_THIRD_REFERENCED_REGULATION_JOURNAL_NO))
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[2].journalNo").value(SC_THIRD_REFERENCED_REGULATION_JOURNAL_NO))
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalEntry").value(SC_THIRD_REFERENCED_REGULATION_ENTRY))
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalYear").value(SC_THIRD_REFERENCED_REGULATION_YEAR))
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].text").value(SC_THIRD_REFERENCED_REGULATION_TEXT))
+        ;
 
+
+        //constitutional tribunal judgment fields
+        pathPrefix = "$.items.[2]";
+        actions
+                .andExpect(jsonPath(pathPrefix + ".id").value(testObjectContext.getCtJudgmentId()))
+                .andExpect(jsonPath(pathPrefix + ".courtType").value(CourtType.CONSTITUTIONAL_TRIBUNAL.name()))
+                .andExpect(jsonPath(pathPrefix + ".courtCases.[0].caseNumber").value(CT_CASE_NUMBER))
+
+                .andExpect(jsonPath(pathPrefix + ".judgmentDate").value(CT_DATE_YEAR + "-" + CT_DATE_MONTH + "-" + CT_DATE_DAY))
+
+                .andExpect(jsonPath(pathPrefix + ".judges").isArray())
+                .andExpect(jsonPath(pathPrefix + ".judges").value(iterableWithSize(2)))
+                .andExpect(jsonPath(pathPrefix + ".judges.[0].name").value(CT_FIRST_JUDGE_NAME))
+                .andExpect(jsonPath(pathPrefix + ".judges.[0].specialRoles").value(iterableWithSize(1)))
+                .andExpect(jsonPath(pathPrefix + ".judges.[0].specialRoles.[0]").value(CT_FIRST_JUDGE_ROLE.name()))
+                .andExpect(jsonPath(pathPrefix + ".judges.[0].function").value(CT_FIRST_JUDGE_FUNCTION))
+                .andExpect(jsonPath(pathPrefix + ".judges.[1].name").value(CT_SECOND_JUDGE_NAME))
+
+
+                .andExpect(jsonPath(pathPrefix + ".source.code").value(CT_SOURCE_CODE.name()))
+                .andExpect(jsonPath(pathPrefix + ".source.judgmentUrl").value(CT_SOURCE_JUDGMENT_URL))
+                .andExpect(jsonPath(pathPrefix + ".source.judgmentId").value(CT_SOURCE_JUDGMENT_ID))
+                .andExpect(jsonPath(pathPrefix+".source.publisher").value(CT_SOURCE_PUBLISHER))
+                .andExpect(jsonPath(pathPrefix + ".source.reviser").value(CT_SOURCE_REVISER))
+                .andExpect(jsonPath(pathPrefix+".source.publicationDate").value(new DateTime(CT_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS).toString(DATE_FORMAT)))
+
+                .andExpect(jsonPath(pathPrefix + ".courtReporters").value(iterableWithSize(2)))
+                .andExpect(jsonPath(pathPrefix + ".courtReporters.[0]").value(CT_FIRST_COURT_REPORTER))
+                .andExpect(jsonPath(pathPrefix + ".courtReporters.[1]").value(CT_SECOND_COURT_REPORTER))
+
+                .andExpect(jsonPath(pathPrefix + ".decision").value(CT_DECISION))
+                .andExpect(jsonPath(pathPrefix + ".summary").value(CT_SUMMARY))
+                .andExpect(jsonPath(pathPrefix + ".textContent").value(CT_TEXT_CONTENT))
+
+                .andExpect(jsonPath(pathPrefix + ".legalBases").value(iterableWithSize(2)))
+                .andExpect(jsonPath(pathPrefix + ".legalBases.[0]").value(CT_FIRST_LEGAL_BASE))
+                .andExpect(jsonPath(pathPrefix + ".legalBases.[1]").value(CT_SECOND_LEGAL_BASE))
+
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations").value(iterableWithSize(2)))
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[0].journalTitle").value(CT_FIRST_REFERENCED_REGULATION_TITLE))
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[0].journalNo").value(CT_FIRST_REFERENCED_REGULATION_JOURNAL_NO))
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[0].journalEntry").value(CT_FIRST_REFERENCED_REGULATION_ENTRY))
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[0].journalYear").value(CT_FIRST_REFERENCED_REGULATION_YEAR))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].text").value(CT_FIRST_REFERENCED_REGULATION_TEXT))
+
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[1].journalTitle").value(CT_SECOND_REFERENCED_REGULATION_TITLE))
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[1].journalNo").value(CT_SECOND_REFERENCED_REGULATION_JOURNAL_NO))
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[1].journalEntry").value(CT_SECOND_REFERENCED_REGULATION_ENTRY))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalYear").value(CT_SECOND_REFERENCED_REGULATION_YEAR))
+                .andExpect(jsonPath(pathPrefix + ".referencedRegulations.[1].text").value(CT_SECOND_REFERENCED_REGULATION_TEXT))
+
+                .andExpect(jsonPath(pathPrefix + ".dissentingOpinions").value(iterableWithSize(2)))
+
+                .andExpect(jsonPath(pathPrefix + ".dissentingOpinions.[0].textContent").value(CT_FIRST_DISSENTING_OPINION_TEXT))
+                .andExpect(jsonPath(pathPrefix + ".dissentingOpinions.[0].authors.[0]").value(CT_FIRST_DISSENTING_OPINION_FIRST_AUTHOR))
+                .andExpect(jsonPath(pathPrefix + ".dissentingOpinions.[0].authors.[1]").value(CT_FIRST_DISSENTING_OPINION_SECOND_AUTHOR))
+
+                .andExpect(jsonPath(pathPrefix + ".dissentingOpinions.[1].textContent").value(CT_SECOND_DISSENTING_OPINION_TEXT))
+                .andExpect(jsonPath(pathPrefix + ".dissentingOpinions.[1].authors.[0]").value(CT_SECOND_DISSENTING_OPINION_FIRST_AUTHOR))
+
+                .andExpect(jsonPath(pathPrefix + ".keywords.[0]").value(CT_FIRST_KEYWORD))
+                .andExpect(jsonPath(pathPrefix + ".keywords.[1]").value(CT_SECOND_KEYWORD))
         ;
 
     }
