@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import pl.edu.icm.saos.persistence.common.ColumnDefinitionConst;
-import pl.edu.icm.saos.persistence.model.importer.RawSourceJudgment;
 
 
 /**
@@ -19,22 +18,13 @@ import pl.edu.icm.saos.persistence.model.importer.RawSourceJudgment;
 @Table(schema="importer", name="notapi_raw_source_sc_judgment")
 @Entity
 @Cacheable(true)
-public class RawSourceScJudgment extends RawSourceJudgment {
+public class RawSourceScJudgment extends JsonRawSourceJudgment {
     
     private boolean multiChambers;
-    
-    private String jsonContent;
-    
-    
     
       
     
     //------------------------ GETTERS --------------------------
-
-    @Column(nullable=false)
-    public String getJsonContent() {
-        return jsonContent;
-    }
 
     /**
      * Returns true if there are more than one supreme court chamber assigned to this judgment. </br>
@@ -47,9 +37,6 @@ public class RawSourceScJudgment extends RawSourceJudgment {
     
     //------------------------ SETTERS --------------------------
     
-    public void setJsonContent(String jsonContent) {
-        this.jsonContent = jsonContent;
-    }
 
     public void setMultiChambers(boolean multiChambers) {
         this.multiChambers = multiChambers;
@@ -65,7 +52,7 @@ public class RawSourceScJudgment extends RawSourceJudgment {
         final int prime = 31;
         int result = 1;
         result = prime * result
-                + ((jsonContent == null) ? 0 : jsonContent.hashCode());
+                + ((getJsonContent() == null) ? 0 : getJsonContent().hashCode());
         return result;
     }
 
@@ -79,10 +66,10 @@ public class RawSourceScJudgment extends RawSourceJudgment {
         if (getClass() != obj.getClass())
             return false;
         RawSourceScJudgment other = (RawSourceScJudgment) obj;
-        if (jsonContent == null) {
-            if (other.jsonContent != null)
+        if (getJsonContent() == null) {
+            if (other.getJsonContent() != null)
                 return false;
-        } else if (!jsonContent.equals(other.jsonContent))
+        } else if (!getJsonContent().equals(other.getJsonContent()))
             return false;
         return true;
     }
@@ -94,7 +81,7 @@ public class RawSourceScJudgment extends RawSourceJudgment {
    
     @Override
     public String toString() {
-        return "SimpleRawSourceScJudgment [jsonContent=" + jsonContent
+        return "SimpleRawSourceScJudgment [jsonContent=" + getJsonContent()
                 + ", id=" + id + ", isProcessed()=" + isProcessed()
                 + ", getProcessingDate()=" + getProcessingDate() + "]";
     }

@@ -20,6 +20,10 @@ public interface JudgmentCommonRepository<T extends Judgment> extends IndexableO
     
     @Query("select j from #{#entityName} j where j.sourceInfo.sourceCode=:sourceCode and j.sourceInfo.sourceJudgmentId=:sourceJudgmentId ")
     T findOneBySourceCodeAndSourceJudgmentId(@Param("sourceCode") SourceCode sourceCode, @Param("sourceJudgmentId") String sourceJudgmentId);
+    
+    
+    @Query("select j from #{#entityName} j where TYPE(j)=:clazz and j.sourceInfo.sourceCode=:sourceCode and j.sourceInfo.sourceJudgmentId=:sourceJudgmentId ")
+    <E extends T> E findOneBySourceCodeAndSourceJudgmentIdWithClass(@Param("sourceCode") SourceCode sourceCode, @Param("sourceJudgmentId") String sourceJudgmentId, @Param("clazz") Class<E> clazz);
 
     /**
      * 

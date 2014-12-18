@@ -21,6 +21,7 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
 /**
@@ -61,6 +62,7 @@ public class DbCleaner {
         
         deleteAll(RawSourceCcJudgment.class);
         deleteAll(RawSourceScJudgment.class);
+        deleteAll(RawSourceCtJudgment.class);
     }
     
     
