@@ -1,15 +1,14 @@
 package pl.edu.icm.saos.persistence.model;
 
-import java.util.List;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import java.util.List;
 
 /**
  * @author madryk
@@ -43,7 +42,7 @@ public class ConstitutionalTribunalJudgment extends Judgment {
     
     public void addDissentingOpinion(ConstitutionalTribunalJudgmentDissentingOpinion dissentingOpinion) {
         Preconditions.checkArgument(!containsDissentingOpinion(dissentingOpinion));
-        
+        dissentingOpinion.setJudgment(this);
         this.dissentingOpinions.add(dissentingOpinion);
     }
 

@@ -2,15 +2,16 @@ package pl.edu.icm.saos.api.single.judgment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import pl.edu.icm.saos.api.single.judgment.mapping.CommonCourtJudgmentMapper;
+import pl.edu.icm.saos.api.single.judgment.mapping.ConstitutionalTribunalJudgmentMapper;
 import pl.edu.icm.saos.api.single.judgment.mapping.JudgmentMapper;
 import pl.edu.icm.saos.api.single.judgment.mapping.SupremeCourtJudgmentMapper;
 import pl.edu.icm.saos.api.single.judgment.views.CommonCourtJudgmentView;
+import pl.edu.icm.saos.api.single.judgment.views.ConstitutionalTribunalJudgmentView;
 import pl.edu.icm.saos.api.single.judgment.views.JudgmentView;
 import pl.edu.icm.saos.api.single.judgment.views.SupremeCourtJudgmentView;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
@@ -31,6 +32,9 @@ public class SingleJudgmentSuccessRepresentationBuilder {
     @Autowired
     private SupremeCourtJudgmentMapper supremeCourtJudgmentMapper;
 
+    @Autowired
+    private ConstitutionalTribunalJudgmentMapper constitutionalTribunalJudgmentMapper;
+
 
     //------------------------ LOGIC --------------------------
     /**
@@ -47,19 +51,24 @@ public class SingleJudgmentSuccessRepresentationBuilder {
     //------------------------ PRIVATE --------------------------
 
     private JudgmentView<?> initializeViewAndFillSpecificFields(Judgment judgment){
-        if(judgment.getCourtType() == CourtType.COMMON) {
-            CommonCourtJudgment commonCourtJudgment = (CommonCourtJudgment) judgment;
-            CommonCourtJudgmentView judgmentView = new CommonCourtJudgmentView();
-            commonCourtJudgmentMapper.fillJudgmentsFieldToRepresentation(judgmentView, commonCourtJudgment);
-            return judgmentView;
-        } else if(judgment.getCourtType() == CourtType.SUPREME){
-            SupremeCourtJudgment scJudgment = (SupremeCourtJudgment) judgment;
-            SupremeCourtJudgmentView judgmentView = new SupremeCourtJudgmentView();
-            supremeCourtJudgmentMapper.fillJudgmentsFieldToRepresentation(judgmentView, scJudgment);
-            return judgmentView;
-        } else {
-            //default
-            return new CommonCourtJudgmentView();
+        switch (judgment.getCourtType()){
+            case COMMON:
+                CommonCourtJudgment commonCourtJudgment = (CommonCourtJudgment) judgment;
+                CommonCourtJudgmentView ccJudgmentView = new CommonCourtJudgmentView();
+                commonCourtJudgmentMapper.fillJudgmentsFieldToRepresentation(ccJudgmentView, commonCourtJudgment);
+                return ccJudgmentView;
+            case SUPREME:
+                SupremeCourtJudgment scJudgment = (SupremeCourtJudgment) judgment;
+                SupremeCourtJudgmentView scJudgmentView = new SupremeCourtJudgmentView();
+                supremeCourtJudgmentMapper.fillJudgmentsFieldToRepresentation(scJudgmentView, scJudgment);
+                return scJudgmentView;
+            case CONSTITUTIONAL_TRIBUNAL:
+                ConstitutionalTribunalJudgment ctJudgment = (ConstitutionalTribunalJudgment) judgment;
+                ConstitutionalTribunalJudgmentView ctJudgmentView = new ConstitutionalTribunalJudgmentView();
+                constitutionalTribunalJudgmentMapper.fillJudgmentsFieldToRepresentation(ctJudgmentView, ctJudgment);
+                return ctJudgmentView;
+            default:
+                return new CommonCourtJudgmentView();
         }
     }
 
@@ -74,5 +83,9 @@ public class SingleJudgmentSuccessRepresentationBuilder {
 
     public void setSupremeCourtJudgmentMapper(SupremeCourtJudgmentMapper supremeCourtJudgmentMapper) {
         this.supremeCourtJudgmentMapper = supremeCourtJudgmentMapper;
+    }
+
+    public void setConstitutionalTribunalJudgmentMapper(ConstitutionalTribunalJudgmentMapper constitutionalTribunalJudgmentMapper) {
+        this.constitutionalTribunalJudgmentMapper = constitutionalTribunalJudgmentMapper;
     }
 }

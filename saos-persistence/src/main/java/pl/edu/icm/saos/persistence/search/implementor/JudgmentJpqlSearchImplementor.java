@@ -1,23 +1,19 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
-import static com.google.common.collect.Maps.newHashMap;
+import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import pl.edu.icm.saos.persistence.model.*;
+import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
+import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
-import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
-import pl.edu.icm.saos.persistence.search.result.SearchResult;
+import static com.google.common.collect.Maps.newHashMap;
 
 /**
  * @author pavtel
@@ -73,6 +69,7 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
 
         initializeCommonCourtJudgmentSpecificFields(judgmentIds);
         initializeSupremeCourtJudgmentSpecificFields(judgmentIds);
+        initializeConstitutionalTribunalSpecificFields(judgmentIds, searchResult);
 
     }
 
@@ -135,6 +132,21 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
     }
 
 
+    private void initializeConstitutionalTribunalSpecificFields(List<Integer> judgmentIds, SearchResult<Judgment> searchResult) {
+        initializeDissentingOpinionAndTheirAuthors(judgmentIds, searchResult);
+    }
+
+    private void initializeDissentingOpinionAndTheirAuthors(List<Integer> judgmentIds, SearchResult<Judgment> searchResult) {
+        setIdsParameterAndExecuteQuery(" select judgment from "+ ConstitutionalTribunalJudgment.class.getName()+" judgment left join fetch judgment.dissentingOpinions_ opinion where judgment.id in (:ids) ",
+                judgmentIds);
+        List<Integer> opinionsIds = extractOpinionsIds(searchResult);
+        if(!opinionsIds.isEmpty()){
+            setIdsParameterAndExecuteQuery(" select opinion from "+ ConstitutionalTribunalJudgmentDissentingOpinion.class.getName()+" opinion left join fetch opinion.authors_ author where opinion.id in (:ids) ",
+                    opinionsIds);
+        }
+
+    }
+
 
     private void setIdsParameterAndExecuteQuery(String query, List<Integer> ids){
         Query queryObject = entityManager.createQuery(query);
@@ -162,6 +174,25 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
                 .flatMap(j -> j.getJudges().stream())
                 .map( jud -> jud.getId())
                 .collect(Collectors.toList());
+    }
+
+    private List<Integer> extractOpinionsIds(SearchResult<Judgment> searchResult) {
+        List<Integer> opinionsIds = Lists.newArrayList();
+
+        searchResult.getResultRecords().stream()
+                .filter(judgment -> judgment.getCourtType() == CourtType.CONSTITUTIONAL_TRIBUNAL)
+                .forEach(judgment ->
+                        {
+                            ConstitutionalTribunalJudgment ctJudgment = (ConstitutionalTribunalJudgment) judgment;
+                            opinionsIds.addAll(
+                                    ctJudgment.getDissentingOpinions().stream()
+                                            .map(o -> o.getId())
+                                            .collect(Collectors.toList())
+                            );
+                        }
+                );
+
+        return opinionsIds;
     }
 
 

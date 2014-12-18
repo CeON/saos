@@ -6,9 +6,11 @@ import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.edu.icm.saos.api.dump.judgment.item.representation.CommonCourtJudgmentItem;
+import pl.edu.icm.saos.api.dump.judgment.item.representation.ConstitutionalTribunalJudgmentItem;
 import pl.edu.icm.saos.api.dump.judgment.item.representation.JudgmentItem;
 import pl.edu.icm.saos.api.dump.judgment.item.representation.SupremeCourtJudgmentItem;
 import pl.edu.icm.saos.api.dump.judgment.mapping.DumpCommonCourtJudgmentItemMapper;
+import pl.edu.icm.saos.api.dump.judgment.mapping.DumpConstitutionalTribunalJudgmentItemMapper;
 import pl.edu.icm.saos.api.dump.judgment.mapping.DumpJudgmentItemMapper;
 import pl.edu.icm.saos.api.dump.judgment.mapping.DumpSupremeCourtJudgmentItemMapper;
 import pl.edu.icm.saos.api.dump.judgment.parameters.RequestDumpJudgmentsParameters;
@@ -20,7 +22,7 @@ import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDat
 import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
 import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
@@ -30,7 +32,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.*;
+import static pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.QueryTemplate;
+import static pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.SinceModificationDateTemplate;
 
 /**
  * Provides functionality for building success object view for dump list of judgments.
@@ -48,6 +51,8 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
     @Autowired
     private DumpSupremeCourtJudgmentItemMapper supremeCourtJudgmentItemMapper;
 
+    @Autowired
+    private DumpConstitutionalTribunalJudgmentItemMapper constitutionalTribunalJudgmentItemMapper;
 
     @Autowired
     private DateMapping dateMapping;
@@ -95,19 +100,24 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
     }
 
     private JudgmentItem initializeItemViewAndFillSpecificFields(Judgment judgment){
-        if(judgment.getCourtType() == CourtType.COMMON) {
-            CommonCourtJudgment ccJudgment = (CommonCourtJudgment) judgment;
-            CommonCourtJudgmentItem item = new CommonCourtJudgmentItem();
-            commonCourtJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(item, ccJudgment);
-            return item;
-        } else if (judgment.getCourtType() == CourtType.SUPREME){
-            SupremeCourtJudgment scJudgment = (SupremeCourtJudgment) judgment;
-            SupremeCourtJudgmentItem item = new SupremeCourtJudgmentItem();
-            supremeCourtJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(item, scJudgment);
-            return item;
-        } else {
-            //default
-            return new JudgmentItem();
+        switch (judgment.getCourtType()){
+            case COMMON:
+                CommonCourtJudgment ccJudgment = (CommonCourtJudgment) judgment;
+                CommonCourtJudgmentItem ccItem = new CommonCourtJudgmentItem();
+                commonCourtJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(ccItem, ccJudgment);
+                return ccItem;
+            case SUPREME:
+                SupremeCourtJudgment scJudgment = (SupremeCourtJudgment) judgment;
+                SupremeCourtJudgmentItem scItem = new SupremeCourtJudgmentItem();
+                supremeCourtJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(scItem, scJudgment);
+                return scItem;
+            case CONSTITUTIONAL_TRIBUNAL:
+                ConstitutionalTribunalJudgment ctJudgment = (ConstitutionalTribunalJudgment) judgment;
+                ConstitutionalTribunalJudgmentItem ctItem = new ConstitutionalTribunalJudgmentItem();
+                constitutionalTribunalJudgmentItemMapper.fillJudgmentsFieldsToItemRepresentation(ctItem, ctJudgment);
+                return ctItem;
+            default:
+                return new JudgmentItem();
         }
     }
 
@@ -178,5 +188,13 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
 
     public void setDateMapping(DateMapping dateMapping) {
         this.dateMapping = dateMapping;
+    }
+
+    public void setSupremeCourtJudgmentItemMapper(DumpSupremeCourtJudgmentItemMapper supremeCourtJudgmentItemMapper) {
+        this.supremeCourtJudgmentItemMapper = supremeCourtJudgmentItemMapper;
+    }
+
+    public void setConstitutionalTribunalJudgmentItemMapper(DumpConstitutionalTribunalJudgmentItemMapper constitutionalTribunalJudgmentItemMapper) {
+        this.constitutionalTribunalJudgmentItemMapper = constitutionalTribunalJudgmentItemMapper;
     }
 }

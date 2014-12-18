@@ -1,10 +1,7 @@
 package pl.edu.icm.saos.api.dump.judgment.mapping;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import pl.edu.icm.saos.api.dump.judgment.item.representation.CommonCourtJudgmentItem;
-import pl.edu.icm.saos.api.single.judgment.mapping.CommonCourtJudgmentMapper;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 
@@ -15,10 +12,6 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
  */
 @Service
 public class DumpCommonCourtJudgmentItemMapper {
-
-    @Autowired
-    private CommonCourtJudgmentMapper commonCourtJudgmentMapper;
-
 
     //------------------------ LOGIC --------------------------
 
@@ -39,9 +32,4 @@ public class DumpCommonCourtJudgmentItemMapper {
         return view;
     }
 
-    //------------------------ SETTERS --------------------------
-
-    public void setCommonCourtJudgmentMapper(CommonCourtJudgmentMapper commonCourtJudgmentMapper) {
-        this.commonCourtJudgmentMapper = commonCourtJudgmentMapper;
-    }
 }

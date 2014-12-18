@@ -1,11 +1,8 @@
 package pl.edu.icm.saos.persistence.common;
 
-import java.util.List;
+import pl.edu.icm.saos.persistence.model.*;
 
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import java.util.List;
 
 /**
  * Provides factory methods for model object creation.
@@ -26,10 +23,12 @@ public final class TestInMemoryObjectFactory {
     public static TestObjectContext createTestObjectContext(){
         CommonCourtJudgment ccJudgment = TestInMemoryCcObjectFactory.createCcJudgment();
         SupremeCourtJudgment scJudgment = TestInMemoryScObjectFactory.createScJudgment();
+        ConstitutionalTribunalJudgment ctJudgment = TestInMemoryCtObjectFactory.createCtJudgment();
 
         TestObjectContext testObjectContext = new TestObjectContext();
         testObjectContext.setCcJudgment(ccJudgment);
         testObjectContext.setScJudgment(scJudgment);
+        testObjectContext.setCtJudgment(ctJudgment);
 
         return testObjectContext;
     }
@@ -48,6 +47,15 @@ public final class TestInMemoryObjectFactory {
      */
     public static SupremeCourtJudgment createScJudgment(){
         return TestInMemoryScObjectFactory.createScJudgment();
+    }
+
+    /**
+     * Creates {@link pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment} hierarchy
+     * with default field data.
+     * @return ConstitutionalTribunalJudgment.
+     */
+    public static ConstitutionalTribunalJudgment createCtJudgment(){
+        return TestInMemoryCtObjectFactory.createCtJudgment();
     }
 
     /**
@@ -96,6 +104,15 @@ public final class TestInMemoryObjectFactory {
     }
 
     /**
+     * Creates {@link ConstitutionalTribunalJudgment} with minimal set of fields (necessaries for storing in db)
+     * filled with random data.
+     * @return ConstitutionalTribunalJudgment
+     */
+    public static ConstitutionalTribunalJudgment createSimpleCtJudgment(){
+        return TestInMemoryCtObjectFactory.createSimpleCtJudgment();
+    }
+
+    /**
      * Creates list of {@link SupremeCourtJudgment} with fields filled with random values.
      * @param size of the list.
      * @return list of SupremeCourtJudgment
@@ -111,6 +128,15 @@ public final class TestInMemoryObjectFactory {
      */
     public static List<CommonCourtJudgment> createCcJudgmentListWithRandomData(int size){
         return TestInMemoryCcObjectFactory.createCcJudgmentListWithRandomData(size);
+    }
+
+    /**
+     * Creates list of {@link ConstitutionalTribunalJudgment} with fields filled with random values.
+     * @param size of the list.
+     * @return list of ConstitutionalTribunalJudgment
+     */
+    public static List<ConstitutionalTribunalJudgment> createCtJudgmentListWithRandomData(int size){
+        return TestInMemoryCtObjectFactory.createCtJudgmentListWithRandomData(size);
     }
 
 
