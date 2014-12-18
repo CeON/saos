@@ -95,7 +95,7 @@ final class TestInMemoryCcObjectFactory {
         sourceInfo.setSourceJudgmentUrl(CC_SOURCE_JUDGMENT_URL);
         sourceInfo.setPublisher(CC_SOURCE_PUBLISHER);
         sourceInfo.setReviser(CC_SOURCE_REVISER);
-        sourceInfo.setPublicationDate(new DateTime(SC_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS, DateTimeZone.UTC));
+        sourceInfo.setPublicationDate(new DateTime(CC_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS, DateTimeZone.UTC));
 
         ccJudgment.setSourceInfo(sourceInfo);
 

@@ -1,27 +1,15 @@
 package pl.edu.icm.saos.persistence;
 
+import org.springframework.stereotype.Service;
+import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
+import pl.edu.icm.saos.persistence.model.*;
+import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
-
-import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
-import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
-import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
-import pl.edu.icm.saos.persistence.model.LawJournalEntry;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
-import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
-import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
 /**
  * @author Łukasz Dumiszewski
@@ -46,7 +34,10 @@ public class DbCleaner {
         deleteAll(CourtCase.class);
         
         deleteAllSql("supreme_court_judgment_chamber");
-        
+
+        deleteAllSql("ct_judgment_opinion_author");
+        deleteAll(ConstitutionalTribunalJudgmentDissentingOpinion.class);
+
         deleteAll(JudgmentCorrection.class);
         
         deleteAll(Judgment.class);
