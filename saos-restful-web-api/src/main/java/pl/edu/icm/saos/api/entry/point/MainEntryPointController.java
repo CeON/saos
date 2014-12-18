@@ -1,5 +1,8 @@
 package pl.edu.icm.saos.api.entry.point;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,8 @@ import pl.edu.icm.saos.api.dump.DumpEntryPointController;
 import pl.edu.icm.saos.api.search.SearchEntryPointController;
 import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
 
+import java.util.Locale;
+
 import static pl.edu.icm.saos.api.entry.point.LinkWithDescriptionBuilder.createLinksRepresentation;
 
 /**
@@ -21,24 +26,33 @@ import static pl.edu.icm.saos.api.entry.point.LinkWithDescriptionBuilder.createL
 public class MainEntryPointController extends ControllersEntityExceptionHandler {
 
 
+    @Autowired
+    @Qualifier("apiMessageSource")
+    private MessageSource apiMessageService;
+
+    //------------------------ LOGIC --------------------------
+
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Object> show()  {
+    public ResponseEntity<Object> show(Locale locale)  {
 
         LinkWithDescription dumpEntryPoint = new LinkWithDescriptionBuilder()
                 .rel("dump")
                 .href(DumpEntryPointController.class)
-                .description("Dump entry point")
+                .description(apiMessageService.getMessage("dump.entry.point", null, locale))
                 .build();
 
         LinkWithDescription searchEntryPoint = new LinkWithDescriptionBuilder()
                 .rel("search")
                 .href(SearchEntryPointController.class)
-                .description("Search entry point")
+                .description(apiMessageService.getMessage("search.entry.point", null, locale))
                 .build();
 
         return new ResponseEntity<>(createLinksRepresentation(dumpEntryPoint, searchEntryPoint), HttpStatus.OK);
     }
 
-
+    //------------------------ SETTERS --------------------------
+    public void setApiMessageService(MessageSource apiMessageService) {
+        this.apiMessageService = apiMessageService;
+    }
 }
