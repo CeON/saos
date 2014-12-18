@@ -3,5 +3,7 @@ dependencies {
     compile lib.'org.hibernate:hibernate-validator'
     compile lib.'javax.el:javax.el-api'
     compile lib.'com.fasterxml.jackson.core:jackson-databind'
+    compile lib.'org.springframework:spring-webmvc'
+    compile lib.'javax.servlet:javax.servlet-api'
     
 }

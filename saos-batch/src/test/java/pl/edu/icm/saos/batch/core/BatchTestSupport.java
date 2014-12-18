@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.batch;
+package pl.edu.icm.saos.batch.core;
 
 import org.junit.After;
 import org.junit.Before;

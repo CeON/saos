@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.batch.importer;
+package pl.edu.icm.saos.batch.core.importer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
@@ -25,8 +25,8 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 
-import pl.edu.icm.saos.batch.BatchTestSupport;
-import pl.edu.icm.saos.batch.JobForcingExecutor;
+import pl.edu.icm.saos.batch.core.BatchTestSupport;
+import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;

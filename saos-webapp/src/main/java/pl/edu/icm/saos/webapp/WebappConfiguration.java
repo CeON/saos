@@ -3,7 +3,6 @@ package pl.edu.icm.saos.webapp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +18,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -41,17 +41,12 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     @Autowired
     private HttpMessageConverter<?> mappingJackson2HttpMessageConverter;
     
-
-   
     @Autowired
-    @Qualifier("webMessageSource")
     private MessageSource messageSource;
     
+    @Autowired
+    private LocaleResolver localeResolver;
     
-    @Bean
-    public MessageSource messageSource() {
-        return messageSource;
-    }
     
     @Bean
     public TilesViewResolver viewResolver() {

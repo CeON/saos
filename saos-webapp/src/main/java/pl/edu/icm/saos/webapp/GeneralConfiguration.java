@@ -39,9 +39,9 @@ public class GeneralConfiguration {
     }
     
     @Bean
-    public MessageSource webMessageSource() {
+    public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasenames("classpath:message/common");
+        messageSource.setBasenames("classpath:message/common", "classpath:/org/springframework/security/messages");
         messageSource.setFallbackToSystemLocale(false);
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(3600);
