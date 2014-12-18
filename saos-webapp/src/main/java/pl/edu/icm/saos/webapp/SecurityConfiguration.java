@@ -3,8 +3,14 @@ package pl.edu.icm.saos.webapp;
 
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_ACCESS_DENIED;
 
+import java.util.Locale;
+
+import javax.servlet.Filter;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +28,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
 import pl.edu.icm.saos.common.service.ServiceResponse;
+import pl.edu.icm.saos.webapp.security.LocaleSettingFilter;
 import pl.edu.icm.saos.webapp.security.ServiceBasicAuthenticationEntryPoint;
 
 import com.google.common.collect.Lists;
@@ -36,7 +46,11 @@ public class SecurityConfiguration {
     
     public static final String CSRF_TOKEN_SESSION_ATTR_NAME = "HTTP_CSRF_TOKEN";
     
-       
+    @Autowired
+    private LocaleResolver localeResolver;
+    
+    @Autowired
+    private MessageSource messageSource;
     
     
     //------------------------ CONFIGURATIONS --------------------------
@@ -71,6 +85,13 @@ public class SecurityConfiguration {
         @Autowired
         private PasswordEncoder passwordEncoder;
         
+        @Autowired
+        @Qualifier("localeSettingFilter")
+        private Filter localeSettingFilter;
+        
+        @Autowired
+        private MessageSource messageSource;
+        
         @Value("${enrichment.enricher.login}")
         private String enricherLogin;
         
@@ -92,6 +113,7 @@ public class SecurityConfiguration {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .csrf().disable()
+                .addFilterBefore(localeSettingFilter, BasicAuthenticationFilter.class)
                     
                 ;
         }
@@ -109,6 +131,7 @@ public class SecurityConfiguration {
             DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
             authenticationProvider.setUserDetailsService(enricherUserService());
             authenticationProvider.setPasswordEncoder(passwordEncoder);
+            authenticationProvider.setMessageSource(messageSource);
             return authenticationProvider;
         }
         
@@ -151,6 +174,12 @@ public class SecurityConfiguration {
         
     }
 
+    @Bean
+    public Filter localeSettingFilter() {
+        LocaleSettingFilter filter = new LocaleSettingFilter();
+        filter.setLocaleResolver(new FixedLocaleResolver(Locale.ENGLISH));
+        return filter;
+    }
   
 
 }

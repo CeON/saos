@@ -4,7 +4,7 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 
 /** spring security filter chain registration */
 public class SecurityInitializer extends AbstractSecurityWebApplicationInitializer {
-
+    
     
 }
 

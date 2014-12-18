@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.batch;
+package pl.edu.icm.saos.batch.core;
 
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.batch.core.Job;

@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.batch;
+package pl.edu.icm.saos.batch.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

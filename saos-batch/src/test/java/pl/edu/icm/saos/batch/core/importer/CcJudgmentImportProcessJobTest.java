@@ -1,10 +1,10 @@
-package pl.edu.icm.saos.batch.importer;
+package pl.edu.icm.saos.batch.core.importer;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static pl.edu.icm.saos.batch.importer.JudgmentCorrectionAssertUtils.assertJudgmentCorrections;
+import static pl.edu.icm.saos.batch.core.importer.JudgmentCorrectionAssertUtils.assertJudgmentCorrections;
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.JUDGMENT_TYPE;
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
@@ -22,8 +22,8 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import pl.edu.icm.saos.batch.BatchTestSupport;
-import pl.edu.icm.saos.batch.JobForcingExecutor;
+import pl.edu.icm.saos.batch.core.BatchTestSupport;
+import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.ChangeOperation;

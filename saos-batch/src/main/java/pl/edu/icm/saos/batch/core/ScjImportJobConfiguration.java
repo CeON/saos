@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.batch;
+package pl.edu.icm.saos.batch.core;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

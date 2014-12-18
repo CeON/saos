@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.batch;
+package pl.edu.icm.saos.batch.core;
 
 import java.sql.SQLException;
 
@@ -14,6 +14,7 @@ import org.springframework.core.io.support.EncodedResource;
 import org.springframework.jdbc.datasource.init.ScriptException;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
 
+import pl.edu.icm.saos.batch.core.BatchConfiguration;
 import pl.edu.icm.saos.common.TestConfigurationBase;
 import pl.edu.icm.saos.importer.ImportTestConfiguration;
 import pl.edu.icm.saos.search.SearchTestConfiguration;
