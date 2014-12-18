@@ -86,6 +86,34 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         assertEquals(ccJudgment.getId(), dbCcJudgment.getId());
     }
     
+    @Test
+    public void findOneBySourceCodeAndSourceJudgmentIdWithClass_NOT_FOUND() {
+        // given
+        SupremeCourtJudgment scJudgment = testPersistenceObjectFactory.createScJudgment();
+        
+        // execute
+        CommonCourtJudgment ccJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentIdWithClass(
+                scJudgment.getSourceInfo().getSourceCode(), scJudgment.getSourceInfo().getSourceJudgmentId(), CommonCourtJudgment.class);
+        
+        // assert
+        assertNull(ccJudgment);
+    }
+    
+    @Test
+    public void findOneBySourceCodeAndSourceJudgmentIdWithClass_FOUND() {
+        // given
+        CommonCourtJudgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
+        JudgmentSourceInfo sourceInfo = ccJudgment.getSourceInfo();
+        
+        // execute
+        CommonCourtJudgment dbCcJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentIdWithClass(
+                SourceCode.COMMON_COURT, sourceInfo.getSourceJudgmentId(), CommonCourtJudgment.class);
+        
+        // assert
+        assertNotNull(dbCcJudgment);
+        assertEquals(ccJudgment.getId(), dbCcJudgment.getId());
+    }
+    
     
     @Test
     public void findBySourceCodeAndCaseNumber_NOT_FOUND() {

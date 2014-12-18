@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.model.*;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
 import javax.persistence.EntityManager;
@@ -52,6 +53,7 @@ public class DbCleaner {
         
         deleteAll(RawSourceCcJudgment.class);
         deleteAll(RawSourceScJudgment.class);
+        deleteAll(RawSourceCtJudgment.class);
     }
     
     
