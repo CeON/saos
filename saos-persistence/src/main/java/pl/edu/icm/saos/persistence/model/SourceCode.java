@@ -16,6 +16,9 @@ public enum SourceCode {
     COMMON_COURT,
     
     /** pl. Sąd Najwyższy */
-    SUPREME_COURT
+    SUPREME_COURT,
+    
+    /** pl. Trybunał Konstytucyjny */
+    CONSTITUTIONAL_TRIBUNAL
     
 }
