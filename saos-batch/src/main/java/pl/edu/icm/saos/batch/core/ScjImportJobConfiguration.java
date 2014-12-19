@@ -14,11 +14,12 @@ import org.springframework.context.annotation.Configuration;
 import pl.edu.icm.saos.importer.common.JudgmentImportProcessWriter;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.JudgmentImportDownloadWriter;
+import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
+import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.StringItemImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessProcessor;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessReader;
+import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessStepExecutionListener;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
@@ -58,10 +59,10 @@ public class ScjImportJobConfiguration {
     
     
     @Autowired
-    private ScjImportProcessReader scjImportProcessReader;
+    private JudgmentImportProcessReader<RawSourceScJudgment> scjImportProcessReader;
 
     @Autowired
-    private ScjImportProcessProcessor scjImportProcessProcessor;
+    private JsonJudgmentImportProcessProcessor<SourceScJudgment, SupremeCourtJudgment> scjImportProcessProcessor;
     
        
     @Autowired

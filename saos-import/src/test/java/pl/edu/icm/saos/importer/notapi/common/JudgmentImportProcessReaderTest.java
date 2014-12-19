@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process;
+package pl.edu.icm.saos.importer.notapi.common;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -16,25 +16,24 @@ import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import org.springframework.batch.item.ExecutionContext;
 
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessReader;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
-import pl.edu.icm.saos.persistence.repository.RawSourceScJudgmentRepository;
+import pl.edu.icm.saos.persistence.repository.RawSourceJudgmentRepository;
 
 
 /**
  * @author Łukasz Dumiszewski
  */
 
-public class ScjImportProcessReaderTest {
+public class JudgmentImportProcessReaderTest {
 
-    private ScjImportProcessReader scjImportProcessReader = new ScjImportProcessReader();
+    private JudgmentImportProcessReader<RawSourceScJudgment> scjImportProcessReader = new JudgmentImportProcessReader<>(RawSourceScJudgment.class);
     
-    private RawSourceScJudgmentRepository rawJudgmentRepository = Mockito.mock(RawSourceScJudgmentRepository.class);
+    private RawSourceJudgmentRepository rawJudgmentRepository = Mockito.mock(RawSourceJudgmentRepository.class);
     
     
     @Before
     public void before() {
-        scjImportProcessReader.setSimpleRawSourceScJudgmentRepository(rawJudgmentRepository);
+        scjImportProcessReader.setRawSourceJudgmentRepository(rawJudgmentRepository);
     }
     
     
@@ -45,7 +44,7 @@ public class ScjImportProcessReaderTest {
         // given
         
         List<Integer> rJudgmentIds = Lists.newArrayList(12, 123, 45);
-        when(rawJudgmentRepository.findAllNotProcessedIds()).thenReturn(rJudgmentIds);
+        when(rawJudgmentRepository.findAllNotProcessedIds(RawSourceScJudgment.class)).thenReturn(rJudgmentIds);
         
         
         // execute
@@ -58,7 +57,7 @@ public class ScjImportProcessReaderTest {
         
         List<Integer> internalRJudgmentIds = Whitebox.getInternalState(scjImportProcessReader, "rJudgmentIds");
         
-        verify(rawJudgmentRepository).findAllNotProcessedIds();
+        verify(rawJudgmentRepository).findAllNotProcessedIds(RawSourceScJudgment.class);
         verifyNoMoreInteractions(rawJudgmentRepository);
         
         assertEquals(rJudgmentIds, internalRJudgmentIds);
@@ -77,11 +76,11 @@ public class ScjImportProcessReaderTest {
         
         RawSourceScJudgment rJudgment0 = createSimpleRawSourceScJudgment(rJudgmentIds.get(0));
         RawSourceScJudgment rJudgment1 = createSimpleRawSourceScJudgment(rJudgmentIds.get(1));
-        RawSourceScJudgment rJudgment2 = createSimpleRawSourceScJudgment(rJudgmentIds.get(2));;
+        RawSourceScJudgment rJudgment2 = createSimpleRawSourceScJudgment(rJudgmentIds.get(2));
 
-        when(rawJudgmentRepository.getOne(Mockito.eq(rJudgmentIds.get(0)))).thenReturn(rJudgment0);
-        when(rawJudgmentRepository.getOne(Mockito.eq(rJudgmentIds.get(1)))).thenReturn(rJudgment1);
-        when(rawJudgmentRepository.getOne(Mockito.eq(rJudgmentIds.get(2)))).thenReturn(rJudgment2);
+        when(rawJudgmentRepository.findOne(rJudgmentIds.get(0), RawSourceScJudgment.class)).thenReturn(rJudgment0);
+        when(rawJudgmentRepository.findOne(rJudgmentIds.get(1), RawSourceScJudgment.class)).thenReturn(rJudgment1);
+        when(rawJudgmentRepository.findOne(rJudgmentIds.get(2), RawSourceScJudgment.class)).thenReturn(rJudgment2);
         
      
         

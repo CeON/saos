@@ -181,7 +181,7 @@ public class ScObjectDeleterTest extends ImportTestSupport {
         
         if (hasCorrespondingSourceJudgment) {
             RawSourceScJudgment rJudgment = new RawSourceScJudgment();
-            rJudgment.setJsonContent("dds");
+            rJudgment.setJsonContent("{\"key\":\"value\"}");
             rJudgment.setSourceId(scJudgment.getSourceInfo().getSourceJudgmentId());
             rawSourceScJudgmentRepository.save(rJudgment);
         }

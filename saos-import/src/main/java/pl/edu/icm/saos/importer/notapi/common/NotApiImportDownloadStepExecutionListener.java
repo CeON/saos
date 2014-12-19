@@ -28,7 +28,7 @@ public class NotApiImportDownloadStepExecutionListener implements StepExecutionL
     @Override
     public void beforeStep(StepExecution stepExecution) {
         log.debug("Deleting all raw judgments with class {}", rawJudgmentClass.getName());
-        rawJudgmentRepository.deleteAllWithClass(rawJudgmentClass);
+        rawJudgmentRepository.deleteAll(rawJudgmentClass);
         rawJudgmentRepository.flush();
     }
 

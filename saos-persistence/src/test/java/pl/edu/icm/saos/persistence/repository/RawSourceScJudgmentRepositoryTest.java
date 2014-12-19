@@ -93,7 +93,7 @@ public class RawSourceScJudgmentRepositoryTest extends PersistenceTestSupport {
     
     private RawSourceScJudgment createAndSaveSimpleRawSourceScJudgment(boolean processed) {
         RawSourceScJudgment rJudgment = new RawSourceScJudgment();
-        rJudgment.setJsonContent("lskdlskdlksd l kdlksdlskd");
+        rJudgment.setJsonContent("{\"key\": \"value\"}");
         rJudgment.setSourceId(RandomStringUtils.randomAlphabetic(12));
         Whitebox.setInternalState(rJudgment, "processed", processed);
         rawSourceScJudgmentRepository.save(rJudgment);
