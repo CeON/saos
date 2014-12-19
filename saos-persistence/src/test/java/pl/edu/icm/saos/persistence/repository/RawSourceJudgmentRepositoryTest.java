@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -35,14 +36,14 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
     //------------------------ TESTS --------------------------
     
     @Test
-    public void getOneWithClass_FOUND() {
+    public void getOne_FOUND() {
         // given
-        RawSourceScJudgment rJudgment = createRawScJudgment("id1", "aaa1", false);
-        createRawCtJudgment("id2", "aaa2", false);
+        RawSourceScJudgment rJudgment = createRawScJudgment("id1", false);
+        createRawCtJudgment("id2", false);
         createRawCcJudgment("id3", true);
         
         // execute
-        RawSourceScJudgment actualRawJudgment = rawSourceJudgmentRepository.getOneWithClass(rJudgment.getId(), RawSourceScJudgment.class);
+        RawSourceScJudgment actualRawJudgment = rawSourceJudgmentRepository.getOne(rJudgment.getId(), RawSourceScJudgment.class);
         
         // assert
         assertThat(actualRawJudgment, is(notNullValue()));
@@ -50,30 +51,30 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
-    public void getOneWithClass_NOT_FOUND() {
+    public void getOne_NOT_FOUND() {
         // given
-        RawSourceScJudgment rJudgment = createRawScJudgment("id1", "aaa1", false);
-        createRawCtJudgment("id2", "aaa2", false);
+        RawSourceScJudgment rJudgment = createRawScJudgment("id1", false);
+        createRawCtJudgment("id2", false);
         createRawCcJudgment("id3", true);
         
         // execute
-        RawSourceCtJudgment actual = rawSourceJudgmentRepository.getOneWithClass(rJudgment.getId(), RawSourceCtJudgment.class);
+        RawSourceCtJudgment actual = rawSourceJudgmentRepository.getOne(rJudgment.getId(), RawSourceCtJudgment.class);
         
         // assert
         assertThat(actual, is(nullValue()));
     }
     
     @Test
-    public void findAllNotProcessedIdsWithClass_FOUND() {
+    public void findAllNotProcessedIds_FOUND() {
         // given
-        RawSourceScJudgment rJudgment0 = createRawScJudgment("id1", "aaa1", false);
-        RawSourceScJudgment rJudgment1 = createRawScJudgment("id2", "aaa2", false);
-        createRawScJudgment("id3", "aaa3", true);
-        createRawCtJudgment("id4", "aaa4", false);
+        RawSourceScJudgment rJudgment0 = createRawScJudgment("id1", false);
+        RawSourceScJudgment rJudgment1 = createRawScJudgment("id2", false);
+        createRawScJudgment("id3", true);
+        createRawCtJudgment("id4", false);
         createRawCcJudgment("id5", true);
         
         // execute
-        List<Integer> rJudgmentIds = rawSourceJudgmentRepository.findAllNotProcessedIdsWithClass(RawSourceScJudgment.class);
+        List<Integer> rJudgmentIds = rawSourceJudgmentRepository.findAllNotProcessedIds(RawSourceScJudgment.class);
         
         // assert
         assertThat(rJudgmentIds, containsInAnyOrder(rJudgment0.getId(), rJudgment1.getId()));
@@ -83,32 +84,32 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
     
     
     @Test
-    public void findAllNotProcessedIdsWithClass_NOT_FOUND() {
+    public void findAllNotProcessedIds_NOT_FOUND() {
         // given
-        createRawScJudgment("id1", "aaa1", true);
-        createRawCtJudgment("id2", "aaa2", true);
-        createRawCtJudgment("id3", "aaa3", false);
+        createRawScJudgment("id1", true);
+        createRawCtJudgment("id2", true);
+        createRawCtJudgment("id3", false);
         createRawCcJudgment("id4", true);
         createRawCcJudgment("id5", false);
         
         // execute
-        List<Integer> rJudgmentIds = rawSourceJudgmentRepository.findAllNotProcessedIdsWithClass(RawSourceScJudgment.class);
+        List<Integer> rJudgmentIds = rawSourceJudgmentRepository.findAllNotProcessedIds(RawSourceScJudgment.class);
         
         // assert
         assertThat(rJudgmentIds, is(empty()));
     }
     
     @Test
-    public void deleteAllWithClass() {
+    public void deleteAll() {
         // given 
-        createRawScJudgment("id1", "aaa1", false);
-        createRawScJudgment("id2", "aaa2", false);
-        RawSourceCtJudgment rCtJudgment = createRawCtJudgment("id3", "aaa3", false);
+        createRawScJudgment("id1", false);
+        createRawScJudgment("id2", false);
+        RawSourceCtJudgment rCtJudgment = createRawCtJudgment("id3", false);
         RawSourceCcJudgment rCcJudgment = createRawCcJudgment("id4", false);
         
         
         // execute
-        rawSourceJudgmentRepository.deleteAllWithClass(RawSourceScJudgment.class);
+        rawSourceJudgmentRepository.deleteAll(RawSourceScJudgment.class);
         
         
         // assert
@@ -120,22 +121,31 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
         assertThat(rawJudgmentsIds, containsInAnyOrder(rCtJudgment.getId(), rCcJudgment.getId()));
     }
     
+    @Test(expected = DataIntegrityViolationException.class)
+    public void save_INVALID_JSON_CONTENT() {
+        RawSourceScJudgment rScJudgment = new RawSourceScJudgment();
+        rScJudgment.setSourceId("id1");
+        rScJudgment.setJsonContent("{\"aaa1\": \"bbb");
+        
+        rawSourceJudgmentRepository.save(rScJudgment);
+    }
+    
     
     //------------------------ PRIVATE --------------------------
     
-    private RawSourceScJudgment createRawScJudgment(String sourceId, String jsonContent, boolean processed) {
+    private RawSourceScJudgment createRawScJudgment(String sourceId, boolean processed) {
         RawSourceScJudgment rScJudgment = new RawSourceScJudgment();
-        rScJudgment.setJsonContent(sourceId);
-        rScJudgment.setSourceId(jsonContent);
+        rScJudgment.setSourceId(sourceId);
+        rScJudgment.setJsonContent("{\"aaa1\": \"bbb\"}");
         saveRawSourceJudgment(rScJudgment, processed);
         
         return rScJudgment;
     }
     
-    private RawSourceCtJudgment createRawCtJudgment(String sourceId, String jsonContent, boolean processed) {
+    private RawSourceCtJudgment createRawCtJudgment(String sourceId, boolean processed) {
         RawSourceCtJudgment rCtJudgment = new RawSourceCtJudgment();
         rCtJudgment.setSourceId(sourceId);
-        rCtJudgment.setJsonContent(jsonContent);
+        rCtJudgment.setJsonContent("{\"aaa1\": \"bbb\"}");
         saveRawSourceJudgment(rCtJudgment, processed);
         
         return rCtJudgment;

@@ -23,9 +23,9 @@ import com.fasterxml.jackson.core.JsonParseException;
  * @param <S> - model class for json objects
  * @param <J> - type of target judgment 
  */
-public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implements ItemProcessor<JsonRawSourceJudgment, JudgmentWithCorrectionList<J>> {
+public class NotApiJudgmentImportProcessProcessor<S, J extends Judgment> implements ItemProcessor<JsonRawSourceJudgment, JudgmentWithCorrectionList<J>> {
 
-    private Logger log = LoggerFactory.getLogger(JsonJudgmentImportProcessProcessor.class);
+    private Logger log = LoggerFactory.getLogger(NotApiJudgmentImportProcessProcessor.class);
     
     
     private JsonItemParser<S> sourceJudgmentParser;
@@ -44,7 +44,7 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
     
     //------------------------ CONSTRUCTORS --------------------------
     
-    public JsonJudgmentImportProcessProcessor(Class<J> judgmentClass) {
+    public NotApiJudgmentImportProcessProcessor(Class<J> judgmentClass) {
         this.judgmentClass = judgmentClass;
     }
     
@@ -54,7 +54,7 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
     @Override
     public JudgmentWithCorrectionList<J> process(JsonRawSourceJudgment rJudgment) throws JsonParseException {
         
-        log.trace("Processing: rawSourceScJudgment id={}", rJudgment.getId());
+        log.trace("Processing: {} id={}", rJudgment.getClass().getName(), rJudgment.getId());
 
         
         S sourceJudgment = sourceJudgmentParser.parseAndValidate(rJudgment.getJsonContent());
@@ -64,7 +64,7 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
         
         J judgment = judgmentWithCorrectionList.getJudgment();
 
-        J oldJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentIdWithClass(
+        J oldJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 judgment.getSourceInfo().getSourceCode(),
                 judgment.getSourceInfo().getSourceJudgmentId(),
                 judgmentClass);

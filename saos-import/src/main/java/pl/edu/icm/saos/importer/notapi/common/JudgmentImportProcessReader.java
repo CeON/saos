@@ -49,14 +49,14 @@ public class JudgmentImportProcessReader<T extends RawSourceJudgment> implements
             return null;
         }
         
-        return rawSourceJudgmentRepository.getOneWithClass(rJudgmentId, judgmentClass);
+        return rawSourceJudgmentRepository.getOne(rJudgmentId, judgmentClass);
         
     }
     
     
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        rJudgmentIds = new LinkedList<Integer>(rawSourceJudgmentRepository.findAllNotProcessedIdsWithClass(judgmentClass));
+        rJudgmentIds = new LinkedList<Integer>(rawSourceJudgmentRepository.findAllNotProcessedIds(judgmentClass));
         log.debug("Number of {} to process: {}", judgmentClass.getName(), rJudgmentIds.size());
     }
 

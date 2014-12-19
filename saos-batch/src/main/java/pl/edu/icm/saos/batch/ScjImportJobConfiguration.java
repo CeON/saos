@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import pl.edu.icm.saos.importer.common.JudgmentImportProcessWriter;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.JudgmentImportDownloadWriter;
-import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
+import pl.edu.icm.saos.importer.notapi.common.NotApiJudgmentImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.StringItemImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
@@ -62,7 +62,7 @@ public class ScjImportJobConfiguration {
     private JudgmentImportProcessReader<RawSourceScJudgment> scjImportProcessReader;
 
     @Autowired
-    private JsonJudgmentImportProcessProcessor<SourceScJudgment, SupremeCourtJudgment> scjImportProcessProcessor;
+    private NotApiJudgmentImportProcessProcessor<SourceScJudgment, SupremeCourtJudgment> scjImportProcessProcessor;
     
        
     @Autowired

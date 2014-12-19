@@ -44,7 +44,7 @@ public class JudgmentImportProcessReaderTest {
         // given
         
         List<Integer> rJudgmentIds = Lists.newArrayList(12, 123, 45);
-        when(rawJudgmentRepository.findAllNotProcessedIdsWithClass(RawSourceScJudgment.class)).thenReturn(rJudgmentIds);
+        when(rawJudgmentRepository.findAllNotProcessedIds(RawSourceScJudgment.class)).thenReturn(rJudgmentIds);
         
         
         // execute
@@ -57,7 +57,7 @@ public class JudgmentImportProcessReaderTest {
         
         List<Integer> internalRJudgmentIds = Whitebox.getInternalState(scjImportProcessReader, "rJudgmentIds");
         
-        verify(rawJudgmentRepository).findAllNotProcessedIdsWithClass(RawSourceScJudgment.class);
+        verify(rawJudgmentRepository).findAllNotProcessedIds(RawSourceScJudgment.class);
         verifyNoMoreInteractions(rawJudgmentRepository);
         
         assertEquals(rJudgmentIds, internalRJudgmentIds);
@@ -78,9 +78,9 @@ public class JudgmentImportProcessReaderTest {
         RawSourceScJudgment rJudgment1 = createSimpleRawSourceScJudgment(rJudgmentIds.get(1));
         RawSourceScJudgment rJudgment2 = createSimpleRawSourceScJudgment(rJudgmentIds.get(2));
 
-        when(rawJudgmentRepository.getOneWithClass(rJudgmentIds.get(0), RawSourceScJudgment.class)).thenReturn(rJudgment0);
-        when(rawJudgmentRepository.getOneWithClass(rJudgmentIds.get(1), RawSourceScJudgment.class)).thenReturn(rJudgment1);
-        when(rawJudgmentRepository.getOneWithClass(rJudgmentIds.get(2), RawSourceScJudgment.class)).thenReturn(rJudgment2);
+        when(rawJudgmentRepository.getOne(rJudgmentIds.get(0), RawSourceScJudgment.class)).thenReturn(rJudgment0);
+        when(rawJudgmentRepository.getOne(rJudgmentIds.get(1), RawSourceScJudgment.class)).thenReturn(rJudgment1);
+        when(rawJudgmentRepository.getOne(rJudgmentIds.get(2), RawSourceScJudgment.class)).thenReturn(rJudgment2);
         
      
         

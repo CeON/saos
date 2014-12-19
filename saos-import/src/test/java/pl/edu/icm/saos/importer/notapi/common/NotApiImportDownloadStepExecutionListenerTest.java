@@ -40,7 +40,7 @@ public class NotApiImportDownloadStepExecutionListenerTest {
         stepExecutionListener.beforeStep(new StepExecution("stepName", new JobExecution(1L)));
         
         // then
-        verify(rawSourceJudgmentRepository, times(1)).deleteAllWithClass(RawSourceScJudgment.class);
+        verify(rawSourceJudgmentRepository, times(1)).deleteAll(RawSourceScJudgment.class);
         verify(rawSourceJudgmentRepository, times(1)).flush();
         verifyNoMoreInteractions(rawSourceJudgmentRepository);
     }

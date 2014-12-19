@@ -92,7 +92,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         SupremeCourtJudgment scJudgment = testPersistenceObjectFactory.createScJudgment();
         
         // execute
-        CommonCourtJudgment ccJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentIdWithClass(
+        CommonCourtJudgment ccJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 scJudgment.getSourceInfo().getSourceCode(), scJudgment.getSourceInfo().getSourceJudgmentId(), CommonCourtJudgment.class);
         
         // assert
@@ -106,7 +106,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         JudgmentSourceInfo sourceInfo = ccJudgment.getSourceInfo();
         
         // execute
-        CommonCourtJudgment dbCcJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentIdWithClass(
+        CommonCourtJudgment dbCcJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.COMMON_COURT, sourceInfo.getSourceJudgmentId(), CommonCourtJudgment.class);
         
         // assert
