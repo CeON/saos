@@ -2,30 +2,29 @@ package pl.edu.icm.saos.enrichment.upload;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import pl.edu.icm.saos.common.json.JsonItemParser;
 import pl.edu.icm.saos.common.json.JsonNormalizer;
-import pl.edu.icm.saos.common.validation.CommonValidator;
+import pl.edu.icm.saos.common.json.JsonUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 
 /**
  * @author Łukasz Dumiszewski
  */
 
-public class EnrichmentTagItemParserTest {
+public class JsonUtilsNextEnrichmentTagItemTest {
 
     
-    private JsonItemParser<EnrichmentTagItem> enrichmentTagItemParser = new JsonItemParser<>(EnrichmentTagItem.class);
+    private JsonUtils jsonUtils = new JsonUtils();
     
-    @Mock
-    private CommonValidator commonValidator;
-    
+    private JsonParser jsonParser;
     
     private static String jsonContent = "{judgmentId:'123', /* comment should be passed */ "+
             "tagType:'SIMILAR_JUDGMENTS', "+
@@ -38,24 +37,19 @@ public class EnrichmentTagItemParserTest {
     
 
     @Before
-    public void before() {
+    public void before() throws JsonParseException, IOException {
         MockitoAnnotations.initMocks(this);
 
         jsonContent = JsonNormalizer.normalizeJson(jsonContent);
-        
-        enrichmentTagItemParser.setJsonFactory(new MappingJsonFactory());
-        
-        enrichmentTagItemParser.setCommonValidator(commonValidator);
-        
+        jsonParser = new MappingJsonFactory().createParser(jsonContent);
     }
     
     
     @Test
-    public void parse_ObjectValue() throws JsonParseException {
+    public void nextJsonObject() throws IOException {
         
         // execute
-        
-        EnrichmentTagItem enrichmentTagItem = enrichmentTagItemParser.parseAndValidate(jsonContent);
+        EnrichmentTagItem enrichmentTagItem = jsonUtils.nextJsonObject(jsonParser, EnrichmentTagItem.class);
         
         
         // assert
@@ -69,20 +63,7 @@ public class EnrichmentTagItemParserTest {
     }
     
     
-    @Test
-    public void parse_StringValue() throws JsonParseException {
-        
-        // execute
-        
-        EnrichmentTagItem enrichmentTagItem = enrichmentTagItemParser.parseAndValidate(jsonContent);
-        enrichmentTagItem.setValue("\"text value\"");
-        
-        // assert
-        
-        assertEquals(123, enrichmentTagItem.getJudgmentId());
-        assertEquals("SIMILAR_JUDGMENTS", enrichmentTagItem.getTagType());   
-        assertEquals("\"text value\"", enrichmentTagItem.getValue());
-    }
+   
     
     
     

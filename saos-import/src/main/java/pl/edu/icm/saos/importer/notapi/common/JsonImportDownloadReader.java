@@ -14,11 +14,12 @@ import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import pl.edu.icm.saos.common.json.JsonUtilService;
+import pl.edu.icm.saos.common.json.JsonUtils;
 import pl.edu.icm.saos.importer.common.ImportException;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
@@ -31,7 +32,7 @@ public class JsonImportDownloadReader implements ItemStreamReader<String> {
     
     private ImportFileUtils importFileUtils;
     
-    private JsonUtilService jsonUtilService;
+    private JsonUtils jsonUtils;
     
     private JsonFactory jsonFactory;
     
@@ -66,10 +67,21 @@ public class JsonImportDownloadReader implements ItemStreamReader<String> {
             jsonParser = jsonFactory.createParser(fileReader);
         }
         
-        String judgment = jsonUtilService.nextNode(jsonParser);
+        JsonToken jsonToken = jsonParser.nextToken();
         
-        if (judgment != null) {
-            return StringUtils.trim(judgment);
+        if (jsonToken != null && JsonToken.START_ARRAY.equals(jsonToken)) {
+            jsonToken = jsonParser.nextToken();
+        }
+        
+        if (jsonToken != null) {
+        
+            String judgment = jsonUtils.formatCurrentTokenTree(jsonParser);
+            
+            if (judgment != null) {
+                
+                return StringUtils.trim(judgment);
+            
+            }
         }
         
         closeJsonParser();
@@ -142,8 +154,8 @@ public class JsonImportDownloadReader implements ItemStreamReader<String> {
     }
 
     @Autowired
-    public void setJsonUtilService(JsonUtilService jsonUtilService) {
-        this.jsonUtilService = jsonUtilService;
+    public void setJsonUtils(JsonUtils jsonUtils) {
+        this.jsonUtils = jsonUtils;
     }
 
     @Autowired

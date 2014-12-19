@@ -20,10 +20,11 @@ import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import org.springframework.batch.item.ExecutionContext;
 
-import pl.edu.icm.saos.common.json.JsonUtilService;
+import pl.edu.icm.saos.common.json.JsonUtils;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 
 /**
  * @author Łukasz Dumiszewski
@@ -38,7 +39,7 @@ public class JsonImportDownloadReaderTest {
     
     private JsonFactory jsonFactory = mock(JsonFactory.class);
     
-    private JsonUtilService jsonUtilService = mock(JsonUtilService.class);
+    private JsonUtils jsonUtils = mock(JsonUtils.class);
     
     private String importDir = "/path/to/files/";
     
@@ -53,7 +54,7 @@ public class JsonImportDownloadReaderTest {
         
         jsonImportDownloadReader.setJsonFactory(jsonFactory);
         
-        jsonImportDownloadReader.setJsonUtilService(jsonUtilService);
+        jsonImportDownloadReader.setJsonUtils(jsonUtils);
         
     }
     
@@ -126,18 +127,19 @@ public class JsonImportDownloadReaderTest {
     
     
     @Test
-    public void read_FileReaderNull_JsonParserNull_NextNodeNotNull() throws Exception {
+    public void read_FileReaderNull_JsonParserNull_NextTokenNotNull() throws Exception {
         
         // prepare
         File currentFile = new File("f1.json");
         Reader fileReader = Mockito.mock(Reader.class);
         JsonParser jsonParser = Mockito.mock(JsonParser.class);
         List<File> importFiles = Lists.newArrayList(new File("f2.json"));
-        String nextNode = "JUDGMENTDATA";
+        String nextJudgment = "JUDGMENTDATA";
         
         when(importFileUtils.getReader(Mockito.eq(currentFile))).thenReturn(fileReader);
         when(jsonFactory.createParser(Mockito.eq(fileReader))).thenReturn(jsonParser);
-        when(jsonUtilService.nextNode(Mockito.eq(jsonParser))).thenReturn(nextNode);
+        when(jsonParser.nextToken()).thenReturn(JsonToken.START_ARRAY, JsonToken.START_OBJECT);
+        when(jsonUtils.formatCurrentTokenTree(Mockito.eq(jsonParser))).thenReturn(nextJudgment);
         
         resetDownloadReaderInternal(currentFile, null, null, importFiles);
         
@@ -151,17 +153,17 @@ public class JsonImportDownloadReaderTest {
         
         verify(importFileUtils).getReader(Mockito.eq(currentFile));
         verify(jsonFactory).createParser(Mockito.eq(fileReader));
-        verify(jsonUtilService).nextNode(Mockito.eq(jsonParser));
+        verify(jsonUtils).formatCurrentTokenTree(Mockito.eq(jsonParser));
         
         assertDownloadReaderState(currentFile, fileReader, jsonParser, importFiles.get(0));
         
-        assertEquals(nextNode, judgment);
+        assertEquals(nextJudgment, judgment);
         
     }
     
     
     @Test
-    public void read_FileReaderNotNull_JsonParserNotNull_NextNodeNull() throws Exception {
+    public void read_FileReaderNotNull_JsonParserNotNull_NextTokenNull_2Loops() throws Exception {
         
         // prepare
         
@@ -173,16 +175,17 @@ public class JsonImportDownloadReaderTest {
         
         resetDownloadReaderInternal(currentFile, fileReader, jsonParser, importFiles);
         
-        
+        when(jsonParser.nextToken()).thenReturn(null);
+                
         Reader fileReader2Loop = Mockito.mock(Reader.class);
         JsonParser jsonParser2Loop = Mockito.mock(JsonParser.class);
-        String node2Loop = "JUDGMENT_DATA";
+        String judgment2Loop = "JUDGMENT_DATA";
+        
         
         when(importFileUtils.getReader(Mockito.eq(currentFile2Loop))).thenReturn(fileReader2Loop);
         when(jsonFactory.createParser(Mockito.eq(fileReader2Loop))).thenReturn(jsonParser2Loop);
-        when(jsonUtilService.nextNode(Mockito.eq(jsonParser))).thenReturn(null);
-        when(jsonUtilService.nextNode(Mockito.eq(jsonParser2Loop))).thenReturn(node2Loop);
-        
+        when(jsonParser2Loop.nextToken()).thenReturn(JsonToken.START_OBJECT);
+        when(jsonUtils.formatCurrentTokenTree(jsonParser2Loop)).thenReturn(judgment2Loop);
         
         
         // execute
@@ -198,12 +201,13 @@ public class JsonImportDownloadReaderTest {
         verify(jsonFactory, Mockito.never()).createParser(Mockito.eq(fileReader));
         verify(jsonFactory).createParser(Mockito.eq(fileReader2Loop));
         
-        verify(jsonUtilService).nextNode(Mockito.eq(jsonParser));
-        verify(jsonUtilService).nextNode(Mockito.eq(jsonParser2Loop));
+        verify(jsonParser).nextToken();
+        verify(jsonParser2Loop).nextToken();
+        verify(jsonUtils).formatCurrentTokenTree(jsonParser2Loop);
         
         assertDownloadReaderState(currentFile2Loop, fileReader2Loop, jsonParser2Loop);
         
-        assertEquals(node2Loop, judgment);
+        assertEquals(judgment2Loop, judgment);
         
         
         
@@ -211,7 +215,7 @@ public class JsonImportDownloadReaderTest {
 
 
 
-    
+   
 
 
 

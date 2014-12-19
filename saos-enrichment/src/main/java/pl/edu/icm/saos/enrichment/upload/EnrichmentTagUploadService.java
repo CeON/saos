@@ -17,12 +17,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.common.json.JsonUtils;
 import pl.edu.icm.saos.common.service.ServiceException;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 
 @Service("enrichmentTagUploadService")
 public class EnrichmentTagUploadService {
@@ -31,7 +33,7 @@ public class EnrichmentTagUploadService {
     
     private JsonFactory jsonFactory;
     
-    private EnrichmentTagItemReader enrichmentTagItemReader;
+    private JsonUtils jsonUtils;
     
     private EnrichmentTagItemUploadProcessor enrichmentTagItemUploadProcessor;
     
@@ -58,9 +60,13 @@ public class EnrichmentTagUploadService {
                 
                 EnrichmentTagItem enrichmentTagItem = null;
                 
+                if (!JsonToken.START_ARRAY.equals(jsonParser.nextToken())) {
+                    throw new ServiceException(ERROR_INVALID_JSON_FORMAT, "the content is not a json array");
+                }
+                
                 do {
                 
-                    enrichmentTagItem = enrichmentTagItemReader.nextEnrichmentTagItem(jsonParser);
+                    enrichmentTagItem = jsonUtils.nextJsonObject(jsonParser, EnrichmentTagItem.class);
                     
                     if (enrichmentTagItem == null) {
                         
@@ -134,13 +140,13 @@ public class EnrichmentTagUploadService {
     }
 
     @Autowired
-    public void setEnrichmentTagItemReader(EnrichmentTagItemReader enrichmentTagItemReader) {
-        this.enrichmentTagItemReader = enrichmentTagItemReader;
+    public void setEnrichmentTagItemUploadProcessor(EnrichmentTagItemUploadProcessor enrichmentTagItemUploadProcessor) {
+        this.enrichmentTagItemUploadProcessor = enrichmentTagItemUploadProcessor;
     }
 
     @Autowired
-    public void setEnrichmentTagItemUploadProcessor(EnrichmentTagItemUploadProcessor enrichmentTagItemUploadProcessor) {
-        this.enrichmentTagItemUploadProcessor = enrichmentTagItemUploadProcessor;
+    public void setJsonUtils(JsonUtils jsonUtils) {
+        this.jsonUtils = jsonUtils;
     }
 
     

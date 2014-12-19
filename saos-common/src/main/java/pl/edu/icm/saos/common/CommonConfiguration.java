@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import pl.edu.icm.saos.common.json.JsonUtilService;
+import pl.edu.icm.saos.common.json.JsonUtils;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 
 import com.fasterxml.jackson.core.JsonParser.Feature;
@@ -41,8 +41,8 @@ public class CommonConfiguration {
     }
     
     @Bean
-    public JsonUtilService jsonUtilService() {
-        return new JsonUtilService();
+    public JsonUtils jsonUtils() {
+        return new JsonUtils();
     }
     
 }
