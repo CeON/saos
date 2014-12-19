@@ -1,5 +1,8 @@
 package pl.edu.icm.saos.api.dump;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,8 @@ import pl.edu.icm.saos.api.dump.supreme.court.chamber.DumpSupremeCourtChambersCo
 import pl.edu.icm.saos.api.entry.point.LinkWithDescription;
 import pl.edu.icm.saos.api.entry.point.LinkWithDescriptionBuilder;
 
+import java.util.Locale;
+
 import static pl.edu.icm.saos.api.entry.point.LinkWithDescriptionBuilder.createLinksRepresentation;
 
 /**
@@ -22,28 +27,39 @@ import static pl.edu.icm.saos.api.entry.point.LinkWithDescriptionBuilder.createL
 @RequestMapping("/api/dump")
 public class DumpEntryPointController {
 
+    @Autowired
+    @Qualifier("apiMessageSource")
+    private MessageSource apiMessageService;
+
+    //------------------------ LOGIC --------------------------
+
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Object> show()  {
+    public ResponseEntity<Object> show(Locale locale)  {
 
         LinkWithDescription dumpCourts = new LinkWithDescriptionBuilder()
                 .rel("courts")
                 .href(DumpCourtsController.class)
-                .description("Allows dump courts")
+                .description(apiMessageService.getMessage("dump.courts.description", null, locale))
                 .build();
 
         LinkWithDescription dumpJudgments = new LinkWithDescriptionBuilder()
                 .rel("judgments")
                 .href(DumpJudgmentsController.class)
-                .description("Allows dump judgments")
+                .description(apiMessageService.getMessage("dump.judgments.description", null, locale))
                 .build();
 
         LinkWithDescription dumpScChambers = new LinkWithDescriptionBuilder()
                 .rel("scChambers")
                 .href(DumpSupremeCourtChambersController.class)
-                .description("Allows dump supreme court chambers")
+                .description(apiMessageService.getMessage("dump.supreme.court.chambers.description", null, locale))
                 .build();
 
         return new ResponseEntity<>(createLinksRepresentation(dumpCourts, dumpJudgments, dumpScChambers), HttpStatus.OK);
+    }
+
+    //------------------------ SETTERS --------------------------
+    public void setApiMessageService(MessageSource apiMessageService) {
+        this.apiMessageService = apiMessageService;
     }
 }
