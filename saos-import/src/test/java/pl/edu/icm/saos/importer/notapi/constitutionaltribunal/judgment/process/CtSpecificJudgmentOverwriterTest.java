@@ -43,10 +43,14 @@ public class CtSpecificJudgmentOverwriterTest {
         ConstitutionalTribunalJudgmentDissentingOpinion oldOpinion3 = 
                 createDissentingOpinion(Lists.newArrayList("Katarzyna Kamińska"), "ghi");
         
+        ConstitutionalTribunalJudgmentDissentingOpinion oldOpinion4 = 
+                createDissentingOpinion(Lists.newArrayList("Stanisław Kowalski"), "jkl");
+        
         
         oldJudgment.addDissentingOpinion(oldOpinion1);
         oldJudgment.addDissentingOpinion(oldOpinion2);
         oldJudgment.addDissentingOpinion(oldOpinion3);
+        oldJudgment.addDissentingOpinion(oldOpinion4);
         
         ConstitutionalTribunalJudgmentDissentingOpinion newOpinion1 = 
                 createDissentingOpinion(Lists.newArrayList("Jan Kowalski"), "abc");
