@@ -36,14 +36,14 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
     //------------------------ TESTS --------------------------
     
     @Test
-    public void getOne_FOUND() {
+    public void findOne_FOUND() {
         // given
         RawSourceScJudgment rJudgment = createRawScJudgment("id1", false);
         createRawCtJudgment("id2", false);
         createRawCcJudgment("id3", true);
         
         // execute
-        RawSourceScJudgment actualRawJudgment = rawSourceJudgmentRepository.getOne(rJudgment.getId(), RawSourceScJudgment.class);
+        RawSourceScJudgment actualRawJudgment = rawSourceJudgmentRepository.findOne(rJudgment.getId(), RawSourceScJudgment.class);
         
         // assert
         assertThat(actualRawJudgment, is(notNullValue()));
@@ -51,14 +51,14 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
-    public void getOne_NOT_FOUND() {
+    public void findOne_NOT_FOUND() {
         // given
         RawSourceScJudgment rJudgment = createRawScJudgment("id1", false);
         createRawCtJudgment("id2", false);
         createRawCcJudgment("id3", true);
         
         // execute
-        RawSourceCtJudgment actual = rawSourceJudgmentRepository.getOne(rJudgment.getId(), RawSourceCtJudgment.class);
+        RawSourceCtJudgment actual = rawSourceJudgmentRepository.findOne(rJudgment.getId(), RawSourceCtJudgment.class);
         
         // assert
         assertThat(actual, is(nullValue()));
@@ -123,10 +123,12 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test(expected = DataIntegrityViolationException.class)
     public void save_INVALID_JSON_CONTENT() {
+        // given
         RawSourceScJudgment rScJudgment = new RawSourceScJudgment();
         rScJudgment.setSourceId("id1");
         rScJudgment.setJsonContent("{\"aaa1\": \"bbb");
         
+        // execute
         rawSourceJudgmentRepository.save(rScJudgment);
     }
     

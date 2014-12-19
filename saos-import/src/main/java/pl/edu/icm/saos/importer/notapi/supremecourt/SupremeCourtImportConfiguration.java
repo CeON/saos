@@ -13,7 +13,7 @@ import pl.edu.icm.saos.importer.common.converter.JudgmentConverterImpl;
 import pl.edu.icm.saos.importer.common.overwriter.DelegatingJudgmentOverwriter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
-import pl.edu.icm.saos.importer.notapi.common.NotApiJudgmentImportProcessProcessor;
+import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.common.StringItemImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
@@ -117,8 +117,8 @@ public class SupremeCourtImportConfiguration {
     }
     
     @Bean
-    public NotApiJudgmentImportProcessProcessor<SourceScJudgment, SupremeCourtJudgment> scjImportProcessProcessor() {
-        NotApiJudgmentImportProcessProcessor<SourceScJudgment, SupremeCourtJudgment> scjImportProcessProcessor = new NotApiJudgmentImportProcessProcessor<>(SupremeCourtJudgment.class);
+    public JsonJudgmentImportProcessProcessor<SourceScJudgment, SupremeCourtJudgment> scjImportProcessProcessor() {
+        JsonJudgmentImportProcessProcessor<SourceScJudgment, SupremeCourtJudgment> scjImportProcessProcessor = new JsonJudgmentImportProcessProcessor<>(SupremeCourtJudgment.class);
         scjImportProcessProcessor.setSourceJudgmentParser(sourceScJudgmentParser());
         scjImportProcessProcessor.setSourceJudgmentConverter(sourceScJudgmentConverter());
         scjImportProcessProcessor.setJudgmentOverwriter(scJudgmentOverwriter());

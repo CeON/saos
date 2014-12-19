@@ -23,9 +23,9 @@ import com.fasterxml.jackson.core.JsonParseException;
  * @param <S> - model class for json objects
  * @param <J> - type of target judgment 
  */
-public class NotApiJudgmentImportProcessProcessor<S, J extends Judgment> implements ItemProcessor<JsonRawSourceJudgment, JudgmentWithCorrectionList<J>> {
+public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implements ItemProcessor<JsonRawSourceJudgment, JudgmentWithCorrectionList<J>> {
 
-    private Logger log = LoggerFactory.getLogger(NotApiJudgmentImportProcessProcessor.class);
+    private Logger log = LoggerFactory.getLogger(JsonJudgmentImportProcessProcessor.class);
     
     
     private JsonItemParser<S> sourceJudgmentParser;
@@ -44,7 +44,7 @@ public class NotApiJudgmentImportProcessProcessor<S, J extends Judgment> impleme
     
     //------------------------ CONSTRUCTORS --------------------------
     
-    public NotApiJudgmentImportProcessProcessor(Class<J> judgmentClass) {
+    public JsonJudgmentImportProcessProcessor(Class<J> judgmentClass) {
         this.judgmentClass = judgmentClass;
     }
     

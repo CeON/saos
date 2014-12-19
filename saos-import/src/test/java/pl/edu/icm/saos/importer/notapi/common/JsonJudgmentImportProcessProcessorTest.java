@@ -31,10 +31,10 @@ import com.fasterxml.jackson.core.JsonParseException;
  * @author Łukasz Dumiszewski
  */
 
-public class NotApiJudgmentImportProcessProcessorTest {
+public class JsonJudgmentImportProcessProcessorTest {
 
-    private NotApiJudgmentImportProcessProcessor<SourceScJudgment, SupremeCourtJudgment> scjImportProcessProcessor = 
-            new NotApiJudgmentImportProcessProcessor<>(SupremeCourtJudgment.class);
+    private JsonJudgmentImportProcessProcessor<SourceScJudgment, SupremeCourtJudgment> scjImportProcessProcessor = 
+            new JsonJudgmentImportProcessProcessor<>(SupremeCourtJudgment.class);
     
     
     // services

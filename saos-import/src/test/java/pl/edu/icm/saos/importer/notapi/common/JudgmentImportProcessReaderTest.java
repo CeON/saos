@@ -78,9 +78,9 @@ public class JudgmentImportProcessReaderTest {
         RawSourceScJudgment rJudgment1 = createSimpleRawSourceScJudgment(rJudgmentIds.get(1));
         RawSourceScJudgment rJudgment2 = createSimpleRawSourceScJudgment(rJudgmentIds.get(2));
 
-        when(rawJudgmentRepository.getOne(rJudgmentIds.get(0), RawSourceScJudgment.class)).thenReturn(rJudgment0);
-        when(rawJudgmentRepository.getOne(rJudgmentIds.get(1), RawSourceScJudgment.class)).thenReturn(rJudgment1);
-        when(rawJudgmentRepository.getOne(rJudgmentIds.get(2), RawSourceScJudgment.class)).thenReturn(rJudgment2);
+        when(rawJudgmentRepository.findOne(rJudgmentIds.get(0), RawSourceScJudgment.class)).thenReturn(rJudgment0);
+        when(rawJudgmentRepository.findOne(rJudgmentIds.get(1), RawSourceScJudgment.class)).thenReturn(rJudgment1);
+        when(rawJudgmentRepository.findOne(rJudgmentIds.get(2), RawSourceScJudgment.class)).thenReturn(rJudgment2);
         
      
         

@@ -17,7 +17,7 @@ import pl.edu.icm.saos.persistence.model.importer.RawSourceJudgment;
 public interface RawSourceJudgmentRepository extends JpaRepository<RawSourceJudgment, Integer> {
   
     @Query("select rJudgment from RawSourceJudgment rJudgment where TYPE(rJudgment)=:clazz and rJudgment.id=:id")
-    <T extends RawSourceJudgment> T getOne(@Param("id") Integer id, @Param("clazz") Class<T> clazz);    
+    <T extends RawSourceJudgment> T findOne(@Param("id") Integer id, @Param("clazz") Class<T> clazz);    
 
     @Query("select rJudgment.id from RawSourceJudgment rJudgment where TYPE(rJudgment) = :clazz and rJudgment.processed=false order by id")
     List<Integer> findAllNotProcessedIds(@Param("clazz") Class<? extends RawSourceJudgment> clazz);

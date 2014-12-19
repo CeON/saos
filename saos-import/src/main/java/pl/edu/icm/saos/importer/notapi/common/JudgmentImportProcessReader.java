@@ -49,7 +49,7 @@ public class JudgmentImportProcessReader<T extends RawSourceJudgment> implements
             return null;
         }
         
-        return rawSourceJudgmentRepository.getOne(rJudgmentId, judgmentClass);
+        return rawSourceJudgmentRepository.findOne(rJudgmentId, judgmentClass);
         
     }
     
