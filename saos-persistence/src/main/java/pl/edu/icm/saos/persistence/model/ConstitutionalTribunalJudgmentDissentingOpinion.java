@@ -109,7 +109,6 @@ public class ConstitutionalTribunalJudgmentDissentingOpinion extends DataObject 
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((authors == null) ? 0 : authors.hashCode());
         result = prime * result
                 + ((judgment == null) ? 0 : judgment.hashCode());
         result = prime * result
@@ -129,13 +128,6 @@ public class ConstitutionalTribunalJudgmentDissentingOpinion extends DataObject 
             return false;
         }
         ConstitutionalTribunalJudgmentDissentingOpinion other = (ConstitutionalTribunalJudgmentDissentingOpinion) obj;
-        if (authors == null) {
-            if (other.authors != null) {
-                return false;
-            }
-        } else if (!authors.equals(other.authors)) {
-            return false;
-        }
         if (judgment == null) {
             if (other.judgment != null) {
                 return false;
@@ -159,8 +151,7 @@ public class ConstitutionalTribunalJudgmentDissentingOpinion extends DataObject 
     @Override
     public String toString() {
         return "ConstitutionalTribunalJudgmentDissentingOpinion [id="
-                + id + ", textContent=" + textContent + ", authors="
-                + authors + "]";
+                + id + ", textContent=" + textContent  +"]";
     }
 
     
