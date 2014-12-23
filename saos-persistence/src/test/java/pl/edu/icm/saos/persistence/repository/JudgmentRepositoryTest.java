@@ -1,15 +1,10 @@
 package pl.edu.icm.saos.persistence.repository;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
+
 import org.hibernate.LazyInitializationException;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -25,12 +20,7 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
-import pl.edu.icm.saos.persistence.model.SourceCode;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.model.*;
 
 import com.google.common.collect.Lists;
 
@@ -319,6 +309,21 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         judgmentRepository.delete(Lists.newArrayList(ccJudgment.getId(), scJudgment.getId()));
         
         
+    }
+
+    @Test
+    public void ctJudgment_opinions_should_be_initialized(){
+        //given
+        ConstitutionalTribunalJudgment tribunalJudgment =testPersistenceObjectFactory.createCtJudgment();
+
+        //when
+        ConstitutionalTribunalJudgment ctJudgment = judgmentRepository.findOneAndInitialize(tribunalJudgment.getId());
+
+        //then
+        ConstitutionalTribunalJudgmentDissentingOpinion actual = ctJudgment.getDissentingOpinions().get(0);
+        ConstitutionalTribunalJudgmentDissentingOpinion expected = tribunalJudgment.getDissentingOpinions().get(0);
+        assertThat("opinion id ", actual.getId(), is(expected.getId()));
+        assertThat("opinion ", actual, is(expected));
     }
     
     //------------------------ PRIVATE --------------------------
