@@ -43,13 +43,15 @@ var ChangeCourtType = (function() {
 		
 		for (i; i < length; i+= 1) {
 			$(parentContainer + " " + fields[i].button).each(function() {
-				var $fieldContainer = $(fields[i].fields);
+				var $fieldContainer = $(fields[i].fields),
+					onChangeCallback = fields[i].onChangeCallback;
 
 				$(this).click(
 					(function() {
 						return function() {
 							hideAll();
 							$fieldContainer.removeClass("display-none").addClass("display-block");
+							onChangeCallback();
 						};
 					})()
 				);
@@ -88,7 +90,7 @@ var ChangeCourtType = (function() {
 				if ($fieldContainer.attr("id") !== $targetContainer.attr("id")) {
 					clearField($fieldContainer);
 				}
-			})
+			});
 		}
 		
 	},
