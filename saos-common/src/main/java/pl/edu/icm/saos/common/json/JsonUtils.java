@@ -2,6 +2,8 @@ package pl.edu.icm.saos.common.json;
 
 import java.io.IOException;
 
+import org.springframework.stereotype.Service;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -14,6 +16,7 @@ import com.google.common.base.Preconditions;
  * Json utilities
  * @author Łukasz Dumiszewski
  */
+@Service
 public class JsonUtils {
 
     
@@ -24,7 +27,7 @@ public class JsonUtils {
      * @throws IllegalArgumentException if the {@link JsonParser#getCodec()} == null. You can use {@link MappingJsonFactory} for creating
      * parser with default codec
      * @throws JsonParseException if the nextToken cannot be parsed
-     * @throws IOException if I/O error occured
+     * @throws IOException if I/O error occurred
      * 
      * */
     public JsonToken nextJsonObject(JsonParser jsonParser) throws JsonParseException, IOException {

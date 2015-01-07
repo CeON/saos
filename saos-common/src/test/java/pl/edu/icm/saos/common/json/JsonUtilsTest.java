@@ -68,7 +68,7 @@ public class JsonUtilsTest {
         String element1 = normalizeJson("{bre: 'sss', arr: ['1112', 'abc']}");
         String element2 = normalizeJson("{bre: 'sss', arr: ['1112', 'abc'], dd: 'ssssxx'}");
         
-        String content = "[" + element1 +", " + element2 + "]";
+        String content = "[" + element1 +"," + element2 + "]";
         
         JsonParser jsonParser = jsonFactory.createParser(content);
         
@@ -77,7 +77,7 @@ public class JsonUtilsTest {
         JsonToken jsonToken = jsonUtils.nextJsonObject(jsonParser);
         
         // Assert
-        assertEquals(content.replaceAll("\\s", ""), jsonParser.readValueAsTree().toString());
+        assertEquals(content, jsonParser.readValueAsTree().toString());
 
         
         
@@ -131,7 +131,7 @@ public class JsonUtilsTest {
 
         // Assert
         assertNotNull(jsonToken);
-        assertEquals(content.replaceAll("\\s", ""), jsonParser.readValueAsTree().toString());
+        assertEquals(content, jsonParser.readValueAsTree().toString());
         
         
         // Execute 2
@@ -156,7 +156,7 @@ public class JsonUtilsTest {
         
         // Assert
         
-        assertEquals(element1.replaceAll("\\s", ""), formattedJsonToken);
+        assertEquals(element1, formattedJsonToken);
         
         
      
