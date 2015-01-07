@@ -1,9 +1,15 @@
 package pl.edu.icm.saos.persistence.repository;
 
-import java.util.List;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import java.util.List;
 
 import org.hibernate.LazyInitializationException;
 import org.joda.time.DateTime;
@@ -20,7 +26,14 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
-import pl.edu.icm.saos.persistence.model.*;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
 import com.google.common.collect.Lists;
 

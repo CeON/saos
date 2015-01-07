@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 
@@ -19,6 +20,8 @@ public class EnrichmentTagItemUploadProcessor {
     
     private EnrichmentTagRepository enrichmentTagRepository;
     
+    private CommonValidator commonValidator;
+    
     
     //------------------------ LOGIC --------------------------
 
@@ -27,6 +30,8 @@ public class EnrichmentTagItemUploadProcessor {
      * @throws DataIntegrityViolationException if any of the datasource constraints has been violated
      */
     public void processEnrichmentTagItem(EnrichmentTagItem enrichmentTagItem) {
+        
+        commonValidator.validateEx(enrichmentTagItem);
 
         EnrichmentTag enrichmentTag = enrichmentTagItemConverter.convertEnrichmentTagItem(enrichmentTagItem);
         
@@ -45,6 +50,11 @@ public class EnrichmentTagItemUploadProcessor {
     @Autowired
     public void setEnrichmentTagRepository(EnrichmentTagRepository enrichmentTagRepository) {
         this.enrichmentTagRepository = enrichmentTagRepository;
+    }
+
+    @Autowired
+    public void setCommonValidator(CommonValidator commonValidator) {
+        this.commonValidator = commonValidator;
     }
     
 }
