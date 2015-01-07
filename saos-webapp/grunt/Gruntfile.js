@@ -6,12 +6,11 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     gradleProp: (function() {
     	var lines = grunt.file.read('../src/main/resources/saos.version.properties').split("\n"),
-    		i = 0,
     		length = lines.length,
     		temp = "",
     		version = "";
     	
-    	for (i = 0; i < length; i += 1) {
+    	for (var i = 0; i < length; i += 1) {
     		temp = lines[i].split("=");
     		if (temp[0] === "saos.version") {
     			version = temp[1];
@@ -27,30 +26,27 @@ module.exports = function(grunt) {
     
     project: {
         app: 'app',
-        css: [
-    	      '<%= webapp.dir %>stylesheet/css'
-        ],
-        
+
         sass: [
     		  '<%= webapp.dir %>' + 'stylesheet/scss'
-         ],
+        ],
         
-        dev: {
-        	generated: [
-        	      mainDir + 'stylesheet/.generated'
-            ],
-        	css: [
-        	      '<%= webapp.dir %>' + 'stylesheet/css'
-            ],
-            sass: [
-           		  '<%= webapp.dir %>' + 'stylesheet/scss'
-            ],
-            cssmin: [
-                     'dist/style.min.css'
-            ],
-            js: [
-              'javascript**/*.js'
-            ]
+        css: {
+        	dir: mainDir + 'stylesheet/css',
+    		generated: mainDir + 'stylesheet/.generated',
+        	distFile: mainDir + 'stylesheet/.generated/saos.css',
+    		distFileMin:  mainDir + 'stylesheet/.generated/saos.min.css',
+        },
+        
+        sass: {
+        	dir: mainDir + 'stylesheet/sass',
+        },
+        
+        js: {
+        	dir: mainDir + 'javascript',
+        	generated: mainDir + 'javascript/.generated',
+        	distFile: mainDir + 'javascript/.generated/saos.js',
+        	distFileMin: mainDir + 'javascript/.generated/saos.min.js',
         },
         
     },
@@ -59,10 +55,11 @@ module.exports = function(grunt) {
         banner: '/*\n' +
             ' * <%= pkg.name %>\n' +
             ' * <%= pkg.title %>\n' +
-            ' * <%= pkg.url %>\n' +
+            ' * \n' +
+            ' * <%= grunt.template.today("dd-mm-yyyy") %>\n' +
             ' * @author <%= pkg.author %>\n' +
             ' * @version <%= gradleProp %>\n' +
-            ' * Copyright <%= pkg.copyright %>. <%= pkg.license %> licensed.\n' +
+            //' * Copyright <%= pkg.copyright %>. <%= pkg.license %> licensed.\n' +
             ' */\n'
     },
     
@@ -103,52 +100,136 @@ module.exports = function(grunt) {
 	  }
 	},
     
-    /*concat: {
+	//------------------------ JAVASCRIPT MODULES --------------------------
+	
+    concat: {
         options: {
-          separator: ';'
+        	separator: ';',
+        	stripBanners: false,
         },
         dist: {
-          src: ['statics/javascripts/prime.js'],
-          dest: 'dist/prime.js'
+        	src: [
+				  '<%= project.js.dir %>/libs/jquery-2.1.0.min.js',
+				  '<%= project.js.dir %>/libs/jquery-ui-1.10.4.custom.min.js',
+				  '<%= project.js.dir %>/libs/jquery.ui.datepicker-pl.js',
+				  '<%= project.js.dir %>/libs/jquery.ui.datepicker-en.js',
+				  '<%= project.js.dir %>/libs/jquery.form.js',
+				  '<%= project.js.dir %>/libs/jquery.blockUI.js',
+				  '<%= project.js.dir %>/libs/jquery.clipboard/jquery.clipboard.js',
+				  '<%= project.js.dir %>/libs/jquery.pseudo.js',
+				  '<%= project.js.dir %>/libs/jquery.sticky.js',
+				  '<%= project.js.dir %>/libs/jquery.wrapInTag.js',
+				  '<%= project.js.dir %>/libs/modernizr.js',
+				  '<%= project.js.dir %>/libs/bootstrap.min.js',
+        	      
+        	      '<%= project.js.dir %>/modules/cookies.js',
+        	      '<%= project.js.dir %>/modules/courtDivisionSelect.js',
+        	      '<%= project.js.dir %>/modules/search/searchFormMode.js',
+        	      '<%= project.js.dir %>/modules/search/searchCriteria.js',
+        	      '<%= project.js.dir %>/modules/search/searchSettingsToolTip.js',
+        	      '<%= project.js.dir %>/modules/search/searchFilters.js',
+        	      '<%= project.js.dir %>/modules/search/changeCourtType.js',
+        	      '<%= project.js.dir %>/modules/filterBox.js',
+        	      '<%= project.js.dir %>/modules/suggester.js',
+        	      '<%= project.js.dir %>/judgmentSearch.js',
+        	      '<%= project.js.dir %>/saos-common.js'
+    	      ],
+    	      
+        	dest: '<%= project.js.distFile %>',
         }
-    },*/
+    },
     
     uglify: {
         options: {
-          banner: '/* <%= pkg.name %> version <%= gradleProp %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
         },
         dist: {
           files: {
-        	  '../src/main/webapp/WEB-INF/static/javascript/.generated/saos.min.js' : '../src/main/webapp/WEB-INF/static/javascript/saos-common.js' /*['<%= concat.dist.dest %>']*/
+        	  '<%= project.js.distFileMin %>' : '<%= project.js.distFile %>'
           }
         }
     },
- 
+    
+    jshint: {
+    	all: ['<%= project.js.dir %>/modules/*.js']
+	},
+	
+	jscs: {
+        all: {
+        	options: {
+                "standard": "Jquery"
+            },
+            files: {
+                src: ['<%= project.js.dir %>/modules/*.js'] 
+            }
+        }
+    },
+
+	//------------------------ CSS MODULES --------------------------
+    
+    autoprefixer: {
+        dist: {
+            files: {
+            	'<%= project.css.generated %>/modern.css' : '<%= project.css.generated %>/modern.css'
+            }
+        }
+    },
+    
 	concat_css: {
 	    options: {
 		     },
 	    all: {
-	      src: ['<%= project.dev.generated %>/modern.css', '<%= project.dev.generated %>' + '/styles.css'],
-	      dest: '<%= project.dev.generated %>' + '/dist/styles.min.css'
+	      src: ['<%= project.css.dir %>/*/*.min.css', '<%= project.css.dir %>/*.min.css', '<%= project.css.generated %>/modern.css'],
+	      dest: '<%= project.css.distFile %>'
 	    }
 	},
+	
+	cssmin: {
+		 options: {
+			 compatibility: 'ie8',
+			 keepSpecialComments: '*',
+			 noAdvanced: true
+		 },
+		 core: {
+			 src: '<%= project.css.distFile %>',
+			 dest: '<%= project.css.distFileMin %>'
+		 },
+	},
+	 
+	csslint: {
+		  strict: {
+		    options: {
+		      import: 2
+		    },
+		    src: ['<%= project.css.generated %>/modern.css']
+		  },
+		  lax: {
+		    options: {
+		      import: false
+		    },
+		    src: ['<%= project.css.generated %>/modern.css']
+		  }
+	},
+	 
+	 
+	//------------------------ MISC MODULES --------------------------
 	
 	usebanner: {
 	  options: {
 	    position: 'top',
-	    banner: '/* <%= pkg.name %> version <%= gradleProp %> <%= grunt.template.today("dd-mm-yyyy") %> */\n'
+    	banner: '<%= tag.banner %>'
 	  },
 	  files: {
 	    src: [
-          	'<%= project.dev.generated %>/dist/styles.min.css'
+          	'<%= project.css.distFileMin %>',
+          	'<%= project.js.distFileMin %>'
 	    ]
 	  }
 	},
      
     watch: {
          sass: {
-           files: '<%= project.dev.sass %>' + '/{,*/}*.{scss,sass}',
-           tasks: ['sass:dev']
+           files: '<%= project.sass.dir %>' + '/{,*/}*.{scss,sass}',
+           tasks: ['build']
          }
      }
      
@@ -163,10 +244,20 @@ module.exports = function(grunt) {
 	  grunt.log.writeln(grunt.config('gradleProp'));
   });
   
-  grunt.registerTask('build', ['uglify', 'concat_css', 'usebanner']);
+  grunt.registerTask('doc:jshint', ['jshint:all']);
+  grunt.registerTask('doc:jscs', ['jscs']);
+  
+  grunt.registerTask('doc:csslint', ['csslint:strict']);
+  
+  grunt.registerTask('build-css', ['autoprefixer', 'concat_css', 'cssmin:core']);
+  
+  grunt.registerTask('build-js', ['concat', 'uglify']);
+  
+  grunt.registerTask('build', ['build-js', 'build-css', 'usebanner']);
  
   grunt.registerTask('wcag', ['accessibility']);
   grunt.registerTask('valid', ['validation']);
   
   grunt.registerTask('default', ['validation']);
+
 };
