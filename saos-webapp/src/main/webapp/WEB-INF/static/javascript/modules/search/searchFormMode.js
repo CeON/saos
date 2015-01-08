@@ -12,10 +12,20 @@ var SearchFormMode = {
 	
 	easing: "linear",
 
+	/* Initialize parameters
+	 * @param source configuration parameters(json):
+	 * 	- callback - function that is exetued after showing/hiding form
+	 * 		- onShow - function that is excuted when show animation is finished
+	 * 		- onHide - function that is excuted when hide animation is finished 
+	 */
 	init: function(source) {
 		SearchFormMode.assign(source);
 	},
 
+	
+	/* Assign function show/hide to button
+	 * @param source configuration parameters
+	 */
 	assign: function(source) {
 		SearchFormMode.getButtonMore().on("click", function() {
 			SearchFormMode.show(source.callback.onShow);

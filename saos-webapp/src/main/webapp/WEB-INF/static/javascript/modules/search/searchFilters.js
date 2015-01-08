@@ -261,25 +261,12 @@ var SearchFilters = (function(){
 	clearField = function($field, filterValue) {
 
 		if ($field.is("input:hidden")) {
-			var value = $field.attr("value"),
-				array = value.split(", "),
-				length = array.length,
-				newValue = "",
-				first = true;
+			var value = $field.attr("value")
 			
-			for (var i = 0; i < length; i += 1) {
-				if (filterValue != array[i]) {
-					
-					if (!first) {
-						newValue += ", ";
-					}
-					
-					newValue += array[i];
-					first = false;
-				}
-			}
+			value = value.replace(filterValue + " ,", "");
+			value = value.replace(filterValue, "");
 			
-			$field.attr("value", newValue);
+			$field.attr("value", value);
 			
 		} else if ($field.is("input:checkbox")) {
 			$field.prop("checked", false);

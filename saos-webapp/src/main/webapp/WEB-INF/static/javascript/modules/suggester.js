@@ -32,17 +32,34 @@ var Suggester = (function() {
      * 
      * @param $field input field connected to suggester
      * @param source configuration parameters(json):
-     * 		- boxyMode
+     * 		- boxyMode - selected suggestions are presented as boxes and can be removed by clicking on them
      * 			- enabled - turn on boxy mode,
      * 			- placeholder - text that is used as placeholder in textarea  
      * 
      * 		- url - returns url location with list of suggestions.
      * 		   		it can be function or simple string url, function can handle url like e.g. "/keywords/COMMON/{phrase}/list"
-     *		- getValue - (function) returns value of suggestion list elements e.g.
+     *		- getValue - returns value of suggestion taken from suggestion list
+     *					 it must be specified only when suggestion is not a simple string e.g. 
+     *				
+     *				basic suggestion list:
+     *				{"suggestion1", "suggestion2", "suggestion3}
+     *				
+     *				json suggestion list:
+     *				{
+     *					{ id: 1,
+     *					  phrase: "suggestion1"
+     *					},
+     *					{ id: 2,
+     *					  phrase: "suggestion2"
+     *					}
+     *				}
+     *				
+     *				for this suggestion list getValue function must specified as:
+     *
      *				function(element) {
      *					return element.phrase;
 	 *				}
-     *
+	 *				
      */
     init = function($field, source) {
         var fieldId = $field.attr("id");
@@ -57,7 +74,12 @@ var Suggester = (function() {
         }
         
         if (source.getValue !== undefined) {
-        	getValue[fieldId] = source.getValue;
+        	
+        	if (typeof source.getValue === "function") {
+        		getValue[fieldId] = source.getValue;
+        	} else {
+        		getUrl[fieldId] = function(value) { return value; };
+        	}
         }
         
         if (source.boxyMode !== undefined && source.boxyMode.enabled !== undefined && source.boxyMode.enabled === true) {
@@ -100,8 +122,9 @@ var Suggester = (function() {
     
     /* Creates field area for suggester boxy mode. 
      * Input field {@param $field} is changed to input
-     * type hidden, so it is not visible. Next to it is 
-     * created textarea that should behave base input.
+     * type hidden, so it is not visible. Next to it
+     * function creates textarea that should behave
+     * as base input.
      * 
      * @param $field
      * @param source
@@ -141,6 +164,8 @@ var Suggester = (function() {
     			removeDuplicatedValues(id);
 				refreshSuggestionField(id);
 			});
+
+    	$("#" + AREA_ID + "-" + fieldId).val(""); //trigger update on field textarea 
     },
     
     /* Create boxed suggestion.
@@ -398,20 +423,11 @@ var Suggester = (function() {
     	
     	valueArray = valueArray.sort();
     	
-    	for(var i = 0; i < valueArray.length; i += 1) {
-    		
-    		if (!first) {
-    			value += ", ";
-    		}
-    		
-    		value += valueArray[i];
-    		first = false;
-    	}
+    	value = convertArrayToString(valueArray, ", ")
     	
     	$("#" + fieldId).val(value).change();
     },
     
-
     /* Remove boxed suggestion.
      * When users clicks on suggestion close mark,
      * that suggestion is removed from field.
@@ -491,20 +507,31 @@ var Suggester = (function() {
     		array.splice(elementsToRemove[i], 1);
     	}
     	
-    	length = array.length;
-    	
-    	for(var i = 0; i < length; i += 1) {
-    		
-    		if(!first) {
-    			newValue += ", ";
-    		}
-    		
-    		newValue += array[i];
-    		
-    		first = false;
-    	}
+    	newValue = convertArrayToString(array, ", ");
     	
     	$field.val(newValue);
+    },
+    
+    /* Convert array of strings to one string.
+     * @param array 
+     * @param separator   
+     */
+    convertArrayToString = function(array, separator) {
+    	var	value = "",
+			first = true,
+			length = array.length;
+	    	
+	    	for(var i = 0; i < length; i += 1) {
+	    		
+	    		if (separator !== "" && !first) {
+	    			value += separator;
+	    		}
+	    		
+	    		value += array[i];
+	    		first = false;
+	    	}
+    	
+    	return value;
     };
     
     

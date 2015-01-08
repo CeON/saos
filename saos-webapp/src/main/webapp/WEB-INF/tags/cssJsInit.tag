@@ -2,6 +2,8 @@
 
 <spring:eval expression="@exposedProperties.getProperty('webapp.version')" var="webappVersion" />
    
+<%@ include file="../view/common/javaScriptGlobalVariables.jsp" %>   
+   
 <c:choose>
 	<c:when test="${webappVersion=='development'}" >
 		<%@include file="/WEB-INF/view/common/javaScriptInitDev.jsp"%>
