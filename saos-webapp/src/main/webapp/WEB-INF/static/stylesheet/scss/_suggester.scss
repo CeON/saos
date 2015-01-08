@@ -1,7 +1,6 @@
 .suggestions {
     left: 0;
     position: absolute;
-    top: 33px;
 	width: 100%;
     z-index: 2;
     
@@ -13,7 +12,9 @@
 		margin-right: 15px;
 	    margin-top: 0;
 	    padding-left: 0px;
-	    padding-bottom: 0px;	    
+	    padding-bottom: 0px;	 
+	    position: relative;
+	    top: -1px;   
 	    
 	    li {
 		    -moz-border-bottom-colors: none;
@@ -56,6 +57,74 @@
 			}
 		}		
 	}
+}
+
+.suggestions.suggestions-boxy {
+
+	ul {
+	    margin-left: -1px;
+		margin-right: -1px;
+		top: 3px;
+	}
+}
+
+.suggestion-wrapper {
+	border: 1px solid #ccc;
+	border-radius: 2px;
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.976) inset;
+    color: #444;
+	font-size: 14px;
+    padding: 3px 6px;
+    position: relative;
+
+	textarea {
+		background: #fff;
+		border: 0px;
+		color: #000;
+		display: inline-block;
+		height: 20px;
+		margin: 4px 0px 0px;
+		padding: 0px 6px;
+		position: relative;
+		resize: none;
+		top: -1px;
+	}
+	
+	.suggestion {
+		background: #eee;
+		border: 1px solid #e0e0e0;
+		border-radius: 4px;
+		cursor: pointer;
+		display: inline-block;
+		margin: 0px 4px 1px 0px;
+		line-height: 19px;
+		padding: 0px 6px;
+		position: relative;
+		transition: all 0.2s ease 0s;
+		
+		&:hover {
+			background: #f0f0f0;
+			border-color: #bbb;
+		}
+		
+		
+		.remove-suggestion {
+			@include background-image("icons/close.png");
+			cursor: pointer;
+			display: inline-block;
+			height: 16px;
+			position: relative;
+			right: -3px;
+			width: 16px;
+			top: 3px;
+			z-index: 1;
+			
+			&:hover {
+				@include background-image("icons/close_light.png");
+			}
+		}
+	}
+	
 }
 
 

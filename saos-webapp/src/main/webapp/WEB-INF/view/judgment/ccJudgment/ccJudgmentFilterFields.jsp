@@ -8,13 +8,13 @@
  	 
 <c:if test="${!empty judgmentCriteriaForm.keywords && judgmentCriteriaForm.keywords != ''}" >
 	<p><spring:message code="judgmentSearch.formField.keywords" />:</p>
-	<div class="filter-item" id="filter-keyword" data-assigned-field="${assignedField}" >
-		<div data-tooltip-text="<spring:message code='judgmentSearch.filterBox.removeFilter' />" >
-			<c:forEach items="${judgmentCriteriaForm.keywords}" var="keyword">
-				<c:out value="${keyword}" />
-			</c:forEach>
+	<c:forEach items="${judgmentCriteriaForm.keywords}" var="keyword">
+		<div class="filter-item" id="filter-keyword" data-assigned-field="input-search-keywords-cc" >
+			<div data-tooltip-text="<spring:message code='judgmentSearch.filterBox.removeFilter' />" >
+				<c:out value="${keyword}" />		
+			</div>
 		</div>
-	</div>
+	</c:forEach>
 </c:if>	
 
 		

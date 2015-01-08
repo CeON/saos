@@ -12,33 +12,35 @@ var SearchFormMode = {
 	
 	easing: "linear",
 
-	init: function() {
-		SearchFormMode.assign();
+	init: function(source) {
+		SearchFormMode.assign(source);
 	},
 
-	assign: function() {
+	assign: function(source) {
 		SearchFormMode.getButtonMore().on("click", function() {
-			SearchFormMode.show();
+			SearchFormMode.show(source.callback.onShow);
 	    });
 		
 		SearchFormMode.getButtonLess().on("click", function() {
-			SearchFormMode.hide();
+			SearchFormMode.hide(source.callback.onHide);
 	    });
 	},
 
-	show: function() {		
+	show: function(callback) {	
 		SearchFormMode.hideButton(SearchFormMode.getButtonMore());
 		
 		SearchFormMode.getForm().slideDown({easing: SearchFormMode.easing, complete: function() {
 			SearchFormMode.showButton(SearchFormMode.getButtonLess());
+			callback();
 		} });
 	},
 	
-	hide: function() {
+	hide: function(callback) {
 		SearchFormMode.hideButton(SearchFormMode.getButtonLess());
 
 		SearchFormMode.getForm().slideUp({easing: SearchFormMode.easing, complete: function() {
 			SearchFormMode.showButton(SearchFormMode.getButtonMore());
+			callback();
 		} });
 	},
 	
