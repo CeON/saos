@@ -7,7 +7,16 @@
 var jsInitInJudgmentSearch = function() {
 
 	/*** Search form show more fields ***/
-	SearchFormMode.init();
+	SearchFormMode.init({
+			callback: {
+				onShow: function() {
+					$("#input-search-keywords-cc").suggesterRefresh();
+				},
+				onHide: function() {}
+			}
+	});
+	
+	
 	SearchCriteria.init();
 	
 	//Search form - init select court & division
@@ -36,7 +45,7 @@ var jsInitInJudgmentSearch = function() {
 		fieldGroups: [{filterField: "radio-court-common", container: "#common-court-fields"}],
 		
 		filters: [{button: ".judge", searchfield: "#input-search-judge", filterfield: "filter-judge"},
-		           {button: ".keyword", searchfield: "#input-search-keywords", filterfield: "filter-keyword", selectFormType: "#radio-court-common"},
+		           {button: ".keyword", searchfield: "#input-search-keywords-cc", filterfield: "filter-keyword", selectFormType: "#radio-court-common"},
 		           {button: ".judgment-type", searchfield: "[name='judgmentTypes']", filterfield: "filter-judgment-type"},
 		           {button: ".date", searchfield: "#datepicker_from, #datepicker_to", filterfield: "filter-judgment-date-from"},
 				   {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court", selectFormType: "#radio-court-common"},
@@ -53,9 +62,9 @@ var jsInitInJudgmentSearch = function() {
 	
 	
 	ChangeCourtType.run({
-		fields: [{fields: "#all-fields", button: "#radio-all"},
-		          {fields: "#common-court-fields", button: "#radio-court-common"},
-		          {fields: "#supreme-court-fields", button: "#radio-court-supreme"}],
+		fields: [{fields: "#all-fields", button: "#radio-all", onChangeCallback: function() {}},
+		          {fields: "#common-court-fields", button: "#radio-court-common", onChangeCallback: function() {$("#input-search-keywords-cc").suggesterRefresh();}},
+		          {fields: "#supreme-court-fields", button: "#radio-court-supreme", onChangeCallback: function() {}}],
 		          
 		fieldsContainer: ".fields-container",
 		radioName: "courtType",
@@ -76,12 +85,21 @@ var jsInitInJudgmentSearch = function() {
 	/* Search form view.
 	 * Autocompletion added to search field CommonCourtKeywords.
 	 */
-    $("#input-search-keywords")
-    	.autoCompletionSuggester({
-    		getUrl: function(id) {
+    $("#input-search-keywords-cc")
+    	.suggester({
+    		boxyMode: {
+    			enabled: true,
+    			placeholder: springMessage.judgmentSearchFormFieldKeywordsPlaceholder
+    		},
+    		
+    		url: function(id) {
     			return contextPath + "/keywords/COMMON/{id}".replace("{id}", id);
-    		} 
+    		},
+    		getValue: function(element) {
+    			return element.phrase;
+    		}
     	});
+    
     
 }
  

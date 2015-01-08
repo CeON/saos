@@ -5,5 +5,7 @@
 
 <saosSearch:courtSelect items="${commonCourtDivisions}" selectedItem="${judgmentCriteriaForm.commonCourtDivisionId}" path="commonCourtDivisionId" id="select-common-division" labelName="select-common-division" labelText="judgmentSearch.formField.commonDivision" />
 
-<saos:formFieldText path="keywords" labelName="input-search-keywords" labelText="judgmentSearch.formField.keywords" />
+<saos:formFieldText path="keywords" labelName="input-search-keywords-cc" labelText="judgmentSearch.formField.keywords" />
+
+
 

@@ -90,6 +90,18 @@ var SearchFilters = (function(){
 										}
 									});
 								};
+							} else if($searchFormField.is("input:hidden")) {
+								return function() {
+									selectFormType($selectFormType);
+									
+									if ($searchFormField.val() === "") {
+										$searchFormField.val(filterValue).change();
+									} else {
+										$searchFormField.val($searchFormField.val() + ", " + filterValue).change();
+									}
+									
+									submitForm();
+								};	
 							} else if($searchFormField.is("input")) {
 								return function() {
 									selectFormType($selectFormType);
@@ -202,22 +214,23 @@ var SearchFilters = (function(){
 	/* Create buttons for target filter, clicking on it removes filter */
 	createRemoveFilterButtons = function() {
 		$("." + filterItemClass).each(function() {
-			var $filterItem = $(this);
+			var $filterItem = $(this),
+				filterItemValue = $filterItem.text().trim();
 			
-			if ($filterItem.text().trim() !== "") {
+			if (filterItemValue !== "") {
 				var $removeFilterButton = $(removeButtonBaseShape),
 					assignedFieldValue = $filterItem.attr(assignedField),
 					$assignedFieldId = $("#" + assignedFieldValue);
 				
 				if ($assignedFieldId.is("select")) {
-					var selectedItemValue = $assignedFieldId.find("[value='" + $filterItem.text().trim() + "']").text();
+					var selectedItemValue = $assignedFieldId.find("[value='" + filterItemValue + "']").text();
 					
 					$filterItem.find("div").text(selectedItemValue);
 				}
 				
 				$removeFilterButton.click(function() {
 					clearFilterGroup(assignedFieldValue);
-					clearField($assignedFieldId);
+					clearField($assignedFieldId, filterItemValue);
 					$filterItem.remove();
 					submitForm();
 				})
@@ -245,9 +258,17 @@ var SearchFilters = (function(){
 	},
 	
 	/* Clear target field e.g. input select */
-	clearField = function($field) {
-		
-		if ($field.is("input:checkbox")) {
+	clearField = function($field, filterValue) {
+
+		if ($field.is("input:hidden")) {
+			var value = $field.attr("value")
+			
+			value = value.replace(filterValue + " ,", "");
+			value = value.replace(filterValue, "");
+			
+			$field.attr("value", value);
+			
+		} else if ($field.is("input:checkbox")) {
 			$field.prop("checked", false);
 		} else if ($field.is("input")) {
 			$field.attr("value", "");

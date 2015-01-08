@@ -12,33 +12,51 @@ var SearchFormMode = {
 	
 	easing: "linear",
 
-	init: function() {
-		SearchFormMode.assign();
+	/* Initialize parameters
+	 * @param source configuration parameters(json):
+	 * 	- callback - function that is exetued after showing/hiding form
+	 * 		- onShow - function that is excuted when show animation is finished
+	 * 		- onHide - function that is excuted when hide animation is finished 
+	 */
+	init: function(source) {
+		SearchFormMode.assign(source);
 	},
 
-	assign: function() {
+	
+	/* Assign function show/hide to button
+	 * @param source configuration parameters
+	 */
+	assign: function(source) {
 		SearchFormMode.getButtonMore().on("click", function() {
-			SearchFormMode.show();
+			SearchFormMode.show(source.callback.onShow);
 	    });
 		
 		SearchFormMode.getButtonLess().on("click", function() {
-			SearchFormMode.hide();
+			SearchFormMode.hide(source.callback.onHide);
 	    });
 	},
 
-	show: function() {		
+	/* Show advanced mode of form.
+	 * @param callback - function invoked when show animation ends
+	 */
+	show: function(callback) {	
 		SearchFormMode.hideButton(SearchFormMode.getButtonMore());
 		
 		SearchFormMode.getForm().slideDown({easing: SearchFormMode.easing, complete: function() {
 			SearchFormMode.showButton(SearchFormMode.getButtonLess());
+			callback();
 		} });
 	},
 	
-	hide: function() {
+	/* Hide advanced mode of form.
+	 * @param callback - function invoked when hide animation ends
+	 */
+	hide: function(callback) {
 		SearchFormMode.hideButton(SearchFormMode.getButtonLess());
 
 		SearchFormMode.getForm().slideUp({easing: SearchFormMode.easing, complete: function() {
 			SearchFormMode.showButton(SearchFormMode.getButtonMore());
+			callback();
 		} });
 	},
 	

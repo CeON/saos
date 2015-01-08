@@ -4,6 +4,8 @@
    
 <%@include file="/WEB-INF/view/common/cssFonts.jsp"%>
    
+<%@ include file="../view/common/javaScriptGlobalVariables.jsp" %>   
+   
 <c:choose>
 	<c:when test="${webappDistribution == 'development'}" >
 		<%@include file="/WEB-INF/view/common/javaScriptInitDev.jsp"%>

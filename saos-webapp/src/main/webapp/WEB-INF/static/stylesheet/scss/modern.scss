@@ -910,5 +910,9 @@ form.search {
 	display: none;
 }
 
-@import "_suggester.scss";
+#radio-court-constitutional_tribunal, label[for="radio-court-constitutional_tribunal"] {
+	display: none;
+}
+
+
 
