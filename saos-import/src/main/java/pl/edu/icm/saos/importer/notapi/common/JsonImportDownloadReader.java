@@ -14,7 +14,7 @@ import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import pl.edu.icm.saos.common.json.JsonUtils;
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.importer.common.ImportException;
 
 import com.fasterxml.jackson.core.JsonFactory;
@@ -32,7 +32,7 @@ public class JsonImportDownloadReader implements ItemStreamReader<String> {
     
     private ImportFileUtils importFileUtils;
     
-    private JsonUtils jsonUtils;
+    private JsonFormatter jsonFormatter;
     
     private JsonFactory jsonFactory;
     
@@ -75,7 +75,7 @@ public class JsonImportDownloadReader implements ItemStreamReader<String> {
         
         if (jsonToken != null) {
         
-            String judgment = jsonUtils.formatCurrentTokenTree(jsonParser);
+            String judgment = jsonFormatter.formatCurrentTokenTree(jsonParser);
             
             if (judgment != null) {
                 
@@ -154,8 +154,8 @@ public class JsonImportDownloadReader implements ItemStreamReader<String> {
     }
 
     @Autowired
-    public void setJsonUtils(JsonUtils jsonUtils) {
-        this.jsonUtils = jsonUtils;
+    public void setJsonFormatter(JsonFormatter jsonFormatter) {
+        this.jsonFormatter = jsonFormatter;
     }
 
     @Autowired

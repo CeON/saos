@@ -20,7 +20,7 @@ import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import org.springframework.batch.item.ExecutionContext;
 
-import pl.edu.icm.saos.common.json.JsonUtils;
+import pl.edu.icm.saos.common.json.JsonFormatter;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -39,7 +39,7 @@ public class JsonImportDownloadReaderTest {
     
     private JsonFactory jsonFactory = mock(JsonFactory.class);
     
-    private JsonUtils jsonUtils = mock(JsonUtils.class);
+    private JsonFormatter jsonFormatter = mock(JsonFormatter.class);
     
     private String importDir = "/path/to/files/";
     
@@ -54,7 +54,7 @@ public class JsonImportDownloadReaderTest {
         
         jsonImportDownloadReader.setJsonFactory(jsonFactory);
         
-        jsonImportDownloadReader.setJsonUtils(jsonUtils);
+        jsonImportDownloadReader.setJsonFormatter(jsonFormatter);
         
     }
     
@@ -139,7 +139,7 @@ public class JsonImportDownloadReaderTest {
         when(importFileUtils.getReader(Mockito.eq(currentFile))).thenReturn(fileReader);
         when(jsonFactory.createParser(Mockito.eq(fileReader))).thenReturn(jsonParser);
         when(jsonParser.nextToken()).thenReturn(JsonToken.START_ARRAY, JsonToken.START_OBJECT);
-        when(jsonUtils.formatCurrentTokenTree(Mockito.eq(jsonParser))).thenReturn(nextJudgment);
+        when(jsonFormatter.formatCurrentTokenTree(Mockito.eq(jsonParser))).thenReturn(nextJudgment);
         
         resetDownloadReaderInternal(currentFile, null, null, importFiles);
         
@@ -153,7 +153,7 @@ public class JsonImportDownloadReaderTest {
         
         verify(importFileUtils).getReader(Mockito.eq(currentFile));
         verify(jsonFactory).createParser(Mockito.eq(fileReader));
-        verify(jsonUtils).formatCurrentTokenTree(Mockito.eq(jsonParser));
+        verify(jsonFormatter).formatCurrentTokenTree(Mockito.eq(jsonParser));
         
         assertDownloadReaderState(currentFile, fileReader, jsonParser, importFiles.get(0));
         
@@ -185,7 +185,7 @@ public class JsonImportDownloadReaderTest {
         when(importFileUtils.getReader(Mockito.eq(currentFile2Loop))).thenReturn(fileReader2Loop);
         when(jsonFactory.createParser(Mockito.eq(fileReader2Loop))).thenReturn(jsonParser2Loop);
         when(jsonParser2Loop.nextToken()).thenReturn(JsonToken.START_OBJECT);
-        when(jsonUtils.formatCurrentTokenTree(jsonParser2Loop)).thenReturn(judgment2Loop);
+        when(jsonFormatter.formatCurrentTokenTree(jsonParser2Loop)).thenReturn(judgment2Loop);
         
         
         // execute
@@ -203,7 +203,7 @@ public class JsonImportDownloadReaderTest {
         
         verify(jsonParser).nextToken();
         verify(jsonParser2Loop).nextToken();
-        verify(jsonUtils).formatCurrentTokenTree(jsonParser2Loop);
+        verify(jsonFormatter).formatCurrentTokenTree(jsonParser2Loop);
         
         assertDownloadReaderState(currentFile2Loop, fileReader2Loop, jsonParser2Loop);
         

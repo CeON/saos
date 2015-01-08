@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.notapi.common.StringItemImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
@@ -35,8 +35,8 @@ public class ConstitutionalTribunalImportConfiguration {
     //------------------------ BEANS --------------------------
     
     @Bean
-    public JsonItemParser<SourceCtJudgment> sourceCtJudgmentParser() {
-        JsonItemParser<SourceCtJudgment> sourceCtJudgmentParser = new JsonItemParser<>(SourceCtJudgment.class);
+    public JsonStringParser<SourceCtJudgment> sourceCtJudgmentParser() {
+        JsonStringParser<SourceCtJudgment> sourceCtJudgmentParser = new JsonStringParser<>(SourceCtJudgment.class);
         sourceCtJudgmentParser.setCommonValidator(commonValidator);
         sourceCtJudgmentParser.setJsonFactory(jsonFactory);
         return sourceCtJudgmentParser;

@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.Source;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
@@ -30,7 +30,7 @@ public class RawSourceCtJudgmentParserTest {
     private RawSourceCtJudgmentParser rawSourceCtJudgmentParser = new  RawSourceCtJudgmentParser();
     
     @Mock
-    private JsonItemParser<SourceCtJudgment> sourceCtJudgmentParser;
+    private JsonStringParser<SourceCtJudgment> sourceCtJudgmentParser;
     
     
     @Before

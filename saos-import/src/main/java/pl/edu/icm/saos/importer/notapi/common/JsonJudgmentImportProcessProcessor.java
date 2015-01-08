@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
@@ -28,7 +28,7 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
     private Logger log = LoggerFactory.getLogger(JsonJudgmentImportProcessProcessor.class);
     
     
-    private JsonItemParser<S> sourceJudgmentParser;
+    private JsonStringParser<S> sourceJudgmentParser;
     
     private JudgmentConverter<J, S> sourceJudgmentConverter;
     
@@ -98,7 +98,7 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
 
     //------------------------ SETTERS --------------------------
     
-    public void setSourceJudgmentParser(JsonItemParser<S> sourceJudgmentParser) {
+    public void setSourceJudgmentParser(JsonStringParser<S> sourceJudgmentParser) {
         this.sourceJudgmentParser = sourceJudgmentParser;
     }
 

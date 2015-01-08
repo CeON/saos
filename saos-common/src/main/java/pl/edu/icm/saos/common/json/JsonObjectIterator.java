@@ -7,17 +7,16 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
-import com.fasterxml.jackson.databind.node.NullNode;
 import com.google.common.base.Preconditions;
 
 /**
- * Json utilities
+ * Contains methods facilitating iterating over the json content. 
+ * 
  * @author Łukasz Dumiszewski
  */
 @Service
-public class JsonUtils {
+public class JsonObjectIterator {
 
     
     /**  
@@ -71,25 +70,7 @@ public class JsonUtils {
     
     }
     
-    
-    /**
-     * Formats the current token. Invokes {@link JsonParser#readValueAsTree()}<br/>
-     * Returns null if {@link JsonParser#readValueAsTree()} returns {@link NullNode}
-     * @throws JsonParseException if the current token is not a valid json
-     * @throws IOException in case of I/O Error
-     */
-    public String formatCurrentTokenTree(JsonParser jsonParser) throws IOException {
-
-        TreeNode node = jsonParser.readValueAsTree();
-        
-        if (node instanceof NullNode) {
-            return null;
-        }
-        
-        return node.toString();
-    
-    } 
-    
+      
     
     /**
      * Does the given jsonToken indicate the start of json object or array?

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverterImpl;
@@ -61,8 +61,8 @@ public class SupremeCourtImportConfiguration {
 
     
     @Bean
-    public JsonItemParser<SourceScJudgment> sourceScJudgmentParser() {
-        JsonItemParser<SourceScJudgment> sourceScJudgmentParser = new JsonItemParser<>(SourceScJudgment.class);
+    public JsonStringParser<SourceScJudgment> sourceScJudgmentParser() {
+        JsonStringParser<SourceScJudgment> sourceScJudgmentParser = new JsonStringParser<>(SourceScJudgment.class);
         sourceScJudgmentParser.setCommonValidator(commonValidator);
         sourceScJudgmentParser.setJsonFactory(jsonFactory);
         return sourceScJudgmentParser;

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.enrichment.upload.EnrichmentTagItem;
 
@@ -42,8 +42,8 @@ public class EnrichmentConfiguration {
     
         
     @Bean
-    public JsonItemParser<EnrichmentTagItem> enrichmentTagItemParser() {
-        JsonItemParser<EnrichmentTagItem> enrichmentTagItemParser = new JsonItemParser<>(EnrichmentTagItem.class);
+    public JsonStringParser<EnrichmentTagItem> enrichmentTagItemParser() {
+        JsonStringParser<EnrichmentTagItem> enrichmentTagItemParser = new JsonStringParser<>(EnrichmentTagItem.class);
         enrichmentTagItemParser.setCommonValidator(commonValidator);
         enrichmentTagItemParser.setJsonFactory(jsonFactory);
         return enrichmentTagItemParser;

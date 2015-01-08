@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
@@ -39,7 +39,7 @@ public class JsonJudgmentImportProcessProcessorTest {
     
     // services
     
-    @Mock private JsonItemParser<SourceScJudgment> sourceScJudgmentParser;
+    @Mock private JsonStringParser<SourceScJudgment> sourceScJudgmentParser;
     
     @Mock private JudgmentConverter<SupremeCourtJudgment, SourceScJudgment> sourceScJudgmentConverter;
     
