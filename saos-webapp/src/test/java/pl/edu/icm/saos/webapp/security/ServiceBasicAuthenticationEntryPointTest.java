@@ -21,7 +21,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.core.AuthenticationException;
 
-import pl.edu.icm.saos.common.service.ServiceExecutionStatus;
 import pl.edu.icm.saos.common.service.ServiceResponse;
 import pl.edu.icm.saos.common.service.ServiceResponseFactory;
 
@@ -85,8 +84,8 @@ public class ServiceBasicAuthenticationEntryPointTest {
         
         verify(messageConverter).write(serviceResponseArg.capture(), Mockito.eq(MediaType.APPLICATION_JSON), servletServerHttpResponseArg.capture());
         
-        assertEquals(ServiceExecutionStatus.ERROR, serviceResponseArg.getValue().getStatus());
-        assertEquals(ServiceResponseFactory.createErrorResponse(mainMessage, authExceptionMessage).getMessage(), serviceResponseArg.getValue().getMessage());
+        assertEquals(ServiceResponseFactory.createErrorResponse(mainMessage, authExceptionMessage), serviceResponseArg.getValue());
+        
         assertTrue(servletServerHttpResponseArg.getValue().getServletResponse() == response);
         
     }

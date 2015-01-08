@@ -17,17 +17,18 @@ public class ServiceException extends RuntimeException {
     //------------------------ CONSTRUCTORS --------------------------
     
     public ServiceException(String mainMessage, String details, Throwable cause) {
-        super(cause);
+        super(formatMessage(mainMessage, details), cause);
         this.mainMessage = mainMessage;
         this.details = details;
     }
     
     public ServiceException(String mainMessage, String details) {
+        super(formatMessage(mainMessage, details));
         this.mainMessage = mainMessage;
         this.details = details;
     }
 
-    
+        
     //------------------------ GETTERS --------------------------
     
     public String getMainMessage() {
@@ -39,5 +40,11 @@ public class ServiceException extends RuntimeException {
     }
     
     
+    //------------------------ PRIVATE --------------------------
+
+    private static String formatMessage(String mainMessage, String details) {
+        return mainMessage+":"+details;
+    }
+
     
 }
