@@ -36,6 +36,9 @@ var SearchFormMode = {
 	    });
 	},
 
+	/* Show advanced mode of form.
+	 * @param callback - function invoked when show animation ends
+	 */
 	show: function(callback) {	
 		SearchFormMode.hideButton(SearchFormMode.getButtonMore());
 		
@@ -45,6 +48,9 @@ var SearchFormMode = {
 		} });
 	},
 	
+	/* Hide advanced mode of form.
+	 * @param callback - function invoked when hide animation ends
+	 */
 	hide: function(callback) {
 		SearchFormMode.hideButton(SearchFormMode.getButtonLess());
 
