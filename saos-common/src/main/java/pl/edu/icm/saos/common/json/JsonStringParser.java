@@ -17,7 +17,7 @@ import com.fasterxml.jackson.core.JsonParser.Feature;
  * @author Łukasz Dumiszewski
  */
 
-public class JsonItemParser<T> {
+public class JsonStringParser<T> {
     
     private final Class<T> type;
     
@@ -28,7 +28,7 @@ public class JsonItemParser<T> {
     
     //------------------------ CONSTRUCTORS --------------------------
     
-    public JsonItemParser(Class<T> type) {
+    public JsonStringParser(Class<T> type) {
         super();
         this.type = type;
     }

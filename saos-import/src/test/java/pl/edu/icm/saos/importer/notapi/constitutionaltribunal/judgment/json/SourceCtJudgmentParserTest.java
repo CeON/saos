@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.Source;
@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
 @RunWith(MockitoJUnitRunner.class)
 public class SourceCtJudgmentParserTest {
 
-    private JsonItemParser<SourceCtJudgment> sourceScJudgmentParser = new JsonItemParser<>(SourceCtJudgment.class);
+    private JsonStringParser<SourceCtJudgment> sourceScJudgmentParser = new JsonStringParser<>(SourceCtJudgment.class);
     
     @Mock
     private CommonValidator commonValidator;

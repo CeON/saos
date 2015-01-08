@@ -24,7 +24,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import pl.edu.icm.saos.common.json.JsonUtils;
+import pl.edu.icm.saos.common.json.JsonObjectIterator;
 import pl.edu.icm.saos.common.service.ServiceException;
 import pl.edu.icm.saos.common.testcommon.ServiceExceptionMatcher;
 
@@ -48,7 +48,7 @@ public class EnrichmentTagUploadServiceTest {
     
     @Mock private JsonFactory jsonFactory;
     
-    @Mock private JsonUtils jsonUtils;
+    @Mock private JsonObjectIterator jsonObjectIterator;
     
     @Mock private EnrichmentTagItemUploadProcessor enrichmentTagItemUploadProcessor;
     
@@ -63,7 +63,7 @@ public class EnrichmentTagUploadServiceTest {
         
         enrichmentTagUploadService.setJsonFactory(jsonFactory);
         
-        enrichmentTagUploadService.setJsonUtils(jsonUtils);
+        enrichmentTagUploadService.setJsonObjectIterator(jsonObjectIterator);
         
         enrichmentTagUploadService.setEnrichmentTagItemUploadProcessor(enrichmentTagItemUploadProcessor);
         
@@ -85,7 +85,7 @@ public class EnrichmentTagUploadServiceTest {
         
         when(jsonFactory.createParser(Mockito.any(InputStream.class))).thenReturn(jsonParser);
         when(jsonParser.nextToken()).thenReturn(JsonToken.START_ARRAY);
-        when(jsonUtils.nextJsonObject(jsonParser, EnrichmentTagItem.class)).thenReturn(enrichmentTagItem, (EnrichmentTagItem)null);
+        when(jsonObjectIterator.nextJsonObject(jsonParser, EnrichmentTagItem.class)).thenReturn(enrichmentTagItem, (EnrichmentTagItem)null);
         
         
         // execute
@@ -162,7 +162,7 @@ public class EnrichmentTagUploadServiceTest {
         
         when(jsonFactory.createParser(Mockito.any(InputStream.class))).thenReturn(jsonParser);
         when(jsonParser.nextToken()).thenReturn(JsonToken.START_ARRAY);
-        when(jsonUtils.nextJsonObject(jsonParser, EnrichmentTagItem.class)).thenReturn(enrichmentTagItem, (EnrichmentTagItem)null);
+        when(jsonObjectIterator.nextJsonObject(jsonParser, EnrichmentTagItem.class)).thenReturn(enrichmentTagItem, (EnrichmentTagItem)null);
         Mockito.doThrow(DataIntegrityViolationException.class).when(enrichmentTagItemUploadProcessor).processEnrichmentTagItem(enrichmentTagItem);;
         
         
@@ -187,7 +187,7 @@ public class EnrichmentTagUploadServiceTest {
         
         when(jsonFactory.createParser(Mockito.any(InputStream.class))).thenReturn(jsonParser);
         when(jsonParser.nextToken()).thenReturn(JsonToken.START_ARRAY);
-        when(jsonUtils.nextJsonObject(jsonParser, EnrichmentTagItem.class)).thenReturn(enrichmentTagItem, (EnrichmentTagItem)null);
+        when(jsonObjectIterator.nextJsonObject(jsonParser, EnrichmentTagItem.class)).thenReturn(enrichmentTagItem, (EnrichmentTagItem)null);
             
         Mockito.doThrow(ValidationException.class).when(enrichmentTagItemUploadProcessor).processEnrichmentTagItem(enrichmentTagItem);
         

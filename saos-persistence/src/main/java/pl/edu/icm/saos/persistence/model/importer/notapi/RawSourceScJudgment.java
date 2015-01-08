@@ -1,11 +1,8 @@
 package pl.edu.icm.saos.persistence.model.importer.notapi;
 
 import javax.persistence.Cacheable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import pl.edu.icm.saos.persistence.common.ColumnDefinitionConst;
 
 
 /**
@@ -20,28 +17,6 @@ import pl.edu.icm.saos.persistence.common.ColumnDefinitionConst;
 @Cacheable(true)
 public class RawSourceScJudgment extends JsonRawSourceJudgment {
     
-    private boolean multiChambers;
-    
-      
-    
-    //------------------------ GETTERS --------------------------
-
-    /**
-     * Returns true if there are more than one supreme court chamber assigned to this judgment. </br>
-     */
-    @Column(columnDefinition=ColumnDefinitionConst.BOOLEAN_NOT_NULL_DEFUALT_FALSE)
-    public boolean isMultiChambers() {
-        return multiChambers;
-    }
-
-    
-    //------------------------ SETTERS --------------------------
-    
-
-    public void setMultiChambers(boolean multiChambers) {
-        this.multiChambers = multiChambers;
-    }
-   
     
     
     //------------------------ HashCode & Equals --------------------------

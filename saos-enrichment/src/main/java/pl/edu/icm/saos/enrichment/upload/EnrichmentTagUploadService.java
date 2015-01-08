@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.common.json.JsonUtils;
+import pl.edu.icm.saos.common.json.JsonObjectIterator;
 import pl.edu.icm.saos.common.service.ServiceException;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 
@@ -33,7 +33,7 @@ public class EnrichmentTagUploadService {
     
     private JsonFactory jsonFactory;
     
-    private JsonUtils jsonUtils;
+    private JsonObjectIterator jsonObjectIterator;
     
     private EnrichmentTagItemUploadProcessor enrichmentTagItemUploadProcessor;
     
@@ -66,7 +66,7 @@ public class EnrichmentTagUploadService {
                 
                 do {
                 
-                    enrichmentTagItem = jsonUtils.nextJsonObject(jsonParser, EnrichmentTagItem.class);
+                    enrichmentTagItem = jsonObjectIterator.nextJsonObject(jsonParser, EnrichmentTagItem.class);
                     
                     if (enrichmentTagItem == null) {
                         
@@ -145,8 +145,8 @@ public class EnrichmentTagUploadService {
     }
 
     @Autowired
-    public void setJsonUtils(JsonUtils jsonUtils) {
-        this.jsonUtils = jsonUtils;
+    public void setJsonObjectIterator(JsonObjectIterator jsonObjectIterator) {
+        this.jsonObjectIterator = jsonObjectIterator;
     }
 
     

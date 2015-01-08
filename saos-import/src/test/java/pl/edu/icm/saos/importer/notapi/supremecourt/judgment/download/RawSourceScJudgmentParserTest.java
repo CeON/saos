@@ -12,7 +12,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.Source;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
@@ -28,7 +28,7 @@ public class RawSourceScJudgmentParserTest {
 
     private RawSourceScJudgmentParser simpleRawSourceScJudgmentParser = new RawSourceScJudgmentParser();
     
-    @Mock private JsonItemParser<SourceScJudgment> sourceScJudgmentParser;
+    @Mock private JsonStringParser<SourceScJudgment> sourceScJudgmentParser;
     
     
     @Before
@@ -66,7 +66,6 @@ public class RawSourceScJudgmentParserTest {
         // assert
         assertEquals(jsonContent, rawSourceJudgment.getJsonContent());
         assertEquals(source.getSourceJudgmentId(), rawSourceJudgment.getSourceId());
-        assertEquals(true, rawSourceJudgment.isMultiChambers());
         assertNull(rawSourceJudgment.getProcessingDate());
         assertFalse(rawSourceJudgment.isProcessed());
         

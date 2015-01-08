@@ -3,7 +3,7 @@ package pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.download
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.importer.notapi.common.RawSourceJudgmentParser;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 public class RawSourceCtJudgmentParser implements RawSourceJudgmentParser<RawSourceCtJudgment> {
 
     @Autowired
-    private JsonItemParser<SourceCtJudgment> sourceCtJudgmentParser;
+    private JsonStringParser<SourceCtJudgment> sourceCtJudgmentParser;
     
     
     //------------------------ LOGIC --------------------------
@@ -38,7 +38,7 @@ public class RawSourceCtJudgmentParser implements RawSourceJudgmentParser<RawSou
     
     @Autowired
     public void setSourceCtJudgmentParser(
-            JsonItemParser<SourceCtJudgment> sourceCtJudgmentParser) {
+            JsonStringParser<SourceCtJudgment> sourceCtJudgmentParser) {
         this.sourceCtJudgmentParser = sourceCtJudgmentParser;
     }
 }

@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.mockito.MockitoAnnotations;
 
 import pl.edu.icm.saos.common.json.JsonNormalizer;
-import pl.edu.icm.saos.common.json.JsonUtils;
+import pl.edu.icm.saos.common.json.JsonObjectIterator;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
 public class JsonUtilsNextEnrichmentTagItemTest {
 
     
-    private JsonUtils jsonUtils = new JsonUtils();
+    private JsonObjectIterator jsonUtils = new JsonObjectIterator();
     
     private JsonParser jsonParser;
     

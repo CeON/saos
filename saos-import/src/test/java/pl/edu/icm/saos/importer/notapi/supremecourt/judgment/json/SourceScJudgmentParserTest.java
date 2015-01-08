@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import pl.edu.icm.saos.common.json.JsonItemParser;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
 public class SourceScJudgmentParserTest {
 
     
-    private JsonItemParser<SourceScJudgment> sourceScJudgmentParser = new JsonItemParser<>(SourceScJudgment.class);
+    private JsonStringParser<SourceScJudgment> sourceScJudgmentParser = new JsonStringParser<>(SourceScJudgment.class);
     
     @Mock
     private ImportDateTimeFormatter dateTimeFormatter;

@@ -25,10 +25,10 @@ import com.fasterxml.jackson.core.JsonParser.Feature;
  * @author Łukasz Dumiszewski
  */
 
-public class JsonItemParserTest {
+public class JsonStringParserTest {
 
     
-    private JsonItemParser<String> jsonItemParser = new JsonItemParser<>(String.class);
+    private JsonStringParser<String> jsonStringParser = new JsonStringParser<>(String.class);
  
     @Mock private CommonValidator commonValidator;
     
@@ -44,9 +44,9 @@ public class JsonItemParserTest {
         
         initMocks(this);
         
-        jsonItemParser.setCommonValidator(commonValidator);
+        jsonStringParser.setCommonValidator(commonValidator);
         
-        jsonItemParser.setJsonFactory(jsonFactory);
+        jsonStringParser.setJsonFactory(jsonFactory);
         
         
         
@@ -68,7 +68,7 @@ public class JsonItemParserTest {
         
         // execute
         
-        String retValue = jsonItemParser.parseAndValidate(jsonContent);
+        String retValue = jsonStringParser.parseAndValidate(jsonContent);
         
         
         // assert
@@ -93,7 +93,7 @@ public class JsonItemParserTest {
         
         // execute
         
-        jsonItemParser.parseAndValidate(jsonContent);
+        jsonStringParser.parseAndValidate(jsonContent);
         
        
     }
@@ -113,7 +113,7 @@ public class JsonItemParserTest {
         
         // execute
         
-        jsonItemParser.parseAndValidate(jsonContent);
+        jsonStringParser.parseAndValidate(jsonContent);
         
        
     }

@@ -25,12 +25,12 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
  * @author Łukasz Dumiszewski
  */
 
-public class JsonUtilsTest {
+public class JsonObjectIteratorTest {
 
     
     private JsonFactory jsonFactory = new MappingJsonFactory();
     
-    private JsonUtils jsonUtils = new JsonUtils();
+    private JsonObjectIterator jsonObjectIterator = new JsonObjectIterator();
     
         
     @Before
@@ -48,7 +48,7 @@ public class JsonUtilsTest {
         
         
         // Execute
-        JsonItem jsonItem = jsonUtils.nextJsonObject(jsonParser, JsonItem.class);
+        JsonItem jsonItem = jsonObjectIterator.nextJsonObject(jsonParser, JsonItem.class);
 
         // Assert
         assertNotNull(jsonItem);
@@ -57,7 +57,7 @@ public class JsonUtilsTest {
         
         
         // Execute 2
-        assertNull(jsonUtils.nextJsonObject(jsonParser, JsonItem.class));
+        assertNull(jsonObjectIterator.nextJsonObject(jsonParser, JsonItem.class));
     }
     
     
@@ -74,7 +74,7 @@ public class JsonUtilsTest {
         
         
         // Execute
-        JsonToken jsonToken = jsonUtils.nextJsonObject(jsonParser);
+        JsonToken jsonToken = jsonObjectIterator.nextJsonObject(jsonParser);
         
         // Assert
         assertEquals(content, jsonParser.readValueAsTree().toString());
@@ -82,7 +82,7 @@ public class JsonUtilsTest {
         
         
         // Execute 2. time
-        jsonToken = jsonUtils.nextJsonObject(jsonParser);
+        jsonToken = jsonObjectIterator.nextJsonObject(jsonParser);
         
         // Assert
         assertNull(jsonToken);
@@ -106,7 +106,7 @@ public class JsonUtilsTest {
         jsonParser.nextToken(); // object - element1
         
         // Execute
-        JsonToken jsonToken = jsonUtils.nextJsonObject(jsonParser);  // fieldName (of element1) is a simple token not object
+        JsonToken jsonToken = jsonObjectIterator.nextJsonObject(jsonParser);  // fieldName (of element1) is a simple token not object
         
         // Assert
         assertNull(jsonToken);
@@ -127,7 +127,7 @@ public class JsonUtilsTest {
         
         
         // Execute
-        JsonToken jsonToken = jsonUtils.nextJsonObject(jsonParser);
+        JsonToken jsonToken = jsonObjectIterator.nextJsonObject(jsonParser);
 
         // Assert
         assertNotNull(jsonToken);
@@ -135,55 +135,10 @@ public class JsonUtilsTest {
         
         
         // Execute 2
-        assertNull(jsonUtils.nextJsonObject(jsonParser));
+        assertNull(jsonObjectIterator.nextJsonObject(jsonParser));
     }
     
     
-    @Test
-    public void formatCurrentTokenTree() throws JsonParseException, IOException {
-        
-        // Given
-        
-        String element1 = normalizeJson("{bre: 'sss', arr: ['1112', 'abc']}");
-        
-        JsonParser jsonParser = jsonFactory.createParser(element1);
-        
-        jsonParser.nextToken();
-        
-        // Execute
-        
-        String formattedJsonToken = jsonUtils.formatCurrentTokenTree(jsonParser); 
-        
-        // Assert
-        
-        assertEquals(element1, formattedJsonToken);
-        
-        
-     
-    }
-    
-    
-    @Test
-    public void formatCurrentTokenTree_NullNodeAsNull() throws JsonParseException, IOException {
-        
-        // Given
-        
-        String element1 = normalizeJson("{bre: 'sss'}");
-        
-        JsonParser jsonParser = jsonFactory.createParser(element1);
-        
-        jsonParser.nextToken();
-        jsonParser.nextToken();
-        jsonParser.nextToken();
-        jsonParser.nextToken();
-        
-        // Execute & Assert
-        
-        assertNull(jsonUtils.formatCurrentTokenTree(jsonParser)); 
-        
-        
-     
-    }
     
     @Test
     public void isJsonObject_jsonObject() throws JsonParseException, IOException {
@@ -198,7 +153,7 @@ public class JsonUtilsTest {
         
         // Execute & Assert
         
-        assertTrue(jsonUtils.isJsonObject(jsonToken)); 
+        assertTrue(jsonObjectIterator.isJsonObject(jsonToken)); 
         
      
     }
@@ -217,7 +172,7 @@ public class JsonUtilsTest {
         
         // Execute & Assert
         
-        assertTrue(jsonUtils.isJsonObject(jsonToken)); 
+        assertTrue(jsonObjectIterator.isJsonObject(jsonToken)); 
         
      
     }
@@ -237,7 +192,7 @@ public class JsonUtilsTest {
         
         // Execute & Assert
         
-        assertFalse(jsonUtils.isJsonObject(jsonToken)); 
+        assertFalse(jsonObjectIterator.isJsonObject(jsonToken)); 
         
      
     }
