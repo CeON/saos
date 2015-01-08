@@ -20,7 +20,7 @@
  <c:set var="resultsListClass" value="" />
  <c:if test="${showFilterBox == 'false'}" >
  	<c:set var="resultsListClass" value="width-full" />
- </c:if>
+ </c:if> 
 
 <script>
 $(document).ready(function() {
