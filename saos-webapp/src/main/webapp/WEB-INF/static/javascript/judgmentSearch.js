@@ -89,7 +89,7 @@ var jsInitInJudgmentSearch = function() {
     	.suggester({
     		boxyMode: {
     			enabled: true,
-    			placeholder: springMessage.keywords
+    			placeholder: springMessage.judgmentSearchFormFieldKeywordsPlaceholder
     		},
     		
     		url: function(id) {

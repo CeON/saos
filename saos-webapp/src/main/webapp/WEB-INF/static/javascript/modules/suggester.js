@@ -78,7 +78,7 @@ var Suggester = (function() {
         	if (typeof source.getValue === "function") {
         		getValue[fieldId] = source.getValue;
         	} else {
-        		getUrl[fieldId] = function(value) { return value; };
+        		getValue[fieldId] = function(value) { return value; };
         	}
         }
         
@@ -512,7 +512,7 @@ var Suggester = (function() {
     	$field.val(newValue);
     },
     
-    /* Convert array of strings to one string.
+    /* Converts array of strings to one string.
      * @param array 
      * @param separator   
      */
