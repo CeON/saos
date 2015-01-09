@@ -352,8 +352,13 @@ form.search {
 		}
 	}
 	
-	#advance-form {
-		display: none;
+	.advance-form {
+		background: none repeat scroll 0 0 #fff;
+	    display: none;
+	    margin: 0px 0px -8px 0px;
+	    padding: 15px 0 0;
+	    position: relative;
+	    top: -60px;
 	}
 	
 	ul {

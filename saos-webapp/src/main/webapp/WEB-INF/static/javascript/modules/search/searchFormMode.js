@@ -40,7 +40,6 @@ var SearchFormMode = {
 	 * @param callback - function invoked when show animation ends
 	 */
 	show: function(callback) {	
-		SearchFormMode.hideButton(SearchFormMode.getButtonMore());
 		
 		SearchFormMode.getForm().slideDown({easing: SearchFormMode.easing, complete: function() {
 			SearchFormMode.showButton(SearchFormMode.getButtonLess());
@@ -54,8 +53,8 @@ var SearchFormMode = {
 	hide: function(callback) {
 		SearchFormMode.hideButton(SearchFormMode.getButtonLess());
 
+		
 		SearchFormMode.getForm().slideUp({easing: SearchFormMode.easing, complete: function() {
-			SearchFormMode.showButton(SearchFormMode.getButtonMore());
 			callback();
 		} });
 	},
