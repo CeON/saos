@@ -68,6 +68,20 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
+    public void count_WITH_CLASS() {
+        // when
+        createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
+        createScJudgment(SourceCode.SUPREME_COURT, "3", "AAA3");
+        
+        // execute
+        long actualCount = judgmentRepository.count(CommonCourtJudgment.class);
+        
+        // then
+        assertEquals(2, actualCount);
+    }
+    
+    @Test
     public void findOneBySourceCodeAndSourceJudgmentId_NOT_FOUND() {
         log.info("======= findOneBySourceCodeAndSourceJudgmentId");
         Judgment ccJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, "111122");
@@ -90,7 +104,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
-    public void findOneBySourceCodeAndSourceJudgmentIdWithClass_NOT_FOUND() {
+    public void findOneBySourceCodeAndSourceJudgmentId_WITH_CLASS_NOT_FOUND() {
         // given
         SupremeCourtJudgment scJudgment = testPersistenceObjectFactory.createScJudgment();
         
@@ -103,7 +117,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
-    public void findOneBySourceCodeAndSourceJudgmentIdWithClass_FOUND() {
+    public void findOneBySourceCodeAndSourceJudgmentId_WITH_CLASS_FOUND() {
         // given
         CommonCourtJudgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
         JudgmentSourceInfo sourceInfo = ccJudgment.getSourceInfo();

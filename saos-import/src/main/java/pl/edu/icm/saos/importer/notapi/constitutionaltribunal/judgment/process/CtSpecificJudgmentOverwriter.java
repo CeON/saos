@@ -2,6 +2,8 @@ package pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process;
 
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
+
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
@@ -18,7 +20,8 @@ public class CtSpecificJudgmentOverwriter implements JudgmentOverwriter<Constitu
     @Override
     public void overwriteJudgment(ConstitutionalTribunalJudgment oldJudgment,
             ConstitutionalTribunalJudgment newJudgment, ImportCorrectionList correctionList) {
-
+        Preconditions.checkNotNull(oldJudgment);
+        Preconditions.checkNotNull(newJudgment);
         overwriteDissentingOpinions(oldJudgment, newJudgment);
 
     }
