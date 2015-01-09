@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.webapp.court;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -54,14 +56,16 @@ public class ScListControllerTest {
     @Mock
     private ScListService scListService;
     
-    
+    private int chamberId = 1; 
+    private TestCourtsFactory testCourtsFactory = new TestCourtsFactory();
+    private List<SimpleDivision> simpleDivisions = testCourtsFactory.getSimpleDivisions();
     
     
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		
-		when(scListService.findScChamberDivisions(1)).thenReturn(getTestDivisions());
+		when(scListService.findScChamberDivisions(chamberId)).thenReturn(simpleDivisions);
 		
 		mockMvc = webAppContextSetup(webApplicationCtx)
 					.build();
@@ -73,31 +77,20 @@ public class ScListControllerTest {
 	@Test
 	public void listChamberDivisions() throws Exception {
 		//when
-        ResultActions actions = mockMvc.perform(get("/sc/chambers/1/chamberDivisions/list")
+        ResultActions actions = mockMvc.perform(get("/sc/chambers/" + chamberId + "/chamberDivisions/list")
                 .accept(MediaType.APPLICATION_JSON));
                 
         
         //then
         actions
 		        .andExpect(status().isOk())
-		        .andExpect(jsonPath("$.[0].id").value("3"))
-				.andExpect(jsonPath("$.[0].name").value("Izba 3"))
-		        .andExpect(jsonPath("$.[1].id").value("4"))
-				.andExpect(jsonPath("$.[1].name").value("Izba Najwyższa"));
-                
+		        .andExpect(jsonPath("$.[0].id").value(simpleDivisions.get(0).getId()))
+				.andExpect(jsonPath("$.[0].name").value(simpleDivisions.get(0).getName()))
+		        .andExpect(jsonPath("$.[1].id").value(simpleDivisions.get(1).getId()))
+				.andExpect(jsonPath("$.[1].name").value(simpleDivisions.get(1).getName()));
+     
+        
+        verify(scListService, times(1)).findScChamberDivisions(chamberId);
 	}
-	
-	
-	//------------------------ PRIVATE --------------------------
 
-	private List<SimpleDivision> getTestDivisions() {
-		SimpleDivision divisionOne = new SimpleDivision();
-		SimpleDivision divisionTwo = new SimpleDivision();
-		divisionOne.setId("3");
-		divisionOne.setName("Izba 3");
-		divisionTwo.setId("4");
-		divisionTwo.setName("Izba Najwyższa");
-		
-		return Lists.newArrayList(divisionOne, divisionTwo);
-	}
 }

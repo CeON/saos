@@ -13,6 +13,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -63,6 +64,8 @@ import pl.edu.icm.saos.webapp.WebappTestConfiguration;
 @Category(SlowTest.class)
 public class CcListControllerTest {
 
+
+	
 	@Autowired
     private WebApplicationContext webApplicationCtx;
 	
@@ -75,14 +78,17 @@ public class CcListControllerTest {
     @Mock
     private CcListService ccListService;
     
-    
+	
+    private int commonCourtId = 1;
+    private TestCourtsFactory testCourtsFactory = new TestCourtsFactory();
+    private List<SimpleDivision> simpleDivisions = testCourtsFactory.getSimpleDivisions();
     
     
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		
-		when(ccListService.findCcDivisions(1)).thenReturn(getTestDivisions());
+		when(ccListService.findCcDivisions(commonCourtId)).thenReturn(simpleDivisions);
 		
 		mockMvc = webAppContextSetup(webApplicationCtx)
 					.build();
@@ -94,31 +100,19 @@ public class CcListControllerTest {
 	@Test
 	public void listCourtDivisions() throws Exception {
 		//when
-        ResultActions actions = mockMvc.perform(get("/cc/courts/1/courtDivisions/list")
+        ResultActions actions = mockMvc.perform(get("/cc/courts/" + commonCourtId + "/courtDivisions/list")
                 .accept(MediaType.APPLICATION_JSON));
                 
         
         //then
         actions
 		        .andExpect(status().isOk())
-		        .andExpect(jsonPath("$.[0].id").value("1"))
-				.andExpect(jsonPath("$.[0].name").value("Wydzial 1"))
-		        .andExpect(jsonPath("$.[1].id").value("23"))
-				.andExpect(jsonPath("$.[1].name").value("Wydział 23 Karny"));
+		        .andExpect(jsonPath("$.[0].id").value(simpleDivisions.get(0).getId()))
+				.andExpect(jsonPath("$.[0].name").value(simpleDivisions.get(0).getName()))
+		        .andExpect(jsonPath("$.[1].id").value(simpleDivisions.get(1).getId()))
+				.andExpect(jsonPath("$.[1].name").value(simpleDivisions.get(1).getName()));
                 
+        verify(ccListService, times(1)).findCcDivisions(commonCourtId);
 	}
-	
-	
-	//------------------------ PRIVATE --------------------------
 
-	private List<SimpleDivision> getTestDivisions() {
-		SimpleDivision divisionOne = new SimpleDivision();
-		SimpleDivision divisionTwo = new SimpleDivision();
-		divisionOne.setId("1");
-		divisionOne.setName("Wydzial 1");
-		divisionTwo.setId("23");
-		divisionTwo.setName("Wydział 23 Karny");
-		
-		return Lists.newArrayList(divisionOne, divisionTwo);
-	}
 }

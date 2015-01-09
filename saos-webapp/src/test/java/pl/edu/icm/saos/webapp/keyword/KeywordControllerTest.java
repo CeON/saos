@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.webapp.keyword;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -63,16 +65,18 @@ public class KeywordControllerTest {
     @Mock
 	private SimpleKeywordConverter simpleKeywordConverter;
     
-    
+    private List<JudgmentKeyword> testKeywords;
+    private CourtType courtType = CourtType.COMMON;
+    private String phrase = "opinia";
     
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		
-		List<JudgmentKeyword> keywords = Lists.newArrayList();
+		testKeywords = Lists.newArrayList();
 		
-		when(judgmentKeywordRepository.findAllByCourtTypeAndPhrasePart(CourtType.COMMON, "opinia")).thenReturn(keywords);
-		when(simpleKeywordConverter.convertJudgmentKeywords(keywords)).thenReturn(getTestKeywords());
+		when(judgmentKeywordRepository.findAllByCourtTypeAndPhrasePart(courtType, phrase)).thenReturn(testKeywords);
+		when(simpleKeywordConverter.convertJudgmentKeywords(testKeywords)).thenReturn(getTestKeywords());
 		
 		mockMvc = webAppContextSetup(webApplicationCtx)
 					.build();
@@ -84,7 +88,7 @@ public class KeywordControllerTest {
 	@Test
 	public void listJudgmentKeywords() throws Exception {
 		//when
-        ResultActions actions = mockMvc.perform(get("/keywords/COMMON/opinia")
+        ResultActions actions = mockMvc.perform(get("/keywords/" + courtType.toString() + "/" + phrase)
                 .accept(MediaType.APPLICATION_JSON));
                 
         
@@ -96,6 +100,8 @@ public class KeywordControllerTest {
 		        .andExpect(jsonPath("$.[1].id").value(2))
 				.andExpect(jsonPath("$.[1].phrase").value("opinia o wykroczeniu"));
                 
+        verify(judgmentKeywordRepository, times(1)).findAllByCourtTypeAndPhrasePart(courtType, phrase);
+        verify(simpleKeywordConverter, times(1)).convertJudgmentKeywords(testKeywords);
 	}
 	
 	

@@ -30,8 +30,8 @@ import pl.edu.icm.saos.webapp.judgment.PageLinkGenerator;
 public class JudgmentSearchController {
 
 	
-	@Autowired
-	private JudgmentRepository judgmentRepository;
+	//@Autowired
+	//private JudgmentRepository judgmentRepository;
 	
 	@Autowired
 	private ScJudgmentFormRepository scJudgmentFormRepository;
@@ -58,7 +58,7 @@ public class JudgmentSearchController {
 		model.addAttribute("pageable", pageable);
 		model.addAttribute("resultSearch", searchResults);
 		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
-		model.addAttribute("totalPages", JudgmentSearchResult.getTotalPageNumber(searchResults.getTotalResults(), pageable.getPageSize()));
+		//model.addAttribute("totalPages", JudgmentSearchResult.getTotalPageNumber(searchResults.getTotalResults(), pageable.getPageSize()));
 		
 		addCommonCourtsToModel(judgmentCriteriaForm, model);
 		addSupremeCourtChambersToModel(judgmentCriteriaForm, model);
