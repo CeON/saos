@@ -18,7 +18,7 @@
     		</li>
 	    </ul>
 	    
-	    <div id="advance-form">
+	    <div id="advance-form" class="advance-form" >
 	    
    			<saos:formFieldText path="signature" labelName="input-search-casenumber" labelText="judgmentSearch.formField.caseNumber" />
 
