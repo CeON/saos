@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTemp;
 
 /**
  * @author Łukasz Dumiszewski
@@ -41,14 +41,14 @@ public class EnrichmentTagItemConverterTest {
         
         // execute
         
-        EnrichmentTag enrichmentTag = converter.convertEnrichmentTagItem(tagItem);
+        EnrichmentTagTemp enrichmentTagTemp = converter.convertEnrichmentTagItem(tagItem);
         
         
         // assert
         
-        assertEquals(tagItem.getJudgmentId(), enrichmentTag.getJudgmentId());
-        assertEquals(tagItem.getTagType(), enrichmentTag.getTagType());
-        assertEquals(tagItem.getValue(), enrichmentTag.getValue());
+        assertEquals(tagItem.getJudgmentId(), enrichmentTagTemp.getJudgmentId());
+        assertEquals(tagItem.getTagType(), enrichmentTagTemp.getTagType());
+        assertEquals(tagItem.getValue(), enrichmentTagTemp.getValue());
     }
     
     
