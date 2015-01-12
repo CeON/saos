@@ -7,13 +7,13 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotBlank;
 
 import pl.edu.icm.saos.common.json.JsonObjectToStringDeserializer;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTemp;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Represents one item of the enrichment tag collection uploaded by SAOS Enricher<br/>
- * Corresponds to {@link EnrichmentTag}
+ * Corresponds to {@link EnrichmentTagTemp}
  * 
  * @author Łukasz Dumiszewski
  */

@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.json.JsonObjectIterator;
 import pl.edu.icm.saos.common.service.ServiceException;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTemp;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -45,7 +45,7 @@ public class EnrichmentTagUploadService {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Reads {@link EnrichmentTagItem}s from the passed inputStream, converts them into {@link EnrichmentTag}s
+     * Reads {@link EnrichmentTagItem}s from the passed inputStream, converts them into {@link EnrichmentTagTemp}s
      * and saves into the SAOS datasource.
      * 
      * @throws ServiceException in case of any service exception like parse error, i/o error etc. 
