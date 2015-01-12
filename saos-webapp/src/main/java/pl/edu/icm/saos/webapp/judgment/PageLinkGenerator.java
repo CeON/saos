@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class PageLinkGenerator {
 
-private static final String PAGE_NO_PARAM_NAME = "page";
+	private static final String PAGE_NO_PARAM_NAME = "page";
 
 
 	//------------------------ LOGIC --------------------------

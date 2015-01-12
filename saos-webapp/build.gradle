@@ -5,6 +5,8 @@ apply plugin: 'eclipse-wtp'
 
 dependencies {
     testCompile project(path:':saos-common', configuration:'testArtifacts')
+    testCompile project(path:':saos-persistence', configuration:'testArtifacts')
+    testCompile project(path:':saos-search', configuration:'testArtifacts')
     
     compile project(path:':saos-batch')
     compile project(path:':saos-restful-web-api')
