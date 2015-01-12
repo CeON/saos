@@ -7,7 +7,6 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.webapp.court.SimpleDivision;
 
 /**
  * 
@@ -31,17 +30,13 @@ public class TestJudgmentsFactory {
 		return ccJudgmentOne;
 	}
 	
+	/*
 	public List<CommonCourtJudgment> getCcJudgments() {
 		
 		CommonCourtJudgment ccJudgmentOne = new CommonCourtJudgment();
 		CommonCourtJudgment ccJudgmentTwo = new CommonCourtJudgment();
 		
-		//ccJudgmentOne
-		
-		
-		//ccJudgmentTwo
-		
 		return Lists.newArrayList(ccJudgmentOne, ccJudgmentTwo);
 	}
-
+	 */
 }

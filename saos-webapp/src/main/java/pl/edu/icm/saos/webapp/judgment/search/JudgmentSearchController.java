@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
@@ -30,11 +29,8 @@ import pl.edu.icm.saos.webapp.judgment.PageLinkGenerator;
 public class JudgmentSearchController {
 
 	
-	//@Autowired
-	//private JudgmentRepository judgmentRepository;
-	
 	@Autowired
-	private ScJudgmentFormRepository scJudgmentFormRepository;
+	private JudgmentWebSearchService judgmentsWebSearchService;
 	
 	@Autowired
 	private CcListService ccListService;
@@ -43,7 +39,7 @@ public class JudgmentSearchController {
 	private ScListService scListService;
 	
 	@Autowired
-	private JudgmentWebSearchService judgmentsWebSearchService;
+	private ScJudgmentFormRepository scJudgmentFormRepository;
 	
 	
 	//------------------------ LOGIC --------------------------
@@ -58,7 +54,7 @@ public class JudgmentSearchController {
 		model.addAttribute("pageable", pageable);
 		model.addAttribute("resultSearch", searchResults);
 		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
-		//model.addAttribute("totalPages", JudgmentSearchResult.getTotalPageNumber(searchResults.getTotalResults(), pageable.getPageSize()));
+		model.addAttribute("totalPages", JudgmentSearchResult.getTotalPageNumber(searchResults.getTotalResults(), pageable.getPageSize()));
 		
 		addCommonCourtsToModel(judgmentCriteriaForm, model);
 		addSupremeCourtChambersToModel(judgmentCriteriaForm, model);

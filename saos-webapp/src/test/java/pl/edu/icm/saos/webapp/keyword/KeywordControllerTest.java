@@ -1,6 +1,5 @@
 package pl.edu.icm.saos.webapp.keyword;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,9 +33,6 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.repository.JudgmentKeywordRepository;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
-import pl.edu.icm.saos.webapp.court.CcListController;
-import pl.edu.icm.saos.webapp.court.CcListService;
-import pl.edu.icm.saos.webapp.court.SimpleDivision;
 
 /**
  * 

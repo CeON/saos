@@ -1,26 +1,13 @@
 package pl.edu.icm.saos.webapp.judgment.search;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import java.util.List;
 
 import org.assertj.core.util.Lists;
@@ -30,11 +17,10 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
@@ -44,12 +30,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.common.TestObjectContext;
-import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
@@ -70,6 +53,7 @@ import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaForm;
 @ContextHierarchy({ 
 	@ContextConfiguration(classes = WebappTestConfiguration.class) })
 @Category(SlowTest.class)
+@PrepareForTest({JudgmentSearchResult.class})
 public class JudgmentSearchControllerTest {
 
 	
@@ -97,16 +81,6 @@ public class JudgmentSearchControllerTest {
 	@Mock
 	private SearchResults<JudgmentSearchResult> result;
 	
-	
-	@Mock
-	private Pageable pageable;
-	
-	/*
-	@Mock
-	private JudgmentCriteriaForm judgmentCriteriaForm;
-	*/
-	
-	
     private TestCourtsFactory testCourtsFactory = new TestCourtsFactory();
     
     private List<SimpleDivision> simpleDivisions = testCourtsFactory.getSimpleDivisions();
@@ -128,33 +102,12 @@ public class JudgmentSearchControllerTest {
 		results = new SearchResults<JudgmentSearchResult>();
 		results.addResult(jsr);
 		
-		/*
-		Pageable pagea = new Pageable() {
-			public Sort getSort() {
-				return new Sort("name");
-				}
-				public int getPageSize() {
-				return 10;
-				}
-				public int getPageNumber() {
-				return 0;
-				}
-				public int getOffset() {
-				return 0;
-				}
-			};
-		*/
-		
-		when(pageable.getPageSize()).thenReturn(1);
 		when(result.getTotalResults()).thenReturn(0L);
-		//when(JudgmentSearchResult.getTotalPageNumber(0L, 1)).thenReturn(0L);
-		when(judgmentsWebSearchService.search(new JudgmentCriteriaForm(), new PageRequest(0, 1))).thenReturn(results);
+		when(judgmentsWebSearchService.search(org.mockito.Mockito.any(JudgmentCriteriaForm.class), org.mockito.Mockito.any(Pageable.class))).thenReturn(results);
 		
 		when(ccListService.findCommonCourts()).thenReturn(commonCourts);
 		when(scListService.findScChambers()).thenReturn(scChambers);
 		when(scJudgmentFormRepository.findAll()).thenReturn(scJudgmentForms);
-		
-	
 		
 		mockMvc = webAppContextSetup(webApplicationCtx)
 					.build();
@@ -163,16 +116,16 @@ public class JudgmentSearchControllerTest {
 	
 	//------------------------ TESTS --------------------------
 	
-	
 	@Test
 	public void judgmentSearchResults_empty_search_form() throws Exception {
 	
-
 		
 		mockMvc.perform(get("/search"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentSearch"))
+			.andExpect(model().attribute("pageable", instanceOf(Pageable.class)))
 			.andExpect(model().attribute("resultSearch", results))
+			.andExpect(model().attribute("totalPages", 0L))
 			.andExpect(model().attribute("commonCourts", commonCourts))
 			.andExpect(model().attribute("commonCourts", hasSize(2)))
 			.andExpect(model().attribute("commonCourts", hasItem(
