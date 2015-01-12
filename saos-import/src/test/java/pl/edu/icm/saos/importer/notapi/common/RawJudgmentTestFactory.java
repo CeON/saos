@@ -1,32 +1,23 @@
-package pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process;
-
-import static org.junit.Assert.assertEquals;
-
-import java.util.List;
+package pl.edu.icm.saos.importer.notapi.common;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.importer.ImportTestSupport;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.RawSourceJudgmentRepository;
 
 /**
  * @author madryk
  */
-@Category(SlowTest.class)
-public class CtObjectDeleterTest extends ImportTestSupport {
-
-    @Autowired
-    private CtObjectDeleter ctObjectDeleter;
+@Service
+public class RawJudgmentTestFactory {
     
     @Autowired
     private JudgmentRepository judgmentRepository;
@@ -36,30 +27,29 @@ public class CtObjectDeleterTest extends ImportTestSupport {
     
     
     //------------------------ TESTS --------------------------
-    
-    @Test
-    public void deleteJudgmentsWithoutRawSourceCtJudgment() {
+
+    public SupremeCourtJudgment createScJudgment(boolean hasCorrespondingSourceJudgment) {
+        SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
+        scJudgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
+        scJudgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphanumeric(10));
+        scJudgment.addCourtCase(new CourtCase("123"));
         
-        // given
-        ConstitutionalTribunalJudgment ctJudgment = createCtJudgment(true);
-        createCtJudgment(false);
-        createCtJudgment(false);
         
-        // execute
-        ctObjectDeleter.deleteJudgmentsWithoutRawSourceCtJudgment();
+        if (hasCorrespondingSourceJudgment) {
+            RawSourceScJudgment rJudgment = new RawSourceScJudgment();
+            rJudgment.setJsonContent("{\"key\":\"value\"}");
+            rJudgment.setSourceId(scJudgment.getSourceInfo().getSourceJudgmentId());
+            rawSourceJudgmentRepository.save(rJudgment);
+        }
         
-        // then
-        List<Judgment> dbCtJudgments = judgmentRepository.findAll();
+        judgmentRepository.save(scJudgment);
         
-        assertEquals(1, dbCtJudgments.size());
-        assertEquals(ctJudgment.getId(), dbCtJudgments.get(0).getId());
+        
+        
+        return scJudgment;
     }
     
-    
-    //------------------------ PRIVATE --------------------------
-    
-    private ConstitutionalTribunalJudgment createCtJudgment(boolean hasCorrespondingSourceJudgment) {
-        
+    public ConstitutionalTribunalJudgment createCtJudgment(boolean hasCorrespondingSourceJudgment) {
         ConstitutionalTribunalJudgment ctJudgment = new ConstitutionalTribunalJudgment();
         ctJudgment.getSourceInfo().setSourceCode(SourceCode.CONSTITUTIONAL_TRIBUNAL);
         ctJudgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphanumeric(10));
@@ -78,6 +68,5 @@ public class CtObjectDeleterTest extends ImportTestSupport {
         
         
         return ctJudgment;
-        
     }
 }

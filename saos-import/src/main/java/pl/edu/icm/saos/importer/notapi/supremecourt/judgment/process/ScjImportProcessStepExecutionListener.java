@@ -8,6 +8,10 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.importer.notapi.common.JudgmentObjectDeleter;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
+
 /**
  * @author Łukasz Dumiszewski
  */
@@ -15,6 +19,8 @@ import org.springframework.stereotype.Service;
 public class ScjImportProcessStepExecutionListener implements StepExecutionListener {
 
     private static Logger log = LoggerFactory.getLogger(ScjImportProcessStepExecutionListener.class);
+    
+    private JudgmentObjectDeleter judgmentObjectDeleter;
     
     private ScObjectDeleter scjObjectDeleter;
     
@@ -24,7 +30,7 @@ public class ScjImportProcessStepExecutionListener implements StepExecutionListe
         
         log.debug("before step tasks: ");
         
-        scjObjectDeleter.deleteJudgmentsWithoutRawSourceScJudgment();
+        judgmentObjectDeleter.deleteJudgmentsWithoutRawSourceJudgment(SupremeCourtJudgment.class, RawSourceScJudgment.class);
     }
 
     
@@ -43,6 +49,11 @@ public class ScjImportProcessStepExecutionListener implements StepExecutionListe
 
     
     //------------------------ SETTERS --------------------------
+
+    @Autowired
+    public void setJudgmentObjectDeleter(JudgmentObjectDeleter judgmentObjectDeleter) {
+        this.judgmentObjectDeleter = judgmentObjectDeleter;
+    }
 
     @Autowired
     public void setSupremeCourtJudgmentDeleter(ScObjectDeleter supremeCourtJudgmentDeleter) {

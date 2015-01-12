@@ -6,25 +6,19 @@ import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
@@ -37,7 +31,6 @@ import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentin
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
-import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
@@ -68,40 +61,15 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
     @Autowired
     private JudgmentCorrectionRepository judgmentCorrectionRepository;
     
-    
     //------------------------ TESTS --------------------------
     
     @Test
     public void ctJudgmentImportProcessJob_IMPORT_NEW() throws Exception {
         
-        resetImportDir("import/constitutionalTribunal/judgments/version1");
-        
-        JobExecution jobExecution = jobExecutor.forceStartNewJob(ctJudgmentImportJob);
-        
-        assertEquals(6, rJudgmentRepository.count(RawSourceCtJudgment.class));
-        assertEquals(0, rJudgmentRepository.findAllNotProcessedIds(RawSourceCtJudgment.class).size());
-        JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, 6);
-        
-        assertEquals(6, judgmentRepository.count(ConstitutionalTribunalJudgment.class));
-        assertSourceJudgmentIds("3b42a6299303c65d869c4806fdcdbf7a", "5a7ec04c9f5d354e00027929ed86025a",
-                "12f3b546205345a265acf9a39c491c6a", "0e8b967bd3c71e3eec89630d5baee5e1",
-                "04e47013023d2b315b841f99ccb9c290", "281c0d5a6739a1e754c2b7b56effb1b6");
-        
-        assertJudgment_3b42a6299303c65d869c4806fdcdbf7a();
-        
-        
-    }
-    
-    @Test
-    public void ctJudgmentImportProcessJob_IMPORT_UPDATE() throws Exception {
-        
         // given
         
-        resetImportDir("import/constitutionalTribunal/judgments/version1");
-        jobExecutor.forceStartNewJob(ctJudgmentImportJob);
-        int ctJudgment04e47013Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.CONSTITUTIONAL_TRIBUNAL, "04e47013023d2b315b841f99ccb9c290").getId();
-        
-        resetImportDir("import/constitutionalTribunal/judgments/version2");
+        ctjImportDownloadReader.setImportDir(JudgmentJobTestHelper.resolveToAbsolutePath(
+                "import/constitutionalTribunal/judgments/version1"));
         
         
         // execute
@@ -111,14 +79,51 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         
         // assert
         
-        assertEquals(5, rJudgmentRepository.count(RawSourceCtJudgment.class));
+        assertEquals(6, rJudgmentRepository.count(RawSourceCtJudgment.class));
         assertEquals(0, rJudgmentRepository.findAllNotProcessedIds(RawSourceCtJudgment.class).size());
-        JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, 5);
+        JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, 6);
         
-        assertEquals(5, judgmentRepository.count(ConstitutionalTribunalJudgment.class));
-        assertSourceJudgmentIds("3b42a6299303c65d869c4806fdcdbf7a", "5a7ec04c9f5d354e00027929ed86025a",
+        assertEquals(6, judgmentRepository.count(ConstitutionalTribunalJudgment.class));
+        JudgmentAssertUtils.assertSourceJudgmentIds(judgmentRepository.findAll(), CourtType.CONSTITUTIONAL_TRIBUNAL,
+                "3b42a6299303c65d869c4806fdcdbf7a", "5a7ec04c9f5d354e00027929ed86025a",
                 "12f3b546205345a265acf9a39c491c6a", "0e8b967bd3c71e3eec89630d5baee5e1",
-                "04e47013023d2b315b841f99ccb9c290");
+                "04e47013023d2b315b841f99ccb9c290", "281c0d5a6739a1e754c2b7b56effb1b6");
+        
+        assertJudgment_3b42a6299303c65d869c4806fdcdbf7a();
+        assertJudgment_04e47013023d2b315b841f99ccb9c290();
+        
+    }
+    
+    @Test
+    public void ctJudgmentImportProcessJob_IMPORT_UPDATE() throws Exception {
+        
+        // given
+        
+        ctjImportDownloadReader.setImportDir(JudgmentJobTestHelper.resolveToAbsolutePath(
+                "import/constitutionalTribunal/judgments/version1"));
+        jobExecutor.forceStartNewJob(ctJudgmentImportJob);
+        int ctJudgment04e47013Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.CONSTITUTIONAL_TRIBUNAL, "04e47013023d2b315b841f99ccb9c290").getId();
+        
+        ctjImportDownloadReader.setImportDir(JudgmentJobTestHelper.resolveToAbsolutePath(
+                "import/constitutionalTribunal/judgments/version2"));
+        
+        
+        // execute
+        
+        JobExecution jobExecution = jobExecutor.forceStartNewJob(ctJudgmentImportJob);
+        
+        
+        // assert
+        
+        assertEquals(6, rJudgmentRepository.count(RawSourceCtJudgment.class));
+        assertEquals(0, rJudgmentRepository.findAllNotProcessedIds(RawSourceCtJudgment.class).size());
+        JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, 6);
+        
+        assertEquals(6, judgmentRepository.count(ConstitutionalTribunalJudgment.class));
+        JudgmentAssertUtils.assertSourceJudgmentIds(judgmentRepository.findAll(), CourtType.CONSTITUTIONAL_TRIBUNAL,
+                "3b42a6299303c65d869c4806fdcdbf7a", "5a7ec04c9f5d354e00027929ed86025a",
+                "12f3b546205345a265acf9a39c491c6a", "0e8b967bd3c71e3eec89630d5baee5e1",
+                "04e47013023d2b315b841f99ccb9c290", "6201643320dcb6d8a5b5e8813b2cd46c");
         
         assertNull(judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.CONSTITUTIONAL_TRIBUNAL, "281c0d5a6739a1e754c2b7b56effb1b6", ConstitutionalTribunalJudgment.class));
@@ -126,6 +131,7 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         
         assertEquals(ctJudgment04e47013Id, judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.CONSTITUTIONAL_TRIBUNAL, "04e47013023d2b315b841f99ccb9c290").getId());
         
+        assertJudgment_3b42a6299303c65d869c4806fdcdbf7a();
         assertJudgment_04e47013023d2b315b841f99ccb9c290_afterUpdate();
         assertCorrections_04e47013023d2b315b841f99ccb9c290_afterUpdate();
     }
@@ -147,18 +153,30 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         
         assertThat(judgment.getCaseNumbers(), containsInAnyOrder("P 25/02"));
         
-        assertJudge(judgment, "Teresa Dębowska-Romanowska", JudgeRole.PRESIDING_JUDGE);
-        assertJudge(judgment, "Jerzy Ciemniewski");
-        assertJudge(judgment, "Marian Grzybowski");
-        assertJudge(judgment, "Mirosław Wyrzykowski", JudgeRole.REPORTING_JUDGE);
-        assertJudge(judgment, "Bohdan Zdziennicki");
+        JudgmentAssertUtils.assertJudge(judgment, "Teresa Dębowska-Romanowska", null, JudgeRole.PRESIDING_JUDGE);
+        JudgmentAssertUtils.assertJudge(judgment, "Jerzy Ciemniewski", null);
+        JudgmentAssertUtils.assertJudge(judgment, "Marian Grzybowski", null);
+        JudgmentAssertUtils.assertJudge(judgment, "Mirosław Wyrzykowski", null, JudgeRole.REPORTING_JUDGE);
+        JudgmentAssertUtils.assertJudge(judgment, "Bohdan Zdziennicki", null);
         
         assertThat(judgment.getSourceInfo().getSourceJudgmentUrl(), is("http://otk.trybunal.gov.pl/orzeczenia/teksty/otk/2005/P_25_02.doc"));
         assertThat(judgment.getJudgmentDate(), is(new LocalDate("2005-06-21")));
         assertThat(judgment.getTextContent(), is("65/6/A/2005\n\nWYROK\nz dnia 21 czerwca 2005 r.\nSygn. akt P 25/02*\n\n* ..."));
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
         
-        assertCtSpecificEmpty(judgment);
+        assertSpecificFieldsEmpty(judgment);
+    }
+    
+    private void assertJudgment_04e47013023d2b315b841f99ccb9c290() {
+        ConstitutionalTribunalJudgment judgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
+                SourceCode.CONSTITUTIONAL_TRIBUNAL, "04e47013023d2b315b841f99ccb9c290", ConstitutionalTribunalJudgment.class);
+        judgment = judgmentRepository.findOneAndInitialize(judgment.getId());
+        
+        JudgmentAssertUtils.assertJudge(judgment, "Marek Mazurkiewicz", null, JudgeRole.PRESIDING_JUDGE);
+        JudgmentAssertUtils.assertJudge(judgment, "Bohdan Zdziennicki", null);
+        
+        assertJudgment_04e47013023d2b315b841f99ccb9c290_unchangedValues(judgment);
+        assertSpecificFieldsEmpty(judgment);
     }
     
     private void assertJudgment_04e47013023d2b315b841f99ccb9c290_afterUpdate() {
@@ -166,22 +184,26 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
                 SourceCode.CONSTITUTIONAL_TRIBUNAL, "04e47013023d2b315b841f99ccb9c290", ConstitutionalTribunalJudgment.class);
         judgment = judgmentRepository.findOneAndInitialize(judgment.getId());
         
+        JudgmentAssertUtils.assertJudge(judgment, "Marek Mazurkiewiczowski", null, JudgeRole.PRESIDING_JUDGE);
+        JudgmentAssertUtils.assertJudge(judgment, "Bohdan Zdziennicki", null, JudgeRole.REPORTING_JUDGE);
+        
+        assertJudgment_04e47013023d2b315b841f99ccb9c290_unchangedValues(judgment);
+        assertSpecificFieldsEmpty(judgment);
+    }
+    
+    private void assertJudgment_04e47013023d2b315b841f99ccb9c290_unchangedValues(ConstitutionalTribunalJudgment judgment) {
         assertThat(judgment.getCourtReporters(), containsInAnyOrder("Grażyna Szałygo"));
         assertThat(judgment.getDissentingOpinions(), is(empty()));
         assertThat(judgment.getCaseNumbers(), containsInAnyOrder("K 27/03"));
         
-        assertJudge(judgment, "Marek Mazurkiewiczowski", JudgeRole.PRESIDING_JUDGE);
-        assertJudge(judgment, "Teresa Dębowska-Romanowska");
-        assertJudge(judgment, "Adam Jamróz", JudgeRole.REPORTING_JUDGE);
-        assertJudge(judgment, "Biruta Lewaszkiewicz-Petrykowska");
-        assertJudge(judgment, "Bohdan Zdziennicki", JudgeRole.REPORTING_JUDGE);
+        JudgmentAssertUtils.assertJudge(judgment, "Teresa Dębowska-Romanowska", null);
+        JudgmentAssertUtils.assertJudge(judgment, "Adam Jamróz", null, JudgeRole.REPORTING_JUDGE);
+        JudgmentAssertUtils.assertJudge(judgment, "Biruta Lewaszkiewicz-Petrykowska", null);
         
         assertThat(judgment.getSourceInfo().getSourceJudgmentUrl(), is("http://otk.trybunal.gov.pl/orzeczenia/teksty/otk/2005/K_27_03.doc"));
         assertThat(judgment.getJudgmentDate(), is(new LocalDate("2005-03-08")));
         assertThat(judgment.getTextContent(), is("22/3/A/2005\n\nWYROK\nz dnia 8 marca 2005 r.\nSygn. akt K 27/03*\n\n* Sentencja została ogłoszona dnia 15 marca 2005 r. ..."));
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
-        
-        assertCtSpecificEmpty(judgment);
     }
     
     private void assertCorrections_04e47013023d2b315b841f99ccb9c290_afterUpdate() {
@@ -198,7 +220,7 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
                 .oldValue("sędzia Adam Jamróz").newValue("Adam Jamróz").build()));
     }
     
-    private void assertCtSpecificEmpty(ConstitutionalTribunalJudgment judgment) {
+    private void assertSpecificFieldsEmpty(ConstitutionalTribunalJudgment judgment) {
         assertThat(judgment.getDecision(), is(nullValue()));
         assertThat(judgment.getSummary(), is(nullValue()));
         
@@ -216,28 +238,5 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
             String textContent, String ... authors) {
         assertThat(dissentingOpinion.getTextContent(), is(textContent));
         assertThat(dissentingOpinion.getAuthors(), containsInAnyOrder(authors));
-    }
-    
-    private void assertJudge(Judgment judgment, String name, JudgeRole... expectedRoles) {
-        Judge judge = judgment.getJudge(name);
-        assertNotNull(judge);
-        assertThat(judge.getSpecialRoles(), Matchers.containsInAnyOrder(expectedRoles));
-    }
-    
-    private void assertSourceJudgmentIds(String... sourceJudgmentIds) {
-        List<String> ids = judgmentRepository.findAll().stream()
-                .filter(j -> j.getCourtType() == CourtType.CONSTITUTIONAL_TRIBUNAL)
-                .map(j -> j.getSourceInfo().getSourceJudgmentId())
-                .collect(Collectors.toList());
-        assertThat(ids, containsInAnyOrder(sourceJudgmentIds));
-    }
-    
-    private void resetImportDir(String importDirClasspath) {
-        try {
-            File importDir = new ClassPathResource(importDirClasspath).getFile();
-            ctjImportDownloadReader.setImportDir(importDir.getAbsolutePath());
-        } catch (IOException e) {
-            throw new IllegalArgumentException(e);
-        }
     }
 }

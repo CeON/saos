@@ -6,12 +6,16 @@ import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.importer.notapi.common.JudgmentObjectDeleter;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
+
 @Service
 public class CtjImportProcessStepExecutionListener implements
         StepExecutionListener {
 
     @Autowired
-    private CtObjectDeleter ctObjectDeleter;
+    private JudgmentObjectDeleter judgmentObjectDeleter;
     
     
     //------------------------ LOGIC --------------------------
@@ -19,7 +23,7 @@ public class CtjImportProcessStepExecutionListener implements
     @Override
     public void beforeStep(StepExecution stepExecution) {
         
-        ctObjectDeleter.deleteJudgmentsWithoutRawSourceCtJudgment();
+        judgmentObjectDeleter.deleteJudgmentsWithoutRawSourceJudgment(ConstitutionalTribunalJudgment.class, RawSourceCtJudgment.class);
         
     }
 
