@@ -122,6 +122,7 @@ module.exports = function(grunt) {
 				  '<%= project.js.dir %>/libs/modernizr.js',
 				  '<%= project.js.dir %>/libs/bootstrap.min.js',
         	      
+				  '<%= project.js.dir %>/modules/typography.js',
         	      '<%= project.js.dir %>/modules/cookies.js',
         	      '<%= project.js.dir %>/modules/courtDivisionSelect.js',
         	      '<%= project.js.dir %>/modules/search/searchFormMode.js',
