@@ -101,5 +101,13 @@ var jsInitInJudgmentSearch = function() {
     	});
     
     
+    /* Judgment results list, extract text. 
+     * Remove single letter words from end of the lines.
+     */
+    $(".judgment-list .extract").each(function() {
+    	$(this).moveLettersFromEndOfLine({
+        	letters: ["a", "i", "e", "o", "w", "z", "–", "k"]
+        });
+    });
 }
  
