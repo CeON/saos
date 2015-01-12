@@ -18,7 +18,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -53,7 +52,6 @@ import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaForm;
 @ContextHierarchy({ 
 	@ContextConfiguration(classes = WebappTestConfiguration.class) })
 @Category(SlowTest.class)
-@PrepareForTest({JudgmentSearchResult.class})
 public class JudgmentSearchControllerTest {
 
 	
@@ -97,10 +95,8 @@ public class JudgmentSearchControllerTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		
-		JudgmentSearchResult jsr = new JudgmentSearchResult();
-		
 		results = new SearchResults<JudgmentSearchResult>();
-		results.addResult(jsr);
+		results.addResult(new JudgmentSearchResult());
 		
 		when(result.getTotalResults()).thenReturn(0L);
 		when(judgmentsWebSearchService.search(org.mockito.Mockito.any(JudgmentCriteriaForm.class), org.mockito.Mockito.any(Pageable.class))).thenReturn(results);
