@@ -20,7 +20,7 @@ var Typography = (function() {
 		
 	/* Initialize module parameters 
 	 * 
-	 * @param options - json
+	 * @param options - configuration json
 	 * 		- letters - array with letters that can't be left at the end of the line
 	 */
 	init = function(options) {
@@ -32,8 +32,8 @@ var Typography = (function() {
 	},
 		
 	/* Method finds all the single letter words specified in LETTERS_TO_MOVE,
-	 * and puts non-breaking space in front of it. When single letter word will
-	 * be left at the end of the line, it will be moved to next one.
+	 * and puts non-breaking space in front of them. When single letter word 
+	 * happened to stay at the end of the line, it will be moved to next lines.
 	 * 
 	 * @param text - base text
 	 * @return text with inserted non-breaking space signs 
@@ -49,6 +49,7 @@ var Typography = (function() {
                 for (var j in LETTERS_TO_MOVE) {
                     if (LETTERS_TO_MOVE[j] === text[i - 1] || LETTERS_TO_MOVE[j].toUpperCase() === text[i - 1]) {
                         match = true;
+                        break;
                     }
                 }
                
