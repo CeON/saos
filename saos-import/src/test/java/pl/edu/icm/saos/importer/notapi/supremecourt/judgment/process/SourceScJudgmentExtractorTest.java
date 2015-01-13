@@ -23,9 +23,9 @@ import org.mockito.MockitoAnnotations;
 import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.Source;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.Source;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.SourceScJudge;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
@@ -228,20 +228,20 @@ public class SourceScJudgmentExtractorTest {
         String adamKowalski = "Adam Kowalski";
         String wrongName = "!! 11";
         
-        SourceScJudge sourceScJudge1 = new SourceScJudge();
+        SourceJudge sourceScJudge1 = new SourceJudge();
         sourceScJudge1.setName(janNowak);
         sourceScJudge1.setFunction("SSN");
         sourceScJudge1.setSpecialRoles(Lists.newArrayList(JudgeRole.PRESIDING_JUDGE.name(), JudgeRole.REPORTING_JUDGE.name()));
         
-        SourceScJudge sourceScJudge2 = new SourceScJudge();
+        SourceJudge sourceScJudge2 = new SourceJudge();
         sourceScJudge2.setName(adamKowalski);
         sourceScJudge2.setFunction("SSA");
         
-        SourceScJudge sourceScJudge3 = new SourceScJudge();
+        SourceJudge sourceScJudge3 = new SourceJudge();
         sourceScJudge3.setName(wrongName);
         
         
-        SourceScJudge sourceScJudgeBlank = new SourceScJudge(); // shouldn't be taken into account because it's name is blank
+        SourceJudge sourceScJudgeBlank = new SourceJudge(); // shouldn't be taken into account because it's name is blank
         
         
         sJudgment.setJudges(Lists.newArrayList(sourceScJudge1, sourceScJudge2, sourceScJudge3, sourceScJudgeBlank));

@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.SourceScJudge;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
@@ -94,7 +94,7 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     public List<Judge> extractJudges(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         List<Judge> judges = Lists.newArrayList();
         
-        for (SourceScJudge scJudge : sourceJudgment.getJudges()) {
+        for (SourceJudge scJudge : sourceJudgment.getJudges()) {
             
             List<JudgeRole> roles = scJudge.getSpecialRoles().stream().map(role->JudgeRole.valueOf(role)).collect(Collectors.toList());
             Judge judge = judgeConverter.convertJudge(scJudge.getName(), roles, correctionList);
