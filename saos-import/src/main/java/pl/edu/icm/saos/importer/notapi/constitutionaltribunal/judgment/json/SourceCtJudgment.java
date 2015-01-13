@@ -14,7 +14,6 @@ import com.google.common.collect.Lists;
  * 
  * @author madryk
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class SourceCtJudgment extends SourceJudgment {
 
     private String caseNumber;

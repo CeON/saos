@@ -6,7 +6,6 @@ import javax.validation.constraints.NotNull;
 
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgment;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.google.common.collect.Lists;
 
 /**
@@ -14,7 +13,6 @@ import com.google.common.collect.Lists;
  * 
  * @author Łukasz Dumiszewski
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class SourceScJudgment extends SourceJudgment {
     
     private String caseNumber;
