@@ -15,8 +15,7 @@ import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
-import pl.edu.icm.saos.importer.notapi.common.StringItemImportDownloadProcessor;
-import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.download.RawSourceCtJudgmentParser;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process.CtSpecificJudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process.SourceCtJudgmentExtractor;
@@ -36,9 +35,6 @@ public class ConstitutionalTribunalImportConfiguration {
     
     @Autowired
     private MappingJsonFactory jsonFactory;
-    
-    @Autowired
-    private RawSourceCtJudgmentParser rawSourceCtJudgmentParser;
     
     @Autowired
     private SourceCtJudgmentExtractor sourceCtJudgmentExtractor;
@@ -66,9 +62,9 @@ public class ConstitutionalTribunalImportConfiguration {
     }
     
     @Bean
-    public StringItemImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor() {
-        StringItemImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor = new StringItemImportDownloadProcessor<RawSourceCtJudgment>();
-        ctjImportDownloadProcessor.setRawSourceJudgmentParser(rawSourceCtJudgmentParser);
+    public JsonImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor() {
+        JsonImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor = new JsonImportDownloadProcessor<>(RawSourceCtJudgment.class);
+        ctjImportDownloadProcessor.setSourceJudgmentParser(sourceCtJudgmentParser());
         
         return ctjImportDownloadProcessor;
     }

@@ -19,8 +19,8 @@ import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.notapi.common.DateTimeDeserializer;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.Source;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment.SourceScJudge;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.Source;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
@@ -107,7 +107,7 @@ public class SourceScJudgmentParserTest {
         
         assertEquals(2, sourceScJudgment.getJudges().size());
         
-        SourceScJudge judge = sourceScJudgment.getJudges().get(0);
+        SourceJudge judge = sourceScJudgment.getJudges().get(0);
         assertEquals("Józef Iwulski", judge.getName());
         assertNull(judge.getFunction());
         assertEquals(Lists.newArrayList("REPORTING_JUDGE"), judge.getSpecialRoles());

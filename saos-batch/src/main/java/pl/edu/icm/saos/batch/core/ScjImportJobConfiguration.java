@@ -16,7 +16,7 @@ import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.JudgmentImportDownloadWriter;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
-import pl.edu.icm.saos.importer.notapi.common.StringItemImportDownloadProcessor;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
@@ -48,7 +48,7 @@ public class ScjImportJobConfiguration {
     private JsonImportDownloadReader scjImportDownloadReader;
 
     @Autowired
-    private StringItemImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor;
+    private JsonImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor;
 
     @Autowired
     private JudgmentImportDownloadWriter scjImportDownloadWriter;
