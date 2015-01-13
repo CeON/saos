@@ -65,6 +65,50 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
+    public void findOneBySourceId_FOUND() {
+        // given
+        RawSourceScJudgment rJudgment = createRawScJudgment("id1", false);
+        createRawCtJudgment("id2", false);
+        createRawCcJudgment("id3", false);
+        
+        // execute
+        RawSourceScJudgment actualRawJudgment = rawSourceJudgmentRepository.findOneBySourceId("id1", RawSourceScJudgment.class);
+        
+        // assert
+        assertThat(actualRawJudgment.getId(), is(rJudgment.getId()));
+    }
+    
+    @Test
+    public void findOneBySourceId_NOT_FOUND() {
+        // given
+        createRawScJudgment("id1", false);
+        createRawCtJudgment("id2", false);
+        createRawCcJudgment("id3", false);
+        
+        // execute
+        RawSourceScJudgment actualRawJudgment = rawSourceJudgmentRepository.findOneBySourceId("id2", RawSourceScJudgment.class);
+        
+        // assert
+        assertThat(actualRawJudgment, is(nullValue()));
+    }
+    
+    @Test
+    public void count() {
+        // given
+        createRawScJudgment("id1", false);
+        createRawScJudgment("id2", false);
+        createRawCtJudgment("id3", false);
+        createRawCcJudgment("id4", false);
+        createRawCcJudgment("id5", false);
+        
+        // execute
+        long actualCount = rawSourceJudgmentRepository.count(RawSourceCcJudgment.class);
+        
+        // assert
+        assertThat(actualCount, is(2L));
+    }
+    
+    @Test
     public void findAllNotProcessedIds_FOUND() {
         // given
         RawSourceScJudgment rJudgment0 = createRawScJudgment("id1", false);

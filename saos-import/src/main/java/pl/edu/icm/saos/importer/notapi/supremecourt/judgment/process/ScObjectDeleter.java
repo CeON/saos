@@ -14,8 +14,6 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
-import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
@@ -32,8 +30,6 @@ class ScObjectDeleter {
     
     private EntityManager entityManager;
     
-    private JudgmentRepository judgmentRepository;
-    
     private ScChamberRepository scChamberRepository;
     
     private ScChamberDivisionRepository scChamberDivisionRepository;
@@ -42,29 +38,6 @@ class ScObjectDeleter {
     
     
     //------------------------ LOGIC --------------------------
-    
-    
-    /**
-     * Deletes all {@link SupremeCourtJudgment}s that do not have corresponding {@link RawSourceScJudgment}s. 
-     */
-    @Transactional
-    void deleteJudgmentsWithoutRawSourceScJudgment() {
-        
-        log.debug("Deleting scJudgments without corresponding rawSourceScJudgments");
-        
-        String q = "select scJudgment.id from " + SupremeCourtJudgment.class.getName() + " scJudgment " +
-                    " where not exists  (select rJudgment from "+ RawSourceScJudgment.class.getName() + " rJudgment " +
-                                            " where rJudgment.sourceId = scJudgment.sourceInfo.sourceJudgmentId)";
-        @SuppressWarnings("unchecked")
-        List<Integer> judgmentIds = entityManager.createQuery(q).getResultList();
-        
-        if (!judgmentIds.isEmpty()) {
-            judgmentRepository.delete(judgmentIds);
-        }
-        
-        
-    }
-    
     
     /**
      * Deletes {@link SupremeCourtChamber}s that are not referenced from any {@link SupremeCourtJudgment}
@@ -137,11 +110,6 @@ class ScObjectDeleter {
     @Autowired
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
-    }
-
-    @Autowired
-    public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
-        this.judgmentRepository = judgmentRepository;
     }
 
     @Autowired
