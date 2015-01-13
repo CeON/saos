@@ -8,11 +8,11 @@ import org.springframework.core.io.ClassPathResource;
 /**
  * @author madryk
  */
-class JudgmentJobTestHelper {
+class PathResolver {
 
     //------------------------ CONSTRUCTORS --------------------------
     
-    private JudgmentJobTestHelper() { }
+    private PathResolver() { }
     
     
     
