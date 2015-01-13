@@ -2,7 +2,7 @@ package pl.edu.icm.saos.enrichment.upload;
 
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTemp;
+import pl.edu.icm.saos.persistence.enrichment.model.UploadEnrichmentTag;
 
 import com.google.common.base.Preconditions;
 
@@ -18,13 +18,13 @@ public class EnrichmentTagItemConverter {
     
     
     /**
-     * Converts {@link EnrichmentTagItem} into {@link EnrichmentTagTemp}
+     * Converts {@link EnrichmentTagItem} into {@link UploadEnrichmentTag}
      */
-    public EnrichmentTagTemp convertEnrichmentTagItem(EnrichmentTagItem enrichmentTagItem) {
+    public UploadEnrichmentTag convertEnrichmentTagItem(EnrichmentTagItem enrichmentTagItem) {
         
         Preconditions.checkNotNull(enrichmentTagItem);
         
-        EnrichmentTagTemp enrichmentTagTemp = new EnrichmentTagTemp();
+        UploadEnrichmentTag enrichmentTagTemp = new UploadEnrichmentTag();
         
         enrichmentTagTemp.setJudgmentId(enrichmentTagItem.getJudgmentId());
         enrichmentTagTemp.setTagType(enrichmentTagItem.getTagType());

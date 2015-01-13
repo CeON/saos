@@ -5,8 +5,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.validation.CommonValidator;
-import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagTempRepository;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTemp;
+import pl.edu.icm.saos.persistence.enrichment.UploadEnrichmentTagRepository;
+import pl.edu.icm.saos.persistence.enrichment.model.UploadEnrichmentTag;
 
 /**
  * @author Łukasz Dumiszewski
@@ -18,7 +18,7 @@ public class EnrichmentTagItemUploadProcessor {
 
     private EnrichmentTagItemConverter enrichmentTagItemConverter;
     
-    private EnrichmentTagTempRepository enrichmentTagTempRepository;
+    private UploadEnrichmentTagRepository uploadEnrichmentTagRepository;
     
     private CommonValidator commonValidator;
     
@@ -26,16 +26,16 @@ public class EnrichmentTagItemUploadProcessor {
     //------------------------ LOGIC --------------------------
 
     /**
-     * Converts the passed enrichmentTagItem into {@link EnrichmentTagTemp} and saves it. 
+     * Converts the passed enrichmentTagItem into {@link UploadEnrichmentTag} and saves it. 
      * @throws DataIntegrityViolationException if any of the datasource constraints has been violated
      */
     public void processEnrichmentTagItem(EnrichmentTagItem enrichmentTagItem) {
         
         commonValidator.validateEx(enrichmentTagItem);
 
-        EnrichmentTagTemp enrichmentTagTemp = enrichmentTagItemConverter.convertEnrichmentTagItem(enrichmentTagItem);
+        UploadEnrichmentTag uploadEnrichmentTag = enrichmentTagItemConverter.convertEnrichmentTagItem(enrichmentTagItem);
         
-        enrichmentTagTempRepository.saveAndFlush(enrichmentTagTemp);
+        uploadEnrichmentTagRepository.saveAndFlush(uploadEnrichmentTag);
         
     }
 
@@ -48,8 +48,8 @@ public class EnrichmentTagItemUploadProcessor {
     }
 
     @Autowired
-    public void setEnrichmentTagTempRepository(EnrichmentTagTempRepository enrichmentTagTempRepository) {
-        this.enrichmentTagTempRepository = enrichmentTagTempRepository;
+    public void setUploadEnrichmentTagRepository(UploadEnrichmentTagRepository uploadEnrichmentTagRepository) {
+        this.uploadEnrichmentTagRepository = uploadEnrichmentTagRepository;
     }
 
     @Autowired

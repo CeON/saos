@@ -117,7 +117,6 @@ public class EnrichmentTagUploadServiceTest {
         // given
         
         InputStream inputStream = mock(InputStream.class);
-        EnrichmentTagItem enrichmentTagItem = mock(EnrichmentTagItem.class);
         
         when(jsonFactory.createParser(Mockito.any(InputStream.class))).thenReturn(jsonParser);
         when(jsonParser.nextToken()).thenReturn(JsonToken.START_OBJECT);
