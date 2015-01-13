@@ -17,9 +17,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.validation.CommonValidator;
-import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.Source;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.Source;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.SourceCtDissentingOpinion;
-import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.SourceCtJudge;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
@@ -101,15 +101,15 @@ public class SourceCtJudgmentParserTest {
         
         assertEquals(3, sourceScJudgment.getJudges().size());
         
-        SourceCtJudge firstJudge = sourceScJudgment.getJudges().get(0);
+        SourceJudge firstJudge = sourceScJudgment.getJudges().get(0);
         assertEquals("Teresa Dębowska-Romanowska", firstJudge.getName());
         assertEquals(Lists.newArrayList("PRESIDING_JUDGE"), firstJudge.getSpecialRoles());
         
-        SourceCtJudge secondJudge = sourceScJudgment.getJudges().get(1);
+        SourceJudge secondJudge = sourceScJudgment.getJudges().get(1);
         assertEquals("Mirosław Wyrzykowski", secondJudge.getName());
         assertEquals(Lists.newArrayList("REPORTING_JUDGE"), secondJudge.getSpecialRoles());
         
-        SourceCtJudge thirdJudge = sourceScJudgment.getJudges().get(2);
+        SourceJudge thirdJudge = sourceScJudgment.getJudges().get(2);
         assertEquals("Bohdan Zdziennicki", thirdJudge.getName());
         assertEquals(Lists.newArrayList(), thirdJudge.getSpecialRoles());
         

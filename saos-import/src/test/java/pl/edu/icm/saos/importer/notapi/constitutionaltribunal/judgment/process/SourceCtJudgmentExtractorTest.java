@@ -22,10 +22,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.Source;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
-import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.Source;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.SourceCtDissentingOpinion;
-import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.SourceCtJudge;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.CourtCase;
@@ -200,18 +200,18 @@ public class SourceCtJudgmentExtractorTest {
         String adamKowalski = "Adam Kowalski";
         String wrongName = "!! 11";
         
-        SourceCtJudge sourceScJudge1 = new SourceCtJudge();
+        SourceJudge sourceScJudge1 = new SourceJudge();
         sourceScJudge1.setName(janNowak);
         sourceScJudge1.setSpecialRoles(Lists.newArrayList(JudgeRole.PRESIDING_JUDGE.name(), JudgeRole.REPORTING_JUDGE.name()));
         
-        SourceCtJudge sourceScJudge2 = new SourceCtJudge();
+        SourceJudge sourceScJudge2 = new SourceJudge();
         sourceScJudge2.setName(adamKowalski);
         
-        SourceCtJudge sourceScJudge3 = new SourceCtJudge();
+        SourceJudge sourceScJudge3 = new SourceJudge();
         sourceScJudge3.setName(wrongName);
         
         
-        SourceCtJudge sourceScJudgeBlank = new SourceCtJudge(); // shouldn't be taken into account because it's name is blank
+        SourceJudge sourceScJudgeBlank = new SourceJudge(); // shouldn't be taken into account because it's name is blank
         
         
         sJudgment.setJudges(Lists.newArrayList(sourceScJudge1, sourceScJudge2, sourceScJudge3, sourceScJudgeBlank));

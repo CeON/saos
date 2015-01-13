@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.SourceCtDissentingOpinion;
-import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.SourceCtJudge;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.CourtCase;
@@ -70,7 +70,7 @@ public class SourceCtJudgmentExtractor implements JudgmentDataExtractor<Constitu
     public List<Judge> extractJudges(SourceCtJudgment sourceJudgment, ImportCorrectionList correctionList) {
         List<Judge> judges = Lists.newArrayList();
         
-        for (SourceCtJudge scJudge : sourceJudgment.getJudges()) {
+        for (SourceJudge scJudge : sourceJudgment.getJudges()) {
             
             List<JudgeRole> roles = scJudge.getSpecialRoles().stream().map(role->JudgeRole.valueOf(role)).collect(Collectors.toList());
             Judge judge = judgeConverter.convertJudge(scJudge.getName(), roles, correctionList);
