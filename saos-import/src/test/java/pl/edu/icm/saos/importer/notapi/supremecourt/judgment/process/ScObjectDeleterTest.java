@@ -1,6 +1,5 @@
 package pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
@@ -8,23 +7,18 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import org.apache.commons.lang3.RandomStringUtils;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.ImportTestSupport;
-import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.importer.notapi.common.RawJudgmentTestFactory;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
-import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
-import pl.edu.icm.saos.persistence.repository.RawSourceScJudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
@@ -42,9 +36,6 @@ public class ScObjectDeleterTest extends ImportTestSupport {
     private JudgmentRepository judgmentRepository;
     
     @Autowired
-    private RawSourceScJudgmentRepository rawSourceScJudgmentRepository;
-    
-    @Autowired
     private ScChamberRepository scChamberRepository;
     
     @Autowired
@@ -55,47 +46,14 @@ public class ScObjectDeleterTest extends ImportTestSupport {
     
     @Autowired
     private EntityManager entityManager;
+
+    @Autowired
+    private RawJudgmentTestFactory rawJudgmentTestFactory;
     
     
     
     
     //------------------------ LOGIC --------------------------
-    
-    
-    @Test
-    public void deleteJudgmentsWithoutRawSourceScJudgment() {
-        
-        SupremeCourtJudgment scJudgment1 = createScJudgment(true);
-        createScJudgment(false);
-        createScJudgment(false);
-        createScJudgment(false);
-        
-        scObjectDeleter.deleteJudgmentsWithoutRawSourceScJudgment();
-        
-        List<Judgment> dbScJudgments = judgmentRepository.findAll();
-        
-        assertEquals(1, dbScJudgments.size());
-        assertEquals(scJudgment1.getId(), dbScJudgments.get(0).getId());
-        
-        
-    }
-    
-    
-    @Test
-    public void deleteJudgmentsWithoutRawSourceScJudgment_NoSuchJudgments() {
-        
-        SupremeCourtJudgment scJudgment1 = createScJudgment(true);
-        SupremeCourtJudgment scJudgment2 = createScJudgment(true);
-        
-        scObjectDeleter.deleteJudgmentsWithoutRawSourceScJudgment();
-        
-        List<Judgment> dbScJudgments = judgmentRepository.findAll();
-        
-        assertEquals(2, dbScJudgments.size());
-        assertThat(dbScJudgments, Matchers.containsInAnyOrder(scJudgment1, scJudgment2));
-        
-        
-    }
     
     
     @Test
@@ -171,29 +129,6 @@ public class ScObjectDeleterTest extends ImportTestSupport {
     
     //------------------------ PRIVATE --------------------------
     
-    public SupremeCourtJudgment createScJudgment(boolean hasCorrespondingSourceJudgment) {
-        
-        SupremeCourtJudgment scJudgment = new SupremeCourtJudgment();
-        scJudgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
-        scJudgment.getSourceInfo().setSourceJudgmentId(RandomStringUtils.randomAlphanumeric(10));
-        scJudgment.addCourtCase(new CourtCase("123"));
-        
-        
-        if (hasCorrespondingSourceJudgment) {
-            RawSourceScJudgment rJudgment = new RawSourceScJudgment();
-            rJudgment.setJsonContent("{\"key\":\"value\"}");
-            rJudgment.setSourceId(scJudgment.getSourceInfo().getSourceJudgmentId());
-            rawSourceScJudgmentRepository.save(rJudgment);
-        }
-        
-        judgmentRepository.save(scJudgment);
-        
-        
-        
-        return scJudgment;
-        
-    }
-    
     
     private SupremeCourtChamber createScChamber(boolean hasReferringJudgment) {
         
@@ -227,7 +162,7 @@ public class ScObjectDeleterTest extends ImportTestSupport {
         
         
         if (hasReferringJudgment) {
-            SupremeCourtJudgment judgment = createScJudgment(false);
+            SupremeCourtJudgment judgment = rawJudgmentTestFactory.createScJudgment(false);
             judgment.setScChamberDivision(scChamberDivision);
             judgment.addScChamber(scChamber);
             judgmentRepository.save(judgment);  
@@ -248,7 +183,7 @@ public class ScObjectDeleterTest extends ImportTestSupport {
       scJudgmentFormRepository.save(scjForm);  
        
       if (hasReferringJudgment) {
-            SupremeCourtJudgment judgment = createScJudgment(false);
+            SupremeCourtJudgment judgment = rawJudgmentTestFactory.createScJudgment(false);
             judgment.setScJudgmentForm(scjForm);
             judgmentRepository.save(judgment);    
       }
