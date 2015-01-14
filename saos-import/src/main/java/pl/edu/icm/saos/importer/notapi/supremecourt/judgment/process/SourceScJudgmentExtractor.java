@@ -4,24 +4,16 @@ import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
-import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
+import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractorAdapter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
-import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
@@ -35,7 +27,7 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 @Service("sourceScJudgmentExtractor")
-public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeCourtJudgment, SourceScJudgment> {
+public class SourceScJudgmentExtractor extends JudgmentDataExtractorAdapter<SupremeCourtJudgment, SourceScJudgment> {
 
     
     private ScJudgmentFormConverter scJudgmentFormConverter;
@@ -52,8 +44,6 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     
     private ScChamberDivisionCreator scChamberDivisionCreator;
     
-    private JudgeConverter judgeConverter;
-    
     
     
     
@@ -69,93 +59,10 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     public List<CourtCase> extractCourtCases(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return Lists.newArrayList(new CourtCase(sourceJudgment.getCaseNumber()));
     }
-
-    @Override
-    public String extractTextContent(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return sourceJudgment.getTextContent();
-    }
-
-    @Override
-    public DateTime extractPublicationDate(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return sourceJudgment.getSource().getPublicationDateTime();
-    }
-
-    @Override
-    public String extractPublisher(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return null;
-    }
-
-    @Override
-    public String extractReviser(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return null;
-    }
-
-    @Override
-    public List<Judge> extractJudges(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        List<Judge> judges = Lists.newArrayList();
-        
-        for (SourceJudge scJudge : sourceJudgment.getJudges()) {
-            
-            List<JudgeRole> roles = scJudge.getSpecialRoles().stream().map(role->JudgeRole.valueOf(role)).collect(Collectors.toList());
-            Judge judge = judgeConverter.convertJudge(scJudge.getName(), roles, correctionList);
-            
-            if (judge != null) {
-                judge.setFunction(scJudge.getFunction());
-                judges.add(judge);
-            }
-        
-        }
-        
-        return judges;
-    }
-
-    
-    @Override
-    public List<JudgmentReferencedRegulation> extractReferencedRegulations(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return Lists.newArrayList();
-    }
-
     
     @Override
     public JudgmentType extractJudgmentType(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return scJudgmentFormConverter.convertToJudgmentType(sourceJudgment.getSupremeCourtJudgmentForm(), correctionList);
-    }
-
-    
-    @Override
-    public List<String> extractLegalBases(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return Lists.newArrayList();
-    }
-
-    
-    @Override
-    public String extractSummary(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return null;
-    }
-
-    @Override
-    public String extractDecision(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return null;
-    }
-
-    @Override
-    public List<String> extractCourtReporters(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return Lists.newArrayList();
-    }
-
-    @Override
-    public LocalDate extractJudgmentDate(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return sourceJudgment.getJudgmentDate();
-    }
-
-    @Override
-    public String extractSourceJudgmentId(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return sourceJudgment.getSource().getSourceJudgmentId();
-    }
-
-    @Override
-    public String extractSourceJudgmentUrl(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return sourceJudgment.getSource().getSourceJudgmentUrl();
     }
 
     @Override
@@ -292,11 +199,6 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     @Autowired
     public void setScChamberDivisionCreator(ScChamberDivisionCreator scChamberDivisionCreator) {
         this.scChamberDivisionCreator = scChamberDivisionCreator;
-    }
-
-    @Autowired
-    public void setJudgeConverter(JudgeConverter judgeConverter) {
-        this.judgeConverter = judgeConverter;
     }
 
 }
