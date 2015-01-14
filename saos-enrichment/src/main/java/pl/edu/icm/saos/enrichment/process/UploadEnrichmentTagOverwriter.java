@@ -12,6 +12,7 @@ import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.enrichment.model.UploadEnrichmentTag;
 
 /**
+ * A service for overwriting old enrichment tags ({@link EnrichmentTag}) with newly uploaded ones ({@link UploadEnrichmentTag})
  * @author Łukasz Dumiszewski
  */
 @Service("uploadEnrichmentTagOverwriter")
@@ -29,7 +30,7 @@ public class UploadEnrichmentTagOverwriter {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Returns true if the uploaded tags are newer than production tags  
+     * Returns true if the uploaded tags ({@link UploadEnrichmentTag}) are newer than production tags ({@link EnrichmentTag}) 
      */
     public boolean shouldEnrichmentTagsBeOverwritten() {
         

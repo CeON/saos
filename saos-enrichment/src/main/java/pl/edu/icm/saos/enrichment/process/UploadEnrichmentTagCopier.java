@@ -11,6 +11,7 @@ import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.enrichment.model.UploadEnrichmentTag;
 
 /**
+ * A service containing methods for copying uploaded enrichment tags ({@link UploadEnrichmentTag}) to production enrichment tags ({@link EnrichmentTag}) 
  * @author Łukasz Dumiszewski
  */
 @Service("uploadEnrichmentTagCopier")
