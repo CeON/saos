@@ -17,15 +17,20 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 
 import com.google.common.collect.Lists;
 
+/**
+ * Implementation of {@link JudgmentDataExtractor} that can extract
+ * data common to different types of {@link Judgment}s 
+ * 
+ * @author madryk
+ */
 @Service
 public class CommonJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_JUDGMENT extends SourceJudgment> extends JudgmentDataExtractorAdapter<JUDGMENT, SOURCE_JUDGMENT> {
 
 
-    @Autowired
     private JudgeConverter judgeConverter;
 
 
-
+    //------------------------ LOGIC --------------------------
 
     @Override
     public String extractTextContent(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList) {
@@ -74,6 +79,14 @@ public class CommonJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_JUDGM
     @Override
     public String extractSourceJudgmentUrl(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getSource().getSourceJudgmentUrl();
+    }
+
+    
+    //------------------------ SETTERS --------------------------
+    
+    @Autowired
+    public void setJudgeConverter(JudgeConverter judgeConverter) {
+        this.judgeConverter = judgeConverter;
     }
 
 }

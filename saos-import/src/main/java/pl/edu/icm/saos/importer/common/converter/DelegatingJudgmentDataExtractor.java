@@ -15,12 +15,21 @@ import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
+/**
+ * Implementation of {@link JudgmentDataExtractor} that delegates extracting
+ * data of judgment to {@link #setCommonJudgmentDataExtractor(JudgmentDataExtractor)}
+ * and {@link #setSpecificJudgmentDataExtractor(JudgmentDataExtractor)}.
+ * 
+ * @author madryk
+ */
 public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_JUDGMENT extends SourceJudgment> implements JudgmentDataExtractor<JUDGMENT, SOURCE_JUDGMENT> {
 
-    private CommonJudgmentDataExtractor<Judgment, SourceJudgment> commonJudgmentDataExtractor;
+    private JudgmentDataExtractor<Judgment, SourceJudgment> commonJudgmentDataExtractor;
     
     private JudgmentDataExtractor<JUDGMENT, SOURCE_JUDGMENT> specificJudgmentDataExtractor;
     
+    
+    //------------------------ LOGIC --------------------------
     
     @Override
     public JUDGMENT createNewJudgment() {
@@ -30,9 +39,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public List<CourtCase> extractCourtCases(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        List<CourtCase> courtCases = commonJudgmentDataExtractor.extractCourtCases(sourceJudgment, correctionList);
+        List<CourtCase> courtCases = specificJudgmentDataExtractor.extractCourtCases(sourceJudgment, correctionList);
         if (courtCases.isEmpty()) {
-            courtCases = specificJudgmentDataExtractor.extractCourtCases(sourceJudgment, correctionList);
+            courtCases = commonJudgmentDataExtractor.extractCourtCases(sourceJudgment, correctionList);
         }
         
         return courtCases;
@@ -41,9 +50,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public String extractTextContent(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        String textContent = commonJudgmentDataExtractor.extractTextContent(sourceJudgment, correctionList);
+        String textContent = specificJudgmentDataExtractor.extractTextContent(sourceJudgment, correctionList);
         if (StringUtils.isEmpty(textContent)) {
-            textContent = specificJudgmentDataExtractor.extractTextContent(sourceJudgment, correctionList);
+            textContent = commonJudgmentDataExtractor.extractTextContent(sourceJudgment, correctionList);
         }
         
         return textContent;
@@ -52,9 +61,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public DateTime extractPublicationDate(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        DateTime publicationDate = commonJudgmentDataExtractor.extractPublicationDate(sourceJudgment, correctionList);
+        DateTime publicationDate = specificJudgmentDataExtractor.extractPublicationDate(sourceJudgment, correctionList);
         if (publicationDate == null) {
-            publicationDate = specificJudgmentDataExtractor.extractPublicationDate(sourceJudgment, correctionList);
+            publicationDate = commonJudgmentDataExtractor.extractPublicationDate(sourceJudgment, correctionList);
         }
         
         return publicationDate;
@@ -63,9 +72,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public String extractPublisher(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        String publisher = commonJudgmentDataExtractor.extractPublisher(sourceJudgment, correctionList);
+        String publisher = specificJudgmentDataExtractor.extractPublisher(sourceJudgment, correctionList);
         if (StringUtils.isEmpty(publisher)) {
-            publisher = specificJudgmentDataExtractor.extractPublisher(sourceJudgment, correctionList);
+            publisher = commonJudgmentDataExtractor.extractPublisher(sourceJudgment, correctionList);
         }
         
         return publisher;
@@ -74,9 +83,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public String extractReviser(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        String reviser = commonJudgmentDataExtractor.extractReviser(sourceJudgment, correctionList);
+        String reviser = specificJudgmentDataExtractor.extractReviser(sourceJudgment, correctionList);
         if (StringUtils.isEmpty(reviser)) {
-            reviser = specificJudgmentDataExtractor.extractReviser(sourceJudgment, correctionList);
+            reviser = commonJudgmentDataExtractor.extractReviser(sourceJudgment, correctionList);
         }
         
         return reviser;
@@ -85,9 +94,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public List<Judge> extractJudges(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        List<Judge> judges = commonJudgmentDataExtractor.extractJudges(sourceJudgment, correctionList);
+        List<Judge> judges = specificJudgmentDataExtractor.extractJudges(sourceJudgment, correctionList);
         if (judges.isEmpty()) {
-            judges = specificJudgmentDataExtractor.extractJudges(sourceJudgment, correctionList);
+            judges = commonJudgmentDataExtractor.extractJudges(sourceJudgment, correctionList);
         }
         
         return judges;
@@ -96,9 +105,11 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public List<JudgmentReferencedRegulation> extractReferencedRegulations(
             SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList) {
-        List<JudgmentReferencedRegulation> referencedRegulations = commonJudgmentDataExtractor.extractReferencedRegulations(sourceJudgment, correctionList);
+        List<JudgmentReferencedRegulation> referencedRegulations =
+                specificJudgmentDataExtractor.extractReferencedRegulations(sourceJudgment, correctionList);
+        
         if (referencedRegulations.isEmpty()) {
-            referencedRegulations = specificJudgmentDataExtractor.extractReferencedRegulations(sourceJudgment, correctionList);
+            referencedRegulations = commonJudgmentDataExtractor.extractReferencedRegulations(sourceJudgment, correctionList);
         }
         
         return referencedRegulations;
@@ -107,9 +118,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public JudgmentType extractJudgmentType(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        JudgmentType judgmentType = commonJudgmentDataExtractor.extractJudgmentType(sourceJudgment, correctionList);
+        JudgmentType judgmentType = specificJudgmentDataExtractor.extractJudgmentType(sourceJudgment, correctionList);
         if (judgmentType == null) {
-            judgmentType = specificJudgmentDataExtractor.extractJudgmentType(sourceJudgment, correctionList);
+            judgmentType = commonJudgmentDataExtractor.extractJudgmentType(sourceJudgment, correctionList);
         }
         
         return judgmentType;
@@ -118,9 +129,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public List<String> extractLegalBases(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        List<String> legalBases = commonJudgmentDataExtractor.extractLegalBases(sourceJudgment, correctionList);
+        List<String> legalBases = specificJudgmentDataExtractor.extractLegalBases(sourceJudgment, correctionList);
         if (legalBases.isEmpty()) {
-            legalBases = specificJudgmentDataExtractor.extractLegalBases(sourceJudgment, correctionList);
+            legalBases = commonJudgmentDataExtractor.extractLegalBases(sourceJudgment, correctionList);
         }
         
         return legalBases;
@@ -129,9 +140,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public String extractSummary(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        String summary = commonJudgmentDataExtractor.extractSummary(sourceJudgment, correctionList);
+        String summary = specificJudgmentDataExtractor.extractSummary(sourceJudgment, correctionList);
         if (StringUtils.isEmpty(summary)) {
-            summary = specificJudgmentDataExtractor.extractSummary(sourceJudgment, correctionList);
+            summary = commonJudgmentDataExtractor.extractSummary(sourceJudgment, correctionList);
         }
         
         return summary;
@@ -140,9 +151,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public String extractDecision(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        String decision = commonJudgmentDataExtractor.extractDecision(sourceJudgment, correctionList);
+        String decision = specificJudgmentDataExtractor.extractDecision(sourceJudgment, correctionList);
         if (StringUtils.isEmpty(decision)) {
-            decision = specificJudgmentDataExtractor.extractDecision(sourceJudgment, correctionList);
+            decision = commonJudgmentDataExtractor.extractDecision(sourceJudgment, correctionList);
         }
         
         return decision;
@@ -151,9 +162,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public List<String> extractCourtReporters(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        List<String> courtReporters = commonJudgmentDataExtractor.extractCourtReporters(sourceJudgment, correctionList);
+        List<String> courtReporters = specificJudgmentDataExtractor.extractCourtReporters(sourceJudgment, correctionList);
         if (courtReporters.isEmpty()) {
-            courtReporters = specificJudgmentDataExtractor.extractCourtReporters(sourceJudgment, correctionList);
+            courtReporters = commonJudgmentDataExtractor.extractCourtReporters(sourceJudgment, correctionList);
         }
         
         return courtReporters;
@@ -162,9 +173,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public LocalDate extractJudgmentDate(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        LocalDate judgmentDate = commonJudgmentDataExtractor.extractJudgmentDate(sourceJudgment, correctionList);
+        LocalDate judgmentDate = specificJudgmentDataExtractor.extractJudgmentDate(sourceJudgment, correctionList);
         if (judgmentDate == null) {
-            judgmentDate = specificJudgmentDataExtractor.extractJudgmentDate(sourceJudgment, correctionList);
+            judgmentDate = commonJudgmentDataExtractor.extractJudgmentDate(sourceJudgment, correctionList);
         }
         
         return judgmentDate;
@@ -173,9 +184,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public String extractSourceJudgmentId(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        String sourceJudgmentId = commonJudgmentDataExtractor.extractSourceJudgmentId(sourceJudgment, correctionList);
+        String sourceJudgmentId = specificJudgmentDataExtractor.extractSourceJudgmentId(sourceJudgment, correctionList);
         if (StringUtils.isEmpty(sourceJudgmentId)) {
-            sourceJudgmentId = specificJudgmentDataExtractor.extractSourceJudgmentId(sourceJudgment, correctionList);
+            sourceJudgmentId = commonJudgmentDataExtractor.extractSourceJudgmentId(sourceJudgment, correctionList);
         }
         
         return sourceJudgmentId;
@@ -184,9 +195,9 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
     @Override
     public String extractSourceJudgmentUrl(SOURCE_JUDGMENT sourceJudgment,
             ImportCorrectionList correctionList) {
-        String sourceJudgmentUrl = commonJudgmentDataExtractor.extractSourceJudgmentUrl(sourceJudgment, correctionList);
+        String sourceJudgmentUrl = specificJudgmentDataExtractor.extractSourceJudgmentUrl(sourceJudgment, correctionList);
         if (StringUtils.isEmpty(sourceJudgmentUrl)) {
-            sourceJudgmentUrl = specificJudgmentDataExtractor.extractSourceJudgmentUrl(sourceJudgment, correctionList);
+            sourceJudgmentUrl = commonJudgmentDataExtractor.extractSourceJudgmentUrl(sourceJudgment, correctionList);
         }
         
         return sourceJudgmentUrl;
@@ -203,8 +214,11 @@ public class DelegatingJudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_J
         specificJudgmentDataExtractor.convertSpecific(judgment, sourceJudgment, correctionList);
     }
 
+    
+    //------------------------ SETTERS --------------------------
+    
     public void setCommonJudgmentDataExtractor(
-            CommonJudgmentDataExtractor<Judgment, SourceJudgment> commonJudgmentDataExtractor) {
+            JudgmentDataExtractor<Judgment, SourceJudgment> commonJudgmentDataExtractor) {
         this.commonJudgmentDataExtractor = commonJudgmentDataExtractor;
     }
 

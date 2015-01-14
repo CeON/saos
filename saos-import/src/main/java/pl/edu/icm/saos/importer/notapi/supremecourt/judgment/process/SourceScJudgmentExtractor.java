@@ -4,25 +4,16 @@ import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
-import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractorAdapter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
-import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
-import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
@@ -52,8 +43,6 @@ public class SourceScJudgmentExtractor extends JudgmentDataExtractorAdapter<Supr
     
     
     private ScChamberDivisionCreator scChamberDivisionCreator;
-    
-    private JudgeConverter judgeConverter;
     
     
     
@@ -210,11 +199,6 @@ public class SourceScJudgmentExtractor extends JudgmentDataExtractorAdapter<Supr
     @Autowired
     public void setScChamberDivisionCreator(ScChamberDivisionCreator scChamberDivisionCreator) {
         this.scChamberDivisionCreator = scChamberDivisionCreator;
-    }
-
-    @Autowired
-    public void setJudgeConverter(JudgeConverter judgeConverter) {
-        this.judgeConverter = judgeConverter;
     }
 
 }

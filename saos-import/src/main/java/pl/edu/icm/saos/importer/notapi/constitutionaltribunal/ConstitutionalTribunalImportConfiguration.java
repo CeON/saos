@@ -7,8 +7,11 @@ import org.springframework.context.annotation.Configuration;
 
 import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.validation.CommonValidator;
+import pl.edu.icm.saos.importer.common.converter.CommonJudgmentDataExtractor;
+import pl.edu.icm.saos.importer.common.converter.DelegatingJudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverterImpl;
+import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.overwriter.DelegatingJudgmentOverwriter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
@@ -16,10 +19,12 @@ import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgment;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process.CtSpecificJudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process.SourceCtJudgmentExtractor;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 
 import com.fasterxml.jackson.databind.MappingJsonFactory;
@@ -35,6 +40,9 @@ public class ConstitutionalTribunalImportConfiguration {
     
     @Autowired
     private MappingJsonFactory jsonFactory;
+    
+    @Autowired
+    private CommonJudgmentDataExtractor<Judgment, SourceJudgment> commonJudgmentDataExtractor;
     
     @Autowired
     private SourceCtJudgmentExtractor sourceCtJudgmentExtractor;
@@ -76,11 +84,20 @@ public class ConstitutionalTribunalImportConfiguration {
         
         return stepExecutionListener;
     }
+
+    @Bean
+    public JudgmentDataExtractor<ConstitutionalTribunalJudgment, SourceCtJudgment> ctjDataExtractor() {
+        DelegatingJudgmentDataExtractor<ConstitutionalTribunalJudgment, SourceCtJudgment> ctjDataExtractor = new DelegatingJudgmentDataExtractor<>();
+        ctjDataExtractor.setCommonJudgmentDataExtractor(commonJudgmentDataExtractor);
+        ctjDataExtractor.setSpecificJudgmentDataExtractor(sourceCtJudgmentExtractor);
+        
+        return ctjDataExtractor;
+    }
     
     @Bean
     public JudgmentConverter<ConstitutionalTribunalJudgment, SourceCtJudgment> sourceCtJudgmentConverter() {
         JudgmentConverterImpl<ConstitutionalTribunalJudgment, SourceCtJudgment> judgmentConverter = new JudgmentConverterImpl<>();
-        judgmentConverter.setJudgmentDataExtractor(sourceCtJudgmentExtractor);
+        judgmentConverter.setJudgmentDataExtractor(ctjDataExtractor());
         return judgmentConverter;
     }
     
