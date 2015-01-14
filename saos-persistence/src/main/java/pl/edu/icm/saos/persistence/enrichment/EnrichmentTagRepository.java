@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.persistence.enrichment;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +17,6 @@ public interface EnrichmentTagRepository extends JpaRepository<EnrichmentTag, In
     @Query("select max(creationDate) from #{#entityName}")
     public DateTime findMaxCreationDate();
    
+    
+    public List<EnrichmentTag> findAllByJudgmentId(int judgmentId);
 }

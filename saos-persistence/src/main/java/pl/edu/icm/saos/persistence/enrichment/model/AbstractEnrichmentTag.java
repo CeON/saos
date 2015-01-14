@@ -25,8 +25,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 @MappedSuperclass
 public abstract class AbstractEnrichmentTag extends DataObject {
 
-    
-    private int judgmentId;
+	private int judgmentId;
     
     private String tagType;
     

@@ -105,6 +105,36 @@ public class UploadEnrichmentTagRepositoryTest extends PersistenceTestSupport {
    
     
     
+    @Test
+    public void truncate() {
+        
+        // given
+        
+        UploadEnrichmentTag uploadEnrichmentTag1 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
+        uploadEnrichmentTagRepository.save(uploadEnrichmentTag1);
+        
+        UploadEnrichmentTag uploadEnrichmentTag2 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 36));
+        uploadEnrichmentTagRepository.save(uploadEnrichmentTag2);
+        
+        UploadEnrichmentTag uploadEnrichmentTag3 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
+        uploadEnrichmentTagRepository.save(uploadEnrichmentTag3);
+        
+        assertEquals(3, uploadEnrichmentTagRepository.count());
+        
+        
+        // execute
+        
+        uploadEnrichmentTagRepository.truncate();
+        
+        
+        // assert
+        
+        assertEquals(0, uploadEnrichmentTagRepository.count());
+        
+    }
+   
+    
+    
     //------------------------ PRIVATE --------------------------
  
     

@@ -8,7 +8,7 @@ import pl.edu.icm.saos.persistence.PersistenceTestConfiguration;
  * @author Łukasz Dumiszewski
  */
 
-@Import({EnrichmentTestConfiguration.class, PersistenceTestConfiguration.class})
+@Import({EnrichmentConfiguration.class, PersistenceTestConfiguration.class})
 public class EnrichmentTestConfiguration {
 
 }

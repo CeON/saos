@@ -20,6 +20,7 @@ import org.apache.commons.fileupload.util.LimitedInputStream;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -27,6 +28,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import pl.edu.icm.saos.common.json.JsonObjectIterator;
 import pl.edu.icm.saos.common.service.ServiceException;
 import pl.edu.icm.saos.common.testcommon.ServiceExceptionMatcher;
+import pl.edu.icm.saos.persistence.enrichment.UploadEnrichmentTagRepository;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -54,6 +56,8 @@ public class EnrichmentTagUploadServiceTest {
     
     @Mock private JsonParser jsonParser;
     
+    @Mock private UploadEnrichmentTagRepository uploadEnrichmentTagRepository;
+    
     
     
     @Before
@@ -66,6 +70,8 @@ public class EnrichmentTagUploadServiceTest {
         enrichmentTagUploadService.setJsonObjectIterator(jsonObjectIterator);
         
         enrichmentTagUploadService.setEnrichmentTagItemUploadProcessor(enrichmentTagItemUploadProcessor);
+        
+        enrichmentTagUploadService.setUploadEnrichmentTagRepository(uploadEnrichmentTagRepository);
         
     }
     
@@ -95,17 +101,25 @@ public class EnrichmentTagUploadServiceTest {
         
         // verify
         
-        ArgumentCaptor<EnrichmentTagItem> tagItemToProcessArg = ArgumentCaptor.forClass(EnrichmentTagItem.class);
-        verify(enrichmentTagItemUploadProcessor).processEnrichmentTagItem(tagItemToProcessArg.capture());
-        assertTrue(enrichmentTagItem == tagItemToProcessArg.getValue());
-
-        verifyNoMoreInteractions(enrichmentTagItemUploadProcessor);
-        
+        InOrder inOrder = Mockito.inOrder(uploadEnrichmentTagRepository, jsonFactory, jsonObjectIterator, enrichmentTagItemUploadProcessor);
+        inOrder.verify(uploadEnrichmentTagRepository).truncate();
         
         ArgumentCaptor<InputStream> inputStreamArg = ArgumentCaptor.forClass(InputStream.class);
-        verify(jsonFactory).createParser(inputStreamArg.capture());
+        inOrder.verify(jsonFactory).createParser(inputStreamArg.capture());
         assertTrue(inputStreamArg.getValue() instanceof LimitedInputStream);
         
+        inOrder.verify(jsonObjectIterator).nextJsonObject(jsonParser, EnrichmentTagItem.class);
+        
+        ArgumentCaptor<EnrichmentTagItem> tagItemToProcessArg = ArgumentCaptor.forClass(EnrichmentTagItem.class);
+        inOrder.verify(enrichmentTagItemUploadProcessor).processEnrichmentTagItem(tagItemToProcessArg.capture());
+        assertTrue(enrichmentTagItem == tagItemToProcessArg.getValue());
+
+        inOrder.verify(jsonObjectIterator).nextJsonObject(jsonParser, EnrichmentTagItem.class);
+        
+        verifyNoMoreInteractions(uploadEnrichmentTagRepository, jsonFactory, jsonObjectIterator, enrichmentTagItemUploadProcessor);
+        
+        
+               
     }
     
     

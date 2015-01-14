@@ -9,6 +9,7 @@ import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessa
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
 import org.apache.commons.fileupload.util.LimitedInputStream;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.json.JsonObjectIterator;
 import pl.edu.icm.saos.common.service.ServiceException;
+import pl.edu.icm.saos.persistence.enrichment.UploadEnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.UploadEnrichmentTag;
 
 import com.fasterxml.jackson.core.JsonFactory;
@@ -37,6 +39,9 @@ public class EnrichmentTagUploadService {
     
     private EnrichmentTagItemUploadProcessor enrichmentTagItemUploadProcessor;
     
+    private UploadEnrichmentTagRepository uploadEnrichmentTagRepository;
+    
+    
     private long enrichmentTagMaxUploadSize;
     
     
@@ -45,13 +50,17 @@ public class EnrichmentTagUploadService {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Reads {@link EnrichmentTagItem}s from the passed inputStream, converts them into {@link UploadEnrichmentTag}s
-     * and saves into the SAOS datasource.
+     * <b>Truncates</b> the upload tag table ({@link UploadEnrichmentTag}), then
+     * reads {@link EnrichmentTagItem}s from the passed inputStream, converts them into {@link UploadEnrichmentTag}s
+     * and saves into the SAOS datasource ({@link UploadEnrichmentTag}).
      * 
      * @throws ServiceException in case of any service exception like parse error, i/o error etc. 
      */
+    @Transactional
     public void uploadEnrichmentTags(InputStream inputStream) {
         
+    	uploadEnrichmentTagRepository.truncate();
+    	
         try {    
             try (LimitedInputStream limitedInputStream = limitInputStream(inputStream, enrichmentTagMaxUploadSize)) {
                 
@@ -149,7 +158,12 @@ public class EnrichmentTagUploadService {
         this.jsonObjectIterator = jsonObjectIterator;
     }
 
-    
+    @Autowired
+    public void setUploadEnrichmentTagRepository(UploadEnrichmentTagRepository uploadEnrichmentTagRepository) {
+		this.uploadEnrichmentTagRepository = uploadEnrichmentTagRepository;
+	}
+
+
     
     
 }

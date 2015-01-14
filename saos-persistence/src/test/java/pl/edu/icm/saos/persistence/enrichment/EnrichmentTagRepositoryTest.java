@@ -1,7 +1,11 @@
 package pl.edu.icm.saos.persistence.enrichment;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -104,6 +108,32 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
     }
    
     
+    @Test
+    public void findAllByJudgmentId() {
+        
+        // given
+        
+        EnrichmentTag enrichmentTag1 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
+        enrichmentTagRepository.save(enrichmentTag1);
+        
+        EnrichmentTag enrichmentTag2 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 36));
+        enrichmentTagRepository.save(enrichmentTag2);
+        
+        EnrichmentTag enrichmentTag3 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
+        enrichmentTagRepository.save(enrichmentTag3);
+        
+        
+        // execute
+        
+        List<EnrichmentTag> enrichmentTags = enrichmentTagRepository.findAllByJudgmentId(1);
+        
+        
+        // assert
+        
+        assertThat(enrichmentTags, containsInAnyOrder(enrichmentTag1, enrichmentTag2));
+        
+    }
+   
     
     //------------------------ PRIVATE --------------------------
  
