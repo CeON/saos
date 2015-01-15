@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 import static pl.edu.icm.saos.persistence.enrichment.TestInMemoryUploadEnrichmentTagFactory.createUploadEnrichmentTag;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +28,6 @@ public class UploadEnrichmentTagRepositoryTest extends PersistenceTestSupport {
     
    
     
-    @Before
-    public void before() {
-        
-        
-    }
-
-   
     //------------------------ TESTS --------------------------
     
     
