@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.batch.core.importer;
+package pl.edu.icm.saos.batch.core;
 
 import static org.junit.Assert.assertEquals;
 

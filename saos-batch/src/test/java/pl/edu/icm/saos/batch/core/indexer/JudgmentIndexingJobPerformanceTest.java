@@ -1,13 +1,11 @@
 package pl.edu.icm.saos.batch.core.indexer;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertSolrDocumentValues;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
@@ -152,18 +150,6 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
                 TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_TEXT);
 
         assertSolrDocumentValues(doc, JudgmentIndexField.CONTENT, TextObjectDefaultData.CC_TEXT_CONTENT);
-    }
-    
-    private void assertSolrDocumentValues(SolrDocument doc, JudgmentIndexField field, String ... fieldValues) {
-        String fieldName = field.getFieldName();
-        assertTrue(doc.getFieldNames().contains(fieldName));
-        
-        Collection<Object> vals = doc.getFieldValues(fieldName);
-        assertNotNull(vals);
-        assertEquals(fieldValues.length, vals.size());
-        for (String expectedVal : fieldValues) {
-            assertTrue("Field " + fieldName + " doesn't contain value " + expectedVal, vals.contains(expectedVal));
-        }
     }
     
     private void generateCcJudgments() throws IOException {

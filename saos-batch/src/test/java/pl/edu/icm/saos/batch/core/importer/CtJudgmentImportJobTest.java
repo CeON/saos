@@ -21,6 +21,7 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
+import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
