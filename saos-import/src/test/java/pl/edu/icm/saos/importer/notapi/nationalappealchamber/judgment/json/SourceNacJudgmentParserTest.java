@@ -27,9 +27,9 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
  * @author madryk
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SourceAcJudgmentParserTest {
+public class SourceNacJudgmentParserTest {
 
-    private JsonStringParser<SourceAcJudgment> sourceAcJudgmentParser = new JsonStringParser<>(SourceAcJudgment.class);
+    private JsonStringParser<SourceNacJudgment> sourceNacJudgmentParser = new JsonStringParser<>(SourceNacJudgment.class);
     
     @Mock
     private CommonValidator commonValidator;
@@ -64,9 +64,9 @@ public class SourceAcJudgmentParserTest {
 
         jsonContent = JsonNormalizer.normalizeJson(jsonContent);
         
-        sourceAcJudgmentParser.setJsonFactory(new MappingJsonFactory());
+        sourceNacJudgmentParser.setJsonFactory(new MappingJsonFactory());
         
-        sourceAcJudgmentParser.setCommonValidator(commonValidator);
+        sourceNacJudgmentParser.setCommonValidator(commonValidator);
         
     }
     
@@ -78,34 +78,34 @@ public class SourceAcJudgmentParserTest {
         
         // execute
         
-        SourceAcJudgment sourceAcJudgment = sourceAcJudgmentParser.parseAndValidate(jsonContent);
+        SourceNacJudgment sourceNacJudgment = sourceNacJudgmentParser.parseAndValidate(jsonContent);
         
         
         // assert
-        assertEquals("Sygn. akt: KIO/UZP 525/10 ...", sourceAcJudgment.getTextContent());
-        assertEquals("SENTENCE", sourceAcJudgment.getJudgmentType());
-        assertEquals(new LocalDate(2010, 4, 26), sourceAcJudgment.getJudgmentDate());
-        assertEquals(Lists.newArrayList("Agata Dziuban"), sourceAcJudgment.getCourtReporters());
+        assertEquals("Sygn. akt: KIO/UZP 525/10 ...", sourceNacJudgment.getTextContent());
+        assertEquals("SENTENCE", sourceNacJudgment.getJudgmentType());
+        assertEquals(new LocalDate(2010, 4, 26), sourceNacJudgment.getJudgmentDate());
+        assertEquals(Lists.newArrayList("Agata Dziuban"), sourceNacJudgment.getCourtReporters());
         
         
-        assertEquals(3, sourceAcJudgment.getJudges().size());
+        assertEquals(3, sourceNacJudgment.getJudges().size());
         
-        SourceJudge firstJudge = sourceAcJudgment.getJudges().get(0);
+        SourceJudge firstJudge = sourceNacJudgment.getJudges().get(0);
         assertEquals("Małgorzata Stręciwilk", firstJudge.getName());
         assertEquals(Lists.newArrayList("PRESIDING_JUDGE"), firstJudge.getSpecialRoles());
         
-        SourceJudge secondJudge = sourceAcJudgment.getJudges().get(1);
+        SourceJudge secondJudge = sourceNacJudgment.getJudges().get(1);
         assertEquals("Ewa Sikorska", secondJudge.getName());
         assertEquals(Lists.newArrayList(), secondJudge.getSpecialRoles());
         
-        SourceJudge thirdJudge = sourceAcJudgment.getJudges().get(2);
+        SourceJudge thirdJudge = sourceNacJudgment.getJudges().get(2);
         assertEquals("Robert Skrzeszewski", thirdJudge.getName());
         assertEquals(Lists.newArrayList(), thirdJudge.getSpecialRoles());
         
         
-        assertEquals(Lists.newArrayList("KIO/UZP 525/10", "KIO/UZP 551/10"), sourceAcJudgment.getCaseNumbers());
+        assertEquals(Lists.newArrayList("KIO/UZP 525/10", "KIO/UZP 551/10"), sourceNacJudgment.getCaseNumbers());
         
-        Source source = sourceAcJudgment.getSource();
+        Source source = sourceNacJudgment.getSource();
         assertEquals("9112dc5dcd793b50115abd39bcdd4e74", source.getSourceJudgmentId());
         assertEquals("ftp://ftp.uzp.gov.pl/KIO/Wyroki/2010_0525__551.pdf", source.getSourceJudgmentUrl());
         
@@ -116,11 +116,11 @@ public class SourceAcJudgmentParserTest {
         
         // given
         
-        doThrow(ValidationException.class).when(commonValidator).validateEx(any(SourceAcJudgment.class));
+        doThrow(ValidationException.class).when(commonValidator).validateEx(any(SourceNacJudgment.class));
         
         
         // execute
         
-        sourceAcJudgmentParser.parseAndValidate(jsonContent);
+        sourceNacJudgmentParser.parseAndValidate(jsonContent);
     }
 }

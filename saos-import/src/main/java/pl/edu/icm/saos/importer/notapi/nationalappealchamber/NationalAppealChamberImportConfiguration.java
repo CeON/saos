@@ -10,8 +10,8 @@ import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
-import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.json.SourceAcJudgment;
-import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceAcJudgment;
+import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.json.SourceNacJudgment;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceNacJudgment;
 
 import com.fasterxml.jackson.databind.MappingJsonFactory;
 
@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
  * @author madryk
  */
 @Configuration
-public class AppealChamberImportConfiguration {
+public class NationalAppealChamberImportConfiguration {
 
     @Autowired
     private CommonValidator commonValidator;
@@ -31,33 +31,33 @@ public class AppealChamberImportConfiguration {
     //------------------------ BEANS --------------------------
     
     @Bean
-    public JsonStringParser<SourceAcJudgment> sourceAcJudgmentParser() {
-        JsonStringParser<SourceAcJudgment> sourceNacJudgmentParser = new JsonStringParser<>(SourceAcJudgment.class);
+    public JsonStringParser<SourceNacJudgment> sourceNacJudgmentParser() {
+        JsonStringParser<SourceNacJudgment> sourceNacJudgmentParser = new JsonStringParser<>(SourceNacJudgment.class);
         sourceNacJudgmentParser.setCommonValidator(commonValidator);
         sourceNacJudgmentParser.setJsonFactory(jsonFactory);
         return sourceNacJudgmentParser;
     }
     
     @Bean
-    public JsonImportDownloadReader acjImportDownloadReader(@Value("${import.judgments.nationalAppealChamber.dir}") String importDir) {
-        JsonImportDownloadReader acjImportDownloadReader = new JsonImportDownloadReader();
-        acjImportDownloadReader.setImportDir(importDir);
+    public JsonImportDownloadReader nacjImportDownloadReader(@Value("${import.judgments.nationalAppealChamber.dir}") String importDir) {
+        JsonImportDownloadReader nacjImportDownloadReader = new JsonImportDownloadReader();
+        nacjImportDownloadReader.setImportDir(importDir);
         
-        return acjImportDownloadReader;
+        return nacjImportDownloadReader;
     }
     
     @Bean
-    public JsonImportDownloadProcessor<RawSourceAcJudgment> acjImportDownloadProcessor() {
-        JsonImportDownloadProcessor<RawSourceAcJudgment> acjImportDownloadProcessor = new JsonImportDownloadProcessor<>(RawSourceAcJudgment.class);
-        acjImportDownloadProcessor.setSourceJudgmentParser(sourceAcJudgmentParser());
+    public JsonImportDownloadProcessor<RawSourceNacJudgment> nacjImportDownloadProcessor() {
+        JsonImportDownloadProcessor<RawSourceNacJudgment> nacjImportDownloadProcessor = new JsonImportDownloadProcessor<>(RawSourceNacJudgment.class);
+        nacjImportDownloadProcessor.setSourceJudgmentParser(sourceNacJudgmentParser());
         
-        return acjImportDownloadProcessor;
+        return nacjImportDownloadProcessor;
     }
     
     @Bean
-    public NotApiImportDownloadStepExecutionListener acjImportDownloadStepExecutionListener() {
+    public NotApiImportDownloadStepExecutionListener nacjImportDownloadStepExecutionListener() {
         NotApiImportDownloadStepExecutionListener stepExecutionListener = new NotApiImportDownloadStepExecutionListener();
-        stepExecutionListener.setRawJudgmentClass(RawSourceAcJudgment.class);
+        stepExecutionListener.setRawJudgmentClass(RawSourceNacJudgment.class);
         
         return stepExecutionListener;
     }

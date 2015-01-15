@@ -10,6 +10,6 @@ import javax.persistence.Table;
 @Table(schema="importer", name="notapi_raw_source_nac_judgment")
 @Entity
 @Cacheable(true)
-public class RawSourceAcJudgment extends JsonRawSourceJudgment {
+public class RawSourceNacJudgment extends JsonRawSourceJudgment {
 
 }

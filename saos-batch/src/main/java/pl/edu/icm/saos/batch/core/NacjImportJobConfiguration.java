@@ -16,14 +16,14 @@ import pl.edu.icm.saos.importer.common.JudgmentImportDownloadWriter;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
-import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceAcJudgment;
+import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceNacJudgment;
 
 /**
  * @author madryk
  */
 @Configuration
 @ComponentScan
-public class AcjImportJobConfiguration {
+public class NacjImportJobConfiguration {
 
     @Autowired
     private JobBuilderFactory jobs;
@@ -36,36 +36,36 @@ public class AcjImportJobConfiguration {
     
     
     @Autowired
-    @Qualifier("acjImportDownloadReader")
-    private JsonImportDownloadReader acjImportDownloadReader;
+    @Qualifier("nacjImportDownloadReader")
+    private JsonImportDownloadReader nacjImportDownloadReader;
     
     @Autowired
-    @Qualifier("acjImportDownloadProcessor")
-    private JsonImportDownloadProcessor<RawSourceAcJudgment> acjImportDownloadProcessor;
+    @Qualifier("nacjImportDownloadProcessor")
+    private JsonImportDownloadProcessor<RawSourceNacJudgment> nacjImportDownloadProcessor;
     
     @Autowired
-    private JudgmentImportDownloadWriter acjImportDownloadWriter;
+    private JudgmentImportDownloadWriter nacjImportDownloadWriter;
     
     @Autowired
-    private NotApiImportDownloadStepExecutionListener acjImportDownloadStepExecutionListener;
+    private NotApiImportDownloadStepExecutionListener nacjImportDownloadStepExecutionListener;
     
     
     
     @Bean
     public Job acJudgmentImportDownloadJob() {
-        return jobs.get("IMPORT_AC_JUDGMENTS_download")
-                .start(acJudgmentImportDownloadStep())
+        return jobs.get("IMPORT_NAC_JUDGMENTS_download")
+                .start(nacJudgmentImportDownloadStep())
                 .incrementer(new RunIdIncrementer())
                 .build();
     }
     
     @Bean
-    protected Step acJudgmentImportDownloadStep() {
-        return steps.get("acJudgmentImportDownloadStep").<String, RawSourceAcJudgment> chunk(20)
-            .reader(acjImportDownloadReader)
-            .processor(acjImportDownloadProcessor)
-            .writer(acjImportDownloadWriter)
-            .listener(acjImportDownloadStepExecutionListener)
+    protected Step nacJudgmentImportDownloadStep() {
+        return steps.get("nacJudgmentImportDownloadStep").<String, RawSourceNacJudgment> chunk(20)
+            .reader(nacjImportDownloadReader)
+            .processor(nacjImportDownloadProcessor)
+            .writer(nacjImportDownloadWriter)
+            .listener(nacjImportDownloadStepExecutionListener)
             .build();
     }
 }

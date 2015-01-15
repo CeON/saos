@@ -11,7 +11,7 @@ import pl.edu.icm.saos.importer.notapi.common.SourceJudgment;
  * 
  * @author madryk
  */
-public class SourceAcJudgment extends SourceJudgment {
+public class SourceNacJudgment extends SourceJudgment {
 
     private String judgmentType;
     
