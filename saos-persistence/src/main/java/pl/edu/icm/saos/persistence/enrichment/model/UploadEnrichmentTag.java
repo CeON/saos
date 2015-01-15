@@ -11,24 +11,24 @@ import javax.persistence.UniqueConstraint;
 
 /**
  * 
- * An data enrichment tag used during an upload process. After the upload process has finished, the data is moved
+ * An enrichment tag class used during an upload process. After the upload process has finished, the data is moved
  * into {@link EnrichmentTag} table which is then used in SAOS typical functions.<br/> <br/>
  * See {@link EnrichmentTag} for an enrichment tag class used normally in system 
  * 
  * @author Łukasz Dumiszewski
  */
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(name="tag_temp_judgment_type_value_unique", columnNames={"judgmentId", "tagType"})})
+@Table(uniqueConstraints={@UniqueConstraint(name="upload_tag_judgment_type_value_unique", columnNames={"judgmentId", "tagType"})})
 @Cacheable(true)
-@SequenceGenerator(schema="importer", name = "seq_enrichment_tag_temp", allocationSize = 1, sequenceName = "seq_enrichment_tag_temp")
-public class EnrichmentTagTemp extends AbstractEnrichmentTag {
+@SequenceGenerator(schema="importer", name = "seq_upload_enrichment_tag", allocationSize = 1, sequenceName = "seq_upload_enrichment_tag")
+public class UploadEnrichmentTag extends AbstractEnrichmentTag {
 
 
     
     //------------------------ GETTERS --------------------------
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_enrichment_tag_temp")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_upload_enrichment_tag")
     @Override
     public int getId() {
         return id;

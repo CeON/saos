@@ -15,8 +15,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import pl.edu.icm.saos.common.validation.CommonValidator;
-import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagTempRepository;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTemp;
+import pl.edu.icm.saos.persistence.enrichment.UploadEnrichmentTagRepository;
+import pl.edu.icm.saos.persistence.enrichment.model.UploadEnrichmentTag;
 
 /**
  * @author Łukasz Dumiszewski
@@ -30,7 +30,7 @@ public class EnrichmentTagItemUploadProcessorTest {
     
     @Mock private EnrichmentTagItemConverter enrichmentTagItemConverter;
     
-    @Mock private EnrichmentTagTempRepository enrichmentTagTempRepository;
+    @Mock private UploadEnrichmentTagRepository uploadEnrichmentTagRepository;
     
     @Mock private CommonValidator commonValidator;
     
@@ -43,7 +43,7 @@ public class EnrichmentTagItemUploadProcessorTest {
         
         enrichmentTagItemUploadProcessor.setEnrichmentTagItemConverter(enrichmentTagItemConverter);
         
-        enrichmentTagItemUploadProcessor.setEnrichmentTagTempRepository(enrichmentTagTempRepository);
+        enrichmentTagItemUploadProcessor.setUploadEnrichmentTagRepository(uploadEnrichmentTagRepository);
         
         enrichmentTagItemUploadProcessor.setCommonValidator(commonValidator);
         
@@ -58,9 +58,9 @@ public class EnrichmentTagItemUploadProcessorTest {
         // given
         
         EnrichmentTagItem enrichmentTagItem = mock(EnrichmentTagItem.class);
-        EnrichmentTagTemp enrichmentTagTemp = mock(EnrichmentTagTemp.class);
+        UploadEnrichmentTag uploadEnrichmentTag = mock(UploadEnrichmentTag.class);
         
-        when(enrichmentTagItemConverter.convertEnrichmentTagItem(enrichmentTagItem)).thenReturn(enrichmentTagTemp);
+        when(enrichmentTagItemConverter.convertEnrichmentTagItem(enrichmentTagItem)).thenReturn(uploadEnrichmentTag);
         
         
         // execute
@@ -74,9 +74,9 @@ public class EnrichmentTagItemUploadProcessorTest {
         verify(commonValidator).validateEx(enrichmentTagItemArg.capture());
         assertTrue(enrichmentTagItem == enrichmentTagItemArg.getValue());
         
-        ArgumentCaptor<EnrichmentTagTemp> enrichmentTagTempArg = ArgumentCaptor.forClass(EnrichmentTagTemp.class);
-        verify(enrichmentTagTempRepository).saveAndFlush(enrichmentTagTempArg.capture());
-        assertTrue(enrichmentTagTemp == enrichmentTagTempArg.getValue());
+        ArgumentCaptor<UploadEnrichmentTag> uploadEnrichmentTagArg = ArgumentCaptor.forClass(UploadEnrichmentTag.class);
+        verify(uploadEnrichmentTagRepository).saveAndFlush(uploadEnrichmentTagArg.capture());
+        assertTrue(uploadEnrichmentTag == uploadEnrichmentTagArg.getValue());
         
         
 

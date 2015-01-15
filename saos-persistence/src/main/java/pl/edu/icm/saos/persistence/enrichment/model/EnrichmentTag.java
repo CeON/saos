@@ -12,7 +12,7 @@ import javax.persistence.UniqueConstraint;
 /**
  * 
  * A production data enrichment tag. <br/> <br/>
- * See {@link EnrichmentTagTemp} for an enrichment tag class used during upload process 
+ * See {@link UploadEnrichmentTag} for an enrichment tag class used during upload process 
  * 
  * @author Łukasz Dumiszewski
  */
