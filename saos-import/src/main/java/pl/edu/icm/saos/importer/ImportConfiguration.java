@@ -12,6 +12,7 @@ import pl.edu.icm.saos.importer.commoncourt.CommonCourtImportConfiguration;
 import pl.edu.icm.saos.importer.notapi.common.DateTimeDeserializer;
 import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.ConstitutionalTribunalImportConfiguration;
+import pl.edu.icm.saos.importer.notapi.nationalappealchamber.NationalAppealChamberImportConfiguration;
 import pl.edu.icm.saos.importer.notapi.supremecourt.SupremeCourtImportConfiguration;
 
 import com.fasterxml.jackson.core.JsonParser.Feature;
@@ -22,7 +23,8 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
  */
 @Configuration
 @ComponentScan
-@Import({CommonCourtImportConfiguration.class, SupremeCourtImportConfiguration.class, ConstitutionalTribunalImportConfiguration.class})
+@Import({CommonCourtImportConfiguration.class, SupremeCourtImportConfiguration.class, ConstitutionalTribunalImportConfiguration.class,
+    NationalAppealChamberImportConfiguration.class})
 public class ImportConfiguration {
 
     
