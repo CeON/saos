@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.powermock.reflect.Whitebox;
@@ -33,13 +32,6 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
     
    
     
-    @Before
-    public void before() {
-        
-        
-    }
-
-   
     //------------------------ TESTS --------------------------
     
     @Test

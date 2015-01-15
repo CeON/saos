@@ -38,6 +38,7 @@ public class UploadEnrichmentTagRepositoryTest extends PersistenceTestSupport {
    
     //------------------------ TESTS --------------------------
     
+    
     @Test
     public void saveAndFind() {
         

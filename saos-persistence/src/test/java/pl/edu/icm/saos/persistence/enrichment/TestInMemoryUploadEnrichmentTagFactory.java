@@ -12,12 +12,19 @@ import pl.edu.icm.saos.persistence.enrichment.model.UploadEnrichmentTag;
 public final class TestInMemoryUploadEnrichmentTagFactory {
    
     
+	
+	
+	//------------------------ CONSTRUCTORS --------------------------
+	
     private TestInMemoryUploadEnrichmentTagFactory() {
         
         throw new IllegalStateException("may not be instantiated");
         
     }
     
+    
+    
+    //------------------------ LOGIC --------------------------
     
     
     public static UploadEnrichmentTag createUploadEnrichmentTag(String enrichmentTagType, String enrichmentTagValue) {
