@@ -8,6 +8,8 @@ import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessa
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.OK_MESSAGE;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.edu.icm.saos.common.service.ServiceException;
 import pl.edu.icm.saos.common.service.ServiceResponse;
 import pl.edu.icm.saos.common.service.ServiceResponseFactory;
+import pl.edu.icm.saos.enrichment.process.UploadEnrichmentTagProcessor;
+import pl.edu.icm.saos.persistence.enrichment.model.UploadEnrichmentTag;
 
 import com.google.common.net.HttpHeaders;
 
@@ -44,12 +48,25 @@ public class EnrichmentTagUploadController {
     @Autowired
     private EnrichmentTagUploadService enrichmentTagUploadService;
     
+    @Autowired
+    private UploadEnrichmentTagProcessor uploadEnrichmentTagProcessor;
+    
     
     
     //------------------------ LOGIC --------------------------
     
    
-    @RequestMapping(value="/api/enrichment/tags")
+    /**
+     * Invoked by the SAOS Enricher to upload new enrichment tags.<br/>
+     * <br/>
+     * <ol>Involves two steps:
+     * <li>{@link EnrichmentTagUploadService#uploadEnrichmentTags(java.io.InputStream)} - uploads tags to {@link UploadEnrichmentTag}</li>
+     * <li>{@link UploadEnrichmentTagProcessor#processUploadedEnrichmentTags()} - processes uploaded tags (overwrites production tags), invoked
+     * asynchronously after successful upload </li>
+     * <ol>
+     *  
+     */
+	@RequestMapping(value="/api/enrichment/tags")
     public ResponseEntity<ServiceResponse> uploadEnrichmentTags(
                                          @RequestHeader(value=HttpHeaders.CONTENT_TYPE, required=false) String contentType,
                                          HttpServletRequest request) throws IOException {
@@ -59,14 +76,30 @@ public class EnrichmentTagUploadController {
         
         enrichmentTagUploadService.uploadEnrichmentTags(request.getInputStream());
         
+        asyncProcessUploadedEnrichmentTags(); // async so the SAOS enricher wouldn't have to wait for the end the processing part
+        
         return new ResponseEntity<ServiceResponse>(ServiceResponseFactory.createOkResponse(OK_MESSAGE, ""), HttpStatus.OK);
         
     }
-    
+
+
+
+	
     
     
     //------------------------ PRIVATE --------------------------
 
+	
+	private void asyncProcessUploadedEnrichmentTags() {
+		
+		new Thread(new Runnable() {
+			        		public void run() {
+			        			uploadEnrichmentTagProcessor.processUploadedEnrichmentTags();
+			        		};
+    			   }).start();
+		
+	}
+    
     
 
     // why so? when supported method is specified in requestMapping then dispatcherserlvlet throws possible exception 'outside' the controller.
@@ -103,5 +136,6 @@ public class EnrichmentTagUploadController {
         return new ResponseEntity<ServiceResponse>(ServiceResponseFactory.createErrorResponse(mainMessage, e.getMessage()), httpStatus);
     }
 
+    
     
 }

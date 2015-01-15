@@ -56,7 +56,7 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
         
         deleteJudgmentAttributes(JudgmentReferencedRegulation.class, judgmentIds);
         
-        deleteJudgmentAttributesSql("assigned_cc_judgment_keyword", judgmentIds);
+        deleteJudgmentAttributesSql("assigned_judgment_keyword", judgmentIds);
         deleteJudgmentAttributesSql("judgment_legal_bases", judgmentIds);
         
         deleteJudgmentAttributesSql("supreme_court_judgment_chamber", judgmentIds);
