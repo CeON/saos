@@ -1,7 +1,6 @@
-package pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process;
+package pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.process;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
@@ -22,14 +21,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgeExtractorHelper;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.Source;
-import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
-import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.SourceCtDissentingOpinion;
-import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
-import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
+import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.json.SourceNacJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 
 import com.google.common.collect.Lists;
 
@@ -37,15 +34,15 @@ import com.google.common.collect.Lists;
  * @author madryk
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SourceCtJudgmentExtractorTest {
+public class SourceNacJudgmentExtractorTest {
 
-    private SourceCtJudgmentExtractor judgmentExtractor = new SourceCtJudgmentExtractor();
+    private SourceNacJudgmentExtractor judgmentExtractor = new SourceNacJudgmentExtractor();
     
     @Mock
     private SourceJudgeExtractorHelper sourceJudgeExtractorHelper;
     
     
-    private SourceCtJudgment sJudgment = new SourceCtJudgment();
+    private SourceNacJudgment sJudgment = new SourceNacJudgment();
     
     private ImportCorrectionList correctionList = new ImportCorrectionList();
     
@@ -60,31 +57,29 @@ public class SourceCtJudgmentExtractorTest {
     
     @Test
     public void createNewJudgment() {
-        ConstitutionalTribunalJudgment ctJudgment = judgmentExtractor.createNewJudgment();
-        assertNotNull(ctJudgment);
+        NationalAppealChamberJudgment nacJudgment = judgmentExtractor.createNewJudgment();
+        assertNotNull(nacJudgment);
     }
-    
     
     @Test
     public void extractCourtCases() {
         
-        sJudgment.setCaseNumber("CASE 211w/121");
+        sJudgment.setCaseNumbers(Lists.newArrayList("CASE 211w/121", "CASE 231a/231"));
         
         List<CourtCase> courtCases = judgmentExtractor.extractCourtCases(sJudgment, correctionList);
         
-        assertEquals(1, courtCases.size());
-        assertEquals(sJudgment.getCaseNumber(), courtCases.get(0).getCaseNumber());
+        assertEquals(2, courtCases.size());
+        assertEquals(sJudgment.getCaseNumbers().get(0), courtCases.get(0).getCaseNumber());
+        assertEquals(sJudgment.getCaseNumbers().get(1), courtCases.get(1).getCaseNumber());
         
     }
     
     @Test
     public void extractCourtReporters() {
         
-        sJudgment.setCourtReporters(Lists.newArrayList("reporter1", "reporter2"));
-        
         List<String> courtReporters = judgmentExtractor.extractCourtReporters(sJudgment, correctionList);
         
-        assertThat(courtReporters, containsInAnyOrder("reporter1", "reporter2"));
+        assertEquals(0, courtReporters.size());
         
     }
     
@@ -233,42 +228,4 @@ public class SourceCtJudgmentExtractorTest {
     }
     
     
-    @Test
-    public void convertSpecific_DISSENTING_OPINIONS() {
-        
-        // given
-        
-        ConstitutionalTribunalJudgment ctJudgment = new ConstitutionalTribunalJudgment();
-        
-        SourceCtDissentingOpinion sDissentingOpinion1 = new SourceCtDissentingOpinion();
-        sDissentingOpinion1.setAuthors(Lists.newArrayList("Jan Kowalski", "Adam Nowak"));
-        sDissentingOpinion1.setTextContent("text content 1");
-        
-        SourceCtDissentingOpinion sDissentingOpinion2 = new SourceCtDissentingOpinion();
-        sDissentingOpinion2.setAuthors(Lists.newArrayList("Jacek Zieliński"));
-        sDissentingOpinion2.setTextContent("text content 2");
-        
-        sJudgment.setDissentingOpinions(Lists.newArrayList(sDissentingOpinion1, sDissentingOpinion2));
-        
-        
-        // execute
-        
-        judgmentExtractor.convertSpecific(ctJudgment, sJudgment, correctionList);
-        
-        
-        // assert
-        
-        ConstitutionalTribunalJudgmentDissentingOpinion expectedDissentingOpinion1 = new ConstitutionalTribunalJudgmentDissentingOpinion();
-        expectedDissentingOpinion1.addAuthor(sDissentingOpinion1.getAuthors().get(0));
-        expectedDissentingOpinion1.addAuthor(sDissentingOpinion1.getAuthors().get(1));
-        expectedDissentingOpinion1.setTextContent(sDissentingOpinion1.getTextContent());
-        expectedDissentingOpinion1.setJudgment(ctJudgment);
-        
-        ConstitutionalTribunalJudgmentDissentingOpinion expectedDissentingOpinion2 = new ConstitutionalTribunalJudgmentDissentingOpinion();
-        expectedDissentingOpinion2.addAuthor(sDissentingOpinion2.getAuthors().get(0));
-        expectedDissentingOpinion2.setTextContent(sDissentingOpinion2.getTextContent());
-        expectedDissentingOpinion2.setJudgment(ctJudgment);
-        
-        assertThat(ctJudgment.getDissentingOpinions(), containsInAnyOrder(expectedDissentingOpinion1, expectedDissentingOpinion2));
-    }
 }

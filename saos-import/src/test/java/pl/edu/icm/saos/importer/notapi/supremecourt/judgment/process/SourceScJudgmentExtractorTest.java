@@ -20,15 +20,13 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgeExtractorHelper;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.Source;
-import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
@@ -60,7 +58,7 @@ public class SourceScJudgmentExtractorTest {
     
     @Mock private ScJudgmentFormCreator scJudgmentFormCreator;
     
-    @Mock private JudgeConverter judgeConverter;
+    @Mock private SourceJudgeExtractorHelper sourceJudgeExtractorHelper;
     
     
     private SourceScJudgment sJudgment = new SourceScJudgment();
@@ -80,7 +78,7 @@ public class SourceScJudgmentExtractorTest {
         judgmentExtractor.setScJudgmentFormConverter(scJudgmentFormConverter);
         judgmentExtractor.setScJudgmentFormCreator(scJudgmentFormCreator);
         judgmentExtractor.setScJudgmentFormNameNormalizer(scJudgmentFormNameNormalizer);
-        judgmentExtractor.setJudgeConverter(judgeConverter);
+        judgmentExtractor.setSourceJudgeExtractorHelper(sourceJudgeExtractorHelper);
     }
 
   
@@ -222,60 +220,13 @@ public class SourceScJudgmentExtractorTest {
     @Test
     public void extractJudges() {
         
-        // given
-        
-        String janNowak = "Jan Nowak";
-        String adamKowalski = "Adam Kowalski";
-        String wrongName = "!! 11";
-        
-        SourceJudge sourceScJudge1 = new SourceJudge();
-        sourceScJudge1.setName(janNowak);
-        sourceScJudge1.setFunction("SSN");
-        sourceScJudge1.setSpecialRoles(Lists.newArrayList(JudgeRole.PRESIDING_JUDGE.name(), JudgeRole.REPORTING_JUDGE.name()));
-        
-        SourceJudge sourceScJudge2 = new SourceJudge();
-        sourceScJudge2.setName(adamKowalski);
-        sourceScJudge2.setFunction("SSA");
-        
-        SourceJudge sourceScJudge3 = new SourceJudge();
-        sourceScJudge3.setName(wrongName);
-        
-        
-        SourceJudge sourceScJudgeBlank = new SourceJudge(); // shouldn't be taken into account because it's name is blank
-        
-        
-        sJudgment.setJudges(Lists.newArrayList(sourceScJudge1, sourceScJudge2, sourceScJudge3, sourceScJudgeBlank));
-        
-        
-        Judge judgeJanNowak = new Judge(janNowak, JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE);
-        Judge judgeAdamKowalski = new Judge(adamKowalski);
-        when(judgeConverter.convertJudge(janNowak, Lists.newArrayList(JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE), correctionList)).thenReturn(judgeJanNowak);
-        when(judgeConverter.convertJudge(adamKowalski, Lists.newArrayList(), correctionList)).thenReturn(judgeAdamKowalski);
-        when(judgeConverter.convertJudge(wrongName, Lists.newArrayList(), correctionList)).thenReturn(null);
-        
-        
-        
-        // execute
+        Judge judge = new Judge("Jan Kowalski");
+        when(sourceJudgeExtractorHelper.extractJudges(sJudgment, correctionList)).thenReturn(Lists.newArrayList(judge));
         
         List<Judge> judges = judgmentExtractor.extractJudges(sJudgment, correctionList);
         
-        
-        
-        // assert
-        
-        assertEquals(2, judges.size());
-        
-        for (Judge judge : judges) {
-            sJudgment.getJudges().contains(judge.getName());
-            if (judge.getName().equals(sourceScJudge1.getName())) {
-                assertThat(judge.getSpecialRoles(), Matchers.containsInAnyOrder(JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE));
-                assertEquals(sourceScJudge1.getFunction(), judge.getFunction());
-            } else {
-                assertThat(judge.getSpecialRoles(), Matchers.containsInAnyOrder(sourceScJudge2.getSpecialRoles().toArray()));
-                assertEquals(sourceScJudge2.getFunction(), judge.getFunction());
-            }
-        }
-        
+        assertEquals(1, judges.size());
+        assertEquals(judge.getName(), judges.get(0).getName());
     }
 
     

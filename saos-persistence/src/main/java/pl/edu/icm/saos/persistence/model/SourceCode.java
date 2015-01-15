@@ -19,6 +19,9 @@ public enum SourceCode {
     SUPREME_COURT,
 
     /** pl. Trybunał Konstytucyjny */
-    CONSTITUTIONAL_TRIBUNAL
+    CONSTITUTIONAL_TRIBUNAL,
+    
+    /** pl. Krajowa Izba Odwoławcza */
+    NATIONAL_APPEAL_CHAMBER
     
 }
