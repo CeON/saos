@@ -39,7 +39,7 @@ public class ResetJudgmentIndexFlagStepExecutionListener implements StepExecutio
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
-        return null;
+        return ExitStatus.COMPLETED;
     }
 
 

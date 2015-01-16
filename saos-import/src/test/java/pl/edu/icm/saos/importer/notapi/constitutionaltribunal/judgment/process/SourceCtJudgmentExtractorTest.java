@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -31,6 +32,7 @@ import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
@@ -192,13 +194,19 @@ public class SourceCtJudgmentExtractorTest {
     @Test
     public void extractJudges() {
         
+        // given
         Judge judge = new Judge("Jan Kowalski");
-        when(sourceJudgeExtractorHelper.extractJudges(sJudgment, correctionList)).thenReturn(Lists.newArrayList(judge));
+        List<Judge> judges = ImmutableList.of(judge);
         
-        List<Judge> judges = judgmentExtractor.extractJudges(sJudgment, correctionList);
+        when(sourceJudgeExtractorHelper.extractJudges(sJudgment, correctionList)).thenReturn(judges);
         
-        assertEquals(1, judges.size());
-        assertEquals(judge.getName(), judges.get(0).getName());
+        
+        // execute
+        List<Judge> returnedJudges = judgmentExtractor.extractJudges(sJudgment, correctionList);
+        
+        
+        // assert
+        assertTrue(returnedJudges == judges);
     }
 
     

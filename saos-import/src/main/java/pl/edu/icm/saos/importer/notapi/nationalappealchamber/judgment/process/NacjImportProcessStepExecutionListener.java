@@ -31,7 +31,7 @@ public class NacjImportProcessStepExecutionListener implements StepExecutionList
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
-        return null;
+        return ExitStatus.COMPLETED;
     }
 
 }

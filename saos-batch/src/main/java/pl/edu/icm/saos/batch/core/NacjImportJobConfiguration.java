@@ -75,7 +75,7 @@ public class NacjImportJobConfiguration {
     
     
     @Bean
-    public Job acJudgmentImportDownloadJob() {
+    public Job nacJudgmentImportDownloadJob() {
         return jobs.get("IMPORT_NAC_JUDGMENTS_download")
                 .start(nacJudgmentImportDownloadStep())
                 .incrementer(new RunIdIncrementer())
@@ -95,7 +95,7 @@ public class NacjImportJobConfiguration {
     
     
     @Bean
-    public Job ctJudgmentImportProcessJob() {
+    public Job nacJudgmentImportProcessJob() {
         return jobs.get("IMPORT_NAC_JUDGMENTS_process").start(nacJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
     }
     

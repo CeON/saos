@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -28,6 +29,7 @@ import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
@@ -57,17 +59,23 @@ public class SourceNacJudgmentExtractorTest {
     
     @Test
     public void createNewJudgment() {
+        // execute
         NationalAppealChamberJudgment nacJudgment = judgmentExtractor.createNewJudgment();
+        
+        // assert
         assertNotNull(nacJudgment);
     }
     
     @Test
     public void extractCourtCases() {
         
+        // given
         sJudgment.setCaseNumbers(Lists.newArrayList("CASE 211w/121", "CASE 231a/231"));
         
+        // execute
         List<CourtCase> courtCases = judgmentExtractor.extractCourtCases(sJudgment, correctionList);
         
+        // assert
         assertEquals(2, courtCases.size());
         assertEquals(sJudgment.getCaseNumbers().get(0), courtCases.get(0).getCaseNumber());
         assertEquals(sJudgment.getCaseNumbers().get(1), courtCases.get(1).getCaseNumber());
@@ -77,8 +85,10 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractCourtReporters() {
         
+        // execute
         List<String> courtReporters = judgmentExtractor.extractCourtReporters(sJudgment, correctionList);
         
+        // assert
         assertEquals(0, courtReporters.size());
         
     }
@@ -88,8 +98,10 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractDecision() {
         
+        // execute
         String decision = judgmentExtractor.extractDecision(sJudgment, correctionList);
         
+        // assert
         assertNull(decision);
         
     }
@@ -98,8 +110,10 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractPublisher() {
         
+        // execute
         String publisher = judgmentExtractor.extractPublisher(sJudgment, correctionList);
         
+        // assert
         assertNull(publisher);
         
     }
@@ -108,8 +122,10 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractReviser() {
         
+        // execute
         String reviser = judgmentExtractor.extractReviser(sJudgment, correctionList);
         
+        // assert
         assertNull(reviser);
         
     }
@@ -118,11 +134,14 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractSourceJudgmentId() {
         
+        // given
         sJudgment.setSource(new Source());
         sJudgment.getSource().setSourceJudgmentId("1221212121222 ");
         
+        // execute
         String sourceJudgmentId = judgmentExtractor.extractSourceJudgmentId(sJudgment, correctionList);
         
+        // assert
         assertEquals(sJudgment.getSource().getSourceJudgmentId(), sourceJudgmentId);
         
     }
@@ -131,11 +150,15 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractSourceJudgmentUrl() {
         
+        // given
         sJudgment.setSource(new Source());
         sJudgment.getSource().setSourceJudgmentUrl("www.www.pl");
         
+        // execute
         String sourceJudgmentUrl = judgmentExtractor.extractSourceJudgmentUrl(sJudgment, correctionList);
         
+        
+        // assert
         assertEquals(sJudgment.getSource().getSourceJudgmentUrl(), sourceJudgmentUrl);
         
     }
@@ -144,8 +167,10 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractSummary() {
         
+        // execute
         String summary = judgmentExtractor.extractSummary(sJudgment, correctionList);
         
+        // assert
         assertNull(summary);
         
     }
@@ -154,10 +179,13 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractTextContent() {
         
+        // given
         sJudgment.setTextContent("sdlsdklskd <sbfmd ck dkjcd kjcdkj cndjc\n fdfdf");
         
+        // execute
         String textContent = judgmentExtractor.extractTextContent(sJudgment, correctionList);
         
+        // assert
         assertEquals(sJudgment.getTextContent(), textContent);
         
     }
@@ -166,10 +194,13 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractJudgmentDate() {
         
+        // given
         sJudgment.setJudgmentDate(new LocalDate());
         
+        // execute
         LocalDate judgmentDate = judgmentExtractor.extractJudgmentDate(sJudgment, correctionList);
         
+        // assert
         assertEquals(sJudgment.getJudgmentDate(), judgmentDate);
         
     }
@@ -178,8 +209,10 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractPublicationDate() {
         
+        // execute
         DateTime publicationDate = judgmentExtractor.extractPublicationDate(sJudgment, correctionList);
         
+        // assert
         assertNull(publicationDate);
         
     }
@@ -187,23 +220,32 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractJudges() {
         
+        // given
         Judge judge = new Judge("Jan Kowalski");
-        when(sourceJudgeExtractorHelper.extractJudges(sJudgment, correctionList)).thenReturn(Lists.newArrayList(judge));
+        List<Judge> judges = ImmutableList.of(judge);
         
-        List<Judge> judges = judgmentExtractor.extractJudges(sJudgment, correctionList);
+        when(sourceJudgeExtractorHelper.extractJudges(sJudgment, correctionList)).thenReturn(judges);
         
-        assertEquals(1, judges.size());
-        assertEquals(judge.getName(), judges.get(0).getName());
+        
+        // execute
+        List<Judge> returnedJudges = judgmentExtractor.extractJudges(sJudgment, correctionList);
+        
+        
+        // assert
+        assertTrue(returnedJudges == judges);
     }
 
     
     @Test
     public void extractJudgmentType() {
         
+        // given
         sJudgment.setJudgmentType("SENTENCE");
         
+        // execute
         JudgmentType retJudgmentType = judgmentExtractor.extractJudgmentType(sJudgment, correctionList);
         
+        // assert
         assertEquals(JudgmentType.SENTENCE, retJudgmentType);
         
     }
@@ -212,8 +254,10 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractLegalBases() {
         
+        // execute
         List<String> legalBases = judgmentExtractor.extractLegalBases(sJudgment, correctionList);
         
+        // assert
         assertThat(legalBases, is(empty()));
         
     }
@@ -222,8 +266,10 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractReferencedRegulations() {
         
+        // execute
         List<JudgmentReferencedRegulation> referencedRegulations = judgmentExtractor.extractReferencedRegulations(sJudgment, correctionList);
         
+        // assert
         assertThat(referencedRegulations, is(empty()));
     }
     

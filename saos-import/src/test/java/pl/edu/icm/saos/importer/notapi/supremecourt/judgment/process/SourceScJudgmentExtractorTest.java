@@ -35,6 +35,7 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
@@ -220,13 +221,19 @@ public class SourceScJudgmentExtractorTest {
     @Test
     public void extractJudges() {
         
+        // given
         Judge judge = new Judge("Jan Kowalski");
-        when(sourceJudgeExtractorHelper.extractJudges(sJudgment, correctionList)).thenReturn(Lists.newArrayList(judge));
+        List<Judge> judges = ImmutableList.of(judge);
         
-        List<Judge> judges = judgmentExtractor.extractJudges(sJudgment, correctionList);
+        when(sourceJudgeExtractorHelper.extractJudges(sJudgment, correctionList)).thenReturn(judges);
         
-        assertEquals(1, judges.size());
-        assertEquals(judge.getName(), judges.get(0).getName());
+        
+        // execute
+        List<Judge> returnedJudges = judgmentExtractor.extractJudges(sJudgment, correctionList);
+        
+        
+        // assert
+        assertTrue(returnedJudges == judges);
     }
 
     

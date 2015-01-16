@@ -29,7 +29,7 @@ public class CtjImportProcessStepExecutionListener implements
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
-        return null;
+        return ExitStatus.COMPLETED;
     }
 
 }
