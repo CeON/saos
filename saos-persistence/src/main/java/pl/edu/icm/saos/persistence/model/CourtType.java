@@ -16,6 +16,9 @@ public enum CourtType {
     ADMINISTRATIVE,
     
     /** pl. trybunał konstytucyjny */
-    CONSTITUTIONAL_TRIBUNAL
+    CONSTITUTIONAL_TRIBUNAL,
+    
+    /** pl. krajowa izba odwoławcza */
+    NATIONAL_APPEAL_CHAMBER
     
 }

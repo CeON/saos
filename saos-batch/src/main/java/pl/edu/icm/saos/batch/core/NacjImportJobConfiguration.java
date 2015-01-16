@@ -13,9 +13,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import pl.edu.icm.saos.importer.common.JudgmentImportDownloadWriter;
+import pl.edu.icm.saos.importer.common.JudgmentImportProcessWriter;
+import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
+import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
+import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.json.SourceNacJudgment;
+import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.process.NacjImportProcessStepExecutionListener;
+import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceNacJudgment;
 
 /**
@@ -51,8 +58,24 @@ public class NacjImportJobConfiguration {
     
     
     
+    @Autowired
+    private JudgmentImportProcessReader<RawSourceNacJudgment> nacjImportProcessReader;
+
+    @Autowired
+    private JsonJudgmentImportProcessProcessor<SourceNacJudgment, NationalAppealChamberJudgment> nacjImportProcessProcessor;
+    
+    @Autowired
+    private NacjImportProcessStepExecutionListener nacjImportProcessStepExecutionListener;
+    
     @Bean
-    public Job acJudgmentImportDownloadJob() {
+    public JudgmentImportProcessWriter<NationalAppealChamberJudgment> nacjImportProcessWriter() {
+        return new JudgmentImportProcessWriter<>();
+    }
+    
+    
+    
+    @Bean
+    public Job nacJudgmentImportDownloadJob() {
         return jobs.get("IMPORT_NAC_JUDGMENTS_download")
                 .start(nacJudgmentImportDownloadStep())
                 .incrementer(new RunIdIncrementer())
@@ -67,5 +90,33 @@ public class NacjImportJobConfiguration {
             .writer(nacjImportDownloadWriter)
             .listener(nacjImportDownloadStepExecutionListener)
             .build();
+    }
+    
+    
+    
+    @Bean
+    public Job nacJudgmentImportProcessJob() {
+        return jobs.get("IMPORT_NAC_JUDGMENTS_process").start(nacJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
+    }
+    
+    @Bean
+    protected Step nacJudgmentImportProcessStep() {
+        return steps.get("nacJudgmentImportProcessStep").<RawSourceNacJudgment, JudgmentWithCorrectionList<NationalAppealChamberJudgment>> chunk(20)
+            .reader(nacjImportProcessReader)
+            .processor(nacjImportProcessProcessor)
+            .writer(nacjImportProcessWriter())
+            .listener(nacjImportProcessStepExecutionListener)
+            .build();
+    }
+    
+    
+    
+    @Bean
+    public Job nacJudgmentImportJob() {
+        return jobs.get("IMPORT_NAC_JUDGMENTS")
+                .start(nacJudgmentImportDownloadStep())
+                .next(nacJudgmentImportProcessStep())
+                .incrementer(new RunIdIncrementer())
+                .build();
     }
 }
