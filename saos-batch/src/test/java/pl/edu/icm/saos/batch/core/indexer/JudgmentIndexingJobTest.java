@@ -96,20 +96,26 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
     }
     
     
-    //------------------------ LOGIC --------------------------
+    //------------------------ TESTS --------------------------
     
     @Test
     public void judgmentIndexingJob() throws Exception {
         
+        // given
         Judgment firstJudgment = judgmentRepository.findOne(ccJudgments.get(1).getId());
         firstJudgment.markAsIndexed();
         judgmentRepository.save(firstJudgment);
         
         int alreadyIndexedCount = 1;
         
+        
+        // execute
         JobExecution jobExecution = jobExecutor.forceStartNewJob(judgmentIndexingJob);
-        JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, ALL_JUDGMENTS_COUNT - alreadyIndexedCount);
         solrJudgmentsServer.commit();
+        
+        
+        // assert
+        JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, ALL_JUDGMENTS_COUNT - alreadyIndexedCount);
         
         assertAllMarkedAsIndexed();
         assertAllInIndex(ALL_JUDGMENTS_COUNT - alreadyIndexedCount);

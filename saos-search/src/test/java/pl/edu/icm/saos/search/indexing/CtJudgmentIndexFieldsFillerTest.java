@@ -61,9 +61,14 @@ public class CtJudgmentIndexFieldsFillerTest {
     @Test
     @UseDataProvider("ctJudgmentsFieldsData")
     public void fillFields(ConstitutionalTribunalJudgment givenJudgment, List<SolrInputField> expectedFields) {
+        
+        // given
         SolrInputDocument doc = new SolrInputDocument();
+        
+        // execute
         ccJudgmentIndexingProcessor.fillFields(doc, givenJudgment);
         
+        // assert
         expectedFields.forEach(expectedField -> assertFieldValues(doc, expectedField)); 
     }
 

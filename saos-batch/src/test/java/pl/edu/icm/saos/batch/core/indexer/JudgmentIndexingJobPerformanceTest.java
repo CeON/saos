@@ -89,7 +89,7 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
     }
     
     
-    //------------------------ LOGIC --------------------------
+    //------------------------ TESTS --------------------------
     
     @Test
     public void judgmentIndexingJobPerformanceTest() throws Exception {
