@@ -3,8 +3,6 @@ package pl.edu.icm.saos.batch.core.indexer;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -19,18 +17,18 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.core.JobParameter;
 import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.jdbc.datasource.init.ScriptException;
 
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
+import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -66,7 +64,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     
     
     @Before
-    public void setUp() throws SolrServerException, IOException, ScriptException, SQLException {
+    public void setUp() throws SolrServerException, IOException {
         solrJudgmentsServer.deleteByQuery("*:*");
         solrJudgmentsServer.commit();
         generateIndexedCcJudgments();
@@ -85,10 +83,13 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     @Test
     public void judgmentReindexingJob() throws Exception {
         
+        // execute
         JobExecution jobExecution = jobLauncher.run(judgmentReindexingJob, new JobParameters());
-        
-        assertStepWriteCount(jobExecution, 0, ALL_JUDGMENTS_COUNT);
         solrJudgmentsServer.commit();
+        
+        
+        // assert
+        JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, ALL_JUDGMENTS_COUNT);
         
         assertAllMarkedAsIndexed();
         assertAllInIndex(ALL_JUDGMENTS_COUNT);
@@ -98,25 +99,25 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     @Test
     public void judgmentReindexingJob_ONLY_SC_JUDGMENTS() throws Exception {
         
+        // given
         JobParameters jobParameters = new JobParameters(ImmutableMap.of("sourceCode", new JobParameter(SourceCode.SUPREME_COURT.name())));
-        JobExecution jobExecution = jobLauncher.run(judgmentReindexingJob, jobParameters);
         
-        assertStepWriteCount(jobExecution, 0, SUPREME_COURT_JUDGMENTS_COUNT);
+        
+        // execute
+        JobExecution jobExecution = jobLauncher.run(judgmentReindexingJob, jobParameters);
         solrJudgmentsServer.commit();
+
+        
+        // assert
+        JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, SUPREME_COURT_JUDGMENTS_COUNT);
         
         assertAllMarkedAsIndexed();
         assertAllInIndex(SUPREME_COURT_JUDGMENTS_COUNT);
+        assertAllInIndexIsOfType(SUPREME_COURT_JUDGMENTS_COUNT, CourtType.SUPREME);
         
     }
     
     //------------------------ PRIVATE --------------------------
-    
-    private void assertStepWriteCount(JobExecution jobExecution, int stepNumber, int expectedWriteCount) {
-        List<StepExecution> stepExecutions = new ArrayList<StepExecution>(jobExecution.getStepExecutions());
-        StepExecution stepExecution = stepExecutions.get(stepNumber);
-        
-        assertEquals(expectedWriteCount, stepExecution.getWriteCount());
-    }
     
     private void assertAllMarkedAsIndexed() {
         Page<Judgment> notIndexedJudgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
@@ -125,6 +126,12 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     
     private void assertAllInIndex(int count) throws SolrServerException {
         SolrQuery query = new SolrQuery("*:*");
+        QueryResponse response = solrJudgmentsServer.query(query);
+        assertEquals(count, response.getResults().getNumFound());
+    }
+    
+    private void assertAllInIndexIsOfType(int count, CourtType courtType) throws SolrServerException {
+        SolrQuery query = new SolrQuery("courtType:" + courtType.name());
         QueryResponse response = solrJudgmentsServer.query(query);
         assertEquals(count, response.getResults().getNumFound());
     }

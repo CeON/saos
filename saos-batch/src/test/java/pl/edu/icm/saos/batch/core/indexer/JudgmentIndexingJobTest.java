@@ -1,12 +1,12 @@
 package pl.edu.icm.saos.batch.core.indexer;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertSolrDocumentIntValues;
+import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertSolrDocumentPostfixedFieldValues;
+import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertSolrDocumentValues;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +21,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.StepExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -29,12 +28,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.datasource.init.ScriptException;
 
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
+import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.common.TextObjectDefaultData;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -63,11 +64,12 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
     
     @Autowired
     @Qualifier("solrJudgmentsServer")
-    private SolrServer judgmentsSolrServer;
+    private SolrServer solrJudgmentsServer;
     
     private final static int COMMON_COURT_JUDGMENTS_COUNT = 24;
     private final static int SUPREME_COURT_JUDGMENTS_COUNT = 10;
-    private final static int ALL_JUDGMENTS_COUNT = COMMON_COURT_JUDGMENTS_COUNT + SUPREME_COURT_JUDGMENTS_COUNT;
+    private final static int CONSTITUTIONAL_TRIBUNAL_JUDGMENTS_COUNT = 4;
+    private final static int ALL_JUDGMENTS_COUNT =COMMON_COURT_JUDGMENTS_COUNT + SUPREME_COURT_JUDGMENTS_COUNT + CONSTITUTIONAL_TRIBUNAL_JUDGMENTS_COUNT;
     
     private int commonCourtId;
     private int commonCourtDivisionId;
@@ -75,36 +77,45 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
     
     private List<SupremeCourtJudgment> scJudgments;
     
+    private List<ConstitutionalTribunalJudgment> ctJudgments;
+    
     
     @Before
     public void setUp() throws SolrServerException, IOException, ScriptException, SQLException {
-        judgmentsSolrServer.deleteByQuery("*:*");
-        judgmentsSolrServer.commit();
+        solrJudgmentsServer.deleteByQuery("*:*");
+        solrJudgmentsServer.commit();
         generateCcJudgments();
         generateScJudgments();
+        generateCtJudgments();
     }
     
     @After
     public void cleanup() throws SolrServerException, IOException {
-        judgmentsSolrServer.deleteByQuery("*:*");
-        judgmentsSolrServer.commit();
+        solrJudgmentsServer.deleteByQuery("*:*");
+        solrJudgmentsServer.commit();
     }
     
     
-    //------------------------ LOGIC --------------------------
+    //------------------------ TESTS --------------------------
     
     @Test
-    public void ccJudgmentIndexingJob() throws Exception {
+    public void judgmentIndexingJob() throws Exception {
         
+        // given
         Judgment firstJudgment = judgmentRepository.findOne(ccJudgments.get(1).getId());
         firstJudgment.markAsIndexed();
         judgmentRepository.save(firstJudgment);
         
         int alreadyIndexedCount = 1;
         
+        
+        // execute
         JobExecution jobExecution = jobExecutor.forceStartNewJob(judgmentIndexingJob);
-        assertEquals(ALL_JUDGMENTS_COUNT - alreadyIndexedCount, getFirstStepExecution(jobExecution).getWriteCount());
-        judgmentsSolrServer.commit();
+        solrJudgmentsServer.commit();
+        
+        
+        // assert
+        JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, ALL_JUDGMENTS_COUNT - alreadyIndexedCount);
         
         assertAllMarkedAsIndexed();
         assertAllInIndex(ALL_JUDGMENTS_COUNT - alreadyIndexedCount);
@@ -112,6 +123,7 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         assertCommonCourtJudgmentIndexed(ccJudgments.get(6));
         assertSupremeCourtJudgmentIndexed(scJudgments.get(3));
         assertSupremeCourtJudgmentIndexed(scJudgments.get(9));
+        assertConstitutionalTribunalJudgmentIndexed(ctJudgments.get(0));
         
     }
     
@@ -120,7 +132,7 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
     
     private void assertCommonCourtJudgmentIndexed(CommonCourtJudgment ccJudgment) throws SolrServerException {
         SolrQuery query = new SolrQuery("databaseId:" + String.valueOf(ccJudgment.getId()));
-        QueryResponse response = judgmentsSolrServer.query(query);
+        QueryResponse response = solrJudgmentsServer.query(query);
         assertEquals(1, response.getResults().getNumFound());
         SolrDocument doc = response.getResults().get(0);
         
@@ -140,7 +152,7 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
     
     private void assertSupremeCourtJudgmentIndexed(SupremeCourtJudgment scJudgment) throws SolrServerException {
         SolrQuery query = new SolrQuery("databaseId:" + String.valueOf(scJudgment.getId()));
-        QueryResponse response = judgmentsSolrServer.query(query);
+        QueryResponse response = solrJudgmentsServer.query(query);
         assertEquals(1, response.getResults().getNumFound());
         SolrDocument doc = response.getResults().get(0);
         
@@ -159,6 +171,17 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         assertSolrDocumentIntValues(doc, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID, scJudgment.getScChamberDivision().getScChamber().getId());
         assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_NAME, scJudgment.getScChamberDivision().getScChamber().getName());
         
+    }
+    
+    private void assertConstitutionalTribunalJudgmentIndexed(ConstitutionalTribunalJudgment ctJudgment) throws SolrServerException {
+        SolrQuery query = new SolrQuery("databaseId:" + String.valueOf(ctJudgment.getId()));
+        QueryResponse response = solrJudgmentsServer.query(query);
+        assertEquals(1, response.getResults().getNumFound());
+        SolrDocument doc = response.getResults().get(0);
+        
+        assertJudgmentIndexed(doc, ctJudgment);
+        
+        assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE, CourtType.CONSTITUTIONAL_TRIBUNAL.name());
     }
     
     private void assertJudgmentIndexed(SolrDocument doc, Judgment judgment) {
@@ -180,39 +203,6 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         assertSolrDocumentValues(doc, JudgmentIndexField.CONTENT, judgment.getTextContent());
     }
     
-    private void assertSolrDocumentValues(SolrDocument doc, JudgmentIndexField field, String ... fieldValues) {
-        String fieldName = field.getFieldName();
-        assertSolrDocumentValues(doc, fieldName, fieldValues);
-    }
-    
-    private void assertSolrDocumentPostfixedFieldValues(SolrDocument doc, JudgmentIndexField field, String postfix, String ... fieldValues) {
-        String fieldName = field.getFieldName() + "_#_" + postfix;
-        assertSolrDocumentValues(doc, fieldName, fieldValues);
-    }
-    
-    private void assertSolrDocumentValues(SolrDocument doc, String fieldName, String ... fieldValues) {
-        assertTrue(doc.getFieldNames().contains(fieldName));
-        
-        Collection<Object> vals = doc.getFieldValues(fieldName);
-        assertNotNull(vals);
-        assertEquals(fieldValues.length, vals.size());
-        for (String expectedVal : fieldValues) {
-            assertTrue("Field " + fieldName + " doesn't contain value " + expectedVal, vals.contains(expectedVal));
-        }
-    }
-    
-    private void assertSolrDocumentIntValues(SolrDocument doc, JudgmentIndexField field, int ... fieldValues) {
-        String fieldName =  field.getFieldName();
-        assertTrue(doc.getFieldNames().contains(fieldName));
-        
-        Collection<Object> vals = doc.getFieldValues(fieldName);
-        assertNotNull(vals);
-        assertEquals(fieldValues.length, vals.size());
-        for (int expectedVal : fieldValues) {
-            assertTrue("Field " + fieldName + " doesn't contain value " + expectedVal, vals.contains(expectedVal));
-        }
-    }
-    
     private void assertAllMarkedAsIndexed() {
         Page<Judgment> notIndexedJudgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
         assertEquals(0, notIndexedJudgments.getTotalElements());
@@ -220,15 +210,8 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
     
     private void assertAllInIndex(int count) throws SolrServerException {
         SolrQuery query = new SolrQuery("*:*");
-        QueryResponse response = judgmentsSolrServer.query(query);
+        QueryResponse response = solrJudgmentsServer.query(query);
         assertEquals(count, response.getResults().getNumFound());
-    }
-    
-    private StepExecution getFirstStepExecution(JobExecution execution) {
-        for (StepExecution stepExecution : execution.getStepExecutions()) {
-            return stepExecution;
-        }
-        return null;
     }
     
     private void generateCcJudgments() {
@@ -251,5 +234,9 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         scJudgments.forEach(x -> x.setScChamberDivision(x.getScChambers().get(0).getDivisions().get(0)));
         judgmentRepository.save(scJudgments);
         judgmentRepository.flush();
+    }
+    
+    private void generateCtJudgments() {
+        ctJudgments = testPersistenceObjectFactory.createCtJudgmentListWithRandomData(CONSTITUTIONAL_TRIBUNAL_JUDGMENTS_COUNT);
     }
 }
