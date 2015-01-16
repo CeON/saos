@@ -4,7 +4,6 @@ import static pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -12,14 +11,12 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
-import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgeExtractorHelper;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -52,7 +49,7 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     
     private ScChamberDivisionCreator scChamberDivisionCreator;
     
-    private JudgeConverter judgeConverter;
+    private SourceJudgeExtractorHelper sourceJudgeExtractorHelper;
     
     
     
@@ -92,21 +89,7 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
 
     @Override
     public List<Judge> extractJudges(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        List<Judge> judges = Lists.newArrayList();
-        
-        for (SourceJudge scJudge : sourceJudgment.getJudges()) {
-            
-            List<JudgeRole> roles = scJudge.getSpecialRoles().stream().map(role->JudgeRole.valueOf(role)).collect(Collectors.toList());
-            Judge judge = judgeConverter.convertJudge(scJudge.getName(), roles, correctionList);
-            
-            if (judge != null) {
-                judge.setFunction(scJudge.getFunction());
-                judges.add(judge);
-            }
-        
-        }
-        
-        return judges;
+        return sourceJudgeExtractorHelper.extractJudges(sourceJudgment, correctionList);
     }
 
     
@@ -295,8 +278,8 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     }
 
     @Autowired
-    public void setJudgeConverter(JudgeConverter judgeConverter) {
-        this.judgeConverter = judgeConverter;
+    public void setSourceJudgeExtractorHelper(SourceJudgeExtractorHelper sourceJudgeExtractorHelper) {
+        this.sourceJudgeExtractorHelper = sourceJudgeExtractorHelper;
     }
 
 }

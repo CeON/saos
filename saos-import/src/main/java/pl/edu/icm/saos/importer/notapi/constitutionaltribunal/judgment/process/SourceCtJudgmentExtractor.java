@@ -1,24 +1,21 @@
 package pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
-import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
+import pl.edu.icm.saos.importer.notapi.common.SourceJudgeExtractorHelper;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment.SourceCtDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -30,8 +27,8 @@ import com.google.common.collect.Lists;
  */
 @Service("sourceCtJudgmentExtractor")
 public class SourceCtJudgmentExtractor implements JudgmentDataExtractor<ConstitutionalTribunalJudgment, SourceCtJudgment> {
-
-    private JudgeConverter judgeConverter;
+    
+    private SourceJudgeExtractorHelper sourceJudgeExtractorHelper;
     
     
     //------------------------ LOGIC --------------------------
@@ -68,20 +65,7 @@ public class SourceCtJudgmentExtractor implements JudgmentDataExtractor<Constitu
 
     @Override
     public List<Judge> extractJudges(SourceCtJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        List<Judge> judges = Lists.newArrayList();
-        
-        for (SourceJudge scJudge : sourceJudgment.getJudges()) {
-            
-            List<JudgeRole> roles = scJudge.getSpecialRoles().stream().map(role->JudgeRole.valueOf(role)).collect(Collectors.toList());
-            Judge judge = judgeConverter.convertJudge(scJudge.getName(), roles, correctionList);
-            
-            if (judge != null) {
-                judges.add(judge);
-            }
-        
-        }
-        
-        return judges;
+        return sourceJudgeExtractorHelper.extractJudges(sourceJudgment, correctionList);
     }
 
     @Override
@@ -172,8 +156,8 @@ public class SourceCtJudgmentExtractor implements JudgmentDataExtractor<Constitu
     //------------------------ SETTERS --------------------------
     
     @Autowired
-    public void setJudgeConverter(JudgeConverter judgeConverter) {
-        this.judgeConverter = judgeConverter;
+    public void setSourceJudgeExtractorHelper(SourceJudgeExtractorHelper sourceJudgeExtractorHelper) {
+        this.sourceJudgeExtractorHelper = sourceJudgeExtractorHelper;
     }
 
 }
