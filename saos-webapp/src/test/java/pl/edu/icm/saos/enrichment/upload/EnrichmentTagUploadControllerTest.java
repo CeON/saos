@@ -3,6 +3,7 @@ package pl.edu.icm.saos.enrichment.upload;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -22,12 +23,14 @@ import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessa
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.OK_MESSAGE;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.codec.binary.Base64;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -74,6 +77,9 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
     
     @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
+    
+    @Autowired
+    private EnrichmentTagUploadController enrichmentTagUploadController;
     
 
     
@@ -285,6 +291,26 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
         assertEquals(0, enrichmentTagRepository.count());
         assertEquals(0, uploadEnrichmentTagRepository.count());
     }
+    
+    
+    
+    @Test
+    public void uploadEnrichmentTags_InternalServerError() throws Exception {
+    	
+    	// given
+    	EnrichmentTagUploadService mockEnrichmentTagUploadService = mock(EnrichmentTagUploadService.class);
+    	Mockito.doThrow(Exception.class).when(mockEnrichmentTagUploadService).uploadEnrichmentTags(Mockito.any(InputStream.class));
+    	enrichmentTagUploadController.setEnrichmentTagUploadService(mockEnrichmentTagUploadService);
+    	
+    	// execute 
+        ResultActions result = performPut("["+createJsonTag(12, "REFERENCED_REGULATIONS", "{'CCC':'YYY'}")+"]");
+        
+    	enrichmentTagUploadController.setEnrichmentTagUploadService(enrichmentTagUploadService);
+        
+    	// assert
+        assertError(result, HttpStatus.INTERNAL_SERVER_ERROR, EnrichmentTagUploadResponseMessages.ERROR_INTERVAL_SERVER_ERROR);
+    }
+    
     
     
     @Test

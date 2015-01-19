@@ -42,13 +42,10 @@ public class EnrichmentTagUploadController {
     private final static String SUPPORTED_CONTENT_TYPE = MediaType.APPLICATION_JSON_VALUE;
     
     
-    @Autowired
     private EnrichmentTagUploadService enrichmentTagUploadService;
     
-    @Autowired
     private UploadEnrichmentTagProcessor uploadEnrichmentTagProcessor;
     
-    @Autowired
     private EnrichmentTagUploadMessageHttpStatusMapper enrichmentTagUploadMessageHttpStatusMapper;
     
     
@@ -136,6 +133,26 @@ public class EnrichmentTagUploadController {
         return new ResponseEntity<ServiceResponse>(ServiceResponseFactory.createErrorResponse(mainMessage, e.getMessage()), httpStatus);
     }
 
+    
+    //------------------------ SETTERS --------------------------
+
+    @Autowired
+	public void setEnrichmentTagUploadService(
+			EnrichmentTagUploadService enrichmentTagUploadService) {
+		this.enrichmentTagUploadService = enrichmentTagUploadService;
+	}
+
+    @Autowired
+	public void setUploadEnrichmentTagProcessor(
+			UploadEnrichmentTagProcessor uploadEnrichmentTagProcessor) {
+		this.uploadEnrichmentTagProcessor = uploadEnrichmentTagProcessor;
+	}
+
+    @Autowired
+	public void setEnrichmentTagUploadMessageHttpStatusMapper(
+			EnrichmentTagUploadMessageHttpStatusMapper enrichmentTagUploadMessageHttpStatusMapper) {
+		this.enrichmentTagUploadMessageHttpStatusMapper = enrichmentTagUploadMessageHttpStatusMapper;
+	}
     
     
 }
