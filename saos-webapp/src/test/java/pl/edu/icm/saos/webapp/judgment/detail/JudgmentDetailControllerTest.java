@@ -1,13 +1,17 @@
 package pl.edu.icm.saos.webapp.judgment.detail;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
+import java.util.List;
+
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -25,9 +29,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
+import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
+import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
+import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionService;
 
 /**
  * 
@@ -52,14 +60,19 @@ public class JudgmentDetailControllerTest {
 	
 	@Mock
 	private JudgmentRepository judgmentRepository;
+	
+	@Mock
+	private JudgmentCorrectionService judgmentCorrectionService;
     
 	private CommonCourtJudgment judgment = getCcJudgment();
+	private List<JudgmentCorrection> judgmentCorrections = getJudgmentCorrections();
 	
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		
 		when(judgmentRepository.findOneAndInitialize(judgment.getId())).thenReturn(judgment);
+		when(judgmentCorrectionService.findByJugmentId(judgment.getId())).thenReturn(judgmentCorrections);
 		
 		mockMvc = webAppContextSetup(webApplicationCtx)
 					.build();
@@ -74,9 +87,11 @@ public class JudgmentDetailControllerTest {
 		mockMvc.perform(get("/judgments/" + judgment.getId()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentDetails"))
-			.andExpect(model().attribute("judgment", judgment));
+			.andExpect(model().attribute("judgment", judgment))
+			.andExpect(model().attribute("corrections", judgmentCorrections));
 		
 		verify(judgmentRepository, times(1)).findOneAndInitialize(judgment.getId());
+		verify(judgmentCorrectionService, times(1)).findByJugmentId(judgment.getId());
 	}
 
 	
@@ -90,5 +105,22 @@ public class JudgmentDetailControllerTest {
 		
 		return ccJudgment;
 	}
+	
+	private List<JudgmentCorrection> getJudgmentCorrections() {
+
+		JudgmentCorrectionBuilder judgmentCorrectionBuilder = JudgmentCorrectionBuilder.createFor(judgment);
+		
+		JudgmentCorrection jc = judgmentCorrectionBuilder.update(judgment)
+															.property(CorrectedProperty.JUDGMENT_TYPE)
+															.newValue("SENTENCE")
+															.oldValue("SENTENCE, REASON")
+															.build();
+		
+		return Lists.newArrayList(jc);
+	}
+
+
+	
+
 
 }

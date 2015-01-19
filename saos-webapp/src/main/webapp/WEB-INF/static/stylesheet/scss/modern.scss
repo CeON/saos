@@ -906,6 +906,60 @@ form.search {
 	}
 }
 
+
+.correction-block {
+	padding-left: 0px;
+	padding-right: 0px;
+	position: relative;
+
+	.correction-info {
+		color: #CD5C5C;
+		font: {
+			style: italic;
+		}
+		margin-top: 30px;
+		padding-left: 15px;
+		
+		span {
+			cursor: pointer;
+			margin-left: 5px;
+			text-decoration: underline;
+		}
+	}
+	
+	.corrections {
+		background: #fff;
+	    border: 1px solid #e0e0e0;
+	    display: none;	
+		font: {
+			/*size: 0.8em;*/
+		}
+		margin-bottom: -60px;
+		padding: 10px 40px 25px;	
+		position: relative;
+		top: -40px;
+		
+	
+		h4 {
+			border-bottom: 1px solid #e0e0e0;
+		    font-weight: 300;
+		    margin-bottom: 15px;
+		    margin-top: 15px;
+		    padding-bottom: 6px;
+		}
+	
+		.correction-desc {
+			font: {
+				size: 12px;
+				style: italic;
+			}
+			padding: 0;		
+		}
+	
+	}
+	
+}
+
 .tooltip-inner {
 	background: rgba(0, 0, 0, 0.95);
 	padding: 8px;

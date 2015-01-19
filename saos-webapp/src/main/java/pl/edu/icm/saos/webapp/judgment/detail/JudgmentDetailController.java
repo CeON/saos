@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionService;
 
 /**
  * Provides view of single judgment.
@@ -20,14 +21,18 @@ public class JudgmentDetailController {
 	@Autowired
 	private JudgmentRepository judgmentRepository;
 	
+	@Autowired
+	private JudgmentCorrectionService judgmentCorrectionService;
+	
 	
 	//------------------------ LOGIC --------------------------
 	
 	@RequestMapping("/judgments/{judgmentId}")
 	public String showJudgmentDetail(ModelMap model, @PathVariable("judgmentId") Integer judgmentId) {
-	
+		
 		model.addAttribute("judgment", judgmentRepository.findOneAndInitialize(judgmentId));
-	
+		model.addAttribute("corrections", judgmentCorrectionService.findByJugmentId(judgmentId));
+		
 		return "judgmentDetails";
 	}
 }

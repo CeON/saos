@@ -8,4 +8,5 @@
 <%@ taglib  prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib  prefix="saos" tagdir="/WEB-INF/tags"%>
 <%@ taglib  prefix="saosSearch" tagdir="/WEB-INF/tags/search"%>
+<%@ taglib  prefix="saosDetails" tagdir="/WEB-INF/tags/details"%>
 
