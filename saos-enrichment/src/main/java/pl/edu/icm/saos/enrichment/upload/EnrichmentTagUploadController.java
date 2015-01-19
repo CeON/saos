@@ -1,6 +1,5 @@
 package pl.edu.icm.saos.enrichment.upload;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_INTERVAL_SERVER_ERROR;
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_UNSUPPORTED_HTTP_CONTENT_TYPE;
@@ -8,8 +7,6 @@ import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessa
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.OK_MESSAGE;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -50,6 +47,9 @@ public class EnrichmentTagUploadController {
     
     @Autowired
     private UploadEnrichmentTagProcessor uploadEnrichmentTagProcessor;
+    
+    @Autowired
+    private EnrichmentTagUploadMessageHttpStatusMapper enrichmentTagUploadMessageHttpStatusMapper;
     
     
     
@@ -123,7 +123,7 @@ public class EnrichmentTagUploadController {
     
     @ExceptionHandler(ServiceException.class)
     private ResponseEntity<ServiceResponse> serviceException(ServiceException e) {
-        return errorResponse(e.getMainMessage(), e, BAD_REQUEST);
+        return errorResponse(e.getMainMessage(), e, enrichmentTagUploadMessageHttpStatusMapper.getHttpStatus(e.getMainMessage()));
     }
 
     @ExceptionHandler(Exception.class)

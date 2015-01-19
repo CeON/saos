@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.enrichment.upload;
 
+import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_EMPTY_DATA;
+import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_INTERVAL_SERVER_ERROR;
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_INVALID_DATA;
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_INVALID_JSON_FORMAT;
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_IO;
@@ -9,13 +11,14 @@ import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessa
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
 import org.apache.commons.fileupload.util.LimitedInputStream;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.json.JsonObjectIterator;
@@ -27,6 +30,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 @Service("enrichmentTagUploadService")
 public class EnrichmentTagUploadService {
@@ -49,19 +53,25 @@ public class EnrichmentTagUploadService {
     
     //------------------------ LOGIC --------------------------
     
-    /**
+   
+
+	/**
      * <b>Truncates</b> the upload tag table ({@link UploadEnrichmentTag}), then
      * reads {@link EnrichmentTagItem}s from the passed inputStream, converts them into {@link UploadEnrichmentTag}s
      * and saves into the SAOS datasource ({@link UploadEnrichmentTag}).
      * 
-     * @throws ServiceException in case of any service exception like parse error, i/o error etc. 
+     * @throws ServiceException in case of any recongnizable service exception like parse error, i/o error etc. 
      */
     @Transactional
     public void uploadEnrichmentTags(InputStream inputStream) {
         
     	uploadEnrichmentTagRepository.truncate();
     	
-        try {    
+        if (inputStream == null) {
+    		throw new ServiceException(ERROR_EMPTY_DATA, "no data received, null input stream");
+    	}
+    	
+    	try {    
             try (LimitedInputStream limitedInputStream = limitInputStream(inputStream, enrichmentTagMaxUploadSize)) {
                 
                 JsonParser jsonParser = jsonFactory.createParser(limitedInputStream);
@@ -69,7 +79,13 @@ public class EnrichmentTagUploadService {
                 
                 EnrichmentTagItem enrichmentTagItem = null;
                 
-                if (!JsonToken.START_ARRAY.equals(jsonParser.nextToken())) {
+                JsonToken token = jsonParser.nextToken();
+                
+                if (token == null) {
+                	throw new ServiceException(ERROR_EMPTY_DATA, "no data received, empty message body");
+                }
+                
+                if (!JsonToken.START_ARRAY.equals(token)) {
                     throw new ServiceException(ERROR_INVALID_JSON_FORMAT, "the content is not a json array");
                 }
                 
@@ -95,6 +111,10 @@ public class EnrichmentTagUploadService {
             throw new ServiceException(ERROR_INVALID_JSON_FORMAT, e.getMessage(), e);
         } 
         
+    	catch (JsonMappingException e) {
+    		throw new ServiceException(ERROR_INVALID_JSON_FORMAT, e.getMessage(), e);
+        } 
+    	
         catch (ValidationException e) {
             throw new ServiceException(ERROR_INVALID_DATA, e.getMessage(), e);
         }
@@ -103,15 +123,27 @@ public class EnrichmentTagUploadService {
             throw new ServiceException(ERROR_IO, e.getMessage(), e);
         }
          
-        catch (DataIntegrityViolationException e) {
-            throw new ServiceException(ERROR_SAME_TAG_ALREADY_UPLOADED, e.getMessage(), e);
+        catch (PersistenceException e) {
+        	if (e.getCause() instanceof ConstraintViolationException) {
+        		throw new ServiceException(ERROR_SAME_TAG_ALREADY_UPLOADED, e.getCause().getMessage(), e.getCause());
+        	} else {
+        		throw new ServiceException(ERROR_INTERVAL_SERVER_ERROR, e.getMessage(), e.getCause());
+        	}
         }
         
     }
 
    
         
-    
+    //------------------------ GETTERS --------------------------
+    public long getEnrichmentTagMaxUploadSize() {
+		return enrichmentTagMaxUploadSize;
+	}
+
+
+
+
+
 
     
     //------------------------ PRIVATE --------------------------
