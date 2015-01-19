@@ -3,6 +3,7 @@ package pl.edu.icm.saos.persistence.enrichment.model;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.Type;
@@ -63,6 +64,7 @@ public abstract class AbstractEnrichmentTag extends DataObject {
      */
     @Type(type = "StringJsonObject" )
     @Column(nullable=false)
+    @Convert(disableConversion = true)
     public String getValue() {
         return value;
     }
