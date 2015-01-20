@@ -6,14 +6,9 @@ package pl.edu.icm.saos.enrichment.upload;
 
 public final class EnrichmentTagUploadResponseMessages {
 
-    private EnrichmentTagUploadResponseMessages() {
-        throw new IllegalStateException("not to instantiate");
-    }
-    
-    
+
     public static final String OK_MESSAGE = "Enrichment tags successfully uploaded";
 
-    public static final String ERROR_ACCESS_DENIED = "access denied"; 
     public static final String ERROR_AUTHENTICATION_FAILED = "authentication failed"; 
     public static final String ERROR_UNSUPPORTED_HTTP_METHOD = "unsupported http method type"; 
     public static final String ERROR_UNSUPPORTED_HTTP_CONTENT_TYPE = "unsupported http content type"; 
@@ -24,4 +19,14 @@ public final class EnrichmentTagUploadResponseMessages {
     public static final String ERROR_MAX_UPLOAD_SIZE_EXCEEDED = "max upload size exceeded";
     public static final String ERROR_SAME_TAG_ALREADY_UPLOADED = "same tag already uploaded"; 
     public static final String ERROR_IO = "I/O error";
-}
+    
+	
+	
+	
+	//------------------------ CONSTRUCTORS --------------------------
+	
+    private EnrichmentTagUploadResponseMessages() {
+        throw new IllegalStateException("not to instantiate");
+    }
+    
+    }

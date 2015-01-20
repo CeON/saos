@@ -1,7 +1,8 @@
 package pl.edu.icm.saos.enrichment.upload;
 
+import javax.persistence.PersistenceException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.validation.CommonValidator;
@@ -27,7 +28,7 @@ public class EnrichmentTagItemUploadProcessor {
 
     /**
      * Converts the passed enrichmentTagItem into {@link UploadEnrichmentTag} and saves it. 
-     * @throws DataIntegrityViolationException if any of the datasource constraints has been violated
+     * @throws PersistenceException if any of the datasource constraints has been violated
      */
     public void processEnrichmentTagItem(EnrichmentTagItem enrichmentTagItem) {
         

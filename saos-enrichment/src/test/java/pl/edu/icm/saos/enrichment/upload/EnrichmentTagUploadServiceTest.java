@@ -3,10 +3,13 @@ package pl.edu.icm.saos.enrichment.upload;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
+import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_EMPTY_DATA;
+import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_INTERVAL_SERVER_ERROR;
+import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_INVALID_DATA;
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_INVALID_JSON_FORMAT;
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_IO;
 import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_SAME_TAG_ALREADY_UPLOADED;
@@ -14,16 +17,17 @@ import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessa
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.persistence.PersistenceException;
 import javax.validation.ValidationException;
 
 import org.apache.commons.fileupload.util.LimitedInputStream;
+import org.hibernate.exception.ConstraintViolationException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import pl.edu.icm.saos.common.json.JsonObjectIterator;
 import pl.edu.icm.saos.common.service.ServiceException;
@@ -34,6 +38,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.googlecode.catchexception.CatchException;
 import com.googlecode.catchexception.apis.CatchExceptionAssertJ;
 
@@ -116,13 +121,53 @@ public class EnrichmentTagUploadServiceTest {
 
         inOrder.verify(jsonObjectIterator).nextJsonObject(jsonParser, EnrichmentTagItem.class);
         
-        verifyNoMoreInteractions(uploadEnrichmentTagRepository, jsonFactory, jsonObjectIterator, enrichmentTagItemUploadProcessor);
+        verifyNoMoreInteractions(jsonFactory, jsonObjectIterator, enrichmentTagItemUploadProcessor);
         
         
                
     }
     
     
+    
+    @Test
+    public void uploadEnrichmentTags_EmptyData_NullInputStream() throws Exception {
+        
+        // given
+        
+        InputStream inputStream = null;
+        
+        
+        // execute & assert
+        
+        
+        executeAndAssertError(inputStream, ERROR_EMPTY_DATA);
+        
+        verifyZeroInteractions(jsonFactory, jsonObjectIterator, enrichmentTagItemUploadProcessor);
+        
+                
+    }
+    
+    
+    @Test
+    public void uploadEnrichmentTags_EmptyData_NullToken() throws Exception {
+        
+        // given
+        
+        InputStream inputStream = mock(InputStream.class);
+        
+        when(jsonFactory.createParser(Mockito.any(InputStream.class))).thenReturn(jsonParser);
+        when(jsonParser.nextToken()).thenReturn(null);
+        
+        
+        // execute & assert
+        
+        
+        executeAndAssertError(inputStream, ERROR_EMPTY_DATA);
+        
+        verifyZeroInteractions(jsonObjectIterator, enrichmentTagItemUploadProcessor);
+        
+                
+    }
     
     
     @Test
@@ -139,10 +184,10 @@ public class EnrichmentTagUploadServiceTest {
         // execute & assert
         
         
-        CatchExceptionAssertJ.when(enrichmentTagUploadService).uploadEnrichmentTags(inputStream);
+        executeAndAssertError(inputStream, ERROR_INVALID_JSON_FORMAT);
         
-        assertExceptionMainMessage(ERROR_INVALID_JSON_FORMAT);
-                
+        verifyZeroInteractions(jsonObjectIterator, enrichmentTagItemUploadProcessor);
+        
     }
     
 
@@ -158,15 +203,37 @@ public class EnrichmentTagUploadServiceTest {
         
         // execute & assert
         
-        CatchExceptionAssertJ.when(enrichmentTagUploadService).uploadEnrichmentTags(inputStream);
+        executeAndAssertError(inputStream, ERROR_IO);
+         
+        verifyZeroInteractions(jsonObjectIterator, enrichmentTagItemUploadProcessor);
         
-        assertExceptionMainMessage(ERROR_IO);
-          
     }
     
     
     @Test
-    public void uploadEnrichmentTags_DataIntegrityViolationError() throws Exception {
+    public void uploadEnrichmentTags_InternalServerError() throws Exception {
+        
+    	// given
+        
+        InputStream inputStream = mock(InputStream.class);
+        EnrichmentTagItem enrichmentTagItem = mock(EnrichmentTagItem.class);
+        
+        when(jsonFactory.createParser(Mockito.any(InputStream.class))).thenReturn(jsonParser);
+        when(jsonParser.nextToken()).thenReturn(JsonToken.START_ARRAY);
+        when(jsonObjectIterator.nextJsonObject(jsonParser, EnrichmentTagItem.class)).thenReturn(enrichmentTagItem, (EnrichmentTagItem)null);
+        Mockito.doThrow(PersistenceException.class).when(enrichmentTagItemUploadProcessor).processEnrichmentTagItem(enrichmentTagItem);;
+        
+        
+        // execute & assert
+        
+        executeAndAssertError(inputStream, ERROR_INTERVAL_SERVER_ERROR);
+        
+        
+    }
+    
+    
+    @Test
+    public void uploadEnrichmentTags_ConstraintViolationException() throws Exception {
         
         // given
         
@@ -176,16 +243,16 @@ public class EnrichmentTagUploadServiceTest {
         when(jsonFactory.createParser(Mockito.any(InputStream.class))).thenReturn(jsonParser);
         when(jsonParser.nextToken()).thenReturn(JsonToken.START_ARRAY);
         when(jsonObjectIterator.nextJsonObject(jsonParser, EnrichmentTagItem.class)).thenReturn(enrichmentTagItem, (EnrichmentTagItem)null);
-        Mockito.doThrow(DataIntegrityViolationException.class).when(enrichmentTagItemUploadProcessor).processEnrichmentTagItem(enrichmentTagItem);;
+        PersistenceException pe = new PersistenceException(new ConstraintViolationException("xxx", null, "yyy"));
+        Mockito.doThrow(pe).when(enrichmentTagItemUploadProcessor).processEnrichmentTagItem(enrichmentTagItem);;
         
         
         
         // execute & assert
         
-        CatchExceptionAssertJ.when(enrichmentTagUploadService).uploadEnrichmentTags(inputStream);
+        executeAndAssertError(inputStream, ERROR_SAME_TAG_ALREADY_UPLOADED);
         
-        assertExceptionMainMessage(ERROR_SAME_TAG_ALREADY_UPLOADED);
-          
+        
     }
     
     
@@ -207,13 +274,12 @@ public class EnrichmentTagUploadServiceTest {
         
         // execute & assert
         
-        CatchExceptionAssertJ.when(enrichmentTagUploadService).uploadEnrichmentTags(inputStream);
+        executeAndAssertError(inputStream, ERROR_INVALID_DATA);
         
-        assertExceptionMainMessage(EnrichmentTagUploadResponseMessages.ERROR_INVALID_DATA);
           
     }
-    
-    
+
+	
     
     @Test
     public void uploadEnrichmentTags_ParseError() throws Exception {
@@ -227,9 +293,33 @@ public class EnrichmentTagUploadServiceTest {
         
         // execute & assert
         
-        CatchExceptionAssertJ.when(enrichmentTagUploadService).uploadEnrichmentTags(inputStream);
+        executeAndAssertError(inputStream, ERROR_INVALID_JSON_FORMAT);
         
-        assertExceptionMainMessage(ERROR_INVALID_JSON_FORMAT);
+        verifyZeroInteractions(jsonObjectIterator, enrichmentTagItemUploadProcessor);
+        
+          
+    }
+    
+    
+    @Test
+    public void uploadEnrichmentTags_JsonMappingException() throws Exception {
+        
+        // given
+        
+        InputStream inputStream = mock(InputStream.class);
+        EnrichmentTagItem enrichmentTagItem = mock(EnrichmentTagItem.class);
+        
+        when(jsonFactory.createParser(Mockito.any(InputStream.class))).thenReturn(jsonParser);
+        when(jsonParser.nextToken()).thenReturn(JsonToken.START_ARRAY);
+        when(jsonObjectIterator.nextJsonObject(jsonParser, EnrichmentTagItem.class)).thenReturn(enrichmentTagItem, (EnrichmentTagItem)null);
+            
+        Mockito.doThrow(JsonMappingException.class).when(enrichmentTagItemUploadProcessor).processEnrichmentTagItem(enrichmentTagItem);
+        
+        
+        // execute & assert
+        
+        executeAndAssertError(inputStream, ERROR_INVALID_JSON_FORMAT);
+        
           
     }
 
@@ -243,4 +333,12 @@ public class EnrichmentTagUploadServiceTest {
                              .isExactlyInstanceOf(ServiceException.class);
         assertThat((ServiceException) CatchException.caughtException(), ServiceExceptionMatcher.hasMainMessage(expectedMainMessage));
     }
+    
+    private void executeAndAssertError(InputStream inputStream, String message) {
+		CatchExceptionAssertJ.when(enrichmentTagUploadService).uploadEnrichmentTags(inputStream);
+        
+        assertExceptionMainMessage(message);
+	}
+    
+    
 }
