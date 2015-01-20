@@ -155,7 +155,7 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
     
     
     @Test
-    public void uploadEnrichmentTags_MethodNotAllowedMethod() throws Exception {
+    public void uploadEnrichmentTags_MethodNotAllowed() throws Exception {
     	
     	// given
         String basicAuth = "Basic " + new String(Base64.encodeBase64((enricherLogin + ":" + enricherPassword).getBytes()));

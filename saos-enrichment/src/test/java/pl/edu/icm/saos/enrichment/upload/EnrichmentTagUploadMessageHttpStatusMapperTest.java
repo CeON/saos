@@ -43,7 +43,7 @@ public class EnrichmentTagUploadMessageHttpStatusMapperTest {
 	
 	
 	@Test
-	public void getHttpStatus_HttpStatusShouldExistForEachMessage() throws IllegalArgumentException, IllegalAccessException {
+	public void getHttpStatus_HttpStatusShouldBeAssignedToEachMessage() throws IllegalArgumentException, IllegalAccessException {
 		
 		Field[] fields = EnrichmentTagUploadResponseMessages.class.getDeclaredFields();
 		
