@@ -136,14 +136,10 @@ public class EnrichmentTagUploadService {
    
         
     //------------------------ GETTERS --------------------------
+    
     public long getEnrichmentTagMaxUploadSize() {
-		return enrichmentTagMaxUploadSize;
-	}
-
-
-
-
-
+        return enrichmentTagMaxUploadSize;
+    }
 
     
     //------------------------ PRIVATE --------------------------
@@ -170,9 +166,7 @@ public class EnrichmentTagUploadService {
     
     @Value("${enrichment.enrichmentTagMaxUploadSizeInBytes}")
     public void setEnrichmentTagMaxUploadSize(long enrichmentTagMaxUploadSize) {
-    
         this.enrichmentTagMaxUploadSize = enrichmentTagMaxUploadSize;
-    
     }
 
     @Autowired

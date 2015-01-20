@@ -137,22 +137,19 @@ public class EnrichmentTagUploadController {
     //------------------------ SETTERS --------------------------
 
     @Autowired
-	public void setEnrichmentTagUploadService(
-			EnrichmentTagUploadService enrichmentTagUploadService) {
-		this.enrichmentTagUploadService = enrichmentTagUploadService;
-	}
+    public void setEnrichmentTagUploadService(EnrichmentTagUploadService enrichmentTagUploadService) {
+   	    this.enrichmentTagUploadService = enrichmentTagUploadService;
+    }
 
     @Autowired
-	public void setUploadEnrichmentTagProcessor(
-			UploadEnrichmentTagProcessor uploadEnrichmentTagProcessor) {
-		this.uploadEnrichmentTagProcessor = uploadEnrichmentTagProcessor;
-	}
+    public void setUploadEnrichmentTagProcessor(UploadEnrichmentTagProcessor uploadEnrichmentTagProcessor) {
+   	    this.uploadEnrichmentTagProcessor = uploadEnrichmentTagProcessor;
+    }
 
     @Autowired
-	public void setEnrichmentTagUploadMessageHttpStatusMapper(
-			EnrichmentTagUploadMessageHttpStatusMapper enrichmentTagUploadMessageHttpStatusMapper) {
-		this.enrichmentTagUploadMessageHttpStatusMapper = enrichmentTagUploadMessageHttpStatusMapper;
-	}
+    public void setEnrichmentTagUploadMessageHttpStatusMapper(EnrichmentTagUploadMessageHttpStatusMapper enrichmentTagUploadMessageHttpStatusMapper) {
+        this.enrichmentTagUploadMessageHttpStatusMapper = enrichmentTagUploadMessageHttpStatusMapper;
+    }
     
     
 }
