@@ -234,7 +234,7 @@ $(document).ready(function() {
 			<h4><spring:message code="judgmentDetails.corrections" />:</h4>
 	
 			<c:forEach items="${corrections}" var="correction">
-				<saosDetails:correction correction="${correction}"></saosDetails:correction>
+				<saos:correction correction="${correction}"></saos:correction>
 			</c:forEach>
 		</div>
 	</div>

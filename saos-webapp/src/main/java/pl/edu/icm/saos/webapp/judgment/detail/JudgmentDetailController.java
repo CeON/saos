@@ -28,10 +28,10 @@ public class JudgmentDetailController {
 	//------------------------ LOGIC --------------------------
 	
 	@RequestMapping("/judgments/{judgmentId}")
-	public String showJudgmentDetail(ModelMap model, @PathVariable("judgmentId") Integer judgmentId) {
+	public String showJudgmentDetails(ModelMap model, @PathVariable("judgmentId") Integer judgmentId) {
 		
 		model.addAttribute("judgment", judgmentRepository.findOneAndInitialize(judgmentId));
-		model.addAttribute("corrections", judgmentCorrectionService.findByJugmentId(judgmentId));
+		model.addAttribute("corrections", judgmentCorrectionService.findAllByJudgmentIdSorted(judgmentId));
 		
 		return "judgmentDetails";
 	}

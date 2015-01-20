@@ -17,7 +17,6 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 
 
-
 /**
  * 
  * @author Łukasz Pawełczak
@@ -32,7 +31,14 @@ public class JudgmentCorrectionService {
 	
 	//------------------------ LOGIC --------------------------
 	
-	public List<JudgmentCorrection> findByJugmentId(int judgmentId) {
+	/**
+	 * Finds all judgment corrections by judgment id. 
+	 * Returned list is sorted with {@link JudgmentCorrectionComparator}.
+	 * 
+	 * @param judgmentId - judgment id
+	 * @return list of {@link pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection}
+	 */
+	public List<JudgmentCorrection> findAllByJudgmentIdSorted(int judgmentId) {
 		
 		List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgmentId);
 		
@@ -53,29 +59,24 @@ public class JudgmentCorrectionService {
 			
 			if (correctionOne.getCorrectedObjectClass() == correctionTwo.getCorrectedObjectClass()) {
 				return compareChangeOperation(correctionOne.getChangeOperation(), correctionTwo.getChangeOperation());
-			} else if (correctionOne.getCorrectedObjectClass() == CommonCourtJudgment.class || 
-					correctionOne.getCorrectedObjectClass() == SupremeCourtJudgment.class) {
-				return -1;
-			} else if (correctionOne.getCorrectedObjectClass() == SupremeCourtChamber.class) {
-				
-				if (correctionTwo.getCorrectedObjectClass() == CommonCourtJudgment.class || 
-					correctionTwo.getCorrectedObjectClass() == SupremeCourtJudgment.class) {
-					return 1;
-				} else {
-					return -1;
-				}
-			
+			} else if (correctionOne.getCorrectedObjectClass() == Judge.class) {
+				return 1;				
 			} else if (correctionOne.getCorrectedObjectClass() == SupremeCourtJudgmentForm.class) {
-				
 				if (correctionTwo.getCorrectedObjectClass() == Judge.class) {
 					return -1;
 				} else {
 					return 1;
 				}
-				
-			} else {
-				return 1;
+			} else if (correctionOne.getCorrectedObjectClass() == SupremeCourtChamber.class) {
+				if (correctionTwo.getCorrectedObjectClass() == Judge.class || 
+					correctionTwo.getCorrectedObjectClass() == SupremeCourtJudgmentForm.class	) {
+					return -1;
+				} else {
+					return 1;
+				}
 			}
+			
+			return -1;
 		}  
 		
 		

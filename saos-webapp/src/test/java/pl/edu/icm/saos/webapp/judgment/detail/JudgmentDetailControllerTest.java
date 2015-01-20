@@ -1,6 +1,5 @@
 package pl.edu.icm.saos.webapp.judgment.detail;
 
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -72,7 +71,7 @@ public class JudgmentDetailControllerTest {
 		MockitoAnnotations.initMocks(this);
 		
 		when(judgmentRepository.findOneAndInitialize(judgment.getId())).thenReturn(judgment);
-		when(judgmentCorrectionService.findByJugmentId(judgment.getId())).thenReturn(judgmentCorrections);
+		when(judgmentCorrectionService.findAllByJudgmentIdSorted(judgment.getId())).thenReturn(judgmentCorrections);
 		
 		mockMvc = webAppContextSetup(webApplicationCtx)
 					.build();
@@ -82,7 +81,7 @@ public class JudgmentDetailControllerTest {
 	//------------------------ TESTS --------------------------	
 	
 	@Test
-	public void showJudgmentDetail() throws Exception {
+	public void showJudgmentDetails() throws Exception {
 	
 		mockMvc.perform(get("/judgments/" + judgment.getId()))
 			.andExpect(status().isOk())
@@ -90,8 +89,8 @@ public class JudgmentDetailControllerTest {
 			.andExpect(model().attribute("judgment", judgment))
 			.andExpect(model().attribute("corrections", judgmentCorrections));
 		
-		verify(judgmentRepository, times(1)).findOneAndInitialize(judgment.getId());
-		verify(judgmentCorrectionService, times(1)).findByJugmentId(judgment.getId());
+		verify(judgmentRepository).findOneAndInitialize(judgment.getId());
+		verify(judgmentCorrectionService).findAllByJudgmentIdSorted(judgment.getId());
 	}
 
 	
@@ -118,9 +117,5 @@ public class JudgmentDetailControllerTest {
 		
 		return Lists.newArrayList(jc);
 	}
-
-
-	
-
 
 }

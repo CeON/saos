@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -23,6 +24,11 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 
 import com.google.common.collect.Lists;
 
+/**
+ * 
+ * @author Łukasz Pawełczak
+ *
+ */
 @RunWith(MockitoJUnitRunner.class) 
 public class JudgmentCorrectionServiceTest {
 
@@ -36,6 +42,12 @@ public class JudgmentCorrectionServiceTest {
 	private Judgment scJudgment = new SupremeCourtJudgment();
 	
 	
+	
+	@Before 
+	public void before() {
+		judgmentCorrectionService.setJudgmentCorrectionRepository(judgmentCorrectionRepository);
+	}
+	
 	//------------------------ TESTS --------------------------
 	
 	@Test
@@ -46,21 +58,21 @@ public class JudgmentCorrectionServiceTest {
 		List<JudgmentCorrection> unsortedJc = Lists.newArrayList();
 		unsortedJc.add(createJcJudgeDelete(ccJudgment));
 		unsortedJc.add(createJcCommonCourtJudgment());
+		unsortedJc.add(createJcJudgeUpdate(ccJudgment));
 		
 		
 		List<JudgmentCorrection> expectedJc = Lists.newArrayList();
 		expectedJc.add(createJcCommonCourtJudgment());
+		expectedJc.add(createJcJudgeUpdate(ccJudgment));
 		expectedJc.add(createJcJudgeDelete(ccJudgment));
 		
 		when(judgmentCorrectionRepository.findAllByJudgmentId(judgmentId)).thenReturn(unsortedJc);
-		judgmentCorrectionService.setJudgmentCorrectionRepository(judgmentCorrectionRepository);
+		
+		//execute
+		List<JudgmentCorrection> actualJc = judgmentCorrectionService.findAllByJudgmentIdSorted(judgmentId); 
 		
 		
-		//execution
-		List<JudgmentCorrection> actualJc = judgmentCorrectionService.findByJugmentId(judgmentId); 
-		
-		
-		//assertion
+		//assert
 		assertEquals(expectedJc, actualJc);
 	}
 	
@@ -75,52 +87,23 @@ public class JudgmentCorrectionServiceTest {
 		unsortedJc.add(createJcJudgeDelete(scJudgment));
 		unsortedJc.add(createJcSupremeCourtJudgmentForm());
 		unsortedJc.add(createJcSupremeCourtJudgment());
+		unsortedJc.add(createJcJudgeUpdate(scJudgment));
 		
 		List<JudgmentCorrection> expectedJc = Lists.newArrayList();
 		expectedJc.add(createJcSupremeCourtJudgment());
 		expectedJc.add(createJcSupremeCourtChamber());
 		expectedJc.add(createJcSupremeCourtJudgmentForm());
+		expectedJc.add(createJcJudgeUpdate(scJudgment));
 		expectedJc.add(createJcJudgeDelete(scJudgment));
 		
-		
 		when(judgmentCorrectionRepository.findAllByJudgmentId(judgmentId)).thenReturn(unsortedJc);
-		judgmentCorrectionService.setJudgmentCorrectionRepository(judgmentCorrectionRepository);
 		
 		
-		//execution
-		List<JudgmentCorrection> actualJc = judgmentCorrectionService.findByJugmentId(judgmentId); 
+		//execute
+		List<JudgmentCorrection> actualJc = judgmentCorrectionService.findAllByJudgmentIdSorted(judgmentId); 
 		
 		
-		//assertion
-		assertEquals(expectedJc, actualJc);
-	}
-
-	@Test
-	public void findByJudgmentId_Judges() {
-
-		//given
-		int judgmentId = 125;
-		
-		List<JudgmentCorrection> unsortedJc = Lists.newArrayList();
-		unsortedJc.add(createJcJudgeDelete(ccJudgment));
-		unsortedJc.add(createJcJudgeUpdate(ccJudgment));
-		unsortedJc.add(createJcJudgeDelete(ccJudgment));
-		
-		List<JudgmentCorrection> expectedJc = Lists.newArrayList();
-		expectedJc.add(createJcJudgeUpdate(ccJudgment));
-		expectedJc.add(createJcJudgeDelete(ccJudgment));
-		expectedJc.add(createJcJudgeDelete(ccJudgment));
-		
-		
-		when(judgmentCorrectionRepository.findAllByJudgmentId(judgmentId)).thenReturn(unsortedJc);
-		judgmentCorrectionService.setJudgmentCorrectionRepository(judgmentCorrectionRepository);
-		
-		
-		//execution
-		List<JudgmentCorrection> actualJc = judgmentCorrectionService.findByJugmentId(judgmentId); 
-		
-		
-		//assertion
+		//assert
 		assertEquals(expectedJc, actualJc);
 	}
 	
