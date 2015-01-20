@@ -15,7 +15,7 @@ import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionServi
  *
  */
 @Controller
-public class JudgmentDetailController {
+public class JudgmentDetailsController {
 
 	
 	@Autowired

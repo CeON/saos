@@ -46,7 +46,7 @@ import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionServi
 @ContextHierarchy({ 
 	@ContextConfiguration(classes = WebappTestConfiguration.class) })
 @Category(SlowTest.class)
-public class JudgmentDetailControllerTest {
+public class JudgmentDetailsControllerTest {
 
 	@Autowired
     private WebApplicationContext webApplicationCtx;
@@ -55,7 +55,7 @@ public class JudgmentDetailControllerTest {
 	
     @Autowired
     @InjectMocks
-    private JudgmentDetailController judgmentDetailController;
+    private JudgmentDetailsController judgmentDetailController;
 	
 	@Mock
 	private JudgmentRepository judgmentRepository;

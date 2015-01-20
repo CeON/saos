@@ -12,6 +12,7 @@ import pl.edu.icm.saos.persistence.correction.model.ChangeOperation;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
@@ -56,27 +57,63 @@ public class JudgmentCorrectionService {
 		//------------------------ LOGIC --------------------------
 		
 		public int compare(JudgmentCorrection correctionOne, JudgmentCorrection correctionTwo) {
-			
+			/*
 			if (correctionOne.getCorrectedObjectClass() == correctionTwo.getCorrectedObjectClass()) {
 				return compareChangeOperation(correctionOne.getChangeOperation(), correctionTwo.getChangeOperation());
-			} else if (correctionOne.getCorrectedObjectClass() == Judge.class) {
-				return 1;				
+			} else if (correctionOne.getCorrectedObjectClass().isAssignableFrom(Judgment.class)) {
+				return -1;
+			} else if (correctionOne.getCorrectedObjectClass() == SupremeCourtChamber.class) {
+				if (correctionTwo.getCorrectedObjectClass().isAssignableFrom(Judgment.class)) {
+					return 1;
+				} else {
+					return -1;
+				}
 			} else if (correctionOne.getCorrectedObjectClass() == SupremeCourtJudgmentForm.class) {
 				if (correctionTwo.getCorrectedObjectClass() == Judge.class) {
 					return -1;
 				} else {
 					return 1;
 				}
+			} else {
+				return 1;
+			}
+			*/
+			
+			if (correctionOne.getCorrectedObjectClass() == correctionTwo.getCorrectedObjectClass()) {
+				return compareChangeOperation(correctionOne.getChangeOperation(), correctionTwo.getChangeOperation());
+			} else if (correctionOne.getCorrectedObjectClass().isAssignableFrom(Judgment.class)) {
+				return -1;
 			} else if (correctionOne.getCorrectedObjectClass() == SupremeCourtChamber.class) {
-				if (correctionTwo.getCorrectedObjectClass() == Judge.class || 
-					correctionTwo.getCorrectedObjectClass() == SupremeCourtJudgmentForm.class	) {
+				
+				if (correctionTwo.getCorrectedObjectClass() == CommonCourtJudgment.class || 
+					correctionTwo.getCorrectedObjectClass() == SupremeCourtJudgment.class) {
+					return 1;
+				} else {
+					return -1;
+				}
+			
+			} else if (correctionOne.getCorrectedObjectClass() == SupremeCourtJudgmentForm.class) {
+				
+				if (correctionTwo.getCorrectedObjectClass() == Judge.class) {
 					return -1;
 				} else {
 					return 1;
 				}
+				
+			} else {
+				return 1;
 			}
 			
-			return -1;
+			/*else if (correctionOne.getCorrectedObjectClass() == SupremeCourtChamber.class ||
+					   correctionOne.getCorrectedObjectClass() == SupremeCourtJudgmentForm.class) {
+				if (correctionTwo.getCorrectedObjectClass().isAssignableFrom(Judgment.class) ||
+					correctionTwo.getCorrectedObjectClass() == SupremeCourtChamber.class) {
+					return 1;
+				} else {
+					return -1;
+				}
+			} 
+			return 1;*/
 		}  
 		
 		
