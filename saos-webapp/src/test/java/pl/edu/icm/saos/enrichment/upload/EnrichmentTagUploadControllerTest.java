@@ -345,7 +345,7 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
         
         assertEquals(4, uploadEnrichmentTagRepository.count());
         
-        Thread.sleep(500);
+        Thread.sleep(700);
         assertEquals(3, enrichmentTagRepository.count());
         
         EnrichmentTag expectedEnrichmentTag1 = createEnrichmentTag(ccJudgment.getId(), "REFERENCED_REGULATIONS", jsonValue1);
