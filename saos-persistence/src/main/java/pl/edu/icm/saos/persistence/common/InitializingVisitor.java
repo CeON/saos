@@ -40,6 +40,10 @@ public class InitializingVisitor implements Visitor {
         }
     }
     
+    public void visit(NationalAppealChamberJudgment judgment) {
+        initializeJudgment(judgment);
+    }
+    
     
     public void visit(Judge judge) {
         JpaUtils.initialize(judge.getSpecialRoles());

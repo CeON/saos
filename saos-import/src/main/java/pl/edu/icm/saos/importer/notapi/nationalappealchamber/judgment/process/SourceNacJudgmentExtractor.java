@@ -97,7 +97,7 @@ public class SourceNacJudgmentExtractor implements JudgmentDataExtractor<Nationa
 
     @Override
     public List<String> extractCourtReporters(SourceNacJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return Lists.newArrayList();
+        return sourceJudgment.getCourtReporters();
     }
 
     @Override

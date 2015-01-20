@@ -85,12 +85,16 @@ public class SourceNacJudgmentExtractorTest {
     @Test
     public void extractCourtReporters() {
         
+        // given
+        sJudgment.setCourtReporters(Lists.newArrayList("Jan Kowalski", "Adam Nowak"));
+        
         // execute
         List<String> courtReporters = judgmentExtractor.extractCourtReporters(sJudgment, correctionList);
         
         // assert
-        assertEquals(0, courtReporters.size());
-        
+        assertEquals(2, courtReporters.size());
+        assertEquals(sJudgment.getCourtReporters().get(0), courtReporters.get(0));
+        assertEquals(sJudgment.getCourtReporters().get(1), courtReporters.get(1));
     }
     
 
