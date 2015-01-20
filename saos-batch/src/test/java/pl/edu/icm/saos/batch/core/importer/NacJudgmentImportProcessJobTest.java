@@ -216,7 +216,7 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         NationalAppealChamberJudgment judgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.NATIONAL_APPEAL_CHAMBER, "f1fb6b13d57e25be69d1159356655528", NationalAppealChamberJudgment.class);
         judgment = judgmentRepository.findOneAndInitialize(judgment.getId());
-        Judge correctedJudge = judgment.getJudge("Adam Jamróz");
+        Judge correctedJudge = judgment.getJudge("Katarzyna Brzeska");
         
         List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgment.getId());
         
