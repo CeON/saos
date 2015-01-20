@@ -1,7 +1,6 @@
 package pl.edu.icm.saos.persistence.model.importer.notapi;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.Type;
@@ -27,7 +26,6 @@ public class JsonRawSourceJudgment extends RawSourceJudgment {
 
     @Type(type = "StringJsonObject" )
     @Column(nullable=false)
-    @Convert(disableConversion = true)
     public String getJsonContent() {
         return jsonContent;
     }
