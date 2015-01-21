@@ -25,6 +25,7 @@ import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
@@ -83,7 +84,12 @@ public class JudgmentDetailsControllerTest {
 	@Test
 	public void showJudgmentDetails() throws Exception {
 	
-		mockMvc.perform(get("/judgments/" + judgment.getId()))
+		//execute
+		ResultActions actions = mockMvc.perform(get("/judgments/" + judgment.getId()));
+		
+		
+		//assert
+		actions
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentDetails"))
 			.andExpect(model().attribute("judgment", judgment))
