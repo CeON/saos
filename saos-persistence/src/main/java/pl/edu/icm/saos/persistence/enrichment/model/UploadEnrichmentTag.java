@@ -20,7 +20,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(name="upload_tag_judgment_type_value_unique", columnNames={"judgmentId", "tagType"})})
 @Cacheable(true)
-@SequenceGenerator(schema="importer", name = "seq_upload_enrichment_tag", allocationSize = 1, sequenceName = "seq_upload_enrichment_tag")
+@SequenceGenerator(name = "seq_upload_enrichment_tag", allocationSize = 1, sequenceName = "seq_upload_enrichment_tag")
 public class UploadEnrichmentTag extends AbstractEnrichmentTag {
 
 
