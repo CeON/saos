@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
+<script>
+$(document).ready(function() {
+	jsInitInJudgmentDetails();
+});
+</script>
 
 <div class="container judgment-page block">
 
@@ -181,6 +186,8 @@
 			</ul>
 		</c:if>
 	
+
+	
 		<div class="break" ></div>
 	
 		 <!-- Button trigger modal -->
@@ -210,3 +217,25 @@
 
 
 
+<%-- Corrections --%>
+<c:if test="${!empty corrections}">
+	<div class="container correction-block">
+
+		<div class="correction-info" >
+			<spring:message code="judgmentDetails.corrections.info" /><span id="show-correction-box"><spring:message code="button.look" /></span>
+		</div>
+	
+		<div class="corrections" id="corrections">
+			
+			<div class="correction-desc" >
+				<spring:message code="judgmentDetails.corrections.sysInfo" />
+			</div>
+			
+			<h4><spring:message code="judgmentDetails.corrections" />:</h4>
+	
+			<c:forEach items="${corrections}" var="correction">
+				<saos:correction correction="${correction}"></saos:correction>
+			</c:forEach>
+		</div>
+	</div>
+</c:if>
