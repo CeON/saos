@@ -2,24 +2,24 @@
 
 <%@ attribute name="correction" required="true" rtexprvalue="true" type="pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection" %>
 
-<spring:eval expression="T(pl.edu.icm.saos.persistence.model.Judgment)" var="correctionJudgmentClass" ></spring:eval>
-<spring:eval expression="T(pl.edu.icm.saos.persistence.model.SupremeCourtChamber)" var="correctionScChamberClass" ></spring:eval>
-<spring:eval expression="T(pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm)" var="correctionSCJudgmentFormClass" ></spring:eval>
-<spring:eval expression="T(pl.edu.icm.saos.persistence.model.Judge)" var="correctionJudgeClass" ></spring:eval>
+<spring:eval expression="T(pl.edu.icm.saos.persistence.model.Judgment)" var="JudgmentClass" ></spring:eval>
+<spring:eval expression="T(pl.edu.icm.saos.persistence.model.SupremeCourtChamber)" var="ScChamberClass" ></spring:eval>
+<spring:eval expression="T(pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm)" var="ScJudgmentFormClass" ></spring:eval>
+<spring:eval expression="T(pl.edu.icm.saos.persistence.model.Judge)" var="JudgeClass" ></spring:eval>
 
 <c:set var="valueSeparator" value="###!!!###" />
 
 <div>
 	<c:choose>
 		<%-- Judgment --%>
-		<c:when test="${correctionJudgmentClass.isAssignableFrom(correction.correctedObjectClass)}">
+		<c:when test="${JudgmentClass.isAssignableFrom(correction.correctedObjectClass)}">
 
 			<c:choose>
 				<c:when test="${correction.correctedProperty == 'JUDGMENT_TYPE'}" >
 			
 					<c:set var="oldValue" value="" />
 					<c:forEach var="code" items="${fn:split(correction.oldValue, ', ')}" varStatus="status">
-						<spring:message var="springMessage" code="judgmentDetails.corrections.value.${code}" />
+						<spring:message var="springMessage" code="judgmentDetails.corrections.value.${code}" text="${code}" />
 						<c:choose>
 							<c:when test="${status.first}" >
 								<c:set var="oldValue" value="${springMessage}" />
@@ -30,7 +30,7 @@
 						</c:choose>
 					</c:forEach>
 				
-					<spring:message var="newValue" code="judgmentDetails.corrections.value.${correction.newValue}" />
+					<spring:message var="newValue" code="judgmentDetails.corrections.value.${correction.newValue}" text="${correction.newValue}" />
 				
 					<spring:message code="judgmentDetails.corrections.judgmentType.update" arguments="${oldValue}${valueSeparator}${newValue}" argumentSeparator="${valueSeparator}" />
 				</c:when>
@@ -42,7 +42,7 @@
 		</c:when>
 		
 		<%-- SupremeCourtChamber --%>
-		<c:when test="${correction.correctedObjectClass == correctionScChamberClass}">
+		<c:when test="${correction.correctedObjectClass == ScChamberClass}">
 			<c:choose>
 				<c:when test="${correction.correctedProperty == 'NAME'}" >
 					<spring:message code="judgmentDetails.corrections.scChamber.update" arguments="${correction.oldValue}${valueSeparator}${correction.newValue}" argumentSeparator="${valueSeparator}" />
@@ -54,7 +54,7 @@
 		</c:when>
 		
 		<%-- SupremeCourtJudgmentForm --%>
-		<c:when test="${correction.correctedObjectClass == correctionSCJudgmentFormClass}">
+		<c:when test="${correction.correctedObjectClass == SCJudgmentFormClass}">
 			<c:choose>
 				<c:when test="${correction.correctedProperty == 'NAME'}" >
 					<spring:message code="judgmentDetails.corrections.scJudgmentForm.update" arguments="${correction.oldValue}${valueSeparator}${correction.newValue}" argumentSeparator="${valueSeparator}" />
@@ -66,7 +66,7 @@
 		</c:when>
 		
 		<%-- Judge --%>
-		<c:when test="${correction.correctedObjectClass == correctionJudgeClass}">
+		<c:when test="${correction.correctedObjectClass == JudgeClass}">
 			
 			<c:choose>
 				<c:when test="${correction.correctedProperty == 'NAME'}" >
