@@ -86,11 +86,21 @@ footer {
 
 .language-change {
 	
-	a {
-		color: $text;
-		
-		&:hover {
-			background: inherit;
+	li {
+		a {
+			background: $white;
+			border: {
+				color: $grey-border;
+				style: solid;
+				width: 1px;
+			}
+			color: $text;
+			padding: 8px;
+			margin: 2px 7px;
+			
+			&:hover {
+				background: inherit;
+			}
 		}
 	}
 
@@ -175,7 +185,7 @@ form.search {
 	margin-bottom: 30px;
 	
 	.item-desc {
-		background: #fff;
+		background: $white;
 		border: 1px solid #e6e6e6;
 		font-size: 17px;
 		line-height: 1.5em;
@@ -184,12 +194,13 @@ form.search {
 }
 
 .advert-ground {
-	background: #333;
+	background: $black;
 	margin-top: 0px;
 	margin-bottom: 150px;
 	padding: 30px 0px;
 
 	.item {
+		background: $black;
 		color: $white;
 		padding: 0px 40px;
 	
@@ -331,17 +342,18 @@ form.search {
 }
 
 .search-form {
-	background: #fff;
+	background: $white;
 	border: 1px solid $grey-border;
 	border-radius: 2px;
     margin-top: 30px;
     padding: 0 30px;
 	
 	input {
+		background: $white;
 		border-radius: 2px;
-		border-color: e0e0e0;
+		border-color: $grey-border;
 		box-shadow: 0 0 1px rgba(255, 255, 255, 0.976) inset;
-		color: #444;
+		color: lighten($black, 10%);
 	}
 	
 	label {
@@ -435,12 +447,14 @@ form.search {
 		}
 	
 		.case-number {
+			background: #fff;
 			color: #0176c3;
 			font-size: 22px;
 			margin-bottom: 6px;
 		}
 		
 		.judgment-type {
+			background: #fff;
 			@include filter-underline();
 			border-color: #888;
 			bottom: -3px;
@@ -543,6 +557,7 @@ form.search {
 }
 
 .accuracy {
+	background: #fff;
 	border: 3px solid #ddd;
     border-radius: 50px;
     color: #aaa;
@@ -588,6 +603,7 @@ form.search {
 	}
 	
 	.label {
+		background: #fff;
 		border-radius: 0px;
 		color: $text;
 		font: {
@@ -683,6 +699,7 @@ form.search {
 	}
 
 	.judgment-type {
+		background: #fff;
 		color: #888;
 	    font-weight: 300;
 	    margin-bottom: 10px;
@@ -702,6 +719,7 @@ form.search {
 		}
 	
 		.label-title {
+			background: #fff;
 			color: #616161;
     		display: inline-block;
     		margin-right: 15x;
@@ -747,6 +765,7 @@ form.search {
 	width: 100%;
 	
 	.results-number {
+		background: #fff;
 		color: #666;
 		font-size: 0.8em;
 		margin-top: 10px;
@@ -865,6 +884,7 @@ form.search {
 		margin: 0px 0px 0px 5px;
 		
 		&:hover {
+			background: #fff;
 			color: #666;
 		}
 	}
