@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.webapp;
 
 
-import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_ACCESS_DENIED;
+import static pl.edu.icm.saos.enrichment.upload.EnrichmentTagUploadResponseMessages.ERROR_AUTHENTICATION_FAILED;
 
 import java.util.Locale;
 
@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -102,17 +101,17 @@ public class SecurityConfiguration {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-                .requestMatchers().antMatchers(HttpMethod.PUT, "/api/enrichment/tags")
+                .requestMatchers().antMatchers("/api/enrichment/tags")
                 .and()
-                .authorizeRequests()
+                	.authorizeRequests()
                     .anyRequest().authenticated()
-                    .and().csrf().disable()
-                .authenticationProvider(enricherAuthenticationProvider())
-                .httpBasic().authenticationEntryPoint(serviceBasicAuthenticationEntryPoint())
+                .and()    
+                    .authenticationProvider(enricherAuthenticationProvider())
+                    .httpBasic().authenticationEntryPoint(serviceBasicAuthenticationEntryPoint())
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                	.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .csrf().disable()
+                	.csrf().disable()
                 .addFilterBefore(localeSettingFilter, BasicAuthenticationFilter.class)
                     
                 ;
@@ -123,7 +122,7 @@ public class SecurityConfiguration {
             ServiceBasicAuthenticationEntryPoint authenticationEntryPoint = new ServiceBasicAuthenticationEntryPoint();
             authenticationEntryPoint.setMessageConverter((HttpMessageConverter<ServiceResponse>)mappingJackson2HttpMessageConverter);
             authenticationEntryPoint.setBasicRealm("/api/enrichment/tags");
-            authenticationEntryPoint.setMainMessage(ERROR_ACCESS_DENIED);
+            authenticationEntryPoint.setMainMessage(ERROR_AUTHENTICATION_FAILED);
             return authenticationEntryPoint;
         }
         
