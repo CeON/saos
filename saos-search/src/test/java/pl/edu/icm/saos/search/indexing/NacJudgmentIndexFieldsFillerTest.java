@@ -11,7 +11,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.reflect.Whitebox;
 
-import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 import com.google.common.collect.Lists;
@@ -23,26 +24,26 @@ import com.tngtech.java.junit.dataprovider.UseDataProvider;
  * @author madryk
  */
 @RunWith(DataProviderRunner.class)
-public class CtJudgmentIndexFieldsFillerTest {
+public class NacJudgmentIndexFieldsFillerTest {
 
-    private CtJudgmentIndexFieldsFiller ccJudgmentIndexingFiller = new CtJudgmentIndexFieldsFiller();
+    private NacJudgmentIndexFieldsFiller nacJudgmentIndexingFiller = new NacJudgmentIndexFieldsFiller();
     
     private SolrFieldAdder<JudgmentIndexField> fieldAdder = new SolrFieldAdder<JudgmentIndexField>();
     
     
     @DataProvider
-    public static Object[][] ctJudgmentsFieldsData() {
+    public static Object[][] nacJudgmentsFieldsData() {
         SolrInputFieldFactory fieldFactory = new SolrInputFieldFactory();
         
         
         int idValue = 1;
 
-        ConstitutionalTribunalJudgment basicJudgment = new ConstitutionalTribunalJudgment();
+        NationalAppealChamberJudgment basicJudgment = new NationalAppealChamberJudgment();
         Whitebox.setInternalState(basicJudgment, "id", idValue);
 
         List<SolrInputField> basicFields = Lists.newArrayList(
                 fieldFactory.create("databaseId", idValue),
-                fieldFactory.create("courtType", "CONSTITUTIONAL_TRIBUNAL"));
+                fieldFactory.create("courtType", CourtType.NATIONAL_APPEAL_CHAMBER.name()));
         
         
         return new Object[][] {
@@ -52,21 +53,21 @@ public class CtJudgmentIndexFieldsFillerTest {
     
     @Before
     public void setUp() {
-        ccJudgmentIndexingFiller.setFieldAdder(fieldAdder);
+        nacJudgmentIndexingFiller.setFieldAdder(fieldAdder);
     }
     
     
     //------------------------ TESTS --------------------------
     
     @Test
-    @UseDataProvider("ctJudgmentsFieldsData")
-    public void fillFields(ConstitutionalTribunalJudgment givenJudgment, List<SolrInputField> expectedFields) {
+    @UseDataProvider("nacJudgmentsFieldsData")
+    public void fillFields(NationalAppealChamberJudgment givenJudgment, List<SolrInputField> expectedFields) {
         
         // given
         SolrInputDocument doc = new SolrInputDocument();
         
         // execute
-        ccJudgmentIndexingFiller.fillFields(doc, givenJudgment);
+        nacJudgmentIndexingFiller.fillFields(doc, givenJudgment);
         
         // assert
         expectedFields.forEach(expectedField -> assertFieldValues(doc, expectedField)); 

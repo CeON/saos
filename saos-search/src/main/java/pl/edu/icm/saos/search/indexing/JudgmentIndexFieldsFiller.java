@@ -42,6 +42,7 @@ public abstract class JudgmentIndexFieldsFiller {
      */
     public void fillFields(SolrInputDocument doc, Judgment judgment) {
         fillIds(doc, judgment);
+        fillCourtType(doc, judgment);
         fillCourtCases(doc, judgment);
         fillJudges(doc, judgment);
         fillLegalBases(doc, judgment);
@@ -56,6 +57,10 @@ public abstract class JudgmentIndexFieldsFiller {
     
     private void fillIds(SolrInputDocument doc, Judgment item) {
         fieldAdder.addField(doc, JudgmentIndexField.DATABASE_ID, item.getId());
+    }
+    
+    private void fillCourtType(SolrInputDocument doc, Judgment judgment) {
+        fieldAdder.addField(doc, JudgmentIndexField.COURT_TYPE, judgment.getCourtType().name());
     }
     
     private void fillCourtCases(SolrInputDocument doc, Judgment item) {
