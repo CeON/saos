@@ -132,6 +132,8 @@ module.exports = function(grunt) {
         	      '<%= project.js.dir %>/modules/search/changeCourtType.js',
         	      '<%= project.js.dir %>/modules/filterBox.js',
         	      '<%= project.js.dir %>/modules/suggester.js',
+        	      '<%= project.js.dir %>/modules/details/correctionBox.js',
+        	      '<%= project.js.dir %>/judgmentDetails.js',
         	      '<%= project.js.dir %>/judgmentSearch.js',
         	      '<%= project.js.dir %>/saos-common.js'
     	      ],
@@ -170,7 +172,7 @@ module.exports = function(grunt) {
     autoprefixer: {
         dist: {
             files: {
-            	'<%= project.css.generated %>/modern.css' : '<%= project.css.generated %>/modern.css'
+            	'<%= project.css.generated %>/styles.css' : '<%= project.css.generated %>/styles.css'
             }
         }
     },
@@ -179,7 +181,7 @@ module.exports = function(grunt) {
 	    options: {
 		     },
 	    all: {
-	      src: ['<%= project.css.dir %>/*/*.min.css', '<%= project.css.dir %>/*.min.css', '<%= project.css.generated %>/modern.css'],
+	      src: ['<%= project.css.dir %>/*/*.min.css', '<%= project.css.dir %>/*.min.css', '<%= project.css.generated %>/styles.css'],
 	      dest: '<%= project.css.distFile %>'
 	    }
 	},
@@ -201,13 +203,13 @@ module.exports = function(grunt) {
 		    options: {
 		      import: 2
 		    },
-		    src: ['<%= project.css.generated %>/modern.css']
+		    src: ['<%= project.css.generated %>/styles.css']
 		  },
 		  lax: {
 		    options: {
 		      import: false
 		    },
-		    src: ['<%= project.css.generated %>/modern.css']
+		    src: ['<%= project.css.generated %>/styles.css']
 		  }
 	},
 	 
