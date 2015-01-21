@@ -8,28 +8,24 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
  * Fills {@link SolrInputDocument} with fields from
- * {@link pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment ConstitutionalTribunalJudgment} 
+ * {@link pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment NationalAppealChamberJudgment} 
  * 
- * @author madryk
+ * @author Łukasz Dumiszewski
  */
 @Service
-public class CtJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
+public class NacJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
 
     
     //------------------------ LOGIC --------------------------
     
     @Override
     public boolean isApplicable(CourtType courtType) {
-        return courtType == CourtType.CONSTITUTIONAL_TRIBUNAL;
+        return courtType == CourtType.NATIONAL_APPEAL_CHAMBER;
     }
 
     @Override
     public void fillFields(SolrInputDocument doc, Judgment judgment) {
         super.fillFields(doc, judgment);
-        
     }
     
-    //------------------------ PRIVATE --------------------------
-    
-   
 }

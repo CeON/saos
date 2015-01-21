@@ -52,7 +52,6 @@ public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
         CommonCourt court = division.getCourt();
 
 
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_TYPE, CourtType.COMMON.name());
         fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_TYPE, court.getType().name());
 
         fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_ID, court.getId());
