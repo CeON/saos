@@ -61,7 +61,7 @@
    
 
    <field name="databaseId" type="int" indexed="true" stored="true" required="true" multiValued="false" />
-   <field name="caseNumber" type="text_keyword" indexed="true" stored="true" multiValued="false" />
+   <field name="caseNumber" type="text_keyword" indexed="true" stored="true" multiValued="true" />
    
    <field name="title" type="text_general" indexed="true" stored="true"/>
    
