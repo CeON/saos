@@ -14,7 +14,7 @@
 					</div>
 				</c:if>
 				<div class="case-number">
-					<a href="${contextPath}/judgments/${judgment.id}">
+					<a href="${contextPath}/judgments/${judgment.id}" title="<spring:message code="judgmentSearch.results.link"  />" >
 						<saos:caseNumber items="${judgment.caseNumbers}"/>
 					</a>
 				</div>

@@ -15,8 +15,13 @@
 	display: inline-block;
 }
 
+.visibility-hidden {
+	visibility: hidden;
+}
+
 .modal {
 	.modal-body {
 		padding: 15px 30px;
 	}
 }
+

@@ -6,10 +6,8 @@
 
 <div class="container search-form block">
 
-	<h3><spring:message code="judgmentSearch.form.header" /></h3>
-	
 	<fieldset id="search-fieldset" >
-	
+		<legend><spring:message code="judgmentSearch.form.header" /></legend>
 		<saos:formFieldText path="all" labelName="input-search-all" labelText="judgmentSearch.formField.all" />
     
 	    <ul>
@@ -74,7 +72,7 @@
 		     
 	    </div>
 	
-		<ul class="display-none" >
+		<ul class="visibility-hidden display-none" >
 	    	<li>
 	    		<a id="search-less-fields" href="#" ><spring:message code="judgmentSearch.form.lessFields" /></a>
     		</li>
@@ -101,36 +99,37 @@
 
 	<h3><spring:message code="judgmentSearch.results.header" /><span><spring:message code="judgmentSearch.results.judgmentsNumber" arguments="${resultsNo}" /></span></h3>
 	
-	<div id="filter-box-button" class="filter-box-button display-none" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.filterBox.show' />"></div>
+	<a id="filter-box-button" class="filter-box-button display-none" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.filterBox.show' />"></a>
 	
-	<div class="search-settings" id="search-settings" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.tooltip.settings' />" >
-		
-	</div>
+	<a class="search-settings" id="search-settings" href="#" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.tooltip.settings' />" ></a>
 	
 	
 	<div class="settings-box" id="settings-box" >
-		<div class="" >
-			<div class="label"><spring:message code="sort.pageSize" />:</div>
-			<select id="searchPageSize" name="size">
-				<option value="10" <c:if test="${pageSize==10}"> selected="selected"</c:if>>10</option>
-			    <option value="20" <c:if test="${pageSize==20}"> selected="selected"</c:if>>20</option>
-			    <option value="50" <c:if test="${pageSize==50}"> selected="selected"</c:if>>50</option>
-			    <option value="100" <c:if test="${pageSize==100}"> selected="selected"</c:if>>100</option>
-			</select>
-		</div>
-		<div>
-			<c:set var="sortDirectionValue" value=",${fn:toLowerCase(sortDirection)}"/>
-		
-			<div class="label" ><spring:message code="sort.by" />:</div>
-			<select id="searchSorting" name="sort">
-				<option value="RELEVANCE${sortDirectionValue}" <c:if test="${sortProperty=='RELEVANCE'}"> selected="selected"</c:if> ><spring:message code="sort.accuracy" /></option>
-				<option value="JUDGMENT_DATE${sortDirectionValue}" <c:if test="${sortProperty == 'JUDGMENT_DATE'}"> selected="selected"</c:if> ><spring:message code="sort.date" /></option>
-			    <option value="COURT_ID${sortDirectionValue}" <c:if test="${sortProperty == 'COURT_ID'}"> selected="selected" </c:if> ><spring:message code="sort.court" /></option>
-			</select>
+		<fieldset>
+			<legend><spring:message code="sort.title" /></legend>
+			<div class="" >
+				<label class="label" for="searchPageSize" ><spring:message code="sort.pageSize" />:</label>
+				<select id="searchPageSize" name="size">
+					<option value="10" <c:if test="${pageSize==10}"> selected="selected"</c:if>>10</option>
+				    <option value="20" <c:if test="${pageSize==20}"> selected="selected"</c:if>>20</option>
+				    <option value="50" <c:if test="${pageSize==50}"> selected="selected"</c:if>>50</option>
+				    <option value="100" <c:if test="${pageSize==100}"> selected="selected"</c:if>>100</option>
+				</select>
+			</div>
+			<div>
+				<c:set var="sortDirectionValue" value=",${fn:toLowerCase(sortDirection)}"/>
 			
-			<label><spring:message code="sort.direction" />:</label>
-			<input id="searchSortingDirection" type="checkbox" value="checked" <c:if test="${sortDirection == 'ASC'}"> checked="checked" </c:if> />
-		</div>
+				<label class="label" for="searchSorting" ><spring:message code="sort.by" />:</label>
+				<select id="searchSorting" name="sort">
+					<option value="RELEVANCE${sortDirectionValue}" <c:if test="${sortProperty=='RELEVANCE'}"> selected="selected"</c:if> ><spring:message code="sort.accuracy" /></option>
+					<option value="JUDGMENT_DATE${sortDirectionValue}" <c:if test="${sortProperty == 'JUDGMENT_DATE'}"> selected="selected"</c:if> ><spring:message code="sort.date" /></option>
+				    <option value="COURT_ID${sortDirectionValue}" <c:if test="${sortProperty == 'COURT_ID'}"> selected="selected" </c:if> ><spring:message code="sort.court" /></option>
+				</select>
+				
+				<label for="searchSortingDirection" ><spring:message code="sort.direction" />:</label>
+				<input id="searchSortingDirection" type="checkbox" value="checked" <c:if test="${sortDirection == 'ASC'}"> checked="checked" </c:if> />
+			</div>
+		</fieldset>
 	</div>		
 		
 </div>

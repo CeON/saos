@@ -23,8 +23,8 @@ $(document).ready(function() {
     $.datepicker.setDefaults($.datepicker.regional["pl"]);
     $('[id^="datepicker_"]').datepicker({changeYear: 'true', dateFormat: "dd-mm-yy", yearRange: 'c-50:' + ((new Date()).getFullYear()+1) });
     
-    $('[title]').tooltip({container: 'body'});
     
+    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     
     
 });
