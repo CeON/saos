@@ -56,16 +56,21 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
 /**
  * @author madryk
  */
-public class TestInMemoryNacObjectFactory {
+final class TestInMemoryNacObjectFactory {
 
+    //------------------------ CONSTRUCTORS --------------------------
+    
+    private TestInMemoryNacObjectFactory() { }
+    
     
     //------------------------ LOGIC --------------------------
+    
     /**
      * Creates {@link NationalAppealChamberJudgment} hierarchy
      * with default field data.
      * @return NationalAppealChamberJudgment.
      */
-    static NationalAppealChamberJudgment createNacJudgment(){
+    public static NationalAppealChamberJudgment createNacJudgment(){
         NationalAppealChamberJudgment nacJudgment = new NationalAppealChamberJudgment();
 
         CourtCase courtCase = new CourtCase(NAC_CASE_NUMBER);
@@ -142,7 +147,7 @@ public class TestInMemoryNacObjectFactory {
      * filled with random data.
      * @return NationalAppealChamberJudgment
      */
-    static NationalAppealChamberJudgment createSimpleNacJudgment(){
+    public static NationalAppealChamberJudgment createSimpleNacJudgment(){
         NationalAppealChamberJudgment judgment = new NationalAppealChamberJudgment();
         judgment.addCourtCase(new CourtCase(RandomStringUtils.randomAlphanumeric(10)));
         judgment.getSourceInfo().setSourceCode(SourceCode.NATIONAL_APPEAL_CHAMBER);
@@ -157,7 +162,7 @@ public class TestInMemoryNacObjectFactory {
      * @param size of the list.
      * @return list of NationalAppealChamberJudgment
      */
-    static List<NationalAppealChamberJudgment> createNacJudgmentListWithRandomData(int size){
+    public static List<NationalAppealChamberJudgment> createNacJudgmentListWithRandomData(int size){
         List<NationalAppealChamberJudgment> judgments = new ArrayList<>(size);
         for(int i=0; i<size; ++i){
             String prefix = i + "__";
