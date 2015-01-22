@@ -85,7 +85,7 @@
 		<div class="col-md-4 "><img src="${contextPath}/static/image/footer/ue_logo.jpg" /></div>
 		<div class="col-md-4 "><img src="${contextPath}/static/image/footer/ic_logo.jpg" /></div> --%>
 		<div class="col-md-4 "><%-- <img src="${contextPath}/static/image/footer/mnisw_logo.jpg" /> --%></div>
-		<div class="col-md-4 "><a href="http://www.icm.edu.pl/ "><img src="${contextPath}/static/image/footer/icm_logo.png" alt="<spring:message code="partners.icm.alt" />" /></a></div>
+		<div class="col-md-4 "><a href="http://www.icm.edu.pl/ "><img src="${contextPath}/static/image/footer/icm_logo.png" alt="<spring:message code="partners.icm.imageAlt" />" /></a></div>
 		<div class="col-md-4 "><%-- <img src="${contextPath}/static/image/footer/opi_logo.jpg" /> --%></div>
 	</div>
 </div>
