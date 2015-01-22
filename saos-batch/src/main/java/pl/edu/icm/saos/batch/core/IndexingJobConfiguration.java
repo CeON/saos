@@ -100,7 +100,7 @@ public class IndexingJobConfiguration {
     
     @Bean
     protected Step judgmentReindexingProcessStep(TaskExecutor judgmentIndexingTaskExecutor) {
-        return steps.get("judgmentResetIndexFlagStep").<Judgment, SolrInputDocument> chunk(INDEXING_CHUNK_SIZE)
+        return steps.get("judgmentReindexingProcessStep").<Judgment, SolrInputDocument> chunk(INDEXING_CHUNK_SIZE)
                 .reader(judgmentIndexingReader)
                 .processor(judgmentIndexingProcessor)
                 .writer(judgmentIndexingWriter)

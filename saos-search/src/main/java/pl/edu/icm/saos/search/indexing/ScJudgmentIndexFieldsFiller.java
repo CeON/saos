@@ -36,7 +36,6 @@ public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
         SupremeCourtJudgment supremeCourtJudgment = (SupremeCourtJudgment) judgment;
         fillScJudmentForm(doc, supremeCourtJudgment);
         fillPersonnelType(doc, supremeCourtJudgment);
-        fillCourtType(doc);
         fillChambers(doc, supremeCourtJudgment);
     }
     
@@ -55,10 +54,7 @@ public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
         }
     }
     
-    private void fillCourtType(SolrInputDocument doc) {
-        fieldAdder.addField(doc, JudgmentIndexField.COURT_TYPE, CourtType.SUPREME.name());
-    }
-    
+   
     private void fillChambers(SolrInputDocument doc, SupremeCourtJudgment judgment) {
         SupremeCourtChamberDivision division = judgment.getScChamberDivision();
         if (division != null) {
