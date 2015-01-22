@@ -3,6 +3,7 @@ package pl.edu.icm.saos.batch.core.indexer;
 import static org.junit.Assert.assertEquals;
 import static pl.edu.icm.saos.batch.core.indexer.JudgmentIndexAssertUtils.assertCcJudgment;
 import static pl.edu.icm.saos.batch.core.indexer.JudgmentIndexAssertUtils.assertCtJudgment;
+import static pl.edu.icm.saos.batch.core.indexer.JudgmentIndexAssertUtils.assertNacJudgment;
 import static pl.edu.icm.saos.batch.core.indexer.JudgmentIndexAssertUtils.assertScJudgment;
 
 import java.io.IOException;
@@ -83,7 +84,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     private final static int APPEAL_CHAMBER_JUDGMENTS_COUNT = 7;
     
     private final static int ALL_JUDGMENTS_COUNT = COMMON_COURT_JUDGMENTS_COUNT + SUPREME_COURT_JUDGMENTS_COUNT +
-            CONSTITUTIONAL_TRIBUNAL_JUDGMENTS_COUNT /*+ APPEAL_CHAMBER_JUDGMENTS_COUNT*/;
+            CONSTITUTIONAL_TRIBUNAL_JUDGMENTS_COUNT + APPEAL_CHAMBER_JUDGMENTS_COUNT;
     
     private List<CommonCourtJudgment> ccJudgments;
     private List<SupremeCourtJudgment> scJudgments;
@@ -99,7 +100,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         ccJudgments = testJudgmentsGenerator.generateCcJudgments(COMMON_COURT_JUDGMENTS_COUNT);
         scJudgments = testJudgmentsGenerator.generateScJudgments(SUPREME_COURT_JUDGMENTS_COUNT);
         ctJudgments = testJudgmentsGenerator.generateCtJudgments(CONSTITUTIONAL_TRIBUNAL_JUDGMENTS_COUNT);
-//        nacJudgments = testJudgmentsGenerator.generateNacJudgments(APPEAL_CHAMBER_JUDGMENTS_COUNT);
+        nacJudgments = testJudgmentsGenerator.generateNacJudgments(APPEAL_CHAMBER_JUDGMENTS_COUNT);
 
     }
     
@@ -128,7 +129,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), ccJudgments.get(1));
         assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), scJudgments.get(0));
         assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(3).getId()), ctJudgments.get(3));
-//        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), nacJudgments.get(5));
+        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), nacJudgments.get(5));
 
     }
     
@@ -141,7 +142,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         applyCcChanges(ccJudgments.get(1).getId());
         applyScChanges(scJudgments.get(0).getId());
         applyCtChanges(ctJudgments.get(3).getId());
-//        applyNacChanges(nacJudgments.get(5).getId());
+        applyNacChanges(nacJudgments.get(5).getId());
         
         
         // execute
@@ -158,7 +159,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), judgmentRepository.findOneAndInitialize(ccJudgments.get(1).getId()));
         assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), judgmentRepository.findOneAndInitialize(scJudgments.get(0).getId()));
         assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(3).getId()), judgmentRepository.findOneAndInitialize(ctJudgments.get(3).getId()));
-//        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), judgmentRepository.findOneAndInitialize(nacJudgments.get(5).getId()));
+        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), judgmentRepository.findOneAndInitialize(nacJudgments.get(5).getId()));
         
     }
 
