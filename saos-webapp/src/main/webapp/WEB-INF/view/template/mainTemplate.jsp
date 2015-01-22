@@ -32,20 +32,11 @@
 
 		<tiles:insertAttribute name="skipLinks" />
 
-	<%--
-       	<div class="wrapper" >
-       	
-       	 --%>
-	        <header>
-	            <tiles:insertAttribute name="top" />
-	        </header>
-	              
-            <tiles:insertAttribute name="content" flush="false" />
-	        
-	        <%--
-	        <div class="push"></div>
-        </div>
-         --%>
+        <header>
+            <tiles:insertAttribute name="top" />
+        </header>
+              
+		<tiles:insertAttribute name="content" flush="false" />
         
         <footer class="footer" >
        		<tiles:insertAttribute name="footer" /> 
