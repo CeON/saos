@@ -1,6 +1,5 @@
 package pl.edu.icm.saos.persistence.common;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,7 +8,15 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.persistence.model.*;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
 /**
  * Provides factory methods for model object creation.
@@ -38,6 +45,7 @@ public class TestPersistenceObjectFactory {
         saveCcJudgment(testObjectContext.getCcJudgment());
         saveScJudgment(testObjectContext.getScJudgment());
         saveCtJudgment(testObjectContext.getCtJudgment());
+        saveNacJudgment(testObjectContext.getNacJudgment());
 
         return testObjectContext;
     }
@@ -73,6 +81,17 @@ public class TestPersistenceObjectFactory {
         ConstitutionalTribunalJudgment ctJudgment = TestInMemoryCtObjectFactory.createCtJudgment();
         saveCtJudgment(ctJudgment);
         return ctJudgment;
+    }
+    
+    /**
+     * Creates {@link NationalAppealChamberJudgment} hierarchy with default field data.
+     * @return NationalAppealChamberJudgment.
+     */
+    @Transactional
+    public NationalAppealChamberJudgment createNacJudgment(){
+        NationalAppealChamberJudgment nacJudgment = TestInMemoryNacObjectFactory.createNacJudgment();
+        saveNacJudgment(nacJudgment);
+        return nacJudgment;
     }
 
     /**
@@ -146,7 +165,24 @@ public class TestPersistenceObjectFactory {
         saveCtJudgment(ctJudgment);
         return ctJudgment;
     }
+    
+    /**
+     * Creates {@link NationalAppealChamberJudgment} with minimal set of fields (necessaries for storing in db)
+     * filled with random data.
+     * @return NationalAppealChamberJudgment
+     */
+    @Transactional
+    public NationalAppealChamberJudgment createSimpleNacJudgment(){
+        NationalAppealChamberJudgment nacJudgment = TestInMemoryNacObjectFactory.createSimpleNacJudgment();
+        saveNacJudgment(nacJudgment);
+        return nacJudgment;
+    }
 
+    /**
+     * Creates list of {@link SupremeCourtJudgment} with fields filled with random values.
+     * @param size of the list.
+     * @return SupremeCourtJudgment
+     */
     @Transactional
     public List<SupremeCourtJudgment> createScJudgmentListWithRandomData(int size){
         List<SupremeCourtJudgment> judgments = TestInMemoryObjectFactory.createScJudgmentListWithRandomData(size);
@@ -177,6 +213,19 @@ public class TestPersistenceObjectFactory {
     public List<ConstitutionalTribunalJudgment> createCtJudgmentListWithRandomData(int size){
         List<ConstitutionalTribunalJudgment> judgments = TestInMemoryCtObjectFactory.createCtJudgmentListWithRandomData(size);
         judgments.forEach(ctJudgment -> saveCtJudgment(ctJudgment));
+
+        return judgments;
+    }
+    
+    /**
+     * Creates list of {@link NationalAppealChamberJudgment} with fields filled with random values.
+     * @param size of the list.
+     * @return list of NationalAppealChamberJudgment
+     */
+    @Transactional
+    public List<NationalAppealChamberJudgment> createNacJudgmentListWithRandomData(int size){
+        List<NationalAppealChamberJudgment> judgments = TestInMemoryNacObjectFactory.createNacJudgmentListWithRandomData(size);
+        judgments.forEach(ctJudgment -> saveNacJudgment(ctJudgment));
 
         return judgments;
     }
@@ -248,6 +297,17 @@ public class TestPersistenceObjectFactory {
         }
 
         entityManager.persist(ctJudgment);
+
+        entityManager.flush();
+    }
+    
+    @Transactional
+    private void saveNacJudgment(NationalAppealChamberJudgment nacJudgment){
+        for(JudgmentReferencedRegulation referencedRegulation: nacJudgment.getReferencedRegulations()){
+            entityManager.persist(referencedRegulation.getLawJournalEntry());
+        }
+
+        entityManager.persist(nacJudgment);
 
         entityManager.flush();
     }

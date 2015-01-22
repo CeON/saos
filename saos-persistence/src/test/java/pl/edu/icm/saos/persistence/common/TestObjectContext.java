@@ -2,6 +2,7 @@ package pl.edu.icm.saos.persistence.common;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
 /**
@@ -12,6 +13,7 @@ public class TestObjectContext {
     private CommonCourtJudgment ccJudgment;
     private SupremeCourtJudgment scJudgment;
     private ConstitutionalTribunalJudgment ctJudgment;
+    private NationalAppealChamberJudgment nacJudgment;
 
     //------------------------ GETTERS --------------------------
 
@@ -67,6 +69,14 @@ public class TestObjectContext {
     public ConstitutionalTribunalJudgment getCtJudgment() {
         return ctJudgment;
     }
+    
+    public int getNacJudgmentId() {
+        return nacJudgment.getId();
+    }
+    
+    public NationalAppealChamberJudgment getNacJudgment() {
+        return nacJudgment;
+    }
 
     //------------------------ SETTERS --------------------------
     void setCcJudgment(CommonCourtJudgment ccJudgment) {
@@ -79,6 +89,10 @@ public class TestObjectContext {
 
     public void setCtJudgment(ConstitutionalTribunalJudgment ctJudgment) {
         this.ctJudgment = ctJudgment;
+    }
+    
+    public void setNacJudgment(NationalAppealChamberJudgment nacJudgment) {
+        this.nacJudgment = nacJudgment;
     }
 
     //------------------------ PRIVATE --------------------------
