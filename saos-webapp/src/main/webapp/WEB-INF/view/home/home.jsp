@@ -1,19 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
-<div class="spinner" >
+<div class="spinner" id="content" >
 
 	<div class="container">
 		<div class="stage"> 
 			<div class="block-info" >
-			
-				<h3>
-				<spring:message code="home.carousel.searchHeader" />  
-				</h3>
-				
-				<p>
-					<spring:message code="home.carousel.searchDescription" />
-				</p>
+				<h3><spring:message code="home.carousel.searchHeader" /></h3>
+				<p><spring:message code="home.carousel.searchDescription" /></p>
 			</div>
 		</div>
 		<div class="pagination">
@@ -25,13 +19,7 @@
 		</div>
 		
 	</div>
-	<!-- 
-	<img src="/static/image/gavel.jpg" >
-	 -->
-
-
 </div>
-
 
 <div class="container advert-idea">
 

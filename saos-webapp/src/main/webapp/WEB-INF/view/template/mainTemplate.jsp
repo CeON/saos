@@ -28,7 +28,9 @@
     </head>
     
     <body>
-       
+
+		<tiles:insertAttribute name="skipLinks" />
+
        	<div class="wrapper" >
 	        <header>
 	            <tiles:insertAttribute name="top" />

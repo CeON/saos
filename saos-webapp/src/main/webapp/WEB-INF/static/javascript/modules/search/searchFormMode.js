@@ -43,6 +43,7 @@ var SearchFormMode = {
 		
 		SearchFormMode.getForm().slideDown({easing: SearchFormMode.easing, complete: function() {
 			SearchFormMode.showButton(SearchFormMode.getButtonLess());
+			SearchFormMode.hideButton(SearchFormMode.getButtonMore());
 			callback();
 		} });
 	},
@@ -52,7 +53,7 @@ var SearchFormMode = {
 	 */
 	hide: function(callback) {
 		SearchFormMode.hideButton(SearchFormMode.getButtonLess());
-
+		SearchFormMode.showButton(SearchFormMode.getButtonMore());
 		
 		SearchFormMode.getForm().slideUp({easing: SearchFormMode.easing, complete: function() {
 			callback();
@@ -72,10 +73,10 @@ var SearchFormMode = {
 	},
 	
 	showButton: function($button) {
-		$button.parent().parent().css("display", "block");
+		$button.parent().parent().css("visibility", "visible");
 	},
 	
 	hideButton: function($button) {
-		$button.parent().parent().css("display", "none");
+		$button.parent().parent().css("visibility", "hidden");
 	},
 };

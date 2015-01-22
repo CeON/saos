@@ -63,7 +63,7 @@ footer {
 	background: $panel-color;
 	border: 0px solid $grey-darker;
 	border-width: 0px 0px 6px;
-	color: $white;
+	color: $grey98;
 	padding: 16px 0px 8px;
 	
 	ul li {
@@ -88,13 +88,6 @@ footer {
 	
 	li {
 		a {
-			background: $white;
-			border: {
-				color: $grey-border;
-				style: solid;
-				width: 1px;
-			}
-			color: $text;
 			padding: 8px;
 			margin: 2px 7px;
 			
@@ -151,7 +144,7 @@ form.search {
 		
 		li a, li .active {
 			background: $panel-color !important;
-			color: $white !important;
+			color: $grey98 !important;
 		}
 		
 		li a {
@@ -174,7 +167,7 @@ form.search {
 
 .advert-header {
 	background: $panel-color;
-	color: $white;
+	color: $grey98;
 	display: inline-block;
 	font-size: 24px;
 	padding: 8px 16px;
@@ -185,7 +178,7 @@ form.search {
 	margin-bottom: 30px;
 	
 	.item-desc {
-		background: $white;
+		background: $grey98;
 		border: 1px solid #e6e6e6;
 		font-size: 17px;
 		line-height: 1.5em;
@@ -201,7 +194,7 @@ form.search {
 
 	.item {
 		background: $black;
-		color: $white;
+		color: $grey98;
 		padding: 0px 40px;
 	
 		.block {
@@ -264,7 +257,7 @@ form.search {
 		.block-info {
 			background: $orange;
 			bottom: 20px;
-			color: $white;
+			color: $grey98;
 			left: 20px;
 			padding: 20px;
 			position: absolute;
@@ -317,7 +310,7 @@ form.search {
 }
 
 .advert-frame {
-	background: #fff;
+	background: $white;
 	border: 1px solid #e6e6e6;
 	border-radius: 0px;
 	padding: 15px;
@@ -365,7 +358,7 @@ form.search {
 	}
 	
 	.advance-form {
-		background: none repeat scroll 0 0 #fff;
+		background: none repeat scroll 0 0 $white;
 	    display: none;
 	    margin: 0px 0px -8px 0px;
 	    padding: 15px 0 0;
@@ -404,7 +397,7 @@ form.search {
     background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);
     background-repeat: repeat-x;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    color: #ffffff;
+    color: $white;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
@@ -419,7 +412,7 @@ form.search {
 }
 
 .judgment-list {
-	background: #fff;
+	background: $white;
 	border: {
 		color: $grey-border;
 		style: solid;
@@ -447,14 +440,18 @@ form.search {
 		}
 	
 		.case-number {
-			background: #fff;
+			background: $white;
 			color: #0176c3;
 			font-size: 22px;
 			margin-bottom: 6px;
+			
+			a {
+				position: relative;
+			}
 		}
 		
 		.judgment-type {
-			background: #fff;
+			background: $white;
 			@include filter-underline();
 			border-color: #888;
 			bottom: -3px;
@@ -557,7 +554,7 @@ form.search {
 }
 
 .accuracy {
-	background: #fff;
+	background: $white;
 	border: 3px solid #ddd;
     border-radius: 50px;
     color: #aaa;
@@ -571,7 +568,7 @@ form.search {
 }
 
 .judgment-page, .judgment-filter {
-	background: none repeat scroll 0 0 #fff;
+	background: none repeat scroll 0 0 $white;
     border: 0px solid #e0e0e0;
 	margin-top: 30px;
 	padding: 30px 40px;
@@ -603,7 +600,7 @@ form.search {
 	}
 	
 	.label {
-		background: #fff;
+		background: $white;
 		border-radius: 0px;
 		color: $text;
 		font: {
@@ -634,7 +631,7 @@ form.search {
 	}
 	
 	.fbox-button-before {
-		background: #fff;
+		background: $white;
 		content: "";
 		display: block;
 		height: 16px;
@@ -665,7 +662,7 @@ form.search {
 	}
 	
 	.settings-box {
-		background: #fff;
+		background: $white;
 		@include border-grey();
 		display: none;
 		padding: 10px 20px;
@@ -699,7 +696,7 @@ form.search {
 	}
 
 	.judgment-type {
-		background: #fff;
+		background: $white;
 		color: #888;
 	    font-weight: 300;
 	    margin-bottom: 10px;
@@ -719,7 +716,7 @@ form.search {
 		}
 	
 		.label-title {
-			background: #fff;
+			background: $white;
 			color: #616161;
     		display: inline-block;
     		margin-right: 15x;
@@ -750,7 +747,7 @@ form.search {
 
 
 .pagination {
-	background: #fff;
+	background: $white;
 	border: {
 		color: $grey-border;
 		style: solid;
@@ -765,7 +762,7 @@ form.search {
 	width: 100%;
 	
 	.results-number {
-		background: #fff;
+		background: $white;
 		color: #666;
 		font-size: 0.8em;
 		margin-top: 10px;
@@ -787,7 +784,7 @@ form.search {
 
 .filter-box {
 	@include border-grey();
-	background: #fff;
+	background: $white;
     border-radius: 0px;
     font: {
     	size: 0.9em;
@@ -797,7 +794,7 @@ form.search {
     width: 203px;
 
 	p {
-		background: #fff;
+		background: $white;
 		margin: 0px;
 		padding: 10px 10px;
 	
@@ -884,7 +881,7 @@ form.search {
 		margin: 0px 0px 0px 5px;
 		
 		&:hover {
-			background: #fff;
+			background: $white;
 			color: #666;
 		}
 	}
@@ -939,5 +936,26 @@ form.search {
 	display: none;
 }
 
+.site-map {
 
+	ul {
+		margin-top: 40px;
+		
+		li {
+			background: $white;
+			color: $black;
+			font: {
+				size: 18px;
+			}
+			margin: 10px 0px;
+		}
+	}
+}
+
+.page {
+	background: $white;
+	border: 1px solid $grey-border;
+	margin-top: 30px;
+	padding-bottom: 25px;
+}
 

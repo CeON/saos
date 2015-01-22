@@ -36,7 +36,7 @@ $(document).ready(function() {
 	
 	<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
 	
-	<div class="container judgment-list">
+	<div class="container judgment-list" id="judgment-list">
 	
 		<div class="col-md-9 ${resultsListClass}">	
 		

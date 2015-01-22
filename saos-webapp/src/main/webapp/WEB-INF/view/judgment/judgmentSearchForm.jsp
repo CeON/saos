@@ -74,7 +74,7 @@
 		     
 	    </div>
 	
-		<ul class="display-none" >
+		<ul class="visibility-hidden" >
 	    	<li>
 	    		<a id="search-less-fields" href="#" ><spring:message code="judgmentSearch.form.lessFields" /></a>
     		</li>
@@ -101,11 +101,9 @@
 
 	<h3><spring:message code="judgmentSearch.results.header" /><span><spring:message code="judgmentSearch.results.judgmentsNumber" arguments="${resultsNo}" /></span></h3>
 	
-	<div id="filter-box-button" class="filter-box-button display-none" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.filterBox.show' />"></div>
+	<a id="filter-box-button" class="filter-box-button display-none" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.filterBox.show' />"></a>
 	
-	<div class="search-settings" id="search-settings" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.tooltip.settings' />" >
-		
-	</div>
+	<a class="search-settings" id="search-settings" href="#" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.tooltip.settings' />" ></a>
 	
 	
 	<div class="settings-box" id="settings-box" >

@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-<div class="container judgment-page block">
+<div class="container judgment-page block" id="judgment">
 
 	<c:if test="${!empty judgment.judgmentType}" >
 		<div class="judgment-type">
