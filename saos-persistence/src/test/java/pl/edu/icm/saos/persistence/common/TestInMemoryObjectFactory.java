@@ -24,11 +24,13 @@ public final class TestInMemoryObjectFactory {
         CommonCourtJudgment ccJudgment = TestInMemoryCcObjectFactory.createCcJudgment();
         SupremeCourtJudgment scJudgment = TestInMemoryScObjectFactory.createScJudgment();
         ConstitutionalTribunalJudgment ctJudgment = TestInMemoryCtObjectFactory.createCtJudgment();
+        NationalAppealChamberJudgment nacJudgment = TestInMemoryNacObjectFactory.createNacJudgment();
 
         TestObjectContext testObjectContext = new TestObjectContext();
         testObjectContext.setCcJudgment(ccJudgment);
         testObjectContext.setScJudgment(scJudgment);
         testObjectContext.setCtJudgment(ctJudgment);
+        testObjectContext.setNacJudgment(nacJudgment);
 
         return testObjectContext;
     }
@@ -56,6 +58,15 @@ public final class TestInMemoryObjectFactory {
      */
     public static ConstitutionalTribunalJudgment createCtJudgment(){
         return TestInMemoryCtObjectFactory.createCtJudgment();
+    }
+    
+    /**
+     * Creates {@link pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment} hierarchy
+     * with default field data.
+     * @return NationalAppealChamberJudgment.
+     */
+    public static NationalAppealChamberJudgment createNacJudgment(){
+        return TestInMemoryNacObjectFactory.createNacJudgment();
     }
 
     /**
@@ -111,6 +122,15 @@ public final class TestInMemoryObjectFactory {
     public static ConstitutionalTribunalJudgment createSimpleCtJudgment(){
         return TestInMemoryCtObjectFactory.createSimpleCtJudgment();
     }
+    
+    /**
+     * Creates {@link NationalAppealChamberJudgment} with minimal set of fields (necessaries for storing in db)
+     * filled with random data.
+     * @return NationalAppealChamberJudgment
+     */
+    public static NationalAppealChamberJudgment createSimpleNacJudgment(){
+        return TestInMemoryNacObjectFactory.createSimpleNacJudgment();
+    }
 
     /**
      * Creates list of {@link SupremeCourtJudgment} with fields filled with random values.
@@ -139,6 +159,14 @@ public final class TestInMemoryObjectFactory {
         return TestInMemoryCtObjectFactory.createCtJudgmentListWithRandomData(size);
     }
 
+    /**
+     * Creates list of {@link NationalAppealChamberJudgment} with fields filled with random values.
+     * @param size of the list.
+     * @return list of NationalAppealChamberJudgment
+     */
+    public static List<NationalAppealChamberJudgment> createNacJudgmentListWithRandomData(int size){
+        return TestInMemoryNacObjectFactory.createNacJudgmentListWithRandomData(size);
+    }
 
 
 
