@@ -9,13 +9,13 @@
 	
 		<ul>
 			<li>
-				<a href="${contextPath}/" ><spring:message code="header.navigation.home" /></a>
+				<a href="${contextPath}/" ><spring:message code="navigation.home" /></a>
 			</li>
 			<li>
-				<a href="${contextPath}/search" ><spring:message code="header.navigation.search" /></a>
+				<a href="${contextPath}/search" ><spring:message code="navigation.search" /></a>
 			</li>
 			<li>
-				<a href="${contextPath}/contact" ><spring:message code="header.navigation.contact" /></a>
+				<a href="${contextPath}/contact" ><spring:message code="navigation.contact" /></a>
 			</li>
 		</ul>
 	

@@ -6,10 +6,8 @@
 
 <div class="container search-form block">
 
-	<h3><spring:message code="judgmentSearch.form.header" /></h3>
-	
 	<fieldset id="search-fieldset" >
-		<legend><spring:message code="judgmentSerach.form.legend" /></legend>
+		<legend><spring:message code="judgmentSearch.form.header" /></legend>
 		<saos:formFieldText path="all" labelName="input-search-all" labelText="judgmentSearch.formField.all" />
     
 	    <ul>
@@ -74,7 +72,7 @@
 		     
 	    </div>
 	
-		<ul class="visibility-hidden" >
+		<ul class="visibility-hidden display-none" >
 	    	<li>
 	    		<a id="search-less-fields" href="#" ><spring:message code="judgmentSearch.form.lessFields" /></a>
     		</li>

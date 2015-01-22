@@ -12,7 +12,15 @@ html, body {
 	background: $grey-background;
 	font-family: 'Noto Sans', sans-serif;
 	font-weight: 300;
-	height: 100%;
+}
+
+html {
+	min-height: 100%;
+	position: relative;
+}
+
+body {
+	margin-bottom: $footer-height + 30px;
 }
 
 h1 {
@@ -55,27 +63,26 @@ header {
 	}
 }
 
-footer, .push {
-	height: $footer-height;
-}
-
 footer {
 	background: $panel-color;
-	border: 0px solid $grey-darker;
-	border-width: 0px 0px 6px;
+	bottom: 0;
 	color: $grey98;
-	padding: 16px 0px 8px;
-	
+	height: $footer-height;
+	position: absolute;
+    width: 100%;
+    
 	ul li {
 		padding: 0px 8px;
 	}
 }
 
-.wrapper {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -$footer-height;
+.navbar-nav {
+	li {
+		a {
+			padding-bottom: 20px;
+			padding-top: 20px;
+		}
+	}
 }
 
 .navbar-blank {
@@ -206,8 +213,12 @@ form.search {
 		}
 		
 		.item-title {
+			background: $black;
+			color: $white;
+			display: block;
 			font-size: 20px;
 			font-weight: 600;
+			margin-bottom: 10px;
 			text-align: center;
 		}
 		
@@ -220,21 +231,18 @@ form.search {
 			@include background-image("icons/search.png");
 			background-position: 50%;
 			background-repeat: no-repeat;
-			cursor: pointer;
 		}
 		
 		.stats {
 			@include background-image("icons/chart.png");
 			background-position: 50%;
 			background-repeat: no-repeat;
-			cursor: pointer;
 		}
 		
 		.api {
 			@include background-image("icons/computer.png");
 			background-position: 50%;
 			background-repeat: no-repeat;
-			cursor: pointer;
 		}
 	}
 }
@@ -380,6 +388,16 @@ form.search {
 		margin-left: 0px;
 	}
 	
+	legend {
+		border-bottom: 1px solid $grey-border;
+	    font: {
+	    	weight: 300;
+    		size: 24px;
+    	}
+	    margin-bottom: 30px;
+	    margin-top: 20px;
+	    padding-bottom: 6px;
+	}
 	
 }
 
@@ -670,6 +688,12 @@ form.search {
 		right: 40px;
 		top: 47px;
 		z-index: 1000;
+		
+		legend {
+			font: {
+				size: 16px;
+			}
+		}
 	}
 }
 

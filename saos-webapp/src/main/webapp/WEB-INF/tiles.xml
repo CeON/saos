@@ -5,7 +5,7 @@
     <definition name="template" template="/WEB-INF/view/template/mainTemplate.jsp">
         <put-attribute name="top" value="/WEB-INF/view/template/header.jsp" />
         <put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
-        <put-attribute name="skipLinks" value="/WEB-INF/view/skipLinks/defaultSkipLinks.jsp" />
+        <put-attribute name="skipLinks" value="/WEB-INF/view/template/skipLinks/defaultSkipLinks.jsp" />
     </definition>
     
     <!-- ************* Simple template definition -->
@@ -35,12 +35,12 @@
     
     <definition name="judgmentDetails" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentDetails.jsp" />
-        <put-attribute name="skipLinks" value="/WEB-INF/view/skipLinks/judgmentDetailsSkipLinks.jsp" />
+        <put-attribute name="skipLinks" value="/WEB-INF/view/template/skipLinks/judgmentDetailsSkipLinks.jsp" />
     </definition>
     
     <definition name="judgmentSearch" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentSearch.jsp" />
-        <put-attribute name="skipLinks" value="/WEB-INF/view/skipLinks/judgmentSearchSkipLinks.jsp" />
+        <put-attribute name="skipLinks" value="/WEB-INF/view/template/skipLinks/judgmentSearchSkipLinks.jsp" />
     </definition>
     
     <definition name="siteMap" extends="template">

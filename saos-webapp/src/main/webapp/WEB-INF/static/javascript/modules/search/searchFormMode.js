@@ -14,9 +14,9 @@ var SearchFormMode = {
 
 	/* Initialize parameters
 	 * @param source configuration parameters(json):
-	 * 	- callback - function that is exetued after showing/hiding form
-	 * 		- onShow - function that is excuted when show animation is finished
-	 * 		- onHide - function that is excuted when hide animation is finished 
+	 * 	- callback - function that is executed after showing/hiding form
+	 * 		- onShow - function that is executed when show animation is finished
+	 * 		- onHide - function that is executed when hide animation is finished 
 	 */
 	init: function(source) {
 		SearchFormMode.assign(source);
@@ -42,7 +42,8 @@ var SearchFormMode = {
 	show: function(callback) {	
 		
 		SearchFormMode.getForm().slideDown({easing: SearchFormMode.easing, complete: function() {
-			SearchFormMode.showButton(SearchFormMode.getButtonLess());
+			SearchFormMode.showButtonLess();
+			
 			SearchFormMode.hideButton(SearchFormMode.getButtonMore());
 			callback();
 		} });
@@ -52,7 +53,7 @@ var SearchFormMode = {
 	 * @param callback - function invoked when hide animation ends
 	 */
 	hide: function(callback) {
-		SearchFormMode.hideButton(SearchFormMode.getButtonLess());
+		SearchFormMode.hideButtonLess();
 		SearchFormMode.showButton(SearchFormMode.getButtonMore());
 		
 		SearchFormMode.getForm().slideUp({easing: SearchFormMode.easing, complete: function() {
@@ -79,4 +80,18 @@ var SearchFormMode = {
 	hideButton: function($button) {
 		$button.parent().parent().css("visibility", "hidden");
 	},
+	
+	showButtonLess: function() {
+		var $parent = SearchFormMode.getButtonLess().parent().parent();
+		
+		$parent.css("visibility", "visible")
+				.removeClass("display-none");
+	},
+	
+	hideButtonLess: function() {
+		var $parent = SearchFormMode.getButtonLess().parent().parent();
+		
+		$parent.css("visibility", "hidden")
+				.addClass("display-none");
+	}
 };

@@ -40,29 +40,29 @@
 		<div class="row">
 			<div class="col-md-4 item">
 				<div class="block search"></div>
-				<p class="item-title">
+				<a href="${contextPath}/search" class="item-title">
 					<spring:message code="home.navigation.search" />
-				</p>
+				</a>
 				<p class="item-desc">
-				At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti
+					<spring:message code="lorem.text30" />
 				</p>
 			</div>
 			<div class="col-md-4 item">
 				<div class="block stats"></div>
-				<p class="item-title">
+				<a href="#" class="item-title">
 					<spring:message code="home.navigation.stats" />
-				</p>
+				</a>
 				<p class="item-desc">
-				At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti
+					<spring:message code="lorem.text30" />
 				</p>
 			</div>
 			<div class="col-md-4 item">
-				<div class="block api"></div>
-				<p class="item-title">
-					<spring:message code="home.navigation.api" />
-				</p>
+					<div class="block api"></div>
+					<a href="#" class="item-title">
+						<spring:message code="home.navigation.api" />
+					</a>
 				<p class="item-desc">
-				At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti
+					<spring:message code="lorem.text30" />
 				</p>
 			</div>
 		</div>
@@ -85,7 +85,7 @@
 		<div class="col-md-4 "><img src="${contextPath}/static/image/footer/ue_logo.jpg" /></div>
 		<div class="col-md-4 "><img src="${contextPath}/static/image/footer/ic_logo.jpg" /></div> --%>
 		<div class="col-md-4 "><%-- <img src="${contextPath}/static/image/footer/mnisw_logo.jpg" /> --%></div>
-		<div class="col-md-4 "><img src="${contextPath}/static/image/footer/icm_logo.png" /></div>
+		<div class="col-md-4 "><a href="http://www.icm.edu.pl/ "><img src="${contextPath}/static/image/footer/icm_logo.png" alt="<spring:message code="partners.icm.alt" />" /></a></div>
 		<div class="col-md-4 "><%-- <img src="${contextPath}/static/image/footer/opi_logo.jpg" /> --%></div>
 	</div>
 </div>
