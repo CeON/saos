@@ -75,14 +75,14 @@ var SearchFormMode = {
 	/* Show button
 	 * 
 	 * @param $button - (jquery object) button
-	 * @param addDisplayNone - (boolean) on true remove css class "display-none" 
+	 * @param removeDisplayNone - (boolean) on true remove css class "display-none" 
 	 */
-	showButton: function($button, addDisplayNone) {
+	showButton: function($button, removeDisplayNone) {
 		var $parent = $button.parent().parent();
 		
 		$parent.css("visibility", "visible");
 		
-		if (addDisplayNone) {
+		if (removeDisplayNone) {
 			$parent.removeClass("display-none");
 		}
 	},
@@ -90,14 +90,14 @@ var SearchFormMode = {
 	/* Hide button
 	 * 
 	 * @param $button - (jquery object) button
-	 * @param removeDisplayNone - (boolean) on true add css class "display-none"
+	 * @param addDisplayNone - (boolean) on true add css class "display-none"
 	 */
-	hideButton: function($button, removeDisplayNone) {
+	hideButton: function($button, addDisplayNone) {
 		var $parent = $button.parent().parent();
 		
 		$parent.css("visibility", "hidden");
 		
-		if (removeDisplayNone) {
+		if (addDisplayNone) {
 			$parent.addClass("display-none");
 		}
 	}
