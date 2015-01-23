@@ -12,7 +12,15 @@ html, body {
 	background: $grey-background;
 	font-family: 'Noto Sans', sans-serif;
 	font-weight: 300;
-	height: 100%;
+}
+
+html {
+	min-height: 100%;
+	position: relative;
+}
+
+body {
+	margin-bottom: $footer-height + 30px;
 }
 
 h1 {
@@ -55,27 +63,26 @@ header {
 	}
 }
 
-footer, .push {
-	height: $footer-height;
-}
-
 footer {
 	background: $panel-color;
-	border: 0px solid $grey-darker;
-	border-width: 0px 0px 6px;
-	color: $white;
-	padding: 16px 0px 8px;
-	
+	bottom: 0;
+	color: $grey98;
+	height: $footer-height;
+	position: absolute;
+    width: 100%;
+    
 	ul li {
 		padding: 0px 8px;
 	}
 }
 
-.wrapper {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -$footer-height;
+.navbar-nav {
+	li {
+		a {
+			padding-bottom: 20px;
+			padding-top: 20px;
+		}
+	}
 }
 
 .navbar-blank {
@@ -86,11 +93,14 @@ footer {
 
 .language-change {
 	
-	a {
-		color: $text;
-		
-		&:hover {
-			background: inherit;
+	li {
+		a {
+			padding: 8px;
+			margin: 2px 7px;
+			
+			&:hover {
+				background: inherit;
+			}
 		}
 	}
 
@@ -141,7 +151,7 @@ form.search {
 		
 		li a, li .active {
 			background: $panel-color !important;
-			color: $white !important;
+			color: $grey98 !important;
 		}
 		
 		li a {
@@ -164,7 +174,7 @@ form.search {
 
 .advert-header {
 	background: $panel-color;
-	color: $white;
+	color: $grey98;
 	display: inline-block;
 	font-size: 24px;
 	padding: 8px 16px;
@@ -175,7 +185,7 @@ form.search {
 	margin-bottom: 30px;
 	
 	.item-desc {
-		background: #fff;
+		background: $grey98;
 		border: 1px solid #e6e6e6;
 		font-size: 17px;
 		line-height: 1.5em;
@@ -184,13 +194,14 @@ form.search {
 }
 
 .advert-ground {
-	background: #333;
+	background: $black;
 	margin-top: 0px;
 	margin-bottom: 150px;
 	padding: 30px 0px;
 
 	.item {
-		color: $white;
+		background: $black;
+		color: $grey98;
 		padding: 0px 40px;
 	
 		.block {
@@ -202,8 +213,12 @@ form.search {
 		}
 		
 		.item-title {
+			background: $black;
+			color: $white;
+			display: block;
 			font-size: 20px;
 			font-weight: 600;
+			margin-bottom: 10px;
 			text-align: center;
 		}
 		
@@ -216,21 +231,18 @@ form.search {
 			@include background-image("icons/search.png");
 			background-position: 50%;
 			background-repeat: no-repeat;
-			cursor: pointer;
 		}
 		
 		.stats {
 			@include background-image("icons/chart.png");
 			background-position: 50%;
 			background-repeat: no-repeat;
-			cursor: pointer;
 		}
 		
 		.api {
 			@include background-image("icons/computer.png");
 			background-position: 50%;
 			background-repeat: no-repeat;
-			cursor: pointer;
 		}
 	}
 }
@@ -253,7 +265,7 @@ form.search {
 		.block-info {
 			background: $orange;
 			bottom: 20px;
-			color: $white;
+			color: $grey98;
 			left: 20px;
 			padding: 20px;
 			position: absolute;
@@ -306,7 +318,7 @@ form.search {
 }
 
 .advert-frame {
-	background: #fff;
+	background: $white;
 	border: 1px solid #e6e6e6;
 	border-radius: 0px;
 	padding: 15px;
@@ -331,17 +343,18 @@ form.search {
 }
 
 .search-form {
-	background: #fff;
+	background: $white;
 	border: 1px solid $grey-border;
 	border-radius: 2px;
     margin-top: 30px;
     padding: 0 30px;
 	
 	input {
+		background: $white;
 		border-radius: 2px;
-		border-color: e0e0e0;
+		border-color: $grey-border;
 		box-shadow: 0 0 1px rgba(255, 255, 255, 0.976) inset;
-		color: #444;
+		color: lighten($black, 10%);
 	}
 	
 	label {
@@ -353,7 +366,7 @@ form.search {
 	}
 	
 	.advance-form {
-		background: none repeat scroll 0 0 #fff;
+		background: none repeat scroll 0 0 $white;
 	    display: none;
 	    margin: 0px 0px -8px 0px;
 	    padding: 15px 0 0;
@@ -375,6 +388,16 @@ form.search {
 		margin-left: 0px;
 	}
 	
+	legend {
+		border-bottom: 1px solid $grey-border;
+	    font: {
+	    	weight: 300;
+    		size: 24px;
+    	}
+	    margin-bottom: 30px;
+	    margin-top: 20px;
+	    padding-bottom: 6px;
+	}
 	
 }
 
@@ -392,7 +415,7 @@ form.search {
     background-image: linear-gradient(to bottom, #ee5f5b, #bd362f);
     background-repeat: repeat-x;
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-    color: #ffffff;
+    color: $white;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
@@ -407,7 +430,7 @@ form.search {
 }
 
 .judgment-list {
-	background: #fff;
+	background: $white;
 	border: {
 		color: $grey-border;
 		style: solid;
@@ -435,12 +458,18 @@ form.search {
 		}
 	
 		.case-number {
+			background: $white;
 			color: #0176c3;
 			font-size: 22px;
 			margin-bottom: 6px;
+			
+			a {
+				position: relative;
+			}
 		}
 		
 		.judgment-type {
+			background: $white;
 			@include filter-underline();
 			border-color: #888;
 			bottom: -3px;
@@ -543,6 +572,7 @@ form.search {
 }
 
 .accuracy {
+	background: $white;
 	border: 3px solid #ddd;
     border-radius: 50px;
     color: #aaa;
@@ -556,7 +586,7 @@ form.search {
 }
 
 .judgment-page, .judgment-filter {
-	background: none repeat scroll 0 0 #fff;
+	background: none repeat scroll 0 0 $white;
     border: 0px solid #e0e0e0;
 	margin-top: 30px;
 	padding: 30px 40px;
@@ -588,6 +618,7 @@ form.search {
 	}
 	
 	.label {
+		background: $white;
 		border-radius: 0px;
 		color: $text;
 		font: {
@@ -618,7 +649,7 @@ form.search {
 	}
 	
 	.fbox-button-before {
-		background: #fff;
+		background: $white;
 		content: "";
 		display: block;
 		height: 16px;
@@ -649,7 +680,7 @@ form.search {
 	}
 	
 	.settings-box {
-		background: #fff;
+		background: $white;
 		@include border-grey();
 		display: none;
 		padding: 10px 20px;
@@ -657,6 +688,12 @@ form.search {
 		right: 40px;
 		top: 47px;
 		z-index: 1000;
+		
+		legend {
+			font: {
+				size: 16px;
+			}
+		}
 	}
 }
 
@@ -683,6 +720,7 @@ form.search {
 	}
 
 	.judgment-type {
+		background: $white;
 		color: #888;
 	    font-weight: 300;
 	    margin-bottom: 10px;
@@ -702,6 +740,7 @@ form.search {
 		}
 	
 		.label-title {
+			background: $white;
 			color: #616161;
     		display: inline-block;
     		margin-right: 15x;
@@ -732,7 +771,7 @@ form.search {
 
 
 .pagination {
-	background: #fff;
+	background: $white;
 	border: {
 		color: $grey-border;
 		style: solid;
@@ -747,6 +786,7 @@ form.search {
 	width: 100%;
 	
 	.results-number {
+		background: $white;
 		color: #666;
 		font-size: 0.8em;
 		margin-top: 10px;
@@ -768,7 +808,7 @@ form.search {
 
 .filter-box {
 	@include border-grey();
-	background: #fff;
+	background: $white;
     border-radius: 0px;
     font: {
     	size: 0.9em;
@@ -778,7 +818,7 @@ form.search {
     width: 203px;
 
 	p {
-		background: #fff;
+		background: $white;
 		margin: 0px;
 		padding: 10px 10px;
 	
@@ -865,6 +905,7 @@ form.search {
 		margin: 0px 0px 0px 5px;
 		
 		&:hover {
+			background: $white;
 			color: #666;
 		}
 	}
@@ -966,5 +1007,26 @@ form.search {
 }
 
 
+.site-map {
 
+	ul {
+		margin-top: 40px;
+		
+		li {
+			background: $white;
+			color: $black;
+			font: {
+				size: 18px;
+			}
+			margin: 10px 0px;
+		}
+	}
+}
+
+.page {
+	background: $white;
+	border: 1px solid $grey-border;
+	margin-top: 30px;
+	padding-bottom: 25px;
+}
 

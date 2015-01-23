@@ -133,10 +133,11 @@ var Suggester = (function() {
     	var fieldId = $field.attr("id"),
     		fieldValue = $field.val(),
     		$textArea = $("<textarea></textarea>"),
-    		$wrapper = $("<div></div>");
+    		$wrapper = $("<div></div>"),
+    		newFieldId = AREA_ID + "-" + fieldId;
     	
     	$textArea
-    		.attr("id", AREA_ID + "-" + fieldId)
+    		.attr("id", newFieldId)
     		.attr("rows", 1)
     		.attr(FIELD_FOR, fieldId)
     		.attr("placeholder", source.placeholder);
@@ -165,6 +166,10 @@ var Suggester = (function() {
 				refreshSuggestionField(id);
 			});
 
+    	//change label for id
+    	
+    	$("label[for=" + fieldId + "]").attr("for", newFieldId);
+    	
     	$("#" + AREA_ID + "-" + fieldId).val(""); //trigger update on field textarea 
     },
     

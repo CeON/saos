@@ -9,6 +9,7 @@
       
     <head>
     <meta charset="UTF-8" />
+    <meta content="noindex, nofollow" name="robots">
     
 	<saos:cssJsInit></saos:cssJsInit>
     
@@ -28,18 +29,16 @@
     </head>
     
     <body>
-       
-       	<div class="wrapper" >
-	        <header>
-	            <tiles:insertAttribute name="top" />
-	        </header>
-	              
-            <tiles:insertAttribute name="content" flush="false" />
-	        
-	        <div class="push"></div>
-        </div>
+
+		<tiles:insertAttribute name="skipLinks" />
+
+        <header>
+            <tiles:insertAttribute name="header" />
+        </header>
+              
+		<tiles:insertAttribute name="content" flush="false" />
         
-        <footer>
+        <footer class="footer" >
        		<tiles:insertAttribute name="footer" /> 
         </footer>
         

@@ -38,7 +38,7 @@
 
 </div>
 
-<div role="navigation" class="navbar navbar-default">
+<div role="navigation" class="navbar navbar-default" id="nav-menu">
   <div class="container">
     <div class="navbar-header">
       <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
@@ -50,13 +50,13 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-      	<li class="active"><a href="${contextPath}/"><spring:message code="header.navigation.home" /></a></li>
-        <li ><a href="${contextPath}/search"><spring:message code="header.navigation.search" /></a></li>
-        <li><a href="#"><spring:message code="header.navigation.contact" /></a></li>
+      	<li class="active"><a href="${contextPath}/"><spring:message code="navigation.home" /></a></li>
+        <li ><a href="${contextPath}/search"><spring:message code="navigation.search" /></a></li>
+        <li><a href="#"><spring:message code="navigation.contact" /></a></li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#"><spring:message code="header.navigation.login" /></a></li>
+        <li><a href="#"><spring:message code="navigation.login" /></a></li>
       </ul>
       
     </div><!--/.nav-collapse -->

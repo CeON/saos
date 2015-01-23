@@ -6,16 +6,19 @@ $grey: #eee;
 $grey-background: #f6f6f6;
 $grey-border: #e0e0e0;
 $grey-darker: darken($grey, 3%);
+$grey98: #fafafa;
+
 
 $sand: rgba(255, 212, 100, 0.95);
 $blue: #238ed2; /*rgba(19, 82, 162, 1);*/
 $orange: rgba(242, 105, 100, 0.9);
 $panel-color: rgba(51, 51, 51, 1);
 $text: #333;
-$white: #fafafa;
+$black: #333;
+$white: #fff;
 
 /*** Heights ***/
-$footer-height: 5em;
+$footer-height: 60px;
 
 /*** Misc ***/
 $image-src: "../../image/";

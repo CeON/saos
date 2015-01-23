@@ -7,7 +7,7 @@ $(document).ready(function() {
 });
 </script>
 
-<div class="container judgment-page block">
+<div class="container judgment-page block" id="judgment">
 
 	<c:if test="${!empty judgment.judgmentType}" >
 		<div class="judgment-type">
