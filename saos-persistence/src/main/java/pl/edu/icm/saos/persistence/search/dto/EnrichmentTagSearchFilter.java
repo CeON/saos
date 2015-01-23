@@ -16,6 +16,9 @@ public class EnrichmentTagSearchFilter extends DatabaseSearchFilter<EnrichmentTa
             instance = new EnrichmentTagSearchFilter();
         }
 
+        
+        //------------------------ LOGIC --------------------------
+        
         @Override
         protected Builder self() {
             return this;
