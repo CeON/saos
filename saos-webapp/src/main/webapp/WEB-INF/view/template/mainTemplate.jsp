@@ -33,7 +33,7 @@
 		<tiles:insertAttribute name="skipLinks" />
 
         <header>
-            <tiles:insertAttribute name="top" />
+            <tiles:insertAttribute name="header" />
         </header>
               
 		<tiles:insertAttribute name="content" flush="false" />

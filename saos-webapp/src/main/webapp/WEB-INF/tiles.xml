@@ -3,9 +3,10 @@
     
     <!-- ************* Main template definition -->
     <definition name="template" template="/WEB-INF/view/template/mainTemplate.jsp">
-        <put-attribute name="top" value="/WEB-INF/view/template/header.jsp" />
+        <put-attribute name="skipLinks" value="templateSkipLinks"  />
+        <put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
+        <put-attribute name="content" value="" />
         <put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
-        <put-attribute name="skipLinks" value="/WEB-INF/view/template/skipLinks/defaultSkipLinks.jsp" />
     </definition>
     
     <!-- ************* Simple template definition -->
@@ -31,22 +32,41 @@
     
     <definition name="home" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/home/home.jsp" />
+        <put-attribute name="skipLinks" value="defaultSkipLinks" />
     </definition>
     
     <definition name="judgmentDetails" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentDetails.jsp" />
-        <put-attribute name="skipLinks" value="/WEB-INF/view/template/skipLinks/judgmentDetailsSkipLinks.jsp" />
+        <put-attribute name="skipLinks" value="judgmentDetailsSkipLinks" />
     </definition>
     
     <definition name="judgmentSearch" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentSearch.jsp" />
-        <put-attribute name="skipLinks" value="/WEB-INF/view/template/skipLinks/judgmentSearchSkipLinks.jsp" />
+        <put-attribute name="skipLinks" value="judgmentSearchSkipLinks" />
     </definition>
     
     <definition name="siteMap" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/home/siteMap.jsp" />
+        <put-attribute name="skipLinks" value="defaultSkipLinks" />
     </definition>
     
+    <!-- ************** SkipLinks -->
+    
+    <definition name="templateSkipLinks" template="/WEB-INF/view/template/skipLinks/templateSkipLinks.jsp">
+    	<put-attribute name="contentSkipLinks" value="" />
+    </definition>
+    
+    <definition name="defaultSkipLinks" extends="templateSkipLinks">
+    	<put-attribute name="contentSkipLinks" value="/WEB-INF/view/template/skipLinks/defaultSkipLinks.jsp" />
+    </definition>
+    
+    <definition name="judgmentSearchSkipLinks" extends="templateSkipLinks">
+    	<put-attribute name="contentSkipLinks" value="/WEB-INF/view/template/skipLinks/judgmentSearchSkipLinks.jsp" />
+    </definition>
+    
+    <definition name="judgmentDetailsSkipLinks" extends="templateSkipLinks">
+    	<put-attribute name="contentSkipLinks" value="/WEB-INF/view/template/skipLinks/judgmentDetailsSkipLinks.jsp" />
+    </definition>
     
     <!-- ************** Errors -->
     

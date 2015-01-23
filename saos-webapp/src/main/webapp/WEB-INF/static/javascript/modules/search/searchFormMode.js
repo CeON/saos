@@ -42,9 +42,8 @@ var SearchFormMode = {
 	show: function(callback) {	
 		
 		SearchFormMode.getForm().slideDown({easing: SearchFormMode.easing, complete: function() {
-			SearchFormMode.showButtonLess();
-			
-			SearchFormMode.hideButton(SearchFormMode.getButtonMore());
+			SearchFormMode.showButton(SearchFormMode.getButtonLess(), true);
+			SearchFormMode.hideButton(SearchFormMode.getButtonMore(), false);
 			callback();
 		} });
 	},
@@ -53,8 +52,8 @@ var SearchFormMode = {
 	 * @param callback - function invoked when hide animation ends
 	 */
 	hide: function(callback) {
-		SearchFormMode.hideButtonLess();
-		SearchFormMode.showButton(SearchFormMode.getButtonMore());
+		SearchFormMode.hideButton(SearchFormMode.getButtonLess(), true);
+		SearchFormMode.showButton(SearchFormMode.getButtonMore(), false);
 		
 		SearchFormMode.getForm().slideUp({easing: SearchFormMode.easing, complete: function() {
 			callback();
@@ -73,25 +72,33 @@ var SearchFormMode = {
 		return $(SearchFormMode.form);
 	},
 	
-	showButton: function($button) {
-		$button.parent().parent().css("visibility", "visible");
-	},
-	
-	hideButton: function($button) {
-		$button.parent().parent().css("visibility", "hidden");
-	},
-	
-	showButtonLess: function() {
-		var $parent = SearchFormMode.getButtonLess().parent().parent();
+	/* Show button
+	 * 
+	 * @param $button - (jquery object) button
+	 * @param addDisplayNone - (boolean) on true remove css class "display-none" 
+	 */
+	showButton: function($button, addDisplayNone) {
+		var $parent = $button.parent().parent();
 		
-		$parent.css("visibility", "visible")
-				.removeClass("display-none");
+		$parent.css("visibility", "visible");
+		
+		if (addDisplayNone) {
+			$parent.removeClass("display-none");
+		}
 	},
 	
-	hideButtonLess: function() {
-		var $parent = SearchFormMode.getButtonLess().parent().parent();
+	/* Hide button
+	 * 
+	 * @param $button - (jquery object) button
+	 * @param removeDisplayNone - (boolean) on true add css class "display-none"
+	 */
+	hideButton: function($button, removeDisplayNone) {
+		var $parent = $button.parent().parent();
 		
-		$parent.css("visibility", "hidden")
-				.addClass("display-none");
+		$parent.css("visibility", "hidden");
+		
+		if (removeDisplayNone) {
+			$parent.addClass("display-none");
+		}
 	}
 };

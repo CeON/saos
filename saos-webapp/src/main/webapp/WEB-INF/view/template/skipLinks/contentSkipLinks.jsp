@@ -3,13 +3,8 @@
 
 
 <li>
-	<a href="#search-form" >
-		<spring:message code="skipLinks.search" />
-	</a>
-</li>
-<li>
-	<a href="#judgment-list" >
-		<spring:message code="skipLinks.results" />
+	<a href="#content" >
+		<spring:message code="skipLinks.content" />
 	</a>
 </li>
 

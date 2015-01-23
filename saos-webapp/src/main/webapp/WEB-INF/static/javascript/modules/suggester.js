@@ -133,7 +133,7 @@ var Suggester = (function() {
     	var fieldId = $field.attr("id"),
     		fieldValue = $field.val(),
     		$textArea = $("<textarea></textarea>"),
-    		$wrapper = $("<div></div>")
+    		$wrapper = $("<div></div>"),
     		newFieldId = AREA_ID + "-" + fieldId;
     	
     	$textArea
