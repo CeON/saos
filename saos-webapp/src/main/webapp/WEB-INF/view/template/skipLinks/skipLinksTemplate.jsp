@@ -10,7 +10,7 @@
 			</a>
 		</li>
 
-		<tiles:insertAttribute name="contentSkipLinks" />
+		<tiles:insertAttribute name="skipLinksContent" />
 
 		<li>
 			<a href="${contextPath}/siteMap" >

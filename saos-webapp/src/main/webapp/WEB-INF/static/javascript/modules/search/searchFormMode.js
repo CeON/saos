@@ -28,32 +28,44 @@ var SearchFormMode = {
 	 */
 	assign: function(source) {
 		SearchFormMode.getButtonMore().on("click", function() {
-			SearchFormMode.show(source.callback.onShow);
+			SearchFormMode.switchToAdvanceMode(source.callback.onShow);
 	    });
 		
 		SearchFormMode.getButtonLess().on("click", function() {
-			SearchFormMode.hide(source.callback.onHide);
+			SearchFormMode.switchToSimpleMode(source.callback.onHide);
 	    });
 	},
 
-	/* Show advanced mode of form.
+	/* Switch to advance form mode.
 	 * @param callback - function invoked when show animation ends
 	 */
-	show: function(callback) {	
+	switchToAdvanceMode: function(callback) {	
 		
 		SearchFormMode.getForm().slideDown({easing: SearchFormMode.easing, complete: function() {
-			SearchFormMode.showButton(SearchFormMode.getButtonLess(), true);
-			SearchFormMode.hideButton(SearchFormMode.getButtonMore(), false);
+			var $buttonLessParent = SearchFormMode.getButtonLess().parent().parent(),
+				$buttonMoreParent = SearchFormMode.getButtonMore().parent().parent();
+			
+			$buttonMoreParent.css("visibility", "hidden");
+			
+			$buttonLessParent.css("visibility", "visible")
+							 .removeClass("display-none");
+			
 			callback();
 		} });
 	},
 	
-	/* Hide advanced mode of form.
+	/* Switch to simple mode form.
 	 * @param callback - function invoked when hide animation ends
 	 */
-	hide: function(callback) {
-		SearchFormMode.hideButton(SearchFormMode.getButtonLess(), true);
-		SearchFormMode.showButton(SearchFormMode.getButtonMore(), false);
+	switchToSimpleMode: function(callback) {		
+		var $buttonLessParent = SearchFormMode.getButtonLess().parent().parent(),
+			$buttonMoreParent = SearchFormMode.getButtonMore().parent().parent();
+	
+		$buttonMoreParent.css("visibility", "visible");
+		
+		$buttonLessParent.css("visibility", "hidden")
+					 .addClass("display-none");
+		
 		
 		SearchFormMode.getForm().slideUp({easing: SearchFormMode.easing, complete: function() {
 			callback();
@@ -71,34 +83,4 @@ var SearchFormMode = {
 	getForm: function() {
 		return $(SearchFormMode.form);
 	},
-	
-	/* Show button
-	 * 
-	 * @param $button - (jquery object) button
-	 * @param removeDisplayNone - (boolean) on true remove css class "display-none" 
-	 */
-	showButton: function($button, removeDisplayNone) {
-		var $parent = $button.parent().parent();
-		
-		$parent.css("visibility", "visible");
-		
-		if (removeDisplayNone) {
-			$parent.removeClass("display-none");
-		}
-	},
-	
-	/* Hide button
-	 * 
-	 * @param $button - (jquery object) button
-	 * @param addDisplayNone - (boolean) on true add css class "display-none"
-	 */
-	hideButton: function($button, addDisplayNone) {
-		var $parent = $button.parent().parent();
-		
-		$parent.css("visibility", "hidden");
-		
-		if (addDisplayNone) {
-			$parent.addClass("display-none");
-		}
-	}
 };
