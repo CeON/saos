@@ -47,3 +47,35 @@
 		}
 	}
 }
+
+@mixin transition($transition-property, $time) {
+    -webkit-transition: $transition-property $time ease 0s;
+    -moz-transition: $transition-property $time ease 0s;
+    -ms-transition: $transition-property $time ease 0s;
+    -o-transition: $transition-property $time ease 0s;
+    transition: $transition-property $time ease 0s;
+}
+
+@mixin navigation-buttons() {
+	ul li {
+		color: $grey98;
+		margin: 0;
+		
+		&:hover {
+			
+			color: $black;
+		}
+		
+		a {
+			background: $black;
+			color: inherit;
+			@include transition(background, 0.4s);
+			
+			&:hover {
+				background: $grey98;
+				color: inherit;
+			}
+		}
+	}
+
+}
