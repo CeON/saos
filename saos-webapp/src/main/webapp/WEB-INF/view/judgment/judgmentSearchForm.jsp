@@ -21,15 +21,14 @@
    			<saos:formFieldText path="signature" labelName="input-search-casenumber" labelText="judgmentSearch.formField.caseNumber" />
 
 		    <div class="form-group">
+		    	<spring:message code="judgmentSearch.formField.datePlaceholder" var="datePlaceholder" />	
 			    <label for="datepicker_from" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.dateFrom" />:</label>
 			    <div class="col-sm-2">
-  		 			<spring:message code="judgmentSearch.formField.datePlaceholder" var="labelDateFrom" />
-			    	<form:input path="dateFrom" class="form-control" id="datepicker_from" placeholder="${labelDateFrom}" />			       
+			    	<form:input path="dateFrom" class="form-control" id="datepicker_from" placeholder="${datePlaceholder}" />			       
 			    </div>
 			    <label for="datepicker_to" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.dateTo" />:</label>
 			    <div class="col-sm-2">
-			    	<spring:message code="judgmentSearch.formField.datePlaceholder" var="labelDateFrom" />
-			    	<form:input path="dateTo" class="form-control" id="datepicker_to" placeholder="${labelDateFrom}" />
+			    	<form:input path="dateTo" class="form-control" id="datepicker_to" placeholder="${datePlaceholder}" />
 			    </div>
 		    </div>
 		    
