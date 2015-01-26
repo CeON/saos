@@ -58,10 +58,10 @@ public class DumpEntryPointController {
                 .build();
         
         LinkWithDescription dumpEnrichmentTags = new LinkWithDescriptionBuilder()
-            .rel("enrichments")
-            .href(DumpEnrichmentTagController.class)
-            .description(apiMessageService.getMessage("dump.judgments.enrichments.description", null, locale))
-            .build();
+                .rel("enrichments")
+                .href(DumpEnrichmentTagController.class)
+                .description(apiMessageService.getMessage("dump.judgments.enrichments.description", null, locale))
+                .build();
 
         return new ResponseEntity<>(createLinksRepresentation(dumpCourts, dumpJudgments, dumpScChambers, dumpEnrichmentTags), HttpStatus.OK);
     }
