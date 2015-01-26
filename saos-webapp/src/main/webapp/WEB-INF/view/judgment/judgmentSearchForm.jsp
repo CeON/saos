@@ -21,16 +21,15 @@
    			<saos:formFieldText path="signature" labelName="input-search-casenumber" labelText="judgmentSearch.formField.caseNumber" />
 
 		    <div class="form-group">
-			    <label for="datepicker_from" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.date" />:</label>
+			    <label for="datepicker_from" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.dateFrom" />:</label>
 			    <div class="col-sm-2">
-  		 			<spring:message code="judgmentSearch.formField.dateFrom" var="labelDateFrom" />
-			    	<form:input path="dateFrom" class="form-control" id="datepicker_from" placeholder="${labelDateFrom}" />
-			       
+  		 			<spring:message code="judgmentSearch.formField.datePlaceholder" var="labelDateFrom" />
+			    	<form:input path="dateFrom" class="form-control" id="datepicker_from" placeholder="${labelDateFrom}" />			       
 			    </div>
-			    <label for="datepicker_to" class="col-sm-1 control-label"></label>
+			    <label for="datepicker_to" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.dateTo" />:</label>
 			    <div class="col-sm-2">
-			    	<spring:message code="judgmentSearch.formField.dateFrom" var="labelDateTo" />
-			    	<form:input path="dateTo" class="form-control" id="datepicker_to" placeholder="${labelDateTo}" />
+			    	<spring:message code="judgmentSearch.formField.datePlaceholder" var="labelDateFrom" />
+			    	<form:input path="dateTo" class="form-control" id="datepicker_to" placeholder="${labelDateFrom}" />
 			    </div>
 		    </div>
 		    
@@ -52,7 +51,7 @@
 		    <div class="form-group">
 			    <label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>
 			    <div class="col-sm-7">
-			    	<form:radiobutton path="courtType" id="radio-all" value="" checked="true" />
+			    	<form:radiobutton path="courtType" id="radio-all" value="" checked="checked" />
 			    	<label for="radio-all" ><spring:message code="judgment.courtType.all" /></label>
 			    	<saos:enumRadios path="courtType" enumType="pl.edu.icm.saos.persistence.model.CourtType" id="court" />
 			    </div>
@@ -97,7 +96,7 @@
 		<c:set var="lastItem" value="${resultsNo}" />
 	</c:if>
 
-	<h3><spring:message code="judgmentSearch.results.header" /><span><spring:message code="judgmentSearch.results.judgmentsNumber" arguments="${resultsNo}" /></span></h3>
+	<h2><spring:message code="judgmentSearch.results.header" /><span><spring:message code="judgmentSearch.results.judgmentsNumber" arguments="${resultsNo}" /></span></h2>
 	
 	<a id="filter-box-button" class="filter-box-button display-none" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.filterBox.show' />"></a>
 	

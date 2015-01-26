@@ -2,22 +2,26 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
+<ol>
 <c:forEach var="judgment" items="${judgments}" >
 
-	<div class="judgment row" >
+	<li class="judgment row" >
 	
-		<div class="row" >
-		
+		<%--<div class="row" >
+		 --%>
+				<div class="case-number">
+					<h3>
+						<a href="${contextPath}/judgments/${judgment.id}" title="<spring:message code="judgmentSearch.results.link"  />" >
+							<saos:caseNumber items="${judgment.caseNumbers}"/>
+						</a>
+					</h3>
+				</div>
+				
 				<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
 					<div class="judgment-type" data-filter-value="${judgment.judgmentType}" >
 						<saos:enum value="${judgment.judgmentType}" ></saos:enum>
 					</div>
 				</c:if>
-				<div class="case-number">
-					<a href="${contextPath}/judgments/${judgment.id}" title="<spring:message code="judgmentSearch.results.link"  />" >
-						<saos:caseNumber items="${judgment.caseNumbers}"/>
-					</a>
-				</div>
 				
 				<div class=""><span><spring:message code="judgment.date" />:</span><span class="date"><joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}" /></span></div>
 				
@@ -48,9 +52,11 @@
 						<span>
 							<spring:message code="judgment.judges" />:
 						</span>
-						<c:forEach items="${judgment.judges}" var="judge" >
-							<div class="judge"><c:out value="${judge.name}" /></div>
-						</c:forEach>	
+						<ul>
+							<c:forEach items="${judgment.judges}" var="judge" >
+								<li class="judge"><c:out value="${judge.name}" /></li>
+							</c:forEach>
+						</ul>	
 					</div>
 				</c:if>
 				
@@ -68,17 +74,23 @@
 				
 				<c:if test="${!empty judgment.keywords}" >
 					<div class="keywords">	
-						<c:forEach items="${judgment.keywords}" var="keyword" >
-							<div class="keyword"><c:out value="${keyword}" /></div>
-						</c:forEach>
+						<span>
+							<spring:message code="judgment.keywords" />:
+						</span>
+						<ul>
+							<c:forEach items="${judgment.keywords}" var="keyword" >
+								<li class="keyword"><c:out value="${keyword}" /></li>
+							</c:forEach>
+						</ul>
 					</div>
 				</c:if>
 
-				<div class="extract">${judgment.content}</div>
-				
+				<p class="extract">${judgment.content}</p>
+			
+			<%--	
 		</div>
-
-	</div>
+			 --%>
+	</li>
 
 </c:forEach>
-
+</ol>

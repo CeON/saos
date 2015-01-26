@@ -3,6 +3,7 @@
     
     <!-- ************* Main template definition -->
     <definition name="template" template="/WEB-INF/view/template/mainTemplate.jsp">
+   	    <put-attribute name="title" value="" type="string" />
         <put-attribute name="skipLinks" value="skipLinksTemplate"  />
         <put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
         <put-attribute name="content" value="" />
@@ -33,21 +34,25 @@
     <definition name="home" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/home/home.jsp" />
         <put-attribute name="skipLinks" value="skipLinksSimple" />
-    </definition>
-    
-    <definition name="judgmentDetails" extends="template">
-        <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentDetails.jsp" />
-        <put-attribute name="skipLinks" value="skipLinksJudgmentDetails" />
+        <put-attribute name="title" value="pageTitle.home" type="string" />
     </definition>
     
     <definition name="judgmentSearch" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentSearch.jsp" />
         <put-attribute name="skipLinks" value="skipLinksJudgmentSearch" />
+        <put-attribute name="title" value="pageTitle.judgmentSearch" type="string" />
     </definition>
     
+    <definition name="judgmentDetails" extends="template">
+        <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentDetails.jsp" />
+        <put-attribute name="skipLinks" value="skipLinksJudgmentDetails" />
+        <put-attribute name="title" value="pageTitle.judgmentDetails" type="string" />
+    </definition>
+        
     <definition name="siteMap" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/home/siteMap.jsp" />
         <put-attribute name="skipLinks" value="skipLinksSimple" />
+        <put-attribute name="title" value="pageTitle.siteMap" type="string" />
     </definition>
     
     <!-- ************** SkipLinks -->

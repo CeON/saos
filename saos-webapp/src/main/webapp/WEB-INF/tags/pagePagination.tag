@@ -34,17 +34,17 @@
 	<c:if test="${totalPages > 1}">		
 		<div>
 			<c:if test="${pageNo > 1}">
-		        <a class="page-block" href="${pageLink}&page=1"><spring:message code="pagination.first" /></a>
-		        <a class="page-block" href="${pageLink}&page=${pageNo-1}"><spring:message code="pagination.previous" /></a>
+		        <a class="page-block" href="${pageLink}&amp;page=1"><spring:message code="pagination.first" /></a>
+		        <a class="page-block" href="${pageLink}&amp;page=${pageNo-1}"><spring:message code="pagination.previous" /></a>
 		    </c:if>
 		
 			<c:forEach begin="${begin}" end="${end}" varStatus="status" >
-				<a href="${pageLink}&page=${status.index}" class="page-block ${status.index == pageNo ? 'active' : ''}"><c:out value="${status.index}" /></a>
+				<a href="${pageLink}&amp;page=${status.index}" class="page-block ${status.index == pageNo ? 'active' : ''}"><c:out value="${status.index}" /></a>
 			</c:forEach>
 			
 			<c:if test="${pageNo < totalPages}">
-				<a class="page-block" href="${pageLink}&page=${pageNo+1}"><spring:message code="pagination.next" /></a>
-				<a class="page-block" href="${pageLink}&page=${totalPages}"><spring:message code="pagination.last" /></a>
+				<a class="page-block" href="${pageLink}&amp;page=${pageNo+1}"><spring:message code="pagination.next" /></a>
+				<a class="page-block" href="${pageLink}&amp;page=${totalPages}"><spring:message code="pagination.last" /></a>
 			</c:if>
 		</div>
 		
