@@ -223,7 +223,7 @@ public class SolrCriterionTransformer<F extends IndexField> {
             List<String> withOrOperator = Lists.newLinkedList();
             withOrOperator.add(values.get(i));
             int j=1;
-            while (i+j+1< values.size() && StringUtils.equals(values.get(i+j), "OR")) {
+            while (i+j+1< values.size() && StringUtils.equalsIgnoreCase(values.get(i+j), "OR")) {
                 withOrOperator.add(values.get(i+j+1));
                 j += 2;
             }

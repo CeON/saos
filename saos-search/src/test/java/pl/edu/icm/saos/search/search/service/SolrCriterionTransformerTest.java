@@ -39,8 +39,10 @@ public class SolrCriterionTransformerTest {
                 {"+content:OR +content:OR", "OR OR"},
                 {"+(content:OR content:OR)", "OR OR OR"},
                 {"+(content:OR content:OR) +content:OR", "OR OR OR OR"},
-                {"+content:word1 +content:or +content:word2", "word1 or word2"},
+                {"+(content:word1 content:word2)", "word1 or word2"},
+                {"+(content:word1 content:word2)", "word1 oR word2"},
                 {"+content:word1OR +content:word2", "word1OR word2"},
+                {"+content:word1 +content:oRword2", "word1 oRword2"},
                 
                 // with quote ("")
                 {"+content:\"some phrase\"", "\"some phrase\""},
