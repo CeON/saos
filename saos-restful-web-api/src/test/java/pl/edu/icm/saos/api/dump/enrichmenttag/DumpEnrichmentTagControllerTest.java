@@ -7,7 +7,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
-import static pl.edu.icm.saos.common.json.JsonNormalizer.normalizeJson;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.FIRST_ENRICHMENT_TAG_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.FIRST_ENRICHMENT_TAG_VALUE_VALUE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SECOND_ENRICHMENT_TAG_FIRST_ARRAY_VALUE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SECOND_ENRICHMENT_TAG_SECOND_ARRAY_VALUE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SECOND_ENRICHMENT_TAG_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_FIRST_ARRAY_VALUE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_SECOND_ARRAY_VALUE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_THIRD_ARRAY_VALUE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_TYPE;
 
 import java.util.List;
 
@@ -61,13 +69,13 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
     
     private List<EnrichmentTag> enrichmentTags = Lists.newArrayList();
     
-    private final static String DUMP_ENRICHMENT_PATH = "/api/dump/enrichment";
+    private final static String DUMP_ENRICHMENT_PATH = "/api/dump/enrichments";
     
     
     @Before
     public void setUp(){
         testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
-        createEnrichmentTags();
+        enrichmentTags = testPersistenceObjectFactory.createEnrichmentTagsForJudgment(testObjectContext.getCcJudgmentId());
         
         
         DumpEnrichmentTagController dumpEnrichmentTagController = new DumpEnrichmentTagController();
@@ -101,21 +109,21 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
             
             .andExpect(jsonPath("$.items.[0].id").value(enrichmentTags.get(0).getId()))
             .andExpect(jsonPath("$.items.[0].judgmentId").value(enrichmentTags.get(0).getJudgmentId()))
-            .andExpect(jsonPath("$.items.[0].tagType").value("REFERENCED_REGULATIONS"))
-            .andExpect(jsonPath("$.items.[0].value.ref").value("AAA1"))
+            .andExpect(jsonPath("$.items.[0].tagType").value(FIRST_ENRICHMENT_TAG_TYPE))
+            .andExpect(jsonPath("$.items.[0].value.ref").value(FIRST_ENRICHMENT_TAG_VALUE_VALUE))
         
             .andExpect(jsonPath("$.items.[1].id").value(enrichmentTags.get(1).getId()))
             .andExpect(jsonPath("$.items.[1].judgmentId").value(enrichmentTags.get(1).getJudgmentId()))
-            .andExpect(jsonPath("$.items.[1].tagType").value("REFERENCED_CASE_NUMBERS"))
-            .andExpect(jsonPath("$.items.[1].value.caseNumbers.[0]").value("XYZ1"))
-            .andExpect(jsonPath("$.items.[1].value.caseNumbers.[1]").value("XYZ2"))
+            .andExpect(jsonPath("$.items.[1].tagType").value(SECOND_ENRICHMENT_TAG_TYPE))
+            .andExpect(jsonPath("$.items.[1].value.caseNumbers.[0]").value(SECOND_ENRICHMENT_TAG_FIRST_ARRAY_VALUE))
+            .andExpect(jsonPath("$.items.[1].value.caseNumbers.[1]").value(SECOND_ENRICHMENT_TAG_SECOND_ARRAY_VALUE))
         
             .andExpect(jsonPath("$.items.[2].id").value(enrichmentTags.get(2).getId()))
             .andExpect(jsonPath("$.items.[2].judgmentId").value(enrichmentTags.get(2).getJudgmentId()))
-            .andExpect(jsonPath("$.items.[2].tagType").value("KEYWORDS"))
-            .andExpect(jsonPath("$.items.[2].value.keywords.[0]").value("val11"))
-            .andExpect(jsonPath("$.items.[2].value.keywords.[1]").value("val21"))
-            .andExpect(jsonPath("$.items.[2].value.keywords.[2]").value("val32"));
+            .andExpect(jsonPath("$.items.[2].tagType").value(THIRD_ENRICHMENT_TAG_TYPE))
+            .andExpect(jsonPath("$.items.[2].value.keywords.[0]").value(THIRD_ENRICHMENT_TAG_FIRST_ARRAY_VALUE))
+            .andExpect(jsonPath("$.items.[2].value.keywords.[1]").value(THIRD_ENRICHMENT_TAG_SECOND_ARRAY_VALUE))
+            .andExpect(jsonPath("$.items.[2].value.keywords.[2]").value(THIRD_ENRICHMENT_TAG_THIRD_ARRAY_VALUE));
         
     }
     
@@ -143,10 +151,10 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
             
             .andExpect(jsonPath("$.items.[0].id").value(enrichmentTags.get(2).getId()))
             .andExpect(jsonPath("$.items.[0].judgmentId").value(enrichmentTags.get(2).getJudgmentId()))
-            .andExpect(jsonPath("$.items.[0].tagType").value("KEYWORDS"))
-            .andExpect(jsonPath("$.items.[0].value.keywords.[0]").value("val11"))
-            .andExpect(jsonPath("$.items.[0].value.keywords.[1]").value("val21"))
-            .andExpect(jsonPath("$.items.[0].value.keywords.[2]").value("val32"))
+            .andExpect(jsonPath("$.items.[0].tagType").value(THIRD_ENRICHMENT_TAG_TYPE))
+            .andExpect(jsonPath("$.items.[0].value.keywords.[0]").value(THIRD_ENRICHMENT_TAG_FIRST_ARRAY_VALUE))
+            .andExpect(jsonPath("$.items.[0].value.keywords.[1]").value(THIRD_ENRICHMENT_TAG_SECOND_ARRAY_VALUE))
+            .andExpect(jsonPath("$.items.[0].value.keywords.[2]").value(THIRD_ENRICHMENT_TAG_THIRD_ARRAY_VALUE))
 
             .andExpect(jsonPath("$.queryTemplate.pageSize.value").value(pageSize))
             .andExpect(jsonPath("$.queryTemplate.pageNumber.value").value(pageNumber));
@@ -164,36 +172,10 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
         
         // assert
         
-        actions.andExpect(status().isBadRequest());
+        actions
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.name").value("WRONG REQUEST PARAMETER"))
+            .andExpect(jsonPath("$.error.propertyName").value("some_incorrect_parameter_name"));
     }
     
-    
-    //------------------------ PRIVATE --------------------------
-    
-    private void createEnrichmentTags() {
-        EnrichmentTag enrichmentTag;
-        
-        String jsonValue1 = normalizeJson("{'ref':'AAA1'}");
-        String jsonValue2 = normalizeJson("{'caseNumbers':['XYZ1','XYZ2']}");
-        String jsonValue3 = normalizeJson("{'keywords':['val11','val21','val32']}");
-        
-        enrichmentTag = createEnrichmentTag(testObjectContext.getCcCourtId(), "REFERENCED_REGULATIONS", jsonValue1);
-        enrichmentTags.add(enrichmentTag);
-        enrichmentTag = createEnrichmentTag(testObjectContext.getCcCourtId(), "REFERENCED_CASE_NUMBERS", jsonValue2);
-        enrichmentTags.add(enrichmentTag);
-        enrichmentTag = createEnrichmentTag(testObjectContext.getCcCourtId(), "KEYWORDS", jsonValue3);
-        enrichmentTags.add(enrichmentTag);
-        
-    }
-    
-    private EnrichmentTag createEnrichmentTag(int judgmentId, String tagType, String jsonValue) {
-        EnrichmentTag enrichmentTag = new EnrichmentTag();
-        
-        enrichmentTag.setJudgmentId(judgmentId);
-        enrichmentTag.setTagType(tagType);
-        enrichmentTag.setValue(jsonValue);
-        
-        enrichmentTagRepository.save(enrichmentTag);
-        return enrichmentTag;
-    }
 }
