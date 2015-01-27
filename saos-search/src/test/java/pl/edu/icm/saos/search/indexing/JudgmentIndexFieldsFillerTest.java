@@ -1,9 +1,13 @@
 package pl.edu.icm.saos.search.indexing;
 
-import com.google.common.collect.Lists;
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.mock;
+import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
+
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.joda.time.LocalDate;
@@ -11,18 +15,20 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.reflect.Whitebox;
-import pl.edu.icm.saos.persistence.model.*;
+
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
+import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
-import java.util.Collections;
-import java.util.List;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doCallRealMethod;
-import static org.mockito.Mockito.mock;
-import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
+import com.google.common.collect.Lists;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 /**
  * @author madryk
@@ -43,7 +49,7 @@ public class JudgmentIndexFieldsFillerTest {
         Judgment simpleJudgment = new CommonCourtJudgment();
         Whitebox.setInternalState(simpleJudgment, "id", 1);
         List<SolrInputField> simpleFields = Collections.singletonList(
-                fieldFactory.create("databaseId", 1));
+                fieldFactory.create("databaseId", 1l));
         
         
         // court case

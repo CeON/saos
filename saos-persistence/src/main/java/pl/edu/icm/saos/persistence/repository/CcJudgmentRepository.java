@@ -8,7 +8,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
  * @author Łukasz Dumiszewski
  */
 
-public interface CcJudgmentRepository extends JudgmentCommonRepository<CommonCourtJudgment>, JpaRepository<CommonCourtJudgment, Integer> {
+public interface CcJudgmentRepository extends JudgmentCommonRepository<CommonCourtJudgment>, JpaRepository<CommonCourtJudgment, Long> {
 
     
         

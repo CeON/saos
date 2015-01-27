@@ -1,13 +1,16 @@
 package pl.edu.icm.saos.api.dump.supreme.court.chamber.views;
 
-import com.google.common.base.Objects;
+import java.io.Serializable;
+import java.util.List;
+
+import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView.Info;
+import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView.Item;
+import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView.QueryTemplate;
 import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
 import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
 import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
 
-import java.io.Serializable;
-import java.util.List;
-import static pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView.*;
+import com.google.common.base.Objects;
 
 /**
  * Represents dump supreme court chambers view
@@ -19,14 +22,14 @@ public class DumpScChambersView extends CollectionRepresentation<Item, QueryTemp
     public static class Item implements Serializable {
         private static final long serialVersionUID = -7485850054670753236L;
 
-        private int id;
+        private long id;
         private String name;
         private List<Division> divisions;
 
         //------------------------ GETTERS --------------------------
 
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -40,7 +43,7 @@ public class DumpScChambersView extends CollectionRepresentation<Item, QueryTemp
 
         //------------------------ SETTERS --------------------------
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -88,13 +91,13 @@ public class DumpScChambersView extends CollectionRepresentation<Item, QueryTemp
     public static class Division implements Serializable {
         private static final long serialVersionUID = 5371366723251759736L;
 
-        private int id;
+        private long id;
         private String name;
         private String fullName;
 
         //------------------------ GETTERS --------------------------
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -108,7 +111,7 @@ public class DumpScChambersView extends CollectionRepresentation<Item, QueryTemp
 
         //------------------------ SETTERS --------------------------
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

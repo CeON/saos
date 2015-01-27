@@ -1,12 +1,23 @@
 package pl.edu.icm.saos.persistence.model;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
+import java.util.List;
+
+import javax.persistence.Cacheable;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
+
 import pl.edu.icm.saos.common.visitor.Visitor;
 import pl.edu.icm.saos.persistence.common.DataObject;
 
-import javax.persistence.*;
-import java.util.List;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 /**
  * 
@@ -28,7 +39,7 @@ public class SupremeCourtChamber extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_supreme_court_chamber")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
     

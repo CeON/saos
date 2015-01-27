@@ -66,8 +66,8 @@ public class CcjImportProcessProcessorTest {
         ccjImportProcessProcessor.setRawSourceCcjConverter(rawSourceCcJudgmentConverter);
         ccjImportProcessProcessor.setRawSourceCcJudgmentRepository(rawSourceCcJudgmentRepository);
         
-        Mockito.when(rJudgment.getId()).thenReturn(101);
-        when(rawSourceCcJudgmentRepository.findOne(Mockito.eq(101))).thenReturn(rJudgment);
+        Mockito.when(rJudgment.getId()).thenReturn(101l);
+        when(rawSourceCcJudgmentRepository.findOne(Mockito.eq(101l))).thenReturn(rJudgment);
     }
 
     

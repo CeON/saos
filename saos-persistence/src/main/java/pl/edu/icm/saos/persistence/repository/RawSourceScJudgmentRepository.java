@@ -11,14 +11,14 @@ import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
  * @author Łukasz Dumiszewski
  */
 
-public interface RawSourceScJudgmentRepository extends JpaRepository<RawSourceScJudgment, Integer> {
+public interface RawSourceScJudgmentRepository extends JpaRepository<RawSourceScJudgment, Long> {
 
     
     /**
      * Finds all {@link RawSourceScJudgment}s that are not marked as processed ({@link RawSourceScJudgment#isProcessed()})
      */
     @Query("select rJudgment.id from RawSourceScJudgment rJudgment where rJudgment.processed=false order by id")
-    List<Integer> findAllNotProcessedIds();
+    List<Long> findAllNotProcessedIds();
 
     /**
      * Finds a {@link RawSourceScJudgment} with the given sourceJudgmentId ({@link RawSourceScJudgment#getSourceId})

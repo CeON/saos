@@ -46,7 +46,7 @@ public class CourtCase extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_court_case")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
     

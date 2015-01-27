@@ -9,7 +9,7 @@ import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
  * @author Łukasz Dumiszewski
  */
 
-public interface JudgmentKeywordRepository extends JpaRepository<JudgmentKeyword, Integer>, JudgmentKeywordRepositoryCustom {    
+public interface JudgmentKeywordRepository extends JpaRepository<JudgmentKeyword, Long>, JudgmentKeywordRepositoryCustom {    
     
     JudgmentKeyword findOneByCourtTypeAndPhraseIgnoreCase(CourtType courtType, String phrase);
     

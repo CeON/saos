@@ -103,7 +103,7 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         ctjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
                 "import/constitutionalTribunal/judgments/version1"));
         jobExecutor.forceStartNewJob(ctJudgmentImportJob);
-        int ctJudgment04e47013Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.CONSTITUTIONAL_TRIBUNAL, "04e47013023d2b315b841f99ccb9c290").getId();
+        long ctJudgment04e47013Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.CONSTITUTIONAL_TRIBUNAL, "04e47013023d2b315b841f99ccb9c290").getId();
         
         ctjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
                 "import/constitutionalTribunal/judgments/version2"));

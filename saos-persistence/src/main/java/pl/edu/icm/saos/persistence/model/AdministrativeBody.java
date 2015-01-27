@@ -31,7 +31,7 @@ public class AdministrativeBody extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_adm_body")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
     

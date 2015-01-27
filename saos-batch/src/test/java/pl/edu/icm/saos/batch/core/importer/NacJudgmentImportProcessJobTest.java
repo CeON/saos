@@ -106,7 +106,7 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         nacjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
                 "import/nationalAppealChamber/judgments/version1"));
         jobExecutor.forceStartNewJob(nacJudgmentImportJob);
-        int ctJudgmentf1fb6b13Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
+        long ctJudgmentf1fb6b13Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.NATIONAL_APPEAL_CHAMBER, "f1fb6b13d57e25be69d1159356655528").getId();
         
         nacjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(

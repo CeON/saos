@@ -1,11 +1,12 @@
 package pl.edu.icm.saos.search.search.service;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,8 +31,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
@@ -239,11 +240,11 @@ public class JudgmentSearchServiceTest {
         JudgmentSearchResult result = results.getResults().get(0);
         assertEquals(1961, result.getId());
         
-        assertEquals(Integer.valueOf(1), result.getCcCourtId());
+        assertEquals(1l, result.getCcCourtId().longValue());
         assertEquals("15500000", result.getCcCourtCode());
         assertEquals("Sąd Apelacyjny we Wrocławiu", result.getCcCourtName());
         
-        assertEquals(Integer.valueOf(3), result.getCcCourtDivisionId());
+        assertEquals(3l, result.getCcCourtDivisionId().longValue());
         assertEquals("0001521", result.getCcCourtDivisionCode());
         assertEquals("III Wydział Pracy i Ubezpieczeń Społecznych", result.getCcCourtDivisionName());
     }
@@ -264,9 +265,9 @@ public class JudgmentSearchServiceTest {
         assertEquals(PersonnelType.JOINED_CHAMBERS,result.getScPersonnelType());
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));
-        assertEquals(Integer.valueOf(111), result.getScCourtDivisionId());
+        assertEquals(111l, result.getScCourtDivisionId().longValue());
         assertEquals("Wydział III", result.getScCourtDivisionName());
-        assertEquals(Integer.valueOf(11), result.getScCourtDivisionsChamberId());
+        assertEquals(11l, result.getScCourtDivisionsChamberId().longValue());
         assertEquals("Izba Cywilna", result.getScCourtDivisionsChamberName());
     }
     

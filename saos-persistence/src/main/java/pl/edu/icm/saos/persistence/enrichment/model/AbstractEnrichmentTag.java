@@ -25,7 +25,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 @MappedSuperclass
 public abstract class AbstractEnrichmentTag extends DataObject {
 
-	private int judgmentId;
+	private long judgmentId;
     
     private String tagType;
     
@@ -41,7 +41,7 @@ public abstract class AbstractEnrichmentTag extends DataObject {
      * @return
      */
     @Column(nullable=false)
-    public int getJudgmentId() {
+    public long getJudgmentId() {
         return judgmentId;
     }
 
@@ -72,7 +72,7 @@ public abstract class AbstractEnrichmentTag extends DataObject {
     //------------------------ SETTERS --------------------------
 
 
-    public void setJudgmentId(int judgmentId) {
+    public void setJudgmentId(long judgmentId) {
         this.judgmentId = judgmentId;
     }
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.api.services.exceptions.ElementDoesNotExistException;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
@@ -35,7 +36,7 @@ public class CourtController extends ControllersEntityExceptionHandler {
     //***** business methods *************
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Object> showCourt(@PathVariable("courtId") int courtId) throws ElementDoesNotExistException {
+    public ResponseEntity<Object> showCourt(@PathVariable("courtId") long courtId) throws ElementDoesNotExistException {
 
         CommonCourt court = courtRepository.findOneAndInitialize(courtId);
         if(court == null){

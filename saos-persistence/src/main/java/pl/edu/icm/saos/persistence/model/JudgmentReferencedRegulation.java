@@ -35,7 +35,7 @@ public class JudgmentReferencedRegulation extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_j_referenced_regulation")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 

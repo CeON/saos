@@ -8,7 +8,7 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
  * @author Łukasz Dumiszewski
  */
 
-public interface ScChamberRepository extends JpaRepository<SupremeCourtChamber, Integer>, ScChamberRepositoryCustom {
+public interface ScChamberRepository extends JpaRepository<SupremeCourtChamber, Long>, ScChamberRepositoryCustom {
 
     
     SupremeCourtChamber findOneByName(String name);

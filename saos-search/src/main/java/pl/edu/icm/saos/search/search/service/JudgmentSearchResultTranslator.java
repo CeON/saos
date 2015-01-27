@@ -37,7 +37,7 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
     public JudgmentSearchResult translateSingle(SolrDocument document) {
         JudgmentSearchResult result = new JudgmentSearchResult();
         
-        Integer databaseId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.DATABASE_ID);
+        Long databaseId = fieldFetcher.fetchLongValue(document, JudgmentIndexField.DATABASE_ID);
         result.setId(databaseId);
         List<String> caseNumbers = fieldFetcher.fetchValues(document, JudgmentIndexField.CASE_NUMBER);
         result.setCaseNumbers(caseNumbers);
@@ -81,7 +81,7 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
     //------------------------ PRIVATE --------------------------
     
     private void translateCommonCourt(SolrDocument document, JudgmentSearchResult result) {
-        Integer courtId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.CC_COURT_ID);
+        Long courtId = fieldFetcher.fetchLongValue(document, JudgmentIndexField.CC_COURT_ID);
         String courtCode = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_CODE);
         String court = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_NAME);
         
@@ -89,7 +89,7 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
         result.setCcCourtCode(courtCode);
         result.setCcCourtName(court);
 
-        Integer courtDivisionId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.CC_COURT_DIVISION_ID);
+        Long courtDivisionId = fieldFetcher.fetchLongValue(document, JudgmentIndexField.CC_COURT_DIVISION_ID);
         String courtDivisionCode = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_DIVISION_CODE);
         String courtDivision = fieldFetcher.fetchValue(document, JudgmentIndexField.CC_COURT_DIVISION_NAME);
         
@@ -119,9 +119,9 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
         
         result.setScCourtChambers(chambersResult);
         
-        Integer divisionId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.SC_COURT_DIVISION_ID);
+        Long divisionId = fieldFetcher.fetchLongValue(document, JudgmentIndexField.SC_COURT_DIVISION_ID);
         String divisionName = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_COURT_DIVISION_NAME);
-        Integer divisionsChamberId = fieldFetcher.fetchIntValue(document, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID);
+        Long divisionsChamberId = fieldFetcher.fetchLongValue(document, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID);
         String divisionsChamberName = fieldFetcher.fetchValue(document, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_NAME);
         
         result.setScCourtDivisionId(divisionId);

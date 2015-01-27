@@ -30,7 +30,7 @@ public class AdministrativeCourt extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_adm_court")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
     

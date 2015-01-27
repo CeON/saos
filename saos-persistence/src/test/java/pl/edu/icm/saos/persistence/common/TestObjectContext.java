@@ -17,23 +17,23 @@ public class TestObjectContext {
 
     //------------------------ GETTERS --------------------------
 
-    public int getCcJudgmentId(){
+    public long getCcJudgmentId(){
         return ccJudgment.getId();
     }
 
-    public int getCcCourtId(){
+    public long getCcCourtId(){
         return ccJudgment.getCourtDivision().getCourt().getId();
     }
 
-    public int getCcCourtParentId(){
+    public long getCcCourtParentId(){
         return ccJudgment.getCourtDivision().getCourt().getParentCourt().getId();
     }
 
-    public int getCcFirstDivisionId(){
+    public long getCcFirstDivisionId(){
         return getCcDivisionId(0);
     }
 
-    public int getCcSecondDivisionId(){
+    public long getCcSecondDivisionId(){
         return getCcDivisionId(1);
     }
 
@@ -42,19 +42,19 @@ public class TestObjectContext {
         return ccJudgment;
     }
 
-    public int getScJudgmentId(){
+    public long getScJudgmentId(){
         return scJudgment.getId();
     }
 
-    public int getScFirstDivisionId(){
+    public long getScFirstDivisionId(){
         return scJudgment.getScChamberDivision().getId();
     }
 
-    public int getScChamberId(){
+    public long getScChamberId(){
         return scJudgment.getScChamberDivision().getScChamber().getId();
     }
 
-    public int getScFirstChamberId(){
+    public long getScFirstChamberId(){
         return scJudgment.getScChambers().get(0).getId();
     }
 
@@ -62,7 +62,7 @@ public class TestObjectContext {
         return scJudgment;
     }
 
-    public int getCtJudgmentId(){
+    public long getCtJudgmentId(){
         return ctJudgment.getId();
     }
 
@@ -70,7 +70,7 @@ public class TestObjectContext {
         return ctJudgment;
     }
     
-    public int getNacJudgmentId() {
+    public long getNacJudgmentId() {
         return nacJudgment.getId();
     }
     
@@ -96,7 +96,8 @@ public class TestObjectContext {
     }
 
     //------------------------ PRIVATE --------------------------
-    private int getCcDivisionId(int divisionIndex){
+    
+    private long getCcDivisionId(int divisionIndex){
         return ccJudgment.getCourtDivision().getCourt().getDivisions().get(divisionIndex).getId();
     }
 

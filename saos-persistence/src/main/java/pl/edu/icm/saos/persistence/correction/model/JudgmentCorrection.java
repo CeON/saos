@@ -41,7 +41,7 @@ public class JudgmentCorrection extends DataObject {
     
     private Class<? extends DataObject> correctedObjectClass;
     
-    private Integer correctedObjectId;
+    private Long correctedObjectId;
     
     private CorrectedProperty correctedProperty;
     
@@ -67,7 +67,7 @@ public class JudgmentCorrection extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_judgment_correction")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -97,7 +97,7 @@ public class JudgmentCorrection extends DataObject {
      * null - in case of {@link ChangeOperation#DELETE} or in case of {@link ChangeOperation#UPDATE}
      * if the updated object was deleted later
      */
-    public Integer getCorrectedObjectId() {
+    public Long getCorrectedObjectId() {
         return correctedObjectId;
     }
 
@@ -133,7 +133,7 @@ public class JudgmentCorrection extends DataObject {
         this.correctedObjectClass = correctedObjectClass;
     }
 
-    void setCorrectedObjectId(Integer correctedObjectId) {
+    void setCorrectedObjectId(Long correctedObjectId) {
         this.correctedObjectId = correctedObjectId;
     }
 

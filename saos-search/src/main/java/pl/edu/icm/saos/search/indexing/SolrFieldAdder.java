@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.common.SolrInputDocument;
 import org.joda.time.LocalDate;
 import org.springframework.stereotype.Service;
+
 import pl.edu.icm.saos.search.config.model.IndexField;
 import pl.edu.icm.saos.search.config.model.IndexFieldsConstants;
 import pl.edu.icm.saos.search.util.SearchDateTimeUtils;
@@ -42,7 +43,7 @@ public class SolrFieldAdder<F extends IndexField> {
      * @param field
      * @param value
      */
-    public void addField(SolrInputDocument doc, F field, int value) {
+    public void addField(SolrInputDocument doc, F field, long value) {
         doc.addField(field.getFieldName(), value);
     }
     

@@ -11,5 +11,5 @@ public interface ScChamberRepositoryCustom {
      * Finds {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamber SupremeCourtChamber} with the given id ({pl.edu.icm.saos.persistence.model.SupremeCourtChamber#getId()}), initializes it (the whole tree)
      * and returns it.
      */
-    public SupremeCourtChamber findOneAndInitialize(int id);
+    public SupremeCourtChamber findOneAndInitialize(long id);
 }

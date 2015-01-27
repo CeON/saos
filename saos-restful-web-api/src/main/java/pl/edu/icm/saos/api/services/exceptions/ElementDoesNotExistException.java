@@ -9,7 +9,7 @@ public class ElementDoesNotExistException extends Exception {
 
     private static final String MESSAGE_FORMAT = "%s with id '%d' does not exists";
 
-    public ElementDoesNotExistException(String msgPrefix, int elementId) {
+    public ElementDoesNotExistException(String msgPrefix, long elementId) {
         super(String.format(MESSAGE_FORMAT, msgPrefix, elementId));
     }
 

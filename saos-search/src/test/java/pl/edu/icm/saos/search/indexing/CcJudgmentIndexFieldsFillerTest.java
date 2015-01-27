@@ -42,7 +42,7 @@ public class CcJudgmentIndexFieldsFillerTest {
         
         // basic
         String textContent = "some content";
-        int idValue = 1;
+        long idValue = 1;
 
         CommonCourtJudgment basicJudgment = new CommonCourtJudgment();
         Whitebox.setInternalState(basicJudgment, "id", idValue);
@@ -86,10 +86,10 @@ public class CcJudgmentIndexFieldsFillerTest {
         List<SolrInputField> commonCourtFields = Lists.newArrayList(
                 fieldFactory.create("courtType", "COMMON"),
                 fieldFactory.create("ccCourtType", "APPEAL"),
-                fieldFactory.create("ccCourtId", 123),
+                fieldFactory.create("ccCourtId", 123l),
                 fieldFactory.create("ccCourtCode", "15200000"),
                 fieldFactory.create("ccCourtName", "Sąd Apelacyjny w Krakowie"),
-                fieldFactory.create("ccCourtDivisionId", 816),
+                fieldFactory.create("ccCourtDivisionId", 816l),
                 fieldFactory.create("ccCourtDivisionCode", "0000503"),
                 fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"));
         

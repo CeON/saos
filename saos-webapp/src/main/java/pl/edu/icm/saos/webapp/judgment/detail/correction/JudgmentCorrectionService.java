@@ -39,7 +39,7 @@ public class JudgmentCorrectionService {
 	 * @param judgmentId - judgment id
 	 * @return list of {@link pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection}
 	 */
-	public List<JudgmentCorrection> findAllByJudgmentIdSorted(int judgmentId) {
+	public List<JudgmentCorrection> findAllByJudgmentIdSorted(long judgmentId) {
 		
 		List<JudgmentCorrection> judgmentCorrections = judgmentCorrectionRepository.findAllByJudgmentId(judgmentId);
 		

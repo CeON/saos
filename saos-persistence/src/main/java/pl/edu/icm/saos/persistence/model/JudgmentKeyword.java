@@ -66,7 +66,7 @@ public class JudgmentKeyword extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_judgment_keyword")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
     

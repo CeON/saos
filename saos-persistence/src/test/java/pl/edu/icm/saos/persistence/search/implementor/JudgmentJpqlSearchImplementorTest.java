@@ -1,28 +1,41 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.springframework.beans.factory.annotation.Autowired;
-import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.persistence.common.FieldsNames;
-import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
-import pl.edu.icm.saos.persistence.model.*;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
-import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
-import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
-import pl.edu.icm.saos.persistence.search.result.SearchResult;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertEquals;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.junit.Test;
+import org.junit.experimental.categories.Category;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.common.FieldsNames;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
+import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
+import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
 /**
  * Tests integration  between
@@ -354,7 +367,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         List<CommonCourtJudgment> judgments = testPersistenceObjectFactory.createCcJudgmentListWithRandomData(10);
         sortByCaseNumberDown(judgments);
 
-        List<Integer> sortedJudgmentsIds = sort(extractIds(judgments));
+        List<Long> sortedJudgmentsIds = sort(extractIds(judgments));
 
 
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -366,7 +379,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         //then
         List<Judgment> actualJudgments = searchResult.getResultRecords();
 
-        List<Integer> judgmentsIds = actualJudgments.stream()
+        List<Long> judgmentsIds = actualJudgments.stream()
                 .map(Judgment::getId)
                 .collect(Collectors.toList());
 
@@ -423,7 +436,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     private static void assertOpinions(List<ConstitutionalTribunalJudgmentDissentingOpinion> actual, List<ConstitutionalTribunalJudgmentDissentingOpinion> expected){
         assertThat("list size should match ", expected.size() == actual.size());
 
-        Map<Integer, ConstitutionalTribunalJudgmentDissentingOpinion> actualOpinions = actual.stream().collect(Collectors.toMap(o -> o.getId(),o -> o));
+        Map<Long, ConstitutionalTribunalJudgmentDissentingOpinion> actualOpinions = actual.stream().collect(Collectors.toMap(o -> o.getId(),o -> o));
 
         for(ConstitutionalTribunalJudgmentDissentingOpinion expectedOpinion: expected){
             ConstitutionalTribunalJudgmentDissentingOpinion actualOpinion = actualOpinions.get(expectedOpinion.getId());
@@ -441,7 +454,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         return rolesNames;
     }
 
-    private static List<Integer> extractIds(List<? extends Judgment> judgments){
+    private static List<Long> extractIds(List<? extends Judgment> judgments){
         return judgments.stream()
                 .map(Judgment::getId)
                 .collect(Collectors.toList());

@@ -1,11 +1,11 @@
 package pl.edu.icm.saos.api.single.scdivision.views;
 
-import com.google.common.base.Objects;
-import pl.edu.icm.saos.api.services.representations.success.SingleElementRepresentation;
-
 import java.io.Serializable;
 
-import static pl.edu.icm.saos.api.single.scdivision.views.DivisionView.Data;
+import pl.edu.icm.saos.api.services.representations.success.SingleElementRepresentation;
+import pl.edu.icm.saos.api.single.scdivision.views.DivisionView.Data;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision SupremeCourtChamberDivision's} view.
@@ -23,7 +23,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
     public static class Data implements Serializable {
         private static final long serialVersionUID = 6102379234322603276L;
 
-        private int id;
+        private long id;
         private String href;
         private String name;
         private String fullName;
@@ -46,7 +46,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             return href;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -68,7 +68,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             this.href = href;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -112,7 +112,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
     public static class Chamber implements Serializable {
         private static final long serialVersionUID = 1385060986281758552L;
 
-        private int id;
+        private long id;
         private String href;
         private String name;
 
@@ -125,7 +125,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             return name;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -138,7 +138,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             this.name = name;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

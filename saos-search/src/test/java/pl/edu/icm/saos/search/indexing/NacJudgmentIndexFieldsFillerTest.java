@@ -36,7 +36,7 @@ public class NacJudgmentIndexFieldsFillerTest {
         SolrInputFieldFactory fieldFactory = new SolrInputFieldFactory();
         
         
-        int idValue = 1;
+        long idValue = 1;
 
         NationalAppealChamberJudgment basicJudgment = new NationalAppealChamberJudgment();
         Whitebox.setInternalState(basicJudgment, "id", idValue);

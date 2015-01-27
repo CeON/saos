@@ -43,7 +43,7 @@ public class JudgmentImportProcessReaderTest {
         
         // given
         
-        List<Integer> rJudgmentIds = Lists.newArrayList(12, 123, 45);
+        List<Long> rJudgmentIds = Lists.newArrayList(12l, 123l, 45l);
         when(rawJudgmentRepository.findAllNotProcessedIds(RawSourceScJudgment.class)).thenReturn(rJudgmentIds);
         
         
@@ -71,8 +71,8 @@ public class JudgmentImportProcessReaderTest {
         
         // given
         
-        List<Integer> rJudgmentIds = Lists.newArrayList(12, 123, 45);
-        Whitebox.setInternalState(scjImportProcessReader, "rJudgmentIds", new LinkedList<Integer>(rJudgmentIds));
+        List<Long> rJudgmentIds = Lists.newArrayList(12l, 123l, 45l);
+        Whitebox.setInternalState(scjImportProcessReader, "rJudgmentIds", new LinkedList<Long>(rJudgmentIds));
         
         RawSourceScJudgment rJudgment0 = createSimpleRawSourceScJudgment(rJudgmentIds.get(0));
         RawSourceScJudgment rJudgment1 = createSimpleRawSourceScJudgment(rJudgmentIds.get(1));
@@ -115,7 +115,7 @@ public class JudgmentImportProcessReaderTest {
         }
     }
     
-    private RawSourceScJudgment createSimpleRawSourceScJudgment(int rJudgmentId) {
+    private RawSourceScJudgment createSimpleRawSourceScJudgment(long rJudgmentId) {
         RawSourceScJudgment rJudgment = new RawSourceScJudgment();
         rJudgment.setJsonContent(""+rJudgmentId);
         Whitebox.setInternalState(rJudgment, "id", rJudgmentId);

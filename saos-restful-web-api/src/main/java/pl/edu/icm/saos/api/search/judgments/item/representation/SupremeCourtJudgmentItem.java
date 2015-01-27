@@ -1,11 +1,11 @@
 package pl.edu.icm.saos.api.search.judgments.item.representation;
 
-import com.google.common.base.Objects;
-
 import java.io.Serializable;
 import java.util.List;
 
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+
+import com.google.common.base.Objects;
 
 /**
  *  Represents single item in items field in the
@@ -77,7 +77,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
         private static final long serialVersionUID = -8801751085086840339L;
 
         private String href;
-        private int id;
+        private long id;
         private String name;
         private List<Chamber> chambers;
 
@@ -88,7 +88,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
             return href;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -106,7 +106,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
             this.href = href;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

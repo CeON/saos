@@ -16,11 +16,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
+import pl.edu.icm.saos.persistence.common.DataObject;
+
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-
-import pl.edu.icm.saos.persistence.common.DataObject;
 
 /**
  * pl. odrębna opinia
@@ -44,7 +44,7 @@ public class ConstitutionalTribunalJudgmentDissentingOpinion extends DataObject 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_ctj_opinion")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
     
