@@ -12,9 +12,8 @@
     <meta content="noindex, nofollow" name="robots">
     
 	<saos:cssJsInit></saos:cssJsInit>
-    
-        
-    <title><spring:message code="saos.fullname"/></title>
+	
+	<%@ include file="/WEB-INF/view/common/pageTitle.jsp" %>
     
     <%-- have to overwrite the font-face declaration because firefox does not work with fontface relative urls --%>
     <c:set var="glyphiconsFontsUrl" value="${contextPath}/static/font/bootstrap" scope="page"/>

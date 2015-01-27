@@ -6,6 +6,7 @@
 <%@ attribute name="labelName" required="true" description="Name of the label inside form field" rtexprvalue="true" %>
 <%@ attribute name="labelText" required="true" description="Text describing label and text inside input placeholder" rtexprvalue="true" %>
 <%@ attribute name="selectedItem" required="true" description="The selected element" rtexprvalue="true" type="java.lang.String" %>
+<%@ attribute name="labelEmptyOption" required="false" description="Name of the label for first(empty) option in select" rtexprvalue="true" %>
 
 <c:set var="label" >
 	<spring:message code="${labelText}" />
@@ -19,7 +20,8 @@
 		<form:select path="${path}" id="${id}" class="form-control" disabled="${fn:length(items)==0}" >
 		
 			<c:if test="${fn:length(items)>1}">
-			   <option value=""></option>
+				<c:set var="emptyOption"><spring:message code="choose"/></c:set>
+				<option value=""><spring:message code="${labelEmptyOption}" text="${emptyOption}" /></option>
 			</c:if>
 		
 			<c:forEach items="${items}" var="item" >

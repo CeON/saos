@@ -38,7 +38,7 @@ $(document).ready(function() {
 	
 	<div class="container judgment-list" id="judgment-list">
 	
-		<div class="col-md-9 ${resultsListClass}">	
+		<div class="col-xs-9 ${resultsListClass}">	
 		
 			<%@ include file="judgmentList.jsp" %>
 		
@@ -50,7 +50,7 @@ $(document).ready(function() {
 		
 		</div>
 		
-		<div class="col-md-3">
+		<div class="col-xs-3">
 			<%@ include file="filterBox.jsp" %>
 		</div>
 		

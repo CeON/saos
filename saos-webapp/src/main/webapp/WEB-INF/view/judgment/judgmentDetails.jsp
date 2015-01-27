@@ -201,7 +201,7 @@ $(document).ready(function() {
 		    <div class="modal-content">
 		      <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"><spring:message code="button.close" /></span></button>
-		        <h4 class="modal-title" id="myModalLabel"><spring:message code="judgmentDetails.header" /> </h4>
+		        <h2 class="modal-title" id="myModalLabel"><spring:message code="judgmentDetails.judgmentFullText" /> </h2>
 		      </div>
 		      <div class="modal-body">
 		      	<c:out value="${judgment.textContent}" escapeXml="false" />

@@ -30,6 +30,8 @@ h1 {
 
 
 a {
+	color: $blue;
+
 	&:focus {
 		outline: 4px solid lighten($blue, 12%);
 		z-index: 10;
@@ -37,7 +39,7 @@ a {
 }
 
 .container {
-	width: 970px !important;
+	/*width: 970px !important;*/
 }
 
 header {
@@ -45,22 +47,34 @@ header {
 	
 	h1 {
 		font-weight: 300;
-		margin: 0px 0px 10px;
-		padding: 6px 0px 16px;
+		margin: 0 0 10px;
+		padding: 6px 0 16px;
 	}
 	
 	.navbar-default {
 		background: $panel-color;
-		border: 0px solid $grey-darker;
-		border-width: 0px 0px;
-		border-radius: 0px;
-		margin-bottom: 0px;
+		border: 0 solid $grey-darker;
+		border-width: 0 0;
+		border-radius: 0;
+		margin-bottom: 0;
 		
 		
 		.container {
 			padding: 0;
 		}
 	}
+	
+	.container {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	
+	.navbar-collapse {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	
+	
 }
 
 footer {
@@ -72,7 +86,29 @@ footer {
     width: 100%;
     
 	ul li {
-		padding: 0px 8px;
+		color: $grey98;
+		margin: 0;
+		
+		&:hover {
+			
+			color: $black;
+		}
+		
+		a {
+			background: $black;
+			color: inherit;
+			@include transition(background, 0.4s);
+			
+			&:hover {
+				background: $grey98;
+				color: inherit;
+			}
+		}
+	}
+	
+	.container {
+		padding-left: 0;
+		padding-right: 0;
 	}
 }
 
@@ -120,7 +156,7 @@ footer {
 form.search {
 
 	.form-group {
-		margin: 16px 0px 16px;
+		margin: 16px 0 16px;
 	}
 
 	input[type="text"] {
@@ -128,7 +164,7 @@ form.search {
 		border-color: rgb(200, 200, 200);
 		border-width: 1px 1px 3px;
 		border-style: solid;
-		border-radius: 0px;
+		border-radius: 0;
 		box-shadow: none; 
 		color: #414243;
 		/*font-style: italic;*/
@@ -140,33 +176,25 @@ form.search {
 
 }
 
+
 .navbar-default {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	
 	.navbar-nav {
 		
-		li a {
-			border: 0px solid $panel-color;
-		}
-		
-		li a, li .active {
-			background: $panel-color !important;
-			color: $grey98 !important;
-		}
-		
-		li a {
-			font-size: 16px;
-			padding: 15px;
-			transition: all 0.2s ease 0s;
+		li, .active {
+			color: $grey98;
+			margin: 0;
+			
+			a {
+				background: $black;
+				color: $grey98;
+				@include transition(background, 0.4s);
 				
-			&:first-child {
-				border-left: 2px solid $panel-color;
-			}
-		
-			&:hover, &:focus {
-				background: $orange;
-				
-				color: #f8f8f8;
+				&:hover, &:focus {
+					background: darken($grey98, 20%);
+					color: $black;
+				}
 			}
 		}
 	}
@@ -195,14 +223,14 @@ form.search {
 
 .advert-ground {
 	background: $black;
-	margin-top: 0px;
+	margin-top: 0;
 	margin-bottom: 150px;
-	padding: 30px 0px;
+	padding: 30px 0;
 
 	.item {
 		background: $black;
 		color: $grey98;
-		padding: 0px 40px;
+		padding: 0 40px;
 	
 		.block {
 			background: $sand;
@@ -250,14 +278,14 @@ form.search {
 .spinner {
 	img {
 		border: 2px solid $panel-color;
-		border-top: 0px;
+		border-top: 0;
 	}
 	
 	.stage {
 		background: #e8e8e8;
 		@include background-image("banners/stats.png");
 		background-repeat: no-repeat;
-		border-top: 0px;	
+		border-top: 0;	
 		height: 320px;
 		position: relative;
 		width: 100%; 
@@ -274,7 +302,7 @@ form.search {
 			h3 {
 				font-size: 20px;
 				font-weight: bold;
-				margin: 5px 0px;
+				margin: 5px 0;
 			}
 			
 			p {
@@ -290,7 +318,7 @@ form.search {
 	
 	.pagination {
 		background: rgba(0, 0, 0, 0);
-		border: 0px;
+		border: 0;
 		text-align: center;
 		width: 100%;
 	
@@ -320,7 +348,7 @@ form.search {
 .advert-frame {
 	background: $white;
 	border: 1px solid #e6e6e6;
-	border-radius: 0px;
+	border-radius: 0;
 	padding: 15px;
 	
 	img {
@@ -334,11 +362,15 @@ form.search {
 
 .block {
 	
-	h3 {
+	h2, h3 {
 		border-bottom: 1px solid #e0e0e0;
 	    font-weight: 300;
 	    margin-bottom: 30px;
 	    padding-bottom: 6px;
+	    
+	    span {
+	    
+	    }
 	}
 }
 
@@ -368,7 +400,7 @@ form.search {
 	.advance-form {
 		background: none repeat scroll 0 0 $white;
 	    display: none;
-	    margin: 0px 0px -8px 0px;
+	    margin: 0 0 -8px 0;
 	    padding: 15px 0 0;
 	    position: relative;
 	    top: -60px;
@@ -385,7 +417,7 @@ form.search {
 	}
 	
 	input[type="checkbox"] {
-		margin-left: 0px;
+		margin-left: 0;
 	}
 	
 	legend {
@@ -423,10 +455,10 @@ form.search {
 	border: {
 		color: $grey-border;
 		style: solid;
-		width: 0px 0px 1px 0px;
+		width: 0 0 1px 0;
 	}
-	padding-left: 0px;
-	padding-right: 0px;
+	padding-left: 0;
+	padding-right: 0;
 }
 
 .judgment-list {
@@ -434,9 +466,15 @@ form.search {
 	border: {
 		color: $grey-border;
 		style: solid;
-		width: 0px 1px 0px 1px;
+		width: 0 1px 0 1px;
 	}
 	padding-bottom: 30px;
+
+	ol {
+		list-style: outside none none;
+	    margin-left: 0;
+	    padding-left: 0;
+	}
 
 	.no-results {
 		font: {
@@ -449,12 +487,20 @@ form.search {
 		border: {
 			color: $grey-border;
 			style: solid;
-			width: 0px 0px 0px 0px;
+			width: 0 0 1px 0;
 		}
-		padding: 0px 30px 0px;
+		margin-left: 0;
+		margin-right: 0;
+		padding: 0 15px 0;
+		position: relative;
+	
+		h3 {
+			margin-bottom: 5px;
+			margin-top: 40px;
+		}
 	
 		> .row {
-			padding: 15px 0px 0px;
+			padding: 15px 0 0;
 		}
 	
 		.case-number {
@@ -472,12 +518,12 @@ form.search {
 			background: $white;
 			@include filter-underline();
 			border-color: #888;
-			bottom: -3px;
 			color: #888;
 			display: inline-block;
 			font-size: 11px;
-			position: relative;
+			position: absolute;
 			text-transform: uppercase;
+			top: 14px;
 		}
 		
 		.date {
@@ -488,6 +534,7 @@ form.search {
 		.court-desc {
 			/*font-style: italic;*/
 			font-size: 14px;
+			margin: 2px 0 4px;
 		}
 		
 		.court, .division, .chamber, .chamber-division {
@@ -496,6 +543,12 @@ form.search {
 		
 		.judges {
 			margin-top: 2px;
+			
+			ul {
+				display: inline;
+				margin: 0;
+				padding: 0;
+			}
 		}
 		
 		.judge {
@@ -524,13 +577,8 @@ form.search {
 		}
 		
 		.extract {
-			border: {
-				color: $grey-border;
-				style: solid;
-				width: 0px 0px 1px 0px;
-			}
-			margin: 8px 0px 0px;
-			padding: 0px 0px 15px;
+			margin: 8px 0 0;
+			padding: 0 0 15px;
 			text-align: justify;
 			
 			em {
@@ -538,21 +586,19 @@ form.search {
 				font: {
 					weight: bold;
 				}
-				padding: 0px 2px;
+				padding: 0 2px;
 			}
 		}
 		
-		&:first-child > .row {
+		&:first-child {
 			@include border-grey();
-			border: {
-				width: 1px 0px 0px;
-			}
+			border-width: 1px 0 1px 0;
 		}
 	}
 }
 
 .keywords {
-	margin: 10px 0px 0px;
+	margin: 8px 0 0;
 
 	.keyword {
 		background: $grey;
@@ -561,13 +607,19 @@ form.search {
 		cursor: pointer;
 		display: inline-block;
 		font-size: 13px;
-		margin: 0px 4px 4px 0px;
+		margin: 0 4px 4px 0;
 		padding: 4px 8px;
 		
 		&:hover {
 			background: darken($grey, 10%);
 			color: #666;
 		}
+	}
+	
+	ul {
+		display: inline;
+		margin: 0;
+		padding: 0;
 	}
 }
 
@@ -587,7 +639,7 @@ form.search {
 
 .judgment-page, .judgment-filter {
 	background: none repeat scroll 0 0 $white;
-    border: 0px solid #e0e0e0;
+    border: 0 solid #e0e0e0;
 	margin-top: 30px;
 	padding: 30px 40px;
 }
@@ -596,12 +648,15 @@ form.search {
 	border: {
 		color: $grey-border;
 		style: solid;
-		width: 1px 1px 0px 1px;
+		width: 1px 1px 0 1px;
 	}
-	padding: 0px 30px 0px;
+	padding: 0 30px 0;
 	position: relative;
 	
-	h3 {
+	h2 {
+		font: {
+			size: 24px;
+		}
 		margin-bottom: 15px;
 		
 		span {
@@ -614,18 +669,18 @@ form.search {
 	}
 	
 	div {
-		margin: 5px 0px;
+		margin: 5px 0;
 	}
 	
 	.label {
 		background: $white;
-		border-radius: 0px;
+		border-radius: 0;
 		color: $text;
 		font: {
 			size: 100%;
 			weight: 400;
 		}
-		padding: 0px;
+		padding: 0;
 	
 	}
 	
@@ -655,7 +710,7 @@ form.search {
 		height: 16px;
 		opacity: 1;
 		position: absolute;
-		right: 0px;
+		right: 0;
 		top: -5px;
 		width: 16px;
 		z-index: 1;
@@ -703,8 +758,9 @@ form.search {
 
 	
 	h2 {
-		margin-bottom: 0px;
-		margin-top: 0px;
+		border: 0;
+		margin-bottom: 0;
+		margin-top: 0;
 	}
 	
 	h4 {
@@ -716,7 +772,7 @@ form.search {
 	}
 
 	.col-md-12 {
-		padding-left: 0px;
+		padding-left: 0;
 	}
 
 	.judgment-type {
@@ -732,11 +788,11 @@ form.search {
 	
 	.judgment-data {
 		list-style: none;
-		margin: 30px 0px 40px;
-		padding-left: 0px;
+		margin: 30px 0 40px;
+		padding-left: 0;
 		
 		li {
-			margin: 10px 0px;
+			margin: 10px 0;
 		}
 	
 		.label-title {
@@ -775,13 +831,13 @@ form.search {
 	border: {
 		color: $grey-border;
 		style: solid;
-		width: 0px 1px 0px 1px;
-		radius: 0px;
+		width: 0 1px 0 1px;
+		radius: 0;
 	}
 	display: block;
-	margin-top: 0px;
-	margin-bottom: 0px;
-	padding: 20px 0px;
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 20px 0;
 	text-align: center;
 	width: 100%;
 	
@@ -796,7 +852,7 @@ form.search {
 		@include border-grey();
 		border-radius: 2px;
 		font-size: 0.8em;
-		margin: 0px 2px;
+		margin: 0 2px;
 		padding: 3px 8px;
 		transition: all 0.2s ease 0s;
 	
@@ -809,23 +865,21 @@ form.search {
 .filter-box {
 	@include border-grey();
 	background: $white;
-    border-radius: 0px;
+    border-radius: 0;
     font: {
     	size: 0.9em;
     	}
     margin: 20px 0 0;
-    /*padding: 0px 0px 8px 0px;*/
-    width: 203px;
 
 	p {
 		background: $white;
-		margin: 0px;
+		margin: 0;
 		padding: 10px 10px;
 	
 		&:first-child {
 			background: #eee;
-			border: 0px dotted $grey-border;
-			border-width: 0px 0px 1px 0px;
+			border: 0 dotted $grey-border;
+			border-width: 0 0 1px 0;
 			font: {
 				size: 1em;
 				weight: bold;
@@ -865,7 +919,7 @@ form.search {
 		@include border-grey();
 		background: #eee;
 		border: {
-			width: 1px 0px 1px;
+			width: 1px 0 1px;
 		}
 		font-size: 0.85em;
 		padding: 4px 10px;
@@ -888,12 +942,12 @@ form.search {
 		
 		.long-text {
 			background: #eee;
-			box-shadow: 0px 0px 0px 1px $grey-border;
+			box-shadow: 0 0 0 1px $grey-border;
 			display: block;
-			left: 0px;
+			left: 0;
 			padding: 4px 24px 4px 10px;
 			position: absolute;
-			top: 0px;
+			top: 0;
 			width: 100%;	
 			z-index: 9;
 		}
@@ -902,7 +956,7 @@ form.search {
 	.remove-button {
 		cursor: pointer;
 		float: right;
-		margin: 0px 0px 0px 5px;
+		margin: 0 0 0 5px;
 		
 		&:hover {
 			background: $white;
@@ -923,7 +977,7 @@ form.search {
 		font: {
 			weight: bold;
 		}
-		margin: 12px 0px 6px 5px;
+		margin: 12px 0 6px 5px;
 		padding: 4px 24px 4px 4px;
 		position: relative;
 		text-transform: uppercase;
@@ -949,8 +1003,8 @@ form.search {
 
 
 .correction-block {
-	padding-left: 0px;
-	padding-right: 0px;
+	padding-left: 0;
+	padding-right: 0;
 	position: relative;
 
 	.correction-info {
@@ -1018,7 +1072,7 @@ form.search {
 			font: {
 				size: 18px;
 			}
-			margin: 10px 0px;
+			margin: 10px 0;
 		}
 	}
 }
@@ -1030,3 +1084,7 @@ form.search {
 	padding-bottom: 25px;
 }
 
+
+.navbar-nav.navbar-right:last-child {
+	margin-right: 0;
+}
