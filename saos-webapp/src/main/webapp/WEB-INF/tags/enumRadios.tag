@@ -20,7 +20,7 @@
 		<c:set var="columnsNumber" value="3" />
 </c:if>
 
-<c:forEach var="enumValue" items="${enumItemsToShow}" varStatus="status" >
+<c:forEach var="enumValue" items="${enumItemsToShow}" >
 	<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
 	<c:set var="idLabel" value="radio-${!empty id ? id:''}${!empty id ? '-':''}${lowerCaseEnumValue}" />
 	
