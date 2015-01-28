@@ -43,6 +43,9 @@ public class SolrFieldFetcher<F extends IndexField> {
         if (value == null) {
             return null;
         }
+        if (!(value instanceof Long)) {
+            throw new RuntimeException(value + " is not Long (field: " + field.getFieldName());
+        }
         return (Long) value;
     }
 

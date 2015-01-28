@@ -38,7 +38,7 @@ public class SolrFieldAdder<F extends IndexField> {
     }
     
     /**
-     * Adds int value of field into {@link SolrInputDocument}
+     * Adds field long value into {@link SolrInputDocument}
      * @param doc
      * @param field
      * @param value

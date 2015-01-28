@@ -1,13 +1,15 @@
 package pl.edu.icm.saos.persistence.search;
 
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import pl.edu.icm.saos.persistence.search.dto.SearchFilter;
 import pl.edu.icm.saos.persistence.search.implementor.SearchImplementor;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
-
-import javax.transaction.Transactional;
-import java.util.List;
 
 @Service
 public class DatabaseSearchServiceImpl implements DatabaseSearchService {
@@ -25,7 +27,7 @@ public class DatabaseSearchServiceImpl implements DatabaseSearchService {
     
     @Override
     @Transactional
-    public <T extends SearchFilter> int count(T filter) {
+    public <T extends SearchFilter> long count(T filter) {
         SearchImplementor<T, ?> searchImplementor = getSearchImplementor(filter);
         return searchImplementor.count(filter);
     }

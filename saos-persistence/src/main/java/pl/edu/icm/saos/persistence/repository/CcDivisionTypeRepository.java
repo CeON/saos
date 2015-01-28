@@ -8,7 +8,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
  * @author Łukasz Dumiszewski
  */
 
-public interface CcDivisionTypeRepository extends JpaRepository<CommonCourtDivisionType, Integer> {
+public interface CcDivisionTypeRepository extends JpaRepository<CommonCourtDivisionType, Long> {
 
     CommonCourtDivisionType findByCode(String code);
     

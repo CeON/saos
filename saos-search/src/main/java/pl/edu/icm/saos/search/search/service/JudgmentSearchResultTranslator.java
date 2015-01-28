@@ -115,7 +115,7 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
         chambers
         	.stream()
     		.filter(x -> x.getRight().size() > 0)
-    		.forEach(x -> chambersResult.add(new SupremeCourtChamberResult(Integer.parseInt(x.getLeft()), x.getRight().get(0))));
+    		.forEach(x -> chambersResult.add(new SupremeCourtChamberResult(Long.parseLong(x.getLeft()), x.getRight().get(0))));
         
         result.setScCourtChambers(chambersResult);
         

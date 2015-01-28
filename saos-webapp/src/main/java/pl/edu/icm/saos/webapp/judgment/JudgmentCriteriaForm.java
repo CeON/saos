@@ -7,13 +7,13 @@ import java.util.Set;
 import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.google.common.collect.Lists;
-
 import pl.edu.icm.saos.persistence.common.FormatConst;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.webapp.format.MultiWordFormat;
+
+import com.google.common.collect.Lists;
 
 
 
@@ -40,13 +40,13 @@ public class JudgmentCriteriaForm {
     
     private CourtType courtType;
     
-    private Integer commonCourtId;
-    private Integer commonCourtDivisionId;
+    private Long commonCourtId;
+    private Long commonCourtDivisionId;
     
     private PersonnelType scPersonnelType;
     private String scJudgmentForm;
-    private Integer supremeChamberId;
-    private Integer supremeChamberDivisionId;
+    private Long supremeChamberId;
+    private Long supremeChamberDivisionId;
     
     private Set<JudgmentType> judgmentTypes = new HashSet<JudgmentType>();
     
@@ -89,11 +89,11 @@ public class JudgmentCriteriaForm {
 		return courtType;
 	}
 	
-	public Integer getCommonCourtId() {
+	public Long getCommonCourtId() {
 		return commonCourtId;
 	}
 	
-	public Integer getCommonCourtDivisionId() {
+	public Long getCommonCourtDivisionId() {
 		return commonCourtDivisionId;
 	}
 	
@@ -105,11 +105,11 @@ public class JudgmentCriteriaForm {
 		return scJudgmentForm;
 	}
 	
-	public Integer getSupremeChamberId() {
+	public Long getSupremeChamberId() {
 		return supremeChamberId;
 	}
 	
-	public Integer getSupremeChamberDivisionId() {
+	public Long getSupremeChamberDivisionId() {
 		return supremeChamberDivisionId;
 	}
 	
@@ -159,11 +159,11 @@ public class JudgmentCriteriaForm {
 		this.courtType = courtType;
 	}
 	
-	public void setCommonCourtId(Integer commonCourtId) {
+	public void setCommonCourtId(Long commonCourtId) {
 		this.commonCourtId = commonCourtId;
 	}
 	
-	public void setCommonCourtDivisionId(Integer commonCourtDivisionId) {
+	public void setCommonCourtDivisionId(Long commonCourtDivisionId) {
 		this.commonCourtDivisionId = commonCourtDivisionId;
 	}
 	
@@ -175,11 +175,11 @@ public class JudgmentCriteriaForm {
 		this.scJudgmentForm = scJudgmentForm;
 	}
 	
-	public void setSupremeChamberId(Integer supremeChamberId) {
+	public void setSupremeChamberId(Long supremeChamberId) {
 		this.supremeChamberId = supremeChamberId;
 	}
 
-	public void setSupremeChamberDivisionId(Integer supremeChamberDivisionId) {
+	public void setSupremeChamberDivisionId(Long supremeChamberDivisionId) {
 		this.supremeChamberDivisionId = supremeChamberDivisionId;
 	}
 	

@@ -105,6 +105,10 @@ public class SolrCriterionTransformer<F extends IndexField> {
         return (value == null) ? StringUtils.EMPTY : transformCriterion(field, String.valueOf(value));
     }
     
+    public String transformCriterion(F field, Long value) {
+        return (value == null) ? StringUtils.EMPTY : transformCriterion(field, String.valueOf(value));
+    }
+    
     public String transformCriterion(F field, Enum<?> enumValue) {
         return (enumValue == null) ? StringUtils.EMPTY : transformCriterion(field, enumValue.name());
     }

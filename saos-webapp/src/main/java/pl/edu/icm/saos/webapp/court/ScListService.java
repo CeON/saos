@@ -55,7 +55,7 @@ public class ScListService {
 	 * @param chamberId - chamber division id
 	 * @return list of {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision}
 	 */
-	public List<SimpleDivision> findScChamberDivisions(int chamberId) {
+	public List<SimpleDivision> findScChamberDivisions(long chamberId) {
 	
 		List<SupremeCourtChamberDivision> chamberDivisions = scChamberDivisionRepository.findAllByScChamberId(chamberId);
 		

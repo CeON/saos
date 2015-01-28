@@ -157,7 +157,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
         private static final long serialVersionUID = -5507770923252323958L;
 
         private String href;
-        private int id;
+        private long id;
         private String name;
 
 
@@ -167,7 +167,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
             return href;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -181,7 +181,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
             this.href = href;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

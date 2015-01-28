@@ -53,7 +53,7 @@ public class CcListService {
 	 * @param courtId - common court id
 	 * @return list of {@link pl.edu.icm.saos.persistence.model.CommonCourtDivision}
 	 */
-	public List<SimpleDivision> findCcDivisions(int courtId) {
+	public List<SimpleDivision> findCcDivisions(long courtId) {
 		
 		List<CommonCourtDivision> courtDivisions = ccDivisionRepository.findAllByCourtId(courtId);
 		

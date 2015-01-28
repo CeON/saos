@@ -55,7 +55,7 @@ public class JudgmentImportProcessReaderTest {
         
         // assert
         
-        List<Integer> internalRJudgmentIds = Whitebox.getInternalState(scjImportProcessReader, "rJudgmentIds");
+        List<Long> internalRJudgmentIds = Whitebox.getInternalState(scjImportProcessReader, "rJudgmentIds");
         
         verify(rawJudgmentRepository).findAllNotProcessedIds(RawSourceScJudgment.class);
         verifyNoMoreInteractions(rawJudgmentRepository);

@@ -1,19 +1,20 @@
 package pl.edu.icm.saos.api.search.judgments.parameters;
 
-import com.google.common.base.Objects;
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.LocalDate;
-import org.springframework.format.annotation.DateTimeFormat;
-import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.persistence.model.CourtType;
-
 import java.util.Collections;
 import java.util.List;
 
-import static org.springframework.format.annotation.DateTimeFormat.ISO;
-import static pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
-import static pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
-import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import pl.edu.icm.saos.api.search.parameters.Pagination;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+
+import com.google.common.base.Objects;
 
 /**
  * @author pavtel
@@ -40,18 +41,18 @@ public class JudgmentsParameters {
     private CourtType courtType;
 
     private CommonCourtType ccCourtType;
-    private Integer ccCourtId;
+    private Long ccCourtId;
     private String ccCourtCode;
     private String ccCourtName;
 
-    private Integer ccDivisionId;
+    private Long ccDivisionId;
     private String ccDivisionCode;
     private String ccDivisionName;
 
     private PersonnelType scPersonnelType;
-    private Integer scChamberId;
+    private Long scChamberId;
     private String scChamberName;
-    private Integer scDivisionId;
+    private Long scDivisionId;
     private String scDivisionName;
 
     private List<JudgmentType> judgmentTypes = Collections.emptyList();
@@ -107,7 +108,7 @@ public class JudgmentsParameters {
         return ccCourtType;
     }
 
-    public Integer getCcCourtId() {
+    public Long getCcCourtId() {
         return ccCourtId;
     }
 
@@ -115,7 +116,7 @@ public class JudgmentsParameters {
         return ccCourtCode;
     }
 
-    public Integer getCcDivisionId() {
+    public Long getCcDivisionId() {
         return ccDivisionId;
     }
 
@@ -127,7 +128,7 @@ public class JudgmentsParameters {
         return ccDivisionName;
     }
 
-    public Integer getScChamberId() {
+    public Long getScChamberId() {
         return scChamberId;
     }
 
@@ -135,7 +136,7 @@ public class JudgmentsParameters {
         return scChamberName;
     }
 
-    public Integer getScDivisionId() {
+    public Long getScDivisionId() {
         return scDivisionId;
     }
 
@@ -206,7 +207,7 @@ public class JudgmentsParameters {
         this.ccCourtType = ccCourtType;
     }
 
-    public void setCcCourtId(Integer ccCourtId) {
+    public void setCcCourtId(Long ccCourtId) {
         this.ccCourtId = ccCourtId;
     }
 
@@ -214,7 +215,7 @@ public class JudgmentsParameters {
         this.ccCourtCode = StringUtils.trimToNull(ccCourtCode);
     }
 
-    public void setCcDivisionId(Integer ccDivisionId) {
+    public void setCcDivisionId(Long ccDivisionId) {
         this.ccDivisionId = ccDivisionId;
     }
 
@@ -226,7 +227,7 @@ public class JudgmentsParameters {
         this.ccDivisionName = StringUtils.trimToNull(ccDivisionName);
     }
 
-    public void setScChamberId(Integer scChamberId) {
+    public void setScChamberId(Long scChamberId) {
         this.scChamberId = scChamberId;
     }
 
@@ -234,7 +235,7 @@ public class JudgmentsParameters {
         this.scChamberName = StringUtils.trimToNull(scChamberName);
     }
 
-    public void setScDivisionId(Integer scDivisionId) {
+    public void setScDivisionId(Long scDivisionId) {
         this.scDivisionId = scDivisionId;
     }
 
