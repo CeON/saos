@@ -33,6 +33,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
+import pl.edu.icm.saos.api.services.exceptions.status.ErrorStatus;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -174,7 +175,7 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
         
         actions
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.error.name").value("WRONG REQUEST PARAMETER"))
+            .andExpect(jsonPath("$.error.name").value(ErrorStatus.WRONG_REQUEST_PARAMETER_ERROR.errorName()))
             .andExpect(jsonPath("$.error.propertyName").value("some_incorrect_parameter_name"));
     }
     
