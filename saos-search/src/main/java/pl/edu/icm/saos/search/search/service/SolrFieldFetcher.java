@@ -13,10 +13,10 @@ import org.apache.solr.common.SolrDocument;
 import org.joda.time.LocalDate;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
-
 import pl.edu.icm.saos.search.config.model.IndexField;
 import pl.edu.icm.saos.search.config.model.IndexFieldsConstants;
+
+import com.google.common.collect.Lists;
 
 /**
  * Retrieves index values from {@link SolrDocument}
@@ -38,12 +38,15 @@ public class SolrFieldFetcher<F extends IndexField> {
         return (String) value;
     }
 
-    public Integer fetchIntValue(SolrDocument doc, F field) {
+    public Long fetchLongValue(SolrDocument doc, F field) {
         Object value = doc.getFirstValue(field.getFieldName());
         if (value == null) {
             return null;
         }
-        return (Integer) value;
+        if (!(value instanceof Long)) {
+            throw new RuntimeException(value + " is not Long (field: " + field.getFieldName() + ")");
+        }
+        return (Long) value;
     }
 
     public LocalDate fetchDateValue(SolrDocument doc, F field) {

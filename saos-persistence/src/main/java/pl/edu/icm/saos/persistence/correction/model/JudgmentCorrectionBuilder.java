@@ -47,7 +47,7 @@ public class JudgmentCorrectionBuilder {
     
     /**
      * Which object has been updated <br/>
-     * Sets: {@link JudgmentCorrection#setCorrectedObjectClass(Class)}, {@link JudgmentCorrection#setCorrectedObjectId(Integer)}
+     * Sets: {@link JudgmentCorrection#setCorrectedObjectClass(Class)}, {@link JudgmentCorrection#setCorrectedObjectId(Long)}
      
      * @throws NullPointerException if updatedObject == null
      
@@ -64,7 +64,7 @@ public class JudgmentCorrectionBuilder {
     
     /**
      * Which object has been created <br/>
-     * Sets: {@link JudgmentCorrection#setCorrectedObjectClass(Class)}, {@link JudgmentCorrection#setCorrectedObjectId(Integer)}
+     * Sets: {@link JudgmentCorrection#setCorrectedObjectClass(Class)}, {@link JudgmentCorrection#setCorrectedObjectId(Long)}
      * 
      * @throws NullPointerException if createdObject == null
      * @throws IllegalArgumentException if createdObject instanceof {@link Judgment}
@@ -85,7 +85,7 @@ public class JudgmentCorrectionBuilder {
     
     /**
      * Which kind of object has been deleted <br/>
-     * Sets: {@link JudgmentCorrection#setCorrectedObjectClass(Class)}, {@link JudgmentCorrection#setCorrectedObjectId(Integer)}
+     * Sets: {@link JudgmentCorrection#setCorrectedObjectClass(Class)}, {@link JudgmentCorrection#setCorrectedObjectId(Long)}
      * 
      */
     public JudgmentCorrectionBuilder delete(Class<? extends DataObject> deletedObjectClass) {

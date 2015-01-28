@@ -1,8 +1,8 @@
 package pl.edu.icm.saos.api.search.judgments.item.representation;
 
-import com.google.common.base.Objects;
-
 import java.io.Serializable;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents single item in items field in the
@@ -67,7 +67,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
         private static final long serialVersionUID = -5553581160268600211L;
 
         private String href;
-        private int id;
+        private long id;
         private String name;
         private String code;
         private Court court;
@@ -78,7 +78,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
             return href;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -100,7 +100,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
             this.href = href;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -157,7 +157,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
         private static final long serialVersionUID = -1875340722763537635L;
 
         private String href;
-        private int id;
+        private long id;
         private String code;
         private String name;
 
@@ -167,7 +167,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
             return href;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -185,7 +185,7 @@ public class CommonCourtJudgmentItem extends SearchJudgmentItem {
             this.href = href;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

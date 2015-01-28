@@ -22,7 +22,7 @@ public interface SearchImplementor<X extends SearchFilter, T> {
     /**
      * Returns the number of records that met the criteria specified in searchFilter
      */
-    public int count(X searchFilter);
+    public long count(X searchFilter);
 
     /**
      * Returns the class of the search filter the implementor is designed for

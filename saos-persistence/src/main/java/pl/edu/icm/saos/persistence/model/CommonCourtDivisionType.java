@@ -33,7 +33,7 @@ public class CommonCourtDivisionType extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cc_division_type")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
     

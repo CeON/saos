@@ -35,7 +35,7 @@ public class SupremeCourtChamberDivision extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_supreme_court_chamber_div")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
     

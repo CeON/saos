@@ -1,9 +1,9 @@
 package pl.edu.icm.saos.search.indexing;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -60,10 +60,10 @@ public class JudgmentIndexingReaderTest {
         Judgment secondJudgment = createCcJudgment(2);
         Judgment thirdJudgment = createCcJudgment(3);
         
-        when(judgmentRepository.findAllNotIndexedIds()).thenReturn(Lists.newArrayList(1, 2, 3));
-        when(judgmentRepository.findOne(1)).thenReturn(firstJudgment);
-        when(judgmentRepository.findOne(2)).thenReturn(secondJudgment);
-        when(judgmentRepository.findOne(3)).thenReturn(thirdJudgment);
+        when(judgmentRepository.findAllNotIndexedIds()).thenReturn(Lists.newArrayList(1l, 2l, 3l));
+        when(judgmentRepository.findOne(1l)).thenReturn(firstJudgment);
+        when(judgmentRepository.findOne(2l)).thenReturn(secondJudgment);
+        when(judgmentRepository.findOne(3l)).thenReturn(thirdJudgment);
         judgmentIndexingReader.open(new ExecutionContext());
 
         
@@ -84,16 +84,16 @@ public class JudgmentIndexingReaderTest {
         final int threadsCount = 5;
         final int judgmentsCount = 300;
         
-        List<Integer> ids = IntStream
+        List<Long> ids = IntStream
                 .rangeClosed(1, judgmentsCount)
-                .mapToObj(x -> Integer.valueOf(x))
+                .mapToObj(x -> Long.valueOf(x))
                 .collect(Collectors.toList());
         
         when(judgmentRepository.findAllNotIndexedIds()).thenReturn(ids);
         when(judgmentRepository.findOne(any())).thenAnswer(new Answer<Judgment>( ) {
             @Override
             public Judgment answer(InvocationOnMock invocation) throws Throwable {
-                int id = (int)(invocation.getArguments()[0]);
+                long id = (long)(invocation.getArguments()[0]);
                 return (id >=1 && id <=judgmentsCount) ? createCcJudgment(id) : null;
             }
         });
@@ -101,32 +101,32 @@ public class JudgmentIndexingReaderTest {
         
         
         final CountDownLatch latch = new CountDownLatch(threadsCount);
-        final List<List<Integer>> threadsResultsIds = Lists.newLinkedList();
+        final List<List<Long>> threadsResultsIds = Lists.newLinkedList();
         
         for (int i=0; i<threadsCount; ++i) {
-            List<Integer> threadResultsIds = runReaderThread(latch, i);
+            List<Long> threadResultsIds = runReaderThread(latch, i);
             threadsResultsIds.add(threadResultsIds);
         }
         
         latch.await(); // wait for threads to finish reading
         
         
-        List<Integer> actualIds = threadsResultsIds.stream().flatMap(List::stream).collect(Collectors.toList());
+        List<Long> actualIds = threadsResultsIds.stream().flatMap(List::stream).collect(Collectors.toList());
         assertThat(actualIds, containsInAnyOrder(ids.toArray()));
     }
     
     
     //------------------------ PRIVATE --------------------------
     
-    private CommonCourtJudgment createCcJudgment(int id) {
+    private CommonCourtJudgment createCcJudgment(long id) {
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
         ReflectionTestUtils.setField(ccJudgment, "id", id);
         
         return ccJudgment;
     }
     
-    private List<Integer> runReaderThread(final CountDownLatch latch, int threadNumber) {
-        final List<Integer> threadResultsIds = new LinkedList<Integer>();
+    private List<Long> runReaderThread(final CountDownLatch latch, int threadNumber) {
+        final List<Long> threadResultsIds = new LinkedList<Long>();
         Runnable runner = new Runnable() {
             public void run() {
                 try {

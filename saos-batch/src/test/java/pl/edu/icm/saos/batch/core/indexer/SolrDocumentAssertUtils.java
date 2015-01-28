@@ -1,9 +1,9 @@
 package pl.edu.icm.saos.batch.core.indexer;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 import java.util.Collection;
 import java.util.List;
@@ -44,15 +44,15 @@ class SolrDocumentAssertUtils {
         assertSolrDocumentValues(doc, fieldName, fieldValues);
     }
     
-    public static void assertSolrDocumentIntValues(SolrDocument doc, JudgmentIndexField field, List<Integer> fieldValues) {
-        int[] fieldValuesArray = new int[fieldValues.size()];
+    public static void assertSolrDocumentLongValues(SolrDocument doc, JudgmentIndexField field, List<Long> fieldValues) {
+        long[] fieldValuesArray = new long[fieldValues.size()];
         for (int i=0; i<fieldValues.size(); ++i) {
             fieldValuesArray[i] = fieldValues.get(i);
         }
-        assertSolrDocumentIntValues(doc, field, fieldValuesArray);
+        assertSolrDocumentLongValues(doc, field, fieldValuesArray);
     }
     
-    public static void assertSolrDocumentIntValues(SolrDocument doc, JudgmentIndexField field, int ... fieldValues) {
+    public static void assertSolrDocumentLongValues(SolrDocument doc, JudgmentIndexField field, long ... fieldValues) {
         String fieldName =  field.getFieldName();
         if (fieldValues.length == 0) {
             assertFalse(doc.getFieldNames().contains(fieldName));
@@ -63,7 +63,7 @@ class SolrDocumentAssertUtils {
         Collection<Object> vals = doc.getFieldValues(fieldName);
         assertNotNull(vals);
         assertEquals(fieldValues.length, vals.size());
-        for (int expectedVal : fieldValues) {
+        for (long expectedVal : fieldValues) {
             assertTrue("Field " + fieldName + " doesn't contain value " + expectedVal, vals.contains(expectedVal));
         }
     }

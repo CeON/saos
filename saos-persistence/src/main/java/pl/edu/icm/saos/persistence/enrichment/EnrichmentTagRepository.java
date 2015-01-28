@@ -12,11 +12,11 @@ import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
  * @author Łukasz Dumiszewski
  */
 
-public interface EnrichmentTagRepository extends JpaRepository<EnrichmentTag, Integer> {
+public interface EnrichmentTagRepository extends JpaRepository<EnrichmentTag, Long> {
     
     @Query("select max(creationDate) from #{#entityName}")
     public DateTime findMaxCreationDate();
    
     
-    public List<EnrichmentTag> findAllByJudgmentId(int judgmentId);
+    public List<EnrichmentTag> findAllByJudgmentId(long judgmentId);
 }

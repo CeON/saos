@@ -118,7 +118,7 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
         createRawCcJudgment("id5", true);
         
         // execute
-        List<Integer> rJudgmentIds = rawSourceJudgmentRepository.findAllNotProcessedIds(RawSourceScJudgment.class);
+        List<Long> rJudgmentIds = rawSourceJudgmentRepository.findAllNotProcessedIds(RawSourceScJudgment.class);
         
         // assert
         assertThat(rJudgmentIds, containsInAnyOrder(rJudgment0.getId(), rJudgment1.getId()));
@@ -137,7 +137,7 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
         createRawCcJudgment("id5", false);
         
         // execute
-        List<Integer> rJudgmentIds = rawSourceJudgmentRepository.findAllNotProcessedIds(RawSourceScJudgment.class);
+        List<Long> rJudgmentIds = rawSourceJudgmentRepository.findAllNotProcessedIds(RawSourceScJudgment.class);
         
         // assert
         assertThat(rJudgmentIds, is(empty()));
@@ -158,7 +158,7 @@ public class RawSourceJudgmentRepositoryTest extends PersistenceTestSupport {
         
         // assert
         List<RawSourceJudgment> rawJudgments = rawSourceJudgmentRepository.findAll();
-        List<Integer> rawJudgmentsIds = rawJudgments.stream()
+        List<Long> rawJudgmentsIds = rawJudgments.stream()
                 .map(x -> x.getId())
                 .collect(Collectors.toList());
         

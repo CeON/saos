@@ -54,7 +54,7 @@ public class LawJournalEntry extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_law_journal_entry")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 

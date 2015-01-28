@@ -1,11 +1,12 @@
 package pl.edu.icm.saos.search.search.service;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,8 +31,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestContextManager;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
@@ -71,98 +72,98 @@ public class JudgmentSearchServiceTest {
     public static Object[][] searchResultsCountData() {
         
         return new Object[][] {
-            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder("następuje").build() },
+            { Lists.newArrayList(1961l, 41808l), new JudgmentCriteriaBuilder("następuje").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder("other").build() },
             
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnienie").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnienia").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnieniu").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnieniem").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnień").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnieniom").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnieniami").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("przedawnieniach").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("przedawnienie").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("przedawnienia").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("przedawnieniu").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("przedawnieniem").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("przedawnień").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("przedawnieniom").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("przedawnieniami").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("przedawnieniach").build() },
             
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechać").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechałem").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechałeś").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechał").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechała").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechało").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechaliśmy").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechaliście").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechali").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder("zaniechały").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechać").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechałem").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechałeś").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechał").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechała").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechało").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechaliśmy").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechaliście").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechali").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechały").build() },
             
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withDateRange(new LocalDate(2012, 5, 15), new LocalDate(2012, 5, 15)).build() },
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withDateFrom(new LocalDate(2014, 9, 3)).build() },
-            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withDateTo(new LocalDate(2014, 9, 3)).build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withDateRange(new LocalDate(2012, 5, 15), new LocalDate(2012, 5, 15)).build() },
+            { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder().withDateFrom(new LocalDate(2014, 9, 3)).build() },
+            { Lists.newArrayList(1961l, 41808l), new JudgmentCriteriaBuilder().withDateTo(new LocalDate(2014, 9, 3)).build() },
             
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withKeyword("przestępstwo").build() },
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withKeyword("przestępstwo przeciwko wolności").build() },
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withKeyword("Przestępstwo Przeciwko Wolności").build() },
-            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withKeyword("słowo kluczowe").build() },
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder()
+            { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder().withKeyword("przestępstwo przeciwko wolności").build() },
+            { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder().withKeyword("Przestępstwo Przeciwko Wolności").build() },
+            { Lists.newArrayList(1961l, 41808l), new JudgmentCriteriaBuilder().withKeyword("słowo kluczowe").build() },
+            { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder()
                     .withKeyword("Przestępstwo Przeciwko Wolności").withKeyword("słowo kluczowe").build() },
             
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withJudgeName("Jacek Witkowski").build() },
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withJudgeName("Witkowski").build() },
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withJudgeName("Elżbieta Kunecka").build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withJudgeName("Jacek Witkowski").build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withJudgeName("Witkowski").build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withJudgeName("Elżbieta Kunecka").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withJudgeName("Adam Nowak").build() },
             
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withLegalBase("art. 227 kk").build() },
+            { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder().withLegalBase("art. 227 kk").build() },
             
-            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withReferencedRegulation("kodeks").build() },
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withReferencedRegulation("1964").build() },
-            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withReferencedRegulation("ustawa").build() },
+            { Lists.newArrayList(1961l, 41808l), new JudgmentCriteriaBuilder().withReferencedRegulation("kodeks").build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withReferencedRegulation("1964").build() },
+            { Lists.newArrayList(1961l, 41808l), new JudgmentCriteriaBuilder().withReferencedRegulation("ustawa").build() },
             
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCaseNumber("XV K 792/13").build() },
+            { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder().withCaseNumber("XV K 792/13").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCaseNumber("XV").build() },
             
-            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.SENTENCE).build() },
-            { Lists.newArrayList(21, 1961, 41808), new JudgmentCriteriaBuilder()
+            { Lists.newArrayList(1961l, 41808l), new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.SENTENCE).build() },
+            { Lists.newArrayList(21l, 1961l, 41808l), new JudgmentCriteriaBuilder()
                     .withJudgmentType(JudgmentType.SENTENCE).withJudgmentType(JudgmentType.RESOLUTION).build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withJudgmentType(JudgmentType.DECISION).build() },
             
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withCourtType(CourtType.SUPREME).build() },
-            { Lists.newArrayList(1961, 41808), new JudgmentCriteriaBuilder().withCourtType(CourtType.COMMON).build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder().withCourtType(CourtType.SUPREME).build() },
+            { Lists.newArrayList(1961l, 41808l), new JudgmentCriteriaBuilder().withCourtType(CourtType.COMMON).build() },
             
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCcCourtType(CommonCourtType.DISTRICT).build() },
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcCourtType(CommonCourtType.APPEAL).build() },
+            { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder().withCcCourtType(CommonCourtType.DISTRICT).build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withCcCourtType(CommonCourtType.APPEAL).build() },
             
-            { Lists.newArrayList(41808), new JudgmentCriteriaBuilder().withCcCourtId(36).build() },
+            { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder().withCcCourtId(36).build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCcCourtId(37).build() },
 
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcCourtCode("15500000").build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withCcCourtCode("15500000").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCcCourtCode("15505000").build() },
             
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcCourtName("Sąd Apelacyjny we Wrocławiu").build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withCcCourtName("Sąd Apelacyjny we Wrocławiu").build() },
             
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcDivisionId(3).build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withCcDivisionId(3).build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCcDivisionId(4).build() },
             
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcDivisionCode("0001521").build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withCcDivisionCode("0001521").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCcDivisionCode("0001522").build() },
             
-            { Lists.newArrayList(1961), new JudgmentCriteriaBuilder().withCcDivisionName("III Wydział Pracy i Ubezpieczeń Społecznych").build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withCcDivisionName("III Wydział Pracy i Ubezpieczeń Społecznych").build() },
             
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScJudgmentForm("wyrok SN").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder().withScJudgmentForm("wyrok SN").build() },
             
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScPersonnelType(PersonnelType.ONE_PERSON).build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScPersonnelType(PersonnelType.JOINED_CHAMBERS).build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder().withScPersonnelType(PersonnelType.JOINED_CHAMBERS).build() },
             
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScChamberId(13).build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScChamberId(12).build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder().withScChamberId(12).build() },
             
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScChamberName("chamber").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScChamberName("Izba Cywilna").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScChamberName("Izba Pracy").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder().withScChamberName("Izba Cywilna").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder().withScChamberName("Izba Pracy").build() },
             
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScChamberDivisionId(112).build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScChamberDivisionId(111).build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder().withScChamberDivisionId(111).build() },
             
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScChamberDivisionName("division").build() },
-            { Lists.newArrayList(21), new JudgmentCriteriaBuilder().withScChamberDivisionName("Wydział III").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder().withScChamberDivisionName("Wydział III").build() },
             
         };
     }
@@ -183,10 +184,10 @@ public class JudgmentSearchServiceTest {
     
     @Test
     @UseDataProvider("searchResultsCountData")
-    public void search_CHECK_RESULTS_COUNT(List<Integer> expectedResultsIds, JudgmentCriteria criteria) {
+    public void search_CHECK_RESULTS_COUNT(List<Long> expectedResultsIds, JudgmentCriteria criteria) {
         SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
         
-        int expectedResultsCount = expectedResultsIds.size();
+        long expectedResultsCount = expectedResultsIds.size();
         assertEquals(expectedResultsCount, results.getTotalResults());
         expectedResultsIds.forEach(id -> assertContainsResultWithId(results, id));
     }
@@ -239,11 +240,11 @@ public class JudgmentSearchServiceTest {
         JudgmentSearchResult result = results.getResults().get(0);
         assertEquals(1961, result.getId());
         
-        assertEquals(Integer.valueOf(1), result.getCcCourtId());
+        assertEquals(1l, result.getCcCourtId().longValue());
         assertEquals("15500000", result.getCcCourtCode());
         assertEquals("Sąd Apelacyjny we Wrocławiu", result.getCcCourtName());
         
-        assertEquals(Integer.valueOf(3), result.getCcCourtDivisionId());
+        assertEquals(3l, result.getCcCourtDivisionId().longValue());
         assertEquals("0001521", result.getCcCourtDivisionCode());
         assertEquals("III Wydział Pracy i Ubezpieczeń Społecznych", result.getCcCourtDivisionName());
     }
@@ -264,9 +265,9 @@ public class JudgmentSearchServiceTest {
         assertEquals(PersonnelType.JOINED_CHAMBERS,result.getScPersonnelType());
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));
-        assertEquals(Integer.valueOf(111), result.getScCourtDivisionId());
+        assertEquals(111l, result.getScCourtDivisionId().longValue());
         assertEquals("Wydział III", result.getScCourtDivisionName());
-        assertEquals(Integer.valueOf(11), result.getScCourtDivisionsChamberId());
+        assertEquals(11l, result.getScCourtDivisionsChamberId().longValue());
         assertEquals("Izba Cywilna", result.getScCourtDivisionsChamberName());
     }
     
@@ -295,7 +296,7 @@ public class JudgmentSearchServiceTest {
     @Test
     public void search_CHECK_HIGHLIGHTING_REQUIRED_FIELD_MATCH() {
         JudgmentCriteria criteria = new JudgmentCriteria("content");
-        criteria.setScCourtChamberId(11);
+        criteria.setScCourtChamberId(11l);
         
         SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
         
@@ -312,7 +313,7 @@ public class JudgmentSearchServiceTest {
     
     //------------------------ PRIVATE --------------------------
     
-    private void assertContainsResultWithId(SearchResults<JudgmentSearchResult> results, int id) {
+    private void assertContainsResultWithId(SearchResults<JudgmentSearchResult> results, long id) {
         
         for (JudgmentSearchResult result : results.getResults()) {
             if (result.getId() == id) {

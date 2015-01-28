@@ -1,9 +1,9 @@
 package pl.edu.icm.saos.persistence.search.result;
 
-import com.google.common.collect.Lists;
-
 import java.io.Serializable;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 /**
  * A class for storing search result.
@@ -20,7 +20,7 @@ public class SearchResult<T> implements Serializable {
     
     private int limitOfRecords = 0; 
     private int firstRecordPosition = 0;
-    private Integer allRecordsCount = null;
+    private Long allRecordsCount = null;
     private boolean moreRecordsExist = false;
     
     
@@ -32,7 +32,7 @@ public class SearchResult<T> implements Serializable {
         this.resultRecords = resultRecords;
     }
     
-    public SearchResult(List<T> resultRecords, Integer allRecordsCount, int first, int limit) {
+    public SearchResult(List<T> resultRecords, Long allRecordsCount, int first, int limit) {
         this.resultRecords = resultRecords;
         setAllRecordsCount(allRecordsCount);
         setFirstRecordPosition(first);
@@ -68,7 +68,7 @@ public class SearchResult<T> implements Serializable {
      * Number of all records. Can be null.
      * @return
      */
-    public Integer getAllRecordsCount() {
+    public Long getAllRecordsCount() {
         return allRecordsCount;
     }
     
@@ -118,7 +118,7 @@ public class SearchResult<T> implements Serializable {
     }
 
 
-    public void setAllRecordsCount(Integer allRecordsCount) {
+    public void setAllRecordsCount(Long allRecordsCount) {
         this.allRecordsCount = allRecordsCount;
     }
 

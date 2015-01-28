@@ -1,19 +1,28 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
-import com.google.common.collect.Lists;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import pl.edu.icm.saos.persistence.model.*;
-import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
-import pl.edu.icm.saos.persistence.search.result.SearchResult;
+import static com.google.common.collect.Maps.newHashMap;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.google.common.collect.Maps.newHashMap;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.search.dto.JudgmentSearchFilter;
+import pl.edu.icm.saos.persistence.search.result.SearchResult;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author pavtel
@@ -56,7 +65,7 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
     
     @Override
     protected void processResult(SearchResult<Judgment> searchResult, JudgmentSearchFilter searchFilter) {
-        List<Integer> judgmentIds = extractJudgmentIds(searchResult);
+        List<Long> judgmentIds = extractJudgmentIds(searchResult);
         if(judgmentIds.isEmpty()){
             return;
         }
@@ -76,15 +85,15 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
 
     //------------------------ PRIVATE --------------------------
 
-    private void initializeCourtCases(List<Integer> judgmentIds){
+    private void initializeCourtCases(List<Long> judgmentIds){
         setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment left join fetch judgment.courtCases_ courtCase where judgment.id in (:ids) ",
                 judgmentIds);
     }
 
-    private void initializeJudgesAndTheirRoles(List<Integer> judgmentIds, SearchResult<Judgment> searchResult){
+    private void initializeJudgesAndTheirRoles(List<Long> judgmentIds, SearchResult<Judgment> searchResult){
         setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.judges_  judge where judgment.id in (:ids) "
                 , judgmentIds); //important initialize judges before their roles
-        List<Integer> judgesIds = extractJudgesIds(searchResult);
+        List<Long> judgesIds = extractJudgesIds(searchResult);
         if(!judgesIds.isEmpty()){
             setIdsParameterAndExecuteQuery(" select judge from " + Judge.class.getName() + " judge left join fetch judge.specialRoles role where judge.id in (:ids) ",
                     judgesIds);
@@ -93,53 +102,53 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
     }
 
 
-    private void initializeCourtReporters(List<Integer> judgmentIds){
+    private void initializeCourtReporters(List<Long> judgmentIds){
         setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment left join fetch judgment.courtReporters_  courtReporters where judgment.id in (:ids) ",
                 judgmentIds);
     }
 
-    private void initializeLegalBases(List<Integer> judgmentIds){
+    private void initializeLegalBases(List<Long> judgmentIds){
         setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment left join fetch judgment.legalBases_  legalBases where judgment.id in (:ids) ",
                 judgmentIds);
     }
 
-    private void initializeReferencedRegulationsAndTheirLawJournalEntries(List<Integer> judgmentIds, SearchResult<Judgment> searchResult){
+    private void initializeReferencedRegulationsAndTheirLawJournalEntries(List<Long> judgmentIds, SearchResult<Judgment> searchResult){
         setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment join fetch judgment.referencedRegulations_  referencedRegulation where judgment.id in (:ids) ",
                 judgmentIds); //important initialize regulations before their entries
-        List<Integer> regulationsIds = extractReferencedRegulationsIds(searchResult);
+        List<Long> regulationsIds = extractReferencedRegulationsIds(searchResult);
         if(!regulationsIds.isEmpty()){
             setIdsParameterAndExecuteQuery(" select regulation from " + JudgmentReferencedRegulation.class.getName() + " regulation join fetch regulation.lawJournalEntry  lawJournalEntry where regulation.id in (:ids) ",
                     extractReferencedRegulationsIds(searchResult));
         }
     }
 
-    private void initializeCommonCourtJudgmentSpecificFields(List<Integer> judgmentIds) {
+    private void initializeCommonCourtJudgmentSpecificFields(List<Long> judgmentIds) {
         initializeKeywords(judgmentIds);
     }
 
-    private void initializeKeywords(List<Integer> judgmentIds) {
+    private void initializeKeywords(List<Long> judgmentIds) {
         setIdsParameterAndExecuteQuery(" select judgment from "+ Judgment.class.getName()+" judgment left join fetch judgment.keywords_ keyword where judgment.id in (:ids) ",
                 judgmentIds);
     }
 
-    private void initializeSupremeCourtJudgmentSpecificFields(List<Integer> judgmentIds) {
+    private void initializeSupremeCourtJudgmentSpecificFields(List<Long> judgmentIds) {
         initializeSupremeCourtChambers(judgmentIds);
     }
 
-    private void initializeSupremeCourtChambers(List<Integer> judgmentIds){
+    private void initializeSupremeCourtChambers(List<Long> judgmentIds){
         setIdsParameterAndExecuteQuery(" select judgment from "+ SupremeCourtJudgment.class.getName()+" judgment left join fetch judgment.scChambers_ scChamber where judgment.id in (:ids) ",
                 judgmentIds);
     }
 
 
-    private void initializeConstitutionalTribunalSpecificFields(List<Integer> judgmentIds, SearchResult<Judgment> searchResult) {
+    private void initializeConstitutionalTribunalSpecificFields(List<Long> judgmentIds, SearchResult<Judgment> searchResult) {
         initializeDissentingOpinionAndTheirAuthors(judgmentIds, searchResult);
     }
 
-    private void initializeDissentingOpinionAndTheirAuthors(List<Integer> judgmentIds, SearchResult<Judgment> searchResult) {
+    private void initializeDissentingOpinionAndTheirAuthors(List<Long> judgmentIds, SearchResult<Judgment> searchResult) {
         setIdsParameterAndExecuteQuery(" select judgment from "+ ConstitutionalTribunalJudgment.class.getName()+" judgment left join fetch judgment.dissentingOpinions_ opinion where judgment.id in (:ids) ",
                 judgmentIds);
-        List<Integer> opinionsIds = extractOpinionsIds(searchResult);
+        List<Long> opinionsIds = extractOpinionsIds(searchResult);
         if(!opinionsIds.isEmpty()){
             setIdsParameterAndExecuteQuery(" select opinion from "+ ConstitutionalTribunalJudgmentDissentingOpinion.class.getName()+" opinion left join fetch opinion.authors_ author where opinion.id in (:ids) ",
                     opinionsIds);
@@ -148,7 +157,7 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
     }
 
 
-    private void setIdsParameterAndExecuteQuery(String query, List<Integer> ids){
+    private void setIdsParameterAndExecuteQuery(String query, List<Long> ids){
         Query queryObject = entityManager.createQuery(query);
         queryObject.setParameter("ids", ids);
 
@@ -158,26 +167,26 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
 
 
     
-    private List<Integer> extractJudgmentIds(SearchResult<Judgment> searchResult) {
+    private List<Long> extractJudgmentIds(SearchResult<Judgment> searchResult) {
         return searchResult.getResultRecords().stream().map(result->result.getId()).collect(Collectors.toList());
     }
 
-    private List<Integer> extractReferencedRegulationsIds(SearchResult<Judgment> searchResult){
+    private List<Long> extractReferencedRegulationsIds(SearchResult<Judgment> searchResult){
         return searchResult.getResultRecords().stream()
                 .flatMap(j -> j.getReferencedRegulations().stream())
                 .map(r -> r.getId())
                 .collect(Collectors.toList());
     }
 
-    private List<Integer> extractJudgesIds(SearchResult<Judgment> searchResult) {
+    private List<Long> extractJudgesIds(SearchResult<Judgment> searchResult) {
         return searchResult.getResultRecords().stream()
                 .flatMap(j -> j.getJudges().stream())
                 .map( jud -> jud.getId())
                 .collect(Collectors.toList());
     }
 
-    private List<Integer> extractOpinionsIds(SearchResult<Judgment> searchResult) {
-        List<Integer> opinionsIds = Lists.newArrayList();
+    private List<Long> extractOpinionsIds(SearchResult<Judgment> searchResult) {
+        List<Long> opinionsIds = Lists.newArrayList();
 
         searchResult.getResultRecords().stream()
                 .filter(judgment -> judgment.getCourtType() == CourtType.CONSTITUTIONAL_TRIBUNAL)

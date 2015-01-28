@@ -33,7 +33,7 @@ public abstract class RawSourceJudgment extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_raw_source_judgment")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
     

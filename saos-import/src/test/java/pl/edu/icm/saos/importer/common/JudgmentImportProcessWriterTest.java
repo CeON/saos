@@ -52,7 +52,7 @@ public class JudgmentImportProcessWriterTest {
     private ArgumentCaptor<List<Judgment>> argJudgments;
 
     @Captor
-    private ArgumentCaptor<List<Integer>> argJudgmentIds;
+    private ArgumentCaptor<List<Long>> argJudgmentIds;
     
     @Captor
     private ArgumentCaptor<List<JudgmentCorrection>> argJudgmentCorrections;

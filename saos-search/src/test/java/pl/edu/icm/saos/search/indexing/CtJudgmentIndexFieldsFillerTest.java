@@ -35,7 +35,7 @@ public class CtJudgmentIndexFieldsFillerTest {
         SolrInputFieldFactory fieldFactory = new SolrInputFieldFactory();
         
         
-        int idValue = 1;
+        long idValue = 1;
 
         ConstitutionalTribunalJudgment basicJudgment = new ConstitutionalTribunalJudgment();
         Whitebox.setInternalState(basicJudgment, "id", idValue);

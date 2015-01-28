@@ -1,8 +1,17 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.iterableWithSize;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
@@ -12,12 +21,6 @@ import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.CommonCourtSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
 
 /**
  * Tests integration between
@@ -102,7 +105,7 @@ public class CommonCourtJpqlSearchImplementatorTest extends PersistenceTestSuppo
         //given
         List<CommonCourt> commonCourts = testPersistenceObjectFactory.createCcCourtListWithRandomData(4);
 
-        commonCourts.sort((first, second) -> Integer.compare(first.getId(), second.getId()));
+        commonCourts.sort((first, second) -> Long.compare(first.getId(), second.getId()));
 
         int offset = 1;
         int limit = 2;

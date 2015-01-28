@@ -20,7 +20,7 @@ public class CommonCourtRepositoryCustomImpl implements CommonCourtRepositoryCus
 
     @Override
     @Transactional
-    public CommonCourt findOneAndInitialize(int id){
+    public CommonCourt findOneAndInitialize(long id){
 
         CommonCourt commonCourt = entityManager.find(CommonCourt.class, id);
 

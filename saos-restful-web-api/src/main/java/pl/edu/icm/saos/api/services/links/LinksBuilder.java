@@ -21,68 +21,68 @@ public class LinksBuilder {
 
     //------------------------ LOGIC --------------------------
 
-    public String urlToJudgment(int judgmentId){
+    public String urlToJudgment(long judgmentId){
         return urlToElement(JudgmentController.class, judgmentId);
     }
 
-    public Link linkToJudgment(int judgmentId){
+    public Link linkToJudgment(long judgmentId){
         return linkFor(JudgmentController.class, judgmentId);
     }
 
-    public String urlToCcDivision(int divisionId){
+    public String urlToCcDivision(long divisionId){
         return urlToElement(DivisionController.class, divisionId);
     }
 
-    public Link linkToCcDivision(int divisionId) {
+    public Link linkToCcDivision(long divisionId) {
         return linkFor(DivisionController.class, divisionId);
     }
 
-    public String urlToScDivision(int divisionId){
+    public String urlToScDivision(long divisionId){
         return urlToElement(ScDivisionController.class, divisionId);
     }
 
-    public Link linkToScDivision(int divisionId){
+    public Link linkToScDivision(long divisionId){
         return linkFor(ScDivisionController.class, divisionId);
     }
 
-    public Link linkToScDivision(int divisionId, String relName){
+    public Link linkToScDivision(long divisionId, String relName){
         return linkFor(ScDivisionController.class, divisionId, relName);
     }
 
 
-    public String urlToScChamber(int chamberId){
+    public String urlToScChamber(long chamberId){
         return urlToElement(ScChamberController.class, chamberId);
     }
 
-    public Link linkToScChamber(int chamberId){
+    public Link linkToScChamber(long chamberId){
         return linkFor(ScChamberController.class, chamberId);
     }
 
-    public Link linkToScChamber(int chamberId, String relName){
+    public Link linkToScChamber(long chamberId, String relName){
         return linkFor(ScChamberController.class, chamberId, relName);
     }
 
-    public String urlToCourt(int courtId) {
+    public String urlToCourt(long courtId) {
         return urlToElement(CourtController.class, courtId);
     }
 
-    public Link linkToCourt(int courtId){
+    public Link linkToCourt(long courtId){
         return linkFor(CourtController.class, courtId);
     }
 
-    public Link linkToCourt(int courtId, String relName){
+    public Link linkToCourt(long courtId, String relName){
         return linkFor(CourtController.class, courtId, relName);
     }
 
-    private String urlToElement(Class<?> controller, int elementId){
+    private String urlToElement(Class<?> controller, long elementId){
         return linkFor(controller, elementId).getHref();
     }
 
-    private Link linkFor(Class<?> controller, int elementId){
+    private Link linkFor(Class<?> controller, long elementId){
         return linkFor(controller, elementId, SELF);
     }
 
-    private Link linkFor(Class<?> controller , int id, String relName){
+    private Link linkFor(Class<?> controller , long id, String relName){
         return linkFor(controller, String.valueOf(id), relName);
     }
 

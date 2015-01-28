@@ -14,6 +14,6 @@ public interface IndexableObjectRepository<I extends IndexableObject> {
     Page<I> findAllNotIndexed(Pageable pageable);
     
     @Query("select i.id from #{#entityName} i where i.indexed=false")
-    List<Integer> findAllNotIndexedIds();
+    List<Long> findAllNotIndexedIds();
     
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.api.services.exceptions.ElementDoesNotExistException;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -38,7 +39,7 @@ public class JudgmentController extends ControllersEntityExceptionHandler{
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Object> showJudgment(@PathVariable("judgmentId") int judgmentId) throws ElementDoesNotExistException {
+    public ResponseEntity<Object> showJudgment(@PathVariable("judgmentId") long judgmentId) throws ElementDoesNotExistException {
 
         Judgment judgment = judgmentRepository.findOneAndInitialize(judgmentId);
         if(judgment == null){

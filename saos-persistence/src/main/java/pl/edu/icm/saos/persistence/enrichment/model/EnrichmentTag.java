@@ -28,7 +28,7 @@ public class EnrichmentTag extends AbstractEnrichmentTag {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_enrichment_tag")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 

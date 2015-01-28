@@ -18,7 +18,7 @@ import pl.edu.icm.saos.common.visitor.VisitorUtils;
 @MappedSuperclass
 public abstract class DataObject {
 
-    protected int id;
+    protected long id;
     private int ver;
     private DateTime creationDate = new DateTime(); 
    
@@ -41,7 +41,7 @@ public abstract class DataObject {
     
     /** every instance needs to provide a proper GeneratedValue annotation */
     @Transient
-    public abstract int getId();
+    public abstract long getId();
 
     
     //------------------------ LOGIC --------------------------
@@ -90,7 +90,7 @@ public abstract class DataObject {
         this.creationDate = creationDate;
     }
 
-    protected void setId(int id) {
+    protected void setId(long id) {
         this.id = id;
     }
     

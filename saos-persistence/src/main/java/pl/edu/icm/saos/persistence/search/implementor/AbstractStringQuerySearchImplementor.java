@@ -88,7 +88,7 @@ public abstract class AbstractStringQuerySearchImplementor<X extends SearchFilte
 
         
         // CREATE RESULT OBJECT
-        SearchResult<T> searchResult = createSearchResult(list, allRecordsCount==null?null:allRecordsCount.intValue(), searchFilter.getFirst(), searchFilter.getLimit());
+        SearchResult<T> searchResult = createSearchResult(list, allRecordsCount==null?null:allRecordsCount.longValue(), searchFilter.getFirst(), searchFilter.getLimit());
 
 
         // POSTPROCESS THE RESULT
@@ -109,7 +109,7 @@ public abstract class AbstractStringQuerySearchImplementor<X extends SearchFilte
      * @throws IllegalStateException if createCountQuery returns empty query
      */
     @Override
-    public final int count(X searchFilter) throws IllegalStateException {
+    public final long count(X searchFilter) throws IllegalStateException {
         Map<String, Object> parametersMap = createParametersMap(searchFilter);
 
         String countQuery = createCountQuery(searchFilter);
@@ -254,7 +254,7 @@ public abstract class AbstractStringQuerySearchImplementor<X extends SearchFilte
         return allRecordsCount;
     }
     
-    private SearchResult<T> createSearchResult(List<T> list, Integer allRecordsCount, int first, int limit) {
+    private SearchResult<T> createSearchResult(List<T> list, Long allRecordsCount, int first, int limit) {
         SearchResult<T> searchResult = new SearchResult<T>(list, allRecordsCount, first, limit);
         return searchResult;
     }

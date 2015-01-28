@@ -1,10 +1,11 @@
 package pl.edu.icm.saos.api.single.judgment.data.representation;
 
-import com.google.common.base.Objects;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
-
 import java.io.Serializable;
 import java.util.List;
+
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents {@link pl.edu.icm.saos.persistence.model.SupremeCourtJudgment SupremeCourtJudgment} fields.
@@ -138,7 +139,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
         private static final long serialVersionUID = -4521773159723379249L;
 
         private String href;
-        private int id;
+        private long id;
         private String name;
         private Chamber chamber;
 
@@ -156,7 +157,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
             return chamber;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -174,7 +175,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
             this.chamber = chamber;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -217,7 +218,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
         private static final long serialVersionUID = 7877817346120144973L;
 
         private String href;
-        private int id;
+        private long id;
         private String name;
 
         //------------------------ GETTERS --------------------------
@@ -226,7 +227,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
             return href;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -240,7 +241,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
             this.href = href;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

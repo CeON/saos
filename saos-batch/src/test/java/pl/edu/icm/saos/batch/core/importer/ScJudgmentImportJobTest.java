@@ -168,7 +168,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         scjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
                 "import/supremeCourt/judgments/version1"));
         JobExecution jobExecution = jobExecutor.forceStartNewJob(scJudgmentImportJob);
-        int scJudgmentb082Id = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "b082922617256d5b4092cf23864c8894").getId();
+        long scJudgmentb082Id = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "b082922617256d5b4092cf23864c8894").getId();
                 
         scjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
                 "import/supremeCourt/judgments/version2"));

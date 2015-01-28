@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 public class EnrichmentTagItem {
 
     
-    private int judgmentId;
+    private long judgmentId;
     
     private String tagType;
     
@@ -33,7 +33,7 @@ public class EnrichmentTagItem {
     //------------------------ GETTERS --------------------------
     
     @NotNull
-    public int getJudgmentId() {
+    public long getJudgmentId() {
         return judgmentId;
     }
 
@@ -50,7 +50,7 @@ public class EnrichmentTagItem {
     
     //------------------------ SETTERS --------------------------
     
-    public void setJudgmentId(int judgmentId) {
+    public void setJudgmentId(long judgmentId) {
         this.judgmentId = judgmentId;
     }
 

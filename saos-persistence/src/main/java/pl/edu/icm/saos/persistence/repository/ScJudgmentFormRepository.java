@@ -8,7 +8,7 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
  * @author Łukasz Dumiszewski
  */
 
-public interface ScJudgmentFormRepository extends JpaRepository<SupremeCourtJudgmentForm, Integer> {
+public interface ScJudgmentFormRepository extends JpaRepository<SupremeCourtJudgmentForm, Long> {
 
     
     SupremeCourtJudgmentForm findOneByName(String name);

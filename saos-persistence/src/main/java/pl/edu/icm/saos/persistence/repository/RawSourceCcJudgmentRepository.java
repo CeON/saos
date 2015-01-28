@@ -14,7 +14,7 @@ import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
  * @author Łukasz Dumiszewski
  */
 
-public interface RawSourceCcJudgmentRepository extends JpaRepository<RawSourceCcJudgment, Integer> {
+public interface RawSourceCcJudgmentRepository extends JpaRepository<RawSourceCcJudgment, Long> {
 
     
     RawSourceCcJudgment findOneBySourceIdAndDataMd5(String sourceId, String dataMd5);

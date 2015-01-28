@@ -36,14 +36,14 @@ public class SimpleDivisionConverter {
 	
 	private SimpleDivision convertFromCcDivision(CommonCourtDivision commonCourtDivision) {
 		SimpleDivision simpleDivision = new SimpleDivision();
-		simpleDivision.setId(Integer.toString(commonCourtDivision.getId()));
+		simpleDivision.setId(Long.toString(commonCourtDivision.getId())); // TODO: why SimpleDivision.id is String, not long?
 		simpleDivision.setName(commonCourtDivision.getName());
 		return simpleDivision;
 	}
 
 	private SimpleDivision convertFromScChamberDivision(SupremeCourtChamberDivision supremeCourtChamberDivision) {
 		SimpleDivision simpleDivision = new SimpleDivision();
-		simpleDivision.setId(Integer.toString(supremeCourtChamberDivision.getId()));
+		simpleDivision.setId(Long.toString(supremeCourtChamberDivision.getId()));
 		simpleDivision.setName(supremeCourtChamberDivision.getName());
 		return simpleDivision;
 	}	

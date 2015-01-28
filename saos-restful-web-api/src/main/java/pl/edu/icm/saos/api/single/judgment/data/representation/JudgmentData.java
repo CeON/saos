@@ -17,7 +17,7 @@ public class JudgmentData implements Serializable{
 
     private static final long serialVersionUID = 6335902286597178584L;
 
-    private int id;
+    private long id;
     private CourtType courtType;
     private String href;
     private List<CourtCase> courtCases;
@@ -84,7 +84,7 @@ public class JudgmentData implements Serializable{
         return judges;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -146,7 +146,7 @@ public class JudgmentData implements Serializable{
         this.judges = judges;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

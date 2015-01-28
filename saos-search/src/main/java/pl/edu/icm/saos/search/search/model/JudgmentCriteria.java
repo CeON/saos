@@ -6,8 +6,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.joda.time.LocalDate;
 
-import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
@@ -31,19 +31,19 @@ public class JudgmentCriteria extends Criteria {
     private CourtType courtType;
     
     private CommonCourtType ccCourtType;
-    private Integer ccCourtId;
+    private Long ccCourtId;
     private String ccCourtCode;
     private String ccCourtName;
     
-    private Integer ccCourtDivisionId;
+    private Long ccCourtDivisionId;
     private String ccCourtDivisionCode;
     private String ccCourtDivisionName;
     
     private String scJudgmentForm;
     private PersonnelType scPersonnelType;
-    private Integer scCourtChamberId;
+    private Long scCourtChamberId;
     private String scCourtChamberName;
-    private Integer scCourtChamberDivisionId;
+    private Long scCourtChamberDivisionId;
     private String scCourtChamberDivisionName;
     
     private List<JudgmentType> judgmentTypes = Lists.newLinkedList();
@@ -91,7 +91,7 @@ public class JudgmentCriteria extends Criteria {
     public CommonCourtType getCcCourtType() {
         return ccCourtType;
     }
-    public Integer getCcCourtId() {
+    public Long getCcCourtId() {
         return ccCourtId;
     }
     public String getCcCourtCode() {
@@ -100,7 +100,7 @@ public class JudgmentCriteria extends Criteria {
     public String getCcCourtName() {
         return ccCourtName;
     }
-    public Integer getCcCourtDivisionId() {
+    public Long getCcCourtDivisionId() {
         return ccCourtDivisionId;
     }    
     public String getCcCourtDivisionCode() {
@@ -115,13 +115,13 @@ public class JudgmentCriteria extends Criteria {
     public PersonnelType getScPersonnelType() {
         return scPersonnelType;
     }
-    public Integer getScCourtChamberId() {
+    public Long getScCourtChamberId() {
         return scCourtChamberId;
     }
     public String getScCourtChamberName() {
         return scCourtChamberName;
     }
-    public Integer getScCourtChamberDivisionId() {
+    public Long getScCourtChamberDivisionId() {
         return scCourtChamberDivisionId;
     }
     public String getScCourtChamberDivisionName() {
@@ -164,7 +164,7 @@ public class JudgmentCriteria extends Criteria {
     public void setCcCourtType(CommonCourtType commonCourtType) {
         this.ccCourtType = commonCourtType;
     }
-    public void setCcCourtId(Integer courtId) {
+    public void setCcCourtId(Long courtId) {
         this.ccCourtId = courtId;
     }
     public void setCcCourtCode(String courtCode) {
@@ -173,7 +173,7 @@ public class JudgmentCriteria extends Criteria {
     public void setCcCourtName(String courtName) {
         this.ccCourtName = courtName;
     }
-    public void setCcCourtDivisionId(Integer courtDivisionId) {
+    public void setCcCourtDivisionId(Long courtDivisionId) {
         this.ccCourtDivisionId = courtDivisionId;
     }
     public void setCcCourtDivisionCode(String courtDivisionCode) {
@@ -188,13 +188,13 @@ public class JudgmentCriteria extends Criteria {
     public void setScPersonnelType(PersonnelType personnelType) {
         this.scPersonnelType = personnelType;
     }
-    public void setScCourtChamberId(Integer courtChamberId) {
+    public void setScCourtChamberId(Long courtChamberId) {
         this.scCourtChamberId = courtChamberId;
     }
     public void setScCourtChamberName(String courtChamberName) {
         this.scCourtChamberName = courtChamberName;
     }
-    public void setScCourtChamberDivisionId(Integer courtChamberDivisionId) {
+    public void setScCourtChamberDivisionId(Long courtChamberDivisionId) {
         this.scCourtChamberDivisionId = courtChamberDivisionId;
     }
     public void setScCourtChamberDivisionName(String courtChamberDivisionName) {

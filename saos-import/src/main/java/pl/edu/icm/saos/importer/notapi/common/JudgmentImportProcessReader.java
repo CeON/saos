@@ -26,7 +26,7 @@ public class JudgmentImportProcessReader<T extends RawSourceJudgment> implements
     
     private RawSourceJudgmentRepository rawSourceJudgmentRepository;
     
-    private LinkedList<Integer> rJudgmentIds;
+    private LinkedList<Long> rJudgmentIds;
     
     private Class<T> judgmentClass;
     
@@ -43,7 +43,7 @@ public class JudgmentImportProcessReader<T extends RawSourceJudgment> implements
     @Override
     public T read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         
-        Integer rJudgmentId = rJudgmentIds.poll();
+        Long rJudgmentId = rJudgmentIds.poll();
 
         if (rJudgmentId == null) {
             return null;
@@ -56,7 +56,7 @@ public class JudgmentImportProcessReader<T extends RawSourceJudgment> implements
     
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
-        rJudgmentIds = new LinkedList<Integer>(rawSourceJudgmentRepository.findAllNotProcessedIds(judgmentClass));
+        rJudgmentIds = new LinkedList<Long>(rawSourceJudgmentRepository.findAllNotProcessedIds(judgmentClass));
         log.debug("Number of {} to process: {}", judgmentClass.getName(), rJudgmentIds.size());
     }
 

@@ -103,7 +103,7 @@ public abstract class Judgment extends IndexableObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_judgment")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 

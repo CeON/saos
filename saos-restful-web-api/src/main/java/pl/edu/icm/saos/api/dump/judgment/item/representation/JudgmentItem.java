@@ -19,7 +19,7 @@ import com.google.common.base.Objects;
 public class JudgmentItem implements Serializable {
     private static final long serialVersionUID = -7120554748494835309L;
 
-    private int id;
+    private long id;
     private CourtType courtType;
     private List<CourtCase> courtCases;
     private JudgmentType judgmentType;
@@ -36,7 +36,8 @@ public class JudgmentItem implements Serializable {
 
 
     //------------------------ GETTERS --------------------------
-    public int getId() {
+    
+    public long getId() {
         return id;
     }
 
@@ -94,7 +95,8 @@ public class JudgmentItem implements Serializable {
 
 
     //------------------------ SETTERS --------------------------
-    public void setId(int id) {
+
+    public void setId(long id) {
         this.id = id;
     }
 

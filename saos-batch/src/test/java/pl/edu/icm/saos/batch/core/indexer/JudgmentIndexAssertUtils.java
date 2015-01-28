@@ -1,6 +1,6 @@
 package pl.edu.icm.saos.batch.core.indexer;
 
-import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertSolrDocumentIntValues;
+import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertSolrDocumentLongValues;
 import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertSolrDocumentPostfixedFieldValues;
 import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertSolrDocumentValues;
 
@@ -61,12 +61,12 @@ class JudgmentIndexAssertUtils {
     private static void assertCcJudgmentSpecificFields(SolrDocument doc, CommonCourtJudgment ccJudgment) {
         
         assertKeywords(doc, ccJudgment);
-        assertSolrDocumentIntValues(doc, JudgmentIndexField.CC_COURT_ID, ccJudgment.getCourtDivision().getCourt().getId());
+        assertSolrDocumentLongValues(doc, JudgmentIndexField.CC_COURT_ID, ccJudgment.getCourtDivision().getCourt().getId());
         assertSolrDocumentValues(doc, JudgmentIndexField.CC_COURT_TYPE, ccJudgment.getCourtDivision().getCourt().getType().name());
         assertSolrDocumentValues(doc, JudgmentIndexField.CC_COURT_CODE, ccJudgment.getCourtDivision().getCourt().getCode());
         assertSolrDocumentValues(doc, JudgmentIndexField.CC_COURT_NAME, ccJudgment.getCourtDivision().getCourt().getName());
         
-        assertSolrDocumentIntValues(doc, JudgmentIndexField.CC_COURT_DIVISION_ID, ccJudgment.getCourtDivision().getId());
+        assertSolrDocumentLongValues(doc, JudgmentIndexField.CC_COURT_DIVISION_ID, ccJudgment.getCourtDivision().getId());
         assertSolrDocumentValues(doc, JudgmentIndexField.CC_COURT_DIVISION_CODE, ccJudgment.getCourtDivision().getCode());
         assertSolrDocumentValues(doc, JudgmentIndexField.CC_COURT_DIVISION_NAME, ccJudgment.getCourtDivision().getName());
     }
@@ -80,13 +80,13 @@ class JudgmentIndexAssertUtils {
             expectedIndexScChamber.add(scChamber.getId() + "|" + scChamber.getName());
         }
         assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_CHAMBER, expectedIndexScChamber);
-        assertSolrDocumentIntValues(doc, JudgmentIndexField.SC_COURT_CHAMBER_ID, scJudgment.getScChambers().stream().map(x -> x.getId()).collect(Collectors.toList()));
+        assertSolrDocumentLongValues(doc, JudgmentIndexField.SC_COURT_CHAMBER_ID, scJudgment.getScChambers().stream().map(x -> x.getId()).collect(Collectors.toList()));
         assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_CHAMBER_NAME, scJudgment.getScChambers().stream().map(x -> x.getName()).collect(Collectors.toList()));
         
-        assertSolrDocumentIntValues(doc, JudgmentIndexField.SC_COURT_DIVISION_ID, scJudgment.getScChamberDivision().getId());
+        assertSolrDocumentLongValues(doc, JudgmentIndexField.SC_COURT_DIVISION_ID, scJudgment.getScChamberDivision().getId());
         assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_DIVISION_NAME, scJudgment.getScChamberDivision().getName());
         
-        assertSolrDocumentIntValues(doc, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID, scJudgment.getScChamberDivision().getScChamber().getId());
+        assertSolrDocumentLongValues(doc, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID, scJudgment.getScChamberDivision().getScChamber().getId());
         assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_NAME, scJudgment.getScChamberDivision().getScChamber().getName());
     }
     

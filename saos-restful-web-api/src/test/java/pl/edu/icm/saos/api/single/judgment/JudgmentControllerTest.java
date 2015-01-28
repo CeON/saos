@@ -1,5 +1,72 @@
 package pl.edu.icm.saos.api.single.judgment;
 
+import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.services.Constants.DATE_FORMAT;
+import static pl.edu.icm.saos.api.services.Constants.SINGLE_COURTS_PATH;
+import static pl.edu.icm.saos.api.services.Constants.SINGLE_DIVISIONS_PATH;
+import static pl.edu.icm.saos.api.services.Constants.SINGLE_JUDGMENTS_PATH;
+import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CASE_NUMBER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_DAY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_MONTH;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DECISION;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_COURT_REPORTER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_TYPE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_FUNCTION;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_ROLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_KEYWORD;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_LEGAL_BASE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_ENTRY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_JOURNAL_NO;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_TITLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_JUDGMENT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_COURT_REPORTER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_KEYWORD;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_LEGAL_BASE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_ENTRY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_JOURNAL_NO;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_TITLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_JUDGMENT_ID;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_JUDGMENT_URL;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_PUBLISHER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_REVISER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SUMMARY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_TEXT_CONTENT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_ENTRY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_JOURNAL_NO;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_TITLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_FIRST_DISSENTING_OPINION_FIRST_AUTHOR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_FIRST_DISSENTING_OPINION_SECOND_AUTHOR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_FIRST_DISSENTING_OPINION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_SECOND_DISSENTING_OPINION_FIRST_AUTHOR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_SECOND_DISSENTING_OPINION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_CHAMBER_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_CHAMBER_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_JUDGMENT_FORM_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_PERSONNEL_TYPE;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +78,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -19,13 +87,6 @@ import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
-
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.services.Constants.*;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -106,7 +167,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
         //then
 
         actions
-                .andExpect(jsonPath("$.data.id").value(testObjectContext.getCcJudgmentId()))
+                .andExpect(jsonPath("$.data.id").value(equalsLong(testObjectContext.getCcJudgmentId())))
                 .andExpect(jsonPath("$.data.courtType").value(CourtType.COMMON.name()))
                 .andExpect(jsonPath("$.data.href").value(endsWith(ccJudgmentPath)))
                 .andExpect(jsonPath("$.data.source.code").value(SourceCode.COMMON_COURT.name()))
@@ -151,13 +212,13 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.keywords.[1]").value(CC_SECOND_KEYWORD))
 
                 .andExpect(jsonPath("$.data.division.href").value(endsWith(SINGLE_DIVISIONS_PATH +"/"+testObjectContext.getCcFirstDivisionId())))
-                .andExpect(jsonPath("$.data.division.id").value(testObjectContext.getCcFirstDivisionId()))
+                .andExpect(jsonPath("$.data.division.id").value(equalsLong(testObjectContext.getCcFirstDivisionId())))
                 .andExpect(jsonPath("$.data.division.name").value(CC_FIRST_DIVISION_NAME))
                 .andExpect(jsonPath("$.data.division.code").value(CC_FIRST_DIVISION_CODE))
                 .andExpect(jsonPath("$.data.division.type").value(CC_FIRST_DIVISION_TYPE_NAME))
 
                 .andExpect(jsonPath("$.data.division.court.href").value(endsWith(SINGLE_COURTS_PATH+"/"+testObjectContext.getCcCourtId())))
-                .andExpect(jsonPath("$.data.division.court.id").value(testObjectContext.getCcCourtId()))
+                .andExpect(jsonPath("$.data.division.court.id").value(equalsLong(testObjectContext.getCcCourtId())))
                 .andExpect(jsonPath("$.data.division.court.code").value(CC_COURT_CODE))
                 .andExpect(jsonPath("$.data.division.court.name").value(CC_COURT_NAME))
                 .andExpect(jsonPath("$.data.division.court.type").value(CC_COURT_TYPE.name()))
@@ -173,7 +234,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
 
         //then
         actions
-                .andExpect(jsonPath("$.data.id").value(testObjectContext.getScJudgmentId()))
+                .andExpect(jsonPath("$.data.id").value(equalsLong(testObjectContext.getScJudgmentId())))
                 .andExpect(jsonPath("$.data.courtType").value(CourtType.SUPREME.name()))
                 .andExpect(jsonPath("$.data.href").value(endsWith(scJudgmentPath)))
                 .andExpect(jsonPath("$.data.personnelType").value(SC_PERSONNEL_TYPE.name()))
@@ -181,14 +242,14 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.judgmentForm.name").value(SC_JUDGMENT_FORM_NAME))
 
                 .andExpect(jsonPath("$.data.division.href").value(endsWith("/api/scDivisions/" + testObjectContext.getScFirstDivisionId())))
-                .andExpect(jsonPath("$.data.division.id").value(testObjectContext.getScFirstDivisionId()))
+                .andExpect(jsonPath("$.data.division.id").value(equalsLong(testObjectContext.getScFirstDivisionId())))
                 .andExpect(jsonPath("$.data.division.name").value(SC_FIRST_DIVISION_NAME))
                 .andExpect(jsonPath("$.data.division.chamber.href").value(endsWith("/api/scChambers/" + testObjectContext.getScChamberId())))
-                .andExpect(jsonPath("$.data.division.chamber.id").value(testObjectContext.getScChamberId()))
+                .andExpect(jsonPath("$.data.division.chamber.id").value(equalsLong(testObjectContext.getScChamberId())))
                 .andExpect(jsonPath("$.data.division.chamber.name").value(SC_CHAMBER_NAME))
 
                 .andExpect(jsonPath("$.data.chambers.[0].href").value(endsWith("/api/scChambers/" + testObjectContext.getScFirstChamberId())))
-                .andExpect(jsonPath("$.data.chambers.[0].id").value(testObjectContext.getScFirstChamberId()))
+                .andExpect(jsonPath("$.data.chambers.[0].id").value(equalsLong(testObjectContext.getScFirstChamberId())))
                 .andExpect(jsonPath("$.data.chambers.[0].name").value(SC_FIRST_CHAMBER_NAME))
 
                 ;
@@ -202,7 +263,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
 
         //then
         actions
-                .andExpect(jsonPath("$.data.id").value(testObjectContext.getCtJudgmentId()))
+                .andExpect(jsonPath("$.data.id").value(equalsLong(testObjectContext.getCtJudgmentId())))
                 .andExpect(jsonPath("$.data.courtType").value(CourtType.CONSTITUTIONAL_TRIBUNAL.name()))
                 .andExpect(jsonPath("$.data.href").value(endsWith(ctJudgmentPath)))
 

@@ -66,15 +66,15 @@ public class CommonCourtJudgmentItem extends JudgmentItem {
     public static class Division implements Serializable {
         private static final long serialVersionUID = 6660098763051916087L;
 
-        private int id;
+        private long id;
 
         //------------------------ GETTERS --------------------------
-        public int getId() {
+        public long getId() {
             return id;
         }
 
         //------------------------ SETTERS --------------------------
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

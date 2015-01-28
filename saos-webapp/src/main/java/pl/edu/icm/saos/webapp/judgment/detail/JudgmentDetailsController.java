@@ -28,7 +28,7 @@ public class JudgmentDetailsController {
 	//------------------------ LOGIC --------------------------
 	
 	@RequestMapping("/judgments/{judgmentId}")
-	public String showJudgmentDetails(ModelMap model, @PathVariable("judgmentId") Integer judgmentId) {
+	public String showJudgmentDetails(ModelMap model, @PathVariable("judgmentId") long judgmentId) {
 		
 		model.addAttribute("judgment", judgmentRepository.findOneAndInitialize(judgmentId));
 		model.addAttribute("corrections", judgmentCorrectionService.findAllByJudgmentIdSorted(judgmentId));

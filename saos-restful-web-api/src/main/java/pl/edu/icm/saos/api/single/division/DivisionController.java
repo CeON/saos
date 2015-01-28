@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.api.services.exceptions.ElementDoesNotExistException;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
@@ -36,7 +37,7 @@ public class DivisionController extends ControllersEntityExceptionHandler{
     //******** business methods ************
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
-    public ResponseEntity<Object> showDivision(@PathVariable("divisionId") int divisionId) throws ElementDoesNotExistException {
+    public ResponseEntity<Object> showDivision(@PathVariable("divisionId") long divisionId) throws ElementDoesNotExistException {
 
         CommonCourtDivision division = ccDivisionRepository.findOne(divisionId);
         if(division == null){

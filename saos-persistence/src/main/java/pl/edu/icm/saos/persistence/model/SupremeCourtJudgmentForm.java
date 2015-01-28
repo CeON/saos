@@ -33,7 +33,7 @@ public class SupremeCourtJudgmentForm extends DataObject {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_supreme_court_judgment_form")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
     

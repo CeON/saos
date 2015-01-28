@@ -68,7 +68,7 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
      * Id of judgment which will be checked if it was correctly indexed.
      * This id should be set before running test method.
      */
-    private int ccJudgmentForAssertionId;
+    private long ccJudgmentForAssertionId;
     
     private final static int MAXIMUM_INDEXING_TIME_MS = 60 * 1000;
     private final static int COMMON_COURT_JUDGMENTS_COUNT = 250;
