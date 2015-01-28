@@ -34,8 +34,33 @@ var jsInitInJudgmentSearch = function() {
     	},
     	showErrors: function(errorMap, errorList) {
     		this.defaultShowErrors();
-    	}
+    	},
+    	 highlight: function(element, errorClass, validClass) {
+    		 $(element).parent().parent().addClass("has-error");
+		 },
+		 unhighlight: function(element, errorClass, validClass) {
+			 $(element).parent().parent().removeClass("has-error");
+		 }
     });
+    
+    $("#datepicker_from, #datepicker_to")
+    	.keypress(function(event) {
+    		var $this = $(this),
+    			text = $this.val();
+    	
+			if (event.keyCode !==8 && (text.length === 2 || text.length === 5)) {
+				text += "-";
+			}
+			
+			if (event.keycode === 8 && text.length === 3 && text[2] === '-' || 
+					event.keycode === 8 && text.length === 6 && text[2] === '-') {
+				text = text.substr(0, text.length - 1);
+			}
+
+			$this.val(text);
+    	});
+    
+    
     
     /* Search form: selecting date with datepicker */
     

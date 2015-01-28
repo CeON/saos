@@ -1092,21 +1092,12 @@ form.search {
 	margin-right: 0;
 }
 
-/*
-label.error {
-	background: none repeat scroll 0 0 #ffeeee;
-    border: 2px solid red;
-    border-radius: 4px;
-    bottom: 35px;
-    display: block;
-    left: 3px;
-    overflow: auto;
-    padding: 6px;
-    position: absolute;
-    text-align: center;
+.form-date {
+	display: inline-block;
+	width: auto;
 }
 
-input[type="text"].error {
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #ffeeee;
+label.error {
+	margin-left: 10px;
 }
-*/
+

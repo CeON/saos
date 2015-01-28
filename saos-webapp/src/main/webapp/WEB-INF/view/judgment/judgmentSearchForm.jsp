@@ -6,6 +6,7 @@
 
 <div class="container search-form block">
 
+
 	<fieldset id="search-fieldset" >
 		<legend><spring:message code="judgmentSearch.form.header" /></legend>
 		<saos:formFieldText path="all" labelName="input-search-all" labelText="judgmentSearch.formField.all" />
@@ -23,14 +24,14 @@
 		    <div class="form-group">
 		    	<spring:message code="judgmentSearch.formField.datePlaceholder" var="datePlaceholder" />	
 			    <label for="datepicker_from" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.dateFrom" />:</label>
-			    <div class="col-sm-2">
-			    	<form:input path="dateFrom" class="form-control" id="datepicker_from" placeholder="${datePlaceholder}" />			       
+			    <div class="col-sm-7">
+			    	<form:input path="dateFrom" class="form-control form-date" id="datepicker_from" placeholder="${datePlaceholder}" maxlength="10" />			       
 			    </div>
 		    </div>
 		    <div class="form-group">
 			    <label for="datepicker_to" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.dateTo" />:</label>
-			    <div class="col-sm-2">
-			    	<form:input path="dateTo" class="form-control" id="datepicker_to" placeholder="${datePlaceholder}" />
+			    <div class="col-sm-7">
+			    	<form:input path="dateTo" class="form-control form-date" id="datepicker_to" placeholder="${datePlaceholder}" maxlength="10" />
 			    </div>
 		    </div>
 		    
