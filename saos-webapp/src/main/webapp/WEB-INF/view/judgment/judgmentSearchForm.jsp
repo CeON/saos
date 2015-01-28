@@ -34,9 +34,9 @@
 		    
 		    <div class="form-group">
 				<label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.judgmentType" />:</label>
-				<div class="col-sm-6">
+				<div class="col-sm-7">
 					<div class="checkbox">
-		   	    	    <saos:enumCheckboxes path="judgmentTypes" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" />
+		   	    	    <saos:enumCheckboxes path="judgmentTypes" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" columnsNumber="2" />
 			   		</div>
 			 	</div>
 			</div>
@@ -50,9 +50,11 @@
 		    <div class="form-group">
 			    <label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>
 			    <div class="col-sm-7">
-			    	<form:radiobutton path="courtType" id="radio-all" value="" checked="checked" />
-			    	<label for="radio-all" ><spring:message code="judgment.courtType.all" /></label>
-			    	<saos:enumRadios path="courtType" enumType="pl.edu.icm.saos.persistence.model.CourtType" id="court" />
+			    	<div class="col-xs-6">
+				    	<form:radiobutton path="courtType" id="radio-all" value="" checked="checked" />
+				    	<label for="radio-all" ><spring:message code="judgment.courtType.all" /></label>
+			    	</div>
+			    	<saos:enumRadios path="courtType" enumType="pl.edu.icm.saos.persistence.model.CourtType" id="court" columnsNumber="2" />
 			    </div>
 		    </div>
 		    
