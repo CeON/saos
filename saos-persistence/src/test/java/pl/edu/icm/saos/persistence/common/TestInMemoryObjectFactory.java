@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.persistence.common;
 
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.*;
 
 import java.util.List;
@@ -166,6 +167,15 @@ public final class TestInMemoryObjectFactory {
      */
     public static List<NationalAppealChamberJudgment> createNacJudgmentListWithRandomData(int size){
         return TestInMemoryNacObjectFactory.createNacJudgmentListWithRandomData(size);
+    }
+    
+    /**
+     * Creates list of {@link EnrichmentTag} with default field data for judgment with provided id.
+     * @param judgmentId
+     * @return list of EnrichmentTag
+     */
+    public static List<EnrichmentTag> createEnrichmentTagsForJudgment(int judgmentId) {
+        return TestInMemoryEnrichmentTagFactory.createEnrichmentTagsForJudgment(judgmentId);
     }
 
 
