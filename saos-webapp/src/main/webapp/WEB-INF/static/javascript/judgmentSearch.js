@@ -44,19 +44,13 @@ var jsInitInJudgmentSearch = function() {
     });
     
     $("#datepicker_from, #datepicker_to")
-    	.keypress(function(event) {
+    	.keyup(function(event) {
     		var $this = $(this),
-    			text = $this.val();
-    	
-			if (event.keyCode !==8 && (text.length === 2 || text.length === 5)) {
-				text += "-";
-			}
-			
-			if (event.keycode === 8 &&  text[2] === '-' && (text.length === 3 || text.length === 6) ) {
-				text = text.substr(0, text.length - 1);
-			}
-
-			$this.val(text);
+				text = $this.val();
+    		
+    		if (event.keyCode !== 173) {
+				$this.val(DateFormat.convert(text));
+    		}
     	});
     
     

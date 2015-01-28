@@ -24,6 +24,7 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/details/correctionBox.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/filterBox.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/suggester.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/dateFormat.js"></script>
 
 <script type="text/javascript" src="${contextPath}/static/javascript/judgmentDetails.js"></script> 
 <script type="text/javascript" src="${contextPath}/static/javascript/judgmentSearch.js"></script> 
