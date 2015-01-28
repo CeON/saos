@@ -15,7 +15,7 @@ var jsInitInJudgmentSearch = function() {
 			if (value !== '') {
 				return moment(value, 'DD-MM-YYYY', true).isValid();
 			} else {
-				return true
+				return true;
 			}
 		},
 	    springMessage.judgmentSearchFormFieldDateWrongFormat
@@ -52,8 +52,7 @@ var jsInitInJudgmentSearch = function() {
 				text += "-";
 			}
 			
-			if (event.keycode === 8 && text.length === 3 && text[2] === '-' || 
-					event.keycode === 8 && text.length === 6 && text[2] === '-') {
+			if (event.keycode === 8 &&  text[2] === '-' && (text.length === 3 || text.length === 6) ) {
 				text = text.substr(0, text.length - 1);
 			}
 
