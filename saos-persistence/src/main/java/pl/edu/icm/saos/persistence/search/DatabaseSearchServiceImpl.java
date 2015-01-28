@@ -11,12 +11,19 @@ import pl.edu.icm.saos.persistence.search.dto.SearchFilter;
 import pl.edu.icm.saos.persistence.search.implementor.SearchImplementor;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
+/**
+ * 
+ * @author Łukasz Dumiszewski
+ *
+ */
 @Service
 public class DatabaseSearchServiceImpl implements DatabaseSearchService {
 
     @Autowired
     private List<SearchImplementor<? extends SearchFilter, ?>> searchImplementors;
     
+    
+    //------------------------ LOGIC --------------------------
     
     @Override
     @Transactional

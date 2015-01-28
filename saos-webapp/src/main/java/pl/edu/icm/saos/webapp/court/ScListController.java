@@ -25,7 +25,7 @@ public class ScListController {
 	
 	@RequestMapping("sc/chambers/{supremeChamberId}/chamberDivisions/list")
 	@ResponseBody
-	public List<SimpleDivision> listChamberDivisions(@PathVariable("supremeChamberId") int supremeChamberId) {
+	public List<SimpleDivision> listChamberDivisions(@PathVariable("supremeChamberId") long supremeChamberId) {
 		return scListService.findScChamberDivisions(supremeChamberId);
 	}
 
