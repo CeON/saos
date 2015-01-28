@@ -26,6 +26,8 @@
 			    <div class="col-sm-2">
 			    	<form:input path="dateFrom" class="form-control" id="datepicker_from" placeholder="${datePlaceholder}" />			       
 			    </div>
+		    </div>
+		    <div class="form-group">
 			    <label for="datepicker_to" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.dateTo" />:</label>
 			    <div class="col-sm-2">
 			    	<form:input path="dateTo" class="form-control" id="datepicker_to" placeholder="${datePlaceholder}" />

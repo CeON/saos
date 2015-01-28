@@ -7,9 +7,11 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.clipboard/jquery.clipboard.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.pseudo.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.sticky.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.validate.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.wrapInTag.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/modernizr.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/bootstrap.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/moment.js"></script>
 
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/typography.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/cookies.js"></script>

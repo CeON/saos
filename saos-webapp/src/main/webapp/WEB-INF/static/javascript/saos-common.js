@@ -19,12 +19,6 @@ $(document).ready(function() {
             opacity: .5, 
             color: '#fff' };
 	$.blockUI.defaults.message = '<img src="${contextPath}/static/images/ajax-loader.gif">';
-	
-    $.datepicker.setDefaults($.datepicker.regional["pl"]);
-    $('[id^="datepicker_"]').datepicker({changeYear: 'true', dateFormat: "dd-mm-yy", yearRange: 'c-50:' + ((new Date()).getFullYear()+1) });
-    
-    
-    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     
     
 });

@@ -6,6 +6,49 @@
 
 var jsInitInJudgmentSearch = function() {
 
+	
+    /* Search form validation */
+    
+    $.validator.addMethod(
+		"dateFormat",
+		function(value, element) {
+			if (value !== '') {
+				return moment(value, 'DD-MM-YYYY', true).isValid();
+			} else {
+				return true
+			}
+		},
+	    springMessage.judgmentSearchFormFieldDateWrongFormat
+	);
+    
+    $('#search-form').validate({
+    	onkeyup: false,
+    	onclick: false,
+    	rules: {
+    		dateFrom: {
+    			dateFormat: true
+    		},
+    		dateTo: {
+    			dateFormat: true
+    		}
+    	},
+    	showErrors: function(errorMap, errorList) {
+    		this.defaultShowErrors();
+    	}
+    });
+    
+    /* Search form: selecting date with datepicker */
+    
+    $.datepicker.setDefaults($.datepicker.regional["pl"]);
+    
+    $('[id^="datepicker_"]').datepicker({changeYear: 'true', dateFormat: "dd-mm-yy",
+		yearRange: 'c-50:' + ((new Date()).getFullYear()+1)
+	});
+    
+    
+    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+	
+	
 	/*** Search form show more fields ***/
 	SearchFormMode.init({
 			callback: {
