@@ -1,15 +1,17 @@
 package pl.edu.icm.saos.api.dump.court.views;
 
-import com.google.common.base.Objects;
-import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
-import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
-import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
-
 import java.io.Serializable;
 import java.util.List;
 
-import static pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.*;
-import static pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.DumpCourtItem;
+import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.Info;
+import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.QueryTemplate;
+import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
+import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents dump court's view.
@@ -22,7 +24,7 @@ public class DumpCourtsView extends CollectionRepresentation<DumpCourtItem, Quer
     public static class DumpCourtItem implements Serializable {
         private static final long serialVersionUID = -8050957944518505399L;
 
-        private int id;
+        private long id;
         private String name;
         private CommonCourtType type;
         private String code;
@@ -32,7 +34,7 @@ public class DumpCourtsView extends CollectionRepresentation<DumpCourtItem, Quer
         //------------------------ GETTERS --------------------------
 
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -58,7 +60,7 @@ public class DumpCourtsView extends CollectionRepresentation<DumpCourtItem, Quer
 
         //------------------------ SETTERS --------------------------
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -125,17 +127,17 @@ public class DumpCourtsView extends CollectionRepresentation<DumpCourtItem, Quer
     public static class ParentCourt implements Serializable {
         private static final long serialVersionUID = 3621337286069280544L;
 
-        private int id;
+        private long id;
 
         //------------------------ GETTERS --------------------------
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
         //------------------------ SETTERS --------------------------
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -171,14 +173,14 @@ public class DumpCourtsView extends CollectionRepresentation<DumpCourtItem, Quer
     public static class Division implements Serializable {
         private static final long serialVersionUID = 9034101309332487890L;
 
-        private int id;
+        private long id;
         private String name;
         private String code;
         private String type;
 
         //------------------------ GETTERS --------------------------
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -196,7 +198,7 @@ public class DumpCourtsView extends CollectionRepresentation<DumpCourtItem, Quer
 
         //------------------------ SETTERS --------------------------
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

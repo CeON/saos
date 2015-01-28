@@ -1,17 +1,19 @@
 package pl.edu.icm.saos.persistence.search.implementor;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
-import pl.edu.icm.saos.persistence.search.dto.SupremeCourtChamberSearchFilter;
-import pl.edu.icm.saos.persistence.search.result.SearchResult;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.search.dto.SupremeCourtChamberSearchFilter;
+import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
 /**
  * @author pavtel
@@ -35,7 +37,7 @@ public class SupremeCourtChamberJpqlSearchImplementator extends AbstractJpqlSear
 
     @Override
     protected void processResult(SearchResult<SupremeCourtChamber> searchResult, SupremeCourtChamberSearchFilter searchFilter) {
-        List<Integer> chambersIds = extractChambersIds(searchResult);
+        List<Long> chambersIds = extractChambersIds(searchResult);
 
         if(chambersIds.isEmpty()){
             return;
@@ -46,18 +48,18 @@ public class SupremeCourtChamberJpqlSearchImplementator extends AbstractJpqlSear
 
 
     //------------------------ PRIVATE --------------------------
-    private List<Integer> extractChambersIds(SearchResult<SupremeCourtChamber> searchResult) {
+    private List<Long> extractChambersIds(SearchResult<SupremeCourtChamber> searchResult) {
         return searchResult.getResultRecords().stream().map(result->result.getId()).collect(Collectors.toList());
     }
 
 
-    private void initializeSupremeCourtChamberDivisions(List<Integer> chambersIds) {
+    private void initializeSupremeCourtChamberDivisions(List<Long> chambersIds) {
         setIdsParameterAndExecuteQuery(" select chamber from " + SupremeCourtChamber.class.getName() + " chamber left join fetch chamber.divisions_ division where chamber.id in (:ids) ",
                 chambersIds);
     }
 
 
-    private void setIdsParameterAndExecuteQuery(String query, List<Integer> ids){
+    private void setIdsParameterAndExecuteQuery(String query, List<Long> ids){
         Query queryObject = entityManager.createQuery(query);
         queryObject.setParameter("ids", ids);
 

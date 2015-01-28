@@ -1,6 +1,45 @@
 package pl.edu.icm.saos.api.search.judgments;
 
 
+import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.hamcrest.Matchers.nullValue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.services.Constants.JUDGMENTS_PATH;
+import static pl.edu.icm.saos.api.services.Constants.SINGLE_COURTS_PATH;
+import static pl.edu.icm.saos.api.services.Constants.SINGLE_DIVISIONS_PATH;
+import static pl.edu.icm.saos.api.services.Constants.SINGLE_JUDGMENTS_PATH;
+import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CASE_NUMBER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_DAY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_MONTH;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_ROLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_JUDGMENT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_TEXT_CONTENT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_DATE_DAY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_DATE_MONTH;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_DATE_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_CHAMBER_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_PERSONNEL_TYPE;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.common.SolrInputDocument;
 import org.joda.time.LocalDate;
@@ -15,6 +54,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
@@ -26,23 +66,11 @@ import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
 import pl.edu.icm.saos.search.search.model.Sorting;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.hamcrest.Matchers.*;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.services.Constants.*;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
-import static pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
-import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
@@ -160,12 +188,12 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.items.[0].textContent").value(CC_TEXT_CONTENT))
 
                 .andExpect(jsonPath("$.items.[0].division.href").value(endsWith(SINGLE_DIVISIONS_PATH + "/" + testObjectContext.getCcFirstDivisionId())))
-                .andExpect(jsonPath("$.items.[0].division.id").value(testObjectContext.getCcFirstDivisionId()))
+                .andExpect(jsonPath("$.items.[0].division.id").value(equalsLong(testObjectContext.getCcFirstDivisionId())))
                 .andExpect(jsonPath("$.items.[0].division.name").value(CC_FIRST_DIVISION_NAME))
                 .andExpect(jsonPath("$.items.[0].division.code").value(CC_FIRST_DIVISION_CODE))
 
                 .andExpect(jsonPath("$.items.[0].division.court.href").value(endsWith(SINGLE_COURTS_PATH + "/" + testObjectContext.getCcCourtId())))
-                .andExpect(jsonPath("$.items.[0].division.court.id").value(testObjectContext.getCcCourtId()))
+                .andExpect(jsonPath("$.items.[0].division.court.id").value(equalsLong(testObjectContext.getCcCourtId())))
                 .andExpect(jsonPath("$.items.[0].division.court.name").value(CC_COURT_NAME))
                 .andExpect(jsonPath("$.items.[0].division.court.code").value(CC_COURT_CODE))
 
@@ -174,11 +202,11 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.items.[1].personnelType").value(SC_PERSONNEL_TYPE.name()))
 
                 .andExpect(jsonPath("$.items.[1].division.href").value(endsWith("/api/scDivisions/" + testObjectContext.getScFirstDivisionId())))
-                .andExpect(jsonPath("$.items.[1].division.id").value(testObjectContext.getScFirstDivisionId()))
+                .andExpect(jsonPath("$.items.[1].division.id").value(equalsLong(testObjectContext.getScFirstDivisionId())))
                 .andExpect(jsonPath("$.items.[1].division.name").value(SC_FIRST_DIVISION_NAME))
 
                 .andExpect(jsonPath("$.items.[1].division.chambers.[0].href").value(endsWith("/api/scChambers/" + testObjectContext.getScChamberId())))
-                .andExpect(jsonPath("$.items.[1].division.chambers.[0].id").value(testObjectContext.getScChamberId()))
+                .andExpect(jsonPath("$.items.[1].division.chambers.[0].id").value(equalsLong(testObjectContext.getScChamberId())))
                 .andExpect(jsonPath("$.items.[1].division.chambers.[0].name").value(SC_FIRST_CHAMBER_NAME))
 
         ;

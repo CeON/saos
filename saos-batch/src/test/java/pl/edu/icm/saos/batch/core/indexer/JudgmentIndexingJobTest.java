@@ -122,7 +122,7 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
     
     //------------------------ PRIVATE --------------------------
     
-    private SolrDocument fetchJudgmentDoc(int judgmentId) throws SolrServerException {
+    private SolrDocument fetchJudgmentDoc(long judgmentId) throws SolrServerException {
         SolrQuery query = new SolrQuery("databaseId:" + String.valueOf(judgmentId));
         QueryResponse response = solrJudgmentsServer.query(query);
         assertEquals(1, response.getResults().getNumFound());

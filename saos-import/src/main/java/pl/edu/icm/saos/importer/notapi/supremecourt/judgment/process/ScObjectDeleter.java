@@ -53,7 +53,7 @@ class ScObjectDeleter {
                                             " join judgment.scChambers_ jscChamber " +
                                             "  where scChamber.id = jscChamber.id)";
         @SuppressWarnings("unchecked")
-        List<Integer> scChamberIds = entityManager.createQuery(q).getResultList();
+        List<Long> scChamberIds = entityManager.createQuery(q).getResultList();
         
         scChamberIds.stream().forEach(scChamberRepository::delete);
         
@@ -75,7 +75,7 @@ class ScObjectDeleter {
                                         "  where scChamberDivision.id = judgment.scChamberDivision.id)";
     
         @SuppressWarnings("unchecked")
-        List<Integer> scChamberDivisionIds = entityManager.createQuery(q).getResultList();
+        List<Long> scChamberDivisionIds = entityManager.createQuery(q).getResultList();
         
         scChamberDivisionIds.stream().forEach(scChamberDivisionRepository::delete);
         
@@ -97,7 +97,7 @@ class ScObjectDeleter {
                                             " join judgment.scJudgmentForm scjForm2 " +
                                             "  where scjForm.id = scjForm2.id)";
         @SuppressWarnings("unchecked")
-        List<Integer> scjFormIds = entityManager.createQuery(q).getResultList();
+        List<Long> scjFormIds = entityManager.createQuery(q).getResultList();
         
         scjFormIds.stream().forEach(scJudgmentFormRepository::delete);
         

@@ -2,8 +2,8 @@ package pl.edu.icm.saos.search.search.service;
 
 import org.joda.time.LocalDate;
 
-import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
@@ -66,7 +66,7 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
-    public JudgmentCriteriaBuilder withCcCourtId(int courtId) {
+    public JudgmentCriteriaBuilder withCcCourtId(long courtId) {
         criteria.setCcCourtId(courtId);
         return this;
     }
@@ -81,7 +81,7 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
-    public JudgmentCriteriaBuilder withCcDivisionId(int divisionId) {
+    public JudgmentCriteriaBuilder withCcDivisionId(long divisionId) {
         criteria.setCcCourtDivisionId(divisionId);
         return this;
     }
@@ -106,7 +106,7 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
-    public JudgmentCriteriaBuilder withScChamberId(int chamberId) {
+    public JudgmentCriteriaBuilder withScChamberId(long chamberId) {
         criteria.setScCourtChamberId(chamberId);
         return this;
     }
@@ -116,7 +116,7 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
-    public JudgmentCriteriaBuilder withScChamberDivisionId(int chamberDivisionId) {
+    public JudgmentCriteriaBuilder withScChamberDivisionId(long chamberDivisionId) {
         criteria.setScCourtChamberDivisionId(chamberDivisionId);
         return this;
     }

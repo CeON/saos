@@ -1,5 +1,16 @@
 package pl.edu.icm.saos.api.dump.judgment;
 
+import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.iterableWithSize;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.services.Constants.DATE_FORMAT;
+import static pl.edu.icm.saos.api.services.Constants.DUMP_JUDGMENTS_PATH;
+import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +24,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
@@ -24,16 +36,6 @@ import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
-
-import static org.hamcrest.Matchers.emptyIterable;
-import static org.hamcrest.Matchers.iterableWithSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.services.Constants.DATE_FORMAT;
-import static pl.edu.icm.saos.api.services.Constants.DUMP_JUDGMENTS_PATH;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -92,7 +94,7 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
 
         String pathPrefix = "$.items.[0]";
         actions
-                .andExpect(jsonPath(pathPrefix + ".id").value(testObjectContext.getCcJudgmentId()))
+                .andExpect(jsonPath(pathPrefix + ".id").value(equalsLong(testObjectContext.getCcJudgmentId())))
                 .andExpect(jsonPath(pathPrefix + ".courtType").value(CourtType.COMMON.name()))
                 .andExpect(jsonPath(pathPrefix + ".courtCases").value(iterableWithSize(1)))
                 .andExpect(jsonPath(pathPrefix+".courtCases.[0].caseNumber").value(CC_CASE_NUMBER))
@@ -153,20 +155,20 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath(pathPrefix+".keywords.[0]").value(CC_FIRST_KEYWORD))
                 .andExpect(jsonPath(pathPrefix + ".keywords.[1]").value(CC_SECOND_KEYWORD))
 
-                .andExpect(jsonPath(pathPrefix + ".division.id").value(testObjectContext.getCcFirstDivisionId()))
+                .andExpect(jsonPath(pathPrefix + ".division.id").value(equalsLong(testObjectContext.getCcFirstDivisionId())))
         ;
 
 
         //supreme court  fields
         pathPrefix = "$.items.[1]";
         actions
-                .andExpect(jsonPath(pathPrefix + ".id").value(testObjectContext.getScJudgmentId()))
+                .andExpect(jsonPath(pathPrefix + ".id").value(equalsLong(testObjectContext.getScJudgmentId())))
                 .andExpect(jsonPath(pathPrefix + ".courtType").value(CourtType.SUPREME.name()))
                 .andExpect(jsonPath(pathPrefix + ".courtCases.[0].caseNumber").value(SC_CASE_NUMBER))
                 .andExpect(jsonPath(pathPrefix + ".personnelType").value(SC_PERSONNEL_TYPE.name()))
                 .andExpect(jsonPath(pathPrefix + ".form.name").value(SC_JUDGMENT_FORM_NAME))
-                .andExpect(jsonPath(pathPrefix + ".division.id").value(testObjectContext.getScFirstDivisionId()))
-                .andExpect(jsonPath(pathPrefix + ".chambers.[0].id").value(testObjectContext.getScFirstChamberId()))
+                .andExpect(jsonPath(pathPrefix + ".division.id").value(equalsLong(testObjectContext.getScFirstDivisionId())))
+                .andExpect(jsonPath(pathPrefix + ".chambers.[0].id").value(equalsLong(testObjectContext.getScFirstChamberId())))
 
                 .andExpect(jsonPath(pathPrefix + ".judgmentDate").value(SC_DATE_YEAR + "-" + SC_DATE_MONTH + "-" + SC_DATE_DAY))
 
@@ -222,7 +224,7 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
         //constitutional tribunal judgment fields
         pathPrefix = "$.items.[2]";
         actions
-                .andExpect(jsonPath(pathPrefix + ".id").value(testObjectContext.getCtJudgmentId()))
+                .andExpect(jsonPath(pathPrefix + ".id").value(equalsLong(testObjectContext.getCtJudgmentId())))
                 .andExpect(jsonPath(pathPrefix + ".courtType").value(CourtType.CONSTITUTIONAL_TRIBUNAL.name()))
                 .andExpect(jsonPath(pathPrefix + ".courtCases.[0].caseNumber").value(CT_CASE_NUMBER))
 

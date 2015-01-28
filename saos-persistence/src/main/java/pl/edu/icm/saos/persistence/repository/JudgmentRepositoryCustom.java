@@ -19,10 +19,10 @@ public interface JudgmentRepositoryCustom {
      * Finds {@link Judgment} with the given id ({@link Judgment#getId()}), initializes it (the whole tree)
      * and returns it.
      */
-    public <T extends Judgment> T findOneAndInitialize(int id);
+    public <T extends Judgment> T findOneAndInitialize(long id);
 
     /**
      * Deletes {@link Judgment}s with the given judgmentIds. 
      */
-    public void delete(List<Integer> judgmentIds);
+    public void delete(List<Long> judgmentIds);
 }

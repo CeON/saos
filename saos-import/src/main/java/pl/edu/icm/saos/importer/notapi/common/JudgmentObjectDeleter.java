@@ -45,7 +45,7 @@ public class JudgmentObjectDeleter {
                                         " where rJudgment.sourceId = judgment.sourceInfo.sourceJudgmentId)";
         
         @SuppressWarnings("unchecked")
-        List<Integer> judgmentIds = entityManager.createQuery(q).getResultList();
+        List<Long> judgmentIds = entityManager.createQuery(q).getResultList();
 
         if (!judgmentIds.isEmpty()) {
             judgmentRepository.delete(judgmentIds);

@@ -1,11 +1,12 @@
 package pl.edu.icm.saos.api.single.scchamber.views;
 
-import com.google.common.base.Objects;
-import pl.edu.icm.saos.api.services.representations.success.SingleElementRepresentation;
-
 import java.io.Serializable;
 import java.util.List;
-import static pl.edu.icm.saos.api.single.scchamber.views.ChamberView.Data;
+
+import pl.edu.icm.saos.api.services.representations.success.SingleElementRepresentation;
+import pl.edu.icm.saos.api.single.scchamber.views.ChamberView.Data;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamber SupremeCourtChamber's} view.
@@ -22,7 +23,7 @@ public class ChamberView extends SingleElementRepresentation<Data>{
     public static class Data implements Serializable {
         private static final long serialVersionUID = -7592137519490410182L;
 
-        private int id;
+        private long id;
         private String href;
         private String name;
         private List<Division> divisions;
@@ -41,7 +42,7 @@ public class ChamberView extends SingleElementRepresentation<Data>{
             return divisions;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -59,7 +60,7 @@ public class ChamberView extends SingleElementRepresentation<Data>{
             this.divisions = divisions;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -101,7 +102,7 @@ public class ChamberView extends SingleElementRepresentation<Data>{
     public static class Division implements Serializable {
         private static final long serialVersionUID = -8868206176270508350L;
 
-        private int id;
+        private long id;
         private String href;
         private String name;
 
@@ -115,7 +116,7 @@ public class ChamberView extends SingleElementRepresentation<Data>{
             return name;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -129,7 +130,7 @@ public class ChamberView extends SingleElementRepresentation<Data>{
             this.name = name;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

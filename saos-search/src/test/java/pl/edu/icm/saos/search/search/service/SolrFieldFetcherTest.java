@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.search.search.service;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.List;
@@ -35,13 +35,13 @@ public class SolrFieldFetcherTest {
     }
     
     @Test
-    public void fetchIntValue() {
+    public void fetchLongValue() {
         SolrDocument doc = new SolrDocument();
-        doc.addField("ccCourtId", 123);
+        doc.addField("ccCourtId", 123l);
         
-        Integer actual = fieldFetcher.fetchIntValue(doc, JudgmentIndexField.CC_COURT_ID);
+        Long actual = fieldFetcher.fetchLongValue(doc, JudgmentIndexField.CC_COURT_ID);
         
-        assertEquals(Integer.valueOf(123), actual);
+        assertEquals(123l, actual.longValue());
     }
     
     @Test

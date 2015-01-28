@@ -30,7 +30,7 @@ public class UploadEnrichmentTag extends AbstractEnrichmentTag {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_upload_enrichment_tag")
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 

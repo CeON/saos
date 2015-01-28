@@ -38,7 +38,7 @@ public class RawSourceScJudgmentRepositoryTest extends PersistenceTestSupport {
         RawSourceScJudgment rJudgment1 = createAndSaveSimpleRawSourceScJudgment(false);
         RawSourceScJudgment rJudgment2 = createAndSaveSimpleRawSourceScJudgment(true);
         
-        List<Integer> rJudgmentIds = rawSourceScJudgmentRepository.findAllNotProcessedIds();
+        List<Long> rJudgmentIds = rawSourceScJudgmentRepository.findAllNotProcessedIds();
         
         assertEquals(2, rJudgmentIds.size());
         
@@ -58,7 +58,7 @@ public class RawSourceScJudgmentRepositoryTest extends PersistenceTestSupport {
         createAndSaveSimpleRawSourceScJudgment(true);
         
         
-        List<Integer> rJudgmentIds = rawSourceScJudgmentRepository.findAllNotProcessedIds();
+        List<Long> rJudgmentIds = rawSourceScJudgmentRepository.findAllNotProcessedIds();
         
         assertEquals(0, rJudgmentIds.size());
         

@@ -65,7 +65,7 @@ public class JudgmentCorrectionBuilderTest {
         assertTrue(judgment == judgmentCorrection.getJudgment());
         assertEquals(ChangeOperation.UPDATE, judgmentCorrection.getChangeOperation());
         assertEquals(Judge.class, judgmentCorrection.getCorrectedObjectClass());
-        assertEquals(new Integer(judge.getId()), judgmentCorrection.getCorrectedObjectId());
+        assertEquals(judge.getId(), judgmentCorrection.getCorrectedObjectId().longValue());
         assertEquals(NAME, judgmentCorrection.getCorrectedProperty());
         assertEquals("Sędzia Anna Maria", judgmentCorrection.getOldValue());
         assertEquals("Anna Maria", judgmentCorrection.getNewValue());
@@ -104,7 +104,7 @@ public class JudgmentCorrectionBuilderTest {
         assertTrue(judgment == judgmentCorrection.getJudgment());
         assertEquals(ChangeOperation.CREATE, judgmentCorrection.getChangeOperation());
         assertEquals(Judge.class, judgmentCorrection.getCorrectedObjectClass());
-        assertEquals(new Integer(judge.getId()), judgmentCorrection.getCorrectedObjectId());
+        assertEquals(judge.getId(), judgmentCorrection.getCorrectedObjectId().longValue());
         assertNull(judgmentCorrection.getCorrectedProperty());
         assertEquals("Sędzia Anna Maria", judgmentCorrection.getOldValue());
         assertEquals("Anna Maria", judgmentCorrection.getNewValue());

@@ -1,12 +1,12 @@
 package pl.edu.icm.saos.api.single.division.views;
 
-import com.google.common.base.Objects;
-import pl.edu.icm.saos.api.services.representations.success.SingleElementRepresentation;
-
 import java.io.Serializable;
 
-import static pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
-import static pl.edu.icm.saos.api.single.division.views.DivisionView.Data;
+import pl.edu.icm.saos.api.services.representations.success.SingleElementRepresentation;
+import pl.edu.icm.saos.api.single.division.views.DivisionView.Data;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents {@link pl.edu.icm.saos.persistence.model.CommonCourtDivision CommonCourtDivision} view.
@@ -23,7 +23,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
     public static class Data implements Serializable {
         private static final long serialVersionUID = 4358135205423287209L;
 
-        private int id;
+        private long id;
         private String href;
         private String name;
         private String code;
@@ -52,7 +52,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             return court;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -78,7 +78,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             this.court = court;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -125,7 +125,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
 
         private static final long serialVersionUID = -6974656408477763411L;
 
-        private int id;
+        private long id;
         private String href;
         private String name;
         private CommonCourtType type;
@@ -154,7 +154,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             return parentCourt;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -180,7 +180,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             this.parentCourt = parentCourt;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -227,7 +227,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
 
         private static final long serialVersionUID = 7030390092398444565L;
 
-        private int id;
+        private long id;
         private String href;
 
         //------------------------ GETTERS --------------------------
@@ -236,7 +236,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             return href;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -246,7 +246,7 @@ public class DivisionView extends SingleElementRepresentation<Data>{
             this.href = href;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

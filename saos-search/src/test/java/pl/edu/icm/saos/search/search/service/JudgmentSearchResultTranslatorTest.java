@@ -48,7 +48,7 @@ public class JudgmentSearchResultTranslatorTest {
         SolrDocument doc = new SolrDocument();
         
         doc.addField("id", "ID");
-        doc.addField("databaseId", 1);
+        doc.addField("databaseId", 1l);
         doc.addField("content", "some content");
         doc.addField("caseNumber", "AAAB1A");
         
@@ -92,22 +92,22 @@ public class JudgmentSearchResultTranslatorTest {
     @Test
     public void translateSingle_COMMON_COURT() {
         SolrDocument doc = new SolrDocument();
-        doc.addField("databaseId", 1);
+        doc.addField("databaseId", 1l);
         
-        doc.addField("ccCourtId", 123);
+        doc.addField("ccCourtId", 123l);
         doc.addField("ccCourtCode", "15200000");
         doc.addField("ccCourtName", "Sąd Apelacyjny w Krakowie");
-        doc.addField("ccCourtDivisionId", 816);
+        doc.addField("ccCourtDivisionId", 816l);
         doc.addField("ccCourtDivisionCode", "0000503");
         doc.addField("ccCourtDivisionName", "I Wydział Cywilny");
         
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         
-        assertEquals(Integer.valueOf(123), result.getCcCourtId());
+        assertEquals(123l, result.getCcCourtId().longValue());
         assertEquals("15200000", result.getCcCourtCode());
         assertEquals("Sąd Apelacyjny w Krakowie", result.getCcCourtName());
 
-        assertEquals(Integer.valueOf(816), result.getCcCourtDivisionId());
+        assertEquals(816l, result.getCcCourtDivisionId().longValue());
         assertEquals("0000503", result.getCcCourtDivisionCode());
         assertEquals("I Wydział Cywilny", result.getCcCourtDivisionName());
     }
@@ -115,15 +115,15 @@ public class JudgmentSearchResultTranslatorTest {
     @Test
     public void translateSingle_SUPREME_COURT() {
         SolrDocument doc = new SolrDocument();
-        doc.addField("databaseId", 1);
+        doc.addField("databaseId", 1l);
         
         doc.addField("scJudgmentForm", "wyrok SN");
         doc.addField("scPersonnelType", PersonnelType.JOINED_CHAMBERS.name());
         doc.addField("scCourtChamber", "11|Izba Cywilna");
         doc.addField("scCourtChamber", "12|Izba Pracy");
-        doc.addField("scCourtChamberDivisionId", 111);
+        doc.addField("scCourtChamberDivisionId", 111l);
         doc.addField("scCourtChamberDivisionName", "Wydział III");
-        doc.addField("scCourtDivisionsChamberId", 11);
+        doc.addField("scCourtDivisionsChamberId", 11l);
         doc.addField("scCourtDivisionsChamberName", "Izba Cywilna");
         
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
@@ -133,9 +133,9 @@ public class JudgmentSearchResultTranslatorTest {
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));
         assertEquals(2, result.getScCourtChambers().size());
-        assertEquals(Integer.valueOf(111), result.getScCourtDivisionId());
+        assertEquals(111l, result.getScCourtDivisionId().longValue());
         assertEquals("Wydział III", result.getScCourtDivisionName());
-        assertEquals(Integer.valueOf(11), result.getScCourtDivisionsChamberId());
+        assertEquals(11l, result.getScCourtDivisionsChamberId().longValue());
         assertEquals("Izba Cywilna", result.getScCourtDivisionsChamberName());
     }
     
@@ -143,7 +143,7 @@ public class JudgmentSearchResultTranslatorTest {
     public void translateSingle_SUPREME_COURT_defective_court_chamber() {
     	SolrDocument doc = new SolrDocument();
     	
-    	doc.addField("databaseId", 1);
+    	doc.addField("databaseId", 1l);
         doc.addField("scCourtChamber", "11");
     	
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);

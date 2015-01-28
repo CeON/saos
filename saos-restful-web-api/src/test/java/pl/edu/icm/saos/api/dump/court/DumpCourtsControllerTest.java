@@ -1,6 +1,24 @@
 package pl.edu.icm.saos.api.dump.court;
 
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+import static pl.edu.icm.saos.api.services.Constants.DUMP_COURTS_PATH;
+import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_TYPE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_DIVISION_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_DIVISION_TYPE_NAME;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -11,6 +29,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
@@ -19,15 +38,6 @@ import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
-import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
-import static pl.edu.icm.saos.api.services.Constants.DUMP_COURTS_PATH;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
@@ -80,21 +90,21 @@ public class DumpCourtsControllerTest extends PersistenceTestSupport {
         String pathPrefix = "$.items.[0]";
 
         actions
-                .andExpect(jsonPath(pathPrefix+".id").value(testObjectContext.getCcCourtId()))
+                .andExpect(jsonPath(pathPrefix+".id").value(equalsLong(testObjectContext.getCcCourtId())))
                 .andExpect(jsonPath(pathPrefix + ".code").value(CC_COURT_CODE))
                 .andExpect(jsonPath(pathPrefix + ".name").value(CC_COURT_NAME))
                 .andExpect(jsonPath(pathPrefix + ".type").value(CC_COURT_TYPE.name()))
 
-                .andExpect(jsonPath(pathPrefix + ".parentCourt.id").value(testObjectContext.getCcCourtParentId()))
+                .andExpect(jsonPath(pathPrefix + ".parentCourt.id").value(equalsLong(testObjectContext.getCcCourtParentId())))
 
                 .andExpect(jsonPath(pathPrefix + ".divisions").isArray())
 
-                .andExpect(jsonPath(pathPrefix + ".divisions.[0].id").value(testObjectContext.getCcFirstDivisionId()))
+                .andExpect(jsonPath(pathPrefix + ".divisions.[0].id").value(equalsLong(testObjectContext.getCcFirstDivisionId())))
                 .andExpect(jsonPath(pathPrefix + ".divisions.[0].name").value(CC_FIRST_DIVISION_NAME))
                 .andExpect(jsonPath(pathPrefix + ".divisions.[0].code").value(CC_FIRST_DIVISION_CODE))
                 .andExpect(jsonPath(pathPrefix + ".divisions.[0].type").value(CC_FIRST_DIVISION_TYPE_NAME))
 
-                .andExpect(jsonPath(pathPrefix + ".divisions.[1].id").value(testObjectContext.getCcSecondDivisionId()))
+                .andExpect(jsonPath(pathPrefix + ".divisions.[1].id").value(equalsLong(testObjectContext.getCcSecondDivisionId())))
                 .andExpect(jsonPath(pathPrefix + ".divisions.[1].name").value(CC_SECOND_DIVISION_NAME))
                 .andExpect(jsonPath(pathPrefix + ".divisions.[1].code").value(CC_SECOND_DIVISION_CODE))
                 .andExpect(jsonPath(pathPrefix + ".divisions.[1].type").value(CC_SECOND_DIVISION_TYPE_NAME))

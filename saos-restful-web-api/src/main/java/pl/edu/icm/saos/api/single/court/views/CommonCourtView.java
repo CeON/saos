@@ -1,13 +1,13 @@
 package pl.edu.icm.saos.api.single.court.views;
 
-import com.google.common.base.Objects;
-import pl.edu.icm.saos.api.services.representations.success.SingleElementRepresentation;
-
 import java.io.Serializable;
 import java.util.List;
 
-import static pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
-import static pl.edu.icm.saos.api.single.court.views.CommonCourtView.Data;
+import pl.edu.icm.saos.api.services.representations.success.SingleElementRepresentation;
+import pl.edu.icm.saos.api.single.court.views.CommonCourtView.Data;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents {@link pl.edu.icm.saos.persistence.model.CommonCourt CommonCourt} view.
@@ -24,7 +24,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
 
         private static final long serialVersionUID = -4574495269995004724L;
 
-        private int id;
+        private long id;
         private String href;
         private String name;
         private String code;
@@ -59,7 +59,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
             return divisions;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -89,7 +89,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
             this.divisions = divisions;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -138,7 +138,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
 
         private static final long serialVersionUID = 94472416729120415L;
 
-        private int id;
+        private long id;
         private String href;
 
         //------------------------ GETTERS --------------------------
@@ -147,7 +147,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
             return href;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -157,7 +157,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
             this.href = href;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -195,7 +195,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
     public static class Division implements Serializable {
         private static final long serialVersionUID = 3020882061218701135L;
 
-        private int id;
+        private long id;
         private String href;
         private String name;
 
@@ -209,7 +209,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
             return name;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -223,7 +223,7 @@ public class CommonCourtView extends SingleElementRepresentation<Data>{
             this.name = name;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

@@ -34,7 +34,7 @@ public final class TestInMemoryUploadEnrichmentTagFactory {
         return uploadEnrichmentTag;
     }
     
-    public static UploadEnrichmentTag createUploadEnrichmentTag(String enrichmentTagType, String enrichmentTagValue, int judgmentId, DateTime creationDate) {
+    public static UploadEnrichmentTag createUploadEnrichmentTag(String enrichmentTagType, String enrichmentTagValue, long judgmentId, DateTime creationDate) {
         UploadEnrichmentTag uploadEnrichmentTag = createUploadEnrichmentTag(enrichmentTagType, enrichmentTagValue);
         uploadEnrichmentTag.setJudgmentId(judgmentId);
         Whitebox.setInternalState(uploadEnrichmentTag, "creationDate", creationDate);

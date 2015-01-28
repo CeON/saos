@@ -190,7 +190,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     
     //------------------------ PRIVATE --------------------------
     
-    private SolrDocument fetchJudgmentDoc(int judgmentId) throws SolrServerException {
+    private SolrDocument fetchJudgmentDoc(long judgmentId) throws SolrServerException {
         SolrQuery query = new SolrQuery("databaseId:" + String.valueOf(judgmentId));
         QueryResponse response = solrJudgmentsServer.query(query);
         assertEquals(1, response.getResults().getNumFound());
@@ -214,7 +214,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     }
     
     
-    private void applyCcChanges(int ccJudgmentId) {
+    private void applyCcChanges(long ccJudgmentId) {
         CommonCourtJudgment ccJudgment = judgmentRepository.findOneAndInitialize(ccJudgmentId);
         
         applyJudgmentChanges(ccJudgment);
@@ -228,7 +228,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         judgmentRepository.save(ccJudgment);
     }
     
-    private void applyScChanges(int scJudgmentId) {
+    private void applyScChanges(long scJudgmentId) {
         SupremeCourtJudgment scJudgment = judgmentRepository.findOneAndInitialize(scJudgmentId);
         
         applyJudgmentChanges(scJudgment);
@@ -246,13 +246,13 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     
 
     
-    private void applyCtChanges(int ctJudgmentId) {
+    private void applyCtChanges(long ctJudgmentId) {
         ConstitutionalTribunalJudgment ctJudgment = judgmentRepository.findOneAndInitialize(ctJudgmentId);
         applyJudgmentChanges(ctJudgment);
         judgmentRepository.save(ctJudgment);
     }
     
-    private void applyNacChanges(int nacJudgmentId) {
+    private void applyNacChanges(long nacJudgmentId) {
         NationalAppealChamberJudgment nacJudgment = judgmentRepository.findOneAndInitialize(nacJudgmentId);
         applyJudgmentChanges(nacJudgment);
         judgmentRepository.save(nacJudgment);

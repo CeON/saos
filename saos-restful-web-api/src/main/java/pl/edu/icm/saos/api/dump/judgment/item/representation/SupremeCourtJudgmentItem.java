@@ -145,17 +145,17 @@ public class SupremeCourtJudgmentItem extends JudgmentItem {
     public static class Division implements Serializable {
         private static final long serialVersionUID = -8072032289200165385L;
 
-        private int id;
+        private long id;
 
         //------------------------ GETTERS --------------------------
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
         //------------------------ SETTERS --------------------------
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -191,18 +191,18 @@ public class SupremeCourtJudgmentItem extends JudgmentItem {
     public static class Chamber implements Serializable {
         private static final long serialVersionUID = 2779757607973920820L;
 
-        private int id;
+        private long id;
 
         //------------------------ GETTERS --------------------------
 
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
         //------------------------ SETTERS --------------------------
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

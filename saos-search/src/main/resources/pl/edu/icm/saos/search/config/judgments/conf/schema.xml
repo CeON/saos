@@ -60,7 +60,7 @@
    <field name="_version_" type="long" indexed="true" stored="true"/>
    
 
-   <field name="databaseId" type="int" indexed="true" stored="true" required="true" multiValued="false" />
+   <field name="databaseId" type="long" indexed="true" stored="true" required="true" multiValued="false" />
    <field name="caseNumber" type="text_keyword" indexed="true" stored="true" multiValued="true" />
    
    <field name="title" type="text_general" indexed="true" stored="true"/>
@@ -73,21 +73,21 @@
    <field name="courtType" type="string" indexed="true" stored="true" multiValued="true" />
    
    <field name="ccCourtType" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="ccCourtId" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="ccCourtId" type="long" indexed="true" stored="true" multiValued="false" />
    <field name="ccCourtCode" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="ccCourtName" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="ccCourtDivisionId" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="ccCourtDivisionId" type="long" indexed="true" stored="true" multiValued="false" />
    <field name="ccCourtDivisionCode" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="ccCourtDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
    
    <field name="scJudgmentForm" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="scPersonnelType" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="scCourtChamber" type="string" indexed="false" stored="true" multiValued="true" />
-   <field name="scCourtChamberId" type="int" indexed="true" stored="true" multiValued="true" />
+   <field name="scCourtChamberId" type="long" indexed="true" stored="true" multiValued="true" />
    <field name="scCourtChamberName" type="string" indexed="true" stored="true" multiValued="true" />
-   <field name="scCourtChamberDivisionId" type="int" indexed="true" stored="true" multiValued="false" />
+   <field name="scCourtChamberDivisionId" type="long" indexed="true" stored="true" multiValued="false" />
    <field name="scCourtChamberDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
-   <field name="scCourtDivisionsChamberId" type="int" indexed="false" stored="true" multiValued="false" />
+   <field name="scCourtDivisionsChamberId" type="long" indexed="false" stored="true" multiValued="false" />
    <field name="scCourtDivisionsChamberName" type="string" indexed="false" stored="true" multiValued="false" />
    
    <field name="judge" type="string" indexed="false" stored="true" multiValued="true" />

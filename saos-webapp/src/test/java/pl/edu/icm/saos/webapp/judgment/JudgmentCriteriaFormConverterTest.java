@@ -1,26 +1,19 @@
 package pl.edu.icm.saos.webapp.judgment;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
-import java.util.HashSet;
-
-import groovy.transform.builder.InitializerStrategy.SET;
-
+import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
-
-import org.hamcrest.Matchers;
-
-import static org.hamcrest.MatcherAssert.assertThat;
+import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
 /**
  * @author Łukasz Pawełczak
@@ -89,13 +82,13 @@ public class JudgmentCriteriaFormConverterTest {
 		
 		judgmentCriteriaForm.setCourtType(CourtType.COMMON);
 
-		judgmentCriteriaForm.setCommonCourtId(12);
-		judgmentCriteriaForm.setCommonCourtDivisionId(15);
+		judgmentCriteriaForm.setCommonCourtId(12l);
+		judgmentCriteriaForm.setCommonCourtDivisionId(15l);
 		
 		judgmentCriteriaForm.setScPersonnelType(PersonnelType.FIVE_PERSON);
 		judgmentCriteriaForm.setScJudgmentForm("wyrok SN");
-		judgmentCriteriaForm.setSupremeChamberId(13);
-		judgmentCriteriaForm.setSupremeChamberDivisionId(14);
+		judgmentCriteriaForm.setSupremeChamberId(13l);
+		judgmentCriteriaForm.setSupremeChamberDivisionId(14l);
 		
 		judgmentCriteriaForm.setJudgeName("Judge Dredd");
 		judgmentCriteriaForm.setKeywords(Lists.newArrayList("very important keyword"));

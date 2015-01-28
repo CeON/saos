@@ -1,9 +1,10 @@
 package pl.edu.icm.saos.api.single.judgment.data.representation;
 
-import com.google.common.base.Objects;
+import java.io.Serializable;
+
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 
-import java.io.Serializable;
+import com.google.common.base.Objects;
 
 /**
  * Represents {@link pl.edu.icm.saos.persistence.model.CommonCourtJudgment CommonCourtJudgment} fields.
@@ -66,7 +67,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
     public static class Division implements Serializable {
         private static final long serialVersionUID = -4459795985457420810L;
 
-        private int id;
+        private long id;
         private String name;
         private String href;
         private String code;
@@ -95,7 +96,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
             return href;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -121,7 +122,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
             this.href = href;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 
@@ -170,7 +171,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
         private static final long serialVersionUID = 6190992824642185703L;
 
         private String href;
-        private int id;
+        private long id;
         private String name;
         private String code;
         private CommonCourtType type;
@@ -193,7 +194,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
             return href;
         }
 
-        public int getId() {
+        public long getId() {
             return id;
         }
 
@@ -215,7 +216,7 @@ public class CommonCourtJudgmentData extends JudgmentData {
             this.href = href;
         }
 
-        public void setId(int id) {
+        public void setId(long id) {
             this.id = id;
         }
 

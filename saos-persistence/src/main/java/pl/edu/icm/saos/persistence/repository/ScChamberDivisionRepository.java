@@ -10,11 +10,11 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
  * @author Łukasz Dumiszewski
  */
 
-public interface ScChamberDivisionRepository extends JpaRepository<SupremeCourtChamberDivision, Integer> {
+public interface ScChamberDivisionRepository extends JpaRepository<SupremeCourtChamberDivision, Long> {
 
     
     SupremeCourtChamberDivision findOneByFullName(String fullName);
 
-    List<SupremeCourtChamberDivision> findAllByScChamberId(int chamberId);
+    List<SupremeCourtChamberDivision> findAllByScChamberId(long chamberId);
 
 }

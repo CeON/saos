@@ -14,7 +14,7 @@ import pl.edu.icm.saos.persistence.enrichment.model.UploadEnrichmentTag;
  * @author Łukasz Dumiszewski
  */
 
-public interface UploadEnrichmentTagRepository extends JpaRepository<UploadEnrichmentTag, Integer> {
+public interface UploadEnrichmentTagRepository extends JpaRepository<UploadEnrichmentTag, Long> {
 
     @Query("select max(creationDate) from #{#entityName}")
     public DateTime findMaxCreationDate();

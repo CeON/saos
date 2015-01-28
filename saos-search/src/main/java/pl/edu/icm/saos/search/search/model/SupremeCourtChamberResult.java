@@ -1,15 +1,23 @@
 package pl.edu.icm.saos.search.search.model;
 
+import java.util.Objects;
+
+
 /**
  * Supreme court chamber search result
  * @author madryk
  */
 public class SupremeCourtChamberResult {
 
-    private int id;
+    private long id;
     private String name;
     
-    public SupremeCourtChamberResult(int id, String name) {
+    
+    
+    //------------------------ CONSTRUCTORS --------------------------
+    
+    
+    public SupremeCourtChamberResult(long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -17,7 +25,7 @@ public class SupremeCourtChamberResult {
     
     //------------------------ GETTERS --------------------------
     
-    public int getId() {
+    public long getId() {
         return id;
     }
     public String getName() {
@@ -29,36 +37,24 @@ public class SupremeCourtChamberResult {
     
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + id;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
-        return result;
+        return Objects.hash(id, name);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
         if (obj == null) {
             return false;
-        }
-        if (!(obj instanceof SupremeCourtChamberResult)) {
+         }
+         
+         if (getClass() != obj.getClass()) {
             return false;
-        }
-        SupremeCourtChamberResult other = (SupremeCourtChamberResult) obj;
-        if (id != other.id) {
-            return false;
-        }
-        if (name == null) {
-            if (other.name != null) {
-                return false;
-            }
-        } else if (!name.equals(other.name)) {
-            return false;
-        }
-        return true;
+         }
+         
+         final SupremeCourtChamberResult other = (SupremeCourtChamberResult) obj;
+         
+         return Objects.equals(this.id, other.id)
+                 && Objects.equals(this.name, other.name);
+
     }
     
     

@@ -24,7 +24,7 @@ public class CcListController {
 	
 	@RequestMapping("cc/courts/{commonCourtId}/courtDivisions/list")
 	@ResponseBody
-	public List<SimpleDivision> listCourtDivisions(@PathVariable("commonCourtId") int commonCourtId) {
+	public List<SimpleDivision> listCourtDivisions(@PathVariable("commonCourtId") long commonCourtId) {
 		return ccListService.findCcDivisions(commonCourtId);
 	}
 

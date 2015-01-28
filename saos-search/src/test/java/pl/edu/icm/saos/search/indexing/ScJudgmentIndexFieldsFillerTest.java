@@ -1,24 +1,26 @@
 package pl.edu.icm.saos.search.indexing;
 
-import com.google.common.collect.Lists;
-import com.tngtech.java.junit.dataprovider.DataProvider;
-import com.tngtech.java.junit.dataprovider.DataProviderRunner;
-import com.tngtech.java.junit.dataprovider.UseDataProvider;
+import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
+
+import java.util.List;
+
 import org.apache.solr.common.SolrInputDocument;
 import org.apache.solr.common.SolrInputField;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.reflect.Whitebox;
+
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
-import java.util.List;
-
-import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
+import com.google.common.collect.Lists;
+import com.tngtech.java.junit.dataprovider.DataProvider;
+import com.tngtech.java.junit.dataprovider.DataProviderRunner;
+import com.tngtech.java.junit.dataprovider.UseDataProvider;
 
 /**
  * @author madryk
@@ -35,7 +37,7 @@ public class ScJudgmentIndexFieldsFillerTest {
         SolrInputFieldFactory fieldFactory = new SolrInputFieldFactory();
         //constants
         final String textContent = "some content";
-        final int scJudgmentId = 1;
+        final long scJudgmentId = 1;
         final PersonnelType personnelType = PersonnelType.THREE_PERSON;
 
 
@@ -81,11 +83,11 @@ public class ScJudgmentIndexFieldsFillerTest {
         List<SolrInputField> chambersFields = Lists.newArrayList(
                 fieldFactory.create("courtType", "SUPREME"),
                 fieldFactory.create("scCourtChamber", "11|ABC", "12|DEF"),
-                fieldFactory.create("scCourtChamberId", 11, 12),
+                fieldFactory.create("scCourtChamberId", 11l, 12l),
                 fieldFactory.create("scCourtChamberName", "ABC", "DEF"),
-                fieldFactory.create("scCourtChamberDivisionId", 111),
+                fieldFactory.create("scCourtChamberDivisionId", 111l),
                 fieldFactory.create("scCourtChamberDivisionName", "GHI"),
-                fieldFactory.create("scCourtDivisionsChamberId", 11),
+                fieldFactory.create("scCourtDivisionsChamberId", 11l),
                 fieldFactory.create("scCourtDivisionsChamberName", "ABC")
         );
         

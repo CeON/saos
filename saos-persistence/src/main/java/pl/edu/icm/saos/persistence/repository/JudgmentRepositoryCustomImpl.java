@@ -32,7 +32,7 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
     
     @Override
     @Transactional
-    public <T extends Judgment> T findOneAndInitialize(int id) {
+    public <T extends Judgment> T findOneAndInitialize(long id) {
         Judgment judgment = entityManager.find(Judgment.class, id);
         
         if (judgment != null) {
@@ -47,7 +47,7 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
 
     @Override
     @Transactional
-    public void delete(List<Integer> judgmentIds) {
+    public void delete(List<Long> judgmentIds) {
         
         deleteJudgmentAttributes(JudgmentCorrection.class, judgmentIds);
         
@@ -73,23 +73,23 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
     
     //------------------------ PRIVATE --------------------------
     
-    private void deleteJudgmentAttributes(Class<?> judgmentAttrClass, List<Integer> judgmentIds) {
+    private void deleteJudgmentAttributes(Class<?> judgmentAttrClass, List<Long> judgmentIds) {
         Query q = entityManager.createQuery("delete from " + judgmentAttrClass.getName() + " a where a.judgment.id in (:judgmentIds)").setParameter("judgmentIds", judgmentIds);
         q.executeUpdate();
     }
     
-    private void deleteJudgmentAttributesSql(String tableName, List<Integer> judgmentIds) {
+    private void deleteJudgmentAttributesSql(String tableName, List<Long> judgmentIds) {
         Query q = entityManager.createNativeQuery("delete from " + tableName + " where fk_judgment in (:judgmentIds)").setParameter("judgmentIds", judgmentIds);
         q.executeUpdate();
     }
     
-    private void deleteJudgeRoles(List<Integer> judgmentIds) {
+    private void deleteJudgeRoles(List<Long> judgmentIds) {
         Query q = entityManager.createNativeQuery("delete from judge_role jr where fk_judge in (select id from judge where fk_judgment in (:judgmentIds))"); 
         q.setParameter("judgmentIds", judgmentIds);
         q.executeUpdate();
     }
     
-    private void deleteJudgments(List<Integer> judgmentIds) {
+    private void deleteJudgments(List<Long> judgmentIds) {
         Query q = entityManager.createQuery("delete from " + Judgment.class.getName() + " j where j.id in (:judgmentIds)").setParameter("judgmentIds", judgmentIds);
         q.executeUpdate();
     }

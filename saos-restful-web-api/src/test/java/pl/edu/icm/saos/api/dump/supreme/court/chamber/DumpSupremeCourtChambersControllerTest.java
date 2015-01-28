@@ -1,5 +1,16 @@
 package pl.edu.icm.saos.api.dump.supreme.court.chamber;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_CHAMBER_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_DIVISION_FULL_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_DIVISION_NAME;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -10,6 +21,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
@@ -18,14 +30,6 @@ import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
-import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
@@ -78,12 +82,12 @@ public class DumpSupremeCourtChambersControllerTest extends PersistenceTestSuppo
         String pathPrefix = "$.items.[0]";
 
         actions
-                .andExpect(jsonPath(pathPrefix + ".id").value(testObjectContext.getScChamberId()))
+                .andExpect(jsonPath(pathPrefix + ".id").value(equalsLong(testObjectContext.getScChamberId())))
                 .andExpect(jsonPath(pathPrefix + ".name").value(SC_CHAMBER_NAME))
 
                 .andExpect(jsonPath(pathPrefix + ".divisions").isArray())
 
-                .andExpect(jsonPath(pathPrefix + ".divisions.[0].id").value(testObjectContext.getScFirstDivisionId()))
+                .andExpect(jsonPath(pathPrefix + ".divisions.[0].id").value(equalsLong(testObjectContext.getScFirstDivisionId())))
                 .andExpect(jsonPath(pathPrefix + ".divisions.[0].name").value(SC_FIRST_DIVISION_NAME))
                 .andExpect(jsonPath(pathPrefix + ".divisions.[0].fullName").value(SC_FIRST_DIVISION_FULL_NAME))
         ;

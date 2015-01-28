@@ -27,23 +27,22 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
     private JudgmentRepository judgmentRepository;
     
     
-    private volatile Queue<Integer> judgmentIds = Lists.newLinkedList();
+    private volatile Queue<Long> judgmentIds = Lists.newLinkedList();
     
     
     //------------------------ LOGIC --------------------------
     
     @Override
-    public void open(ExecutionContext executionContext)
-            throws ItemStreamException {
-        judgmentIds = new ConcurrentLinkedQueue<Integer>(judgmentRepository.findAllNotIndexedIds());
+    public void open(ExecutionContext executionContext) throws ItemStreamException {
+        
+        judgmentIds = new ConcurrentLinkedQueue<Long>(judgmentRepository.findAllNotIndexedIds());
+    
     }
 
     @Override
-    public Judgment read() throws Exception,
-            UnexpectedInputException, ParseException,
-            NonTransientResourceException {
+    public Judgment read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         
-        Integer id = judgmentIds.poll();
+        Long id = judgmentIds.poll();
         
         if (id == null) {
             return null;

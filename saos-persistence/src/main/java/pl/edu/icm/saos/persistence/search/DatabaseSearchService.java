@@ -23,5 +23,5 @@ public interface DatabaseSearchService {
     /**
      * Returns the number of all records that met the criteria specified in searchFilter 
      */
-    public <T extends SearchFilter> int count(T searchFilter);
+    public <T extends SearchFilter> long count(T searchFilter);
 }

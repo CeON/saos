@@ -302,7 +302,7 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
         String jsonValue2 = normalizeJson("{'caseNumbers':['YYY','xx-345']}");
         String jsonValue3 = normalizeJson("{'caseNumbers':['YYY','xx-345','YYY-2222']}");
 
-        int nonExistingJudgmentId = scJudgment.getId() + ccJudgment.getId();
+        long nonExistingJudgmentId = scJudgment.getId() + ccJudgment.getId();
 
         // execute
 
@@ -355,12 +355,12 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
         return mvc.perform(put(URL).header("Authorization", basicAuth).contentType(MediaType.APPLICATION_JSON).content(content.getBytes()));
     }
 
-    private String createJsonTag(int judgmentId, String tagType, String jsonValue) {
+    private String createJsonTag(long judgmentId, String tagType, String jsonValue) {
         String jsonTag = "{'judgmentId':'" + judgmentId + "'," + " 'tagType':'" + tagType + "'," + " 'value':" + jsonValue + "}";
         return normalizeJson(jsonTag);
     }
 
-    private EnrichmentTag createEnrichmentTag(int judgmentId, String tagType, String tagValue) {
+    private EnrichmentTag createEnrichmentTag(long judgmentId, String tagType, String tagValue) {
         EnrichmentTag enrichmentTag = new EnrichmentTag();
         enrichmentTag.setJudgmentId(judgmentId);
         enrichmentTag.setTagType(tagType);

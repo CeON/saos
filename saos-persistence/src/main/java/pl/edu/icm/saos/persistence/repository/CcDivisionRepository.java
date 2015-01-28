@@ -9,9 +9,9 @@ import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 /**
  * @author Łukasz Dumiszewski
  */
-public interface CcDivisionRepository extends JpaRepository<CommonCourtDivision, Integer> { 
+public interface CcDivisionRepository extends JpaRepository<CommonCourtDivision, Long> { 
 
-    CommonCourtDivision findOneByCourtIdAndCode(int courtId, String code);
+    CommonCourtDivision findOneByCourtIdAndCode(long courtId, String code);
     
-    List<CommonCourtDivision> findAllByCourtId(int courtId);
+    List<CommonCourtDivision> findAllByCourtId(long courtId);
 }

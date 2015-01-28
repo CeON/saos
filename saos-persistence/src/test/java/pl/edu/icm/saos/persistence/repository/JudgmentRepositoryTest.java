@@ -256,7 +256,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         Judgment secondJudgment = createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
         Judgment thirdJudgment = createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
         
-        List<Integer> notIndexed = judgmentRepository.findAllNotIndexedIds();
+        List<Long> notIndexed = judgmentRepository.findAllNotIndexedIds();
         
         assertThat(notIndexed, containsInAnyOrder(firstJudgment.getId(), secondJudgment.getId(), thirdJudgment.getId()));
     }
@@ -267,7 +267,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         judgment.markAsIndexed();
         judgmentRepository.save(judgment);
         
-        List<Integer> notIndexed = judgmentRepository.findAllNotIndexedIds();
+        List<Long> notIndexed = judgmentRepository.findAllNotIndexedIds();
         
         assertEquals(0, notIndexed.size());
     }

@@ -1,9 +1,9 @@
 package pl.edu.icm.saos.persistence.search.dto;
 
 
-import pl.edu.icm.saos.persistence.common.DataObject;
-
 import java.lang.reflect.ParameterizedType;
+
+import pl.edu.icm.saos.persistence.common.DataObject;
 
 /**
  * Abstract base class for database search filters.
@@ -46,16 +46,16 @@ public abstract class DatabaseSearchFilter<D extends DataObject> extends SearchF
         this.initialize = initialize;
     }
 
-    private Integer idFrom;
+    private Long idFrom;
 
     /**
      * @return the minimum object id to query
      */
-    public Integer getIdFrom() {
+    public Long getIdFrom() {
         return idFrom;
     }
 
-    void setIdFrom(Integer idFrom) {
+    void setIdFrom(Long idFrom) {
         this.idFrom = idFrom;
     }
 
@@ -70,7 +70,7 @@ public abstract class DatabaseSearchFilter<D extends DataObject> extends SearchF
          * @param idFrom the minimum object id to query
          * @return this builder
          */
-        public B idFrom(int idFrom) {
+        public B idFrom(long idFrom) {
             instance.setIdFrom(idFrom);
             return self();
         }

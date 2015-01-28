@@ -1,22 +1,26 @@
 package pl.edu.icm.saos.api.search.judgments.views;
 
-import com.google.common.base.Objects;
-import pl.edu.icm.saos.api.search.judgments.item.representation.SearchJudgmentItem;
-import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
-import pl.edu.icm.saos.api.services.representations.success.template.*;
-import pl.edu.icm.saos.persistence.model.CourtType;
-import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
-import pl.edu.icm.saos.search.search.model.Sorting;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-import static pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.Info;
-import static pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.QueryTemplate;
-import static pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
-import static pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
-import static pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+import pl.edu.icm.saos.api.search.judgments.item.representation.SearchJudgmentItem;
+import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.Info;
+import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.QueryTemplate;
+import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
+import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateFromTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateToTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.QueryParameterRepresentation;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+import pl.edu.icm.saos.search.search.model.Sorting;
+
+import com.google.common.base.Objects;
 /**
  * @author pavtel
  */
@@ -43,18 +47,18 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
         private CourtTypeTemplate courtType;
 
         private CommonCourtTypeTemplate ccCourtType;
-        private Integer ccCourtId;
+        private Long ccCourtId;
         private String ccCourtCode;
         private String ccCourtName;
 
-        private Integer ccDivisionId;
+        private Long ccDivisionId;
         private String ccDivisionCode;
         private String ccDivisionName;
 
         private PersonnelTypeTemplate scPersonnelType;
-        private Integer scChamberId;
+        private Long scChamberId;
         private String scChamberName;
-        private Integer scDivisionId;
+        private Long scDivisionId;
         private String scDivisionName;
 
         private JudgmentTypesTemplate judgmentTypes;
@@ -110,7 +114,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             return ccCourtType;
         }
 
-        public Integer getCcCourtId() {
+        public Long getCcCourtId() {
             return ccCourtId;
         }
 
@@ -122,7 +126,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             return ccCourtName;
         }
 
-        public Integer getCcDivisionId() {
+        public Long getCcDivisionId() {
             return ccDivisionId;
         }
 
@@ -138,7 +142,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             return scPersonnelType;
         }
 
-        public Integer getScChamberId() {
+        public Long getScChamberId() {
             return scChamberId;
         }
 
@@ -146,7 +150,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             return scChamberName;
         }
 
-        public Integer getScDivisionId() {
+        public Long getScDivisionId() {
             return scDivisionId;
         }
 
@@ -217,7 +221,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.ccCourtType = ccCourtType;
         }
 
-        public void setCcCourtId(Integer ccCourtId) {
+        public void setCcCourtId(Long ccCourtId) {
             this.ccCourtId = ccCourtId;
         }
 
@@ -229,7 +233,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.ccCourtName = ccCourtName;
         }
 
-        public void setCcDivisionId(Integer ccDivisionId) {
+        public void setCcDivisionId(Long ccDivisionId) {
             this.ccDivisionId = ccDivisionId;
         }
 
@@ -245,7 +249,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.scPersonnelType = scPersonnelType;
         }
 
-        public void setScChamberId(Integer scChamberId) {
+        public void setScChamberId(Long scChamberId) {
             this.scChamberId = scChamberId;
         }
 
@@ -253,7 +257,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.scChamberName = scChamberName;
         }
 
-        public void setScDivisionId(Integer scDivisionId) {
+        public void setScDivisionId(Long scDivisionId) {
             this.scDivisionId = scDivisionId;
         }
 
