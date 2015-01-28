@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.persistence.common;
 
+import static pl.edu.icm.saos.common.json.JsonNormalizer.normalizeJson;
 import pl.edu.icm.saos.persistence.model.*;
 
 /**
@@ -253,4 +254,35 @@ public final class TextObjectDefaultData {
 
     public static final String CT_SECOND_DISSENTING_OPINION_TEXT = "ct second opinion text";
     public static final String CT_SECOND_DISSENTING_OPINION_FIRST_AUTHOR = "ct Agnieszka Sok";
+    
+    
+    
+    public static final String FIRST_ENRICHMENT_TAG_TYPE = "REFERENCED_REGULATIONS";
+    public static final String FIRST_ENRICHMENT_TAG_VALUE_KEY = "ref";
+    public static final String FIRST_ENRICHMENT_TAG_VALUE_VALUE = "AAA1";
+    public static final String FIRST_ENRICHMENT_TAG_VALUE = normalizeJson("{'" + FIRST_ENRICHMENT_TAG_VALUE_KEY + "':'" + FIRST_ENRICHMENT_TAG_VALUE_VALUE + "'}");
+    
+    public static final String SECOND_ENRICHMENT_TAG_TYPE = "REFERENCED_CASE_NUMBERS";
+    public static final String SECOND_ENRICHMENT_TAG_VALUE_KEY = "caseNumbers";
+    public static final String SECOND_ENRICHMENT_TAG_FIRST_ARRAY_VALUE = "XYZ1";
+    public static final String SECOND_ENRICHMENT_TAG_SECOND_ARRAY_VALUE = "XYZ2";
+    public static final String SECOND_ENRICHMENT_TAG_VALUE = normalizeJson("{'" +
+            SECOND_ENRICHMENT_TAG_VALUE_KEY + "':['" +
+                SECOND_ENRICHMENT_TAG_FIRST_ARRAY_VALUE + "','" +
+                SECOND_ENRICHMENT_TAG_SECOND_ARRAY_VALUE +
+            "']}");
+    
+    public static final String THIRD_ENRICHMENT_TAG_TYPE = "KEYWORDS";
+    public static final String THIRD_ENRICHMENT_TAG_VALUE_KEY = "keywords";
+    public static final String THIRD_ENRICHMENT_TAG_FIRST_ARRAY_VALUE = "val11";
+    public static final String THIRD_ENRICHMENT_TAG_SECOND_ARRAY_VALUE = "val21";
+    public static final String THIRD_ENRICHMENT_TAG_THIRD_ARRAY_VALUE = "val32";
+    public static final String THIRD_ENRICHMENT_TAG_VALUE = normalizeJson("{'" +
+            THIRD_ENRICHMENT_TAG_VALUE_KEY + "':['" +
+                THIRD_ENRICHMENT_TAG_FIRST_ARRAY_VALUE + "','" +
+                THIRD_ENRICHMENT_TAG_SECOND_ARRAY_VALUE + "','" +
+                THIRD_ENRICHMENT_TAG_THIRD_ARRAY_VALUE +
+            "']}");
+    
+    
 }

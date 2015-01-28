@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
@@ -229,6 +230,19 @@ public class TestPersistenceObjectFactory {
 
         return judgments;
     }
+    
+    /**
+     * Creates list of {@link EnrichmentTag} with default field data for judgment with provided id.
+     * @param judgmentId
+     * @return list of EnrichmentTag
+     */
+    @Transactional
+    public List<EnrichmentTag> createEnrichmentTagsForJudgment(long judgmentId) {
+        List<EnrichmentTag> enrichmentTags = TestInMemoryEnrichmentTagFactory.createEnrichmentTagsForJudgment(judgmentId);
+        enrichmentTags.forEach(enrichmentTag -> saveEnrichmentTag(enrichmentTag));
+        
+        return enrichmentTags;
+    }
 
 
     //------------------------ PRIVATE --------------------------
@@ -319,6 +333,12 @@ public class TestPersistenceObjectFactory {
         if(flush){
             entityManager.flush();
         }
+    }
+    
+    @Transactional
+    private void saveEnrichmentTag(EnrichmentTag enrichmentTag) {
+        entityManager.persist(enrichmentTag);
+        entityManager.flush();
     }
 
 

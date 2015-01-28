@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import pl.edu.icm.saos.api.dump.court.DumpCourtsController;
+import pl.edu.icm.saos.api.dump.enrichmenttag.DumpEnrichmentTagController;
 import pl.edu.icm.saos.api.dump.judgment.DumpJudgmentsController;
 import pl.edu.icm.saos.api.dump.supreme.court.chamber.DumpSupremeCourtChambersController;
 import pl.edu.icm.saos.api.entry.point.LinkWithDescription;
@@ -54,8 +56,14 @@ public class DumpEntryPointController {
                 .href(DumpSupremeCourtChambersController.class)
                 .description(apiMessageService.getMessage("dump.supreme.court.chambers.description", null, locale))
                 .build();
+        
+        LinkWithDescription dumpEnrichmentTags = new LinkWithDescriptionBuilder()
+                .rel("enrichments")
+                .href(DumpEnrichmentTagController.class)
+                .description(apiMessageService.getMessage("dump.judgments.enrichments.description", null, locale))
+                .build();
 
-        return new ResponseEntity<>(createLinksRepresentation(dumpCourts, dumpJudgments, dumpScChambers), HttpStatus.OK);
+        return new ResponseEntity<>(createLinksRepresentation(dumpCourts, dumpJudgments, dumpScChambers, dumpEnrichmentTags), HttpStatus.OK);
     }
 
     //------------------------ SETTERS --------------------------
