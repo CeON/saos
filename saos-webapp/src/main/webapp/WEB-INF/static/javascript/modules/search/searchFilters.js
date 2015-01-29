@@ -263,7 +263,7 @@ var SearchFilters = (function(){
 		if ($field.is("input:hidden")) {
 			var value = $field.attr("value")
 			
-			value = value.replace(filterValue + " ,", "");
+			value = value.replace(filterValue + ",", "");
 			value = value.replace(filterValue, "");
 			
 			$field.attr("value", value);

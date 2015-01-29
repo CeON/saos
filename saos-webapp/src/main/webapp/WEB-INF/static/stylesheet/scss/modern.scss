@@ -930,6 +930,7 @@ form.search {
 		
 		.remove-button {
 			@include background-image("icons/close.png");
+			cursor: pointer;
 			display: block;
 			height: 16px;
 			position: absolute;
@@ -953,17 +954,6 @@ form.search {
 			top: 0;
 			width: 100%;	
 			z-index: 9;
-		}
-	}
-	
-	.remove-button {
-		cursor: pointer;
-		float: right;
-		margin: 0 0 0 5px;
-		
-		&:hover {
-			background: $white;
-			color: #666;
 		}
 	}
 	

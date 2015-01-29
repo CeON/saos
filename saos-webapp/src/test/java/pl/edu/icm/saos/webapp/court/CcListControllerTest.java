@@ -56,7 +56,7 @@ public class CcListControllerTest {
     private CcListService ccListService;
     
 	
-    private int commonCourtId = 1;
+    private long commonCourtId = 1;
     private TestCourtsFactory testCourtsFactory = new TestCourtsFactory();
     private List<SimpleDivision> simpleDivisions = testCourtsFactory.getSimpleDivisions();
     

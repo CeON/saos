@@ -54,7 +54,7 @@ public class ScListControllerTest {
     @Mock
     private ScListService scListService;
     
-    private int chamberId = 1; 
+    private long chamberId = 1; 
     private TestCourtsFactory testCourtsFactory = new TestCourtsFactory();
     private List<SimpleDivision> simpleDivisions = testCourtsFactory.getSimpleDivisions();
     
