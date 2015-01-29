@@ -227,7 +227,7 @@ var Suggester = (function() {
         	.off("keypress")
             .keyup(function(event) {
 				if(event.keyCode > 40 || event.keyCode == 8){
-					// special characters and Esc
+					// special characters and backspace
 					loadSuggestions($field, true, populate);
 				}
 				else if(event.keyCode == 38 && selItem[fieldId] !== null ) {
@@ -477,7 +477,7 @@ var Suggester = (function() {
     		}
     	});
     	
-    	$parent.find("textarea").outerWidth(parentWidth - width);
+    	$parent.find("textarea").outerWidth(parentWidth - width -5);
     },
     
     /* Removes duplicated values from target input.
