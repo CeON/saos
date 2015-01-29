@@ -7,14 +7,20 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import pl.edu.icm.saos.persistence.common.InitializingVisitor;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski
@@ -26,6 +32,8 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
     @Autowired
     private EntityManager entityManager;
     
+    @Autowired
+    private JudgmentRepository judgmentRepository;
     
     
     //------------------------ LOGIC --------------------------
@@ -61,15 +69,65 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
         
         deleteJudgmentAttributesSql("supreme_court_judgment_chamber", judgmentIds);
         
+        deleteCtJudgmentOpinionAuthors(judgmentIds);
+        deleteJudgmentAttributes(ConstitutionalTribunalJudgmentDissentingOpinion.class, judgmentIds);
+        
         deleteJudgeRoles(judgmentIds);
         deleteJudgmentAttributes(Judge.class, judgmentIds);
+        
+        deleteEnrichmentTags(judgmentIds);
         
         deleteJudgments(judgmentIds);
         
     }
 
-
+    @Override
+    @Transactional
+    public void delete(Judgment judgment) {
+        
+        deleteEnrichmentTags(Lists.newArrayList(judgment.getId()));
+        
+        entityManager.remove(entityManager.contains(judgment) ? judgment : entityManager.merge(judgment));
+        
+    }
    
+    @Override
+    @Transactional
+    public void delete(Long judgmentId) {
+        
+        Assert.notNull(judgmentId, "The given id must not be null!");
+
+        Judgment judgment = judgmentRepository.findOne(judgmentId);
+
+        if (judgment == null) {
+            throw new EmptyResultDataAccessException(String.format("No %s entity with id %s exists!",
+                    Judgment.class, judgmentId), 1);
+        }
+
+        delete(judgment);
+        
+    }
+
+    
+    @Override
+    public void deleteAllInBatch() {
+        throw new UnsupportedOperationException();
+        
+    }
+
+    @Override
+    public void deleteInBatch(Iterable<Judgment> entities) {
+        throw new UnsupportedOperationException();
+        
+    }
+
+    @Override
+    public void deleteAll() {
+        for (Judgment element : judgmentRepository.findAll()) {
+             delete(element);
+        }
+    }
+
     
     //------------------------ PRIVATE --------------------------
     
@@ -80,6 +138,16 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
     
     private void deleteJudgmentAttributesSql(String tableName, List<Long> judgmentIds) {
         Query q = entityManager.createNativeQuery("delete from " + tableName + " where fk_judgment in (:judgmentIds)").setParameter("judgmentIds", judgmentIds);
+        q.executeUpdate();
+    }
+    
+    private void deleteEnrichmentTags(List<Long> judgmentIds) {
+        Query q = entityManager.createQuery("delete from " + EnrichmentTag.class.getName() + " tag where tag.judgmentId in (:judgmentIds)").setParameter("judgmentIds", judgmentIds);
+        q.executeUpdate();
+    }
+    
+    private void deleteCtJudgmentOpinionAuthors(List<Long> judgmentIds) {
+        Query q = entityManager.createNativeQuery("delete from ct_judgment_opinion_author where fk_ct_judgment_opinion in (select id from ct_judgment_opinion where fk_judgment in (:judgmentIds))").setParameter("judgmentIds", judgmentIds);
         q.executeUpdate();
     }
     
@@ -94,4 +162,6 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
         q.executeUpdate();
     }
 
+  
+    
 }

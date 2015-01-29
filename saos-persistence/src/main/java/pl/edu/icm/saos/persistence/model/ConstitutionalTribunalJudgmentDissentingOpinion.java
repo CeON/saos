@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
@@ -58,8 +59,10 @@ public class ConstitutionalTribunalJudgmentDissentingOpinion extends DataObject 
     }
     
     @ElementCollection
-    @CollectionTable(name="ct_judgment_opinion_author", uniqueConstraints={@UniqueConstraint(name="ct_judgment_opinion_author_unique", columnNames={"fk_constitutional_tribunal_judgment_dissenting_opinion", "author"})})
-    @Column(name="author")
+    @CollectionTable(name="ct_judgment_opinion_author",
+                    joinColumns = {@JoinColumn(name = "fk_ct_judgment_opinion", nullable = false)},
+                    uniqueConstraints={@UniqueConstraint(name="ct_judgment_opinion_author_unique", columnNames={"fk_ct_judgment_opinion", "author"})})
+    @Column(name="author", nullable=false)
     private List<String> getAuthors_() {
         return authors;
     }

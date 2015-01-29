@@ -10,14 +10,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.LazyInitializationException;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +25,7 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
+import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
@@ -43,29 +43,37 @@ import com.google.common.collect.Lists;
 @Category(SlowTest.class)
 public class JudgmentRepositoryTest extends PersistenceTestSupport {
 
-    private static Logger log = LoggerFactory.getLogger(JudgmentRepositoryTest.class);
-    
     @Autowired
     private JudgmentRepository judgmentRepository;
+    
+    @Autowired
+    private EnrichmentTagRepository enrichmentTagRepository;
 
     @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
     
     
-    
+   
+    //------------------------ TESTS --------------------------
     
     @Test
     public void testSaveAndGet() {
+        
+        // given
         Assert.assertEquals(0, judgmentRepository.count());
         
         CommonCourtJudgment judgment = new CommonCourtJudgment();
         judgment.addCourtCase(new CourtCase("222"));
         judgment.getSourceInfo().setSourceCode(SourceCode.SUPREME_COURT);
         judgment.getSourceInfo().setSourceJudgmentId("11111");
+        
+        // execute
         judgmentRepository.save(judgment);
         
+        // assert
         Assert.assertEquals(1, judgmentRepository.count());
     }
+    
     
     @Test
     public void count_WITH_CLASS() {
@@ -83,28 +91,41 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void findOneBySourceCodeAndSourceJudgmentId_NOT_FOUND() {
-        log.info("======= findOneBySourceCodeAndSourceJudgmentId");
+        
+        // execute
         Judgment ccJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, "111122");
+        
+        // assert
         assertNull(ccJudgment);
-        log.info("======= END OF findOneBySourceCodeAndSourceJudgmentId");
         
     }
     
     @Test
     public void findOneBySourceCodeAndSourceJudgmentId_FOUND() {
+        
+        // given
+        
         CommonCourtJudgment ccJudgment = TestInMemoryObjectFactory.createSimpleCcJudgment();
         JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
         sourceInfo.setSourceCode(SourceCode.COMMON_COURT);
         sourceInfo.setSourceJudgmentId("1123");
         ccJudgment.setSourceInfo(sourceInfo);
+        
         judgmentRepository.save(ccJudgment);
+        
+        // execute
+        
         Judgment dbCcJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, "1123");
+        
+        
+        // assert
         assertNotNull(dbCcJudgment);
         assertEquals(ccJudgment.getId(), dbCcJudgment.getId());
     }
     
     @Test
     public void findOneBySourceCodeAndSourceJudgmentId_WITH_CLASS_NOT_FOUND() {
+        
         // given
         SupremeCourtJudgment scJudgment = testPersistenceObjectFactory.createScJudgment();
         
@@ -118,6 +139,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void findOneBySourceCodeAndSourceJudgmentId_WITH_CLASS_FOUND() {
+        
         // given
         CommonCourtJudgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
         JudgmentSourceInfo sourceInfo = ccJudgment.getSourceInfo();
@@ -134,18 +156,27 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void findBySourceCodeAndCaseNumber_NOT_FOUND() {
+        
+        // execute
         List<Judgment> ccJudgments = judgmentRepository.findBySourceCodeAndCaseNumber(SourceCode.COMMON_COURT, "111122");
+        
+        // assert
         assertEquals(0, ccJudgments.size());
     }
     
     @Test
     public void findBySourceCodeAndCaseNumber_FOUND() {
+        
+        // given
         CommonCourtJudgment ccJudgment1 = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
         createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
         createCcJudgment(SourceCode.ADMINISTRATIVE_COURT, "1", "AAA1");
         
+        // execute
         List<Judgment> ccJudgments = judgmentRepository.findBySourceCodeAndCaseNumber(SourceCode.COMMON_COURT, ccJudgment1.getCaseNumbers().get(0));
+        
+        // assert
         assertEquals(1, ccJudgments.size());
         assertEquals(ccJudgment1.getId(), ccJudgments.get(0).getId());
       
@@ -153,6 +184,8 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void findBySourceCodeAndCaseNumber_FOUND_MultiCases() {
+        
+        //given
         CommonCourtJudgment ccJudgment1 = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
         createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
@@ -160,7 +193,10 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         ccJudgment1.addCourtCase(new CourtCase("BBB1"));
         
+        // execute
         List<Judgment> ccJudgments = judgmentRepository.findBySourceCodeAndCaseNumber(SourceCode.COMMON_COURT, ccJudgment1.getCaseNumbers().get(0));
+        
+        // assert
         assertEquals(1, ccJudgments.size());
         assertEquals(ccJudgment1.getId(), ccJudgments.get(0).getId());
       
@@ -168,8 +204,14 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void findOneAndInitialize_Judgment() {
+        
+        // given
         Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
+        
+        // execute
         Judgment dbJudgment = judgmentRepository.findOneAndInitialize(ccJudgment.getId());
+        
+        // assert
         assertNotNull(dbJudgment);
         dbJudgment.getJudges().size();
         dbJudgment.getJudges().get(0).getSpecialRoles().size();
@@ -182,8 +224,14 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
 
     @Test
     public void findOneAndInitialize_CommonCourtJudgment() {
+        
+        // given
         Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
+        
+        // execute
         CommonCourtJudgment dbJudgment = judgmentRepository.findOneAndInitialize(ccJudgment.getId());
+        
+        // assert
         assertNotNull(dbJudgment);
         dbJudgment.getCourtDivision().getCourt().getCode();
         dbJudgment.getKeywords().size();
@@ -192,8 +240,14 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
 
     @Test
     public void findOneAndInitialize_SupremeCourtJudgment() {
+        
+        // given
         Judgment scJudgment = testPersistenceObjectFactory.createScJudgment();
+        
+        // execute
         SupremeCourtJudgment dbJudgment = judgmentRepository.findOneAndInitialize(scJudgment.getId());
+        
+        // assert
         assertNotNull(dbJudgment);
         dbJudgment.getScChamberDivision().getName();
         dbJudgment.getScChambers().size();
@@ -203,38 +257,88 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test(expected=LazyInitializationException.class)
     public void findOne_Uninitialized() {
+        
+        // given
         Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
+        
+        // execute
         Judgment dbJudgment = judgmentRepository.findOne(ccJudgment.getId());
+        
+        // assert
         assertNotNull(dbJudgment);
         dbJudgment.getJudges().size();
     }
     
     @Test
     public void findAllNotIndexed_FOUND() {
+        
+        // given
         createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         
+        // execute
         Page<Judgment> judgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
         
+        // assert
         assertEquals(1, judgments.getTotalElements());
     }
     
+    
     @Test
     public void findAllNotIndexed_NOT_FOUND() {
+        
+        // given
         CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         judgment.markAsIndexed();
+        
         judgmentRepository.save(judgment);
         
+        // execute
         Page<Judgment> judgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
         
+        // assert
         assertEquals(0, judgments.getTotalElements());
     }
     
     @Test
-    public void findAllNotIndexed_CHECK_INDEXED_DATE() {
+    public void findAllNotIndexedIds_FOUND() {
+        
+        // given
+        Judgment firstJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        Judgment secondJudgment = createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
+        Judgment thirdJudgment = createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
+        
+        // execute
+        List<Long> notIndexed = judgmentRepository.findAllNotIndexedIds();
+        
+        // assert
+        assertThat(notIndexed, containsInAnyOrder(firstJudgment.getId(), secondJudgment.getId(), thirdJudgment.getId()));
+    }
+    
+    @Test
+    public void findAllNotIndexedIds_NOT_FOUND() {
+        
+        // given
+        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        judgment.markAsIndexed();
+        judgmentRepository.save(judgment);
+        
+        // execute
+        List<Long> notIndexed = judgmentRepository.findAllNotIndexedIds();
+        
+        // assert
+        assertEquals(0, notIndexed.size());
+    }
+    
+    @Test
+    public void markAsIndexedAndSave_CHECK_INDEXED_DATE() {
+        
+        // given
         CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         
         DateTime beforeIndexed = new DateTime();
         waitForTimeChange();
+        
+        // execute
         
         judgment.markAsIndexed();
         judgmentRepository.save(judgment);
@@ -242,6 +346,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         waitForTimeChange();
         DateTime afterIndexed = new DateTime();
         
+        // assert
         Judgment actualJudgment = judgmentRepository.findOne(judgment.getId());
         
         assertNotNull(actualJudgment);
@@ -250,30 +355,13 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         assertTrue(afterIndexed.isAfter(actualJudgment.getCreationDate()));
     }
     
-    @Test
-    public void findAllNotIndexedIds_FOUND() {
-        Judgment firstJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
-        Judgment secondJudgment = createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
-        Judgment thirdJudgment = createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
-        
-        List<Long> notIndexed = judgmentRepository.findAllNotIndexedIds();
-        
-        assertThat(notIndexed, containsInAnyOrder(firstJudgment.getId(), secondJudgment.getId(), thirdJudgment.getId()));
-    }
-    
-    @Test
-    public void findAllNotIndexedIds_NOT_FOUND() {
-        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
-        judgment.markAsIndexed();
-        judgmentRepository.save(judgment);
-        
-        List<Long> notIndexed = judgmentRepository.findAllNotIndexedIds();
-        
-        assertEquals(0, notIndexed.size());
-    }
+
     
     @Test
     public void markAsNotIndexedBySourceCode_ONLY_CC_JUDGMENTS() {
+        
+        // given
+        
         CommonCourtJudgment ccJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         SupremeCourtJudgment scJudgment = createScJudgment(SourceCode.SUPREME_COURT, "2", "AAA2");
         ccJudgment.markAsIndexed();
@@ -281,7 +369,13 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         judgmentRepository.save(ccJudgment);
         judgmentRepository.save(scJudgment);
         
+        
+        // execute
+        
         judgmentRepository.markAsNotIndexedBySourceCode(SourceCode.COMMON_COURT);
+        
+        
+        // assert
         
         Judgment actualCcJudgment = judgmentRepository.findOne(ccJudgment.getId());
         Judgment actualScJudgment = judgmentRepository.findOne(scJudgment.getId());
@@ -292,6 +386,9 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void markAsNotIndexedBySourceCode_ALL_JUDGMENTS() {
+        
+        // given
+        
         CommonCourtJudgment ccJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         SupremeCourtJudgment scJudgment = createScJudgment(SourceCode.SUPREME_COURT, "2", "AAA2");
         ccJudgment.markAsIndexed();
@@ -299,7 +396,13 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         judgmentRepository.save(ccJudgment);
         judgmentRepository.save(scJudgment);
         
+        
+        // execute
+        
         judgmentRepository.markAsNotIndexedBySourceCode(null);
+        
+        
+        // assert
         
         Judgment actualCcJudgment = judgmentRepository.findOne(ccJudgment.getId());
         Judgment actualScJudgment = judgmentRepository.findOne(scJudgment.getId());
@@ -310,6 +413,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
 
     @Test
     public void findOne_it_should_return_correct_modification_date_value(){
+        
         //given
         CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         judgmentRepository.save(judgment);
@@ -329,17 +433,148 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     
     @Test
-    public void delete_JudgmentIds() {
+    public void delete_JudgmentIds_All() {
+        
+        // given
         Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
         Judgment scJudgment = testPersistenceObjectFactory.createScJudgment();
+        Judgment ctJudgment = testPersistenceObjectFactory.createCtJudgment();
+        Judgment nacJudgment = testPersistenceObjectFactory.createNacJudgment();
         
-        judgmentRepository.delete(Lists.newArrayList(ccJudgment.getId(), scJudgment.getId()));
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ccJudgment.getId());
         
+        assertEquals(4, judgmentRepository.count());
+        assertEquals(3, enrichmentTagRepository.count());
+        
+        
+        // execute
+        judgmentRepository.delete(Lists.newArrayList(ccJudgment.getId(), scJudgment.getId(), ctJudgment.getId(), nacJudgment.getId()));
+        
+        // assert
+        assertEquals(0, judgmentRepository.count());
+        assertEquals(0, enrichmentTagRepository.count());
+        
+    }
+    
+    
+    @Test
+    public void delete_JudgmentIds_AFew() {
+        
+        // given
+        Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
+        Judgment scJudgment = testPersistenceObjectFactory.createScJudgment();
+        Judgment ctJudgment = testPersistenceObjectFactory.createCtJudgment();
+        Judgment nacJudgment = testPersistenceObjectFactory.createNacJudgment();
+        
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ccJudgment.getId());
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ctJudgment.getId());
+        
+        assertEquals(4, judgmentRepository.count());
+        assertEquals(6, enrichmentTagRepository.count());
+        
+        
+        // execute
+        judgmentRepository.delete(Lists.newArrayList(ctJudgment.getId(), nacJudgment.getId()));
+        
+        // assert
+        assertEquals(2, judgmentRepository.count());
+        
+        List<Long> judgmentIds = judgmentRepository.findAll().stream().map(j->j.getId()).collect(Collectors.toList());
+        assertThat(judgmentIds, containsInAnyOrder(scJudgment.getId(), ccJudgment.getId()));
+        
+        assertEquals(3, enrichmentTagRepository.count());
+        List<Long> enrichmentTagJudgmentIds = enrichmentTagRepository.findAll().stream().map(tag->tag.getJudgmentId()).distinct().collect(Collectors.toList());
+        assertThat(enrichmentTagJudgmentIds, containsInAnyOrder(ccJudgment.getId()));
+    }
+    
+    
+    @Test
+    public void delete() {
+        
+        // given
+        Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
+        Judgment scJudgment = testPersistenceObjectFactory.createScJudgment();
+        Judgment ctJudgment = testPersistenceObjectFactory.createCtJudgment();
+        Judgment nacJudgment = testPersistenceObjectFactory.createNacJudgment();
+        
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ccJudgment.getId());
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ctJudgment.getId());
+        
+        assertEquals(4, judgmentRepository.count());
+        assertEquals(6, enrichmentTagRepository.count());
+        
+        
+        // execute
+        judgmentRepository.delete(ccJudgment);
+        judgmentRepository.delete(scJudgment);
+        judgmentRepository.delete(ctJudgment);
+        judgmentRepository.delete(nacJudgment);
+        
+        // assert
+        assertEquals(0, judgmentRepository.count());
+        assertEquals(0, enrichmentTagRepository.count());
+        
+    }
+    
+    
+    @Test
+    public void delete_ById() {
+        
+        // given
+        Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
+        Judgment scJudgment = testPersistenceObjectFactory.createScJudgment();
+        Judgment ctJudgment = testPersistenceObjectFactory.createCtJudgment();
+        Judgment nacJudgment = testPersistenceObjectFactory.createNacJudgment();
+        
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ccJudgment.getId());
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ctJudgment.getId());
+        
+        assertEquals(4, judgmentRepository.count());
+        assertEquals(6, enrichmentTagRepository.count());
+        
+        
+        // execute
+        judgmentRepository.delete(ccJudgment.getId());
+        judgmentRepository.delete(scJudgment.getId());
+        judgmentRepository.delete(ctJudgment.getId());
+        judgmentRepository.delete(nacJudgment.getId());
+        
+        // assert
+        assertEquals(0, judgmentRepository.count());
+        assertEquals(0, enrichmentTagRepository.count());
         
     }
 
     @Test
+    public void deleteAll() {
+        
+        // given
+        Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
+        testPersistenceObjectFactory.createScJudgment();
+        Judgment ctJudgment = testPersistenceObjectFactory.createCtJudgment();
+        testPersistenceObjectFactory.createNacJudgment();
+        
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ccJudgment.getId());
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ctJudgment.getId());
+        
+        assertEquals(4, judgmentRepository.count());
+        assertEquals(6, enrichmentTagRepository.count());
+        
+        
+        // execute
+        judgmentRepository.deleteAll();
+        
+        // assert
+        assertEquals(0, judgmentRepository.count());
+        assertEquals(0, enrichmentTagRepository.count());
+        
+    }
+    
+    
+    
+    @Test
     public void ctJudgment_opinions_should_be_initialized(){
+        
         //given
         ConstitutionalTribunalJudgment tribunalJudgment =testPersistenceObjectFactory.createCtJudgment();
 
@@ -352,6 +587,8 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         assertThat("opinion id ", actual.getId(), is(expected.getId()));
         assertThat("opinion ", actual, is(expected));
     }
+    
+    
     
     //------------------------ PRIVATE --------------------------
     
