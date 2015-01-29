@@ -44,6 +44,7 @@ public class JudgmentCriteriaTransformerTest {
                 { "*:*", new JudgmentCriteria(" ") },
                 
                 { "+judgeName:Nowak", new JudgmentCriteriaBuilder().withJudgeName("Nowak").build() },
+                { "+judgeName:Adam +judgeName:Nowak", new JudgmentCriteriaBuilder().withJudgeName("Adam Nowak").build() },
                 { "+judgeName:\"Adam Nowak\"", new JudgmentCriteriaBuilder().withJudgeName("\"Adam Nowak\"").build() },
                 { "+(judgeName:Nowak judgeName:Kowalski)", new JudgmentCriteriaBuilder().withJudgeName("Nowak or Kowalski").build() },
                 { "+keyword:word", new JudgmentCriteriaBuilder().withKeyword("word").build() },
