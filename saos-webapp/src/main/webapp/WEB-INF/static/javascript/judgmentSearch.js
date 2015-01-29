@@ -21,24 +21,24 @@ var jsInitInJudgmentSearch = function() {
 	    springMessage.judgmentSearchFormFieldDateWrongFormat
 	);
     
-    $('#search-form').validate({
-    	onkeyup: false,
-    	onclick: false,
-    	rules: {
-    		dateFrom: {
-    			dateFormat: true
-    		},
-    		dateTo: {
-    			dateFormat: true
-    		}
-    	},
+	$('#search-form').validate({
+		onkeyup: false,
+		onclick: false,
+		rules: {
+			dateFrom: {
+				dateFormat: true
+			},
+			dateTo: {
+				dateFormat: true
+			}
+		},
 		highlight: function(element, errorClass, validClass) {
 			$(element).parent().parent().addClass("has-error");
 		},
 		unhighlight: function(element, errorClass, validClass) {
 			$(element).parent().parent().removeClass("has-error");
 		}
-    });
+	});
     
     $("#datepicker_from, #datepicker_to")
     	.keyup(function(event) {

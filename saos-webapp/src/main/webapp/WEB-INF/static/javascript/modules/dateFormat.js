@@ -14,6 +14,7 @@ var DateFormat = function() {
 	 * @param string - main string
 	 * @param index - position at which string will be inserted
 	 * @param value - inserted string
+	 * @returns - changed text
 	 */
 	insertAt = function(string, index, value) { 
 	  return string.substr(0, index) + value + string.substr(index);
