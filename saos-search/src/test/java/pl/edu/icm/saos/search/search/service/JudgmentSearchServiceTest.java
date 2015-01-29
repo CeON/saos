@@ -108,7 +108,10 @@ public class JudgmentSearchServiceTest {
             
             { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withJudgeName("Jacek Witkowski").build() },
             { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withJudgeName("Witkowski").build() },
+            { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withJudgeName("Witkowski Kunecka").build() },
             { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withJudgeName("Elżbieta Kunecka").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withJudgeName("\"Irena Kunecka\"").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withJudgeName("Ewelina Kunecka").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withJudgeName("Adam Nowak").build() },
             
             { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder().withLegalBase("art. 227 kk").build() },

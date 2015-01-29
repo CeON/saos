@@ -40,13 +40,19 @@ public class JudgmentCriteriaTransformerTest {
     public static Object[][] criterionData() {
         return new Object[][] {
                 { "+content:word", new JudgmentCriteria("word") },
+                { "+(content:word1 content:word2)", new JudgmentCriteria("word1 or word2") },
                 { "*:*", new JudgmentCriteria(" ") },
                 
-                { "+judgeName:Adam\\ Nowak", new JudgmentCriteriaBuilder().withJudgeName("Adam Nowak").build() },
+                { "+judgeName:Nowak", new JudgmentCriteriaBuilder().withJudgeName("Nowak").build() },
+                { "+judgeName:Adam +judgeName:Nowak", new JudgmentCriteriaBuilder().withJudgeName("Adam Nowak").build() },
+                { "+judgeName:\"Adam Nowak\"", new JudgmentCriteriaBuilder().withJudgeName("\"Adam Nowak\"").build() },
+                { "+(judgeName:Nowak judgeName:Kowalski)", new JudgmentCriteriaBuilder().withJudgeName("Nowak or Kowalski").build() },
                 { "+keyword:word", new JudgmentCriteriaBuilder().withKeyword("word").build() },
                 { "+keyword:word1 +keyword:word2", new JudgmentCriteriaBuilder().withKeyword("word1").withKeyword("word2").build() },
                 { "+legalBases:someLegalBase", new JudgmentCriteriaBuilder().withLegalBase("someLegalBase").build() },
+                { "+legalBases:\"some legal base\"", new JudgmentCriteriaBuilder().withLegalBase("\"some legal base\"").build() },
                 { "+referencedRegulations:someReferencedRegulation", new JudgmentCriteriaBuilder().withReferencedRegulation("someReferencedRegulation").build() },
+                { "+referencedRegulations:\"some referenced regulation\"", new JudgmentCriteriaBuilder().withReferencedRegulation("\"some referenced regulation\"").build() },
                 
                 { "+judgmentDate:[2014-04-01T00:00:00Z TO *]", new JudgmentCriteriaBuilder().withDateFrom(FIRST_DATE).build() },
                 { "+judgmentDate:[* TO 2014-04-01T23:59:59Z]", new JudgmentCriteriaBuilder().withDateTo(FIRST_DATE).build() },
