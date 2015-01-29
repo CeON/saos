@@ -36,12 +36,17 @@ public enum JudgmentIndexField implements IndexField {
     SC_COURT_DIVISIONS_CHAMBER_ID("scCourtDivisionsChamberId"),
     SC_COURT_DIVISIONS_CHAMBER_NAME("scCourtDivisionsChamberName"),
     
+    /* constitutional tribunal */
+    CT_DISSENTING_OPINION("ctDissentingOpinion"),
+    CT_DISSENTING_OPINION_AUTHOR("ctDissentingOpinionAuthor"),
+    
     JUDGE("judge"),
     JUDGE_NAME("judgeName"),
     JUDGE_WITH_ROLE("judgeWithRole"),
     
     KEYWORD("keyword"),
-    CONTENT("content");
+    CONTENT("content"),
+    ALL("all");
     
     private String fieldName;
     

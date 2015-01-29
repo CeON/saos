@@ -50,7 +50,8 @@ var jsInitInJudgmentSearch = function() {
 		           {button: ".date", searchfield: "#datepicker_from, #datepicker_to", filterfield: "filter-judgment-date-from"},
 				   {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court", selectFormType: "#radio-court-common"},
 				   {button: ".chamber", searchfield: "#select-supreme-chamber", filterfield: "filter-supreme-chamber", selectFormType: "#radio-court-supreme"},
-				   {button: ".judgment-form", searchfield: "#select-search-judgment-form", filterfield: "filter-supreme-judgment-form", selectFormType: "#radio-court-supreme"}],
+				   {button: ".judgment-form", searchfield: "#select-search-judgment-form", filterfield: "filter-supreme-judgment-form", selectFormType: "#radio-court-supreme"},
+				   {button: ".ctDissentingOpinion", searchfield: "#input-constitutional-tribunal-dissenting-opinion", filterfield: "filter-dissenting-opinion", selectFormType: "#radio-court-constitutional_tribunal"}],
 		
 		advanceFilter: [{button: ".division", searchfield: "#select-common-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
 						getUrl: function(id) {return contextPath + "/cc/courts/{id}/courtDivisions/list".replace("{id}", id)},
@@ -64,7 +65,8 @@ var jsInitInJudgmentSearch = function() {
 	ChangeCourtType.run({
 		fields: [{fields: "#all-fields", button: "#radio-all", onChangeCallback: function() {}},
 		          {fields: "#common-court-fields", button: "#radio-court-common", onChangeCallback: function() {$("#input-search-keywords-cc").suggesterRefresh();}},
-		          {fields: "#supreme-court-fields", button: "#radio-court-supreme", onChangeCallback: function() {}}],
+		          {fields: "#supreme-court-fields", button: "#radio-court-supreme", onChangeCallback: function() {}},
+		          {fields: "#constitutional-tribunal-fields", button: "#radio-court-constitutional_tribunal", onChangeCallback: function() {}}],
 		          
 		fieldsContainer: ".fields-container",
 		radioName: "courtType",

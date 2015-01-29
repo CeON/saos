@@ -117,9 +117,10 @@ public class SearchConfiguration {
         params.addParam(HighlightParams.FIELD_MATCH, "true");
         
         HighlightingFieldParams contentFieldParams = new HighlightingFieldParams(JudgmentIndexField.CONTENT.getFieldName());
+        contentFieldParams.addHighlightFromField(JudgmentIndexField.ALL.getFieldName());
         contentFieldParams.addParam(HighlightParams.FRAGSIZE, "200");
         contentFieldParams.addParam(HighlightParams.SNIPPETS, "4");
-        contentFieldParams.addParam(HighlightParams.ALTERNATE_FIELD, "content");
+        contentFieldParams.addParam(HighlightParams.ALTERNATE_FIELD, JudgmentIndexField.CONTENT.getFieldName());
         contentFieldParams.addParam(HighlightParams.ALTERNATE_FIELD_LENGTH, "800");
         params.addFieldParams(contentFieldParams);
         

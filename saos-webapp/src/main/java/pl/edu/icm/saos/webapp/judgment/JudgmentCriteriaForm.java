@@ -48,6 +48,8 @@ public class JudgmentCriteriaForm {
     private Long supremeChamberId;
     private Long supremeChamberDivisionId;
     
+    private String ctDissentingOpinion;
+    
     private Set<JudgmentType> judgmentTypes = new HashSet<JudgmentType>();
     
     private String legalBase;
@@ -112,6 +114,10 @@ public class JudgmentCriteriaForm {
 	public Long getSupremeChamberDivisionId() {
 		return supremeChamberDivisionId;
 	}
+	
+    public String getCtDissentingOpinion() {
+        return ctDissentingOpinion;
+    }
 	
 	public Set<JudgmentType> getJudgmentTypes() {
 		if (judgmentTypes == null) {
@@ -183,6 +189,10 @@ public class JudgmentCriteriaForm {
 		this.supremeChamberDivisionId = supremeChamberDivisionId;
 	}
 	
+    public void setCtDissentingOpinion(String ctDissentingOpinion) {
+        this.ctDissentingOpinion = ctDissentingOpinion;
+    }
+	
 	public void setJudgmentTypes(Set<JudgmentType> judgmentTypes) {
 		this.judgmentTypes = judgmentTypes;
 	}
@@ -194,6 +204,6 @@ public class JudgmentCriteriaForm {
 	public void setReferencedRegulation(String referencedRegulation) {
 		this.referencedRegulation = referencedRegulation;
 	}
-   
+
 }
 

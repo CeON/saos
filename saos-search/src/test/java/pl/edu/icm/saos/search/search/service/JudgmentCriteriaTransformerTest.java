@@ -39,7 +39,7 @@ public class JudgmentCriteriaTransformerTest {
     @DataProvider
     public static Object[][] criterionData() {
         return new Object[][] {
-                { "+content:word", new JudgmentCriteria("word") },
+                { "+all:word", new JudgmentCriteria("word") },
                 { "*:*", new JudgmentCriteria(" ") },
                 
                 { "+judgeName:Adam\\ Nowak", new JudgmentCriteriaBuilder().withJudgeName("Adam Nowak").build() },
@@ -72,6 +72,9 @@ public class JudgmentCriteriaTransformerTest {
                 { "+ccCourtDivisionId:14", new JudgmentCriteriaBuilder().withCcDivisionId(14).build() },
                 { "+ccCourtDivisionCode:0100", new JudgmentCriteriaBuilder().withCcDivisionCode("0100").build() },
                 { "+ccCourtDivisionName:someDivisionName", new JudgmentCriteriaBuilder().withCcDivisionName("someDivisionName").build() },
+                
+                { "+ctDissentingOpinion:someOpinion", new JudgmentCriteriaBuilder().withCtDissentingOpinion("someOpinion").build() },
+                { "+ctDissentingOpinionAuthor:someAuthor", new JudgmentCriteriaBuilder().withCtDissentingOpinionAuthor("someAuthor").build() },
         };
     }
     

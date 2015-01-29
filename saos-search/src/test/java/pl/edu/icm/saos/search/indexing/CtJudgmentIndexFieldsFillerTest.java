@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.powermock.reflect.Whitebox;
 
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 import com.google.common.collect.Lists;
@@ -37,6 +38,7 @@ public class CtJudgmentIndexFieldsFillerTest {
         
         long idValue = 1;
 
+        // basic
         ConstitutionalTribunalJudgment basicJudgment = new ConstitutionalTribunalJudgment();
         Whitebox.setInternalState(basicJudgment, "id", idValue);
 
@@ -45,8 +47,27 @@ public class CtJudgmentIndexFieldsFillerTest {
                 fieldFactory.create("courtType", "CONSTITUTIONAL_TRIBUNAL"));
         
         
+        // dissenting opinions
+        ConstitutionalTribunalJudgment dissentingOpinionsJudgment = new ConstitutionalTribunalJudgment();
+        
+        ConstitutionalTribunalJudgmentDissentingOpinion firstDissentingOpinion = new ConstitutionalTribunalJudgmentDissentingOpinion();
+        firstDissentingOpinion.setTextContent("firstOpinionText");
+        firstDissentingOpinion.addAuthor("Adam Nowak");
+        firstDissentingOpinion.addAuthor("Jan Kowalski");
+        dissentingOpinionsJudgment.addDissentingOpinion(firstDissentingOpinion);
+        
+        ConstitutionalTribunalJudgmentDissentingOpinion secondDissentingOpinion = new ConstitutionalTribunalJudgmentDissentingOpinion();
+        secondDissentingOpinion.setTextContent("secondOpinionText");
+        secondDissentingOpinion.addAuthor("Sławomir Zieliński");
+        dissentingOpinionsJudgment.addDissentingOpinion(secondDissentingOpinion);
+        
+        List<SolrInputField> dissentingOpinionsFields = Lists.newArrayList(
+                fieldFactory.create("ctDissentingOpinion", "firstOpinionText", "secondOpinionText", "Adam Nowak", "Jan Kowalski", "Sławomir Zieliński"),
+                fieldFactory.create("ctDissentingOpinionAuthor", "Adam Nowak", "Jan Kowalski", "Sławomir Zieliński"));
+        
         return new Object[][] {
                 { basicJudgment, basicFields },
+                { dissentingOpinionsJudgment, dissentingOpinionsFields },
         };
     }
     

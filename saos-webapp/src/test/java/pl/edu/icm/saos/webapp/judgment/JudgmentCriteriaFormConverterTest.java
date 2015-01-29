@@ -55,6 +55,8 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getSupremeChamberId(), judgmentCriteria.getScCourtChamberId());
 		assertEquals(judgmentCriteriaForm.getSupremeChamberDivisionId(), judgmentCriteria.getScCourtChamberDivisionId());
 		
+		assertEquals(judgmentCriteriaForm.getCtDissentingOpinion(), judgmentCriteria.getCtDissentingOpinion());
+		
 		assertEquals(judgmentCriteriaForm.getJudgeName(), judgmentCriteria.getJudgeName());
 		
 		assertEquals(1, judgmentCriteria.getKeywords().size());
@@ -89,6 +91,8 @@ public class JudgmentCriteriaFormConverterTest {
 		judgmentCriteriaForm.setScJudgmentForm("wyrok SN");
 		judgmentCriteriaForm.setSupremeChamberId(13l);
 		judgmentCriteriaForm.setSupremeChamberDivisionId(14l);
+		
+		judgmentCriteriaForm.setCtDissentingOpinion("opinion");
 		
 		judgmentCriteriaForm.setJudgeName("Judge Dredd");
 		judgmentCriteriaForm.setKeywords(Lists.newArrayList("very important keyword"));

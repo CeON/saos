@@ -145,6 +145,19 @@ final class TestInMemoryCtObjectFactory {
 
         ctJudgment.getSourceInfo().setSourceCode(SourceCode.CONSTITUTIONAL_TRIBUNAL);
 
+        
+        ConstitutionalTribunalJudgmentDissentingOpinion firstOpinion = new ConstitutionalTribunalJudgmentDissentingOpinion();
+        firstOpinion.setTextContent(RandomStringUtils.randomAlphanumeric(25));
+        firstOpinion.addAuthor(RandomStringUtils.randomAlphanumeric(8));
+        firstOpinion.addAuthor(RandomStringUtils.randomAlphanumeric(9));
+
+        ConstitutionalTribunalJudgmentDissentingOpinion secondOpinion = new ConstitutionalTribunalJudgmentDissentingOpinion();
+        secondOpinion.setTextContent(RandomStringUtils.randomAlphanumeric(26));
+        secondOpinion.addAuthor(RandomStringUtils.randomAlphanumeric(10));
+
+        ctJudgment.addDissentingOpinion(firstOpinion);
+        ctJudgment.addDissentingOpinion(secondOpinion);
+        
 
         JudgmentKeyword firstKeyword = new JudgmentKeyword(CourtType.CONSTITUTIONAL_TRIBUNAL, RandomStringUtils.randomAlphanumeric(18));
         JudgmentKeyword secondKeyword = new JudgmentKeyword(CourtType.CONSTITUTIONAL_TRIBUNAL, RandomStringUtils.randomAlphanumeric(19));

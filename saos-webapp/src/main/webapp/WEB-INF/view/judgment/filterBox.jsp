@@ -68,6 +68,8 @@
 	
 	<%@ include file="scJudgment/scJudgmentFilterFields.jsp" %>
 	
+	<%@ include file="ctJudgment/ctJudgmentFilterFields.jsp" %>
+	
 	<p id="clearAllFilters" class="clear-button" ><spring:message code="judgmentSearch.filterBox.clearAll" /></p>
 		
 	<p id="no-filters" >
