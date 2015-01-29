@@ -395,6 +395,7 @@ form.search {
 		&.col-sm-2 {
 			width: 18%;		
 		}
+		
 	}
 	
 	.advance-form {
@@ -430,6 +431,8 @@ form.search {
 	    margin-top: 20px;
 	    padding-bottom: 6px;
 	}
+	
+	
 	
 }
 
@@ -1088,3 +1091,13 @@ form.search {
 .navbar-nav.navbar-right:last-child {
 	margin-right: 0;
 }
+
+.form-date {
+	display: inline-block;
+	width: auto;
+}
+
+label.error {
+	margin-left: 10px;
+}
+

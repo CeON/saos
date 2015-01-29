@@ -118,12 +118,15 @@ module.exports = function(grunt) {
 				  '<%= project.js.dir %>/libs/jquery.clipboard/jquery.clipboard.js',
 				  '<%= project.js.dir %>/libs/jquery.pseudo.js',
 				  '<%= project.js.dir %>/libs/jquery.sticky.js',
+				  '<%= project.js.dir %>/libs/jquery.validate.min.js',
 				  '<%= project.js.dir %>/libs/jquery.wrapInTag.js',
 				  '<%= project.js.dir %>/libs/modernizr.js',
 				  '<%= project.js.dir %>/libs/bootstrap.min.js',
-        	      
+				  '<%= project.js.dir %>/libs/moment.js',
+				  
 				  '<%= project.js.dir %>/modules/typography.js',
         	      '<%= project.js.dir %>/modules/cookies.js',
+        	      '<%= project.js.dir %>/modules/dateFormat.js',
         	      '<%= project.js.dir %>/modules/courtDivisionSelect.js',
         	      '<%= project.js.dir %>/modules/search/searchFormMode.js',
         	      '<%= project.js.dir %>/modules/search/searchCriteria.js',

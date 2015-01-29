@@ -6,7 +6,8 @@ var contextPath = '${pageContext.request.contextPath}',
 	 * used in javascript code. 
 	 */
 	springMessage = {
-			judgmentSearchFormFieldKeywordsPlaceholder: '<spring:message code="judgmentSearch.formField.keywordsPlaceholder" />'	
+			judgmentSearchFormFieldDateWrongFormat: '<spring:message code="judgmentSearch.formField.dateWrongFormat" />',			
+			judgmentSearchFormFieldKeywordsPlaceholder: '<spring:message code="judgmentSearch.formField.keywordsPlaceholder" />'
 	};
 
 </script>
