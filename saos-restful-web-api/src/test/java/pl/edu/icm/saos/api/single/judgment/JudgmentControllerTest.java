@@ -111,6 +111,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
     private String ccJudgmentPath;
     private String scJudgmentPath;
     private String ctJudgmentPath;
+    private String nacJudgmentPath;
 
     @Before
     public void setUp(){
@@ -118,6 +119,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
         ccJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId();
         scJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getScJudgmentId();
         ctJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCtJudgmentId();
+        nacJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getNacJudgmentId();
 
         JudgmentController judgmentController = new JudgmentController();
 
@@ -127,6 +129,9 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
         mockMvc = standaloneSetup(judgmentController)
                 .build();
     }
+
+
+    //------------------------ TESTS --------------------------
 
     @Test
     public void it_should_show_all_judgment_basic_fields() throws Exception {
@@ -223,6 +228,8 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.division.court.name").value(CC_COURT_NAME))
                 .andExpect(jsonPath("$.data.division.court.type").value(CC_COURT_TYPE.name()))
 
+                .andExpect(jsonPath("$.data.chambers").doesNotExist())
+                .andExpect(jsonPath("$.data.dissentingOpinions").doesNotExist())
                 ;
     }
 
@@ -252,6 +259,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.chambers.[0].id").value(equalsLong(testObjectContext.getScFirstChamberId())))
                 .andExpect(jsonPath("$.data.chambers.[0].name").value(SC_FIRST_CHAMBER_NAME))
 
+                .andExpect(jsonPath("$.data.dissentingOpinions").doesNotExist())
                 ;
     }
 
@@ -275,7 +283,28 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
 
                 .andExpect(jsonPath("$.data.dissentingOpinions.[1].textContent").value(CT_SECOND_DISSENTING_OPINION_TEXT))
                 .andExpect(jsonPath("$.data.dissentingOpinions.[1].authors.[0]").value(CT_SECOND_DISSENTING_OPINION_FIRST_AUTHOR))
+                
+                .andExpect(jsonPath("$.data.division").doesNotExist())
+                .andExpect(jsonPath("$.data.chambers").doesNotExist())
 
+        ;
+    }
+    
+    @Test
+    public void it_should_show_all_nacJudgments_fields() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(nacJudgmentPath)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        //then
+        actions
+                .andExpect(jsonPath("$.data.id").value(equalsLong(testObjectContext.getNacJudgmentId())))
+                .andExpect(jsonPath("$.data.courtType").value(CourtType.NATIONAL_APPEAL_CHAMBER.name()))
+                .andExpect(jsonPath("$.data.href").value(endsWith(nacJudgmentPath)))
+
+                .andExpect(jsonPath("$.data.division").doesNotExist())
+                .andExpect(jsonPath("$.data.chambers").doesNotExist())
+                .andExpect(jsonPath("$.data.dissentingOpinions").doesNotExist())
         ;
     }
 

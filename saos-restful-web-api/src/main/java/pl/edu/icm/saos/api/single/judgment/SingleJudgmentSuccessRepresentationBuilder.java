@@ -2,10 +2,12 @@ package pl.edu.icm.saos.api.single.judgment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import pl.edu.icm.saos.api.single.judgment.mapping.CommonCourtJudgmentMapper;
 import pl.edu.icm.saos.api.single.judgment.mapping.ConstitutionalTribunalJudgmentMapper;
 import pl.edu.icm.saos.api.single.judgment.mapping.JudgmentMapper;
 import pl.edu.icm.saos.api.single.judgment.mapping.SupremeCourtJudgmentMapper;
+import pl.edu.icm.saos.api.single.judgment.views.BasicJudgmentView;
 import pl.edu.icm.saos.api.single.judgment.views.CommonCourtJudgmentView;
 import pl.edu.icm.saos.api.single.judgment.views.ConstitutionalTribunalJudgmentView;
 import pl.edu.icm.saos.api.single.judgment.views.JudgmentView;
@@ -68,7 +70,7 @@ public class SingleJudgmentSuccessRepresentationBuilder {
                 constitutionalTribunalJudgmentMapper.fillJudgmentsFieldToRepresentation(ctJudgmentView, ctJudgment);
                 return ctJudgmentView;
             default:
-                return new CommonCourtJudgmentView();
+                return new BasicJudgmentView();
         }
     }
 
