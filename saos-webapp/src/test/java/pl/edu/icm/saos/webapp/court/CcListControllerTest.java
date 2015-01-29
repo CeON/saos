@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
+
 import java.util.List;
 
 import org.junit.Before;
@@ -84,9 +86,9 @@ public class CcListControllerTest {
         //then
         actions
 		        .andExpect(status().isOk())
-		        .andExpect(jsonPath("$.[0].id").value(simpleDivisions.get(0).getId()))
+		        .andExpect(jsonPath("$.[0].id").value(equalsLong(simpleDivisions.get(0).getId())))
 				.andExpect(jsonPath("$.[0].name").value(simpleDivisions.get(0).getName()))
-		        .andExpect(jsonPath("$.[1].id").value(simpleDivisions.get(1).getId()))
+		        .andExpect(jsonPath("$.[1].id").value(equalsLong(simpleDivisions.get(1).getId())))
 				.andExpect(jsonPath("$.[1].name").value(simpleDivisions.get(1).getName()));
                 
         verify(ccListService, times(1)).findCcDivisions(commonCourtId);

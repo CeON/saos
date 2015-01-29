@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
+import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
 
 import java.util.List;
 
@@ -82,9 +83,9 @@ public class ScListControllerTest {
         //then
         actions
 		        .andExpect(status().isOk())
-		        .andExpect(jsonPath("$.[0].id").value(simpleDivisions.get(0).getId()))
+		        .andExpect(jsonPath("$.[0].id").value(equalsLong(simpleDivisions.get(0).getId())))
 				.andExpect(jsonPath("$.[0].name").value(simpleDivisions.get(0).getName()))
-		        .andExpect(jsonPath("$.[1].id").value(simpleDivisions.get(1).getId()))
+		        .andExpect(jsonPath("$.[1].id").value(equalsLong(simpleDivisions.get(1).getId())))
 				.andExpect(jsonPath("$.[1].name").value(simpleDivisions.get(1).getName()));
      
         
