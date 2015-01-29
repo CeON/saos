@@ -1,9 +1,6 @@
 /*
  * DateFormat - converts string to string in format aa-aa-aaaa 
  * 
- * Module requires:
- * - jquery
- * 
  * @author Łukasz Pawełczak
  */
 
@@ -11,17 +8,27 @@ var DateFormat = function() {
 
 	var space = {},
 	
-	/* Insert one string in another at position.
+	/* Insert one string in another  at position.
+	 * insertAt("Helorld", 3 "lo W") -> "Hello World"
 	 * 
+	 * @param string - main string
+	 * @param index - position at which string will be inserted
+	 * @param value - inserted string
 	 */
 	insertAt = function(string, index, value) { 
 	  return string.substr(0, index) + value + string.substr(index);
 	};
 	
 	
+	/* Converts string to match format aa-aa-aaaa. 
+	 * Argument text can't have more than 8 letters,
+	 * rest is subtracted.
+	 * 
+	 * @param text - string to convert
+	 * @returns - converted string
+	 */
 	space.convert = function(text) {
-		var newText = "",
-			length = 0;
+		var length = 0;
 		
 		text = text.replace(/-/g, '');
 		length = text.length;

@@ -32,15 +32,12 @@ var jsInitInJudgmentSearch = function() {
     			dateFormat: true
     		}
     	},
-    	showErrors: function(errorMap, errorList) {
-    		this.defaultShowErrors();
-    	},
-    	 highlight: function(element, errorClass, validClass) {
-    		 $(element).parent().parent().addClass("has-error");
-		 },
-		 unhighlight: function(element, errorClass, validClass) {
-			 $(element).parent().parent().removeClass("has-error");
-		 }
+		highlight: function(element, errorClass, validClass) {
+			$(element).parent().parent().addClass("has-error");
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parent().parent().removeClass("has-error");
+		}
     });
     
     $("#datepicker_from, #datepicker_to")
