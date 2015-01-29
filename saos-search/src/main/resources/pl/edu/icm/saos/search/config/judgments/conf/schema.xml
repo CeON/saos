@@ -97,9 +97,9 @@
    
    <field name="keyword" type="text_keyword" indexed="true" stored="true" multiValued="true" />
    
-   <field name="content" type="text_general" indexed="true" stored="true" />
+   <field name="content" type="text_general" indexed="false" stored="true" />
    
-   <field name="all" type="text_general" indexed="true" stored="true" multiValued="true"  />
+   <field name="all" type="text_general" indexed="true" stored="false" multiValued="true"  />
    
    
    <copyField source="caseNumber" dest="all" />
