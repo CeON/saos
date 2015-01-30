@@ -74,7 +74,9 @@ public class JudgmentCriteriaTransformerTest {
                 { "+ccCourtDivisionName:someDivisionName", new JudgmentCriteriaBuilder().withCcDivisionName("someDivisionName").build() },
                 
                 { "+ctDissentingOpinion:someOpinion", new JudgmentCriteriaBuilder().withCtDissentingOpinion("someOpinion").build() },
+                { "+ctDissentingOpinion:\"some opinion\"", new JudgmentCriteriaBuilder().withCtDissentingOpinion("\"some opinion\"").build() },
                 { "+ctDissentingOpinionAuthor:someAuthor", new JudgmentCriteriaBuilder().withCtDissentingOpinionAuthor("someAuthor").build() },
+                { "+(ctDissentingOpinionAuthor:author1 ctDissentingOpinionAuthor:author2)", new JudgmentCriteriaBuilder().withCtDissentingOpinionAuthor("author1 or author2").build() },
         };
     }
     

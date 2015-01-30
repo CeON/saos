@@ -168,6 +168,8 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(21l), new JudgmentCriteriaBuilder().withScChamberDivisionName("Wydział III").build() },
             
             { Lists.newArrayList(22l), new JudgmentCriteriaBuilder().withCtDissentingOpinion("first").build() },
+            { Lists.newArrayList(22l, 23l), new JudgmentCriteriaBuilder().withCtDissentingOpinion("text OR first").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCtDissentingOpinion("text first").build() },
             { Lists.newArrayList(22l), new JudgmentCriteriaBuilder().withCtDissentingOpinion("Kowalski").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCtDissentingOpinion("other").build() },
             { Lists.newArrayList(22l), new JudgmentCriteriaBuilder().withCtDissentingOpinionAuthor("Kowalski").build() },
@@ -334,7 +336,8 @@ public class JudgmentSearchServiceTest {
         judgmentsServer.add(fetchFirstCcJudgmentDoc());
         judgmentsServer.add(fetchSecondCcJudgmentDoc());
         judgmentsServer.add(fetchScJudgmentDoc());
-        judgmentsServer.add(fetchCtJudgmentDoc());
+        judgmentsServer.add(fetchfirstCtJudgmentDoc());
+        judgmentsServer.add(fetchSecondCtJudgmentDoc());
         
         judgmentsServer.commit();
     }
@@ -455,7 +458,7 @@ public class JudgmentSearchServiceTest {
         return doc;
     }
     
-    private SolrInputDocument fetchCtJudgmentDoc() {
+    private SolrInputDocument fetchfirstCtJudgmentDoc() {
         SolrInputDocument doc = new SolrInputDocument();
         doc.addField("databaseId", "22");
         doc.addField("caseNumber", "constitutionalTribunalCaseNumber");
@@ -468,6 +471,18 @@ public class JudgmentSearchServiceTest {
         doc.addField("ctDissentingOpinionAuthor", "Aleksander Kowalski");
         doc.addField("ctDissentingOpinionAuthor", "Jan Nowak");
         doc.addField("ctDissentingOpinionAuthor", "Maciej Kamiński");
+        
+        return doc;
+    }
+    
+    private SolrInputDocument fetchSecondCtJudgmentDoc() {
+        SolrInputDocument doc = new SolrInputDocument();
+        doc.addField("databaseId", "23");
+        doc.addField("caseNumber", "secondConstitutionalTribunalCaseNumber");
+        
+        doc.addField("ctDissentingOpinion", "text of dissenting opinion");
+        doc.addField("ctDissentingOpinion", "Kazimierz Kozłowski");
+        doc.addField("ctDissentingOpinionAuthor", "Kazimierz Kozłowski");
         
         return doc;
     }
