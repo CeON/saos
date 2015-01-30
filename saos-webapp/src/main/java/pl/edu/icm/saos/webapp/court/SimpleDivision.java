@@ -8,13 +8,13 @@ package pl.edu.icm.saos.webapp.court;
 public class SimpleDivision {
 	
 	
-	private String id;
+	private long id;
 	private String name;
 	
 	
 	//------------------------ GETTERS --------------------------
 	
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 	
@@ -25,11 +25,12 @@ public class SimpleDivision {
 	
 	//------------------------ SETTERS --------------------------
 	
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
+
 }

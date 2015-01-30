@@ -45,8 +45,8 @@ public class SimpleDivisionConverterTest {
 	@Test
 	public void convertCcDivisions_Same() {
 		//given
-		int idOne = 111;
-		int idTwo = 222;
+		long idOne = 111;
+		long idTwo = 222;
 		CommonCourtDivision ccDivisionOne = new CommonCourtDivision();
 		ccDivisionOne.setName(ccDivisionNames[0]);
 		Whitebox.setInternalState(ccDivisionOne, "id", idOne);
@@ -61,8 +61,8 @@ public class SimpleDivisionConverterTest {
 		
 		//then
 		assertEquals(ccDivisionNames.length, convertedSimpleDivisions.size());
-		assertEquals(String.valueOf(idOne), convertedSimpleDivisions.get(0).getId());
-		assertEquals(String.valueOf(idTwo), convertedSimpleDivisions.get(1).getId());
+		assertEquals(idOne, convertedSimpleDivisions.get(0).getId());
+		assertEquals(idTwo, convertedSimpleDivisions.get(1).getId());
 		assertEquals(ccDivisionNames[0], convertedSimpleDivisions.get(0).getName());
 		assertEquals(ccDivisionNames[1], convertedSimpleDivisions.get(1).getName());
 	}
@@ -83,8 +83,8 @@ public class SimpleDivisionConverterTest {
 	@Test
 	public void convertScDivisionChambers_Same() {
 		//given
-		int idOne = 111;
-		int idTwo = 222;
+		long idOne = 111;
+		long idTwo = 222;
 		SupremeCourtChamberDivision scChamberDivisionOne = new SupremeCourtChamberDivision();
 		scChamberDivisionOne.setName(scDivisionChamberNames[0]);
 		Whitebox.setInternalState(scChamberDivisionOne, "id", idOne);
@@ -99,8 +99,8 @@ public class SimpleDivisionConverterTest {
 		
 		//then
 		assertEquals(scDivisionChamberNames.length, convertedSimpleDivisions.size());
-		assertEquals(String.valueOf(idOne), convertedSimpleDivisions.get(0).getId());
-		assertEquals(String.valueOf(idTwo), convertedSimpleDivisions.get(1).getId());
+		assertEquals(idOne, convertedSimpleDivisions.get(0).getId());
+		assertEquals(idTwo, convertedSimpleDivisions.get(1).getId());
 		assertEquals(scDivisionChamberNames[0], convertedSimpleDivisions.get(0).getName());
 		assertEquals(scDivisionChamberNames[1], convertedSimpleDivisions.get(1).getName());
 	}
