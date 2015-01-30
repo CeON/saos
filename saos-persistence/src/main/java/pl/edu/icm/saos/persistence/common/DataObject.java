@@ -16,7 +16,7 @@ import pl.edu.icm.saos.common.visitor.VisitorUtils;
  *
  */
 @MappedSuperclass
-public abstract class DataObject {
+public abstract class DataObject extends GeneratableObject {
 
     protected long id;
     private int ver;
@@ -76,6 +76,8 @@ public abstract class DataObject {
         return getId() != 0;
     }
     
+  
+    
     //------------------------ SETTERS --------------------------
     
     /** for hibernate */
@@ -94,4 +96,5 @@ public abstract class DataObject {
         this.id = id;
     }
     
+   
 }
