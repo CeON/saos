@@ -5,6 +5,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.persistence.enrichment.model.UploadEnrichmentTag;
+
 /**
  * A service for processing {@link UploadEnrichmentTag}s
  * @author Łukasz Dumiszewski
@@ -20,20 +22,14 @@ public class UploadEnrichmentTagProcessor {
     
     
     /**
-     * Checks whether there are newly uploaded enrichment tags ({@link UploadedEnrichmentTag}) and in case they are
-     * overwrites with them the old ones ({@link EnrichmentTag}). <br/><br/>
-     * Uses {@link UploadEnrichmentTagOverwriter#shouldEnrichmentTagsBeOverwritten()} and {@link UploadEnrichmentTagOverwriter#overwriteEnrichmentTags()}
-     * internally.
+     * Processes the uploaded enrichment tags ({@link UploadedEnrichmentTag}) <br/> 
+     * Uses {@link UploadEnrichmentTagOverwriter#overwriteEnrichmentTags()} internally
      * 
      */
     @Transactional
     public void processUploadedEnrichmentTags() {
         
-        if (uploadEnrichmentTagOverwriter.shouldEnrichmentTagsBeOverwritten()) {
-            
-            uploadEnrichmentTagOverwriter.overwriteEnrichmentTags();
-        
-        }
+        uploadEnrichmentTagOverwriter.overwriteEnrichmentTags();
         
     }
 
