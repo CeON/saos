@@ -73,7 +73,7 @@ var SearchFilters = (function(){
 								 
 				$thisButton.click(
 						(function() {
-							if ($searchFormField.is("input[type='checkbox']")) {
+							if ($searchFormField.is("input[type='checkbox']") || $searchFormField.is("input[type='radio']")) {
 								return function() {
 									$searchFormField.each(function() {
 										var $this = $(this);

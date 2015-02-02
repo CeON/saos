@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 
@@ -17,6 +18,8 @@ public class JudgmentSearchResult extends Searchable {
     private List<String> caseNumbers;
     private JudgmentType judgmentType;
     private LocalDate judgmentDate;
+    
+    private CourtType courtType;
     
     private Long ccCourtId;
     private String ccCourtCode;
@@ -54,6 +57,9 @@ public class JudgmentSearchResult extends Searchable {
     }
     public LocalDate getJudgmentDate() {
         return judgmentDate;
+    }
+    public CourtType getCourtType() {
+    	return courtType;
     }
     public Long getCcCourtId() {
         return ccCourtId;
@@ -115,6 +121,9 @@ public class JudgmentSearchResult extends Searchable {
     }
     public void setJudgmentDate(LocalDate judgmentDate) {
         this.judgmentDate = judgmentDate;
+    }
+    public void setCourtType(CourtType courtType) {
+    	this.courtType = courtType;
     }
     public void setCcCourtId(Long ccCourtId) {
         this.ccCourtId = ccCourtId;

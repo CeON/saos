@@ -12,6 +12,7 @@ import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
@@ -59,7 +60,7 @@ public class JudgmentSearchResultTranslatorTest {
         doc.addField("referencedRegulations", "Ustawa 1");
         doc.addField("referencedRegulations", "Ustawa 2");
         
-        doc.addField("courtType", "APPEAL");
+        doc.addField("courtType", "COMMON");
         
         doc.addField("keyword", "some keyword");
         doc.addField("keyword", "some other keyword");
@@ -78,6 +79,7 @@ public class JudgmentSearchResultTranslatorTest {
         
         assertEquals(new LocalDate(2014, 10, 7), result.getJudgmentDate());
         assertEquals(JudgmentType.SENTENCE, result.getJudgmentType());
+        assertEquals(CourtType.COMMON, result.getCourtType());
         
         assertEquals(2, result.getKeywords().size());
         assertTrue(result.getKeywords().contains("some keyword"));
