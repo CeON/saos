@@ -51,7 +51,9 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 @Entity
-@Table(indexes={@Index(columnList="indexed")}, uniqueConstraints={@UniqueConstraint(name="source_id_judgment_id_unique", columnNames={"sourceCode", "sourceJudgmentId"})})
+@Table(
+        indexes={@Index(columnList="indexed"), @Index(columnList="judgmentDate, id")},
+        uniqueConstraints={@UniqueConstraint(name="source_id_judgment_id_unique", columnNames={"sourceCode", "sourceJudgmentId"})})
 @Inheritance(strategy = InheritanceType.JOINED)
 @Cacheable(true)
 @SequenceGenerator(name = "seq_judgment", allocationSize = 1, sequenceName = "seq_judgment")
