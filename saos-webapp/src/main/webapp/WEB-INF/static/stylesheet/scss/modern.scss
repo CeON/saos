@@ -517,16 +517,24 @@ form.search {
 			}
 		}
 		
-		.judgment-type {
-			background: $white;
-			@include filter-underline();
-			border-color: #888;
-			color: #888;
-			display: inline-block;
-			font-size: 11px;
+		.top-line {
+			font-size: 13px;
 			position: absolute;
-			text-transform: uppercase;
 			top: 14px;
+			
+			> div {
+				background: $white;
+				@include filter-underline();
+				border-color: #888;
+				display: inline-block;
+			}
+		}
+		
+		.judgment-type {
+			text-transform: uppercase;
+		}
+		
+		.court-type {
 		}
 		
 		.date {

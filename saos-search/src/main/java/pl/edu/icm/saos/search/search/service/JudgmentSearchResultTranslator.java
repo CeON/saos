@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
@@ -51,6 +52,13 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
         
         LocalDate judgmentDate = fieldFetcher.fetchDateValue(document, JudgmentIndexField.JUDGMENT_DATE);
         result.setJudgmentDate(judgmentDate);
+        
+        String courtTypeString = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_TYPE);
+        
+        if (courtTypeString != null) {
+        	CourtType courtType = CourtType.valueOf(courtTypeString);
+        	result.setCourtType(courtType);
+        }
         
         translateCommonCourt(document, result);
         translateSupremeCourt(document, result);
