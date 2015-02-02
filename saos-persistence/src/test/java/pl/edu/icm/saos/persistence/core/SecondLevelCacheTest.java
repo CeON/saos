@@ -1,22 +1,22 @@
 package pl.edu.icm.saos.persistence.core;
 
+import javax.persistence.Cache;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.hibernate.Session;
 import org.hibernate.stat.Statistics;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
-import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.CourtCase;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
-
-import javax.persistence.Cache;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 
 /**
  * @author Łukasz Dumiszewski
@@ -30,7 +30,10 @@ public class SecondLevelCacheTest extends PersistenceTestSupport {
     private EntityManager entityManager;
     
     @Autowired
-    private JudgmentRepository judgmentRepository;
+    private CommonCourtRepository commonCourtRepository;
+    
+    @Autowired
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
     
     
     
@@ -42,20 +45,21 @@ public class SecondLevelCacheTest extends PersistenceTestSupport {
         Statistics statistics = ((Session)(entityManager.getDelegate())).getSessionFactory().getStatistics();
         statistics.clear();
         
-        Judgment judgment = TestInMemoryObjectFactory.createSimpleCcJudgment();
-        judgmentRepository.save(judgment);
+        CommonCourt commonCourt = testPersistenceObjectFactory.createCcCourt(false);
         
-        judgmentRepository.findOne(judgment.getId());
-        judgmentRepository.findOne(judgment.getId());
-        
-        Assert.assertTrue(cache.contains(CommonCourtJudgment.class, judgment.getId()));
-        Assert.assertTrue(cache.contains(CourtCase.class, judgment.getCourtCases().get(0).getId()));
-        cache.evict(CommonCourtJudgment.class);
-        cache.evict(CourtCase.class);
-        Assert.assertFalse(cache.contains(CommonCourtJudgment.class, judgment.getId()));
-        Assert.assertFalse(cache.contains(CourtCase.class, judgment.getCourtCases().get(0).getId()));
-        
-        Assert.assertEquals(2, statistics.getSecondLevelCachePutCount());
+        commonCourtRepository.findOne(commonCourt.getId());
+        commonCourtRepository.findOne(commonCourt.getId());
+
+        Assert.assertTrue(cache.contains(CommonCourt.class, commonCourt.getId()));
+        Assert.assertTrue(cache.contains(CommonCourtDivision.class, commonCourt.getDivisions().get(0).getId()));
+        Assert.assertTrue(cache.contains(CommonCourtDivision.class, commonCourt.getDivisions().get(1).getId()));
+        cache.evict(CommonCourt.class);
+        cache.evict(CommonCourtDivision.class);
+        Assert.assertFalse(cache.contains(CommonCourt.class, commonCourt.getId()));
+        Assert.assertFalse(cache.contains(CommonCourtDivision.class, commonCourt.getDivisions().get(0).getId()));
+        Assert.assertFalse(cache.contains(CommonCourtDivision.class, commonCourt.getDivisions().get(1).getId()));
+
+        Assert.assertEquals(5, statistics.getSecondLevelCachePutCount()); // 1 commonCourt + 2 ccDivision + 2 ccDivisionType
         Assert.assertEquals(2, statistics.getSecondLevelCacheHitCount());
         Assert.assertEquals(0, statistics.getSecondLevelCacheMissCount());
         
