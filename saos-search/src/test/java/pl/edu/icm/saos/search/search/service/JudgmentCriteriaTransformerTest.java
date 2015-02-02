@@ -39,8 +39,8 @@ public class JudgmentCriteriaTransformerTest {
     @DataProvider
     public static Object[][] criterionData() {
         return new Object[][] {
-                { "+content:word", new JudgmentCriteria("word") },
-                { "+(content:word1 content:word2)", new JudgmentCriteria("word1 or word2") },
+                { "+all:word", new JudgmentCriteria("word") },
+                { "+(all:word1 all:word2)", new JudgmentCriteria("word1 or word2") },
                 { "*:*", new JudgmentCriteria(" ") },
                 
                 { "+judgeName:Nowak", new JudgmentCriteriaBuilder().withJudgeName("Nowak").build() },
@@ -78,6 +78,11 @@ public class JudgmentCriteriaTransformerTest {
                 { "+ccCourtDivisionId:14", new JudgmentCriteriaBuilder().withCcDivisionId(14).build() },
                 { "+ccCourtDivisionCode:0100", new JudgmentCriteriaBuilder().withCcDivisionCode("0100").build() },
                 { "+ccCourtDivisionName:someDivisionName", new JudgmentCriteriaBuilder().withCcDivisionName("someDivisionName").build() },
+                
+                { "+ctDissentingOpinion:someOpinion", new JudgmentCriteriaBuilder().withCtDissentingOpinion("someOpinion").build() },
+                { "+ctDissentingOpinion:\"some opinion\"", new JudgmentCriteriaBuilder().withCtDissentingOpinion("\"some opinion\"").build() },
+                { "+ctDissentingOpinionAuthor:someAuthor", new JudgmentCriteriaBuilder().withCtDissentingOpinionAuthor("someAuthor").build() },
+                { "+(ctDissentingOpinionAuthor:author1 ctDissentingOpinionAuthor:author2)", new JudgmentCriteriaBuilder().withCtDissentingOpinionAuthor("author1 or author2").build() },
         };
     }
     

@@ -46,6 +46,9 @@ public class JudgmentCriteria extends Criteria {
     private Long scCourtChamberDivisionId;
     private String scCourtChamberDivisionName;
     
+    private String ctDissentingOpinion;
+    private String ctDissentingOpinionAuthor;
+    
     private List<JudgmentType> judgmentTypes = Lists.newLinkedList();
     
     private String judgeName;
@@ -127,6 +130,12 @@ public class JudgmentCriteria extends Criteria {
     public String getScCourtChamberDivisionName() {
         return scCourtChamberDivisionName;
     }
+    public String getCtDissentingOpinion() {
+        return ctDissentingOpinion;
+    }
+    public String getCtDissentingOpinionAuthor() {
+        return ctDissentingOpinionAuthor;
+    }
     public List<JudgmentType> getJudgmentTypes() {
         return judgmentTypes;
     }
@@ -200,6 +209,12 @@ public class JudgmentCriteria extends Criteria {
     public void setScCourtChamberDivisionName(String courtChamberDivisionName) {
         this.scCourtChamberDivisionName = courtChamberDivisionName;
     }
+    public void setCtDissentingOpinion(String ctDissentingOpinion) {
+        this.ctDissentingOpinion = ctDissentingOpinion;
+    }
+    public void setCtDissentingOpinionAuthor(String ctDissentingOpinionAuthor) {
+        this.ctDissentingOpinionAuthor = ctDissentingOpinionAuthor;
+    }
     public void setJudgmentTypes(List<JudgmentType> judgmentTypes) {
         this.judgmentTypes = judgmentTypes;
     }
@@ -224,7 +239,8 @@ public class JudgmentCriteria extends Criteria {
                 courtType, ccCourtId, ccCourtCode, ccCourtName,
                 ccCourtDivisionId, ccCourtDivisionCode, ccCourtDivisionName,
 				scJudgmentForm, scPersonnelType, scCourtChamberId, scCourtChamberName, scCourtChamberDivisionId,
-                scCourtChamberDivisionName, judgmentTypes, judgeName, keywords,
+                scCourtChamberDivisionName, ctDissentingOpinion, ctDissentingOpinionAuthor,
+                judgmentTypes, judgeName, keywords,
                 legalBase, referencedRegulation);
     }
 
@@ -254,6 +270,8 @@ public class JudgmentCriteria extends Criteria {
                 Objects.equal(this.scCourtChamberName, other.scCourtChamberName) &&
                 Objects.equal(this.scCourtChamberDivisionId, other.scCourtChamberDivisionId) &&
                 Objects.equal(this.scCourtChamberDivisionName, other.scCourtChamberDivisionName) &&
+                Objects.equal(this.ctDissentingOpinion, other.ctDissentingOpinion) &&
+                Objects.equal(this.ctDissentingOpinionAuthor, other.ctDissentingOpinionAuthor) &&
                 Objects.equal(this.judgmentTypes, other.judgmentTypes) &&
                 Objects.equal(this.judgeName, other.judgeName) &&
                 Objects.equal(this.keywords, other.keywords) &&

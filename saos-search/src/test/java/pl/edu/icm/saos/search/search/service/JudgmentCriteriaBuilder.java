@@ -126,6 +126,16 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
+    public JudgmentCriteriaBuilder withCtDissentingOpinion(String dissentingOpinion) {
+        criteria.setCtDissentingOpinion(dissentingOpinion);
+        return this;
+    }
+    
+    public JudgmentCriteriaBuilder withCtDissentingOpinionAuthor(String dissentingOpinionAuthor) {
+        criteria.setCtDissentingOpinionAuthor(dissentingOpinionAuthor);
+        return this;
+    }
+    
     public JudgmentCriteriaBuilder withJudgmentType(JudgmentType type) {
         criteria.addJudgmentType(type);
         return this;

@@ -63,8 +63,6 @@
    <field name="databaseId" type="long" indexed="true" stored="true" required="true" multiValued="false" />
    <field name="caseNumber" type="text_keyword" indexed="true" stored="true" multiValued="true" />
    
-   <field name="title" type="text_general" indexed="true" stored="true"/>
-   
    <field name="judgmentDate" type="tdate" indexed="true" stored="true" multiValued="false" />
    <field name="judgmentType" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="legalBases" type="text_general" indexed="true" stored="true" multiValued="true" />
@@ -90,20 +88,40 @@
    <field name="scCourtDivisionsChamberId" type="long" indexed="false" stored="true" multiValued="false" />
    <field name="scCourtDivisionsChamberName" type="string" indexed="false" stored="true" multiValued="false" />
    
+   <field name="ctDissentingOpinion" type="text_general" indexed="true" stored="true" multiValued="true" />
+   <field name="ctDissentingOpinionAuthor" type="text_general" indexed="true" stored="true" multiValued="true" />
+   
    <field name="judge" type="string" indexed="false" stored="true" multiValued="true" />
    <field name="judgeName" type="text_general" indexed="true" stored="true" multiValued="true" />
    <dynamicField name="judgeWithRole*" type="text_general" indexed="true" stored="true" multiValued="true" />
    
    <field name="keyword" type="text_keyword" indexed="true" stored="true" multiValued="true" />
    
-   <field name="content" type="text_general" indexed="true" stored="true" />
+   <field name="content" type="text_general" indexed="false" stored="true" />
+   
+   <field name="all" type="text_general" indexed="true" stored="false" multiValued="true"  />
+   
+   
+   <copyField source="caseNumber" dest="all" />
+   <copyField source="legalBases" dest="all" />
+   <copyField source="referencedRegulations" dest="all" />
+   <copyField source="ccCourtName" dest="all" />
+   <copyField source="ccCourtDivisionName" dest="all" />
+   <copyField source="scJudgmentForm" dest="all" />
+   <copyField source="scCourtChamberName" dest="all" />
+   <copyField source="scCourtChamberDivisionName" dest="all" />
+   <copyField source="scCourtDivisionsChamberName" dest="all" />
+   <copyField source="ctDissentingOpinion" dest="all" />
+   <copyField source="keyword" dest="all" />
+   <copyField source="content" dest="all" />
+   
    
 
    <!-- uncomment the following to ignore any fields that don't already match an existing 
         field name or dynamic field, rather than reporting them as an error. 
         alternately, change the type="ignored" to some other type e.g. "text" if you want 
         unknown fields indexed and/or stored by default --> 
-   <!--dynamicField name="*" type="ignored" multiValued="true" /-->
+<!--    <dynamicField name="*" type="ignored" multiValued="true" /> -->
    
 
  <uniqueKey>databaseId</uniqueKey>

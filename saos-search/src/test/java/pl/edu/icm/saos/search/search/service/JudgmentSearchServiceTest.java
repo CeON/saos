@@ -73,6 +73,8 @@ public class JudgmentSearchServiceTest {
         
         return new Object[][] {
             { Lists.newArrayList(1961l, 41808l), new JudgmentCriteriaBuilder("następuje").build() },
+            { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("izba").build() },
+            { Lists.newArrayList(22l), new JudgmentCriteriaBuilder("constitutionalTribunalCaseNumber").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder("other").build() },
             
             { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("przedawnienie").build() },
@@ -168,6 +170,13 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withScChamberDivisionName("division").build() },
             { Lists.newArrayList(21l), new JudgmentCriteriaBuilder().withScChamberDivisionName("Wydział III").build() },
             
+            { Lists.newArrayList(22l), new JudgmentCriteriaBuilder().withCtDissentingOpinion("first").build() },
+            { Lists.newArrayList(22l, 23l), new JudgmentCriteriaBuilder().withCtDissentingOpinion("text OR first").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCtDissentingOpinion("text first").build() },
+            { Lists.newArrayList(22l), new JudgmentCriteriaBuilder().withCtDissentingOpinion("Kowalski").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCtDissentingOpinion("other").build() },
+            { Lists.newArrayList(22l), new JudgmentCriteriaBuilder().withCtDissentingOpinionAuthor("Kowalski").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCtDissentingOpinionAuthor("first").build() },
         };
     }
     
@@ -330,6 +339,8 @@ public class JudgmentSearchServiceTest {
         judgmentsServer.add(fetchFirstCcJudgmentDoc());
         judgmentsServer.add(fetchSecondCcJudgmentDoc());
         judgmentsServer.add(fetchScJudgmentDoc());
+        judgmentsServer.add(fetchfirstCtJudgmentDoc());
+        judgmentsServer.add(fetchSecondCtJudgmentDoc());
         
         judgmentsServer.commit();
     }
@@ -446,6 +457,35 @@ public class JudgmentSearchServiceTest {
         doc.addField("scCourtDivisionsChamberName", "Izba Cywilna");
         
         doc.addField("content", "someContent 11 content 12 111 przedawnienia zaniechał");
+        
+        return doc;
+    }
+    
+    private SolrInputDocument fetchfirstCtJudgmentDoc() {
+        SolrInputDocument doc = new SolrInputDocument();
+        doc.addField("databaseId", "22");
+        doc.addField("caseNumber", "constitutionalTribunalCaseNumber");
+        
+        doc.addField("ctDissentingOpinion", "first dissenting opinion");
+        doc.addField("ctDissentingOpinion", "Aleksander Kowalski");
+        doc.addField("ctDissentingOpinion", "Jan Nowak");
+        doc.addField("ctDissentingOpinion", "second dissenting opinion");
+        doc.addField("ctDissentingOpinion", "Maciej Kamiński");
+        doc.addField("ctDissentingOpinionAuthor", "Aleksander Kowalski");
+        doc.addField("ctDissentingOpinionAuthor", "Jan Nowak");
+        doc.addField("ctDissentingOpinionAuthor", "Maciej Kamiński");
+        
+        return doc;
+    }
+    
+    private SolrInputDocument fetchSecondCtJudgmentDoc() {
+        SolrInputDocument doc = new SolrInputDocument();
+        doc.addField("databaseId", "23");
+        doc.addField("caseNumber", "secondConstitutionalTribunalCaseNumber");
+        
+        doc.addField("ctDissentingOpinion", "text of dissenting opinion");
+        doc.addField("ctDissentingOpinion", "Kazimierz Kozłowski");
+        doc.addField("ctDissentingOpinionAuthor", "Kazimierz Kozłowski");
         
         return doc;
     }

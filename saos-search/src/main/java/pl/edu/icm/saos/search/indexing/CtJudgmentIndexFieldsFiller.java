@@ -3,8 +3,11 @@ package pl.edu.icm.saos.search.indexing;
 import org.apache.solr.common.SolrInputDocument;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 /**
  * Fills {@link SolrInputDocument} with fields from
@@ -27,9 +30,23 @@ public class CtJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
     public void fillFields(SolrInputDocument doc, Judgment judgment) {
         super.fillFields(doc, judgment);
         
+        ConstitutionalTribunalJudgment ctJudgment = (ConstitutionalTribunalJudgment) judgment;
+        fillDissentingOpinions(doc, ctJudgment);
     }
     
     //------------------------ PRIVATE --------------------------
     
+    private void fillDissentingOpinions(SolrInputDocument doc, ConstitutionalTribunalJudgment judgment) {
+        
+        for (ConstitutionalTribunalJudgmentDissentingOpinion dissentingOpinion : judgment.getDissentingOpinions()) {
+            fieldAdder.addField(doc, JudgmentIndexField.CT_DISSENTING_OPINION, dissentingOpinion.getTextContent());
+            
+            for (String dissentingOpinionAuthor : dissentingOpinion.getAuthors()) {
+                fieldAdder.addField(doc, JudgmentIndexField.CT_DISSENTING_OPINION, dissentingOpinionAuthor);
+                fieldAdder.addField(doc, JudgmentIndexField.CT_DISSENTING_OPINION_AUTHOR, dissentingOpinionAuthor);
+            }
+        }
+        
+    }
    
 }

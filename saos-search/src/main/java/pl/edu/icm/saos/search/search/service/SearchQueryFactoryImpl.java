@@ -1,10 +1,9 @@
 package pl.edu.icm.saos.search.search.service;
 
-import java.util.Map;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrQuery.ORDER;
+import org.apache.solr.common.params.HighlightParams;
 
 import pl.edu.icm.saos.search.search.model.Criteria;
 import pl.edu.icm.saos.search.search.model.HighlightingFieldParams;
@@ -67,20 +66,48 @@ public class SearchQueryFactoryImpl<C extends Criteria> implements SearchQueryFa
             return;
         }
         
-        query.setHighlight(true);
-        for (Map.Entry<String, String> highlightParam : highlightParams.getParams().entrySet()) {
-            query.set(highlightParam.getKey(), highlightParam.getValue());
-        }
+        applyGlobalHighlightParams(query);
         
         for (HighlightingFieldParams highlightFieldParams : highlightParams.getFieldsParams()) {
-            query.addHighlightField(highlightFieldParams.getFieldName());
+
+            applyPerFieldHighlightParams(query, highlightFieldParams);
             
-            for (Map.Entry<String, String> highlightFieldParam : highlightFieldParams.getParams().entrySet()) {
-                query.set("f." + highlightFieldParams.getFieldName() + "." + highlightFieldParam.getKey(), highlightFieldParam.getValue());
-            }
         }
 
     }
+    
+    private void applyGlobalHighlightParams(SolrQuery query) {
+        query.setHighlight(true);
+        
+        highlightParams.getParams().forEach((paramName, value) -> query.set(paramName, value));
+    }
+    
+    private void applyPerFieldHighlightParams(SolrQuery query, HighlightingFieldParams highlightFieldParams) {
+        String fieldToHighlight = highlightFieldParams.getFieldName();
+        
+        query.addHighlightField(fieldToHighlight);
+        
+        if (!highlightFieldParams.getHighlightFromFields().isEmpty()) {
+            applyAlternateQueryForHighlighting(query, highlightFieldParams);
+        }
+
+        highlightFieldParams.getParams().forEach(
+                (paramName, value) -> query.set("f." + fieldToHighlight + "." + paramName, value)
+        );
+    }
+    
+    private void applyAlternateQueryForHighlighting(SolrQuery query, HighlightingFieldParams highlightFieldParams) {
+        String fieldToHighlight = highlightFieldParams.getFieldName();
+        String queryForHighlightingString = query.getQuery();
+
+        for (String highlightFromField : highlightFieldParams.getHighlightFromFields()) {
+            queryForHighlightingString = queryForHighlightingString.replace(highlightFromField + ":", fieldToHighlight + ":");
+        }
+
+        query.set(HighlightParams.Q, queryForHighlightingString);
+    }
+    
+    
 
 
     //------------------------ SETTERS --------------------------

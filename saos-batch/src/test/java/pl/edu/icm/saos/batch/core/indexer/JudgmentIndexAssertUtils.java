@@ -13,6 +13,7 @@ import org.assertj.core.util.Lists;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -48,6 +49,7 @@ class JudgmentIndexAssertUtils {
     public static void assertCtJudgment(SolrDocument doc, ConstitutionalTribunalJudgment ctJudgment) {
         
         assertJudgmentCommonFields(doc, ctJudgment);
+        assertCtJudgmentSpecificFields(doc, ctJudgment);
     }
     
     public static void assertNacJudgment(SolrDocument doc, NationalAppealChamberJudgment nacJudgment) {
@@ -88,6 +90,23 @@ class JudgmentIndexAssertUtils {
         
         assertSolrDocumentLongValues(doc, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID, scJudgment.getScChamberDivision().getScChamber().getId());
         assertSolrDocumentValues(doc, JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_NAME, scJudgment.getScChamberDivision().getScChamber().getName());
+    }
+    
+    private static void assertCtJudgmentSpecificFields(SolrDocument doc, ConstitutionalTribunalJudgment ctJudgment) {
+        List<String> expectedDissentingOpinions = Lists.newArrayList();
+        List<String> expectedDissentingOpinionsAuthors = Lists.newArrayList();
+        
+        for (ConstitutionalTribunalJudgmentDissentingOpinion dissentingOpinion : ctJudgment.getDissentingOpinions()) {
+            expectedDissentingOpinions.add(dissentingOpinion.getTextContent());
+            
+            for (String dissentingOpinionAuthor : dissentingOpinion.getAuthors()) {
+                expectedDissentingOpinions.add(dissentingOpinionAuthor);
+                expectedDissentingOpinionsAuthors.add(dissentingOpinionAuthor);
+            }
+        }
+
+        assertSolrDocumentValues(doc, JudgmentIndexField.CT_DISSENTING_OPINION, expectedDissentingOpinions);
+        assertSolrDocumentValues(doc, JudgmentIndexField.CT_DISSENTING_OPINION_AUTHOR, expectedDissentingOpinionsAuthors);
     }
     
     private static void assertJudgmentCommonFields(SolrDocument doc, Judgment judgment) {

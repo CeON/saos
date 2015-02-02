@@ -38,6 +38,8 @@ public class JudgmentCriteriaFormConverter {
 	    judgmentCriteria.setScCourtChamberId(judgmentCriteriaForm.getSupremeChamberId());
 	    judgmentCriteria.setScCourtChamberDivisionId(judgmentCriteriaForm.getSupremeChamberDivisionId());
 	    
+	    judgmentCriteria.setCtDissentingOpinion(judgmentCriteriaForm.getCtDissentingOpinion());
+	    
     	judgmentCriteria.setJudgmentTypes(Lists.newArrayList(judgmentCriteriaForm.getJudgmentTypes()));
 	    
 	    judgmentCriteria.setLegalBase(judgmentCriteriaForm.getLegalBase());

@@ -72,6 +72,10 @@
 		    <div id="supreme-court-fields" class="fields-container" >
 		    	<%@ include file="scJudgment/scJudgmentSearchForm.jsp" %>
 		    </div>
+		    
+		    <div id="constitutional-tribunal-fields" class="fields-container">
+		    	<%@ include file="ctJudgment/ctJudgmentSearchForm.jsp" %>
+		    </div>
 		     
 	    </div>
 	
