@@ -2,30 +2,17 @@
 <%@page isErrorPage="true" %>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html>
 
-
-<html>
-
-
-<head>
-	<saos:cssJsInit></saos:cssJsInit>
-</head>
-
-<body>
-<div class="alert alert-danger">error occurred</div>
-    <!-- 
+<div class="alert alert-danger"><spring:message code="error.internal" /></div>
+     
+<!-- 
 	<% 
-	   if (exception == null) {
-	    exception = (Throwable)request.getAttribute("javax.servlet.error.exception");
-	   }
-	   org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("pl.edu.icm.crpd.webapp.jsp");
-	   logger.error("", exception);
-	   exception.printStackTrace();
-	 %>
-	 -->
-	 
- </body>
- 
- </html>
+		if (exception == null) {
+			exception = (Throwable)request.getAttribute("javax.servlet.error.exception");
+		}
+		org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("pl.edu.icm.crpd.webapp.jsp");
+		logger.error("", exception);
+		exception.printStackTrace(new java.io.PrintWriter(out));
+	%>
+-->
+
