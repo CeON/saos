@@ -27,7 +27,7 @@
 			
 			<c:if test="${!empty judgment.courtType && judgment.courtType != null}" >
 				<span>-</span>
-				<div class="court-type" data-filter-value="${judgment.courtType}" ><spring:message code="judgmentSearch.courtType.${judgment.courtType}" /></div>
+				<div class="court-type" data-filter-value="${judgment.courtType}" ><spring:message code="judgmentSearch.results.courtType.${judgment.courtType}" /></div>
 			</c:if>
 		</div>
 		
@@ -49,9 +49,9 @@
 		<c:if test="${!empty judgment.scCourtDivisionsChamberName || !empty judgment.scCourtDivisionName}" >
 		
 			<div class="court-desc">
-				<saos:propertyWithFilter value="${judgment.scCourtDivisionsChamberName}" filterValue="${judgment.scCourtDivisionId}" cssClass="chamber" />
+				<saos:propertyWithFilter value="${judgment.scCourtDivisionsChamberName}" filterValue="${judgment.scCourtDivisionsChamberId}" cssClass="chamber" />
 				<span>-</span>
-				<saos:propertyWithFilter value="${judgment.scCourtDivisionName}" filterValue="${judgment.scCourtDivisionsChamberId}" cssClass="chamber-division" />
+				<saos:propertyWithFilter value="${judgment.scCourtDivisionName}" filterValue="${judgment.scCourtDivisionId}" cssClass="chamber-division" />
 			</div>
 		
 		</c:if>
