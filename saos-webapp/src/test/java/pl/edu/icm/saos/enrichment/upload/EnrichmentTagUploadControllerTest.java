@@ -290,6 +290,7 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
     }
 
     
+    
     @Test
     public void uploadEnrichmentTags_OK() throws Exception {
 
@@ -313,12 +314,7 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
 
         // assert
 
-        result.andExpect(status()
-                .isOk())
-                .andExpect(header().string("content-type", Matchers.containsString("application/json")))
-                .andExpect(jsonPath("$.status").value(ServiceExecutionStatus.OK.name()))
-                .andExpect(jsonPath("$.message").value(OK_MESSAGE))
-                .andDo(print());
+        assertOk(result);
 
         assertEquals(4, uploadEnrichmentTagRepository.count());
 
@@ -332,6 +328,67 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
         assertThat(enrichmentTagRepository.findAll(), containsInAnyOrder(expectedEnrichmentTag1, expectedEnrichmentTag2, expectedEnrichmentTag3));
     }
 
+    
+    @Test
+    public void uploadEnrichmentTags_OK_Twice() throws Exception { // checks if old tags are deleted and no constraint violation ex happens
+
+        //---------- FIRST TIME ----------
+        
+        // given
+
+        Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
+        
+        String jsonValue1 = normalizeJson("{'XXX':'YYY'}");
+        String jsonValue2 = normalizeJson("{'caseNumbers':['YYY','xx-345']}");
+        
+        // execute
+
+        ResultActions result = performPut("[" + createJsonTag(ccJudgment.getId(), "REFERENCED_REGULATIONS", jsonValue1) + ","
+                + createJsonTag(ccJudgment.getId(), "REFERENCED_CASE_NUMBERS", jsonValue2) + "]");
+
+        // assert
+
+        assertOk(result);
+
+        assertEquals(2, uploadEnrichmentTagRepository.count());
+
+        Thread.sleep(700);
+        assertEquals(2, enrichmentTagRepository.count());
+
+        EnrichmentTag expectedEnrichmentTag1 = createEnrichmentTag(ccJudgment.getId(), "REFERENCED_REGULATIONS", jsonValue1);
+        EnrichmentTag expectedEnrichmentTag2 = createEnrichmentTag(ccJudgment.getId(), "REFERENCED_CASE_NUMBERS", jsonValue2);
+        
+        assertThat(enrichmentTagRepository.findAll(), containsInAnyOrder(expectedEnrichmentTag1, expectedEnrichmentTag2));
+
+        
+        
+        //---------- SECOND TIME ----------
+        
+        // given
+
+        jsonValue1 = normalizeJson("{'XXX':'YYZ'}");
+        
+        // execute
+
+        result = performPut("[" + createJsonTag(ccJudgment.getId(), "REFERENCED_REGULATIONS", jsonValue1) + "]");
+
+        // assert
+
+        assertOk(result);
+
+        assertEquals(1, uploadEnrichmentTagRepository.count());
+
+        Thread.sleep(700);
+        assertEquals(1, enrichmentTagRepository.count());
+
+        expectedEnrichmentTag1 = createEnrichmentTag(ccJudgment.getId(), "REFERENCED_REGULATIONS", jsonValue1);
+        
+        assertThat(enrichmentTagRepository.findAll(), containsInAnyOrder(expectedEnrichmentTag1));
+
+    
+    }
+
+   
     
     
     
@@ -348,6 +405,16 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
                 .andExpect(jsonPath("$.message").value(enrichmentTagUploadResponseMessage)).andDo(print());
     }
 
+    private void assertOk(ResultActions result) throws Exception {
+        result.andExpect(status()
+                .isOk())
+                .andExpect(header().string("content-type", Matchers.containsString("application/json")))
+                .andExpect(jsonPath("$.status").value(ServiceExecutionStatus.OK.name()))
+                .andExpect(jsonPath("$.message").value(OK_MESSAGE))
+                .andDo(print());
+    }
+
+    
     private ResultActions performPut(String content) throws Exception {
 
         String basicAuth = "Basic " + new String(Base64.encodeBase64((enricherLogin + ":" + enricherPassword).getBytes()));

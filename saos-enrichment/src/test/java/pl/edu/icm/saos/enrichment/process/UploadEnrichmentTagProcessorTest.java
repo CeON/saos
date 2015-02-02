@@ -48,29 +48,11 @@ public class UploadEnrichmentTagProcessorTest {
         
         // assert
         
-        verify(uploadEnrichmentTagOverwriter).shouldEnrichmentTagsBeOverwritten();
         verify(uploadEnrichmentTagOverwriter).overwriteEnrichmentTags();
         verifyNoMoreInteractions(uploadEnrichmentTagOverwriter);
     }
     
     
-    @Test
-    public void processUploadedEnrichmentTags_enrichmentTagsShouldNotBeOverwritten() {
-        
-        // given
-        
-        when(uploadEnrichmentTagOverwriter.shouldEnrichmentTagsBeOverwritten()).thenReturn(false);
-        
-        
-        // execute
-        
-        uploadEnrichmentTagProcessor.processUploadedEnrichmentTags();
-        
-        
-        // assert
-        
-        verify(uploadEnrichmentTagOverwriter).shouldEnrichmentTagsBeOverwritten();
-        verifyNoMoreInteractions(uploadEnrichmentTagOverwriter);
-    }
+    
     
 }
