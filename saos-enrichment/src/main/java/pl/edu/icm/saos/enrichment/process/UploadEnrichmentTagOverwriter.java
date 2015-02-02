@@ -30,7 +30,8 @@ public class UploadEnrichmentTagOverwriter {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Returns true if the uploaded tags ({@link UploadEnrichmentTag}) are newer than production tags ({@link EnrichmentTag}) 
+     * Returns true if the uploaded tags ({@link UploadEnrichmentTag}) are newer than production tags ({@link EnrichmentTag})<br/> 
+     * Can be used in a scheduled service that processes the uploaded enrichment tags.
      */
     public boolean shouldEnrichmentTagsBeOverwritten() {
         
@@ -57,7 +58,7 @@ public class UploadEnrichmentTagOverwriter {
     @Transactional
     public void overwriteEnrichmentTags() {
         
-        enrichmentTagRepository.deleteAll();
+        enrichmentTagRepository.deleteAllInBatch();
 
         uploadEnrichmentTagCopier.copyUploadedEnrichmentTags();
     }

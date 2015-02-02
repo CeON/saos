@@ -135,7 +135,7 @@ public class UploadEnrichmentTagOverwriterTest {
         
         // assert
         
-        verify(enrichmentTagRepository).deleteAll();
+        verify(enrichmentTagRepository).deleteAllInBatch();
         verify(uploadEnrichmentTagCopier).copyUploadedEnrichmentTags();
         
         verifyZeroInteractions(uploadEnrichmentTagRepository);
