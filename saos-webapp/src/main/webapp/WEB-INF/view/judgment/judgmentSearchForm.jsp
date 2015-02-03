@@ -39,15 +39,38 @@
 				<label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.judgmentType" />:</label>
 				<div class="col-sm-7">
 					<div class="checkbox">
-		   	    	    <saos:enumCheckboxes path="judgmentTypes" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" columnsNumber="2" />
+
+			   			<spring:eval expression="T(pl.edu.icm.saos.persistence.model.Judgment.JudgmentType).values()" var="enumJudgmentTypes" scope="page"/>
+			   		
+			   			<c:forEach var="enumValue" items="${enumJudgmentTypes}">
+							<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
+							<div class="col-xs-6">
+								<form:checkbox path="judgmentTypes" value="${enumValue}" id="checkbox-${lowerCaseEnumValue}" ></form:checkbox>
+								<label for="checkbox-${lowerCaseEnumValue}" >
+									<saos:enum value="${enumValue}" />
+								</label>
+								
+								<c:if test="${enumValue == 'REASONS'}" >
+									<saos:hint titleCode="judgmentSearch.hint.reasons.title" contentCode='judgmentSearch.hint.reasons.content' />
+								</c:if>
+							</div>
+						</c:forEach>
+		   		 	
 			   		</div>
 			 	</div>
 			</div>
 		    
 		    <saos:formFieldText path="judgeName" labelName="input-search-judge" labelText="judgmentSearch.formField.judge" />
-		    		    
-			<saos:formFieldText path="legalBase" labelName="input-search-legalbases" labelText="judgmentSearch.formField.legalBases" />
-			 
+
+			<%-- Legal bases --%>
+			<div class="form-group">
+				<label for="input-search-legalbases" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.legalBases" />:</label>
+			   	<div class="col-sm-7">
+			    	<form:input path="legalBase" class="form-control" id="input-search-legalbases" />
+				</div>
+				<saos:hint titleCode="judgmentSearch.hint.legalBases.title" contentCode="judgmentSearch.hint.legalBases.content" />
+			</div>
+						 
 			<saos:formFieldText path="referencedRegulation" labelName="input-search-referencedregulations" labelText="judgmentSearch.formField.referencedRegulations" />
 		    
 		    <div class="form-group">

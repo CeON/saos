@@ -64,7 +64,7 @@ var jsInitInJudgmentSearch = function() {
     $('[data-toggle="tooltip"]').tooltip({container: 'body'});
 	
     /* Enable bootstrap popover's */
-    $('[data-toggle="popover"]').popover();
+    $('[data-toggle="popover"]').popover({container: 'body'});
     
     
     /* Hints */
@@ -136,6 +136,7 @@ var jsInitInJudgmentSearch = function() {
 		radioName: "courtType",
 		parentContainer: "#search-form"
 	});
+	
 	
 	$("#filter-box").filterBox({
 		removeAllButton: "#clearAllFilters",
