@@ -3540,3 +3540,224 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <publisher>Danuta Bieńkowska</publisher>
    <dateOfPublication>2014-06-09 18:15:04.0 CEST</dateOfPublication>
 </judgement>', 'OK', null);
+
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason)
+	VALUES (52, '2015-01-20 22:32:36.25', 2, 'II Ca 773/14', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', '10e9a3ec84cdcb9dff265c5e56b41ca2', false, null, '2015-01-19 17:15:04', '155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001',
+'<p>Sygn. akt II Ca 773/14</p>
+    <div>
+      <h2>WYROK</h2>
+      <h5>W IMIENIU RZECZYPOSPOLITEJ POLSKIEJ</h5>
+      <p>Dnia 27 listopada 2014 r.</p>
+      <p>Sąd Okręgowy w Świdnicy II Wydział Cywilny Odwoławczy</p>
+      <p>w składzie następującym:</p>
+      <p>Przewodniczący: SSO Jerzy Dydo</p>
+      <p>Sędziowie:    SO Alicja Chrzan SR Łukasz Kozakiewicz (del.)   </p>
+      <p>Protokolant:       Alicja Marciniak</p>
+      <p>po rozpoznaniu w dniu 27 listopada 2014 r. w Świdnicy</p>
+      <p>na rozprawie</p>
+      <p>sprawy z powództwa <span class="anon-block">M. T.</span>
+</p>
+      <p>przeciwko <span class="anon-block"> (...) SA</span> z siedzibą w <span class="anon-block">W.</span>
+</p>
+      <p>o zapłatę 20.000zł</p>
+      <p>na skutek apelacji strony pozwanej</p>
+      <p>od wyroku Sądu Rejonowego w Świdnicy</p>
+      <p>z dnia 30 czerwca 2014 r., sygn. akt I C 157/13</p>
+      <p>
+<strong>
+<!-- -->I oddala apelację;</strong>
+</p>
+      <p>
+<strong>
+<!-- -->II zasądza od strony pozwanej na rzecz powódki 1.200zł kosztów postępowania apelacyjnego. </strong>
+</p>
+      <p>
+<strong>
+<!-- -->Sygn. akt II Ca 773/14 ( transkrypcja wygłoszonego uzasadnienia ) </strong>
+</p>
+      <p>Początek tekstu</p>
+      <p>[Przewodniczący 00:00:01.503]</p>
+      <p>Wyrok w imieniu Rzeczypospolitej Polskiej, Sąd Okręgowy w Świdnicy II Wydział Cywilny Odwoławczy w składzie przewodniczący sędzia Sądu Okręgowego Jerzy Dydo, sędziowie sędzia Sądu Okręgowego Alicja Chrzan i sędzia Sądu Rejonowego Łukasz Kozakiewicz delegowany, po rozpoznaniu w dniu 27 listopada 2014 roku w Świdnicy na rozprawie sprawy z powództwa <span class="anon-block">M. T.</span> przeciwko <span class="anon-block"> (...) Spółce Akcyjnej</span> z siedzibą w <span class="anon-block">W.</span> o zapłatę 20.000 złotych na skutek apelacji strony pozwanej od wyroku Sądu Rejonowego w Świdnicy z dnia 30 czerwca 2014 roku sygn. akt I C tyś..., 157/13 punkt pierwszy oddala apelację, punkt drugi zasądza od strony pozwanej na rzecz powódki 1.200 złotych kosztów postępowania apelacyjnego. Uzasadnienie przedstawi sąd, proszę bardzo.</p>
+      <p>[Sąd 00:01:02.211]</p>
+      <p>Uzasadnienie w sprawie sygn. akt II Ca 773/14. Sąd Okręgowy przyjmując ustalenia Sądu Rejonowego za własne zważył co następuje. Apelacja nie jest zasadna. Przede wszystkim Sąd Okręgowy podziela ocenę prawną ustalonego stanu faktycznego oraz wyciągnięte z tej oceny wnioski, co zwalnia z potrzeby ponownego przytaczania powołanych w uzasadnieniu Sądu Rejonowego prawnych argumentów. Ocena prawidłowości zastosowanych przepisów prawa materialnego, może być dokonana jedynie po uprzednim ustaleniu, że dokonane przez Sąd Rejonowy ustalenia faktyczne stanowiące podstawę rozstrzygnięcia zostały dokonane zgodnie z przepisami prawa procesowego. Podniesione w apelacji zarzuty dotyczą dokonanych przez Sąd Rejonowy oceny dowodów i poczynionych na ich podstawie ustaleń praktycznych. Skarżąca w apelacji podnosząc, że nie jest wystarczająco powołanie się przez Sąd Rejonowy na poczucie smutku, bólu i tęsknoty po stracie bliskiej osoby w sytuacji, gdy powódka utraciła małoletnią wnuczkę jako osoba mająca własną liczną rodzinę w tym własne dzieci wnuki i rodzeństwo, w istocie dokonuje odmienne interpretacje dowodów zebranych w sprawie i prezentuje stan faktyczny przyjęty przez nią na podstawie własnej oceny dowodów, poprzez uznanie, że powyższa sytuacja nie spowodowała naruszenia dobra osobistego powódki, która przed tragicznym zdarzeniem zamieszkiwała z wnuczką będącą jedynym dzieckiem jej córki opiekowała się nią wspólnie spędzała z nią czas, a po tragicznym zdarzeniu nabawiła się długotrwałego zaburzenia o obrazie i powikłanej żałoby stanowiącego długotrwały uszczerbek na zdrowiu. W niniejszej sprawie Sąd Rejonowy nie naruszył <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 233;art. 1)">art. 233 1 Kodeksu postępowania cywilnego</a>, bowiem ocena zgromadzonego materiału dowodowego i dokonana na tej podstawie ustalenia faktyczne zostały dokonane w sposób uprawniony i brak jest podstaw do zaaprobowania poglądu apelującego co do ich nieprawidłowości, bowiem Sąd Rejonowy przeprowadził odpowiednie co do zakresu postępowanie dowodowe, szczególności dopuszczając dowód z zeznań świadków, opinii biegłych sądowych, psychologa <span class="anon-block">J. O.</span> i lekarza medycyny psychiatry <span class="anon-block">A. F.</span>. I trafnie uznał za własne ich ustalenia o długotrwałych zaburzeniach powódki z powodu powikłanej żałoby po śmierci pięcioletniej wnuczki. Sąd Okręgowy w składzie orzekającym w niniejszej sprawie podziela pogląd Sądu Najwyższego wyrażony w uchwale z dnia 22 października 2010 roku w sprawie sygn. akt III CZP 76/10, że najbliższemu członkowi rodziny zmarłego przysługuje na podstawie <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 448)">art. 448 Kodeksu cywilnego</a> w związku z <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 24;art. 1)">art. 24 1 Kodeksu cywilnego</a> zadośćuczynienie pieniężne za doznaną krzywdę, gdy śmierć nastąpiła na skutek deliktu, który miał miejsce przed dniem 3 sierpnia 2008 roku, bowiem wyrażona w tym przepisie ogólna reguła umożliwiająca przyznanie temu, czyje dobro osobiste zostało naruszone odpowiedniej sumy tytułem zadośćuczynienia pieniężnego za doznaną krzywdę została tylko, na podstawie dodanego <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 446;art. 4)">art. 446 4 Kodeksu cywilnego</a>, zawężona do osób będących najbliższymi członkami rodziny. Mając powyższe na uwadze nie jest zasadny, w przytoczonych okolicznościach niniejszej sprawy, zarzut pozwanej naruszenia przez Sąd Rejonowy <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 448)">art. 448 Kodeksu cywilnego</a> oraz <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 24)">art. 24 Kodeksu cywilnego</a> w związku z <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU20031241152" title="Ustawa z dnia 22 maja 2003 r. o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych - Dz. U. z 2003 r. Nr 124, poz. 1152 (art. 34;art. 34 ust. 1)">art. 34 ust. 1 ustawy z dnia 22 maja 2003 roku o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych</a> (Dz.U. 2003,124,1152 ze zm.) Wobec powyższego Sąd Okręgowy na podstawie <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 385)">art. 385 kpc</a> oddalił apelację pozwanej jako bezzasadną. Sąd Okręgowy o kosztach postępowania apelacyjnego orzekł na podstawie <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 98)">art. 98 kpc</a>, <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 99)">art. 99 kpc</a>, <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 108;art. 1)">art.108 1 kpc</a> i <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 391;art. 1)">art. 391 1 kpc</a>. Dziękuję za uwagę.</p>
+      <p>[koniec części 00:05:35.447]</p>
+    </div>',
+'<?xml version="1.0" encoding="UTF-8"?>
+<judgement id="155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001">
+   <signature>II Ca 773/14</signature>
+   <date>2014-11-27 00:00:00.0 CET</date>
+   <publicationDate>2015-01-19 18:15:04.0 CET</publicationDate>
+   <courtId>15502000</courtId>
+   <departmentId>1003</departmentId>
+   <type>DECISION</type>
+   <chairman>Jerzy Dydo</chairman>
+   <judges>
+      <judge>Jerzy Dydo</judge>
+   </judges>
+   <themePhrases>
+      <themePhrase>Ugoda</themePhrase>
+      <themePhrase>Koszty sądowe</themePhrase>
+   </themePhrases>
+   <references>
+      <reference>Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296 - art. 1; art. 108; art. 233; art. 385; art. 391; art. 98; art. 99)</reference>
+      <reference>Ustawa z dnia 22 maja 2003 r. o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych (Dz. U. z 2003 r. Nr 124, poz. 1152 - art. 34; art. 34 ust. 1)</reference>
+      <reference>Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny (Dz. U. z 1964 r. Nr 16, poz. 93 - art. 1; art. 24; art. 4; art. 446; art. 448)</reference>
+   </references>
+   <legalBases>
+      <legalBasis>art 445 kc</legalBasis>
+   </legalBases>
+   <recorder>     Alicja Marciniak</recorder>
+   <decision></decision>
+   <reviser>Grażyna Zawilska</reviser>
+   <publisher>Dorota Pospiszyl</publisher>
+   <dateOfPublication>2015-01-19 18:15:04.0 CET</dateOfPublication>
+</judgement>', null, null);
+
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) 
+	VALUES (53, '2015-01-21 22:32:36.25', 2, 'II Ca 773/14', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', '10e9a3ec84cdcb9dff265c5e56b41ca3', false, null, '2015-01-20 18:15:04', '155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001',
+'<p>Sygn. akt II Ca 773/14</p>
+    <div>
+      <h2>WYROK</h2>
+      <h5>W IMIENIU RZECZYPOSPOLITEJ POLSKIEJ</h5>
+      <p>Dnia 27 listopada 2014 r.</p>
+      <p>Sąd Okręgowy w Świdnicy II Wydział Cywilny Odwoławczy</p>
+      <p>w składzie następującym:</p>
+      <p>Przewodniczący: SSO Jerzy Dydo</p>
+      <p>Sędziowie:    SO Alicja Chrzan SR Łukasz Kozakiewicz (del.)   </p>
+      <p>Protokolant:       Alicja Marciniak</p>
+      <p>po rozpoznaniu w dniu 27 listopada 2014 r. w Świdnicy</p>
+      <p>na rozprawie</p>
+      <p>sprawy z powództwa <span class="anon-block">M. T.</span>
+</p>
+      <p>przeciwko <span class="anon-block"> (...) SA</span> z siedzibą w <span class="anon-block">W.</span>
+</p>
+      <p>o zapłatę 20.000zł</p>
+      <p>na skutek apelacji strony pozwanej</p>
+      <p>od wyroku Sądu Rejonowego w Świdnicy</p>
+      <p>z dnia 30 czerwca 2014 r., sygn. akt I C 157/13</p>
+      <p>
+<strong>
+<!-- -->I oddala apelację;</strong>
+</p>
+      <p>
+<strong>
+<!-- -->II zasądza od strony pozwanej na rzecz powódki 1.200zł kosztów postępowania apelacyjnego. </strong>
+</p>
+      <p>
+<strong>
+<!-- -->Sygn. akt II Ca 773/14 ( transkrypcja wygłoszonego uzasadnienia ) </strong>
+</p>
+      <p>Początek tekstu</p>
+      <p>[Przewodniczący 00:00:01.503]</p>
+      <p>Wyrok w imieniu Rzeczypospolitej Polskiej, Sąd Okręgowy w Świdnicy II Wydział Cywilny Odwoławczy w składzie przewodniczący sędzia Sądu Okręgowego Jerzy Dydo, sędziowie sędzia Sądu Okręgowego Alicja Chrzan i sędzia Sądu Rejonowego Łukasz Kozakiewicz delegowany, po rozpoznaniu w dniu 27 listopada 2014 roku w Świdnicy na rozprawie sprawy z powództwa <span class="anon-block">M. T.</span> przeciwko <span class="anon-block"> (...) Spółce Akcyjnej</span> z siedzibą w <span class="anon-block">W.</span> o zapłatę 20.000 złotych na skutek apelacji strony pozwanej od wyroku Sądu Rejonowego w Świdnicy z dnia 30 czerwca 2014 roku sygn. akt I C tyś..., 157/13 punkt pierwszy oddala apelację, punkt drugi zasądza od strony pozwanej na rzecz powódki 1.200 złotych kosztów postępowania apelacyjnego. Uzasadnienie przedstawi sąd, proszę bardzo.</p>
+      <p>[Sąd 00:01:02.211]</p>
+      <p>Uzasadnienie w sprawie sygn. akt II Ca 773/14. Sąd Okręgowy przyjmując ustalenia Sądu Rejonowego za własne zważył co następuje. Apelacja nie jest zasadna. Przede wszystkim Sąd Okręgowy podziela ocenę prawną ustalonego stanu faktycznego oraz wyciągnięte z tej oceny wnioski, co zwalnia z potrzeby ponownego przytaczania powołanych w uzasadnieniu Sądu Rejonowego prawnych argumentów. Ocena prawidłowości zastosowanych przepisów prawa materialnego, może być dokonana jedynie po uprzednim ustaleniu, że dokonane przez Sąd Rejonowy ustalenia faktyczne stanowiące podstawę rozstrzygnięcia zostały dokonane zgodnie z przepisami prawa procesowego. Podniesione w apelacji zarzuty dotyczą dokonanych przez Sąd Rejonowy oceny dowodów i poczynionych na ich podstawie ustaleń praktycznych. Skarżąca w apelacji podnosząc, że nie jest wystarczająco powołanie się przez Sąd Rejonowy na poczucie smutku, bólu i tęsknoty po stracie bliskiej osoby w sytuacji, gdy powódka utraciła małoletnią wnuczkę jako osoba mająca własną liczną rodzinę w tym własne dzieci wnuki i rodzeństwo, w istocie dokonuje odmienne interpretacje dowodów zebranych w sprawie i prezentuje stan faktyczny przyjęty przez nią na podstawie własnej oceny dowodów, poprzez uznanie, że powyższa sytuacja nie spowodowała naruszenia dobra osobistego powódki, która przed tragicznym zdarzeniem zamieszkiwała z wnuczką będącą jedynym dzieckiem jej córki opiekowała się nią wspólnie spędzała z nią czas, a po tragicznym zdarzeniu nabawiła się długotrwałego zaburzenia o obrazie i powikłanej żałoby stanowiącego długotrwały uszczerbek na zdrowiu. W niniejszej sprawie Sąd Rejonowy nie naruszył <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 233;art. 1)">art. 233 1 Kodeksu postępowania cywilnego</a>, bowiem ocena zgromadzonego materiału dowodowego i dokonana na tej podstawie ustalenia faktyczne zostały dokonane w sposób uprawniony i brak jest podstaw do zaaprobowania poglądu apelującego co do ich nieprawidłowości, bowiem Sąd Rejonowy przeprowadził odpowiednie co do zakresu postępowanie dowodowe, szczególności dopuszczając dowód z zeznań świadków, opinii biegłych sądowych, psychologa <span class="anon-block">J. O.</span> i lekarza medycyny psychiatry <span class="anon-block">A. F.</span>. I trafnie uznał za własne ich ustalenia o długotrwałych zaburzeniach powódki z powodu powikłanej żałoby po śmierci pięcioletniej wnuczki. Sąd Okręgowy w składzie orzekającym w niniejszej sprawie podziela pogląd Sądu Najwyższego wyrażony w uchwale z dnia 22 października 2010 roku w sprawie sygn. akt III CZP 76/10, że najbliższemu członkowi rodziny zmarłego przysługuje na podstawie <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 448)">art. 448 Kodeksu cywilnego</a> w związku z <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 24;art. 1)">art. 24 1 Kodeksu cywilnego</a> zadośćuczynienie pieniężne za doznaną krzywdę, gdy śmierć nastąpiła na skutek deliktu, który miał miejsce przed dniem 3 sierpnia 2008 roku, bowiem wyrażona w tym przepisie ogólna reguła umożliwiająca przyznanie temu, czyje dobro osobiste zostało naruszone odpowiedniej sumy tytułem zadośćuczynienia pieniężnego za doznaną krzywdę została tylko, na podstawie dodanego <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 446;art. 4)">art. 446 4 Kodeksu cywilnego</a>, zawężona do osób będących najbliższymi członkami rodziny. Mając powyższe na uwadze nie jest zasadny, w przytoczonych okolicznościach niniejszej sprawy, zarzut pozwanej naruszenia przez Sąd Rejonowy <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 448)">art. 448 Kodeksu cywilnego</a> oraz <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 24)">art. 24 Kodeksu cywilnego</a> w związku z <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU20031241152" title="Ustawa z dnia 22 maja 2003 r. o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych - Dz. U. z 2003 r. Nr 124, poz. 1152 (art. 34;art. 34 ust. 1)">art. 34 ust. 1 ustawy z dnia 22 maja 2003 roku o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych</a> (Dz.U. 2003,124,1152 ze zm.) Wobec powyższego Sąd Okręgowy na podstawie <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 385)">art. 385 kpc</a> oddalił apelację pozwanej jako bezzasadną. Sąd Okręgowy o kosztach postępowania apelacyjnego orzekł na podstawie <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 98)">art. 98 kpc</a>, <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 99)">art. 99 kpc</a>, <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 108;art. 1)">art.108 1 kpc</a> i <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 391;art. 1)">art. 391 1 kpc</a>. Dziękuję za uwagę.</p>
+      <p>[koniec części 00:05:35.447]</p>
+    </div>',
+
+'<?xml version="1.0" encoding="UTF-8"?>
+<judgement id="155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001">
+   <signature>II Ca 773/14</signature>
+   <date>2014-11-27 00:00:00.0 CET</date>
+   <publicationDate>2015-01-20 19:15:04.0 CET</publicationDate>
+   <courtId>15502000</courtId>
+   <departmentId>1003</departmentId>
+   <type>DECISION</type>
+   <chairman>Jerzy Dydo</chairman>
+   <judges>
+      <judge>Jerzy Dydo</judge>
+      <judge>Alicja Chrzan</judge>
+   </judges>
+   <themePhrases>
+      <themePhrase>Ugoda</themePhrase>
+      <themePhrase>Zadośćuczynienie</themePhrase>
+   </themePhrases>
+   <references>
+      <reference>Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296 - art. 1; art. 108; art. 233; art. 385; art. 391; art. 98; art. 99)</reference>
+      <reference>Ustawa z dnia 22 maja 2003 r. o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych (Dz. U. z 2003 r. Nr 124, poz. 1152 - art. 34; art. 34 ust. 1)</reference>
+      <reference>Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny (Dz. U. z 1964 r. Nr 16, poz. 93 - art. 1; art. 24; art. 4; art. 446; art. 448)</reference>
+   </references>
+   <legalBases>
+      <legalBasis>art 445 kc</legalBasis>
+   </legalBases>
+   <recorder>     Alicja Marciniak</recorder>
+   <decision></decision>
+   <reviser>Grażyna Zawilska</reviser>
+   <publisher>Dorota Pospiszyl</publisher>
+   <dateOfPublication>2015-01-20 19:15:04.0 CET</dateOfPublication>
+</judgement>', null, null
+);
+
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) 
+	VALUES (54, '2015-01-22 22:32:36.25', 2, 'II Ca 773/14', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', '10e9a3ec84cdcb9dff265c5e56b41ca4', false, null, '2015-01-21 19:15:04', '155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001',
+'<p>Sygn. akt II Ca 773/14</p>
+    <div>
+      <h2>WYROK</h2>
+      <h5>W IMIENIU RZECZYPOSPOLITEJ POLSKIEJ</h5>
+      <p>Dnia 27 listopada 2014 r.</p>
+      <p>Sąd Okręgowy w Świdnicy II Wydział Cywilny Odwoławczy</p>
+      <p>w składzie następującym:</p>
+      <p>Przewodniczący: SSO Jerzy Dydo</p>
+      <p>Sędziowie:    SO Alicja Chrzan SR Łukasz Kozakiewicz (del.)   </p>
+      <p>Protokolant:       Alicja Marciniak</p>
+      <p>po rozpoznaniu w dniu 27 listopada 2014 r. w Świdnicy</p>
+      <p>na rozprawie</p>
+      <p>sprawy z powództwa <span class="anon-block">M. T.</span>
+</p>
+      <p>przeciwko <span class="anon-block"> (...) SA</span> z siedzibą w <span class="anon-block">W.</span>
+</p>
+      <p>o zapłatę 20.000zł</p>
+      <p>na skutek apelacji strony pozwanej</p>
+      <p>od wyroku Sądu Rejonowego w Świdnicy</p>
+      <p>z dnia 30 czerwca 2014 r., sygn. akt I C 157/13</p>
+      <p>
+<strong>
+<!-- -->I oddala apelację;</strong>
+</p>
+      <p>
+<strong>
+<!-- -->II zasądza od strony pozwanej na rzecz powódki 1.200zł kosztów postępowania apelacyjnego. </strong>
+</p>
+      <p>
+<strong>
+<!-- -->Sygn. akt II Ca 773/14 ( transkrypcja wygłoszonego uzasadnienia ) </strong>
+</p>
+      <p>Początek tekstu</p>
+      <p>[Przewodniczący 00:00:01.503]</p>
+      <p>Wyrok w imieniu Rzeczypospolitej Polskiej, Sąd Okręgowy w Świdnicy II Wydział Cywilny Odwoławczy w składzie przewodniczący sędzia Sądu Okręgowego Jerzy Dydo, sędziowie sędzia Sądu Okręgowego Alicja Chrzan i sędzia Sądu Rejonowego Łukasz Kozakiewicz delegowany, po rozpoznaniu w dniu 27 listopada 2014 roku w Świdnicy na rozprawie sprawy z powództwa <span class="anon-block">M. T.</span> przeciwko <span class="anon-block"> (...) Spółce Akcyjnej</span> z siedzibą w <span class="anon-block">W.</span> o zapłatę 20.000 złotych na skutek apelacji strony pozwanej od wyroku Sądu Rejonowego w Świdnicy z dnia 30 czerwca 2014 roku sygn. akt I C tyś..., 157/13 punkt pierwszy oddala apelację, punkt drugi zasądza od strony pozwanej na rzecz powódki 1.200 złotych kosztów postępowania apelacyjnego. Uzasadnienie przedstawi sąd, proszę bardzo.</p>
+      <p>[Sąd 00:01:02.211]</p>
+      <p>Uzasadnienie w sprawie sygn. akt II Ca 773/14. Sąd Okręgowy przyjmując ustalenia Sądu Rejonowego za własne zważył co następuje. Apelacja nie jest zasadna. Przede wszystkim Sąd Okręgowy podziela ocenę prawną ustalonego stanu faktycznego oraz wyciągnięte z tej oceny wnioski, co zwalnia z potrzeby ponownego przytaczania powołanych w uzasadnieniu Sądu Rejonowego prawnych argumentów. Ocena prawidłowości zastosowanych przepisów prawa materialnego, może być dokonana jedynie po uprzednim ustaleniu, że dokonane przez Sąd Rejonowy ustalenia faktyczne stanowiące podstawę rozstrzygnięcia zostały dokonane zgodnie z przepisami prawa procesowego. Podniesione w apelacji zarzuty dotyczą dokonanych przez Sąd Rejonowy oceny dowodów i poczynionych na ich podstawie ustaleń praktycznych. Skarżąca w apelacji podnosząc, że nie jest wystarczająco powołanie się przez Sąd Rejonowy na poczucie smutku, bólu i tęsknoty po stracie bliskiej osoby w sytuacji, gdy powódka utraciła małoletnią wnuczkę jako osoba mająca własną liczną rodzinę w tym własne dzieci wnuki i rodzeństwo, w istocie dokonuje odmienne interpretacje dowodów zebranych w sprawie i prezentuje stan faktyczny przyjęty przez nią na podstawie własnej oceny dowodów, poprzez uznanie, że powyższa sytuacja nie spowodowała naruszenia dobra osobistego powódki, która przed tragicznym zdarzeniem zamieszkiwała z wnuczką będącą jedynym dzieckiem jej córki opiekowała się nią wspólnie spędzała z nią czas, a po tragicznym zdarzeniu nabawiła się długotrwałego zaburzenia o obrazie i powikłanej żałoby stanowiącego długotrwały uszczerbek na zdrowiu. W niniejszej sprawie Sąd Rejonowy nie naruszył <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 233;art. 1)">art. 233 1 Kodeksu postępowania cywilnego</a>, bowiem ocena zgromadzonego materiału dowodowego i dokonana na tej podstawie ustalenia faktyczne zostały dokonane w sposób uprawniony i brak jest podstaw do zaaprobowania poglądu apelującego co do ich nieprawidłowości, bowiem Sąd Rejonowy przeprowadził odpowiednie co do zakresu postępowanie dowodowe, szczególności dopuszczając dowód z zeznań świadków, opinii biegłych sądowych, psychologa <span class="anon-block">J. O.</span> i lekarza medycyny psychiatry <span class="anon-block">A. F.</span>. I trafnie uznał za własne ich ustalenia o długotrwałych zaburzeniach powódki z powodu powikłanej żałoby po śmierci pięcioletniej wnuczki. Sąd Okręgowy w składzie orzekającym w niniejszej sprawie podziela pogląd Sądu Najwyższego wyrażony w uchwale z dnia 22 października 2010 roku w sprawie sygn. akt III CZP 76/10, że najbliższemu członkowi rodziny zmarłego przysługuje na podstawie <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 448)">art. 448 Kodeksu cywilnego</a> w związku z <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 24;art. 1)">art. 24 1 Kodeksu cywilnego</a> zadośćuczynienie pieniężne za doznaną krzywdę, gdy śmierć nastąpiła na skutek deliktu, który miał miejsce przed dniem 3 sierpnia 2008 roku, bowiem wyrażona w tym przepisie ogólna reguła umożliwiająca przyznanie temu, czyje dobro osobiste zostało naruszone odpowiedniej sumy tytułem zadośćuczynienia pieniężnego za doznaną krzywdę została tylko, na podstawie dodanego <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 446;art. 4)">art. 446 4 Kodeksu cywilnego</a>, zawężona do osób będących najbliższymi członkami rodziny. Mając powyższe na uwadze nie jest zasadny, w przytoczonych okolicznościach niniejszej sprawy, zarzut pozwanej naruszenia przez Sąd Rejonowy <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 448)">art. 448 Kodeksu cywilnego</a> oraz <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640160093" title="Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny - Dz. U. z 1964 r. Nr 16, poz. 93 (art. 24)">art. 24 Kodeksu cywilnego</a> w związku z <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU20031241152" title="Ustawa z dnia 22 maja 2003 r. o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych - Dz. U. z 2003 r. Nr 124, poz. 1152 (art. 34;art. 34 ust. 1)">art. 34 ust. 1 ustawy z dnia 22 maja 2003 roku o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych</a> (Dz.U. 2003,124,1152 ze zm.) Wobec powyższego Sąd Okręgowy na podstawie <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 385)">art. 385 kpc</a> oddalił apelację pozwanej jako bezzasadną. Sąd Okręgowy o kosztach postępowania apelacyjnego orzekł na podstawie <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 98)">art. 98 kpc</a>, <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 99)">art. 99 kpc</a>, <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 108;art. 1)">art.108 1 kpc</a> i <a href="http://isap.sejm.gov.pl/DetailsServlet?id=WDU19640430296" title="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego - Dz. U. z 1964 r. Nr 43, poz. 296 (art. 391;art. 1)">art. 391 1 kpc</a>. Dziękuję za uwagę.</p>
+      <p>[koniec części 00:05:35.447]</p>
+    </div>',
+
+'<?xml version="1.0" encoding="UTF-8"?>
+<judgement id="155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001">
+   <signature>II Ca 773/14</signature>
+   <date>2014-11-27 00:00:00.0 CET</date>
+   <publicationDate>2015-01-21 20:15:04.0 CET</publicationDate>
+   <courtId>15502000</courtId>
+   <departmentId>1003</departmentId>
+   <type>SENTENCE</type>
+   <chairman>Jerzy Dydo</chairman>
+   <judges>
+      <judge>Jerzy Dydo</judge>
+      <judge>Alicja Chrzan</judge>
+   </judges>
+   <themePhrases>
+      <themePhrase>Zadośćuczynienie</themePhrase>
+   </themePhrases>
+   <references>
+      <reference>Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296 - art. 1; art. 108; art. 233; art. 385; art. 391; art. 98; art. 99)</reference>
+      <reference>Ustawa z dnia 22 maja 2003 r. o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych (Dz. U. z 2003 r. Nr 124, poz. 1152 - art. 34; art. 34 ust. 1)</reference>
+      <reference>Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny (Dz. U. z 1964 r. Nr 16, poz. 93 - art. 1; art. 24; art. 4; art. 446; art. 448)</reference>
+   </references>
+   <legalBases>
+      <legalBasis>art 445 kc</legalBasis>
+   </legalBases>
+   <recorder>Alicja Marciniak</recorder>
+   <decision></decision>
+   <reviser>Grażyna Zawilska</reviser>
+   <publisher>Dorota Pospiszyl</publisher>
+   <dateOfPublication>2015-01-21 20:15:04.0 CET</dateOfPublication>
+</judgement>', null, null
+);
