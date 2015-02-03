@@ -89,7 +89,9 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     
     
     
-    private static final int ALL_RAW_JUDGMENTS_COUNT = 22;
+    private static final int ALL_RAW_JUDGMENTS_COUNT = 25;
+    
+    private static final int DUPLICATE_RAW_JUDGMENTS_COUNT = 2;
     
     /*
      * 
@@ -163,7 +165,8 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         assertSkipped(12906, ImportProcessingSkipReason.COURT_NOT_FOUND);
         
         // processedOk
-        assertEquals(expectedWriteCount, judgmentRepository.count()); 
+        int expectedRepositoryCount = expectedWriteCount - DUPLICATE_RAW_JUDGMENTS_COUNT;
+        assertEquals(expectedRepositoryCount, judgmentRepository.count()); 
         
         assertProcessedOk(9435);
         assertProcessedOk(9436);
@@ -173,6 +176,9 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         
         // assert in detail a processed judgment
         assertJudgment_1420();
+        
+        // assert in detail last version of duplicated judgment
+        assertJudgment_54();
         
         // assert corrections
         assertEquals(7, judgmentCorrectionRepository.count());
@@ -348,6 +354,37 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         CommonCourtDivision courtDivision = ccDivisionRepository.findOneByCourtIdAndCode(court.getId(), "0001003");
         assertEquals(courtDivision.getId(), judgment.getCourtDivision().getId());
         assertTrue(judgment.getTextContent().contains("SSO Katarzyna Oleksiak"));
+    }
+    
+    private void assertJudgment_54() {
+        RawSourceCcJudgment rJudgment = rawCcJudgmentRepository.findOne(54l);
+        Judgment j = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment.getSourceId());
+        CommonCourtJudgment judgment = judgmentRepository.findOneAndInitialize(j.getId());
+        
+        assertNotNull(judgment);
+        assertTrue(judgment.isSingleCourtCase());
+        assertEquals(rJudgment.getCaseNumber(), judgment.getCaseNumbers().get(0));
+        assertEquals(rJudgment.getPublicationDate(), judgment.getSourceInfo().getPublicationDate());
+        assertEquals(JudgmentType.SENTENCE, judgment.getJudgmentType());
+        assertEquals(1, judgment.getCourtReporters().size());
+        assertEquals("Alicja Marciniak", judgment.getCourtReporters().get(0));
+        assertEquals("Grażyna Zawilska", judgment.getSourceInfo().getReviser());
+        assertEquals("Dorota Pospiszyl", judgment.getSourceInfo().getPublisher());
+        assertEquals(1, judgment.getKeywords().size());
+        assertNotNull(judgment.getKeyword("Zadośćuczynienie"));
+        assertEquals(1, judgment.getLegalBases().size());
+        assertEquals("art 445 kc", judgment.getLegalBases().get(0));
+        assertEquals(3, judgment.getReferencedRegulations().size());
+        assertReferencedRegulation(judgment.getReferencedRegulations().get(0), 1964, 43, 296, "Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296 - art. 1; art. 108; art. 233; art. 385; art. 391; art. 98; art. 99)");
+        assertReferencedRegulation(judgment.getReferencedRegulations().get(1), 2003, 124, 1152, "Ustawa z dnia 22 maja 2003 r. o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych (Dz. U. z 2003 r. Nr 124, poz. 1152 - art. 34; art. 34 ust. 1)");
+        assertReferencedRegulation(judgment.getReferencedRegulations().get(2), 1964, 16, 93, "Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny (Dz. U. z 1964 r. Nr 16, poz. 93 - art. 1; art. 24; art. 4; art. 446; art. 448)");
+        assertEquals(2, judgment.getJudges().size());
+        assertEquals("Jerzy Dydo", judgment.getJudges(JudgeRole.PRESIDING_JUDGE).get(0).getName());
+        assertEquals("Alicja Chrzan", judgment.getJudges(null).get(0).getName());
+        CommonCourt court = commonCourtRepository.findOneByCode("15502000");
+        CommonCourtDivision courtDivision = ccDivisionRepository.findOneByCourtIdAndCode(court.getId(), "0001003");
+        assertEquals(courtDivision.getId(), judgment.getCourtDivision().getId());
+        assertTrue(judgment.getTextContent().contains("zasądza od strony pozwanej na rzecz"));
     }
     
 

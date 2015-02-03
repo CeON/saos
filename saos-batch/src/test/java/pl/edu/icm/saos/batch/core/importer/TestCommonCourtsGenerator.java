@@ -24,7 +24,7 @@ import com.google.common.collect.Lists;
 public class TestCommonCourtsGenerator {
     
     
-    private static final String[] COURT_CODES = new String[] {"15201000", "15100000", "15050500", "15251000", "15450525", "15100500", "15451025", "15150000", "15551500", "15400000"};
+    private static final String[] COURT_CODES = new String[] {"15201000", "15100000", "15050500", "15251000", "15450525", "15100500", "15451025", "15150000", "15551500", "15400000", "15502000"};
     
     private static final String[] DIVISION_CODES = new String[] {"5027", "2512", "0503", "1521", "1503", "1506", "8027", "4027", "1003"};
     
