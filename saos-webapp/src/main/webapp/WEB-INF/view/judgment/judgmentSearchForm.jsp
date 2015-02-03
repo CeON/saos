@@ -11,7 +11,7 @@
 		<legend><spring:message code="judgmentSearch.form.header" /></legend>
 		<saos:formFieldText path="all" labelName="input-search-all" labelText="judgmentSearch.formField.all" />
     
-	    <ul>
+	    <ul class="col-sm-offset-2 button-advance" >
 	    	<li>
 	    		<a id="search-more-fields" href="#" ><spring:message code="judgmentSearch.form.moreFields" /></a>
     		</li>
@@ -44,9 +44,9 @@
 			 	</div>
 			</div>
 		    
-		    <saos:formFieldText path="judgeName" labelName="input-search-judge" labelText="judgmentSearch.formField.judge" />
+		    <saos:formFieldText path="judgeName" labelName="input-search-judge" labelText="judgmentSearch.formField.judge" placeHolder="judgmentSearch.formField.judgePlaceHolder" />
 		    		    
-			<saos:formFieldText path="legalBase" labelName="input-search-legalbases" labelText="judgmentSearch.formField.legalBases" />
+			<saos:formFieldText path="legalBase" labelName="input-search-legalbases" labelText="judgmentSearch.formField.legalBases" placeHolder="judgmentSearch.formField.legalBasesPlaceHolder" />
 			 
 			<saos:formFieldText path="referencedRegulation" labelName="input-search-referencedregulations" labelText="judgmentSearch.formField.referencedRegulations" />
 		    
@@ -55,7 +55,7 @@
 			    <div class="col-sm-7">
 			    	<div class="col-xs-6">
 				    	<form:radiobutton path="courtType" id="radio-all" value="" checked="checked" />
-				    	<label for="radio-all" ><spring:message code="judgment.courtType.all" /></label>
+				    	<label for="radio-all" ><spring:message code="judgmentSearch.formField.courtTypeAny" /></label>
 			    	</div>
 			    	<saos:enumRadios path="courtType" enumType="pl.edu.icm.saos.persistence.model.CourtType" id="court" columnsNumber="2" />
 			    </div>
@@ -79,18 +79,18 @@
 		     
 	    </div>
 	
-		<ul class="visibility-hidden display-none" >
+		<ul class="col-sm-offset-2 button-advance visibility-hidden display-none" >
 	    	<li>
 	    		<a id="search-less-fields" href="#" ><spring:message code="judgmentSearch.form.lessFields" /></a>
     		</li>
 	    </ul>
 	
-		<div class="form-group">
-		    <div class="col-sm-offset-2 col-sm-10">
-		      <button type="submit" class="btn btn-primary button button-blue"><spring:message code="button.search" /></button>
-		      <button type="reset" class="btn btn-primary button button-blue"><spring:message code="button.reset" /></button>
-		    </div>
-   		</div>
+		<div class="form-group button-group">
+			<div class="col-sm-9">
+				<button type="reset" class="btn btn-primary button button-blue"><spring:message code="button.resetForm" /></button>
+				<button type="submit" class="btn btn-primary button button-blue"><spring:message code="button.judgmentSearch" /></button>
+			</div>
+		</div>
 	
 	</fieldset>
 	

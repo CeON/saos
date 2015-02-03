@@ -366,6 +366,7 @@ form.search {
 		border-bottom: 1px solid #e0e0e0;
 	    font-weight: 300;
 	    margin-bottom: 30px;
+	    line-height: 1.4em;
 	    padding-bottom: 6px;
 	    
 	    span {
@@ -382,11 +383,14 @@ form.search {
     padding: 0 30px;
 	
 	input {
-		background: $white;
 		border-radius: 2px;
 		border-color: $grey-border;
 		box-shadow: 0 0 1px rgba(255, 255, 255, 0.976) inset;
 		color: lighten($black, 10%);
+	}
+	
+	input, select {
+		background: $grey98;
 	}
 	
 	label {
@@ -432,7 +436,22 @@ form.search {
 	    padding-bottom: 6px;
 	}
 	
+	.button {
+		border-radius: 4px;
+		float: right;
+		margin-left: 10px;
+		padding: 8px 14px;
+	}
 	
+	.button-group {
+		> div {
+			padding-right: 0;
+		}
+	}
+	
+	.button-advance {
+		padding-left: 15px;
+	}
 	
 }
 
@@ -443,6 +462,11 @@ form.search {
 
 .button-blue {
 	background: $blue;
+	text-shadow: 0 0 2px $black;
+	
+	&:hover {
+		background: lighten($blue, 15%);
+	}
 }
 
 .btn-blue {
