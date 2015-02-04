@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -51,7 +50,7 @@ public class CcjImportDownloadReaderTest {
     }
     
     
-    //------------------------ PRIVATE --------------------------
+    //------------------------ TESTS --------------------------
     
     @Test
     public void open_NoCustomPublicationDateFrom() {
@@ -94,7 +93,7 @@ public class CcjImportDownloadReaderTest {
         
         // assert
         verifyZeroInteractions(sourceCcjExternalRepository, rawSourceCcJudgmentRepository);
-        verify(ccjImportDateTimeFormatter).parse(eq(customPublicationDateFrom));
+        verify(ccjImportDateTimeFormatter).parse(customPublicationDateFrom);
         
         assertEquals(customPublicationDate, ccjImportDownloadReader.getPublicationDateFrom());
         assertEquals(0, ccjImportDownloadReader.getPageNo());
@@ -112,10 +111,10 @@ public class CcjImportDownloadReaderTest {
         readerOpen(publicationDate);
         
         List<String> judgmentIds = Lists.newArrayList("123", "234");
-        when(sourceCcjExternalRepository.findJudgmentIds(eq(0), eq(pageSize) , eq(publicationDate))).thenReturn(judgmentIds);
+        when(sourceCcjExternalRepository.findJudgmentIds(0, pageSize , publicationDate)).thenReturn(judgmentIds);
         
         SourceCcJudgmentTextData ccjTextData = createCcjTextData("1111x");
-        when(sourceCcjExternalRepository.findJudgment(eq(judgmentIds.get(0)))).thenReturn(ccjTextData);
+        when(sourceCcjExternalRepository.findJudgment(judgmentIds.get(0))).thenReturn(ccjTextData);
         
         
         // execute
@@ -123,8 +122,8 @@ public class CcjImportDownloadReaderTest {
         
         
         // assert
-        verify(sourceCcjExternalRepository).findJudgmentIds(eq(0), eq(pageSize) , eq(publicationDate));
-        verify(sourceCcjExternalRepository).findJudgment(eq(judgmentIds.get(0)));
+        verify(sourceCcjExternalRepository).findJudgmentIds(0, pageSize , publicationDate);
+        verify(sourceCcjExternalRepository).findJudgment(judgmentIds.get(0));
         
         assertCcjTextData(ccjTextData, readTextData);
         judgmentIds.remove(0);
@@ -139,7 +138,7 @@ public class CcjImportDownloadReaderTest {
         
         // given
         ccjTextData = createCcjTextData("1112x");
-        when(sourceCcjExternalRepository.findJudgment(eq(judgmentIds.get(0)))).thenReturn(ccjTextData);
+        when(sourceCcjExternalRepository.findJudgment(judgmentIds.get(0))).thenReturn(ccjTextData);
         
         
         // execute
@@ -147,7 +146,7 @@ public class CcjImportDownloadReaderTest {
         
         
         // assert
-        verify(sourceCcjExternalRepository).findJudgment(eq(judgmentIds.get(0)));
+        verify(sourceCcjExternalRepository).findJudgment(judgmentIds.get(0));
         verify(sourceCcjExternalRepository, never()).findJudgmentIds(anyInt(), anyInt(), any(DateTime.class));
         
         assertCcjTextData(ccjTextData, readTextData);
@@ -165,7 +164,7 @@ public class CcjImportDownloadReaderTest {
         readerOpen(publicationDate);
         
         List<String> judgmentIds = Lists.newArrayList();
-        when(sourceCcjExternalRepository.findJudgmentIds(eq(1), eq(pageSize) , eq(publicationDate))).thenReturn(judgmentIds);
+        when(sourceCcjExternalRepository.findJudgmentIds(1, pageSize , publicationDate)).thenReturn(judgmentIds);
         
         
         // execute
@@ -173,7 +172,7 @@ public class CcjImportDownloadReaderTest {
         
         
         // assert
-        verify(sourceCcjExternalRepository).findJudgmentIds(eq(0), eq(pageSize) , eq(publicationDate));
+        verify(sourceCcjExternalRepository).findJudgmentIds(0, pageSize , publicationDate);
         
         verify(sourceCcjExternalRepository, never()).findJudgment(anyString());
         
@@ -191,11 +190,11 @@ public class CcjImportDownloadReaderTest {
         SourceCcJudgmentTextData textData2 = createCcjTextData("abc1a");
         
         List<String> judgmentIds = Lists.newArrayList("35", "38", "40");
-        when(sourceCcjExternalRepository.findJudgmentIds(eq(0), eq(pageSize), eq(publicationDate))).thenReturn(judgmentIds);
+        when(sourceCcjExternalRepository.findJudgmentIds(0, pageSize, publicationDate)).thenReturn(judgmentIds);
         
-        when(sourceCcjExternalRepository.findJudgment(eq("35"))).thenReturn(textData1);
-        when(sourceCcjExternalRepository.findJudgment(eq("38"))).thenThrow(new SourceCcJudgmentDownloadErrorException("<error>something is wrong</error>"));
-        when(sourceCcjExternalRepository.findJudgment(eq("40"))).thenReturn(textData2);
+        when(sourceCcjExternalRepository.findJudgment("35")).thenReturn(textData1);
+        when(sourceCcjExternalRepository.findJudgment("38")).thenThrow(new SourceCcJudgmentDownloadErrorException("<error>something is wrong</error>"));
+        when(sourceCcjExternalRepository.findJudgment("40")).thenReturn(textData2);
         
         
         // execute
