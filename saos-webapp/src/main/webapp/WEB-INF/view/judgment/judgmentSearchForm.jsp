@@ -51,9 +51,13 @@
 								</label>
 								
 								<c:if test="${enumValue == 'REASONS'}" >
-									<spring:eval expression="@exposedProperties.getProperty('judgmentsource.url.COMMON_COURT')" var="ccJudgmentSourceUrl" />
+									<spring:eval expression="@exposedProperties.getProperty('judgmentSource.commonCourt.url')" var="ccJudgmentSourceUrl" />
+									<c:set var="ccJudgmentSourceLink"  >
+										<a href='http://${ccJudgmentSourceUrl}' >${ccJudgmentSourceUrl}</a> 
+									</c:set>
+									
 									<spring:message code="judgmentSearch.hint.reasons.title" var="hintReasonsTitle" />
-									<spring:message code="judgmentSearch.hint.reasons.content" var="hintReasonsContent" arguments="${ccJudgmentSourceUrl}" />	
+									<spring:message code="judgmentSearch.hint.reasons.content" var="hintReasonsContent" arguments="${ccJudgmentSourceLink}" />	
 									<saos:hint title="${hintReasonsTitle}" content="${hintReasonsContent}" />
 								</c:if>
 							</div>
