@@ -843,7 +843,20 @@ form.search {
 			/*margin-left: 170px;*/
 			vertical-align: top;
 		}
+		
+		.judge-role {
+			font: {
+				style: italic;
+				size: 13px;
+			}
+			&:before {
+				content: "-";
+			}
+		}
 	}
+	
+	
+	
 	
 	.referencedRegulations {
 		list-style: decimal outside none;

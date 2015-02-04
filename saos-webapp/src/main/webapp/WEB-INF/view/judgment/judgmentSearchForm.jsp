@@ -106,9 +106,9 @@
 
 	<h2><spring:message code="judgmentSearch.results.header" /><span><spring:message code="judgmentSearch.results.judgmentsNumber" arguments="${resultsNo}" /></span></h2>
 	
-	<a id="filter-box-button" class="filter-box-button display-none" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.filterBox.show' />"></a>
+	<a id="filter-box-button" class="filter-box-button display-none" href="" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.filterBox.show' />"></a>
 	
-	<a class="search-settings" id="search-settings" href="#" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.tooltip.settings' />" ></a>
+	<a class="search-settings" id="search-settings" href="" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.tooltip.settings' />" ></a>
 	
 	
 	<div class="settings-box" id="settings-box" >
