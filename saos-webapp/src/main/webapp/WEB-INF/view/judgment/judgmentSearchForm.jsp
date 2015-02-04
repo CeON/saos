@@ -51,7 +51,10 @@
 								</label>
 								
 								<c:if test="${enumValue == 'REASONS'}" >
-									<saos:hint titleCode="judgmentSearch.hint.reasons.title" contentCode='judgmentSearch.hint.reasons.content' />
+									<spring:eval expression="@exposedProperties.getProperty('judgmentsource.url.COMMON_COURT')" var="ccJudgmentSourceUrl" />
+									<spring:message code="judgmentSearch.hint.reasons.title" var="hintReasonsTitle" />
+									<spring:message code="judgmentSearch.hint.reasons.content" var="hintReasonsContent" arguments="${ccJudgmentSourceUrl}" />	
+									<saos:hint title="${hintReasonsTitle}" content="${hintReasonsContent}" />
 								</c:if>
 							</div>
 						</c:forEach>
@@ -68,7 +71,9 @@
 			   	<div class="col-sm-7">
 			    	<form:input path="legalBase" class="form-control" id="input-search-legalbases" />
 				</div>
-				<saos:hint titleCode="judgmentSearch.hint.legalBases.title" contentCode="judgmentSearch.hint.legalBases.content" />
+				<spring:message code="judgmentSearch.hint.legalBases.title" var="hintLegalBasesTitle" />
+				<spring:message code="judgmentSearch.hint.legalBases.content" var="hintLegalBasesContent" />
+				<saos:hint title="${hintLegalBasesTitle}" content="${hintLegalBasesContent}" />
 			</div>
 						 
 			<saos:formFieldText path="referencedRegulation" labelName="input-search-referencedregulations" labelText="judgmentSearch.formField.referencedRegulations" />

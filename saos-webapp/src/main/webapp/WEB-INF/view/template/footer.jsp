@@ -7,7 +7,7 @@
 		<li>
 			<a href="${contextPath}/" >
 			<spring:message code="saos.fullname"/> - 
-			<spring:eval expression="@versionProperties.getProperty('saos.version')"/>
+			<spring:eval expression="@versionProperties.getProperty('saos.version')"/>			
 			</a>
 		</li>
 	</ul>

@@ -1,13 +1,11 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
-<%@ tag display-name="enum" description="Prints localized enum" small-icon=""%>
+<%@ tag display-name="hint" description="Tag for displaying hints" %>
 
-<%@ attribute name="titleCode" required="true" description="Hint title" rtexprvalue="true" %>
-<%@ attribute name="contentCode" required="true" description="Hint content" rtexprvalue="true" %>
- 
-<spring:message code="${titleCode}" var="title" />
-<spring:message code="${contentCode}" var="content" />			
+<%@ attribute name="title" required="true" description="Hint title" rtexprvalue="true" %>
+<%@ attribute name="content" required="true" description="Hint content" rtexprvalue="true" %>
+ 		
+<spring:message code="judgmentSearch.hint.icon.alt" var="hintAltText" />
 
-<a href="" class="hint" data-toggle="popover" data-trigger="focus" title="${title}" data-content="${content}">
-	<spring:message code="judgmentSearch.hint.icon.alt" var="hintAltText" />
-	<img src="${contextPath}/static/image/icons/info.png" height="30" alt="${hintAltText}" />
-</a>
+<span class="hint" tabindex="0" data-trigger="focus"  data-toggle="popover" title="${title}" data-content="${content}">
+	<img src="${contextPath}/static/image/icons/info.png" height="26" alt="${hintAltText}" />
+</span>
