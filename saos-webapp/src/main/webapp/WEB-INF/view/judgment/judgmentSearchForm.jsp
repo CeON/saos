@@ -50,10 +50,10 @@
 			 
 			<saos:formFieldText path="referencedRegulation" labelName="input-search-referencedregulations" labelText="judgmentSearch.formField.referencedRegulations" />
 		    
-		    <div class="form-group">
+		    <div class="form-group radio-group">
 			    <label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>
 			    <div class="col-sm-7">
-			    	<div class="col-xs-6">
+			    	<div class="col-sm-6">
 				    	<form:radiobutton path="courtType" id="radio-all" value="" checked="checked" />
 				    	<label for="radio-all" ><spring:message code="judgmentSearch.formField.courtTypeAny" /></label>
 			    	</div>

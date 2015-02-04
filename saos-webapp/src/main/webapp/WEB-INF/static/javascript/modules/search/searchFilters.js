@@ -260,7 +260,7 @@ var SearchFilters = (function(){
 	/* Clear target field e.g. input select */
 	clearField = function($field, filterValue) {
 
-		if ($field.is("input:hidden")) {
+		if ($field.is("input[type=hidden]")) {
 			var value = $field.attr("value")
 			
 			value = value.replace(filterValue + ",", "");
@@ -271,7 +271,8 @@ var SearchFilters = (function(){
 		} else if ($field.is("input:checkbox")) {
 			$field.prop("checked", false);
 		} else if ($field.is("input")) {
-			$field.attr("value", "");
+			$field.attr("value", "")
+				  .trigger("change");
 		} else if ($field.is("select")) {
 			$field.removeAttr('selected')
 				  .val("")

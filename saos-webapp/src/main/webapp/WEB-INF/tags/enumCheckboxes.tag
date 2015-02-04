@@ -21,7 +21,7 @@
 <c:forEach var="enumValue" items="${enumItemsToShow}">
 	<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
 	
-	<div class="col-xs-<fmt:formatNumber value="${12 / columnsNumber}" maxFractionDigits="0"/>">
+	<div class="col-sm-<fmt:formatNumber value="${12 / columnsNumber}" maxFractionDigits="0"/>">
 		<form:checkbox path="${path}" value="${enumValue}" id="checkbox-${lowerCaseEnumValue}" ></form:checkbox>
 		<label for="checkbox-${lowerCaseEnumValue}" >
 			<saos:enum value="${enumValue}" />
