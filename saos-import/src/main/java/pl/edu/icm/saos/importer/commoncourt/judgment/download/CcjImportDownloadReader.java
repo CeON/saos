@@ -69,7 +69,15 @@ public class CcjImportDownloadReader implements ItemStreamReader<SourceCcJudgmen
             return null;
         }
         
-        return sourceCcjExternalRepository.findJudgment(judgmentId);
+        SourceCcJudgmentTextData sourceCcJudgmentTextData = null;
+        try {
+            sourceCcJudgmentTextData = sourceCcjExternalRepository.findJudgment(judgmentId);
+        } catch (SourceCcJudgmentDownloadErrorException e) {
+            log.warn("Couldn't find details of judgment with id: " + judgmentId, e);
+            return read();
+        }
+        
+        return sourceCcJudgmentTextData;
     }
     
     

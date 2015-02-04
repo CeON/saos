@@ -24,6 +24,8 @@ import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentUr
 import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcjExternalRepository;
 
 import com.google.common.collect.Lists;
+import com.googlecode.catchexception.CatchException;
+import com.googlecode.catchexception.apis.CatchExceptionAssertJ;
 
 /**
  * @author Łukasz Dumiszewski
@@ -37,6 +39,8 @@ public class SourceCcjExternalRepositoryTest {
     private XmlTagContentExtractor xmlTagContentExtractor = Mockito.mock(XmlTagContentExtractor.class);
     private RestTemplate restTemplate = new RestTemplate();
     
+    private MockRestServiceServer mockServer;
+    
     
     @Before
     public void before() {
@@ -44,14 +48,16 @@ public class SourceCcjExternalRepositoryTest {
         sourceCcjExternalRepository.setRestTemplate(restTemplate);
         sourceCcjExternalRepository.setSourceCcJudgmentUrlFactory(urlFactory);
         
-     }
+        mockServer = MockRestServiceServer.createServer(restTemplate);
+    }
     
     
+    //------------------------ TESTS --------------------------
     
     @Test
     public void findJudgmentIds() {
-        MockRestServiceServer mockServer = MockRestServiceServer.createServer(restTemplate);
         
+        // given
         DateTime publicationDateFrom = new DateTime(2012, 04, 11, 12, 00);
         int pageNo = 2;
         int pageSize = 10;
@@ -60,16 +66,17 @@ public class SourceCcjExternalRepositoryTest {
         String url = "http://qwerty.pl?dddd=dddd";
         Mockito.when(urlFactory.createSourceJudgmentsUrl(Mockito.eq(pageNo), Mockito.eq(pageSize), Mockito.eq(publicationDateFrom))).thenReturn(url);
         
-        String expectedUrl = UriComponentsBuilder.fromHttpUrl(url).build().encode().toUriString();
-        mockServer.expect(requestTo(expectedUrl)).andExpect(method(HttpMethod.GET))
-                .andRespond(MockRestResponseCreators.withSuccess(responseMessage, MediaType.APPLICATION_XML));
+        mockServerSuccessResponse(url, responseMessage, MediaType.APPLICATION_XML);
         
         List<String> result = Lists.newArrayList("111", "222");
         Mockito.when(xmlTagContentExtractor.extractTagContents(Mockito.anyString(), Mockito.eq("id"))).thenReturn(result);
         
         
+        // execute
         List<String> realResult = sourceCcjExternalRepository.findJudgmentIds(pageNo, pageSize, publicationDateFrom);
         
+        
+        // assert
         Assert.assertEquals(result, realResult);
         mockServer.verify();
         Mockito.verify(xmlTagContentExtractor).extractTagContents(Mockito.eq(responseMessage), Mockito.eq("id"));
@@ -78,8 +85,8 @@ public class SourceCcjExternalRepositoryTest {
     
     @Test
     public void findJudgment() {
-        MockRestServiceServer mockServer = MockRestServiceServer.createServer(restTemplate);
         
+        // given
         String judgmentId = "XXX-111223";
         String responseMetadata = "<id>111</id><id>222</id>";
         String responseContent = "W imieniu Rzeczypospolitej...";
@@ -89,19 +96,16 @@ public class SourceCcjExternalRepositoryTest {
         Mockito.when(urlFactory.createSourceJudgmentDetailsUrl(Mockito.eq(judgmentId))).thenReturn(metadataUrl);
         Mockito.when(urlFactory.createSourceJudgmentContentUrl(Mockito.eq(judgmentId))).thenReturn(contentUrl);
         
-        String expectedMetadataUrl = UriComponentsBuilder.fromHttpUrl(metadataUrl).build().encode().toUriString();
         
-        mockServer.expect(requestTo(expectedMetadataUrl)).andExpect(method(HttpMethod.GET))
-                .andRespond(MockRestResponseCreators.withSuccess(responseMetadata, MediaType.TEXT_XML));
-        
-        
-        String expectedContentUrl = UriComponentsBuilder.fromHttpUrl(contentUrl).build().encode().toUriString();
-        
-        mockServer.expect(requestTo(expectedContentUrl)).andExpect(method(HttpMethod.GET))
-        .andRespond(MockRestResponseCreators.withSuccess(responseContent, MediaType.TEXT_HTML));
+        mockServerSuccessResponse(metadataUrl, responseMetadata, MediaType.TEXT_XML);
+        mockServerSuccessResponse(contentUrl, responseContent, MediaType.TEXT_XML);
 
+        
+        // execute
         SourceCcJudgmentTextData ccJudgmentTextData = sourceCcjExternalRepository.findJudgment(judgmentId);
         
+        
+        // assert
         assertEquals(responseMetadata, ccJudgmentTextData.getMetadata());
         assertEquals(responseContent, ccJudgmentTextData.getContent());
         assertEquals(metadataUrl, ccJudgmentTextData.getMetadataSourceUrl());
@@ -110,11 +114,42 @@ public class SourceCcjExternalRepositoryTest {
         mockServer.verify();
         
     }
+    
+    @Test
+    public void findJudgment_metadataError() {
+        
+        // given
+        String judgmentId = "4214";
+        String errorResponseMetadata = "<?xml version=\"1.0\"?><error>Judgement with specified id (152500000000503_I_ACa_001011_2013_Uz_2014-02-05_0012) not found.</error>";
+        String metadataUrl = "http://qwerty.pl/details?dddd=dddd";
+        
+        Mockito.when(urlFactory.createSourceJudgmentDetailsUrl(Mockito.eq(judgmentId))).thenReturn(metadataUrl);
+        
+        mockServerSuccessResponse(metadataUrl, errorResponseMetadata, MediaType.TEXT_HTML);
+        
+        
+        // execute
+        CatchExceptionAssertJ.when(sourceCcjExternalRepository).findJudgment(judgmentId);
+        
+        
+        // assert
+        CatchExceptionAssertJ.then(CatchException.caughtException())
+                .isExactlyInstanceOf(SourceCcJudgmentDownloadErrorException.class)
+                .hasMessageContaining(errorResponseMetadata);
+        
+    }
 
 
     //------------------------ PRIVATE --------------------------
 
-    
+    private void mockServerSuccessResponse(String url, String response, MediaType mediaType) {
+        String expectedUrl = UriComponentsBuilder.fromHttpUrl(url).build().encode().toUriString();
+        
+        mockServer
+            .expect(requestTo(expectedUrl))
+            .andExpect(method(HttpMethod.GET))
+            .andRespond(MockRestResponseCreators.withSuccess(response, mediaType));
+    }
     
     
 }
