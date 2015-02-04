@@ -2,6 +2,7 @@ package pl.edu.icm.saos.persistence.repository;
 
 import java.util.List;
 
+import pl.edu.icm.saos.persistence.common.Generatable;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
@@ -18,7 +19,9 @@ public interface JudgmentRepositoryCustom {
 
     /**
      * Finds {@link Judgment} with the given id ({@link Judgment#getId()}), initializes it (the whole tree)
-     * and returns it.
+     * and returns it.<br/>
+     * Note that in order to have the {@link Generatable} objects added, you should use a proper service from
+     * the saos-enrichment module.
      */
     public <T extends Judgment> T findOneAndInitialize(long id);
 

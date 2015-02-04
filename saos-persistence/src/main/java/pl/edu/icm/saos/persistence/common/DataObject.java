@@ -16,7 +16,7 @@ import pl.edu.icm.saos.common.visitor.VisitorUtils;
  *
  */
 @MappedSuperclass
-public abstract class DataObject extends GeneratableObject {
+public abstract class DataObject {
 
     protected long id;
     private int ver;

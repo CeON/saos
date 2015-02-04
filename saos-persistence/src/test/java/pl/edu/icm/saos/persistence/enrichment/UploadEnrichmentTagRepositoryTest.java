@@ -36,7 +36,7 @@ public class UploadEnrichmentTagRepositoryTest extends PersistenceTestSupport {
         
         // given
         
-        UploadEnrichmentTag uploadEnrichmentTag = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"caseNumbers\": [\"123\", \"234\"]}");
+        UploadEnrichmentTag uploadEnrichmentTag = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"caseNumbers\": [\"123\", \"234\"]}");
         
         
         // execute
@@ -60,7 +60,7 @@ public class UploadEnrichmentTagRepositoryTest extends PersistenceTestSupport {
         
         // given
         
-        UploadEnrichmentTag uploadEnrichmentTag = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{key:\"fff\"");
+        UploadEnrichmentTag uploadEnrichmentTag = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{key:\"fff\"");
         
         // execute
         
@@ -75,13 +75,13 @@ public class UploadEnrichmentTagRepositoryTest extends PersistenceTestSupport {
         
         // given
         
-        UploadEnrichmentTag uploadEnrichmentTag1 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
+        UploadEnrichmentTag uploadEnrichmentTag1 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
         uploadEnrichmentTagRepository.save(uploadEnrichmentTag1);
         
         UploadEnrichmentTag uploadEnrichmentTag2 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 36));
         uploadEnrichmentTagRepository.save(uploadEnrichmentTag2);
         
-        UploadEnrichmentTag uploadEnrichmentTag3 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
+        UploadEnrichmentTag uploadEnrichmentTag3 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
         uploadEnrichmentTagRepository.save(uploadEnrichmentTag3);
         
         
@@ -103,13 +103,13 @@ public class UploadEnrichmentTagRepositoryTest extends PersistenceTestSupport {
         
         // given
         
-        UploadEnrichmentTag uploadEnrichmentTag1 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
+        UploadEnrichmentTag uploadEnrichmentTag1 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
         uploadEnrichmentTagRepository.save(uploadEnrichmentTag1);
         
         UploadEnrichmentTag uploadEnrichmentTag2 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 36));
         uploadEnrichmentTagRepository.save(uploadEnrichmentTag2);
         
-        UploadEnrichmentTag uploadEnrichmentTag3 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
+        UploadEnrichmentTag uploadEnrichmentTag3 = createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
         uploadEnrichmentTagRepository.save(uploadEnrichmentTag3);
         
         assertEquals(3, uploadEnrichmentTagRepository.count());

@@ -53,7 +53,7 @@ public class UploadEnrichmentTagCopierTest extends EnrichmentTestSupport {
         
         Judgment ctJudgment = testPersistenceObjectFactory.createCtJudgment();
         
-        UploadEnrichmentTag uploadEnrichmentTag1 = TestInMemoryUploadEnrichmentTagFactory.createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"caseNumber\":\"sss\"}", ctJudgment.getId(), new DateTime(2012, 12, 12, 11, 13));
+        UploadEnrichmentTag uploadEnrichmentTag1 = TestInMemoryUploadEnrichmentTagFactory.createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"caseNumber\":\"sss\"}", ctJudgment.getId(), new DateTime(2012, 12, 12, 11, 13));
         UploadEnrichmentTag uploadEnrichmentTag2 = TestInMemoryUploadEnrichmentTagFactory.createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"refReg\":\"11212ss\"}", ctJudgment.getId(), new DateTime(2012, 12, 12, 12, 11));
         UploadEnrichmentTag uploadEnrichmentTag3 = TestInMemoryUploadEnrichmentTagFactory.createUploadEnrichmentTag(EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"refReg\":\"1121ss\"}", ctJudgment.getId()+1000, new DateTime(2012, 12, 11, 12, 11));
         

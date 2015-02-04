@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.edu.icm.saos.api.services.exceptions.ControllersEntityExceptionHandler;
 import pl.edu.icm.saos.api.services.exceptions.ElementDoesNotExistException;
+import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
  * Provides functionality for constructing view for single judgment.
@@ -24,24 +24,22 @@ import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 @RequestMapping("/api/judgments/{judgmentId}")
 public class JudgmentController extends ControllersEntityExceptionHandler{
 
-    //******** fields ****************
-
     @Autowired
-    private JudgmentRepository judgmentRepository;
+    private JudgmentEnrichmentService judgmentEnrichmentService;
 
     @Autowired
     private SingleJudgmentSuccessRepresentationBuilder singleJudgmentSuccessRepresentationBuilder;
 
-    //********** END fields ****************
-
-
-    //*************** business methods *******************
-
+    
+    
+    
+    //------------------------ LOGIC --------------------------
+    
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Object> showJudgment(@PathVariable("judgmentId") long judgmentId) throws ElementDoesNotExistException {
 
-        Judgment judgment = judgmentRepository.findOneAndInitialize(judgmentId);
+        Judgment judgment = judgmentEnrichmentService.findOneAndEnrich(judgmentId);
         if(judgment == null){
             throw new ElementDoesNotExistException("Judgment", judgmentId);
         }
@@ -57,11 +55,14 @@ public class JudgmentController extends ControllersEntityExceptionHandler{
 
 
 
-    //*** setters ****
-    public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
-        this.judgmentRepository = judgmentRepository;
+    //------------------------ SETTERS --------------------------
+    
+    @Autowired
+    public void setJudgmentEnrichmentService(JudgmentEnrichmentService judgmentEnrichmentService) {
+        this.judgmentEnrichmentService = judgmentEnrichmentService;
     }
-
+    
+    @Autowired
     public void setSingleJudgmentSuccessRepresentationBuilder(SingleJudgmentSuccessRepresentationBuilder singleJudgmentSuccessRepresentationBuilder) {
         this.singleJudgmentSuccessRepresentationBuilder = singleJudgmentSuccessRepresentationBuilder;
     }

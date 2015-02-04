@@ -8,6 +8,7 @@ import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
+ * 
  * @author Łukasz Dumiszewski
  */
 public interface JudgmentRepository extends JudgmentCommonRepository<Judgment>, JpaRepository<Judgment, Long>, JudgmentRepositoryCustom {

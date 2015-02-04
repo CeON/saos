@@ -12,6 +12,7 @@ import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
@@ -25,6 +26,8 @@ import com.google.common.collect.Lists;
 public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
 
     private JudgmentRepository judgmentRepository;
+    
+    private JudgmentEnrichmentService judgmentEnrichmentService;
     
     
     private volatile Queue<Long> judgmentIds = Lists.newLinkedList();
@@ -48,7 +51,7 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
             return null;
         }
         
-        return judgmentRepository.findOne(id);
+        return judgmentEnrichmentService.findOneAndEnrich(id);
     }
     
     @Override
@@ -66,6 +69,11 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
     @Autowired
     public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
         this.judgmentRepository = judgmentRepository;
+    }
+
+    @Autowired
+    public void setJudgmentEnrichmentService(JudgmentEnrichmentService judgmentEnrichmentService) {
+        this.judgmentEnrichmentService = judgmentEnrichmentService;
     }
 
 }

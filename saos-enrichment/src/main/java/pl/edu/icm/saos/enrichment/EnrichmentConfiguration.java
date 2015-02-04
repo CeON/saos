@@ -5,6 +5,8 @@ package pl.edu.icm.saos.enrichment;
  */
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -15,7 +17,12 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.validation.CommonValidator;
-import pl.edu.icm.saos.enrichment.upload.EnrichmentTagItem;
+import pl.edu.icm.saos.enrichment.apply.DefaultEnrichmentTagApplier;
+import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesJudgmentUpdater;
+import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueConverter;
+import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueItem;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
+import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
 
 import com.fasterxml.jackson.core.JsonFactory;
 
@@ -38,15 +45,35 @@ public class EnrichmentConfiguration {
    
     
     
-    //------------------------ BEANS --------------------------
     
-        
+
+    //------------------------ ENRICHMENT TAG APPLIERS --------------------------
+    
+    
+    //---- REFERENCED_COURT_CASES TAG ----
+    
+    
+    @Autowired
+    private ReferencedCourtCasesTagValueConverter referencedCourtCasesTagValueConverter;
+    
+    @Autowired
+    private ReferencedCourtCasesJudgmentUpdater referencedCourtCasesJudgmentUpdater;
+    
     @Bean
-    public JsonStringParser<EnrichmentTagItem> enrichmentTagItemParser() {
-        JsonStringParser<EnrichmentTagItem> enrichmentTagItemParser = new JsonStringParser<>(EnrichmentTagItem.class);
-        enrichmentTagItemParser.setCommonValidator(commonValidator);
-        enrichmentTagItemParser.setJsonFactory(jsonFactory);
-        return enrichmentTagItemParser;
+    public JsonStringParser<ReferencedCourtCasesTagValueItem[]> referencedCourtCasesJsonParser() {
+        return new JsonStringParser<>(ReferencedCourtCasesTagValueItem[].class);
+    }
+    
+    @Bean
+    public DefaultEnrichmentTagApplier<ReferencedCourtCasesTagValueItem[], List<ReferencedCourtCase>> referencedCourtCasesTagApplier() {
+        
+        DefaultEnrichmentTagApplier<ReferencedCourtCasesTagValueItem[], List<ReferencedCourtCase>> tagApplier = new DefaultEnrichmentTagApplier<ReferencedCourtCasesTagValueItem[], List<ReferencedCourtCase>>(EnrichmentTagTypes.REFERENCED_COURT_CASES);
+        
+        tagApplier.setJsonStringParser(referencedCourtCasesJsonParser());
+        tagApplier.setEnrichmentTagValueConverter(referencedCourtCasesTagValueConverter);
+        tagApplier.setJudgmentUpdater(referencedCourtCasesJudgmentUpdater);
+
+        return tagApplier;
     }
     
     
