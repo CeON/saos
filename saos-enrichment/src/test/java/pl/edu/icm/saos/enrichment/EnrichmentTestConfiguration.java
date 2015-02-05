@@ -12,4 +12,7 @@ import pl.edu.icm.saos.persistence.PersistenceTestConfiguration;
 @Import({EnrichmentConfiguration.class, PersistenceTestConfiguration.class})
 public class EnrichmentTestConfiguration extends TestConfigurationBase {
 
+     
+    
+    
 }

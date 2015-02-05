@@ -11,12 +11,13 @@ import java.util.List;
 
 import org.assertj.core.util.Lists;
 
+import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 
 /**
  * @author madryk
  */
-final class TestInMemoryEnrichmentTagFactory {
+public final class TestInMemoryEnrichmentTagFactory {
 
     //------------------------ CONSTRUCTORS --------------------------
     
@@ -42,14 +43,12 @@ final class TestInMemoryEnrichmentTagFactory {
     }
     
     
-    //------------------------ PRIVATE --------------------------
-    
-    private static EnrichmentTag createEnrichmentTag(long judgmentId, String tagType, String jsonValue) {
+    public static EnrichmentTag createEnrichmentTag(long judgmentId, String tagType, String jsonValue) {
         EnrichmentTag enrichmentTag = new EnrichmentTag();
         
         enrichmentTag.setJudgmentId(judgmentId);
         enrichmentTag.setTagType(tagType);
-        enrichmentTag.setValue(jsonValue);
+        enrichmentTag.setValue(JsonNormalizer.normalizeJson(jsonValue));
         
         return enrichmentTag;
     }

@@ -16,7 +16,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 
 import pl.edu.icm.saos.common.TestConfigurationBase;
-import pl.edu.icm.saos.persistence.PersistenceTestConfiguration;
+import pl.edu.icm.saos.enrichment.EnrichmentTestConfiguration;
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 import pl.edu.icm.saos.search.config.model.SolrConfigurationException;
 import pl.edu.icm.saos.search.config.service.EmbeddedSolrIndexReloader;
@@ -27,7 +27,7 @@ import pl.edu.icm.saos.search.util.SolrConstants;
 /**
  * @author madryk
  */
-@Import({ SearchConfiguration.class, PersistenceTestConfiguration.class })
+@Import({ SearchConfiguration.class, EnrichmentTestConfiguration.class})
 public class SearchTestConfiguration extends TestConfigurationBase {
 
     private static final String CONF_BASE_CLASSPATH = "pl/edu/icm/saos/search/config";

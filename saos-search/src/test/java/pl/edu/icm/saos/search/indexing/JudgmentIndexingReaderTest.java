@@ -4,7 +4,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +15,7 @@ import java.util.stream.IntStream;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.batch.item.ExecutionContext;
@@ -24,6 +24,7 @@ import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -39,9 +40,13 @@ public class JudgmentIndexingReaderTest {
     
     private JudgmentRepository judgmentRepository = mock(JudgmentRepository.class);
     
+    private JudgmentEnrichmentService judgmentEnrichmentService = mock(JudgmentEnrichmentService.class);
+    
+    
     @Before
     public void setUp() {
          judgmentIndexingReader.setJudgmentRepository(judgmentRepository);
+         judgmentIndexingReader.setJudgmentEnrichmentService(judgmentEnrichmentService);
     }
     
     @Test
@@ -61,9 +66,9 @@ public class JudgmentIndexingReaderTest {
         Judgment thirdJudgment = createCcJudgment(3);
         
         when(judgmentRepository.findAllNotIndexedIds()).thenReturn(Lists.newArrayList(1l, 2l, 3l));
-        when(judgmentRepository.findOne(1l)).thenReturn(firstJudgment);
-        when(judgmentRepository.findOne(2l)).thenReturn(secondJudgment);
-        when(judgmentRepository.findOne(3l)).thenReturn(thirdJudgment);
+        when(judgmentEnrichmentService.findOneAndEnrich(1l)).thenReturn(firstJudgment);
+        when(judgmentEnrichmentService.findOneAndEnrich(2l)).thenReturn(secondJudgment);
+        when(judgmentEnrichmentService.findOneAndEnrich(3l)).thenReturn(thirdJudgment);
         judgmentIndexingReader.open(new ExecutionContext());
 
         
@@ -90,7 +95,7 @@ public class JudgmentIndexingReaderTest {
                 .collect(Collectors.toList());
         
         when(judgmentRepository.findAllNotIndexedIds()).thenReturn(ids);
-        when(judgmentRepository.findOne(any())).thenAnswer(new Answer<Judgment>( ) {
+        when(judgmentEnrichmentService.findOneAndEnrich(Mockito.anyLong())).thenAnswer(new Answer<Judgment>( ) {
             @Override
             public Judgment answer(InvocationOnMock invocation) throws Throwable {
                 long id = (long)(invocation.getArguments()[0]);

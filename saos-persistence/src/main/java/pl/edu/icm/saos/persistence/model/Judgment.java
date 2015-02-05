@@ -98,6 +98,9 @@ public abstract class Judgment extends IndexableObject {
 
     private DateTime modificationDate = new DateTime();
     
+    private List<ReferencedCourtCase> referenceCourtCases = Lists.newArrayList();
+    
+    
     //------------------------ GETTERS --------------------------
     
     
@@ -236,7 +239,12 @@ public abstract class Judgment extends IndexableObject {
         return modificationDate;
     }
 
-    
+    @Transient
+    public List<ReferencedCourtCase> getReferencedCourtCases() {
+        return referenceCourtCases;
+    }
+
+
     
     //------------------------ LOGIC --------------------------
     
@@ -438,6 +446,20 @@ public abstract class Judgment extends IndexableObject {
     }
     
     
+    //--- referenced court cases ---
+    
+    public boolean containsReferencedCourtCase(ReferencedCourtCase referencedCourtCase) {
+        return this.referenceCourtCases.contains(referencedCourtCase);
+    }
+    
+    
+    public boolean addReferencedCourtCase(ReferencedCourtCase referencedCourtCase) {
+        
+        Preconditions.checkNotNull(referencedCourtCase);
+        Preconditions.checkArgument(!containsReferencedCourtCase(referencedCourtCase));
+        
+        return this.referenceCourtCases.add(referencedCourtCase);
+    }
     
     //--- other ---
     
@@ -525,6 +547,10 @@ public abstract class Judgment extends IndexableObject {
     private void setModificationDate(DateTime modificationDate) {
         this.modificationDate = modificationDate;
     }
+    
+
+    
+
 
     
     //------------------------ HashCode & Equals --------------------------
@@ -569,7 +595,6 @@ public abstract class Judgment extends IndexableObject {
                 + "]";
     }
 
-    
     
    
     

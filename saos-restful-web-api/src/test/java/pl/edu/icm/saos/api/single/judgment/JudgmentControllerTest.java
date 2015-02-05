@@ -81,12 +81,12 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -98,7 +98,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
     private SingleJudgmentSuccessRepresentationBuilder singleJudgmentSuccessRepresentationBuilder;
 
     @Autowired
-    private JudgmentRepository judgmentRepository;
+    private JudgmentEnrichmentService judgmentEnrichmentService;
 
     @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
@@ -124,7 +124,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
         JudgmentController judgmentController = new JudgmentController();
 
         judgmentController.setSingleJudgmentSuccessRepresentationBuilder(singleJudgmentSuccessRepresentationBuilder);
-        judgmentController.setJudgmentRepository(judgmentRepository);
+        judgmentController.setJudgmentEnrichmentService(judgmentEnrichmentService);
 
         mockMvc = standaloneSetup(judgmentController)
                 .build();
