@@ -60,7 +60,14 @@ class SourceCcjExternalRepository {
     }
 
     
-    
+    /**
+     * Finds judgment metadata and content from external repository
+     * 
+     * @param judgmentId
+     * @return SourceCcJudgmentTextData
+     * @throws SourceCcJudgmentDownloadErrorException when there was error in finding
+     *     judgment (for example when judgment with provided id don't exist)
+     */
     public SourceCcJudgmentTextData findJudgment(String judgmentId) {
         
         //SourceCcJudgment sourceCcJudgment = (SourceCcJudgment)ccJudgmentMarshaller.unmarshal(new StreamSource(new StringReader(response.getBody())));
@@ -89,6 +96,10 @@ class SourceCcjExternalRepository {
         HttpHeaders headers = createHttpHeaders(MediaType.TEXT_XML);
         
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
+        
+        if (isErrorResponse(StringUtils.trim(response.getBody()))) {
+            throw new SourceCcJudgmentDownloadErrorException(response.getBody());
+        }
         
         return StringUtils.trim(response.getBody());
     }
@@ -120,6 +131,12 @@ class SourceCcjExternalRepository {
         return headers;
     }
 
+    private boolean isErrorResponse(String response) {
+        if (response == null) {
+            return false;
+        }
+        return response.matches(".*<error>.+</error>");
+    }
     
     
     //------------------------ GETTERS --------------------------

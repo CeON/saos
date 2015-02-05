@@ -29,11 +29,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
 import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionService;
 
@@ -59,7 +59,7 @@ public class JudgmentDetailsControllerTest {
     private JudgmentDetailsController judgmentDetailController;
 	
 	@Mock
-	private JudgmentRepository judgmentRepository;
+	private JudgmentEnrichmentService judgmentEnrichmentService;
 	
 	@Mock
 	private JudgmentCorrectionService judgmentCorrectionService;
@@ -71,7 +71,7 @@ public class JudgmentDetailsControllerTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		
-		when(judgmentRepository.findOneAndInitialize(judgment.getId())).thenReturn(judgment);
+		when(judgmentEnrichmentService.findOneAndEnrich(judgment.getId())).thenReturn(judgment);
 		when(judgmentCorrectionService.findAllByJudgmentIdSorted(judgment.getId())).thenReturn(judgmentCorrections);
 		
 		mockMvc = webAppContextSetup(webApplicationCtx)
@@ -95,7 +95,7 @@ public class JudgmentDetailsControllerTest {
 			.andExpect(model().attribute("judgment", judgment))
 			.andExpect(model().attribute("corrections", judgmentCorrections));
 		
-		verify(judgmentRepository).findOneAndInitialize(judgment.getId());
+		verify(judgmentEnrichmentService).findOneAndEnrich(judgment.getId());
 		verify(judgmentCorrectionService).findAllByJudgmentIdSorted(judgment.getId());
 	}
 
