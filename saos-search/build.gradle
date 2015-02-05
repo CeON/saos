@@ -2,6 +2,7 @@
 dependencies {
     testCompile project(path:':saos-common', configuration:'testArtifacts')
     testCompile project(path:':saos-persistence', configuration:'testArtifacts')
+    testCompile project(path:':saos-enrichment', configuration:'testArtifacts')
         
     testCompile lib.'org.apache.solr:solr-core'
     testCompile lib.'org.apache.lucene:lucene-analyzers-morfologik'
@@ -14,4 +15,5 @@ dependencies {
     compile lib.'org.apache.solr:solr-solrj'
     
     compile project(':saos-persistence')
+    compile project(':saos-enrichment')
 }

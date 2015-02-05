@@ -20,8 +20,8 @@ public final class EnrichmentTagTypes {
     public static final String SIMILAR_JUDGMENTS = "SIMILAR_JUDGMENTS";
     
     
-    /** case numbers referenced in a text content of a judgment */
-    public static final String REFERENCED_CASE_NUMBERS = "REFERENCED_CASE_NUMBERS";
+    /** court cases referenced in a text content of a judgment */
+    public static final String REFERENCED_COURT_CASES = "REFERENCED_COURT_CASES";
     
     
     /** referenced regulations referenced in a text content of a judgment and not provided by a judgment source system */

@@ -39,7 +39,7 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
         
         // given
         
-        EnrichmentTag enrichmentTag = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"caseNumbers\": [\"123\", \"234\"]}");
+        EnrichmentTag enrichmentTag = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"caseNumbers\": [\"123\", \"234\"]}");
         
         
         // execute
@@ -63,7 +63,7 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
         
         // given
         
-        EnrichmentTag enrichmentTag = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{key:\"fff\"");
+        EnrichmentTag enrichmentTag = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{key:\"fff\"");
         
         // execute
         
@@ -78,13 +78,13 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
         
         // given
         
-        EnrichmentTag enrichmentTag1 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
+        EnrichmentTag enrichmentTag1 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
         enrichmentTagRepository.save(enrichmentTag1);
         
         EnrichmentTag enrichmentTag2 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 36));
         enrichmentTagRepository.save(enrichmentTag2);
         
-        EnrichmentTag enrichmentTag3 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
+        EnrichmentTag enrichmentTag3 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
         enrichmentTagRepository.save(enrichmentTag3);
         
         
@@ -105,13 +105,13 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
         
         // given
         
-        EnrichmentTag enrichmentTag1 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
+        EnrichmentTag enrichmentTag1 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
         enrichmentTagRepository.save(enrichmentTag1);
         
         EnrichmentTag enrichmentTag2 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 36));
         enrichmentTagRepository.save(enrichmentTag2);
         
-        EnrichmentTag enrichmentTag3 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_CASE_NUMBERS, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
+        EnrichmentTag enrichmentTag3 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
         enrichmentTagRepository.save(enrichmentTag3);
         
         

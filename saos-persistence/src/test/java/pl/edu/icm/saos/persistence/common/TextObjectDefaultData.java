@@ -1,7 +1,11 @@
 package pl.edu.icm.saos.persistence.common;
 
 import static pl.edu.icm.saos.common.json.JsonNormalizer.normalizeJson;
-import pl.edu.icm.saos.persistence.model.*;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.SourceCode;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
 /**
  * @author pavtel
