@@ -60,9 +60,17 @@ var jsInitInJudgmentSearch = function() {
 		yearRange: 'c-50:' + ((new Date()).getFullYear()+1)
 	});
     
-    
+    /* Enable bootstrap tooltip */
     $('[data-toggle="tooltip"]').tooltip({container: 'body'});
 	
+    /* Enable bootstrap popover's */
+    $('[data-toggle="popover"]').popover({container: 'body'});
+    
+    
+    /* Hints */
+    $(".hint").click(function(event) {
+    	event.preventDefault();
+    });
 	
 	/*** Search form show more fields ***/
 	SearchFormMode.init({
@@ -131,6 +139,7 @@ var jsInitInJudgmentSearch = function() {
 		radioName: "courtType",
 		parentContainer: "#search-form"
 	});
+	
 	
 	$("#filter-box").filterBox({
 		removeAllButton: "#clearAllFilters",

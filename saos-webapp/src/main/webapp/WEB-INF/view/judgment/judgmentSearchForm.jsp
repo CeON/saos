@@ -39,15 +39,47 @@
 				<label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.judgmentType" />:</label>
 				<div class="col-sm-7">
 					<div class="checkbox">
-		   	    	    <saos:enumCheckboxes path="judgmentTypes" enumType="pl.edu.icm.saos.persistence.model.Judgment.JudgmentType" columnsNumber="2" />
+
+			   			<spring:eval expression="T(pl.edu.icm.saos.persistence.model.Judgment.JudgmentType).values()" var="enumJudgmentTypes" scope="page"/>
+			   		
+			   			<c:forEach var="enumValue" items="${enumJudgmentTypes}">
+							<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
+							<div class="col-xs-6">
+								<form:checkbox path="judgmentTypes" value="${enumValue}" id="checkbox-${lowerCaseEnumValue}" ></form:checkbox>
+								<label for="checkbox-${lowerCaseEnumValue}" >
+									<saos:enum value="${enumValue}" />
+								</label>
+								
+								<c:if test="${enumValue == 'REASONS'}" >
+									<spring:eval expression="@exposedProperties.getProperty('judgmentSource.COMMON_COURT.url')" var="ccJudgmentSourceUrl" />
+									<c:set var="ccJudgmentSourceLink"  >
+										<a href='http://${ccJudgmentSourceUrl}' >${ccJudgmentSourceUrl}</a> 
+									</c:set>
+									
+									<spring:message code="judgmentSearch.hint.reasons.title" var="hintReasonsTitle" />
+									<spring:message code="judgmentSearch.hint.reasons.content" var="hintReasonsContent" arguments="${ccJudgmentSourceLink}" />	
+									<saos:hint title="${hintReasonsTitle}" content="${hintReasonsContent}" />
+								</c:if>
+							</div>
+						</c:forEach>
+		   		 	
 			   		</div>
 			 	</div>
 			</div>
 		    
 		    <saos:formFieldText path="judgeName" labelName="input-search-judge" labelText="judgmentSearch.formField.judge" />
-		    		    
-			<saos:formFieldText path="legalBase" labelName="input-search-legalbases" labelText="judgmentSearch.formField.legalBases" />
-			 
+
+			<%-- Legal bases --%>
+			<div class="form-group">
+				<label for="input-search-legalbases" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.legalBases" />:</label>
+			   	<div class="col-sm-7">
+			    	<form:input path="legalBase" class="form-control" id="input-search-legalbases" />
+				</div>
+				<spring:message code="judgmentSearch.hint.legalBases.title" var="hintLegalBasesTitle" />
+				<spring:message code="judgmentSearch.hint.legalBases.content" var="hintLegalBasesContent" />
+				<saos:hint title="${hintLegalBasesTitle}" content="${hintLegalBasesContent}" />
+			</div>
+						 
 			<saos:formFieldText path="referencedRegulation" labelName="input-search-referencedregulations" labelText="judgmentSearch.formField.referencedRegulations" />
 		    
 		    <div class="form-group">
