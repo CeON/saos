@@ -51,7 +51,7 @@
 								</label>
 								
 								<c:if test="${enumValue == 'REASONS'}" >
-									<spring:eval expression="@exposedProperties.getProperty('judgmentSource.commonCourt.url')" var="ccJudgmentSourceUrl" />
+									<spring:eval expression="@exposedProperties.getProperty('judgmentSource.COMMON_COURT.url')" var="ccJudgmentSourceUrl" />
 									<c:set var="ccJudgmentSourceLink"  >
 										<a href='http://${ccJudgmentSourceUrl}' >${ccJudgmentSourceUrl}</a> 
 									</c:set>
