@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.enrichment.apply;
 
+import static com.googlecode.catchexception.CatchException.catchException;
+import static com.googlecode.catchexception.CatchException.caughtException;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -10,7 +12,9 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
@@ -40,6 +44,7 @@ public class DefaultEnrichmentTagApplierTest {
     
     private DefaultEnrichmentTagApplier<String, Object> defaultEnrichmentTagApplier = new DefaultEnrichmentTagApplier<>(HANDLED_TAG_TYPE);
     
+    @Rule public ExpectedException expectedException = ExpectedException.none();
     
     
     @Before
@@ -82,54 +87,58 @@ public class DefaultEnrichmentTagApplierTest {
     }
     
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void applyEnrichmentTag_NotHandledTagType() {
         
         // given
         when(enrichmentTag.getTagType()).thenReturn("ABC");
         
         // execute
-        defaultEnrichmentTagApplier.applyEnrichmentTag(judgment, enrichmentTag);
+        catchException(defaultEnrichmentTagApplier).applyEnrichmentTag(judgment, enrichmentTag);
         
         // assert
+        assertTrue(caughtException() instanceof IllegalArgumentException);
         verifyZeroInteractions(enrichmentTagValueConverter, jsonStringParser, judgmentUpdater);
-
     }
     
     
-    @Test(expected=NullPointerException.class)
+    @Test
     public void applyEnrichmentTag_NullJudgment() {
         
         // execute
-        defaultEnrichmentTagApplier.applyEnrichmentTag(null, enrichmentTag);
+        catchException(defaultEnrichmentTagApplier).applyEnrichmentTag(null, enrichmentTag);
         
         // assert
+        assertTrue(caughtException() instanceof NullPointerException);
         verifyZeroInteractions(enrichmentTagValueConverter, jsonStringParser, judgmentUpdater);
 
     }
     
     
-    @Test(expected=NullPointerException.class)
+    @Test
     public void applyEnrichmentTag_NullEnrichmentTag() {
         
         // execute
-        defaultEnrichmentTagApplier.applyEnrichmentTag(judgment, null);
+        catchException(defaultEnrichmentTagApplier).applyEnrichmentTag(judgment, null);
         
         // assert
+        assertTrue(caughtException() instanceof NullPointerException);
         verifyZeroInteractions(enrichmentTagValueConverter, jsonStringParser, judgmentUpdater);
     }
     
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void applyEnrichmentTag_JsonParseEx() throws Exception {
         
         // given
         when(jsonStringParser.parseAndValidate(Mockito.anyString())).thenThrow(new IllegalArgumentException());
         
         // execute
-        defaultEnrichmentTagApplier.applyEnrichmentTag(judgment, enrichmentTag);
+        catchException(defaultEnrichmentTagApplier).applyEnrichmentTag(judgment, enrichmentTag);
         
-        verifyNoMoreInteractions(jsonStringParser);
+        // assert
+        assertTrue(caughtException() instanceof IllegalArgumentException);
+        verify(jsonStringParser).parseAndValidate(enrichmentTag.getValue());
         verifyZeroInteractions(enrichmentTagValueConverter, judgmentUpdater);
     }
     

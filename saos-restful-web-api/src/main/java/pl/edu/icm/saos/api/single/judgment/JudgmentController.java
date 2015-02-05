@@ -24,10 +24,8 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 @RequestMapping("/api/judgments/{judgmentId}")
 public class JudgmentController extends ControllersEntityExceptionHandler{
 
-    @Autowired
     private JudgmentEnrichmentService judgmentEnrichmentService;
 
-    @Autowired
     private SingleJudgmentSuccessRepresentationBuilder singleJudgmentSuccessRepresentationBuilder;
 
     
@@ -51,8 +49,7 @@ public class JudgmentController extends ControllersEntityExceptionHandler{
         return new ResponseEntity<>(representation, httpHeaders, HttpStatus.OK);
     }
 
-    //*************** END business methods **********************
-
+    
 
 
     //------------------------ SETTERS --------------------------
