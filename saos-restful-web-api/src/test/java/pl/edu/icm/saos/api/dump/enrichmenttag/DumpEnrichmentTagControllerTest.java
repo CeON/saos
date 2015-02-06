@@ -7,20 +7,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.FIRST_ENRICHMENT_TAG_TYPE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.FIRST_ENRICHMENT_TAG_VALUE_VALUE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SECOND_ENRICHMENT_TAG_FIRST_ARRAY_VALUE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SECOND_ENRICHMENT_TAG_SECOND_ARRAY_VALUE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SECOND_ENRICHMENT_TAG_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_FIRST_CASE_NUMBER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_SECOND_CASE_NUMBER;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_FIRST_ARRAY_VALUE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_SECOND_ARRAY_VALUE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_THIRD_ARRAY_VALUE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_TYPE;
-import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
+import static pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes.REFERENCED_COURT_CASES;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -31,6 +31,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
@@ -43,6 +44,8 @@ import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
+
+import com.google.common.collect.Lists;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
@@ -105,7 +108,7 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
         
         
         // assert
-        
+        result.andDo(MockMvcResultHandlers.print());
         result
             .andExpect(jsonPath("$.items", hasSize(3)))
             
@@ -116,10 +119,16 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
         
             .andExpect(jsonPath("$.items.[1].id").value(equalsLong(enrichmentTags.get(1).getId())))
             .andExpect(jsonPath("$.items.[1].judgmentId").value(equalsLong(enrichmentTags.get(1).getJudgmentId())))
-            .andExpect(jsonPath("$.items.[1].tagType").value(SECOND_ENRICHMENT_TAG_TYPE))
-            .andExpect(jsonPath("$.items.[1].value.caseNumbers.[0]").value(SECOND_ENRICHMENT_TAG_FIRST_ARRAY_VALUE))
-            .andExpect(jsonPath("$.items.[1].value.caseNumbers.[1]").value(SECOND_ENRICHMENT_TAG_SECOND_ARRAY_VALUE))
-        
+            .andExpect(jsonPath("$.items.[1].tagType").value(REFERENCED_COURT_CASES))
+            
+            .andExpect(jsonPath("$.items.[1].value.[0].caseNumber").value(REFERENCED_COURT_CASES_TAG_FIRST_CASE_NUMBER))
+            .andExpect(jsonPath("$.items.[1].value.[0].judgmentIds", hasSize(2)))
+            .andExpect(jsonPath("$.items.[1].value.[0].judgmentIds.[0]").value(equalsLong(REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS[0])))
+            .andExpect(jsonPath("$.items.[1].value.[0].judgmentIds.[1]").value(equalsLong(REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS[1])))
+            
+            .andExpect(jsonPath("$.items.[1].value.[1].caseNumber").value(REFERENCED_COURT_CASES_TAG_SECOND_CASE_NUMBER))
+            .andExpect(jsonPath("$.items.[1].value.[1].judgmentIds", hasSize(0)))
+            
             .andExpect(jsonPath("$.items.[2].id").value(equalsLong(enrichmentTags.get(2).getId())))
             .andExpect(jsonPath("$.items.[2].judgmentId").value(equalsLong(enrichmentTags.get(2).getJudgmentId())))
             .andExpect(jsonPath("$.items.[2].tagType").value(THIRD_ENRICHMENT_TAG_TYPE))

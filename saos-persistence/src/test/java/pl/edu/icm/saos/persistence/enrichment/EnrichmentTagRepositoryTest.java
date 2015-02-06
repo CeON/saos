@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.assertj.core.util.Lists;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -16,6 +17,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 
@@ -37,12 +39,9 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
     @Test
     public void saveAndFind() {
         
-        // given
-        
-        EnrichmentTag enrichmentTag = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"caseNumbers\": [\"123\", \"234\"]}");
-        
-        
         // execute
+        
+        EnrichmentTag enrichmentTag = createAndSaveEnrichmentTag(1, EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"caseNumbers\": [\"123\", \"234\"]}");
         
         enrichmentTagRepository.save(enrichmentTag);
         
@@ -60,15 +59,15 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
     
     @Test(expected=DataIntegrityViolationException.class)
     public void save_InvalidJsonValue() {
-        
+
         // given
-        
-        EnrichmentTag enrichmentTag = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{key:\"fff\"");
+        EnrichmentTag enrichmentTag = new EnrichmentTag();
+        enrichmentTag.setJudgmentId(1);
+        enrichmentTag.setTagType(EnrichmentTagTypes.REFERENCED_COURT_CASES);
+        enrichmentTag.setValue("{key:\"fff\"");
         
         // execute
-        
         enrichmentTagRepository.save(enrichmentTag);
-        
         
     }
     
@@ -78,14 +77,11 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
         
         // given
         
-        EnrichmentTag enrichmentTag1 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
-        enrichmentTagRepository.save(enrichmentTag1);
+        createAndSaveEnrichmentTag(1, EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fff\"}", new DateTime(2015, 01, 01, 14, 35));
         
-        EnrichmentTag enrichmentTag2 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 36));
-        enrichmentTagRepository.save(enrichmentTag2);
+        EnrichmentTag enrichmentTag2 = createAndSaveEnrichmentTag(1, EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}", new DateTime(2015, 01, 01, 14, 36));
         
-        EnrichmentTag enrichmentTag3 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
-        enrichmentTagRepository.save(enrichmentTag3);
+        createAndSaveEnrichmentTag(2, EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}", new DateTime(2014, 01, 01, 17, 36));
         
         
         // execute
@@ -105,14 +101,9 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
         
         // given
         
-        EnrichmentTag enrichmentTag1 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 35));
-        enrichmentTagRepository.save(enrichmentTag1);
-        
-        EnrichmentTag enrichmentTag2 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}", 1, new DateTime(2015, 01, 01, 14, 36));
-        enrichmentTagRepository.save(enrichmentTag2);
-        
-        EnrichmentTag enrichmentTag3 = createEnrichmentTag(EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}", 2, new DateTime(2014, 01, 01, 17, 36));
-        enrichmentTagRepository.save(enrichmentTag3);
+        EnrichmentTag enrichmentTag1 = createAndSaveEnrichmentTag(1, EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fff\"}", new DateTime(2015, 01, 01, 14, 35));
+        EnrichmentTag enrichmentTag2 = createAndSaveEnrichmentTag(1, EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}", new DateTime(2015, 01, 01, 14, 36));
+        createAndSaveEnrichmentTag(2, EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}", new DateTime(2014, 01, 01, 17, 36));
         
         
         // execute
@@ -127,19 +118,40 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
     }
    
     
+    @Test
+    public void findAllByJudgmentIds() {
+        
+        // given
+        
+        EnrichmentTag enrichmentTag1 = createAndSaveEnrichmentTag(1, EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fff\"}");
+        EnrichmentTag enrichmentTag2 = createAndSaveEnrichmentTag(1, EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}");
+        EnrichmentTag enrichmentTag3 = createAndSaveEnrichmentTag(2, EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}");
+        createAndSaveEnrichmentTag(3, EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}");
+        
+        // execute
+        
+        List<EnrichmentTag> enrichmentTags = enrichmentTagRepository.findAllByJudgmentIds(Lists.newArrayList(1l, 2l));
+        
+        
+        // assert
+        
+        assertThat(enrichmentTags, containsInAnyOrder(enrichmentTag1, enrichmentTag2, enrichmentTag3));
+        
+    }
+   
+    
     //------------------------ PRIVATE --------------------------
  
-    private EnrichmentTag createEnrichmentTag(String enrichmentTagType, String enrichmentTagValue) {
-        EnrichmentTag enrichmentTag = new EnrichmentTag();
-        enrichmentTag.setTagType(enrichmentTagType);
-        enrichmentTag.setValue(enrichmentTagValue);
+    private EnrichmentTag createAndSaveEnrichmentTag(long judgmentId, String enrichmentTagType, String enrichmentTagValue, DateTime creationDate) {
+        EnrichmentTag enrichmentTag = createAndSaveEnrichmentTag(judgmentId, enrichmentTagType, enrichmentTagValue);
+        Whitebox.setInternalState(enrichmentTag, "creationDate", creationDate);
+        enrichmentTagRepository.save(enrichmentTag);
         return enrichmentTag;
     }
     
-    private EnrichmentTag createEnrichmentTag(String enrichmentTagType, String enrichmentTagValue, int judgmentId, DateTime creationDate) {
-        EnrichmentTag enrichmentTag = createEnrichmentTag(enrichmentTagType, enrichmentTagValue);
-        enrichmentTag.setJudgmentId(judgmentId);
-        Whitebox.setInternalState(enrichmentTag, "creationDate", creationDate);
+    private EnrichmentTag createAndSaveEnrichmentTag(long judgmentId, String enrichmentTagType, String enrichmentTagValue) {
+        EnrichmentTag enrichmentTag = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(judgmentId, enrichmentTagType, enrichmentTagValue);
+        enrichmentTagRepository.save(enrichmentTag);
         return enrichmentTag;
     }
  

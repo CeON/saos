@@ -3,6 +3,7 @@ package pl.edu.icm.saos.api.single.judgment.data.representation;
 import java.io.Serializable;
 import java.util.List;
 
+import pl.edu.icm.saos.persistence.common.Generatable;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -30,8 +31,9 @@ public class JudgmentData implements Serializable{
     private String summary;
     private String textContent;
     private List<String> legalBases;
-    private List<ReferencedRegulations> referencedRegulations;
+    private List<ReferencedRegulation> referencedRegulations;
     private List<String> keywords;
+    private List<ReferencedCourtCase> referencedCourtCases;
 
 
     //------------------------ GETTERS --------------------------
@@ -76,7 +78,7 @@ public class JudgmentData implements Serializable{
         return legalBases;
     }
 
-    public List<ReferencedRegulations> getReferencedRegulations() {
+    public List<ReferencedRegulation> getReferencedRegulations() {
         return referencedRegulations;
     }
 
@@ -96,6 +98,11 @@ public class JudgmentData implements Serializable{
         return keywords;
     }
 
+    public List<ReferencedCourtCase> getReferencedCourtCases() {
+        return referencedCourtCases;
+    }
+
+    
     //------------------------ SETTERS --------------------------
 
     public void setHref(String href) {
@@ -138,7 +145,7 @@ public class JudgmentData implements Serializable{
         this.legalBases = legalBases;
     }
 
-    public void setReferencedRegulations(List<ReferencedRegulations> ReferencedRegulations) {
+    public void setReferencedRegulations(List<ReferencedRegulation> ReferencedRegulations) {
         this.referencedRegulations = ReferencedRegulations;
     }
 
@@ -158,7 +165,10 @@ public class JudgmentData implements Serializable{
         this.keywords = keywords;
     }
     
-
+    public void setReferencedCourtCases(List<ReferencedCourtCase> referencedCourtCases) {
+        this.referencedCourtCases = referencedCourtCases;
+    }
+    
 
 
     //------------------------ HashCode & Equals --------------------------
@@ -170,7 +180,7 @@ public class JudgmentData implements Serializable{
                 judgmentDate, judges,
                 source, courtReporters,
                 decision, summary, textContent,
-                legalBases, referencedRegulations, keywords);
+                legalBases, referencedRegulations, keywords, referencedCourtCases);
     }
 
     @Override
@@ -196,7 +206,8 @@ public class JudgmentData implements Serializable{
                 && Objects.equal(this.textContent, other.textContent)
                 && Objects.equal(this.legalBases, other.legalBases)
                 && Objects.equal(this.referencedRegulations, other.referencedRegulations)
-                && Objects.equal(this.keywords, other.keywords);
+                && Objects.equal(this.keywords, other.keywords)
+                && Objects.equal(this.referencedCourtCases, other.referencedCourtCases);
     }
 
 
@@ -219,6 +230,7 @@ public class JudgmentData implements Serializable{
                 .add("textContent", textContent)
                 .add("legalBases", legalBases)
                 .add("referencedRegulation", referencedRegulations)
+                .add("referencedCourtCases", referencedCourtCases)
                 .toString();
     }
 
@@ -443,7 +455,7 @@ public class JudgmentData implements Serializable{
         }
     }
 
-    public static class ReferencedRegulations implements Serializable{
+    public static class ReferencedRegulation implements Serializable{
 
         private static final long serialVersionUID = -6830086044877716672L;
 
@@ -512,7 +524,7 @@ public class JudgmentData implements Serializable{
             if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
-            final ReferencedRegulations other = (ReferencedRegulations) obj;
+            final ReferencedRegulation other = (ReferencedRegulation) obj;
             return Objects.equal(this.journalTitle, other.journalTitle) &&
                     Objects.equal(this.journalNo, other.journalNo) &&
                     Objects.equal(this.journalYear, other.journalYear) &&
@@ -535,5 +547,81 @@ public class JudgmentData implements Serializable{
     }
 
    
+    public static class ReferencedCourtCase implements Serializable {
 
+        private static final long serialVersionUID = 1L;
+        private String caseNumber;
+        private List<Long> judgmentIds;
+        private boolean generated;
+        
+        
+        //------------------------ GETTERS --------------------------
+        
+        /**
+         * See: {@link pl.edu.icm.saos.persistence.model.ReferencedCourtCase#getCaseNumber()}
+         */
+        public String getCaseNumber() {
+            return caseNumber;
+        }
+        
+        /**
+         * See: {@link pl.edu.icm.saos.persistence.model.ReferencedCourtCase#getJudgmentIds()}
+         */
+        public List<Long> getJudgmentIds() {
+            return judgmentIds;
+        }
+
+        /**
+         * See: {@link Generatable#isGenerated()} 
+         */
+        public boolean isGenerated() {
+            return generated;
+        }
+
+        
+        //------------------------ SETTERS --------------------------
+        
+        public void setCaseNumber(String caseNumber) {
+            this.caseNumber = caseNumber;
+        }
+        public void setJudgmentIds(List<Long> judgmentIds) {
+            this.judgmentIds = judgmentIds;
+        }
+        public void setGenerated(boolean generated) {
+            this.generated = generated;
+        }
+
+        
+        
+     //------------------------ HashCode & Equals --------------------------
+        
+        
+        @Override
+        public int hashCode() {
+            return Objects.hashCode(this.caseNumber);
+        }
+        
+        
+        @Override
+        public boolean equals(Object obj) {
+            
+            if (obj == null) {
+               return false;
+            }
+            
+            if (getClass() != obj.getClass()) {
+               return false;
+            }
+            
+            final ReferencedCourtCase other = (ReferencedCourtCase) obj;
+            
+            return Objects.equal(this.caseNumber, other.caseNumber);
+
+        }
+
+        
+    }
+
+
+   
 }

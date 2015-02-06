@@ -30,15 +30,14 @@ import com.google.common.collect.Lists;
 @Service
 public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor<JudgmentSearchFilter, Judgment> {
 
-    //***** fields *************
-
+    
     @Autowired
     private EntityManager entityManager;
+    
+    
 
-    //******* END fields **************
-
-
-    //******** AbstractStringQuerySearchImplementor implementation ******************
+    //------------------------ LOGIC --------------------------
+    
     @Override
     protected String createQuery(JudgmentSearchFilter searchFilter) {
         StringBuilder jpql = new StringBuilder(" select judgment from " + Judgment.class.getName() + " judgment ");
@@ -79,7 +78,7 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
         initializeCommonCourtJudgmentSpecificFields(judgmentIds);
         initializeSupremeCourtJudgmentSpecificFields(judgmentIds);
         initializeConstitutionalTribunalSpecificFields(judgmentIds, searchResult);
-
+        
     }
 
 
@@ -156,21 +155,18 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
 
     }
 
-
+  
     private void setIdsParameterAndExecuteQuery(String query, List<Long> ids){
         Query queryObject = entityManager.createQuery(query);
         queryObject.setParameter("ids", ids);
 
         queryObject.getResultList();
     }
-
-
-
     
     private List<Long> extractJudgmentIds(SearchResult<Judgment> searchResult) {
         return searchResult.getResultRecords().stream().map(result->result.getId()).collect(Collectors.toList());
     }
-
+    
     private List<Long> extractReferencedRegulationsIds(SearchResult<Judgment> searchResult){
         return searchResult.getResultRecords().stream()
                 .flatMap(j -> j.getReferencedRegulations().stream())

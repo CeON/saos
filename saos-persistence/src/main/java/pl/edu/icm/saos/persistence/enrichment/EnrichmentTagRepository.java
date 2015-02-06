@@ -5,6 +5,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 
@@ -19,4 +20,7 @@ public interface EnrichmentTagRepository extends JpaRepository<EnrichmentTag, Lo
    
     
     public List<EnrichmentTag> findAllByJudgmentId(long judgmentId);
+    
+    @Query("select enrichmentTag from #{#entityName} enrichmentTag where enrichmentTag.judgmentId in (:judgmentIds) order by enrichmentTag.judgmentId")
+    public List<EnrichmentTag> findAllByJudgmentIds(@Param("judgmentIds") List<Long> judgmentIds);
 }

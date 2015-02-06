@@ -63,7 +63,8 @@ public abstract class ApiConstants {
     public static final String JUDGMENT_START_DATE = "judgmentStartDate";
     public static final String JUDGMENT_END_DATE = "judgmentEndDate";
     public static final String SINCE_MODIFICATION_DATE = "sinceModificationDate";
-
+    public static final String WITH_GENERATED = "withGenerated";
+    
     public static final String COURT_NAME = "courtName";
     public static final String LEGAL_BASE = "legalBase";
     public static final String REFERENCED_REGULATION = "referencedRegulation";

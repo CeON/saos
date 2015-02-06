@@ -29,7 +29,7 @@ public class DumpJudgmentItemMapper {
      * @param judgmentItem representation.
      * @param judgment to process.
      */
-    public void fillJudgmentsFieldsToRepresentation(JudgmentItem judgmentItem, Judgment judgment){
+    public void fillJudgmentFieldsToRepresentation(JudgmentItem judgmentItem, Judgment judgment){
         judgmentItem.setId(judgment.getId());
         judgmentItem.setCourtCases(judgmentMapper.toCourtCases(judgment.getCourtCases()));
         judgmentItem.setCourtReporters(judgmentMapper.toSimpleList(judgment.getCourtReporters()));
@@ -41,9 +41,10 @@ public class DumpJudgmentItemMapper {
         judgmentItem.setTextContent(judgment.getTextContent());
         judgmentItem.setSource(judgmentMapper.toSource(judgment.getSourceInfo()));
         judgmentItem.setDecision(judgment.getDecision());
-        judgmentItem.setReferencedRegulations(judgmentMapper.toReferencedRegulation(judgment.getReferencedRegulations()));
+        judgmentItem.setReferencedRegulations(judgmentMapper.toReferencedRegulations(judgment.getReferencedRegulations()));
         judgmentItem.setCourtType(judgment.getCourtType());
         judgmentItem.setKeywords(judgmentMapper.toListFromKeywords(judgment.getKeywords()));
+        judgmentItem.setReferencedCourtCases(judgmentMapper.toReferencedCourtCases(judgment.getReferencedCourtCases()));
         
     }
 

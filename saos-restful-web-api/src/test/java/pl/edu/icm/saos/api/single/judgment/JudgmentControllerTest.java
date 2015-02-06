@@ -2,6 +2,7 @@ package pl.edu.icm.saos.api.single.judgment;
 
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.endsWith;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -61,6 +62,9 @@ import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_FIRST_
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_FIRST_DISSENTING_OPINION_TEXT;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_SECOND_DISSENTING_OPINION_FIRST_AUTHOR;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_SECOND_DISSENTING_OPINION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_FIRST_CASE_NUMBER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_SECOND_CASE_NUMBER;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_CHAMBER_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_CHAMBER_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_DIVISION_NAME;
@@ -135,11 +139,15 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
 
     @Test
     public void it_should_show_all_judgment_basic_fields() throws Exception {
-        //when
+        
+        // given
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(testObjectContext.getCcJudgmentId());
+        
+        // when
         ResultActions actions = mockMvc.perform(get(ccJudgmentPath)
                 .accept(MediaType.APPLICATION_JSON));
 
-        //then
+        // then
         actions
                 .andExpect(jsonPath("$.data.href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId())))
                 .andExpect(jsonPath("$.data.courtCases").value(iterableWithSize(1)))
@@ -158,7 +166,17 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.judges.[1].specialRoles").value(emptyIterable()))
                 .andExpect(jsonPath("$.data.judges.[2].name").value(CC_THIRD_JUDGE_NAME))
                 .andExpect(jsonPath("$.data.judges.[2].specialRoles").value(emptyIterable()))
-
+                
+                .andExpect(jsonPath("$.data.referencedCourtCases", hasSize(2)))
+                .andExpect(jsonPath("$.data.referencedCourtCases.[0].caseNumber").value(REFERENCED_COURT_CASES_TAG_FIRST_CASE_NUMBER))
+                .andExpect(jsonPath("$.data.referencedCourtCases.[0].judgmentIds", hasSize(2)))
+                .andExpect(jsonPath("$.data.referencedCourtCases.[0].judgmentIds.[0]").value(equalsLong(REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS[0])))
+                .andExpect(jsonPath("$.data.referencedCourtCases.[0].judgmentIds.[1]").value(equalsLong(REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS[1])))
+                .andExpect(jsonPath("$.data.referencedCourtCases.[0].generated").value(true))
+                
+                .andExpect(jsonPath("$.data.referencedCourtCases.[1].caseNumber").value(REFERENCED_COURT_CASES_TAG_SECOND_CASE_NUMBER))
+                .andExpect(jsonPath("$.data.referencedCourtCases.[1].judgmentIds", hasSize(0)))
+                .andExpect(jsonPath("$.data.referencedCourtCases.[1].generated").value(true))
         ;
 
     }

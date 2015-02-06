@@ -9,6 +9,8 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import java.util.List;
+
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -56,8 +58,13 @@ public class JudgmentEnrichmentServiceTest {
     //------------------------ TESTS --------------------------
     
     
+    
+    //---------- judgmentEnrichmentService.enrich(Judgment)
+    
+    
+    
     @Test(expected=NullPointerException.class)
-    public void enrich_Null() {
+    public void enrich_Judgment_Null() {
         
         // execute
         judgmentEnrichmentService.enrich(null);
@@ -65,17 +72,15 @@ public class JudgmentEnrichmentServiceTest {
     
     
     @Test
-    public void enrich_NoTagsFound() {
+    public void enrich_Judgment_NoTagsFound() {
         
         // given
         when(enrichmentTagRepository.findAllByJudgmentId(judgment.getId())).thenReturn(Lists.newArrayList());
         
         // execute
-        Judgment enrichedJudgment = judgmentEnrichmentService.enrich(judgment);
+        judgmentEnrichmentService.enrich(judgment);
         
         // assert
-        assertNotNull(enrichedJudgment);
-        assertTrue(enrichedJudgment == judgment);
         verifyZeroInteractions(judgmentRepository);
         verifyZeroInteractions(enrichmentTagApplierManager);
     
@@ -83,7 +88,7 @@ public class JudgmentEnrichmentServiceTest {
     
     
     @Test
-    public void enrich_TagsFound() {
+    public void enrich_Judgment_TagsFound() {
         
         // given
         
@@ -102,13 +107,11 @@ public class JudgmentEnrichmentServiceTest {
         
         // execute
         
-        Judgment enrichedJudgment = judgmentEnrichmentService.enrich(judgment);
+        judgmentEnrichmentService.enrich(judgment);
         
         
         // assert
         
-        assertNotNull(enrichedJudgment);
-        assertTrue(enrichedJudgment == judgment);
         verifyZeroInteractions(judgmentRepository);
         verify(enrichmentTagApplierManager).getEnrichmentTagApplier(enrichmentTag1.getTagType());
         verify(enrichmentTagApplierManager).getEnrichmentTagApplier(enrichmentTag2.getTagType());
@@ -118,6 +121,144 @@ public class JudgmentEnrichmentServiceTest {
         
     }
     
+    
+    
+    //---------- judgmentEnrichmentService.enrich(Judgment, List<EnrichmentTag>)
+    
+    
+    @Test
+    public void enrich_Judgment_EnrichmentTags() {
+        
+        // given
+        
+        EnrichmentTag enrichmentTag1 = new EnrichmentTag();
+        enrichmentTag1.setTagType("TAG_TYPE_1");
+        EnrichmentTag enrichmentTag2 = new EnrichmentTag();
+        enrichmentTag1.setTagType("TAG_TYPE_2");
+        
+        EnrichmentTagApplier enrichmentTagApplier1 = mock(EnrichmentTagApplier.class);
+        when(enrichmentTagApplierManager.getEnrichmentTagApplier(enrichmentTag1.getTagType())).thenReturn(enrichmentTagApplier1);
+        
+        EnrichmentTagApplier enrichmentTagApplier2 = mock(EnrichmentTagApplier.class);
+        when(enrichmentTagApplierManager.getEnrichmentTagApplier(enrichmentTag2.getTagType())).thenReturn(enrichmentTagApplier2);
+        
+        // execute
+        
+        judgmentEnrichmentService.enrich(judgment, Lists.newArrayList(enrichmentTag1, enrichmentTag2));
+        
+        
+        // assert
+        
+        verifyZeroInteractions(judgmentRepository, enrichmentTagRepository);
+        verify(enrichmentTagApplierManager).getEnrichmentTagApplier(enrichmentTag1.getTagType());
+        verify(enrichmentTagApplierManager).getEnrichmentTagApplier(enrichmentTag2.getTagType());
+        verify(enrichmentTagApplier1).applyEnrichmentTag(judgment, enrichmentTag1);
+        verify(enrichmentTagApplier2).applyEnrichmentTag(judgment, enrichmentTag2);
+        
+        
+    }
+    
+    
+    @Test
+    public void enrich_Judgment_EnrichmentTags_EmptyList() {
+        
+        // execute
+        
+        judgmentEnrichmentService.enrich(judgment, Lists.newArrayList());
+        
+        
+        // assert
+        
+        verifyZeroInteractions(judgmentRepository, enrichmentTagRepository, enrichmentTagApplierManager);
+        
+        
+    }
+    
+    
+    @Test(expected=NullPointerException.class)
+    public void enrich_Judgment_EnrichmentTags_NullList() {
+        
+        // execute
+        
+        judgmentEnrichmentService.enrich(judgment, (List<EnrichmentTag>)null);
+        
+    }
+    
+    
+    
+    //---------- judgmentEnrichmentService.enrich(Judgment, EnrichmentTag)
+    
+    
+    @Test
+    public void enrich_Judgment_EnrichmentTag() {
+        
+        // given
+        
+        EnrichmentTag enrichmentTag = new EnrichmentTag();
+        enrichmentTag.setTagType("TAG_TYPE_1");
+        enrichmentTag.setJudgmentId(judgment.getId());
+        
+        EnrichmentTagApplier enrichmentTagApplier = mock(EnrichmentTagApplier.class);
+        when(enrichmentTagApplierManager.getEnrichmentTagApplier(enrichmentTag.getTagType())).thenReturn(enrichmentTagApplier);
+        
+        // execute
+        
+        judgmentEnrichmentService.enrich(judgment, enrichmentTag);
+        
+        // assert
+        
+        verifyZeroInteractions(judgmentRepository, enrichmentTagRepository);
+        verify(enrichmentTagApplierManager).getEnrichmentTagApplier(enrichmentTag.getTagType());
+        verify(enrichmentTagApplier).applyEnrichmentTag(judgment, enrichmentTag);
+        
+    }
+    
+    
+    
+    @Test(expected=IllegalArgumentException.class)
+    public void enrich_Judgment_EnrichmentTag_IncorrectEnrichmentTagJudgmentId() {
+        
+        // given
+        
+        EnrichmentTag enrichmentTag = new EnrichmentTag();
+        enrichmentTag.setTagType("TAG_TYPE_1");
+        long otherJudgmentId = judgment.getId() + 1;
+        enrichmentTag.setJudgmentId(otherJudgmentId);
+        
+        
+        // execute
+        
+        judgmentEnrichmentService.enrich(judgment, enrichmentTag);
+    }
+    
+    
+    @Test(expected=NullPointerException.class)
+    public void enrich_Judgment_EnrichmentTag_JudgmentNull() {
+        
+        // given
+        
+        EnrichmentTag enrichmentTag = new EnrichmentTag();
+        enrichmentTag.setTagType("TAG_TYPE_1");
+        enrichmentTag.setJudgmentId(judgment.getId());
+        
+        
+        // execute
+        
+        judgmentEnrichmentService.enrich(null, enrichmentTag);
+    }
+    
+    
+    @Test(expected=NullPointerException.class)
+    public void enrich_Judgment_EnrichmentTag_EnrichmentTagNull() {
+        
+        // execute
+        
+        judgmentEnrichmentService.enrich(judgment, (EnrichmentTag)null);
+    }
+    
+    
+    
+    //---------- judgmentEnrichmentService.findOneAndEnrich(long judgmentId)
     
     @Test
     public void findOneAndEnrich_NotFound() {

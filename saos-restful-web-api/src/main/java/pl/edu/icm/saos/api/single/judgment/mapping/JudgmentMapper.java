@@ -22,9 +22,12 @@ import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
+
+import com.google.common.collect.Lists;
 
 /**
- * Converts {@link pl.edu.icm.saos.persistence.model.Judgment Judgmnent's} fields.
+ * Converts {@link pl.edu.icm.saos.persistence.model.Judgment Judgment} fields.
  * @author pavtel
  */
 @Service
@@ -115,16 +118,16 @@ public class JudgmentMapper {
         return elements;
     }
 
-    public List<JudgmentData.ReferencedRegulations> toReferencedRegulation(List<JudgmentReferencedRegulation> referencedRegulations) {
+    public List<JudgmentData.ReferencedRegulation> toReferencedRegulations(List<JudgmentReferencedRegulation> referencedRegulations) {
 
         if(referencedRegulations == null) {
             referencedRegulations = Collections.emptyList();
         }
 
-        List<JudgmentData.ReferencedRegulations> regulations = new ArrayList<>();
+        List<JudgmentData.ReferencedRegulation> regulations = new ArrayList<>();
 
         for(JudgmentReferencedRegulation referencedRegulation: referencedRegulations) {
-            JudgmentData.ReferencedRegulations regulationRepresentation = new JudgmentData.ReferencedRegulations();
+            JudgmentData.ReferencedRegulation regulationRepresentation = new JudgmentData.ReferencedRegulation();
 
             if (referencedRegulation.getLawJournalEntry() != null) {
                 LawJournalEntry lawJournalEntry = referencedRegulation.getLawJournalEntry();
@@ -140,6 +143,25 @@ public class JudgmentMapper {
         }
 
         return regulations;
+    }
+    
+    
+    public List<JudgmentData.ReferencedCourtCase> toReferencedCourtCases(List<ReferencedCourtCase> referencedCourtCases) {
+        
+        List<JudgmentData.ReferencedCourtCase> apiRefCourtCases = Lists.newArrayList();
+        
+        for (ReferencedCourtCase referencedCourtCase : referencedCourtCases) {
+            
+            JudgmentData.ReferencedCourtCase apiRefCourtCase = new JudgmentData.ReferencedCourtCase();
+            apiRefCourtCase.setCaseNumber(referencedCourtCase.getCaseNumber());
+            apiRefCourtCase.setJudgmentIds(referencedCourtCase.getJudgmentIds());
+            apiRefCourtCase.setGenerated(referencedCourtCase.isGenerated());
+            apiRefCourtCases.add(apiRefCourtCase);
+            
+        }
+        
+        return apiRefCourtCases;
+        
     }
     
     /**
@@ -182,8 +204,9 @@ public class JudgmentMapper {
         data.setSummary(judgment.getSummary());
         data.setTextContent(judgment.getTextContent());
         data.setLegalBases(toSimpleList(judgment.getLegalBases()));
-        data.setReferencedRegulations(toReferencedRegulation(judgment.getReferencedRegulations()));
+        data.setReferencedRegulations(toReferencedRegulations(judgment.getReferencedRegulations()));
         data.setKeywords(toListFromKeywords(judgment.getKeywords()));
+        data.setReferencedCourtCases(toReferencedCourtCases(judgment.getReferencedCourtCases()));
         
     }
     
