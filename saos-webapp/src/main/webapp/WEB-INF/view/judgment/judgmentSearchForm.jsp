@@ -78,8 +78,8 @@
 	    </div>
 	
 		<div class="col-sm-offset-2" >
-    		<a id="search-less-fields" class="button-advance visibility-hidden display-none" href="#search-less-fields" ><spring:message code="judgmentSearch.form.lessFields" /></a>
-	    </div>
+			<a id="search-less-fields" class="button-advance visibility-hidden display-none" href="#search-less-fields" ><spring:message code="judgmentSearch.form.lessFields" /></a>
+		</div>
 	
 		<div class="form-group button-group">
 			<div class="col-sm-9">

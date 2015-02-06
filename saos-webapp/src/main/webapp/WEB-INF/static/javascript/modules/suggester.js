@@ -236,24 +236,24 @@ var Suggester = (function() {
         		    }
         	})
         	.off("keypress")
-            .keyup(function(event) {
-            	
-            	if (event.keyCode > 40 || event.keyCode === 8){
+			.keyup(function(event) {
+			
+				if (event.keyCode > 40 || event.keyCode === 8){
 					
-            		// special characters and backspace
-            		
+					// special characters and backspace
+				
 					loadSuggestions($field, true, populate);					
 				}
 				else if (event.keyCode === 38 && selItem[fieldId] !== null ) {
 					
 					//arrow up
-					
+				
 					setSelectedItem(selItem[fieldId] - 1, fieldId);
-					
-			    	if ($("#" + WRAPPER_ID + "-" + fieldId).length === 0) {
-			    		populateFieldSimpleMode($field);
-			    	}
-					
+				
+					if ($("#" + WRAPPER_ID + "-" + fieldId).length === 0) {
+						populateFieldSimpleMode($field);
+					}
+						
 					event.preventDefault();
 				}
 				else if (event.keyCode === 40 && selItem[fieldId] !== null ) {
@@ -263,9 +263,9 @@ var Suggester = (function() {
 					setSelectedItem(selItem[fieldId] + 1, fieldId);
 					
 					if ($("#" + WRAPPER_ID + "-" + fieldId).length === 0) {
-			    		populateFieldSimpleMode($field);
-			    	}
-					
+						populateFieldSimpleMode($field);
+					}
+						
 					event.preventDefault();
 				}
 				else if (event.keyCode == 27 && selItem[fieldId] !== null ) {
@@ -275,7 +275,7 @@ var Suggester = (function() {
 					setSelectedItem(null, fieldId);
 					$field.trigger("blur");
 				}
-            })
+			})
             .keydown(function(event){
             	if (event.keyCode === 8 && $field.val().length === 0) {
             		

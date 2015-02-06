@@ -44,9 +44,9 @@ var jsInitInJudgmentSearch = function() {
     $("#datepicker_from, #datepicker_to")
     	.focusout(function() {
     		var $this = $(this),
-				text = $this.val();
+    			text = $this.val();
     		
-			$this.val(DateFormat.convert(text));
+    		$this.val(DateFormat.convert(text));
     	});
     
     
