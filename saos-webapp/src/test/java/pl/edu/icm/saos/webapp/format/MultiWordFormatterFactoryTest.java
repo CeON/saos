@@ -8,9 +8,9 @@ import java.util.List;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
-public class MultiWordFormatterTest {
+public class MultiWordFormatterFactoryTest {
 
-	private MultiWordFormatter multiWordFormatter = new MultiWordFormatter();
+	private MultiWordFormatterFactory multiWordFormatter = new MultiWordFormatterFactory();
 	
 	
 	//------------------------ TESTS --------------------------
