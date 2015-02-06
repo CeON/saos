@@ -83,8 +83,8 @@
 	
 		<div class="form-group button-group">
 			<div class="col-sm-9">
+				<button type="reset" class="btn btn-default button"><spring:message code="button.resetForm" /></button>
 				<button type="submit" class="btn btn-primary button button-blue"><spring:message code="button.judgmentSearch" /></button>
-				<button type="reset" class="btn btn-primary button button-blue"><spring:message code="button.resetForm" /></button>
 			</div>
 		</div>
 	

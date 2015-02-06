@@ -471,6 +471,14 @@ form.search {
 			display: inline;
 		}
 	}
+	
+	button[type="reset"] {
+		background: #e6e6e6;
+		
+		&:hover {
+			background: #efefef;
+		}
+	}
 }
 
 .button {
@@ -486,6 +494,16 @@ form.search {
 		background: lighten($blue, 15%);
 	}
 }
+
+.button-blue-light {
+	background: lighten($blue, 25%);
+	text-shadow: 0 0 2px $black;
+	
+	&:hover {
+		background: lighten($blue, 35%);
+	}
+}
+
 
 .btn-blue {
     background-color: #da4f49;
