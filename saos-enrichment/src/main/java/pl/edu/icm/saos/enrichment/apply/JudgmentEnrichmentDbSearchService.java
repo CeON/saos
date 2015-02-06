@@ -36,7 +36,7 @@ public class JudgmentEnrichmentDbSearchService {
     /**
      * Finds judgments that met the criteria specified by searchFilter (uses {@link DatabaseSearchService#search(pl.edu.icm.saos.persistence.search.dto.SearchFilter)}).
      * <br/>
-     * If {@link {@link JudgmentSearchFilter#isWithGenerated()} is true then enriches each found judgment with {@link EnrichmentTag}s assigned to it. 
+     * If {@link {@link JudgmentSearchFilter#isWithGenerated()} is NOT set to false then enriches each found judgment with {@link EnrichmentTag}s assigned to it. 
      * 
      */
     public SearchResult<Judgment> search(JudgmentSearchFilter searchFilter) {
