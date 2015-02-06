@@ -7,8 +7,11 @@
 var jsInitInJudgmentSearch = function() {
 
 	
+	/* Shorten long url.
+	 * When submiting form, clean empty paramters*/
+	$("#search-form").cleanUrlForm();
+	
     /* Search form validation */
-    
     $.validator.addMethod(
 		"dateFormat",
 		function(value, element) {
