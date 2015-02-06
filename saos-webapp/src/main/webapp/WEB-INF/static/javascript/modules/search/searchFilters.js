@@ -16,6 +16,7 @@ var SearchFilters = (function(){
 		removeButtonClass = "remove-button",
 		assignedField = "data-assigned-field",
 		dataFilterValue = "data-filter-value",
+		REMOVE_FILTER_EVENT = "removeFilter",
 		
 		parentContainer = ".judgment-list",
 		
@@ -228,10 +229,13 @@ var SearchFilters = (function(){
 					$filterItem.find("div").text(selectedItemValue);
 				}
 				
-				$removeFilterButton.click(function() {
+				$removeFilterButton.on(REMOVE_FILTER_EVENT, function() {
 					clearFilterGroup(assignedFieldValue);
 					clearField($assignedFieldId, filterItemValue);
 					$filterItem.remove();
+				})
+				.click(function() {
+					$(this).trigger(REMOVE_FILTER_EVENT);
 					submitForm();
 				})
 				.addClass(removeButtonClass)
@@ -261,12 +265,15 @@ var SearchFilters = (function(){
 	clearField = function($field, filterValue) {
 
 		if ($field.is("input[type=hidden]")) {
-			var value = $field.attr("value")
-			
-			value = value.replace(filterValue + ",", "");
-			value = value.replace(filterValue, "");
-			
-			$field.attr("value", value);
+			if (filterValue !== undefined) {
+				var value = $field.attr("value")
+				value = value.replace(filterValue + ",", "");
+				value = value.replace(filterValue, "");
+				
+				$field.attr("value", value);
+			} else {
+				$field.attr("value", "");
+			}
 			
 		} else if ($field.is("input:checkbox")) {
 			$field.prop("checked", false);
@@ -291,7 +298,12 @@ var SearchFilters = (function(){
 		var $removeAllButton = $(removeAllFiltersButton);
 			
 		$removeAllButton.click(function() {
-			$(form).clearForm();
+			//$(form).clearForm();
+			
+			$("." + removeButtonClass).each(function() {
+				$(this).trigger(REMOVE_FILTER_EVENT);
+			})
+			
 			submitForm();	
 		});
 	}

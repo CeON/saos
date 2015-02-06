@@ -31,11 +31,7 @@ h1 {
 
 a {
 	color: $blue;
-
-	&:focus {
-		outline: 4px solid lighten($blue, 12%);
-		z-index: 10;
-	}
+	@include outline();
 }
 
 .container {
@@ -389,7 +385,7 @@ form.search {
 		color: lighten($black, 10%);
 	}
 	
-	input, select {
+	input, select, textarea {
 		background: $grey98;
 	}
 	
@@ -408,7 +404,7 @@ form.search {
 	    margin: 0 0 -8px 0;
 	    padding: 15px 0 0;
 	    position: relative;
-	    top: -60px;
+	    top: -34px;
 	}
 	
 	ul {
@@ -438,19 +434,35 @@ form.search {
 	
 	.button {
 		border-radius: 4px;
-		float: right;
 		margin-left: 10px;
 		padding: 8px 14px;
 	}
 	
 	.button-group {
+		margin-top: 10px;
+		text-align: right;
+		
 		> div {
 			padding-right: 0;
 		}
 	}
 	
 	.button-advance {
-		padding-left: 15px;
+		background: {
+			position: 5px center;
+			repeat: no-repeat;
+		}
+		margin-left: 22px;
+		padding: 4px 4px 4px 26px;
+		@include outline();
+	}
+	
+	#search-more-fields {
+		@include background-image("icons/plus.png");
+	}
+	
+	#search-less-fields {
+		@include background-image("icons/minus.png");
 	}
 	
 	.radio-group {
@@ -726,22 +738,8 @@ form.search {
 	}
 	
 	.filter-box-button {
-		@include background-image("icons/filter.png");
-		background: {
-			repeat: no-repeat;
-			size: 16px 16px;
-		}
-		cursor: pointer;
-		height: 16px;
 		opacity: 1;
-		position: absolute;
-		right: 60px;
-		top: 20px;
-		width:16px;
-		
-		&:hover {
-			@include background-image("icons/filter-light.png");
-		}
+		right: 58px;
 	}
 	
 	.fbox-button-before {
@@ -757,22 +755,15 @@ form.search {
 		z-index: 1;
 	}
 	
-	.search-settings {
-		@include background-image("icons/settings.png");
-		background: {
-			repeat: no-repeat;
-			size: 16px 16px;
-		}
+	.button-settings {
 		cursor: pointer;
-		height: 16px;
 		position: absolute;
-		right: 40px;
-		top: 20px;
-		width:16px;
-		
-		&:hover {
-			@include background-image("icons/settings_light.png");
-		}
+		padding: 4px;
+		top: 28px;
+	}
+	
+	.search-settings {
+		right: 30px;
 	}
 	
 	.settings-box {
@@ -782,7 +773,7 @@ form.search {
 		padding: 10px 20px;
 		position: absolute;
 		right: 40px;
-		top: 47px;
+		top: 57px;
 		z-index: 1000;
 		
 		legend {

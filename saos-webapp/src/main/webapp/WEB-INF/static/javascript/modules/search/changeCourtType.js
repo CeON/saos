@@ -7,6 +7,7 @@
 var ChangeCourtType = (function() {
 	
 	var space = {},
+		EVENT_SHOW_CONTAINER = "showContainer",
 		fields = [{fields: "", button: ""}],
 		          
 		fieldsContainer = "",
@@ -36,25 +37,34 @@ var ChangeCourtType = (function() {
 		$("input[name='" + radioName + "']:checked").trigger("click");
 	},
 	
-	/* Show fields assigned to specified court type */
+	/* Show fields assigned to specified court type.
+	 * First on click event method is assigned to all input fields specified by name {radioName}.
+	 * Method hide all containers and triggers event to show one container related to courtType.  
+	 *  
+	 * Second method is binded only to input's specified in object {fields.button}. 
+	 * This method is triggered by event {EVENT_SHOW_CONTAINER} and when event occurs,
+	 * related container is displayed.
+	 *  
+	 *  */
 	assignButton = function() {
-		var i = 0,
-			length = fields.length;
+		var length = fields.length;
+	
+		$("input[name='" + radioName + "']").each(function() {
+			$(this).click(function() {
+				hideAll();
+				$(this).trigger(EVENT_SHOW_CONTAINER); //triggers event to display related container
+			});
+		});
 		
-		for (i; i < length; i+= 1) {
+		for (var i = 0; i < length; i += 1) {
 			$(parentContainer + " " + fields[i].button).each(function() {
 				var $fieldContainer = $(fields[i].fields),
 					onChangeCallback = fields[i].onChangeCallback;
 
-				$(this).click(
-					(function() {
-						return function() {
-							hideAll();
-							$fieldContainer.removeClass("display-none").addClass("display-block");
-							onChangeCallback();
-						};
-					})()
-				);
+				$(this).on(EVENT_SHOW_CONTAINER, function() {
+					$fieldContainer.removeClass("display-none").addClass("display-block");
+					onChangeCallback();
+				});
 			});
 		}
 	},
@@ -80,10 +90,9 @@ var ChangeCourtType = (function() {
 	
 	/* Selecting target court type clears form fields specified for others court types */ 
 	clearFields = function($targetContainer) {
-		var i = 0,
-			length = fields.length;
+		var length = fields.length;
 		
-		for (i; i < length; i += 1) {
+		for (var i = 0; i < length; i += 1) {
 			var $fieldContainer = $(fields[i].fields);
 			
 			$($fieldContainer).each(function() {
@@ -106,7 +115,7 @@ var ChangeCourtType = (function() {
 		});
 	};
 	
-	/***** PUBLIC *****/
+	//------------------------ PUBLIC --------------------------
 	
 	space.run = function(source) {
 		init(source);

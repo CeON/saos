@@ -11,11 +11,9 @@
 		<legend><spring:message code="judgmentSearch.form.header" /></legend>
 		<saos:formFieldText path="all" labelName="input-search-all" labelText="judgmentSearch.formField.all" />
     
-	    <ul class="col-sm-offset-2 button-advance" >
-	    	<li>
-	    		<a id="search-more-fields" href="#" ><spring:message code="judgmentSearch.form.moreFields" /></a>
-    		</li>
-	    </ul>
+	    <div class="col-sm-offset-2 " >
+    		<a id="search-more-fields" class="button-advance" href="#search-more-fields" ><spring:message code="judgmentSearch.form.moreFields" /></a>
+	    </div>
 	    
 	    <div id="advance-form" class="advance-form" >
 	    
@@ -79,16 +77,14 @@
 		     
 	    </div>
 	
-		<ul class="col-sm-offset-2 button-advance visibility-hidden display-none" >
-	    	<li>
-	    		<a id="search-less-fields" href="#" ><spring:message code="judgmentSearch.form.lessFields" /></a>
-    		</li>
-	    </ul>
+		<div class="col-sm-offset-2" >
+    		<a id="search-less-fields" class="button-advance visibility-hidden display-none" href="#search-less-fields" ><spring:message code="judgmentSearch.form.lessFields" /></a>
+	    </div>
 	
 		<div class="form-group button-group">
 			<div class="col-sm-9">
-				<button type="reset" class="btn btn-primary button button-blue"><spring:message code="button.resetForm" /></button>
 				<button type="submit" class="btn btn-primary button button-blue"><spring:message code="button.judgmentSearch" /></button>
+				<button type="reset" class="btn btn-primary button button-blue"><spring:message code="button.resetForm" /></button>
 			</div>
 		</div>
 	
@@ -106,9 +102,13 @@
 
 	<h2><spring:message code="judgmentSearch.results.header" /><span><spring:message code="judgmentSearch.results.judgmentsNumber" arguments="${resultsNo}" /></span></h2>
 	
-	<a id="filter-box-button" class="filter-box-button display-none" href="" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.filterBox.show' />"></a>
+	<a id="filter-box-button" class="filter-box-button button-settings display-none" href="" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.filterBox.show' />">
+		<img src="${contextPath}/static/image/icons/filter.png" height="20" alt="<spring:message code="judgmentSearch.settings.iconAlt" />" />
+	</a>
 	
-	<a class="search-settings" id="search-settings" href="" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.tooltip.settings' />" ></a>
+	<a id="search-settings"  class="search-settings button-settings" href="" data-toggle="tooltip" data-placement="top" title="<spring:message code="judgmentSearch.tooltip.settings" />" >
+		<img src="${contextPath}/static/image/icons/settings.png" height="20" alt="<spring:message code="judgmentSearch.settings.iconAlt" />" />
+	</a>
 	
 	
 	<div class="settings-box" id="settings-box" >
@@ -130,7 +130,6 @@
 				<select id="searchSorting" name="sort">
 					<option value="RELEVANCE${sortDirectionValue}" <c:if test="${sortProperty=='RELEVANCE'}"> selected="selected"</c:if> ><spring:message code="sort.accuracy" /></option>
 					<option value="JUDGMENT_DATE${sortDirectionValue}" <c:if test="${sortProperty == 'JUDGMENT_DATE'}"> selected="selected"</c:if> ><spring:message code="sort.date" /></option>
-				    <option value="COURT_ID${sortDirectionValue}" <c:if test="${sortProperty == 'COURT_ID'}"> selected="selected" </c:if> ><spring:message code="sort.court" /></option>
 				</select>
 				
 				<label for="searchSortingDirection" ><spring:message code="sort.direction" />:</label>
