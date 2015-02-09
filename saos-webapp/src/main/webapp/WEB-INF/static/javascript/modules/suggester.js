@@ -279,6 +279,7 @@ var Suggester = (function() {
             .keydown(function(event){
             	if (event.keyCode === 8 && $field.val().length === 0) {
             		
+            		//backspace
             		//remove last added keyword
             		
             		$("#" + WRAPPER_ID + "-" + fieldId).find(".remove-suggestion").last().trigger("click");

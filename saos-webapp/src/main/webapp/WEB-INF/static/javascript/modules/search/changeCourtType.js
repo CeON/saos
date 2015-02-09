@@ -37,18 +37,17 @@ var ChangeCourtType = (function() {
 		$("input[name='" + radioName + "']:checked").trigger("click");
 	},
 	
-	/* Show fields assigned to specified court type.
-	 * First on click event method is assigned to all input fields specified by name {radioName}.
-	 * Method hide all containers and triggers event to show one container related to courtType.  
-	 *  
-	 * Second method is binded only to input's specified in object {fields.button}. 
-	 * This method is triggered by event {EVENT_SHOW_CONTAINER} and when event occurs,
-	 * related container is displayed.
-	 *  
-	 *  */
-	assignButton = function() {
+	/* Assign function for displaying containers, which are related only to that 
+	 * courtType. 
+	 */
+	assignShowContainerMethod = function() {
 		var length = fields.length;
 	
+		
+		/* All fields specified by name {radioName} are binded with function,
+		 * that react on click event. This method hides all containers
+		 * and triggers event to show one container related to courtType.
+		 */
 		$("input[name='" + radioName + "']").each(function() {
 			$(this).click(function() {
 				hideAll();
@@ -56,6 +55,10 @@ var ChangeCourtType = (function() {
 			});
 		});
 		
+		/* Fields specified in object {fields.button} are binded to function,
+		 * that is triggered by event {EVENT_SHOW_CONTAINER}. When this event
+		 * occurs, related container is displayed.
+		 */
 		for (var i = 0; i < length; i += 1) {
 			$(parentContainer + " " + fields[i].button).each(function() {
 				var $fieldContainer = $(fields[i].fields),
@@ -120,7 +123,7 @@ var ChangeCourtType = (function() {
 	space.run = function(source) {
 		init(source);
 		assignSubmitEvent();
-		assignButton();
+		assignShowContainerMethod();
 		hideAll();
 		showSelectedFields();
 	};
