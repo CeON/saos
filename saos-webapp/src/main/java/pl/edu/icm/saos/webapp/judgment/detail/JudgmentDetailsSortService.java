@@ -2,8 +2,6 @@ package pl.edu.icm.saos.webapp.judgment.detail;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +19,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
  *
  */
 @Service
-public class JudgmentSortService {
+public class JudgmentDetailsSortService {
 
 	
 	//------------------------ LOGIC --------------------------
@@ -55,23 +53,22 @@ public class JudgmentSortService {
 	 */
 	private class JudgeComparator implements Comparator<Judge> {
 		
+		//------------------------ LOGIC --------------------------
+		
 		public int compare(Judge judgeOne, Judge judgeTwo) {
 			
-			
-			if (hasPresidingRole(judgeOne)) {
-				return 0;
-			}
-			
-			else if (!hasPresidingRole(judgeOne) && !hasPresidingRole(judgeTwo)) {
-				return 0;
-			}
-			
-			else if (!hasPresidingRole(judgeOne) && hasPresidingRole(judgeTwo)){
+			if (!hasPresidingRole(judgeOne) && hasPresidingRole(judgeTwo)) {
 				return 1;
 			}
+
+			if (hasPresidingRole(judgeOne) && !hasPresidingRole(judgeTwo)) {
+				return -1;
+			}
 			
-			return -1;
+			return 0;
 		}
+
+		//------------------------ PRIVATE --------------------------
 		
 		private boolean hasPresidingRole(Judge judge) {
 			List<JudgeRole> judgeRoles = judge.getSpecialRoles()
