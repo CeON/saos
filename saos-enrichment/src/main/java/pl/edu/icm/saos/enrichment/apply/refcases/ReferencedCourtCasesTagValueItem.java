@@ -2,6 +2,8 @@ package pl.edu.icm.saos.enrichment.apply.refcases;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 /**
  * @author Łukasz Dumiszewski
  */
@@ -9,7 +11,7 @@ import java.util.List;
 public class ReferencedCourtCasesTagValueItem {
     
     private String caseNumber;
-    private List<Long> judgmentIds;
+    private List<Long> judgmentIds = Lists.newArrayList();
         
         
     //------------------------ GETTERS --------------------------
@@ -19,6 +21,9 @@ public class ReferencedCourtCasesTagValueItem {
     }
 
     public List<Long> getJudgmentIds() {
+        if (judgmentIds == null) {
+            judgmentIds = Lists.newArrayList();
+        };
         return judgmentIds;
     }
         
