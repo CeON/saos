@@ -18,11 +18,21 @@ public class ScJudgmentFormNameNormalizerTest {
     @Test
     public void normalize_NO_CHANGE() {
         
-        String judgmentFormName = "wyrok siedmiu sędziów";
+        String judgmentFormName = "Wyrok Siedmiu Sędziów";
         
         String normalizedName = scJudgmentFormNameNormalizer.normalize(judgmentFormName);
         
         assertEquals(judgmentFormName, normalizedName);
+    }
+    
+    @Test
+    public void normalize_CAPITALIZE_FIRST_LETTERS() {
+        
+        String judgmentFormName = "uchwała całej izby SN";
+        
+        String normalizedName = scJudgmentFormNameNormalizer.normalize(judgmentFormName);
+        
+        assertEquals("Uchwała Całej Izby SN", normalizedName);
     }
 
     
@@ -33,7 +43,7 @@ public class ScJudgmentFormNameNormalizerTest {
         
         String normalizedName = scJudgmentFormNameNormalizer.normalize(judgmentFormName);
         
-        assertEquals("wyrok", normalizedName);
+        assertEquals("Wyrok", normalizedName);
     }
     
     
@@ -44,7 +54,7 @@ public class ScJudgmentFormNameNormalizerTest {
         
         String normalizedName = scJudgmentFormNameNormalizer.normalize(judgmentFormName);
         
-        assertEquals("wyrok siedmiu sędziów SN", normalizedName);
+        assertEquals("Wyrok Siedmiu Sędziów SN", normalizedName);
     }
     
     

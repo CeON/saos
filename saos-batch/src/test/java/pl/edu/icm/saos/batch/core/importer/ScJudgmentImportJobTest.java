@@ -136,7 +136,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         assertChamberDivisions("Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych", "Wydział II");
         assertChamberDivisions("Izba Cywilna", "Wydział II", "Wydział III");
         
-        assertScJudgmentForms("uchwała SN", "wyrok SN");
+        assertScJudgmentForms("Uchwała SN", "Wyrok SN");
         
         assertJudgment_24ffe0d974d5823db702e6436dbb9f0f();
         
@@ -196,7 +196,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         assertChamberDivisions("Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych", "Wydział I", "Wydział II", "Wydział III");
         assertChamberDivisions("Izba Cywilna", "Wydział III");
         
-        assertScJudgmentForms("uchwała SN", "wyrok SN");
+        assertScJudgmentForms("Uchwała SN", "Wyrok SN");
         
         
         // should not exist anymore
@@ -250,7 +250,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         assertEquals("II UZP 26/94", scJudgment.getCaseNumbers().get(0));
         assertEquals(new LocalDate("1994-09-28"), scJudgment.getJudgmentDate());
         assertEquals(PersonnelType.SEVEN_PERSON, scJudgment.getPersonnelType());
-        assertEquals("uchwała SN", scJudgment.getScJudgmentForm().getName());
+        assertEquals("Uchwała SN", scJudgment.getScJudgmentForm().getName());
         
         assertEquals(1, scJudgment.getJudges().size());
         JudgmentAssertUtils.assertJudge(scJudgment, "Adam Józefowski", null, JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE);
@@ -282,7 +282,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         assertEquals("III CZP 39/02", scJudgment.getCaseNumbers().get(0));
         assertEquals(new LocalDate("2002-07-05"), scJudgment.getJudgmentDate());
         assertEquals(PersonnelType.THREE_PERSON, scJudgment.getPersonnelType());
-        assertEquals("uchwała SN", scJudgment.getScJudgmentForm().getName());
+        assertEquals("Uchwała SN", scJudgment.getScJudgmentForm().getName());
         
         assertEquals(3, scJudgment.getJudges().size());
         JudgmentAssertUtils.assertJudge(scJudgment, "Mirosław Bączyk", "SSN");
@@ -331,7 +331,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         expectedCorrection = createFor(judgment).update(judgment.getScChambers().get(0)).property(NAME).oldValue("Izba Administracyjna, Pracy i Ubezpieczeń Społecznych").newValue("Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych").build();
         assertTrue(judgmentCorrections.contains(expectedCorrection));
         
-        expectedCorrection = createFor(judgment).update(judgment.getScJudgmentForm()).property(NAME).oldValue("orzeczenie SN").newValue("wyrok SN").build();
+        expectedCorrection = createFor(judgment).update(judgment.getScJudgmentForm()).property(NAME).oldValue("orzeczenie SN").newValue("Wyrok SN").build();
         assertTrue(judgmentCorrections.contains(expectedCorrection));
         
         expectedCorrection = createFor(judgment).update(judgment.getJudge("Stefania Szymańska")).property(NAME).oldValue("SSO Stefania Szymańska").newValue("Stefania Szymańska").build();
