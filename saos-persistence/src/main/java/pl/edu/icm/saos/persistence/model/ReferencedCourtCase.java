@@ -6,6 +6,7 @@ import java.util.Objects;
 import pl.edu.icm.saos.persistence.common.GeneratableObject;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski
@@ -15,7 +16,7 @@ public class ReferencedCourtCase extends GeneratableObject {
 
     
     private String caseNumber;
-    private List<Long> judgmentIds;
+    private List<Long> judgmentIds = Lists.newArrayList();
     
     
     //------------------------ GETTERS --------------------------
@@ -35,6 +36,9 @@ public class ReferencedCourtCase extends GeneratableObject {
      * The list may be empty if there are no judgments in SAOS with the given case number. 
      */
     public List<Long> getJudgmentIds() {
+        if (judgmentIds == null) {
+            judgmentIds = Lists.newArrayList();
+        }
         return ImmutableList.copyOf(judgmentIds);
     }
     
