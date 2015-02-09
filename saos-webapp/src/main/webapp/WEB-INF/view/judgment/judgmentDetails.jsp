@@ -187,6 +187,12 @@ $(document).ready(function() {
 		</c:if>
 	
 
+		<c:if test="${!empty judgment.sourceInfo}">
+			<h4><spring:message code="judgment.sourceInfo" />:</h4>
+			<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
+				<c:out value="${judgment.sourceInfo.sourceJudgmentUrl}" />
+			</a>
+		</c:if>
 	
 		<div class="break" ></div>
 	
