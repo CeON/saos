@@ -93,7 +93,7 @@ public class DumpJudgmentsView extends CollectionRepresentation<JudgmentItem,Que
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(pageNumber, pageSize, judgmentStartDate, judgmentEndDate, sinceModificationDate);
+            return Objects.hashCode(pageNumber, pageSize, judgmentStartDate, judgmentEndDate, sinceModificationDate, withGeneratedTemplate);
         }
 
         @Override
@@ -105,7 +105,12 @@ public class DumpJudgmentsView extends CollectionRepresentation<JudgmentItem,Que
                 return false;
             }
             final QueryTemplate other = (QueryTemplate) obj;
-            return Objects.equal(this.pageNumber, other.pageNumber) && Objects.equal(this.pageSize, other.pageSize) && Objects.equal(this.judgmentStartDate, other.judgmentStartDate) && Objects.equal(this.judgmentEndDate, other.judgmentEndDate) && Objects.equal(this.sinceModificationDate, other.sinceModificationDate);
+            return Objects.equal(this.pageNumber, other.pageNumber) 
+                    && Objects.equal(this.pageSize, other.pageSize) 
+                    && Objects.equal(this.judgmentStartDate, other.judgmentStartDate) 
+                    && Objects.equal(this.judgmentEndDate, other.judgmentEndDate) 
+                    && Objects.equal(this.sinceModificationDate, other.sinceModificationDate)
+                    && Objects.equal(this.withGeneratedTemplate, other.withGeneratedTemplate);
         }
 
         //------------------------ toString --------------------------
@@ -118,6 +123,7 @@ public class DumpJudgmentsView extends CollectionRepresentation<JudgmentItem,Que
                     .add("judgmentStartDate", judgmentStartDate)
                     .add("judgmentEndDate", judgmentEndDate)
                     .add("sinceModificationDate", sinceModificationDate)
+                    .add("withGenerated", withGeneratedTemplate)
                     .toString();
         }
 
