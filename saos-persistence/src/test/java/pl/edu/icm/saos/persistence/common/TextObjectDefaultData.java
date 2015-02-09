@@ -266,15 +266,23 @@ public final class TextObjectDefaultData {
     public static final String FIRST_ENRICHMENT_TAG_VALUE_VALUE = "AAA1";
     public static final String FIRST_ENRICHMENT_TAG_VALUE = normalizeJson("{'" + FIRST_ENRICHMENT_TAG_VALUE_KEY + "':'" + FIRST_ENRICHMENT_TAG_VALUE_VALUE + "'}");
     
-    public static final String SECOND_ENRICHMENT_TAG_TYPE = "REFERENCED_CASE_NUMBERS";
-    public static final String SECOND_ENRICHMENT_TAG_VALUE_KEY = "caseNumbers";
-    public static final String SECOND_ENRICHMENT_TAG_FIRST_ARRAY_VALUE = "XYZ1";
-    public static final String SECOND_ENRICHMENT_TAG_SECOND_ARRAY_VALUE = "XYZ2";
-    public static final String SECOND_ENRICHMENT_TAG_VALUE = normalizeJson("{'" +
-            SECOND_ENRICHMENT_TAG_VALUE_KEY + "':['" +
-                SECOND_ENRICHMENT_TAG_FIRST_ARRAY_VALUE + "','" +
-                SECOND_ENRICHMENT_TAG_SECOND_ARRAY_VALUE +
-            "']}");
+    public static final String REFERENCED_COURT_CASES_TAG_FIRST_CASE_NUMBER = "XYZ1/122";
+    public static final long[] REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS = new long[]{123, 12};
+    public static final String REFERENCED_COURT_CASES_TAG_SECOND_CASE_NUMBER = "XYZ1/ABC";
+    public static final long[] REFERENCED_COURT_CASES_TAG_SECOND_JUDGMENT_IDS = new long[0];
+    
+    
+    public static final String REFERENCED_COURT_CASES_TAG_VALUE = normalizeJson(
+                 "[" +
+                 
+                 "{'caseNumber':'" + REFERENCED_COURT_CASES_TAG_FIRST_CASE_NUMBER + "'," +
+                 "'judgmentIds':[" + REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS[0] + ", " + REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS[1] + "]" +
+                 "}," +
+                 
+                 "{'caseNumber':'" + REFERENCED_COURT_CASES_TAG_SECOND_CASE_NUMBER + "'," +
+                 "'judgmentIds':[]}" +
+                 
+                "]");
     
     public static final String THIRD_ENRICHMENT_TAG_TYPE = "KEYWORDS";
     public static final String THIRD_ENRICHMENT_TAG_VALUE_KEY = "keywords";

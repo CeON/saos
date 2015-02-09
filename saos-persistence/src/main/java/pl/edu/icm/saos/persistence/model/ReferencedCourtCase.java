@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import pl.edu.icm.saos.persistence.common.GeneratableObject;
 
+import com.google.common.collect.ImmutableList;
+
 /**
  * @author Łukasz Dumiszewski
  */
@@ -33,7 +35,7 @@ public class ReferencedCourtCase extends GeneratableObject {
      * The list may be empty if there are no judgments in SAOS with the given case number. 
      */
     public List<Long> getJudgmentIds() {
-        return judgmentIds;
+        return ImmutableList.copyOf(judgmentIds);
     }
     
     
@@ -47,7 +49,8 @@ public class ReferencedCourtCase extends GeneratableObject {
     }
     
     
- //------------------------ HashCode & Equals --------------------------
+    
+    //------------------------ HashCode & Equals --------------------------
     
     
     @Override

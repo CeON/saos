@@ -2,8 +2,7 @@ package pl.edu.icm.saos.persistence.common;
 
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.FIRST_ENRICHMENT_TAG_TYPE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.FIRST_ENRICHMENT_TAG_VALUE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SECOND_ENRICHMENT_TAG_TYPE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SECOND_ENRICHMENT_TAG_VALUE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_VALUE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_TYPE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_VALUE;
 
@@ -13,6 +12,7 @@ import org.assertj.core.util.Lists;
 
 import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 
 /**
  * @author madryk
@@ -35,7 +35,7 @@ public final class TestInMemoryEnrichmentTagFactory {
         
         EnrichmentTag firstEnrichmentTag = createEnrichmentTag(judgmentId, FIRST_ENRICHMENT_TAG_TYPE, FIRST_ENRICHMENT_TAG_VALUE);
         
-        EnrichmentTag secondEnrichmentTag = createEnrichmentTag(judgmentId, SECOND_ENRICHMENT_TAG_TYPE, SECOND_ENRICHMENT_TAG_VALUE);
+        EnrichmentTag secondEnrichmentTag = createEnrichmentTag(judgmentId, EnrichmentTagTypes.REFERENCED_COURT_CASES, REFERENCED_COURT_CASES_TAG_VALUE);
         
         EnrichmentTag thirdEnrichmentTag = createEnrichmentTag(judgmentId, THIRD_ENRICHMENT_TAG_TYPE, THIRD_ENRICHMENT_TAG_VALUE);
         

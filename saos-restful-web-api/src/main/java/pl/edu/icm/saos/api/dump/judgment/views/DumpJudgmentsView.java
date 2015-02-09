@@ -1,14 +1,19 @@
 package pl.edu.icm.saos.api.dump.judgment.views;
 
-import com.google.common.base.Objects;
-import pl.edu.icm.saos.api.dump.judgment.item.representation.JudgmentItem;
-import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
-import pl.edu.icm.saos.api.services.representations.success.template.*;
-
 import java.io.Serializable;
 
-import static pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.Info;
-import static pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.QueryTemplate;
+import pl.edu.icm.saos.api.dump.judgment.item.representation.JudgmentItem;
+import pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.Info;
+import pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.QueryTemplate;
+import pl.edu.icm.saos.api.services.representations.success.CollectionRepresentation;
+import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateFromTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateToTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.QueryParameterRepresentation;
+import pl.edu.icm.saos.api.services.representations.success.template.WithGeneratedTemplate;
+
+import com.google.common.base.Objects;
 
 /**
  * Represents dump judgment's view.
@@ -28,6 +33,7 @@ public class DumpJudgmentsView extends CollectionRepresentation<JudgmentItem,Que
         private JudgmentDateFromTemplate judgmentStartDate;
         private JudgmentDateToTemplate judgmentEndDate;
         private SinceModificationDateTemplate sinceModificationDate;
+        private WithGeneratedTemplate withGeneratedTemplate;
 
         //------------------------ GETTERS --------------------------
 
@@ -51,6 +57,9 @@ public class DumpJudgmentsView extends CollectionRepresentation<JudgmentItem,Que
             return sinceModificationDate;
         }
 
+        public WithGeneratedTemplate getWithGenerated() {
+            return withGeneratedTemplate;
+        }
 
         //------------------------ SETTERS --------------------------
 
@@ -74,12 +83,17 @@ public class DumpJudgmentsView extends CollectionRepresentation<JudgmentItem,Que
             this.sinceModificationDate = sinceModificationDate;
         }
 
+        public void setWithGenerated(WithGeneratedTemplate withGeneratedTemplate) {
+            this.withGeneratedTemplate = withGeneratedTemplate;
+        }
+
+
 
         //------------------------ HashCode & Equals --------------------------
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(pageNumber, pageSize, judgmentStartDate, judgmentEndDate, sinceModificationDate);
+            return Objects.hashCode(pageNumber, pageSize, judgmentStartDate, judgmentEndDate, sinceModificationDate, withGeneratedTemplate);
         }
 
         @Override
@@ -91,7 +105,12 @@ public class DumpJudgmentsView extends CollectionRepresentation<JudgmentItem,Que
                 return false;
             }
             final QueryTemplate other = (QueryTemplate) obj;
-            return Objects.equal(this.pageNumber, other.pageNumber) && Objects.equal(this.pageSize, other.pageSize) && Objects.equal(this.judgmentStartDate, other.judgmentStartDate) && Objects.equal(this.judgmentEndDate, other.judgmentEndDate) && Objects.equal(this.sinceModificationDate, other.sinceModificationDate);
+            return Objects.equal(this.pageNumber, other.pageNumber) 
+                    && Objects.equal(this.pageSize, other.pageSize) 
+                    && Objects.equal(this.judgmentStartDate, other.judgmentStartDate) 
+                    && Objects.equal(this.judgmentEndDate, other.judgmentEndDate) 
+                    && Objects.equal(this.sinceModificationDate, other.sinceModificationDate)
+                    && Objects.equal(this.withGeneratedTemplate, other.withGeneratedTemplate);
         }
 
         //------------------------ toString --------------------------
@@ -104,8 +123,11 @@ public class DumpJudgmentsView extends CollectionRepresentation<JudgmentItem,Que
                     .add("judgmentStartDate", judgmentStartDate)
                     .add("judgmentEndDate", judgmentEndDate)
                     .add("sinceModificationDate", sinceModificationDate)
+                    .add("withGenerated", withGeneratedTemplate)
                     .toString();
         }
+
+       
     }
 
     public static class SinceModificationDateTemplate extends QueryParameterRepresentation<String, String>{

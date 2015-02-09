@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.api.dump.judgment;
 
 import static org.hamcrest.Matchers.emptyIterable;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -31,11 +32,11 @@ import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentDbSearchService;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CourtType;
-import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,7 +49,7 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
     private ParametersExtractor parametersExtractor;
 
     @Autowired
-    private DatabaseSearchService databaseSearchService;
+    private JudgmentEnrichmentDbSearchService judgmentEnrichmentDbSearchService;
 
     @Autowired
     private DumpJudgmentsListSuccessRepresentationBuilder dumpJudgmentsListSuccessRepresentationBuilder;
@@ -67,7 +68,7 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
 
         DumpJudgmentsController dumpJudgmentsController = new DumpJudgmentsController();
 
-        dumpJudgmentsController.setDatabaseSearchService(databaseSearchService);
+        dumpJudgmentsController.setJudgmentEnrichmentDbSearchService(judgmentEnrichmentDbSearchService);
         dumpJudgmentsController.setDumpJudgmentsListSuccessRepresentationBuilder(dumpJudgmentsListSuccessRepresentationBuilder);
         dumpJudgmentsController.setParametersExtractor(parametersExtractor);
 
@@ -84,14 +85,85 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
     //------------------------ TESTS --------------------------
 
     @Test
-    public void it_should_show_all_judgments_fields() throws Exception {
+    public void it_should_show_all_judgments_fields_withGenerated() throws Exception {
+        
+        // given
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(testObjectContext.getCcJudgmentId());
+        
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH).accept(MediaType.APPLICATION_JSON));
+
+        // assert
+        assertAllJudgmentFields(actions, true);
+    }
+    
+    
+    @Test
+    public void it_should_show_all_judgments_fields_withoutGenerated() throws Exception {
+        
+        // given
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(testObjectContext.getCcJudgmentId());
+        
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH).param(ApiConstants.WITH_GENERATED, ""+false).accept(MediaType.APPLICATION_JSON));
+
+        // assert
+        assertAllJudgmentFields(actions, false);
+    }
+    
+    
+
+    @Test
+    public void it_should_show_request_parameters() throws Exception {
+        //given
+        int pageSize = 11;
+        int pageNumber = 5;
+        String judgmentStartDate = "2011-11-10";
+        String judgmentEndDate = "2014-10-25";
+
+        String sinceModificationDate = "2015-10-25T13:55:18.769";
+        boolean withGenerated = true;
+        
         //when
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(pageSize))
+                .param(ApiConstants.PAGE_NUMBER, String.valueOf(pageNumber))
+                .param(ApiConstants.JUDGMENT_START_DATE, judgmentStartDate)
+                .param(ApiConstants.JUDGMENT_END_DATE, judgmentEndDate)
+                .param(ApiConstants.SINCE_MODIFICATION_DATE, sinceModificationDate)
+                .param(ApiConstants.WITH_GENERATED, ""+withGenerated)
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
+        actions
+                .andExpect(jsonPath("$.queryTemplate.pageSize.value").value(pageSize))
+                .andExpect(jsonPath("$.queryTemplate.pageNumber.value").value(pageNumber))
+                .andExpect(jsonPath("$.queryTemplate.judgmentStartDate.value").value(judgmentStartDate))
+                .andExpect(jsonPath("$.queryTemplate.judgmentEndDate.value").value(judgmentEndDate))
+                .andExpect(jsonPath("$.queryTemplate.sinceModificationDate.value").value(sinceModificationDate))
+                .andExpect(jsonPath("$.queryTemplate.withGenerated.value").value(withGenerated))
+        ;
 
+        actions.andExpect(status().isOk());
+    }
 
+    @Test
+    public void it_should_not_allow_incorrect_request_parameter_name() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param("some_incorrect_parameter_name", "")
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        actions.andExpect(status().isBadRequest());
+    }
+
+    
+    //------------------------ PRIVATE --------------------------
+    
+    
+    public void assertAllJudgmentFields(ResultActions actions, boolean withGenerated) throws Exception {
+        
         String pathPrefix = "$.items.[0]";
         actions
                 .andExpect(jsonPath(pathPrefix + ".id").value(equalsLong(testObjectContext.getCcJudgmentId())))
@@ -155,10 +227,32 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath(pathPrefix+".keywords.[0]").value(CC_FIRST_KEYWORD))
                 .andExpect(jsonPath(pathPrefix + ".keywords.[1]").value(CC_SECOND_KEYWORD))
 
-                .andExpect(jsonPath(pathPrefix + ".division.id").value(equalsLong(testObjectContext.getCcFirstDivisionId())))
-        ;
+                .andExpect(jsonPath(pathPrefix + ".division.id").value(equalsLong(testObjectContext.getCcFirstDivisionId())));
+        
+        if (withGenerated) {
+                
+            actions
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases", hasSize(2)))
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases.[0].caseNumber").value(REFERENCED_COURT_CASES_TAG_FIRST_CASE_NUMBER))
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases.[0].judgmentIds", hasSize(2)))
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases.[0].judgmentIds.[0]").value(equalsLong(REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS[0])))
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases.[0].judgmentIds.[1]").value(equalsLong(REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS[1])))
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases.[0].generated").value(true))
+                
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases.[1].caseNumber").value(REFERENCED_COURT_CASES_TAG_SECOND_CASE_NUMBER))
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases.[1].judgmentIds", hasSize(0)))
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases.[1].generated").value(true))
+            ;
 
-
+        } else {
+            
+            actions
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases").doesNotExist())
+            ;
+        }
+        
+        
+        
         //supreme court  fields
         pathPrefix = "$.items.[1]";
         actions
@@ -218,6 +312,9 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalEntry").value(SC_THIRD_REFERENCED_REGULATION_ENTRY))
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalYear").value(SC_THIRD_REFERENCED_REGULATION_YEAR))
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].text").value(SC_THIRD_REFERENCED_REGULATION_TEXT))
+                
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases").doesNotExist())
+                
         ;
 
 
@@ -282,51 +379,11 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
 
                 .andExpect(jsonPath(pathPrefix + ".keywords.[0]").value(CT_FIRST_KEYWORD))
                 .andExpect(jsonPath(pathPrefix + ".keywords.[1]").value(CT_SECOND_KEYWORD))
+                
+                .andExpect(jsonPath(pathPrefix+".referencedCourtCases").doesNotExist())
         ;
 
     }
-
-    @Test
-    public void it_should_show_request_parameters() throws Exception {
-        //given
-        int pageSize = 11;
-        int pageNumber = 5;
-        String judgmentStartDate = "2011-11-10";
-        String judgmentEndDate = "2014-10-25";
-
-        String sinceModificationDate = "2015-10-25T13:55:18.769";
-        //when
-        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, String.valueOf(pageSize))
-                .param(ApiConstants.PAGE_NUMBER, String.valueOf(pageNumber))
-                .param(ApiConstants.JUDGMENT_START_DATE, judgmentStartDate)
-                .param(ApiConstants.JUDGMENT_END_DATE, judgmentEndDate)
-                .param(ApiConstants.SINCE_MODIFICATION_DATE, sinceModificationDate)
-                .accept(MediaType.APPLICATION_JSON));
-
-        //then
-        actions
-                .andExpect(jsonPath("$.queryTemplate.pageSize.value").value(pageSize))
-                .andExpect(jsonPath("$.queryTemplate.pageNumber.value").value(pageNumber))
-                .andExpect(jsonPath("$.queryTemplate.judgmentStartDate.value").value(judgmentStartDate))
-                .andExpect(jsonPath("$.queryTemplate.judgmentEndDate.value").value(judgmentEndDate))
-                .andExpect(jsonPath("$.queryTemplate.sinceModificationDate.value").value(sinceModificationDate))
-        ;
-
-        actions.andExpect(status().isOk());
-    }
-
-    @Test
-    public void it_should_not_allow_incorrect_request_parameter_name() throws Exception {
-        //when
-        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param("some_incorrect_parameter_name", "")
-                .accept(MediaType.APPLICATION_JSON));
-
-        //then
-        actions.andExpect(status().isBadRequest());
-    }
-
 
 
 
