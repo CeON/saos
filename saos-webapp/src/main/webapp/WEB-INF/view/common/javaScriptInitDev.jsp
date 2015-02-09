@@ -21,6 +21,7 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/searchSettingsToolTip.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/searchFilters.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/changeCourtType.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/search/cleanUrlForm.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/details/correctionBox.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/filterBox.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/suggester.js"></script>
