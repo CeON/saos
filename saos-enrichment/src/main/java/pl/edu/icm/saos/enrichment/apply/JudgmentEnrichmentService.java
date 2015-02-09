@@ -48,34 +48,61 @@ public class JudgmentEnrichmentService {
             return null;
         }
         
-        return enrich(judgment);
+        enrich(judgment);
+        
+        return judgment;
     
     }
 
 
     /**
-     * Finds {@link EnrichmentTag}s related to the given judgment, generates data from them and then adds the generated data
-     * to the {@link Judgment} object tree. Generated objects are {@link Generatable} and have {@link Generatable#isGenerated()} equal to true.
+     * Finds {@link EnrichmentTag}s related to the given judgment and then invokes {@link #enrich(Judgment, List)} 
      */
-    public <T extends Judgment> T enrich(T judgment) {
+    public <T extends Judgment> void enrich(T judgment) {
         
         Preconditions.checkNotNull(judgment);
         
         List<EnrichmentTag> enrichmentTags = enrichmentTagRepository.findAllByJudgmentId(judgment.getId());
         
+        enrich(judgment, enrichmentTags);
+       
+    }
+    
+    
+    /**
+     * Invokes {@link #enrich(Judgment, EnrichmentTag)} for the given judgment and each of the enrichmentTags 
+     */
+    public <T extends Judgment> void enrich(T judgment, List<EnrichmentTag> enrichmentTags) {
+        
+        Preconditions.checkNotNull(enrichmentTags);
+        
         for (EnrichmentTag enrichmentTag : enrichmentTags) {
-           
-            EnrichmentTagApplier enrichmentTagApplier = enrichmentTagApplierManager.getEnrichmentTagApplier(enrichmentTag.getTagType());
             
-            if (enrichmentTagApplier != null) {
-                
-                enrichmentTagApplier.applyEnrichmentTag(judgment, enrichmentTag);
-                
-            }
+            enrich(judgment, enrichmentTag);
            
         }
         
-        return judgment;
+    }
+
+    
+    /** 
+     * Generates data based on the given enrichmentTag and then adds the generated data
+     * to the passed {@link Judgment} object tree. 
+     * Generated objects are {@link Generatable} and have {@link Generatable#isGenerated()} equal to true.
+    */
+    public <T extends Judgment> void enrich(T judgment, EnrichmentTag enrichmentTag) {
+        
+        Preconditions.checkNotNull(judgment);
+        Preconditions.checkNotNull(enrichmentTag);
+        Preconditions.checkArgument(enrichmentTag.getJudgmentId()==judgment.getId());
+        
+        EnrichmentTagApplier enrichmentTagApplier = enrichmentTagApplierManager.getEnrichmentTagApplier(enrichmentTag.getTagType());
+        
+        if (enrichmentTagApplier != null) {
+            
+            enrichmentTagApplier.applyEnrichmentTag(judgment, enrichmentTag);
+            
+        }
     }
 
 

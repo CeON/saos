@@ -3,9 +3,10 @@ package pl.edu.icm.saos.api.dump.judgment.item.representation;
 import java.io.Serializable;
 import java.util.List;
 
+import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData;
 import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.CourtCase;
 import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.Judge;
-import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.ReferencedRegulations;
+import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.ReferencedRegulation;
 import pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.Source;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
@@ -31,8 +32,9 @@ public class JudgmentItem implements Serializable {
     private String summary;
     private String textContent;
     private List<String> legalBases;
-    private List<ReferencedRegulations> referencedRegulations;
+    private List<ReferencedRegulation> referencedRegulations;
     private List<String> keywords;
+    private List<JudgmentData.ReferencedCourtCase> referencedCourtCases;
 
 
     //------------------------ GETTERS --------------------------
@@ -77,7 +79,7 @@ public class JudgmentItem implements Serializable {
         return legalBases;
     }
 
-    public List<ReferencedRegulations> getReferencedRegulations() {
+    public List<ReferencedRegulation> getReferencedRegulations() {
         return referencedRegulations;
     }
 
@@ -92,7 +94,12 @@ public class JudgmentItem implements Serializable {
     public List<String> getKeywords() {
         return keywords;
     }
+    
+    public List<JudgmentData.ReferencedCourtCase> getReferencedCourtCases() {
+        return referencedCourtCases;
+    }
 
+    
 
     //------------------------ SETTERS --------------------------
 
@@ -136,7 +143,7 @@ public class JudgmentItem implements Serializable {
         this.legalBases = legalBases;
     }
 
-    public void setReferencedRegulations(List<ReferencedRegulations> referencedRegulations) {
+    public void setReferencedRegulations(List<ReferencedRegulation> referencedRegulations) {
         this.referencedRegulations = referencedRegulations;
     }
 
@@ -151,7 +158,10 @@ public class JudgmentItem implements Serializable {
     public void setKeywords(List<String> keywords) {
         this.keywords = keywords;
     }
-
+    
+    public void setReferencedCourtCases(List<JudgmentData.ReferencedCourtCase> referencedCourtCases) {
+        this.referencedCourtCases = referencedCourtCases;
+    }
 
 
     //------------------------ HashCode & Equals --------------------------
@@ -162,7 +172,7 @@ public class JudgmentItem implements Serializable {
         return Objects.hashCode(id, courtCases, judgmentType, JudgmentDate,
                 judges, source, courtReporters, summary, decision,
                 textContent, legalBases, referencedRegulations,
-                courtType, keywords
+                courtType, keywords, referencedCourtCases
         );
     }
 
@@ -188,7 +198,8 @@ public class JudgmentItem implements Serializable {
                 Objects.equal(this.legalBases, other.legalBases) &&
                 Objects.equal(this.referencedRegulations, other.referencedRegulations) &&
                 Objects.equal(this.courtType, other.courtType) &&
-                Objects.equal(this.keywords, other.keywords)
+                Objects.equal(this.keywords, other.keywords) &&
+                Objects.equal(this.referencedCourtCases, other.referencedCourtCases)
                 ;
     }
 
@@ -210,8 +221,10 @@ public class JudgmentItem implements Serializable {
                 .add("legalBases", legalBases)
                 .add("referencedRegulations", referencedRegulations)
                 .add("courtType", courtType)
-
+                .add("referencedCourtCases", referencedCourtCases)
                 .toString();
     }
+
+   
 
 }
