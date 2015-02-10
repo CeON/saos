@@ -37,7 +37,7 @@ var ChangeCourtType = (function() {
 		$("input[name='" + radioName + "']:checked").trigger("click");
 	},
 	
-	/* Bind fields related to court type with function, that on click event
+	/* Binds fields related to court type with function, that on click event
 	 * displays container with specified court type fields.
 	 */
 	assignShowContainerMethod = function() {
