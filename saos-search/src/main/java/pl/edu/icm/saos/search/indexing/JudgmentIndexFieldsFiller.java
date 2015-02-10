@@ -11,6 +11,7 @@ import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 import com.google.common.collect.Lists;
@@ -95,6 +96,11 @@ public abstract class JudgmentIndexFieldsFiller {
     private void fillReferencedRegulations(SolrInputDocument doc, Judgment item) {
         for (JudgmentReferencedRegulation referencedRegulation : item.getReferencedRegulations()) {
             fieldAdder.addField(doc, JudgmentIndexField.REFERENCED_REGULATION, referencedRegulation.getRawText());
+            
+            LawJournalEntry lawJournalEntry = referencedRegulation.getLawJournalEntry();
+            if (lawJournalEntry != null) {
+                fieldAdder.addField(doc, JudgmentIndexField.LAW_JOURNAL_ENTRY_ID, lawJournalEntry.getId());
+            }
         }
     }
     

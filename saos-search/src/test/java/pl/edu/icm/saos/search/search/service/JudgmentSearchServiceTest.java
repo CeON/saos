@@ -122,6 +122,9 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withReferencedRegulation("1964").build() },
             { Lists.newArrayList(1961l, 41808l), new JudgmentCriteriaBuilder().withReferencedRegulation("ustawa").build() },
             
+            { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder().withLawJournalEntryId(502).build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder().withLawJournalEntryId(510).build() },
+            
             { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder().withCaseNumber("XV K 792/13").build() },
             { Lists.newArrayList(), new JudgmentCriteriaBuilder().withCaseNumber("XV").build() },
             
@@ -356,13 +359,17 @@ public class JudgmentSearchServiceTest {
         doc.addField("legalBases", "art. 193 kk");
         doc.addField("legalBases", "art. 227 kk");
         
-        String firstRR = "Ustawa z dnia 23 czerwca 1973 r. o opłatach w sprawach karnych (Dz. U. z 1973 r. Nr 27, poz. 152 - art. 3; art. 3 ust. 1)"; // id: 140018
-        String secondRR = "Ustawa z dnia 6 czerwca 1997 r. - Kodeks karny (Dz. U. z 1997 r. Nr 88, poz. 553 - art. 11; art. 11 § 2; art. 11 § 3; art. 193; art. 227; art. 31; art. 31 § 1; art. 31 § 2; art. 44; art. 44 § 2; art. 53)"; // id: 140019
-        String thirdRR = "Ustawa z dnia 6 czerwca 1997 r. - Kodeks postępowania karnego (Dz. U. z 1997 r. Nr 89, poz. 555 - art. 627)"; // id: 140020
+        String firstRR = "Ustawa z dnia 23 czerwca 1973 r. o opłatach w sprawach karnych (Dz. U. z 1973 r. Nr 27, poz. 152 - art. 3; art. 3 ust. 1)";
+        String secondRR = "Ustawa z dnia 6 czerwca 1997 r. - Kodeks karny (Dz. U. z 1997 r. Nr 88, poz. 553 - art. 11; art. 11 § 2; art. 11 § 3; art. 193; art. 227; art. 31; art. 31 § 1; art. 31 § 2; art. 44; art. 44 § 2; art. 53)";
+        String thirdRR = "Ustawa z dnia 6 czerwca 1997 r. - Kodeks postępowania karnego (Dz. U. z 1997 r. Nr 89, poz. 555 - art. 627)";
         
         doc.addField("referencedRegulations", firstRR);
         doc.addField("referencedRegulations", secondRR);
         doc.addField("referencedRegulations", thirdRR);
+        
+        doc.addField("lawJournalEntryId", "501");
+        doc.addField("lawJournalEntryId", "502");
+        doc.addField("lawJournalEntryId", "503");
         
         doc.addField("courtType", "COMMON");
         doc.addField("ccCourtType", "DISTRICT");
@@ -406,14 +413,19 @@ public class JudgmentSearchServiceTest {
         doc.addField("judgeWithRole_#_NO_ROLE", "Elżbieta Kunecka");
         doc.addField("judgeWithRole_#_NO_ROLE", "Irena Różańska-Dorosz");
         
-        String firstRR = "Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296 - art. 385)"; // id: 6810
-        String secondRR = "Dekret z dnia 8 października 1946 r. - Prawo spadkowe (Dz. U. z 1946 r. Nr 60, poz. 328 - )"; // id: 6811
-        String thirdRR = "Ustawa z dnia 29 sierpnia 1997 r. - Prawo bankowe (Dz. U. z 1997 r. Nr 140, poz. 939 - art. 55; art. 55 ust. 1; art. 55 ust. 1 pkt. 2; art. 55 ust. 3; art. 56)"; // id: 6812
-        String fourthRR = "Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny (Dz. U. z 1964 r. Nr 16, poz. 93 - art. 101; art. 101 § 2)"; // id: 6813
+        String firstRR = "Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296 - art. 385)";
+        String secondRR = "Dekret z dnia 8 października 1946 r. - Prawo spadkowe (Dz. U. z 1946 r. Nr 60, poz. 328 - )";
+        String thirdRR = "Ustawa z dnia 29 sierpnia 1997 r. - Prawo bankowe (Dz. U. z 1997 r. Nr 140, poz. 939 - art. 55; art. 55 ust. 1; art. 55 ust. 1 pkt. 2; art. 55 ust. 3; art. 56)";
+        String fourthRR = "Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny (Dz. U. z 1964 r. Nr 16, poz. 93 - art. 101; art. 101 § 2)";
         doc.addField("referencedRegulations", firstRR);
         doc.addField("referencedRegulations", secondRR);
         doc.addField("referencedRegulations", thirdRR);
         doc.addField("referencedRegulations", fourthRR);
+        
+        doc.addField("lawJournalEntryId", "505");
+        doc.addField("lawJournalEntryId", "506");
+        doc.addField("lawJournalEntryId", "507");
+        doc.addField("lawJournalEntryId", "508");
         
         doc.addField("courtType", "COMMON");
         doc.addField("ccCourtType", "APPEAL");

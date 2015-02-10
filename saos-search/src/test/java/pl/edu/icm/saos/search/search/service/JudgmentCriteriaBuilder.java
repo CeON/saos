@@ -161,4 +161,9 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
+    public JudgmentCriteriaBuilder withLawJournalEntryId(long lawJournalEntryId) {
+        criteria.setLawJournalEntryId(lawJournalEntryId);
+        return this;
+    }
+    
 }
