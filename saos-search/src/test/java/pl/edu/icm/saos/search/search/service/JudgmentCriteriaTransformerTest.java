@@ -53,6 +53,7 @@ public class JudgmentCriteriaTransformerTest {
                 { "+legalBases:\"some legal base\"", new JudgmentCriteriaBuilder().withLegalBase("\"some legal base\"").build() },
                 { "+referencedRegulations:someReferencedRegulation", new JudgmentCriteriaBuilder().withReferencedRegulation("someReferencedRegulation").build() },
                 { "+referencedRegulations:\"some referenced regulation\"", new JudgmentCriteriaBuilder().withReferencedRegulation("\"some referenced regulation\"").build() },
+                { "+lawJournalEntryId:41", new JudgmentCriteriaBuilder().withLawJournalEntryId(41).build() },
                 
                 { "+judgmentDate:[2014-04-01T00:00:00Z TO *]", new JudgmentCriteriaBuilder().withDateFrom(FIRST_DATE).build() },
                 { "+judgmentDate:[* TO 2014-04-01T23:59:59Z]", new JudgmentCriteriaBuilder().withDateTo(FIRST_DATE).build() },

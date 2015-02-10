@@ -120,6 +120,7 @@ class JudgmentIndexAssertUtils {
         
         assertJudges(doc, judgment);
         assertReferencedRegulations(doc, judgment);
+        assertLawJournalEntries(doc, judgment);
 
     }
     
@@ -179,5 +180,13 @@ class JudgmentIndexAssertUtils {
                 .collect(Collectors.toList());
         
         assertSolrDocumentValues(doc, JudgmentIndexField.REFERENCED_REGULATION, referencedRegulationsStrings);
+    }
+    
+    private static void assertLawJournalEntries(SolrDocument doc, Judgment judgment) {
+        List<Long> lawJournalEntriesIds = judgment.getReferencedRegulations().stream()
+                .map(x -> x.getLawJournalEntry().getId())
+                .collect(Collectors.toList());
+        
+        assertSolrDocumentLongValues(doc, JudgmentIndexField.LAW_JOURNAL_ENTRY_ID, lawJournalEntriesIds);
     }
 }
