@@ -42,8 +42,8 @@ var SearchFormMode = {
 	switchToAdvanceMode: function(callback) {	
 		
 		SearchFormMode.getForm().slideDown({easing: SearchFormMode.easing, complete: function() {
-			var $buttonLessParent = SearchFormMode.getButtonLess().parent().parent(),
-				$buttonMoreParent = SearchFormMode.getButtonMore().parent().parent();
+			var $buttonLessParent = SearchFormMode.getButtonLess(),
+				$buttonMoreParent = SearchFormMode.getButtonMore();
 			
 			$buttonMoreParent.css("visibility", "hidden");
 			
@@ -58,8 +58,8 @@ var SearchFormMode = {
 	 * @param callback - function invoked when hide animation ends
 	 */
 	switchToSimpleMode: function(callback) {		
-		var $buttonLessParent = SearchFormMode.getButtonLess().parent().parent(),
-			$buttonMoreParent = SearchFormMode.getButtonMore().parent().parent();
+		var $buttonLessParent = SearchFormMode.getButtonLess(),
+			$buttonMoreParent = SearchFormMode.getButtonMore();
 	
 		$buttonMoreParent.css("visibility", "visible");
 		

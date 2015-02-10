@@ -24,7 +24,7 @@
 	<c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
 	<c:set var="idLabel" value="radio-${!empty id ? id:''}${!empty id ? '-':''}${lowerCaseEnumValue}" />
 	
-	<div class="col-xs-<fmt:formatNumber value="${12 / columnsNumber}" maxFractionDigits="0"/>">
+	<div class="col-sm-<fmt:formatNumber value="${12 / columnsNumber}" maxFractionDigits="0"/>">
 		<form:radiobutton path="${path}" value="${enumValue}" id="${idLabel}" />
 		<label for="${idLabel}" >
 			<saos:enum value="${enumValue}" />

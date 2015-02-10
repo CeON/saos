@@ -97,6 +97,15 @@ var Suggester = (function() {
 	        assignEvents($field, populateFieldSimpleMode);
     	}
         
+        $field.closest("form").on("reset", function() {
+        	$("." + SELECTED_FIELD_CLASS).each(function() {
+        		$(this).remove();
+        		
+        		$field.val("")
+        			  .trigger("change");
+        	});
+        });
+        
     },
     
     /* Create container for suggestions. 
@@ -205,6 +214,8 @@ var Suggester = (function() {
      * - turn off default events keyup & keypress,
      * - on event keyup load suggestions, send ajax request and show
      *   response suggestions below input field,
+     * - when field input is empty and users writes backspace,
+     *   last added keyword will be removed,
      * - on event focus show suggestions list.
      *   
      *  @param $field input field
@@ -225,33 +236,59 @@ var Suggester = (function() {
         		    }
         	})
         	.off("keypress")
-            .keyup(function(event) {
-				if(event.keyCode > 40 || event.keyCode == 8){
+			.keyup(function(event) {
+			
+				if (event.keyCode > 40 || event.keyCode === 8){
+					
 					// special characters and backspace
-					loadSuggestions($field, true, populate);
+				
+					loadSuggestions($field, true, populate);					
 				}
-				else if(event.keyCode == 38 && selItem[fieldId] !== null ) {
+				else if (event.keyCode === 38 && selItem[fieldId] !== null ) {
+					
 					//arrow up
+				
 					setSelectedItem(selItem[fieldId] - 1, fieldId);
-					populate($field, fieldId);
+				
+					if ($("#" + WRAPPER_ID + "-" + fieldId).length === 0) {
+						populateFieldSimpleMode($field);
+					}
+						
 					event.preventDefault();
 				}
-				else if(event.keyCode == 40 && selItem[fieldId] !== null ) {
+				else if (event.keyCode === 40 && selItem[fieldId] !== null ) {
+					
 					//arrow down
+					
 					setSelectedItem(selItem[fieldId] + 1, fieldId);
-					populate($field, fieldId);
+					
+					if ($("#" + WRAPPER_ID + "-" + fieldId).length === 0) {
+						populateFieldSimpleMode($field);
+					}
+						
 					event.preventDefault();
 				}
-				else if(event.keyCode == 27 && selItem[fieldId] !== null ) {
+				else if (event.keyCode == 27 && selItem[fieldId] !== null ) {
+					
 					//Esc
+					
 					setSelectedItem(null, fieldId);
 					$field.trigger("blur");
 				}
-            })
+			})
             .keydown(function(event){
-				if(event.keyCode == 13 && selItem[fieldId] !== null ){
-					populate($field, fieldId);
+            	if (event.keyCode === 8 && $field.val().length === 0) {
+            		
+            		//backspace
+            		//remove last added keyword
+            		
+            		$("#" + WRAPPER_ID + "-" + fieldId).find(".remove-suggestion").last().trigger("click");
+            		
+            	} else if(event.keyCode == 13 && selItem[fieldId] !== null ){
+					populate($field);
 					setSelectedItem(null, fieldId);
+					
+					event.preventDefault();
 				}
             })
             .focus(function() {
@@ -374,6 +411,7 @@ var Suggester = (function() {
     			$suggestion = $wrapper.find("." + SELECTED_FIELD_CLASS);
     		
     		$field.val("");
+    		
     		$boxedSuggestion = createBoxedSuggestion($suggestions.find("li").eq(selItem[fieldId]).text().trim(), fieldId);
     		
     		if ($suggestion.length > 0) {
@@ -391,9 +429,9 @@ var Suggester = (function() {
      */
     populateFieldSimpleMode = function($field) {
     	var fieldId = $field.attr(FIELD_FOR), 
-		$suggestions = $("#" + CONTAINER_ID + "-" + fieldId);
-	
-		if ((selItem[fieldId] >= 0 && selItem[fieldId] !== null  && selItem[fieldId] !== undefined)) {
+			$suggestions = $("#" + CONTAINER_ID + "-" + fieldId);
+    	
+		if (selItem[fieldId] >= 0 && selItem[fieldId] !== null  && selItem[fieldId] !== undefined) {
 			$field.val($suggestions.find("li").eq(selItem[fieldId]).text());
 		}
 	},

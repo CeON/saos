@@ -83,7 +83,7 @@ var FilterBox = (function() {
 			if (stickyOptions.topSpacing !== undefined) {
 				top = stickyOptions.topSpacing;
 			}
-			$parent.sticky({ topSpacing: top });
+			$parent.sticky({ topSpacing: top, getWidthFrom: "#" + $parent.attr("id") + "-sticky-wrapper" });
 		}
 	},
 	

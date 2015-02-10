@@ -125,11 +125,9 @@ $(document).ready(function() {
 									<c:out value="${judge.name}" />
 									
 									<c:if test="${!empty judge.specialRoles}" >
-										(
 										<c:forEach items="${judge.specialRoles}" var="role"  >
-											<saos:enum value="${role}" />
+											<span class="judge-role"><saos:enum value="${role}" /></span>
 										</c:forEach>
-										)
 									</c:if>
 								</p>
 							</c:forEach>

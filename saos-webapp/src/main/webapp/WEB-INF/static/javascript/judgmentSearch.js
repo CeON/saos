@@ -43,14 +43,13 @@ var jsInitInJudgmentSearch = function() {
 		}
 	});
     
+	/* Format date */
     $("#datepicker_from, #datepicker_to")
-    	.keyup(function(event) {
+    	.focusout(function() {
     		var $this = $(this),
-				text = $this.val();
+    			text = $this.val();
     		
-    		if (event.keyCode !== 173) {
-				$this.val(DateFormat.convert(text));
-    		}
+    		$this.val(DateFormat.convert(text));
     	});
     
     
@@ -75,6 +74,7 @@ var jsInitInJudgmentSearch = function() {
     	event.preventDefault();
     });
 	
+
 	/*** Search form show more fields ***/
 	SearchFormMode.init({
 			callback: {
@@ -85,6 +85,10 @@ var jsInitInJudgmentSearch = function() {
 			}
 	});
 	
+	/* Anchor with empty href, should not reload page*/
+	$("a[href='']").click(function(event) {
+		event.preventDefault();
+	});
 	
 	SearchCriteria.init();
 	
@@ -111,7 +115,9 @@ var jsInitInJudgmentSearch = function() {
 		removeAll: "#clearAllFilters",
 		parentContainer: ".judgment-list",
 		
-		fieldGroups: [{filterField: "radio-court-common", container: "#common-court-fields"}],
+		fieldGroups: [{filterField: "radio-court-common", container: "#common-court-fields"},
+		              {filterField: "radio-court-supreme", container: "#supreme-court-fields"},
+		              {filterField: "radio-court-constitutional_tribunal", container: "#constitutional-tribunal-fields"}],
 		
 		filters: [{button: ".judge", searchfield: "#input-search-judge", filterfield: "filter-judge"},
 		           {button: ".keyword", searchfield: "#input-search-keywords-cc", filterfield: "filter-keyword", selectFormType: "#radio-court-common"},
@@ -120,8 +126,7 @@ var jsInitInJudgmentSearch = function() {
 		           {button: ".date", searchfield: "#datepicker_from, #datepicker_to", filterfield: "filter-judgment-date-from"},
 				   {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court", selectFormType: "#radio-court-common"},
 				   {button: ".chamber", searchfield: "#select-supreme-chamber", filterfield: "filter-supreme-chamber", selectFormType: "#radio-court-supreme"},
-				   {button: ".judgment-form", searchfield: "#select-search-judgment-form", filterfield: "filter-supreme-judgment-form", selectFormType: "#radio-court-supreme"},
-				   {button: ".ctDissentingOpinion", searchfield: "#input-constitutional-tribunal-dissenting-opinion", filterfield: "filter-dissenting-opinion", selectFormType: "#radio-court-constitutional_tribunal"}],
+				   {button: ".judgment-form", searchfield: "#select-search-judgment-form", filterfield: "filter-supreme-judgment-form", selectFormType: "#radio-court-supreme"}],
 		
 		advanceFilter: [{button: ".division", searchfield: "#select-common-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
 						getUrl: function(id) {return contextPath + "/cc/courts/{id}/courtDivisions/list".replace("{id}", id)},
@@ -133,14 +138,15 @@ var jsInitInJudgmentSearch = function() {
 	
 	
 	ChangeCourtType.run({
+		fieldsContainer: ".fields-container",
+		radioName: "courtType",
+		parentContainer: "#search-form",
+		defaultFieldsContainer: "#all-fields",
+		
 		fields: [{fields: "#all-fields", button: "#radio-all", onChangeCallback: function() {}},
 		          {fields: "#common-court-fields", button: "#radio-court-common", onChangeCallback: function() {$("#input-search-keywords-cc").suggesterRefresh();}},
 		          {fields: "#supreme-court-fields", button: "#radio-court-supreme", onChangeCallback: function() {}},
-		          {fields: "#constitutional-tribunal-fields", button: "#radio-court-constitutional_tribunal", onChangeCallback: function() {}}],
-		          
-		fieldsContainer: ".fields-container",
-		radioName: "courtType",
-		parentContainer: "#search-form"
+		          {fields: "#constitutional-tribunal-fields", button: "#radio-court-constitutional_tribunal", onChangeCallback: function() {}}]
 	});
 	
 	
@@ -161,8 +167,7 @@ var jsInitInJudgmentSearch = function() {
     $("#input-search-keywords-cc")
     	.suggester({
     		boxyMode: {
-    			enabled: true,
-    			placeholder: springMessage.judgmentSearchFormFieldKeywordsPlaceholder
+    			enabled: true
     		},
     		
     		url: function(id) {

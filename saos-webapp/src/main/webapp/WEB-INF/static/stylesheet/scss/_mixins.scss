@@ -77,5 +77,12 @@
 			}
 		}
 	}
-
 }
+
+@mixin outline() {
+	&:focus {
+		outline: 4px solid lighten($blue, 12%);
+		z-index: 10;
+	}
+}
+

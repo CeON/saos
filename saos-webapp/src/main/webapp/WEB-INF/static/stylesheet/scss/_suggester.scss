@@ -69,6 +69,7 @@
 }
 
 .suggestion-wrapper {
+	background: #fafafa;
 	border: 1px solid #ccc;
 	border-radius: 2px;
     box-shadow: 0 0 1px rgba(255, 255, 255, 0.976) inset;
@@ -78,7 +79,7 @@
     position: relative;
 
 	textarea {
-		background: #fff;
+		background: #fafafa;
 		border: 0px;
 		color: #000;
 		display: inline-block;
@@ -91,8 +92,8 @@
 	}
 	
 	.suggestion {
-		background: #eee;
-		border: 1px solid #e0e0e0;
+		background: #e6e6e6;
+		border: 1px solid #bbb;
 		border-radius: 4px;
 		cursor: pointer;
 		display: inline-block;
@@ -103,8 +104,9 @@
 		transition: all 0.2s ease 0s;
 		
 		&:hover {
-			background: #f0f0f0;
+			background: #f9f9f9;
 			border-color: #bbb;
+			color: #666;
 		}
 		
 		
