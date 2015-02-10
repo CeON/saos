@@ -648,14 +648,32 @@ form.search {
 				display: inline;
 				margin: 0;
 				padding: 0;
+				
+				li {
+					display: inline-block;
+					margin-left: 8px;
+					position: relative;
+					
+					&:first-child {
+						margin-left: 0;
+					}
+					
+					.presiding-judge {
+						left: -4px;
+						position: absolute;
+					}
+				}
 			}
+		}
+		
+		.presiding-judge {
+			cursor: pointer;
 		}
 		
 		.judge {
 			@include filter-underline();
 			cursor: pointer;
 			display: inline-block;
-			margin-right: 8px;
 		}
 		
 		.judgment-form {

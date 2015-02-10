@@ -32,12 +32,10 @@ public class JudgmentSearchResultSortService {
 	 * @return JudgmentSearchResult with sorted list of judgeResult {@link pl.edu.icm.saos.search.search.model.JudgeResult} 
 	 */
 	public SearchResults<JudgmentSearchResult> sortJudges(SearchResults<JudgmentSearchResult> searchResults) {
+			
+		searchResults.getResults().forEach(p -> p.setJudges(sortJudges(p).getJudges()));
 		
-		SearchResults<JudgmentSearchResult> sortedSearchResults = new SearchResults<JudgmentSearchResult>();
-
-		searchResults.getResults().forEach(p -> sortedSearchResults.addResult(sortJudges(p)));
-		
-		return sortedSearchResults;
+		return searchResults;
 	}
 	
 	//------------------------ PRIVATE --------------------------

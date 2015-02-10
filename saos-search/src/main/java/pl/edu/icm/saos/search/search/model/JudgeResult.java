@@ -1,9 +1,11 @@
 package pl.edu.icm.saos.search.search.model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
 
+import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
 /**
@@ -32,6 +34,15 @@ public class JudgeResult {
         return specialRoles;
     }
 
+    
+    //------------------------ LOGIC --------------------------
+    
+    public boolean isPresidingJudge() {
+    	return specialRoles.stream()
+				.filter(p -> p.equals(Judge.JudgeRole.PRESIDING_JUDGE))
+				.collect(Collectors.toList())
+				.size() > 0 ? true: false; 
+    }
     
     //------------------------ SETTERS --------------------------
 
