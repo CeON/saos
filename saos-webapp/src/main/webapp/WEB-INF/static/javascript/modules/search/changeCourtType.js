@@ -44,8 +44,8 @@ var ChangeCourtType = (function() {
 		var length = fields.length;
 	
 		
-		/* All fields specified by name {radioName} are binded with function,
-		 * that react on click event. This method hides all containers
+		/* All fields specified by name {radioName} are bound to a function,
+		 * that reacts on click event. This method hides all containers
 		 * and triggers event to show one container related to courtType.
 		 */
 		$("input[name='" + radioName + "']").each(function() {
@@ -55,7 +55,7 @@ var ChangeCourtType = (function() {
 			});
 		});
 		
-		/* Fields specified in object {fields.button} are binded to function,
+		/* Fields specified in object {fields.button} are bound to a function,
 		 * that is triggered by event {EVENT_SHOW_CONTAINER}. When this event
 		 * occurs, related container is displayed.
 		 */

@@ -287,6 +287,8 @@ var Suggester = (function() {
             	} else if(event.keyCode == 13 && selItem[fieldId] !== null ){
 					populate($field);
 					setSelectedItem(null, fieldId);
+					
+					event.preventDefault();
 				}
             })
             .focus(function() {
@@ -409,6 +411,7 @@ var Suggester = (function() {
     			$suggestion = $wrapper.find("." + SELECTED_FIELD_CLASS);
     		
     		$field.val("");
+    		
     		$boxedSuggestion = createBoxedSuggestion($suggestions.find("li").eq(selItem[fieldId]).text().trim(), fieldId);
     		
     		if ($suggestion.length > 0) {
