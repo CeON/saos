@@ -184,6 +184,7 @@ class JudgmentIndexAssertUtils {
     
     private static void assertLawJournalEntries(SolrDocument doc, Judgment judgment) {
         List<Long> lawJournalEntriesIds = judgment.getReferencedRegulations().stream()
+                .filter(x -> x.getLawJournalEntry() != null)
                 .map(x -> x.getLawJournalEntry().getId())
                 .collect(Collectors.toList());
         
