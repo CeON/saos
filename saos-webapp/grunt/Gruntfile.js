@@ -118,6 +118,7 @@ module.exports = function(grunt) {
 				  '<%= project.js.dir %>/libs/jquery.clipboard/jquery.clipboard.js',
 				  '<%= project.js.dir %>/libs/jquery.pseudo.js',
 				  '<%= project.js.dir %>/libs/jquery.sticky.js',
+				  '<%= project.js.dir %>/libs/jquery.visible.min.js',
 				  '<%= project.js.dir %>/libs/jquery.validate.min.js',
 				  '<%= project.js.dir %>/libs/jquery.wrapInTag.js',
 				  '<%= project.js.dir %>/libs/modernizr.js',

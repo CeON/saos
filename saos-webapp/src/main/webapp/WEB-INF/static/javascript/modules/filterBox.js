@@ -133,7 +133,38 @@ var FilterBox = (function() {
 	
 	hideBox = function() {
 		saveCookie("false");
-		$parent.slideUp(function() {
+		
+		var positionRight = "-200px";
+		
+		if ($parent.css("position") === "fixed") {
+			positionRight = $parent.position().right;
+			
+			$(window).scroll(function() {
+				var $settingsButton = $("#" + settingsButton.className);
+				
+				if ($settingsButton.visible()) {
+					$settingsButton.tooltip("toggle");
+					
+					$settingsButton.after("<div id='point' class='point'><div class='expanding-circle'></div></div>")
+					
+					setTimeout(function() {
+						var $settButt = $("#" + settingsButton.className),
+							filtAttr = $settButt.attr("aria-describedby");
+						
+						if (typeof filtAttr !== typeof undefined && filtAttr !== false ) {
+							$settButt.tooltip("toggle");
+						}
+						
+						$("#point").remove();
+						
+					}, 5000);
+					
+					$(window).off("scroll");
+				}
+			});
+		}
+		
+		$parent.animate({width: 0, height: 0, top: "-150px", right: positionRight}, 600, function() {
 			showFilterButton();
 			$(resultList).animate({width: widthMax}, 400);
 		});
@@ -141,14 +172,17 @@ var FilterBox = (function() {
 	
 	showBox = function() {
 		var fBoxSlideDown = function() {
-			$parent.slideDown();
+			$parent.css({width: 0, height: 0, top: "-150px", right: "-200px"});
+			
+			$parent.animate({width: "100%", height: "100%", top: 0, right: 0}, 600, function() {
+				$(this).css({width: "auto", height: "auto", right: "auto"});
+			});
 		}
 		
 		saveCookie("true");
 		$(resultList).animate({width: widthBase}, 400, function() {});
 		hideFilterButton(fBoxSlideDown);
 	},
-	
 	
 	/* Assign button "show filter box" */
 	assignFilterShowButton = function() {
@@ -168,7 +202,7 @@ var FilterBox = (function() {
 			.prepend($animationElement)
 			.css({opacity: 1});
 		
-		$button.find("." + animationElementClass).animate({opacity: 0}, 400, function() {
+		$button.find("." + animationElementClass).animate({opacity: 0}, 200, function() {
 			$(this).remove();
 			$button.removeClass("display-none");
 		});
