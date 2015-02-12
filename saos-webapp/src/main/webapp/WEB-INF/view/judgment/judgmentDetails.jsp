@@ -126,7 +126,11 @@ $(document).ready(function() {
 									
 									<c:if test="${!empty judge.specialRoles}" >
 										<c:forEach items="${judge.specialRoles}" var="role"  >
-											<span class="judge-role"><saos:enum value="${role}" /></span>
+											<c:if test="${role == 'PRESIDING_JUDGE' }" >
+												<span class="presiding-judge"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >
+													<img src="${contextPath}/static/image/icons/judge.png" alt="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE.iconAlt" />" />
+												</span>
+											</c:if>
 										</c:forEach>
 									</c:if>
 								</p>

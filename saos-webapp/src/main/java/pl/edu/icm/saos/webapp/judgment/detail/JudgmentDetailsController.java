@@ -24,13 +24,16 @@ public class JudgmentDetailsController {
 	@Autowired
 	private JudgmentCorrectionService judgmentCorrectionService;
 	
+	@Autowired 
+	private JudgmentDetailsSortService judgmentDetailsSortService;
+	
 	
 	//------------------------ LOGIC --------------------------
 	
 	@RequestMapping("/judgments/{judgmentId}")
 	public String showJudgmentDetails(ModelMap model, @PathVariable("judgmentId") long judgmentId) {
 		
-		model.addAttribute("judgment", judgmentEnrichmentService.findOneAndEnrich(judgmentId));
+		model.addAttribute("judgment", judgmentDetailsSortService.sortJudges(judgmentEnrichmentService.findOneAndEnrich(judgmentId)));
 		model.addAttribute("corrections", judgmentCorrectionService.findAllByJudgmentIdSorted(judgmentId));
 		
 		return "judgmentDetails";

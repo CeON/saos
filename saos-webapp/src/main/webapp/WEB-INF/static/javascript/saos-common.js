@@ -20,5 +20,17 @@ $(document).ready(function() {
             color: '#fff' };
 	$.blockUI.defaults.message = '<img src="${contextPath}/static/images/ajax-loader.gif">';
     
+	
+    /* Enable bootstrap tooltip */
+    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+	
+    /* Enable bootstrap popover's */
+    $('[data-toggle="popover"]').popover({container: 'body'});
+    
+    
+    /* Hints */
+    $(".hint").click(function(event) {
+    	event.preventDefault();
+    });
     
 });

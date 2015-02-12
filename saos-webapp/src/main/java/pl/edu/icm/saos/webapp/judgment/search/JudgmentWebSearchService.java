@@ -28,7 +28,10 @@ public class JudgmentWebSearchService {
     @Autowired 
     private PagingConverter pagingConverter;
     
+	@Autowired
+	private JudgmentSearchResultSortService judgmentSearchResultSortService;
     
+	
 	//------------------------ LOGIC --------------------------
     
 	public SearchResults<JudgmentSearchResult> search(JudgmentCriteriaForm judgmentCriteriaForm, Pageable pageable) {
@@ -37,9 +40,7 @@ public class JudgmentWebSearchService {
 		
 		Paging paging = pagingConverter.convert(pageable);
 		
-        SearchResults<JudgmentSearchResult> resultSearchResults = judgmentsSearchService.search(judgmentCriteria, paging);
-        
-        return resultSearchResults;
+        return judgmentSearchResultSortService.sortJudges(judgmentsSearchService.search(judgmentCriteria, paging));
 	}
 	
 	

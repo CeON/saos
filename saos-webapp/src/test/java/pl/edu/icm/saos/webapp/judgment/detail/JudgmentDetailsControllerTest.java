@@ -63,6 +63,9 @@ public class JudgmentDetailsControllerTest {
 	
 	@Mock
 	private JudgmentCorrectionService judgmentCorrectionService;
+	
+	@Mock
+	private JudgmentDetailsSortService judgmentDetailsSortService;
     
 	private CommonCourtJudgment judgment = getCcJudgment();
 	private List<JudgmentCorrection> judgmentCorrections = getJudgmentCorrections();
@@ -72,6 +75,7 @@ public class JudgmentDetailsControllerTest {
 		MockitoAnnotations.initMocks(this);
 		
 		when(judgmentEnrichmentService.findOneAndEnrich(judgment.getId())).thenReturn(judgment);
+		when(judgmentDetailsSortService.sortJudges(judgment)).thenReturn(judgment);
 		when(judgmentCorrectionService.findAllByJudgmentIdSorted(judgment.getId())).thenReturn(judgmentCorrections);
 		
 		mockMvc = webAppContextSetup(webApplicationCtx)
@@ -96,6 +100,7 @@ public class JudgmentDetailsControllerTest {
 			.andExpect(model().attribute("corrections", judgmentCorrections));
 		
 		verify(judgmentEnrichmentService).findOneAndEnrich(judgment.getId());
+		verify(judgmentDetailsSortService).sortJudges(judgment);
 		verify(judgmentCorrectionService).findAllByJudgmentIdSorted(judgment.getId());
 	}
 
