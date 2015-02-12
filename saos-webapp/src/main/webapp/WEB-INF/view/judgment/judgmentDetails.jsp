@@ -188,7 +188,9 @@ $(document).ready(function() {
 		<c:if test="${!empty judgment.referencedCourtCases}">
 		
 			<div class="panel panel-default panel-generated" >
-				<div class="panel-heading"><spring:message code="judgmentDetails.enrichmentTag.header" />:<saos:hint title="<spring:message code="judgmentDetails.enrichmentTag.header" />" content="<spring:message code="judgmentDetails.enrichmentTag.hintText" />" /></div>
+				<spring:message code="judgmentDetails.enrichmentTag.header" var="enrichmentTagHeader" />
+				<spring:message code="judgmentDetails.enrichmentTag.hintText" var="enrichmentTagHintText" />
+				<div class="panel-heading"><spring:message code="judgmentDetails.enrichmentTag.header" />:<saos:hint title="${enrichmentTagHeader}" content="${enrichmentTagHintText}" /></div>
 				<div class="panel-body">
 					<div class="label-title"><spring:message code="judgmentDetails.enrichmentTag.referencedCourtCases" />:</div>
 					<div class="desc">
