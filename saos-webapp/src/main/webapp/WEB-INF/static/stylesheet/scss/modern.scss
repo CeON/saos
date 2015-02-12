@@ -659,8 +659,9 @@ form.search {
 					}
 					
 					.presiding-judge {
-						left: -4px;
-						position: absolute;
+						img {
+							margin-top: -4px;
+						}
 					}
 				}
 			}
