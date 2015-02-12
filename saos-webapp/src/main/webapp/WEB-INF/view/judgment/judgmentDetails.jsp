@@ -200,13 +200,15 @@ $(document).ready(function() {
 								<c:choose>
 									<c:when test="${!empty refCourtCase.judgmentIds}" >
 										<c:forEach items="${refCourtCase.judgmentIds}" var="judgmentId" >
-											<a href="/saos-webapp/judgments/${judgmentId}">
+											<a href="${contextPath}/judgments/${judgmentId}">
 												<c:out value="${refCourtCase.caseNumber}"/>
 											</a>
 										</c:forEach>
 									</c:when>
 									<c:otherwise>
-										<c:out value="${refCourtCase.caseNumber}"/>
+										<a href="${contextPath}/search">
+											<c:out value="${refCourtCase.caseNumber}"/>
+										</a>
 									</c:otherwise>
 								</c:choose>
 							</p>
