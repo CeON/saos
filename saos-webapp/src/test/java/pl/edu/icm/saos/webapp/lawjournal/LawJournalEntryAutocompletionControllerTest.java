@@ -40,7 +40,7 @@ public class LawJournalEntryAutocompletionControllerTest extends WebappTestSuppo
     
     private LawJournalEntry lawJournalEntry;
     
-    private static final String PATH = "/lawjournal/search";
+    private static final String PATH = "/search/lawJournalEntries";
     
     
     @Before

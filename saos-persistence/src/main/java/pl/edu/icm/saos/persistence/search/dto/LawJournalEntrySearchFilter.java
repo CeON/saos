@@ -9,7 +9,61 @@ public class LawJournalEntrySearchFilter extends DatabaseSearchFilter<LawJournal
 
     private static final long serialVersionUID = 1L;
     
-
+    
+    private Integer year;
+    private Integer journalNo;
+    private Integer entry;
+    private String text;
+    
+    
+    //------------------------ LOGIC --------------------------
+    
+    public static Builder builder(){
+        return new Builder();
+    }
+    
+    
+    //------------------------ GETTERS --------------------------
+    
+    public Integer getYear() {
+        return year;
+    }
+    
+    public Integer getJournalNo() {
+        return journalNo;
+    }
+    
+    public Integer getEntry() {
+        return entry;
+    }
+    
+    public String getText() {
+        return text;
+    }
+    
+    
+    //------------------------ SETTERS --------------------------
+    
+    public void setYear(Integer year) {
+        this.year = year;
+    }
+    
+    public void setJournalNo(Integer journalNo) {
+        this.journalNo = journalNo;
+    }
+    
+    public void setEntry(Integer entry) {
+        this.entry = entry;
+    }
+    
+    public void setText(String text) {
+        this.text = text;
+    }
+    
+    
+    
+    //------------------------ INNER CLASSES --------------------------
+    
     public static class Builder extends DatabaseSearchFilter.Builder<Builder, LawJournalEntrySearchFilter>{
 
         public Builder() {
@@ -48,54 +102,6 @@ public class LawJournalEntrySearchFilter extends DatabaseSearchFilter<LawJournal
         public LawJournalEntrySearchFilter filter() {
             return instance;
         }
-    }
-
-    public static Builder builder(){
-        return new Builder();
-    }
-    
-    
-    private Integer year;
-    private Integer journalNo;
-    private Integer entry;
-    private String text;
-    
-    
-    //------------------------ GETTERS --------------------------
-    
-    public Integer getYear() {
-        return year;
-    }
-    
-    public Integer getJournalNo() {
-        return journalNo;
-    }
-    
-    public Integer getEntry() {
-        return entry;
-    }
-    
-    public String getText() {
-        return text;
-    }
-    
-    
-    //------------------------ SETTERS --------------------------
-    
-    public void setYear(Integer year) {
-        this.year = year;
-    }
-    
-    public void setJournalNo(Integer journalNo) {
-        this.journalNo = journalNo;
-    }
-    
-    public void setEntry(Integer entry) {
-        this.entry = entry;
-    }
-    
-    public void setText(String text) {
-        this.text = text;
     }
     
 }

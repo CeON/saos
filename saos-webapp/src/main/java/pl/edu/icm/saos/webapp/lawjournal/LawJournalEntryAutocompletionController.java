@@ -35,7 +35,7 @@ public class LawJournalEntryAutocompletionController {
     
     //------------------------ LOGIC --------------------------
     
-    @RequestMapping(value = "/lawjournal/search", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "/search/lawJournalEntries", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<List<SimpleLawJournalEntry>> lawJournalSearch(
             @RequestParam(value = "year", required = false) Integer year,

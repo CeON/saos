@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.webapp.lawjournal;
 
+import java.util.Objects;
+
 /**
  * @author madryk
  */
@@ -75,40 +77,29 @@ public class SimpleLawJournalEntry {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + entry;
-        result = prime * result + (int) (id ^ (id >>> 32));
-        result = prime * result + journalNo;
-        result = prime * result + ((title == null) ? 0 : title.hashCode());
-        result = prime * result + year;
-        return result;
+        return Objects.hash(id, year, journalNo, entry, title);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (!(obj instanceof SimpleLawJournalEntry))
-            return false;
-        SimpleLawJournalEntry other = (SimpleLawJournalEntry) obj;
-        if (entry != other.entry)
-            return false;
-        if (id != other.id)
-            return false;
-        if (journalNo != other.journalNo)
-            return false;
-        if (title == null) {
-            if (other.title != null)
-                return false;
-        } else if (!title.equals(other.title))
-            return false;
-        if (year != other.year)
-            return false;
-        return true;
+        
+        if (obj == null) {
+           return false;
+        }
+        
+        if (getClass() != obj.getClass()) {
+           return false;
+        }
+        
+        final SimpleLawJournalEntry other = (SimpleLawJournalEntry) obj;
+        
+        return Objects.equals(this.id, other.id)
+                && Objects.equals(this.year, other.year)
+                && Objects.equals(this.journalNo, other.journalNo)
+                && Objects.equals(this.entry, other.entry)
+                && Objects.equals(this.title, other.title);
     }
+    
 
     
     //------------------------ toString --------------------------
