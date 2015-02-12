@@ -4,11 +4,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
+
+import com.google.common.collect.Lists;
 
 /**
  * Service for sorting judges in judgment. 
