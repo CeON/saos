@@ -312,14 +312,23 @@ public class JudgmentSearchServiceTest {
         
         SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
         
-        assertEquals(1, results.getTotalResults());
-        assertEquals(1, results.getResults().size());
-        
-        JudgmentSearchResult result = results.getResults().get(0);
+        JudgmentSearchResult result = fetchAndAssertSingleSearchResult(results);
         assertEquals(21, result.getId());
         
         assertTrue(result.getContent().contains("11"));
         assertFalse(result.getContent().contains("<em>11</em>"));
+    }
+    
+    @Test
+    public void search_CHECK_HIGHLIGHTING_NO_LENGTH_LIMIT() {
+        JudgmentCriteria criteria = new JudgmentCriteria("lastword");
+        
+        SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
+        
+        JudgmentSearchResult result = fetchAndAssertSingleSearchResult(results);
+        assertEquals(22, result.getId());
+        
+        assertTrue(result.getContent().contains("<em>lastword</em>"));
     }
     
     
@@ -333,6 +342,13 @@ public class JudgmentSearchServiceTest {
             }
         }
         fail("results doesn't contain judgment with id " + id);
+    }
+    
+    private JudgmentSearchResult fetchAndAssertSingleSearchResult(SearchResults<JudgmentSearchResult> results) {
+        assertEquals(1, results.getTotalResults());
+        assertEquals(1, results.getResults().size());
+        
+        return results.getResults().get(0);
     }
     
     private void indexJudgments() throws SolrServerException, IOException {
@@ -474,6 +490,8 @@ public class JudgmentSearchServiceTest {
         doc.addField("ctDissentingOpinionAuthor", "Aleksander Kowalski");
         doc.addField("ctDissentingOpinionAuthor", "Jan Nowak");
         doc.addField("ctDissentingOpinionAuthor", "Maciej Kamiński");
+        
+        doc.addField("content", StringUtils.repeat('a', 100000) + " " + "lastword");
         
         return doc;
     }

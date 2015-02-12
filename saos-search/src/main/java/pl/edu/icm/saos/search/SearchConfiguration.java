@@ -115,6 +115,7 @@ public class SearchConfiguration {
         params.addParam(HighlightParams.SIMPLE_POST, "</em>");
         params.addParam(HighlightParams.MERGE_CONTIGUOUS_FRAGMENTS, "true");
         params.addParam(HighlightParams.FIELD_MATCH, "true");
+        params.addParam(HighlightParams.MAX_CHARS, String.valueOf(Integer.MAX_VALUE));
         
         HighlightingFieldParams contentFieldParams = new HighlightingFieldParams(JudgmentIndexField.CONTENT.getFieldName());
         contentFieldParams.addHighlightFromField(JudgmentIndexField.ALL.getFieldName());
