@@ -22,6 +22,7 @@ public class JudgmentSearchResultSortServiceTest {
 	
 	private JudgmentSearchResultSortService judgmentSearchResultSortService = new JudgmentSearchResultSortService();
 	
+	
 	//------------------------ TESTS --------------------------
 	
 	@Test

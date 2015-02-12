@@ -41,8 +41,6 @@ public class JudgmentSearchController {
 	@Autowired
 	private ScJudgmentFormRepository scJudgmentFormRepository;
 	
-	@Autowired
-	private JudgmentSearchResultSortService judgmentSearchResultSortService;
 	
 	//------------------------ LOGIC --------------------------
 	
@@ -51,7 +49,7 @@ public class JudgmentSearchController {
 	@SortDefault(sort="JUDGMENT_DATE", direction=Sort.Direction.DESC) Pageable pageable,
 		ModelMap model, HttpServletRequest request) {
 		
-		SearchResults<JudgmentSearchResult> searchResults = judgmentSearchResultSortService.sortJudges(judgmentsWebSearchService.search(judgmentCriteriaForm, pageable));
+		SearchResults<JudgmentSearchResult> searchResults = judgmentsWebSearchService.search(judgmentCriteriaForm, pageable);
 		
 		model.addAttribute("pageable", pageable);
 		model.addAttribute("searchResults", searchResults);

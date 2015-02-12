@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.Judge;
@@ -23,13 +22,14 @@ import pl.edu.icm.saos.search.search.model.SearchResults;
 @Service
 public class JudgmentSearchResultSortService {
 	
+	
 	//------------------------ LOGIC --------------------------
 	
 	/**
-	 * Sort JudgeResult {@link pl.edu.icm.saos.search.search.model.JudgeResult} in JudgmentSearchResult {@link pl.edu.icm.saos.search.search.model.JudgmentSearchResult}.
+	 * Sort JudgeResult {@link pl.edu.icm.saos.search.search.model.JudgeResult} in SearchResults {@link pl.edu.icm.saos.search.search.model.SearchResults}.
 	 * 
-	 * @param JudgmentSearchResult
-	 * @return JudgmentSearchResult with sorted list of judgeResult {@link pl.edu.icm.saos.search.search.model.JudgeResult} 
+	 * @param SearchResults<JudgmentSearchResult>
+	 * @return SearchResults<JudgmentSearchResult> with sorted list of JudgeResult {@link pl.edu.icm.saos.search.search.model.JudgeResult} 
 	 */
 	public SearchResults<JudgmentSearchResult> sortJudges(SearchResults<JudgmentSearchResult> searchResults) {
 			
@@ -40,10 +40,15 @@ public class JudgmentSearchResultSortService {
 	
 	//------------------------ PRIVATE --------------------------
 
+	/**
+	 * Sort JudgeResult {@link pl.edu.icm.saos.search.search.model.JudgeResult} in JudgmentSearchResult {@link pl.edu.icm.saos.search.search.model.JudgmentSearchResult}.
+	 * 
+	 * @param JudgmentSearchResult
+	 * @return JudgmentSearchResult with sorted list of judgeResult {@link pl.edu.icm.saos.search.search.model.JudgeResult} 
+	 */
 	private JudgmentSearchResult sortJudges(JudgmentSearchResult judgmentSearchResult) {
-		List<JudgeResult> judges = Lists.newArrayList();
 		
-		judges = judgmentSearchResult.getJudges().stream().collect(Collectors.toList());
+		List<JudgeResult> judges = judgmentSearchResult.getJudges().stream().collect(Collectors.toList());
 		
 		Collections.sort(judges, new JudgeResultComparator());
 		judgmentSearchResult.setJudges(judges);
@@ -62,25 +67,15 @@ public class JudgmentSearchResultSortService {
 		
 		public int compare(JudgeResult judgeResultOne, JudgeResult judgeResultTwo) {
 			
-			if (!hasPresidingRole(judgeResultOne) && hasPresidingRole(judgeResultTwo)) {
+			if (!judgeResultOne.isPresidingJudge() && judgeResultTwo.isPresidingJudge()) {
 				return 1;
 			}
 
-			if (hasPresidingRole(judgeResultOne) && !hasPresidingRole(judgeResultTwo)) {
+			if (judgeResultOne.isPresidingJudge() && !judgeResultTwo.isPresidingJudge()) {
 				return -1;
 			}
 			
 			return 0;
-		}
-
-		//------------------------ PRIVATE --------------------------
-		
-		private boolean hasPresidingRole(JudgeResult judgeResult) {
-			List<JudgeRole> judgeRoles = judgeResult.getSpecialRoles()
-					.stream()
-					.filter(p -> p.equals(Judge.JudgeRole.PRESIDING_JUDGE))
-					.collect(Collectors.toList());
-			return judgeRoles.size() > 0 ? true: false; 
 		}
 		
 	}

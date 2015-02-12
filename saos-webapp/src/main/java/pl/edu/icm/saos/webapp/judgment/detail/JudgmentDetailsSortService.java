@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.Judge;
@@ -25,16 +24,14 @@ public class JudgmentDetailsSortService {
 	//------------------------ LOGIC --------------------------
 	
 	/**
-	 * Sort judges in judgment.
+	 * Sort judges {@link pl.edu.icm.saos.persistence.model.Judge} in judgment {@link pl.edu.icm.saos.persistence.model.Judgment}.
 	 * 
-	 * @param judgment
-	 * @return judgment with sorted judges 
+	 * @param Judgment
+	 * @return Judgment with sorted Judges 
 	 */
 	public Judgment sortJudges(Judgment judgment) {
 		
-		List<Judge> judges = Lists.newArrayList();
-		
-		judges = judgment.getJudges().stream().collect(Collectors.toList());
+		List<Judge> judges  = judgment.getJudges().stream().collect(Collectors.toList());
 		
 		Collections.sort(judges, new JudgeComparator());
 		
@@ -47,8 +44,8 @@ public class JudgmentDetailsSortService {
 	//------------------------ PRIVATE --------------------------
 	
 	/**
-	 * Comparator for judges.
-	 * Judge with {@link JudgeRole} PRESIDING_JUDGE is the most important.
+	 * Comparator for judges {@link pl.edu.icm.saos.persistence.model.Judge}.
+	 * Judge with {@link pl.edu.icm.saos.persistence.model.Judge.JudgeRole} PRESIDING_JUDGE is the most important.
 	 * Judges with other roles are not affected by this sort. 
 	 */
 	private class JudgeComparator implements Comparator<Judge> {

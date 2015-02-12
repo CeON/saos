@@ -27,6 +27,7 @@ public class JudgmentDetailsController {
 	@Autowired 
 	private JudgmentDetailsSortService judgmentDetailsSortService;
 	
+	
 	//------------------------ LOGIC --------------------------
 	
 	@RequestMapping("/judgments/{judgmentId}")
