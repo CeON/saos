@@ -12,7 +12,7 @@
 		<saos:formFieldText path="all" labelName="input-search-all" labelText="judgmentSearch.formField.all" />
     
 	    <div class="col-sm-offset-2 " >
-    		<a id="search-more-fields" class="button-advance" href="#search-more-fields" ><spring:message code="judgmentSearch.form.moreFields" /></a>
+    		<a id="search-more-fields" class="button-advance" href="#search-form" ><spring:message code="judgmentSearch.form.moreFields" /></a>
 	    </div>
 	    
 	    <div id="advance-form" class="advance-form" >
@@ -111,7 +111,7 @@
 	    </div>
 	
 		<div class="col-sm-offset-2" >
-			<a id="search-less-fields" class="button-advance visibility-hidden display-none" href="#search-less-fields" ><spring:message code="judgmentSearch.form.lessFields" /></a>
+			<a id="search-less-fields" class="button-advance visibility-hidden display-none" href="#search-form" ><spring:message code="judgmentSearch.form.lessFields" /></a>
 		</div>
 	
 		<div class="form-group button-group">

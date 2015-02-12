@@ -4,10 +4,11 @@
 
 
 <c:if test="${showFilterBox == 'false'}" >
-	<c:set var="showFilterBox" value="display-none" />
+	<c:set var="showFilterBox" value="filter-box-hidden" />
 </c:if>
 
 <div class="filter-box ${showFilterBox}" id="filter-box">
+
 	<p>
 		<spring:message code="judgmentSearch.filterBox.header" />
 		<span id="filter-hide" class="filter-hide" data-toggle="tooltip" data-placement="right" title="<spring:message code='judgmentSearch.filterBox.hide' />"></span>
