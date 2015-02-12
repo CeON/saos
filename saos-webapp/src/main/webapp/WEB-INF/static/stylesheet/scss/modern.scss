@@ -658,17 +658,8 @@ form.search {
 						margin-left: 0;
 					}
 					
-					.presiding-judge {
-						img {
-							margin-top: -4px;
-						}
-					}
 				}
 			}
-		}
-		
-		.presiding-judge {
-			cursor: pointer;
 		}
 		
 		.judge {
@@ -1200,7 +1191,13 @@ form.search {
 	}	
 }
 
-
+.presiding-judge {
+	cursor: pointer;
+	
+	img {
+		margin-top: -6px;
+	}
+}
 
 .page {
 	background: $white;
