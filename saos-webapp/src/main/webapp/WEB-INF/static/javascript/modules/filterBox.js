@@ -134,7 +134,7 @@ var FilterBox = (function() {
 	hideBox = function() {
 		saveCookie("false");
 		
-		var positionRight = "-200px";
+		var positionRight = "-" + ($parent.width() - 50) + "px";
 		
 		if ($parent.css("position") === "fixed") {
 			positionRight = $parent.position().right;
@@ -172,7 +172,9 @@ var FilterBox = (function() {
 	
 	showBox = function() {
 		var fBoxSlideDown = function() {
-			$parent.css({width: 0, height: 0, top: "-150px", right: "-200px"});
+			var positionRight = "-" + ($parent.width() - 50) + "px";
+			
+			$parent.css({width: 0, height: 0, top: "-150px", right: positionRight});
 			
 			$parent.animate({width: "100%", height: "100%", top: 0, right: 0}, 600, function() {
 				$(this).css({width: "auto", height: "auto", right: "auto"});
