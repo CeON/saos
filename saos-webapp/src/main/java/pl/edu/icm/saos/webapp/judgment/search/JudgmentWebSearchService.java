@@ -18,16 +18,16 @@ import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaFormConverter;
  */
 @Service
 public class JudgmentWebSearchService {
-
-    @Autowired
-    private SearchService<JudgmentSearchResult, JudgmentCriteria> judgmentsSearchService;
-    
-    @Autowired
-    private JudgmentCriteriaFormConverter judgmentCriteriaFormConverter;
 	
-    @Autowired 
-    private PagingConverter pagingConverter;
-    
+	@Autowired
+	private SearchService<JudgmentSearchResult, JudgmentCriteria> judgmentsSearchService;
+	
+	@Autowired
+	private JudgmentCriteriaFormConverter judgmentCriteriaFormConverter;
+	
+	@Autowired 
+	private PagingConverter pagingConverter;
+	
 	@Autowired
 	private JudgmentSearchResultSortService judgmentSearchResultSortService;
     

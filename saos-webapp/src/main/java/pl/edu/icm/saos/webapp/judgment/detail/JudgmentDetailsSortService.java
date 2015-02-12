@@ -3,12 +3,11 @@ package pl.edu.icm.saos.webapp.judgment.detail;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
+import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
@@ -31,7 +30,7 @@ public class JudgmentDetailsSortService {
 	 */
 	public Judgment sortJudges(Judgment judgment) {
 		
-		List<Judge> judges  = judgment.getJudges().stream().collect(Collectors.toList());
+		List<Judge> judges = Lists.newArrayList(judgment.getJudges());
 		
 		Collections.sort(judges, new JudgeComparator());
 		
@@ -54,25 +53,15 @@ public class JudgmentDetailsSortService {
 		
 		public int compare(Judge judgeOne, Judge judgeTwo) {
 			
-			if (!hasPresidingRole(judgeOne) && hasPresidingRole(judgeTwo)) {
+			if (!judgeOne.isPresidingJudge() && judgeTwo.isPresidingJudge()) {
 				return 1;
 			}
 
-			if (hasPresidingRole(judgeOne) && !hasPresidingRole(judgeTwo)) {
+			if (judgeOne.isPresidingJudge() && !judgeTwo.isPresidingJudge()) {
 				return -1;
 			}
 			
 			return 0;
-		}
-
-		//------------------------ PRIVATE --------------------------
-		
-		private boolean hasPresidingRole(Judge judge) {
-			List<JudgeRole> judgeRoles = judge.getSpecialRoles()
-					.stream()
-					.filter(p -> p.equals(Judge.JudgeRole.PRESIDING_JUDGE))
-					.collect(Collectors.toList());
-			return judgeRoles.size() > 0 ? true: false; 
 		}
 		
 	}

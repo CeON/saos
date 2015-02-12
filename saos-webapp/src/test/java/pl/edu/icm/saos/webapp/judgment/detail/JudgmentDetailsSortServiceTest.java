@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
  * 
@@ -26,14 +27,14 @@ public class JudgmentDetailsSortServiceTest {
 		Judge judgeOne = new Judge("Kamil Graczyk", Judge.JudgeRole.REPORTING_JUDGE);
 		Judge judgeTwo = new Judge("Marzena Kisiela", Judge.JudgeRole.PRESIDING_JUDGE);
 		
-		CommonCourtJudgment unsortedJudgment = new CommonCourtJudgment();
+		Judgment unsortedJudgment = new CommonCourtJudgment();
 		
 		unsortedJudgment.addJudge(judgeOne);
 		unsortedJudgment.addJudge(judgeTwo);
 		
 		//execute
 		
-		CommonCourtJudgment sortedJudgment = (CommonCourtJudgment)judgmentDetailsSortService.sortJudges(unsortedJudgment);
+		Judgment sortedJudgment = judgmentDetailsSortService.sortJudges(unsortedJudgment);
 		
 		//assert
 		assertEquals(2, sortedJudgment.getJudges().size());
@@ -52,7 +53,7 @@ public class JudgmentDetailsSortServiceTest {
 		Judge judgeFour = new Judge("Agata Chwalibogowska", Judge.JudgeRole.REASONS_FOR_JUDGMENT_AUTHOR, Judge.JudgeRole.PRESIDING_JUDGE);
 		
 		
-		CommonCourtJudgment unsortedJudgment = new CommonCourtJudgment();
+		Judgment unsortedJudgment = new CommonCourtJudgment();
 		
 		unsortedJudgment.addJudge(judgeOne);
 		unsortedJudgment.addJudge(judgeTwo);
@@ -61,7 +62,7 @@ public class JudgmentDetailsSortServiceTest {
 		
 		//execute
 		
-		CommonCourtJudgment sortedJudgment = (CommonCourtJudgment)judgmentDetailsSortService.sortJudges(unsortedJudgment);
+		Judgment sortedJudgment = judgmentDetailsSortService.sortJudges(unsortedJudgment);
 		
 		//assert
 		assertEquals(4, sortedJudgment.getJudges().size());

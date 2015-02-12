@@ -3,12 +3,9 @@ package pl.edu.icm.saos.webapp.judgment.search;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.search.search.model.JudgeResult;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
@@ -48,7 +45,7 @@ public class JudgmentSearchResultSortService {
 	 */
 	private JudgmentSearchResult sortJudges(JudgmentSearchResult judgmentSearchResult) {
 		
-		List<JudgeResult> judges = judgmentSearchResult.getJudges().stream().collect(Collectors.toList());
+		List<JudgeResult> judges = judgmentSearchResult.getJudges();
 		
 		Collections.sort(judges, new JudgeResultComparator());
 		judgmentSearchResult.setJudges(judges);
