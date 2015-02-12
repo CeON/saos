@@ -913,7 +913,7 @@ form.search {
 	
 	.break {
 		display: block;
-		height: 60px;
+		height: 30px;
 	}
 		
 }
@@ -1204,5 +1204,42 @@ label.error {
 	margin-left: 10px;
 }
 
+.panel-generated {
+    margin-bottom: 30px;
+    margin-top: 30px;
 
+	.panel-heading {
+		font: {
+			weight: 300;
+			size: 18px;
+		}	
+	}
 
+	.panel-body {
+	}
+
+	ul {
+		list-style: none;
+	}
+
+	.label-title {
+		background: none repeat scroll 0 0 #fff;
+	    color: #616161;
+	    display: inline-block;
+	    width: 155px;
+	}
+	
+	.desc {
+		display: inline-block;
+		vertical-align: top;
+	}
+
+}
+
+.hint {
+	cursor: pointer;
+
+	img {
+		padding: 3px;
+	}
+}

@@ -184,13 +184,42 @@ $(document).ready(function() {
 			</ul>
 		</c:if>
 	
-
-		<c:if test="${!empty judgment.sourceInfo}">
-			<h4><spring:message code="judgment.sourceInfo" />:</h4>
-			<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
-				<c:out value="${judgment.sourceInfo.sourceJudgmentUrl}" />
-			</a>
+		
+		<c:if test="${!empty judgment.referencedCourtCases}">
+		
+			<div class="panel panel-default panel-generated" >
+				<spring:message code="judgmentDetails.enrichmentTag.header" var="enrichmentTagHeader" />
+				<spring:message code="judgmentDetails.enrichmentTag.hintText" var="enrichmentTagHintText" />
+				<div class="panel-heading"><spring:message code="judgmentDetails.enrichmentTag.header" />:<saos:hint title="${enrichmentTagHeader}" content="${enrichmentTagHintText}" /></div>
+				<div class="panel-body">
+					<div class="label-title"><spring:message code="judgmentDetails.enrichmentTag.referencedCourtCases" />:</div>
+					<div class="desc">
+					
+						<c:forEach items="${judgment.referencedCourtCases}" var="refCourtCase" >
+							<p>
+								<c:choose>
+									<c:when test="${!empty refCourtCase.judgmentIds}" >
+										<c:forEach items="${refCourtCase.judgmentIds}" var="judgmentId" >
+											<a href="${contextPath}/judgments/${judgmentId}">
+												<c:out value="${refCourtCase.caseNumber}"/>
+											</a>
+										</c:forEach>
+									</c:when>
+									<c:otherwise>
+										<a href="${contextPath}/search?signature=${refCourtCase.caseNumber}">
+											<c:out value="${refCourtCase.caseNumber}"/>
+										</a>
+									</c:otherwise>
+								</c:choose>
+							</p>
+						</c:forEach>
+					
+					</div>
+				</div>
+			</div>
+		
 		</c:if>
+
 	
 		<div class="break" ></div>
 	
@@ -198,6 +227,15 @@ $(document).ready(function() {
 		<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
 		  <spring:message code="judgmentDetails.button.fullText" />
 		</button>
+	
+		<div class="break" ></div>
+	
+		<c:if test="${!empty judgment.sourceInfo}">
+			<h5><spring:message code="judgment.sourceInfo" />:</h5>
+			<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
+				<c:out value="${judgment.sourceInfo.sourceJudgmentUrl}" />
+			</a>
+		</c:if>
 	
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
