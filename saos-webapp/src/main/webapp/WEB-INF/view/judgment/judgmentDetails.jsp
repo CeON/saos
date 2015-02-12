@@ -206,7 +206,7 @@ $(document).ready(function() {
 										</c:forEach>
 									</c:when>
 									<c:otherwise>
-										<a href="${contextPath}/search">
+										<a href="${contextPath}/search?signature=${refCourtCase.caseNumber}">
 											<c:out value="${refCourtCase.caseNumber}"/>
 										</a>
 									</c:otherwise>
