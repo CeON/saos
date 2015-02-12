@@ -98,7 +98,7 @@ public abstract class Judgment extends IndexableObject {
 
     private DateTime modificationDate = new DateTime();
     
-    private List<ReferencedCourtCase> referenceCourtCases = Lists.newArrayList();
+    private List<ReferencedCourtCase> referencedCourtCases = Lists.newArrayList();
     
     
     //------------------------ GETTERS --------------------------
@@ -241,7 +241,7 @@ public abstract class Judgment extends IndexableObject {
 
     @Transient
     public List<ReferencedCourtCase> getReferencedCourtCases() {
-        return referenceCourtCases;
+        return referencedCourtCases;
     }
 
 
@@ -449,7 +449,7 @@ public abstract class Judgment extends IndexableObject {
     //--- referenced court cases ---
     
     public boolean containsReferencedCourtCase(ReferencedCourtCase referencedCourtCase) {
-        return this.referenceCourtCases.contains(referencedCourtCase);
+        return this.referencedCourtCases.contains(referencedCourtCase);
     }
     
     
@@ -458,7 +458,7 @@ public abstract class Judgment extends IndexableObject {
         Preconditions.checkNotNull(referencedCourtCase);
         Preconditions.checkArgument(!containsReferencedCourtCase(referencedCourtCase));
         
-        return this.referenceCourtCases.add(referencedCourtCase);
+        return this.referencedCourtCases.add(referencedCourtCase);
     }
     
     //--- other ---
