@@ -22,6 +22,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
@@ -78,6 +79,7 @@ public abstract class Judgment extends IndexableObject {
     
     private JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
     
+    private LocalDate receiptDate;
     private LocalDate judgmentDate;
     
     private List<CourtCase> courtCases = Lists.newArrayList();
@@ -100,6 +102,13 @@ public abstract class Judgment extends IndexableObject {
     
     private List<ReferencedCourtCase> referenceCourtCases = Lists.newArrayList();
     
+    private MeansOfAppeal meansOfAppeal;
+    
+    private JudgmentResult judgmentResult;
+    
+    private List<String> lowerCourtJudgments = Lists.newArrayList(); 
+    
+    
     
     //------------------------ GETTERS --------------------------
     
@@ -117,6 +126,13 @@ public abstract class Judgment extends IndexableObject {
         return sourceInfo;
     }
     
+    /**
+     * Receipt date [of suit/file] / pl. data wpływu [pozwu/sprawy] 
+     */
+    @Type(type="pl.edu.icm.saos.persistence.mapper.SaosPersistentLocalDate")
+    public LocalDate getReceiptDate() {
+        return receiptDate;
+    }
 
     /** pl. data orzeczenia */
     @Type(type="pl.edu.icm.saos.persistence.mapper.SaosPersistentLocalDate")
@@ -228,7 +244,6 @@ public abstract class Judgment extends IndexableObject {
         return ImmutableList.copyOf(getCourtCases_());
     }
 
-    
     @Transient
     public abstract CourtType getCourtType();
 
@@ -239,12 +254,44 @@ public abstract class Judgment extends IndexableObject {
         return modificationDate;
     }
 
+    /**
+     * Court cases that are referred in {@link #getTextContent()}
+     */
     @Transient
     public List<ReferencedCourtCase> getReferencedCourtCases() {
         return referenceCourtCases;
     }
 
+    /**
+     * {@link MeansOfAppeal} which was the cause of this judgment
+     */
+    @ManyToOne
+    public MeansOfAppeal getMeansOfAppeal() {
+        return meansOfAppeal;
+    }
 
+
+    @ManyToOne
+    public JudgmentResult getJudgmentResult() {
+        return judgmentResult;
+    }
+
+    
+    @ElementCollection
+    @CollectionTable(name="judgment_lower_court_judgments", uniqueConstraints={@UniqueConstraint(name="judgment_lower_court_judgment_unique", columnNames={"fk_judgment", "lower_court_judgment"})})
+    @Column(name="lower_court_judgment")
+    private List<String> getLowerCourtJudgments_() {
+        return lowerCourtJudgments;
+    }
+    
+    /**
+     * Lower court judgments in text form, e.g. pl. Wyrok Sądu Najwyższego z dn. 20.02.2009 o nr XXX1123
+     */
+    @Transient
+    public List<String> getLowerCourtJudgments() {
+        return ImmutableList.copyOf(lowerCourtJudgments);
+    }
+    
     
     //------------------------ LOGIC --------------------------
     
@@ -461,6 +508,25 @@ public abstract class Judgment extends IndexableObject {
         return this.referenceCourtCases.add(referencedCourtCase);
     }
     
+    
+    //--- lower court judgments ---
+    
+    public void addLowerCourtJudgment(String lowerCourtJudgment) {
+        Preconditions.checkArgument(!containsLowerCourtJudgment(lowerCourtJudgment));
+        
+        this.lowerCourtJudgments.add(lowerCourtJudgment);
+    }
+
+    public boolean containsLowerCourtJudgment(String lowerCourtJudgment) {
+        return this.lowerCourtJudgments.contains(lowerCourtJudgment);
+    }
+    
+    public void removeLowerCourtJudgment(String lowerCourtJudgment) {
+        this.lowerCourtJudgments.remove(lowerCourtJudgment);
+    }
+    
+
+    
     //--- other ---
     
     @Override
@@ -483,9 +549,17 @@ public abstract class Judgment extends IndexableObject {
         this.modificationDate = new DateTime();
     }
     
+    
+    
+        
+    
+    
     //------------------------ SETTERS --------------------------
     
     
+    public void setReceiptDate(LocalDate receiptDate) {
+        this.receiptDate = receiptDate;
+    }
 
     public void setJudgmentDate(LocalDate judgmentDate) {
         this.judgmentDate = judgmentDate;
@@ -542,13 +616,26 @@ public abstract class Judgment extends IndexableObject {
         this.referencedRegulations = referencedRegulations;
     }
 
-
     @SuppressWarnings("unused") /** for hibernate only */
     private void setModificationDate(DateTime modificationDate) {
         this.modificationDate = modificationDate;
     }
     
+    public void setMeansOfAppeal(MeansOfAppeal meansOfAppeal) {
+        this.meansOfAppeal = meansOfAppeal;
+    }
+    
+    @SuppressWarnings("unused") /** for hibernate only */
+    private void setLowerCourtJudgments_(List<String> lowerCourtJudgments) {
+        this.lowerCourtJudgments = lowerCourtJudgments;
+    }
 
+    public void setJudgmentResult(JudgmentResult judgmentResult) {
+        this.judgmentResult = judgmentResult;
+    }
+
+  
+  
     
 
 
@@ -595,7 +682,5 @@ public abstract class Judgment extends IndexableObject {
                 + "]";
     }
 
-    
-   
-    
+ 
 }

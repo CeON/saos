@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.persistence.model;
 
 import javax.persistence.Cacheable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,7 +10,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import org.apache.commons.lang3.StringUtils;
+
 import pl.edu.icm.saos.persistence.common.DataObject;
+
+import com.google.common.base.Preconditions;
 
 /**
  * 
@@ -32,8 +37,12 @@ public class LawJournalEntry extends DataObject {
     
     //------------------------ CONSTRUCTORS --------------------------
     
+    /**
+     * @throws IllegalArgumentException if title is blank 
+     */
     public LawJournalEntry(int year, int journalNo, int entry, String title) {
         super();
+        Preconditions.checkArgument(StringUtils.isNotBlank(title));
         this.year = year;
         this.journalNo = journalNo;
         this.entry = entry;
@@ -59,19 +68,22 @@ public class LawJournalEntry extends DataObject {
     }
 
     
-
+    @Column(nullable=false)
     public int getYear() {
         return year;
     }
 
+    @Column(nullable=false)
     public int getJournalNo() {
         return journalNo;
     }
 
+    @Column(nullable=false)
     public int getEntry() {
         return entry;
     }
 
+    @Column(nullable=false)
     public String getTitle() {
         return title;
     }

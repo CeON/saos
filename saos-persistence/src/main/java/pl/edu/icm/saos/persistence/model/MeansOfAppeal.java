@@ -24,49 +24,51 @@ import pl.edu.icm.saos.persistence.common.DataObject;
 import com.google.common.base.Preconditions;
 
 /**
- * pl. Hasła tematyczne/ słowa kluczowe
+ * Dictionary of means of appeal divided by {@link #CourtType}
+ * <br/><br/>
+ * pl. środek odwoławczy
  * 
  * @author Łukasz Dumiszewski
  */
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(name="court_type_phrase_unique", columnNames={"courtType", "phrase"})})
+@Table(uniqueConstraints={@UniqueConstraint(name="court_type_appeal_name_unique", columnNames={"courtType", "name"})})
 @Cacheable(true)
-@SequenceGenerator(name = "seq_judgment_keyword", allocationSize = 1, sequenceName = "seq_judgment_keyword")
-public class JudgmentKeyword extends DataObject {
+@SequenceGenerator(name = "seq_means_of_appeal", allocationSize = 1, sequenceName = "seq_means_of_appeal")
+public class MeansOfAppeal extends DataObject {
 
    
     private CourtType courtType;
-    private String phrase;
+    private String name;
    
     
     //------------------------ CONSTRUCTORS --------------------------
     
     // for hibernate
     @SuppressWarnings("unused")
-    private JudgmentKeyword() {
+    private MeansOfAppeal() {
         
     }
 
     /**
      * @param courtType may not be null
-     * @param phrase may not be blank, will be lowercased with {@link StringTools#toRootLowerCase(String)}
+     * @param name may not be blank, will be lowercased with {@link StringTools#toRootLowerCase(String)}
      * @throws NullPointerException if courtType is null
-     * @throws IllegalArgumentException if phrase is blank
+     * @throws IllegalArgumentException if name is blank
      */
-    public JudgmentKeyword(CourtType courtType, String phrase) {
+    public MeansOfAppeal(CourtType courtType, String name) {
         
         Preconditions.checkNotNull(courtType);
-        Preconditions.checkArgument(StringUtils.isNotBlank(phrase));
+        Preconditions.checkArgument(StringUtils.isNotBlank(name));
         
         setCourtType(courtType);
-        setPhrase(toRootLowerCase(phrase));
+        setName(toRootLowerCase(name));
     }
     
     
     //------------------------ GETTERS --------------------------
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_judgment_keyword")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_means_of_appeal")
     @Override
     public long getId() {
         return id;
@@ -78,9 +80,13 @@ public class JudgmentKeyword extends DataObject {
         return courtType;
     }
 
+    /**
+     * Name of a means of appeal, for example complaint
+     * @return
+     */
     @Column(nullable=false)
-    public String getPhrase() {
-        return phrase;
+    public String getName() {
+        return name;
     }
 
     
@@ -92,8 +98,8 @@ public class JudgmentKeyword extends DataObject {
         this.courtType = courtType;
     }
 
-    private void setPhrase(String phrase) {
-        this.phrase = phrase;
+    private void setName(String name) {
+        this.name = name;
     }
 
     
@@ -103,7 +109,7 @@ public class JudgmentKeyword extends DataObject {
     
     @Override
     public int hashCode() {
-        return Objects.hash(toRootLowerCase(this.phrase), this.courtType);
+        return Objects.hash(toRootLowerCase(this.name), this.courtType);
     }
     
     
@@ -118,9 +124,9 @@ public class JudgmentKeyword extends DataObject {
            return false;
         }
         
-        final JudgmentKeyword other = (JudgmentKeyword) obj;
+        final MeansOfAppeal other = (MeansOfAppeal) obj;
         
-        return Objects.equals(toRootLowerCase(this.phrase), toRootLowerCase(other.phrase)) &&
+        return Objects.equals(toRootLowerCase(this.name), toRootLowerCase(other.name)) &&
                Objects.equals(this.courtType, other.courtType);
 
     }
@@ -130,7 +136,7 @@ public class JudgmentKeyword extends DataObject {
     
     @Override
     public String toString() {
-        return "JudgmentKeyword [courtType="+courtType + ", phrase=" + phrase + "]";
+        return "MeansOfAppeal [courtType="+courtType + ", name=" + name + "]";
     }
 
     
