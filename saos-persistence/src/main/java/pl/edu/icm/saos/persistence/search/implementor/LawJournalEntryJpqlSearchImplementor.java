@@ -42,7 +42,7 @@ public class LawJournalEntryJpqlSearchImplementor extends AbstractJpqlSearchImpl
         
         if(searchFilter.getText() != null) {
             map.put("beginningText", searchFilter.getText() + '%');
-            map.put("middleText", "% " + searchFilter.getText() + '%');
+            map.put("middleText", "% " + searchFilter.getText() + '%'); // mind the space after the first % - we're looking only for words that begin with the searched phrase
         }
 
         return map;
