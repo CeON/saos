@@ -648,6 +648,17 @@ form.search {
 				display: inline;
 				margin: 0;
 				padding: 0;
+				
+				li {
+					display: inline-block;
+					margin-left: 8px;
+					position: relative;
+					
+					&:first-child {
+						margin-left: 0;
+					}
+					
+				}
 			}
 		}
 		
@@ -655,7 +666,6 @@ form.search {
 			@include filter-underline();
 			cursor: pointer;
 			display: inline-block;
-			margin-right: 8px;
 		}
 		
 		.judgment-form {
@@ -1182,7 +1192,13 @@ form.search {
 	}	
 }
 
-
+.presiding-judge {
+	cursor: pointer;
+	
+	img {
+		margin-top: -6px;
+	}
+}
 
 .page {
 	background: $white;

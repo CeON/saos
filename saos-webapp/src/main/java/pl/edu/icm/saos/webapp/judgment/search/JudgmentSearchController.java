@@ -52,7 +52,7 @@ public class JudgmentSearchController {
 		SearchResults<JudgmentSearchResult> searchResults = judgmentsWebSearchService.search(judgmentCriteriaForm, pageable);
 		
 		model.addAttribute("pageable", pageable);
-		model.addAttribute("resultSearch", searchResults);
+		model.addAttribute("searchResults", searchResults);
 		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
 		model.addAttribute("totalPages", JudgmentSearchResult.getTotalPageNumber(searchResults.getTotalResults(), pageable.getPageSize()));
 		

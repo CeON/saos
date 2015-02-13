@@ -63,7 +63,16 @@
 				</span>
 				<ul>
 					<c:forEach items="${judgment.judges}" var="judge" >
-						<li class="judge"><c:out value="${judge.name}" /></li>
+				
+						<li >
+							<span class="judge"><c:out value="${judge.name}" /></span>
+							
+							<c:if test="${judge.presidingJudge}" >
+								<span class="presiding-judge"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >
+									<img src="${contextPath}/static/image/icons/judge.png" alt="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE.iconAlt" />" />
+								</span>
+							</c:if>
+						</li>
 					</c:forEach>
 				</ul>	
 			</div>

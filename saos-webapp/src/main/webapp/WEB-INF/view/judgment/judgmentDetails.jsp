@@ -123,11 +123,10 @@ $(document).ready(function() {
 							<c:forEach items="${judgment.judges}" var="judge" >
 								<p>
 									<c:out value="${judge.name}" />
-									
-									<c:if test="${!empty judge.specialRoles}" >
-										<c:forEach items="${judge.specialRoles}" var="role"  >
-											<span class="judge-role"><saos:enum value="${role}" /></span>
-										</c:forEach>
+									<c:if test="${judge.presidingJudge}" >
+										<span class="presiding-judge"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >
+											<img src="${contextPath}/static/image/icons/judge.png" alt="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE.iconAlt" />" />
+										</span>
 									</c:if>
 								</p>
 							</c:forEach>

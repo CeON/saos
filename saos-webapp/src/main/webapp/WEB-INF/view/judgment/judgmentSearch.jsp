@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
-<c:set var="judgments" value="${resultSearch.results}" />
-<c:set var="resultsNo" value="${resultSearch.totalResults}" />
+<c:set var="judgments" value="${searchResults.results}" />
+<c:set var="resultsNo" value="${searchResults.totalResults}" />
 <c:set var="pageNo" value="${pageable.pageNumber}" />
 <c:set var="pageSize" value="${pageable.pageSize}" />
 <c:set var="sortProperty" value="${pageable.sort.iterator().next().property}" />
