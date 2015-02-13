@@ -138,5 +138,14 @@ public class LawJournalEntry extends DataObject {
             return false;
         return true;
     }
+
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "LawJournalEntry [year=" + year + ", journalNo=" + journalNo
+                + ", entry=" + entry + ", title=" + title + "]";
+    }
     
 }

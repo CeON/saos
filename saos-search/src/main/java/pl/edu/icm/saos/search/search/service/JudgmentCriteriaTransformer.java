@@ -42,6 +42,7 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
         list.add(criterionTransformer.transformMultivaluedCriterion(JudgmentIndexField.KEYWORD, criteria.getKeywords(), Operator.AND));
         list.add(criterionTransformer.transformCriterionWithParsing(JudgmentIndexField.LEGAL_BASE, criteria.getLegalBase()));
         list.add(criterionTransformer.transformCriterionWithParsing(JudgmentIndexField.REFERENCED_REGULATION, criteria.getReferencedRegulation()));
+        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.LAW_JOURNAL_ENTRY_ID, criteria.getLawJournalEntryId()));
         list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CASE_NUMBER, criteria.getCaseNumber()));
         
         String criteriaString = list.stream()

@@ -23,6 +23,7 @@ import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 import com.google.common.collect.Lists;
@@ -94,15 +95,27 @@ public class JudgmentIndexFieldsFillerTest {
         Judgment referencedRegulationsJudgment = new CommonCourtJudgment();
 
         JudgmentReferencedRegulation firstReferencedRegulation = new JudgmentReferencedRegulation();
+        LawJournalEntry firstLawJournalEntry = new LawJournalEntry();
+        
+        Whitebox.setInternalState(firstLawJournalEntry, "id", 55);
         firstReferencedRegulation.setRawText("Ustawa 1");
+        firstReferencedRegulation.setLawJournalEntry(firstLawJournalEntry);
+        
+        
         JudgmentReferencedRegulation secondReferencedRegulation = new JudgmentReferencedRegulation();
+        LawJournalEntry secondLawJournalEntry = new LawJournalEntry();
+        
+        Whitebox.setInternalState(secondLawJournalEntry, "id", 56);
         secondReferencedRegulation.setRawText("Ustawa 2");
+        secondReferencedRegulation.setLawJournalEntry(secondLawJournalEntry);
 
         referencedRegulationsJudgment.addReferencedRegulation(firstReferencedRegulation);
         referencedRegulationsJudgment.addReferencedRegulation(secondReferencedRegulation);
         
-        List<SolrInputField> referencedRegulationsFields = Collections.singletonList(
-                fieldFactory.create("referencedRegulations", "Ustawa 1", "Ustawa 2"));
+        
+        List<SolrInputField> referencedRegulationsFields = Lists.newArrayList(
+                fieldFactory.create("referencedRegulations", "Ustawa 1", "Ustawa 2"),
+                fieldFactory.create("lawJournalEntryId", 55l, 56l));
         
         
         // judgment type
