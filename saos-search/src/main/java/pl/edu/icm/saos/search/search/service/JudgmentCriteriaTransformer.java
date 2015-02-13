@@ -30,20 +30,20 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
     public String transformCriteria(JudgmentCriteria criteria) {
         List<String> list = Lists.newLinkedList();
         
-        list.add(criterionTransformer.transformCriterionWithParsing(JudgmentIndexField.ALL, criteria.getAll()));
+        list.add(criterionTransformer.transformToEqualsCriterionWithParsing(JudgmentIndexField.ALL, criteria.getAll()));
         list.addAll(transformCommonCourtCriteria(criteria));
         list.addAll(transformSupremeCourtCriteria(criteria));
         list.addAll(transformConstitutionalTribunalCriteria(criteria));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.COURT_TYPE, criteria.getCourtType()));
-        list.add(criterionTransformer.transformDateRangeCriterion(
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.COURT_TYPE, criteria.getCourtType()));
+        list.add(criterionTransformer.transformToDateRangeCriterion(
                 JudgmentIndexField.JUDGMENT_DATE, criteria.getDateFrom(), criteria.getDateTo()));
-        list.add(criterionTransformer.transformMultivaluedEnumCriterion(JudgmentIndexField.JUDGMENT_TYPE, criteria.getJudgmentTypes(), Operator.OR));
-        list.add(criterionTransformer.transformCriterionWithParsing(JudgmentIndexField.JUDGE_NAME, criteria.getJudgeName()));
-        list.add(criterionTransformer.transformMultivaluedCriterion(JudgmentIndexField.KEYWORD, criteria.getKeywords(), Operator.AND));
-        list.add(criterionTransformer.transformCriterionWithParsing(JudgmentIndexField.LEGAL_BASE, criteria.getLegalBase()));
-        list.add(criterionTransformer.transformCriterionWithParsing(JudgmentIndexField.REFERENCED_REGULATION, criteria.getReferencedRegulation()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.LAW_JOURNAL_ENTRY_ID, criteria.getLawJournalEntryId()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CASE_NUMBER, criteria.getCaseNumber()));
+        list.add(criterionTransformer.transformToEqualsEnumCriteria(JudgmentIndexField.JUDGMENT_TYPE, criteria.getJudgmentTypes(), Operator.OR));
+        list.add(criterionTransformer.transformToEqualsCriterionWithParsing(JudgmentIndexField.JUDGE_NAME, criteria.getJudgeName()));
+        list.add(criterionTransformer.transformToEqualsCriteria(JudgmentIndexField.KEYWORD, criteria.getKeywords(), Operator.AND));
+        list.add(criterionTransformer.transformToEqualsCriterionWithParsing(JudgmentIndexField.LEGAL_BASE, criteria.getLegalBase()));
+        list.add(criterionTransformer.transformToEqualsCriterionWithParsing(JudgmentIndexField.REFERENCED_REGULATION, criteria.getReferencedRegulation()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.LAW_JOURNAL_ENTRY_ID, criteria.getLawJournalEntryId()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CASE_NUMBER, criteria.getCaseNumber()));
         
         String criteriaString = list.stream()
                 .filter(x -> StringUtils.isNotEmpty(x))
@@ -58,13 +58,13 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
     private List<String> transformCommonCourtCriteria(JudgmentCriteria criteria) {
         List<String> list = Lists.newLinkedList();
         
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_TYPE, criteria.getCcCourtType()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_ID, criteria.getCcCourtId()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_CODE, criteria.getCcCourtCode()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_NAME, criteria.getCcCourtName()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_DIVISION_ID, criteria.getCcCourtDivisionId()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_DIVISION_CODE, criteria.getCcCourtDivisionCode()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_DIVISION_NAME, criteria.getCcCourtDivisionName()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_TYPE, criteria.getCcCourtType()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_ID, criteria.getCcCourtId()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_CODE, criteria.getCcCourtCode()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_NAME, criteria.getCcCourtName()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_DIVISION_ID, criteria.getCcCourtDivisionId()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_DIVISION_CODE, criteria.getCcCourtDivisionCode()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_DIVISION_NAME, criteria.getCcCourtDivisionName()));
         
         return list;
     }
@@ -72,12 +72,12 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
     private List<String> transformSupremeCourtCriteria(JudgmentCriteria criteria) {
         List<String> list = Lists.newLinkedList();
         
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_JUDGMENT_FORM, criteria.getScJudgmentForm()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_PERSONNEL_TYPE, criteria.getScPersonnelType()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_COURT_CHAMBER_ID, criteria.getScCourtChamberId()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_COURT_CHAMBER_NAME, criteria.getScCourtChamberName()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_COURT_DIVISION_ID, criteria.getScCourtChamberDivisionId()));
-        list.add(criterionTransformer.transformCriterion(JudgmentIndexField.SC_COURT_DIVISION_NAME, criteria.getScCourtChamberDivisionName()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.SC_JUDGMENT_FORM, criteria.getScJudgmentForm()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.SC_PERSONNEL_TYPE, criteria.getScPersonnelType()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.SC_COURT_CHAMBER_ID, criteria.getScCourtChamberId()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.SC_COURT_CHAMBER_NAME, criteria.getScCourtChamberName()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.SC_COURT_DIVISION_ID, criteria.getScCourtChamberDivisionId()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.SC_COURT_DIVISION_NAME, criteria.getScCourtChamberDivisionName()));
         
         return list;
     }
@@ -85,8 +85,8 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
     private List<String> transformConstitutionalTribunalCriteria(JudgmentCriteria criteria) {
         List<String> list = Lists.newLinkedList();
         
-        list.add(criterionTransformer.transformCriterionWithParsing(JudgmentIndexField.CT_DISSENTING_OPINION, criteria.getCtDissentingOpinion()));
-        list.add(criterionTransformer.transformCriterionWithParsing(JudgmentIndexField.CT_DISSENTING_OPINION_AUTHOR, criteria.getCtDissentingOpinionAuthor()));
+        list.add(criterionTransformer.transformToEqualsCriterionWithParsing(JudgmentIndexField.CT_DISSENTING_OPINION, criteria.getCtDissentingOpinion()));
+        list.add(criterionTransformer.transformToEqualsCriterionWithParsing(JudgmentIndexField.CT_DISSENTING_OPINION_AUTHOR, criteria.getCtDissentingOpinionAuthor()));
         
         return list;
     }

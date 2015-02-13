@@ -68,7 +68,7 @@ public class SolrCriterionTransformer<F extends IndexField> {
      * @param value
      * @return
      */
-    public String transformCriterionWithParsing(F field, String value) {
+    public String transformToEqualsCriterionWithParsing(F field, String value) {
         if (StringUtils.isBlank(value)) {
             return StringUtils.EMPTY;
         }
@@ -94,26 +94,85 @@ public class SolrCriterionTransformer<F extends IndexField> {
         return queryParts.stream().collect(Collectors.joining(" "));
     }
     
-    public String transformCriterion(F field, String value) {
+    /**
+     * Transforms field and {@literal String} value into single Solr equals criterion.<br/>
+     * Returned criterion will be marked as required (<code>+</code> sign). So if this
+     * criterion will be joined with others it will work like 'and' operator<br/>
+     * 
+     * For example: when we pass 'value' on field 'all' this method will return <code>+all:value</code>
+     * 
+     * @param field
+     * @param value
+     * @return equals criterion {@literal String}
+     */
+    public String transformToEqualsCriterion(F field, String value) {
         if (StringUtils.isBlank(value)) {
             return StringUtils.EMPTY;
         }
         return buildEqualsCriterion(field.getFieldName(), value, Operator.AND);
     }
     
-    public String transformCriterion(F field, Integer value) {
-        return (value == null) ? StringUtils.EMPTY : transformCriterion(field, String.valueOf(value));
+    /**
+     * Transforms field and {@literal Integer} value into single Solr equals criterion.<br/>
+     * Internally invokes {@link #transformToEqualsCriterion(IndexField, String)} with
+     * {@literal Integer} converted to {@literal String}
+     * 
+     * @param field
+     * @param value
+     * @return equals criterion {@literal String}
+     */
+    public String transformToEqualsCriterion(F field, Integer value) {
+        return (value == null) ? StringUtils.EMPTY : transformToEqualsCriterion(field, String.valueOf(value));
     }
     
-    public String transformCriterion(F field, Long value) {
-        return (value == null) ? StringUtils.EMPTY : transformCriterion(field, String.valueOf(value));
+    /**
+     * Transforms field and {@literal Long} value into single Solr equals criterion.<br/>
+     * Internally invokes {@link #transformToEqualsCriterion(IndexField, String)} with
+     * {@literal Long} converted to {@literal String}
+     * 
+     * @param field
+     * @param value
+     * @return equals criterion {@literal String}
+     */
+    public String transformToEqualsCriterion(F field, Long value) {
+        return (value == null) ? StringUtils.EMPTY : transformToEqualsCriterion(field, String.valueOf(value));
     }
     
-    public String transformCriterion(F field, Enum<?> enumValue) {
-        return (enumValue == null) ? StringUtils.EMPTY : transformCriterion(field, enumValue.name());
+    /**
+     * Transforms field and {@literal Enum} value into single Solr equals criterion.<br/>
+     * Internally invokes {@link #transformToEqualsCriterion(IndexField, String)} with
+     * {@literal Enum} converted to {@literal String} using {@link Enum#name()}.
+     * 
+     * @param field
+     * @param value
+     * @return equals criterion {@literal String}
+     */
+    public String transformToEqualsCriterion(F field, Enum<?> enumValue) {
+        return (enumValue == null) ? StringUtils.EMPTY : transformToEqualsCriterion(field, enumValue.name());
     }
     
-    public String transformMultivaluedCriterion(F field, List<String> values, Operator operator) {
+    
+    /**
+     * Transforms field and {@literal String} values into multiple Solr equals criteria
+     * on single field.<br/>
+     * Returned criteria will be joined according to passed {@link Operator}<br/>
+     * 
+     * 
+     * For example:<br/>
+     * 
+     * 1) when we pass 'value1' and 'value2' on field 'someField' with {@link Operator#AND} this method will return
+     * <code>+someField:value1 +someField:value2</code><br/>
+     * 
+     * 2) when we pass 'value1' and 'value2' on field 'someField' with {@link Operator#OR} this method will return
+     * <code>+(someField:value1 someField:value2)</code><br/>
+     * 
+     * 
+     * @param field
+     * @param values
+     * @param operator
+     * @return equals criteria {@literal String}
+     */
+    public String transformToEqualsCriteria(F field, List<String> values, Operator operator) {
         List<String> notEmptyValues = values.stream().filter(x -> StringUtils.isNotBlank(x)).collect(Collectors.toList());
         if (notEmptyValues.isEmpty()) {
             return StringUtils.EMPTY;
@@ -131,11 +190,34 @@ public class SolrCriterionTransformer<F extends IndexField> {
         return (operator == Operator.OR) ? ("+(" + multivaluedCriterion + ")") : multivaluedCriterion;
     }
     
-    public String transformMultivaluedEnumCriterion(F field, List<? extends Enum<?>> values, Operator operator) {
-        return transformMultivaluedCriterion(field, values.stream().map(x -> x.name()).collect(Collectors.toList()), operator);
+    /**
+     * Transforms field and {@literal Enum} values into multiple Solr equals criteria
+     * on single field.<br/>
+     * Internally invokes {@link #transformToEqualsCriteria(IndexField, List, Operator)}
+     * with {@literal Enum}s converted to {@literal String}s using {@link Enum#name()}.
+     * 
+     * @param field
+     * @param values
+     * @param operator
+     * @return equals criteria {@literal String}
+     */
+    public String transformToEqualsEnumCriteria(F field, List<? extends Enum<?>> values, Operator operator) {
+        return transformToEqualsCriteria(field, values.stream().map(x -> x.name()).collect(Collectors.toList()), operator);
     }
     
-    public String transformDateRangeCriterion(F field, LocalDate from, LocalDate to) {
+    
+    /**
+     * Transforms field and two dates defining range into single Solr range criterion.<br/>
+     * Internally invokes {@link #transformToRangeCriterion(IndexField, String, String)}
+     * with dates converted to {@literal String}s in format 'yyyy-MM-dd'T'00:00:00'Z' for
+     * lower limit and yyyy-MM-dd'T'23:59:59'Z' for upper limit.
+     * 
+     * @param field
+     * @param from - lower limit of date range (use {@literal null} for no limit)
+     * @param to - upper limit of date range (use {@literal null} for no limit)
+     * @return range criterion {@literal String}
+     */
+    public String transformToDateRangeCriterion(F field, LocalDate from, LocalDate to) {
         if (from == null && to == null) {
             return StringUtils.EMPTY;
         }
@@ -150,10 +232,23 @@ public class SolrCriterionTransformer<F extends IndexField> {
             toString = SearchDateTimeUtils.convertDateToISOStringAtEndOfDay(to);
         }
         
-        return transformRangeCriterion(field, fromString, toString);
+        return transformToRangeCriterion(field, fromString, toString);
     }
     
-    public String transformRangeCriterion(F field, String from, String to) {
+    /**
+     * Transforms field and two {@literal String}s defining range into single Solr range criterion.<br/>
+     * Returned criterion will be marked as required (<code>+</code> sign). So if this
+     * criterion will be joined with others it will work like 'and' operator.<br/>
+     * 
+     * For example: when we pass 'a' and 'z' on field 'someField'
+     * this method will return <code>+someField:[a TO z]</code>
+     * 
+     * @param field
+     * @param from - lower limit of range (use {@literal null} for no limit)
+     * @param to - upper limit of range (use {@literal null} for no limit)
+     * @return range criterion {@literal String}
+     */
+    public String transformToRangeCriterion(F field, String from, String to) {
         if (StringUtils.isBlank(from) && StringUtils.isBlank(to)) {
             return StringUtils.EMPTY;
         }
