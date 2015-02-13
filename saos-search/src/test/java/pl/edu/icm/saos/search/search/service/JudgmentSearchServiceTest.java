@@ -210,10 +210,7 @@ public class JudgmentSearchServiceTest {
         
         SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
         
-        assertEquals(1, results.getTotalResults());
-        assertEquals(1, results.getResults().size());
-        
-        JudgmentSearchResult result = results.getResults().get(0);
+        JudgmentSearchResult result = fetchAndAssertSingleSearchResult(results);
         assertEquals(1961, result.getId());
         
         assertEquals(1, result.getCaseNumbers().size());
@@ -246,10 +243,7 @@ public class JudgmentSearchServiceTest {
         
         SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
         
-        assertEquals(1, results.getTotalResults());
-        assertEquals(1, results.getResults().size());
-        
-        JudgmentSearchResult result = results.getResults().get(0);
+        JudgmentSearchResult result = fetchAndAssertSingleSearchResult(results);
         assertEquals(1961, result.getId());
         
         assertEquals(1l, result.getCcCourtId().longValue());
@@ -267,10 +261,7 @@ public class JudgmentSearchServiceTest {
         
         SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
         
-        assertEquals(1, results.getTotalResults());
-        assertEquals(1, results.getResults().size());
-        
-        JudgmentSearchResult result = results.getResults().get(0);
+        JudgmentSearchResult result = fetchAndAssertSingleSearchResult(results);
         assertEquals(21, result.getId());
         
         assertEquals("wyrok SN", result.getScJudgmentForm() );
@@ -289,10 +280,7 @@ public class JudgmentSearchServiceTest {
         
         SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
         
-        assertEquals(1, results.getTotalResults());
-        assertEquals(1, results.getResults().size());
-        
-        JudgmentSearchResult result = results.getResults().get(0);
+        JudgmentSearchResult result = fetchAndAssertSingleSearchResult(results);
         assertEquals(41808, result.getId());
         
         Pattern highlightPattern = Pattern.compile("<em>\\S+</em>");
