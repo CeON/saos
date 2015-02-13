@@ -87,75 +87,75 @@ public class SolrCriterionTransformerTest {
     
     @Test
     @UseDataProvider("transformCriterionWithParsingData")
-    public void transformAll(String expectedQuery, String criterionValue) {
-        String actualQuery = criterionTransformer.transformCriterionWithParsing(JudgmentIndexField.CONTENT, criterionValue);
+    public void transformToEqualsCriterionWithParsing(String expectedQuery, String criterionValue) {
+        String actualQuery = criterionTransformer.transformToEqualsCriterionWithParsing(JudgmentIndexField.CONTENT, criterionValue);
         
         assertEquals(expectedQuery, actualQuery);
     }
     
     @Test
-    public void transformCriterion_STRING() {
-        String actual = criterionTransformer.transformEqualsCriterion(JudgmentIndexField.KEYWORD, "word");
+    public void transformToEqualsCriterion_STRING() {
+        String actual = criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.KEYWORD, "word");
         
         assertEquals("+keyword:word", actual);
     }
     
     @Test
-    public void transformCriterion_INT() {
-        String actual = criterionTransformer.transformEqualsCriterion(JudgmentIndexField.CC_COURT_ID, 12);
+    public void transformToEqualsCriterion_INT() {
+        String actual = criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_ID, 12);
         
         assertEquals("+ccCourtId:12", actual);
     }
     
     @Test
-    public void transformCriterion_ENUM() {
-        String actual = criterionTransformer.transformEqualsCriterion(JudgmentIndexField.COURT_TYPE, CourtType.SUPREME);
+    public void transformToEqualsCriterion_ENUM() {
+        String actual = criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.COURT_TYPE, CourtType.SUPREME);
         
         assertEquals("+courtType:SUPREME", actual);
     }
     
     @Test
-    public void transformCriterion_MULTI_AND() {
-        String actual = criterionTransformer.transformEqualsCriteria(JudgmentIndexField.KEYWORD, Lists.newArrayList("word1", "word2", "word3"), Operator.AND);
+    public void transformToEqualsCriteria_MULTI_AND() {
+        String actual = criterionTransformer.transformToEqualsCriteria(JudgmentIndexField.KEYWORD, Lists.newArrayList("word1", "word2", "word3"), Operator.AND);
         
         assertEquals("+keyword:word1 +keyword:word2 +keyword:word3", actual);
     }
     
     @Test
-    public void transformCriterion_MULTI_OR() {
-        String actual = criterionTransformer.transformEqualsCriteria(JudgmentIndexField.JUDGMENT_TYPE, 
+    public void transformToEqualsCriteria_MULTI_OR() {
+        String actual = criterionTransformer.transformToEqualsCriteria(JudgmentIndexField.JUDGMENT_TYPE, 
                 Lists.newArrayList(JudgmentType.DECISION.name(), JudgmentType.SENTENCE.name()), Operator.OR);
         
         assertEquals("+(judgmentType:DECISION judgmentType:SENTENCE)", actual);
     }
     
     @Test
-    public void transformCriterion_SINGLE_OR() {
-        String actual = criterionTransformer.transformEqualsCriteria(JudgmentIndexField.JUDGMENT_TYPE, 
+    public void transformToEqualsCriteria_SINGLE_OR() {
+        String actual = criterionTransformer.transformToEqualsCriteria(JudgmentIndexField.JUDGMENT_TYPE, 
                 Lists.newArrayList(JudgmentType.DECISION.name()), Operator.OR);
         
         assertEquals("+judgmentType:DECISION", actual);
     }
     
     @Test
-    public void transformCriterion_MULTI_ENUM() {
-        String actual = criterionTransformer.transformEqualsEnumCriteria(JudgmentIndexField.JUDGMENT_TYPE, 
+    public void transformToEqualsEnumCriteria_MULTI_ENUM() {
+        String actual = criterionTransformer.transformToEqualsEnumCriteria(JudgmentIndexField.JUDGMENT_TYPE, 
                 Lists.newArrayList(JudgmentType.DECISION, JudgmentType.REASONS, JudgmentType.SENTENCE), Operator.OR);
         
         assertEquals("+(judgmentType:DECISION judgmentType:REASONS judgmentType:SENTENCE)", actual);
     }
     
     @Test
-    public void transformDateRangeCriterion() {
-        String actual = criterionTransformer.transformDateRangeCriterion(
+    public void transformToDateRangeCriterion() {
+        String actual = criterionTransformer.transformToDateRangeCriterion(
                 JudgmentIndexField.JUDGMENT_DATE, new LocalDate(2012, 9, 23), new LocalDate(2013, 2, 6));
         
         assertEquals("+judgmentDate:[2012-09-23T00:00:00Z TO 2013-02-06T23:59:59Z]", actual);
     }
     
     @Test
-    public void transformRangeCriterion() {
-        String actual = criterionTransformer.transformRangeCriterion(JudgmentIndexField.KEYWORD, "aa", "ba");
+    public void transformToRangeCriterion() {
+        String actual = criterionTransformer.transformToRangeCriterion(JudgmentIndexField.KEYWORD, "aa", "ba");
         
         assertEquals("+keyword:[aa TO ba]", actual);
     }
