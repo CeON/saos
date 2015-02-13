@@ -95,35 +95,35 @@ public class SolrCriterionTransformerTest {
     
     @Test
     public void transformCriterion_STRING() {
-        String actual = criterionTransformer.transformCriterion(JudgmentIndexField.KEYWORD, "word");
+        String actual = criterionTransformer.transformEqualsCriterion(JudgmentIndexField.KEYWORD, "word");
         
         assertEquals("+keyword:word", actual);
     }
     
     @Test
     public void transformCriterion_INT() {
-        String actual = criterionTransformer.transformCriterion(JudgmentIndexField.CC_COURT_ID, 12);
+        String actual = criterionTransformer.transformEqualsCriterion(JudgmentIndexField.CC_COURT_ID, 12);
         
         assertEquals("+ccCourtId:12", actual);
     }
     
     @Test
     public void transformCriterion_ENUM() {
-        String actual = criterionTransformer.transformCriterion(JudgmentIndexField.COURT_TYPE, CourtType.SUPREME);
+        String actual = criterionTransformer.transformEqualsCriterion(JudgmentIndexField.COURT_TYPE, CourtType.SUPREME);
         
         assertEquals("+courtType:SUPREME", actual);
     }
     
     @Test
     public void transformCriterion_MULTI_AND() {
-        String actual = criterionTransformer.transformMultivaluedCriterion(JudgmentIndexField.KEYWORD, Lists.newArrayList("word1", "word2", "word3"), Operator.AND);
+        String actual = criterionTransformer.transformEqualsCriteria(JudgmentIndexField.KEYWORD, Lists.newArrayList("word1", "word2", "word3"), Operator.AND);
         
         assertEquals("+keyword:word1 +keyword:word2 +keyword:word3", actual);
     }
     
     @Test
     public void transformCriterion_MULTI_OR() {
-        String actual = criterionTransformer.transformMultivaluedCriterion(JudgmentIndexField.JUDGMENT_TYPE, 
+        String actual = criterionTransformer.transformEqualsCriteria(JudgmentIndexField.JUDGMENT_TYPE, 
                 Lists.newArrayList(JudgmentType.DECISION.name(), JudgmentType.SENTENCE.name()), Operator.OR);
         
         assertEquals("+(judgmentType:DECISION judgmentType:SENTENCE)", actual);
@@ -131,7 +131,7 @@ public class SolrCriterionTransformerTest {
     
     @Test
     public void transformCriterion_SINGLE_OR() {
-        String actual = criterionTransformer.transformMultivaluedCriterion(JudgmentIndexField.JUDGMENT_TYPE, 
+        String actual = criterionTransformer.transformEqualsCriteria(JudgmentIndexField.JUDGMENT_TYPE, 
                 Lists.newArrayList(JudgmentType.DECISION.name()), Operator.OR);
         
         assertEquals("+judgmentType:DECISION", actual);
@@ -139,7 +139,7 @@ public class SolrCriterionTransformerTest {
     
     @Test
     public void transformCriterion_MULTI_ENUM() {
-        String actual = criterionTransformer.transformMultivaluedEnumCriterion(JudgmentIndexField.JUDGMENT_TYPE, 
+        String actual = criterionTransformer.transformEqualsEnumCriteria(JudgmentIndexField.JUDGMENT_TYPE, 
                 Lists.newArrayList(JudgmentType.DECISION, JudgmentType.REASONS, JudgmentType.SENTENCE), Operator.OR);
         
         assertEquals("+(judgmentType:DECISION judgmentType:REASONS judgmentType:SENTENCE)", actual);
