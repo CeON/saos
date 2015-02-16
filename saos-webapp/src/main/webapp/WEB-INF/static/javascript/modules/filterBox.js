@@ -134,9 +134,7 @@ var FilterBox = (function() {
 	hideBox = function() {
 		saveCookie("false");
 		
-		var positionRight = getFilterBoxWidth();
-		
-		positionRight += "px";
+		var positionRight = getFilterBoxWidth() + "px";
 		
 		if ($parent.css("position") === "fixed") {
 			var $settingsButton = $("#" + settingsButton.className);
