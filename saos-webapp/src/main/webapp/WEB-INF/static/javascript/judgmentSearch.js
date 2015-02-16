@@ -72,12 +72,7 @@ var jsInitInJudgmentSearch = function() {
 				onHide: function() {}
 			}
 	});
-	
-	/* Anchor with empty href, should not reload page*/
-	$("a[href='']").click(function(event) {
-		event.preventDefault();
-	});
-	
+
 	SearchCriteria.init();
 	
 	//Search form - init select court & division

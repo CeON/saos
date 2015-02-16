@@ -358,6 +358,10 @@ form.search {
 }
 
 .block {
+	background: $white;
+    border: 1px solid $grey-border;
+    margin-top: 30px;
+    padding: 20px 40px 30px;
 	
 	h2, h3 {
 		border-bottom: 1px solid #e0e0e0;
@@ -817,6 +821,7 @@ form.search {
 		position: absolute;
 		padding: 4px;
 		top: 28px;
+		z-index: 10;
 	}
 	
 	.search-settings {
@@ -1095,6 +1100,9 @@ form.search {
 	}
 }
 
+.filter-box-hidden {
+	visibility: hidden;
+}
 
 .correction-block {
 	padding-left: 0;
@@ -1109,7 +1117,7 @@ form.search {
 		margin-top: 30px;
 		padding-left: 15px;
 		
-		span {
+		a {
 			cursor: pointer;
 			margin-left: 5px;
 			text-decoration: underline;
