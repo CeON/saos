@@ -58,6 +58,18 @@ header {
 		.container {
 			padding: 0;
 		}
+		
+		ul {
+			background: $black;
+			
+			li {
+				background: $black;
+				
+				a {
+					background: $black;
+				}
+			}
+		}
 	}
 	
 	.container {
@@ -81,23 +93,27 @@ footer {
 	position: absolute;
     width: 100%;
     
-	ul li {
-		color: $grey98;
-		margin: 0;
+	ul {
+		background: $black;
 		
-		&:hover {
-			
-			color: $black;
-		}
-		
-		a {
-			background: $black;
-			color: inherit;
-			@include transition(background, 0.4s);
+		li {
+			color: $grey98;
+			margin: 0;
 			
 			&:hover {
-				background: $grey98;
+				
+				color: $black;
+			}
+			
+			a {
+				background: $black;
 				color: inherit;
+				@include transition(background, 0.4s);
+				
+				&:hover {
+					background: $grey98;
+					color: inherit;
+				}
 			}
 		}
 	}
@@ -249,6 +265,7 @@ form.search {
 		}
 		
 		.item-desc {
+			background: $black;
 			font-size: 17px;
 			text-align: justify
 		}
