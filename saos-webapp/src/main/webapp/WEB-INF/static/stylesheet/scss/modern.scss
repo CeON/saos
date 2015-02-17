@@ -9,7 +9,7 @@
 }
 
 html, body {
-	background: $grey-background;
+	background: #f0f0f0;
 	font-family: 'Noto Sans', sans-serif;
 	font-weight: 300;
 }
@@ -231,6 +231,7 @@ form.search {
 	
 		.block {
 			background: $sand;
+			border: 0;
 			border-radius: 75px;
 			height: 150px;
 			margin: 10px auto 20px;

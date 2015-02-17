@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
+<%--
 <div class="spinner" id="content" >
 
 	<div class="container">
@@ -20,6 +21,7 @@
 		
 	</div>
 </div>
+ --%>
 
 <div class="container advert-idea">
 
@@ -39,8 +41,8 @@
 	
 		<div class="row">
 			<div class="col-md-4 item">
-				<div class="block search"></div>
 				<a href="${contextPath}/search" class="item-title">
+					<div class="block search"></div>
 					<spring:message code="home.navigation.search" />
 				</a>
 				<p class="item-desc">
@@ -48,8 +50,8 @@
 				</p>
 			</div>
 			<div class="col-md-4 item">
-				<div class="block stats"></div>
 				<a href="#" class="item-title">
+					<div class="block stats"></div>
 					<spring:message code="home.navigation.stats" />
 				</a>
 				<p class="item-desc">
@@ -57,10 +59,10 @@
 				</p>
 			</div>
 			<div class="col-md-4 item">
+				<a href="#" class="item-title">
 					<div class="block api"></div>
-					<a href="#" class="item-title">
-						<spring:message code="home.navigation.api" />
-					</a>
+					<spring:message code="home.navigation.api" />
+				</a>
 				<p class="item-desc">
 					<spring:message code="lorem.text30" />
 				</p>

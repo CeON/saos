@@ -3,7 +3,7 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 <!DOCTYPE html>
 
-<html class="no-js" >
+<html class="no-js" lang="pl" >
     <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="session"></c:set>  
     <c:set var="DATE_PATTERN" value="dd-MM-yyyy" scope="session"></c:set>  
       
