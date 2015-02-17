@@ -279,7 +279,7 @@ $(document).ready(function() {
 </c:if>
 
 <%-- Judgment summary --%>
-<div class="container block" id="judgment-summary">
+<div class="container block" id="judgment-content">
 	<h2 ><spring:message code="judgmentDetails.judgmentFullText" /></h2>
 	<div class="body">
 		<c:out value="${judgment.textContent}" escapeXml="false" />
