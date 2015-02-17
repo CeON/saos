@@ -207,10 +207,11 @@ $(document).ready(function() {
 										</c:forEach>
 									</c:when>
 									<c:otherwise>
-										<c:url var="refCourtCaseUlrSearch" value="/search" >
-											<c:param name="signature" value="${refCourtCase.caseNumber}" />
-										</c:url>
-										<a href="${refCourtCaseUlrSearch}">
+										 <spring:url value="/search" var="refCourtCaseUlrSearch" htmlEscape="true" >
+										 	<spring:param name="signature" value="${refCourtCase.caseNumber}" />
+										 </spring:url>
+										 
+										<a href="${refCourtCaseUlrSearch}" >
 											<c:out value="${refCourtCase.caseNumber}"/>
 										</a>
 									</c:otherwise>
@@ -228,13 +229,26 @@ $(document).ready(function() {
 		<div class="break" ></div>	
 	
 		<c:if test="${!empty judgment.sourceInfo}">
-			<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
-				<spring:message code="judgment.sourceLink" />
-			</a>
+			<h3><spring:message code="judgment.sourceInfo" />:</h3>
+			<ul class="judgment-data judgment-source-info">
+				<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >
+					<li>
+						<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
+							<spring:message code="judgment.sourceLink" />
+						</a>	
+					</li>
+					
+					<li>
+						<div class="" >
+							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.url" />:</div>
+							<div class="desc" >${judgment.sourceInfo.sourceJudgmentUrl}</div>
+						</div>
+					</li>
+				
+				</c:if>
+			</ul>
 		</c:if>
 	
-		
-		
 	</div>
 	
 </div>

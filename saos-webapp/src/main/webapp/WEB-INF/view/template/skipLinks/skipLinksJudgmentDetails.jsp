@@ -9,6 +9,6 @@
 </li>
 <li>
 	<a href="#judgment-summary" >
-		<spring:message code="skipLinks.judgmentSummary" />
+		<spring:message code="skipLinks.judgmentContent" />
 	</a>
 </li>
