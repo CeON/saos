@@ -7,4 +7,8 @@
 		<spring:message code="skipLinks.judgmentDetails" />
 	</a>
 </li>
-
+<li>
+	<a href="#judgment-content" >
+		<spring:message code="skipLinks.judgmentContent" />
+	</a>
+</li>

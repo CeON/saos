@@ -3,7 +3,9 @@
 
 <script>
 $(document).ready(function() {
-	jsInitInJudgmentDetails();
+	jsInitInJudgmentDetails({
+		pageTitle: `<saos:caseNumber items='${judgment.caseNumbers}'/>` 
+	});
 });
 </script>
 
@@ -152,7 +154,7 @@ $(document).ready(function() {
 	
 	
 		<c:if test="${!empty judgment.keywords}" >
-			<h4><spring:message code="judgment.keywords" />:</h4>
+			<h3><spring:message code="judgment.keywords" />:</h3>
 			<div class="keywords">	
 				<c:forEach items="${judgment.keywords}" var="keyword" >
 					<div class="keyword"><c:out value="${keyword.phrase}" /></div>
@@ -162,7 +164,7 @@ $(document).ready(function() {
 		
 			
 		<c:if test="${!empty judgment.legalBases}" >
-			<h4><spring:message code="judgment.legalBases" />:</h4>
+			<h3><spring:message code="judgment.legalBases" />:</h3>
 			<div class="legalBases">	
 				<c:forEach items="${judgment.legalBases}" var="legalBase" >
 					<div class="legalBase"><c:out value="${legalBase}" /></div>
@@ -171,7 +173,7 @@ $(document).ready(function() {
 		</c:if>
 		
 		<c:if test="${!empty judgment.referencedRegulations}" >
-			<h4><spring:message code="judgment.referencedRegulations" />:</h4>
+			<h3><spring:message code="judgment.referencedRegulations" />:</h3>
 			<ul class="referencedRegulations">	
 				<c:forEach items="${judgment.referencedRegulations}" var="referencedRegulation" >
 					<li class="legalBase"> 
@@ -205,7 +207,11 @@ $(document).ready(function() {
 										</c:forEach>
 									</c:when>
 									<c:otherwise>
-										<a href="${contextPath}/search?signature=${refCourtCase.caseNumber}">
+										 <spring:url value="/search" var="refCourtCaseUlrSearch" htmlEscape="true" >
+										 	<spring:param name="signature" value="${refCourtCase.caseNumber}" />
+										 </spring:url>
+										 
+										<a href="${refCourtCaseUlrSearch}" >
 											<c:out value="${refCourtCase.caseNumber}"/>
 										</a>
 									</c:otherwise>
@@ -220,38 +226,29 @@ $(document).ready(function() {
 		</c:if>
 
 	
-		<div class="break" ></div>
-	
-		 <!-- Button trigger modal -->
-		<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-		  <spring:message code="judgmentDetails.button.fullText" />
-		</button>
-	
-		<div class="break" ></div>
+		<div class="break" ></div>	
 	
 		<c:if test="${!empty judgment.sourceInfo}">
-			<h5><spring:message code="judgment.sourceInfo" />:</h5>
-			<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
-				<c:out value="${judgment.sourceInfo.sourceJudgmentUrl}" />
-			</a>
+			<h3><spring:message code="judgment.sourceInfo" />:</h3>
+			<ul class="judgment-data judgment-source-info">
+				<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >
+					<li>
+						<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
+							<spring:message code="judgment.sourceLink" />
+						</a>	
+					</li>
+					
+					<li>
+						<div class="" >
+							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.url" />:</div>
+							<div class="desc" >${judgment.sourceInfo.sourceJudgmentUrl}</div>
+						</div>
+					</li>
+				
+				</c:if>
+			</ul>
 		</c:if>
 	
-		<!-- Modal -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		  <div class="modal-dialog">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only"><spring:message code="button.close" /></span></button>
-		        <h2 class="modal-title" id="myModalLabel"><spring:message code="judgmentDetails.judgmentFullText" /> </h2>
-		      </div>
-		      <div class="modal-body">
-		      	<c:out value="${judgment.textContent}" escapeXml="false" />
-		      </div>
-
-		    </div>
-		  </div>
-		</div><!-- Modal end -->
-		
 	</div>
 	
 </div>
@@ -263,7 +260,7 @@ $(document).ready(function() {
 	<div class="container correction-block">
 
 		<div class="correction-info" >
-			<spring:message code="judgmentDetails.corrections.info" /><span id="show-correction-box"><spring:message code="button.look" /></span>
+			<spring:message code="judgmentDetails.corrections.info" /><a id="show-correction-box" href="" ><spring:message code="button.look" /></a>
 		</div>
 	
 		<div class="corrections" id="corrections">
@@ -272,7 +269,7 @@ $(document).ready(function() {
 				<spring:message code="judgmentDetails.corrections.sysInfo" />
 			</div>
 			
-			<h4><spring:message code="judgmentDetails.corrections" />:</h4>
+			<h3><spring:message code="judgmentDetails.corrections" />:</h3>
 	
 			<c:forEach items="${corrections}" var="correction">
 				<saos:correction correction="${correction}"></saos:correction>
@@ -280,3 +277,11 @@ $(document).ready(function() {
 		</div>
 	</div>
 </c:if>
+
+<%-- Judgment summary --%>
+<div class="container block" id="judgment-content">
+	<h2 ><spring:message code="judgmentDetails.judgmentFullText" /></h2>
+	<div class="body">
+		<c:out value="${judgment.textContent}" escapeXml="false" />
+	</div>
+</div>

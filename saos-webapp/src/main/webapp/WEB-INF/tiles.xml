@@ -38,19 +38,19 @@
     </definition>
     
     <definition name="judgmentSearch" extends="template">
-        <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentSearch.jsp" />
+        <put-attribute name="content" value="/WEB-INF/view/search/judgmentSearch.jsp" />
         <put-attribute name="skipLinks" value="skipLinksJudgmentSearch" />
         <put-attribute name="title" value="pageTitle.judgmentSearch" type="string" />
     </definition>
     
     <definition name="judgmentDetails" extends="template">
-        <put-attribute name="content" value="/WEB-INF/view/judgment/judgmentDetails.jsp" />
+        <put-attribute name="content" value="/WEB-INF/view/details/judgmentDetails.jsp" />
         <put-attribute name="skipLinks" value="skipLinksJudgmentDetails" />
         <put-attribute name="title" value="pageTitle.judgmentDetails" type="string" />
     </definition>
         
     <definition name="siteMap" extends="template">
-        <put-attribute name="content" value="/WEB-INF/view/home/siteMap.jsp" />
+        <put-attribute name="content" value="/WEB-INF/view/siteMap/siteMap.jsp" />
         <put-attribute name="skipLinks" value="skipLinksSimple" />
         <put-attribute name="title" value="pageTitle.siteMap" type="string" />
     </definition>
