@@ -59,6 +59,14 @@ public class JudgmentConverterImpl<JUDGMENT extends Judgment, SOURCE_JUDGMENT> i
         
         convertJudges(judgment, sourceJudgment, correctionList);
         
+        judgment.setReceiptDate(judgmentDataExtractor.extractReceiptDate(sourceJudgment, correctionList));
+        
+        convertLowerCourtJudgments(judgment, sourceJudgment, correctionList);
+        
+        judgment.setMeansOfAppeal(judgmentDataExtractor.extractMeansOfAppeal(sourceJudgment, correctionList));
+        
+        judgment.setJudgmentResult(judgmentDataExtractor.extractJudgmentResult(sourceJudgment, correctionList));
+        
                 
         judgmentDataExtractor.convertSpecific(judgment, sourceJudgment, correctionList);
         
@@ -132,6 +140,16 @@ public class JudgmentConverterImpl<JUDGMENT extends Judgment, SOURCE_JUDGMENT> i
         for (String courtReporter : courtReporters) {
             if (!judgment.containsCourtReporter(courtReporter)) {
                 judgment.addCourtReporter(courtReporter);
+            }
+        }
+    }
+    
+    
+    private void convertLowerCourtJudgments(JUDGMENT judgment, SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList) {
+        List<String> lowerCourtJudgments = judgmentDataExtractor.extractLowerCourtJudgments(sourceJudgment, correctionList);
+        for (String lowerCourtJudgment : lowerCourtJudgments) {
+            if (!judgment.containsLowerCourtJudgment(lowerCourtJudgment)) {
+                judgment.addLowerCourtJudgment(lowerCourtJudgment);
             }
         }
     }

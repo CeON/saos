@@ -58,6 +58,7 @@ public class InitializingVisitor implements Visitor {
         JpaUtils.initialize(judgment.getCourtReporters());
         JpaUtils.initialize(judgment.getLegalBases());
         JpaUtils.initialize(judgment.getKeywords());
+        JpaUtils.initialize(judgment.getLowerCourtJudgments());
         
     }
     

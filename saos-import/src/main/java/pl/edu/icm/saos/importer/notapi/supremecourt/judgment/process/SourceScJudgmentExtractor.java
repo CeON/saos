@@ -11,6 +11,8 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.importer.common.JudgmentMeansOfAppealCreator;
+import pl.edu.icm.saos.importer.common.JudgmentResultCreator;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgeExtractorHelper;
@@ -18,7 +20,10 @@ import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgme
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
@@ -48,6 +53,10 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     
     
     private ScChamberDivisionCreator scChamberDivisionCreator;
+    
+    private JudgmentMeansOfAppealCreator judgmentMeansOfAppealCreator;
+    
+    private JudgmentResultCreator judgmentResultCreator;
     
     private SourceJudgeExtractorHelper sourceJudgeExtractorHelper;
     
@@ -129,6 +138,32 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     @Override
     public LocalDate extractJudgmentDate(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getJudgmentDate();
+    }
+    
+    @Override
+    public LocalDate extractReceiptDate(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        return sourceJudgment.getReceiptDate();
+    }
+
+    @Override
+    public List<String> extractLowerCourtJudgments(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        return Lists.newArrayList(sourceJudgment.getLowerCourtJudgments());
+    }
+
+    @Override
+    public MeansOfAppeal extractMeansOfAppeal(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        if (StringUtils.isEmpty(sourceJudgment.getMeansOfAppeal())) {
+            return null;
+        }
+        return judgmentMeansOfAppealCreator.fetchOrCreateMeansOfAppeal(CourtType.SUPREME, sourceJudgment.getMeansOfAppeal());
+    }
+
+    @Override
+    public JudgmentResult extractJudgmentResult(SourceScJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        if (StringUtils.isEmpty(sourceJudgment.getJudgmentResult())) {
+            return null;
+        }
+        return judgmentResultCreator.fetchOrCreateJudgmentResult(CourtType.SUPREME, sourceJudgment.getJudgmentResult());
     }
 
     @Override
@@ -275,6 +310,16 @@ public class SourceScJudgmentExtractor implements JudgmentDataExtractor<SupremeC
     @Autowired
     public void setScChamberDivisionCreator(ScChamberDivisionCreator scChamberDivisionCreator) {
         this.scChamberDivisionCreator = scChamberDivisionCreator;
+    }
+
+    @Autowired
+    public void setJudgmentMeansOfAppealCreator(JudgmentMeansOfAppealCreator judgmentMeansOfAppealCreator) {
+        this.judgmentMeansOfAppealCreator = judgmentMeansOfAppealCreator;
+    }
+
+    @Autowired
+    public void setJudgmentResultCreator(JudgmentResultCreator judgmentResultCreator) {
+        this.judgmentResultCreator = judgmentResultCreator;
     }
 
     @Autowired

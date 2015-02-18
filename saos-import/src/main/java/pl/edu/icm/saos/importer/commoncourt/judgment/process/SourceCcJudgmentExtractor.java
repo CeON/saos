@@ -29,7 +29,9 @@ import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
@@ -173,6 +175,26 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     @Override
     public DateTime extractPublicationDate(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getPublicationDate();
+    }
+    
+    @Override
+    public LocalDate extractReceiptDate(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        return null;
+    }
+
+    @Override
+    public List<String> extractLowerCourtJudgments(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        return Lists.newArrayList();
+    }
+
+    @Override
+    public MeansOfAppeal extractMeansOfAppeal(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        return null;
+    }
+
+    @Override
+    public JudgmentResult extractJudgmentResult(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        return null;
     }
     
     @Override
