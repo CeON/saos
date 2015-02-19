@@ -32,6 +32,8 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
@@ -410,6 +412,48 @@ public class SourceCcJudgmentExtractorTest {
             assertReferencedRegulation(refRegulations.get(i), lawJournalEntries.get(i), references.get(i));
         }
         
+    }
+    
+    
+    @Test
+    public void extractReceiptDate() {
+        
+        // execute
+        LocalDate retReceiptDate = sourceCcJudgmentExtractor.extractReceiptDate(sJudgment, correctionList);
+        
+        // assert
+        assertNull(retReceiptDate);
+    }
+    
+    @Test
+    public void extractLowerCourtJudgments() {
+        
+        // execute
+        List<String> retLowerCourtJudgments = sourceCcJudgmentExtractor.extractLowerCourtJudgments(sJudgment, correctionList);
+        
+        // assert
+        assertThat(retLowerCourtJudgments, Matchers.empty());
+    }
+    
+    @Test
+    public void extractMeansOfAppeal() {
+        
+        // execute
+        MeansOfAppeal retMeansOfAppeal = sourceCcJudgmentExtractor.extractMeansOfAppeal(sJudgment, correctionList);
+        
+        // assert
+        assertNull(retMeansOfAppeal);
+    }
+    
+    @Test
+    public void extractJudgmentResult() {
+        
+        // execute
+        JudgmentResult retJudgmentResult = sourceCcJudgmentExtractor.extractJudgmentResult(sJudgment, correctionList);
+        
+        
+        // assert
+        assertNull(retJudgmentResult);
     }
 
 

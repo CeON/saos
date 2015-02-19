@@ -30,11 +30,14 @@ import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
 /**
@@ -59,6 +62,9 @@ public class JudgmentConverterImplTest {
         when(judgmentDataExtractor.createNewJudgment()).thenReturn(judgment);
         
     }
+    
+    
+    //------------------------ TESTS --------------------------
     
     @Test
     public void convertJudgment_extractCourtCases() {
@@ -454,6 +460,76 @@ public class JudgmentConverterImplTest {
     }
     
     
+    @Test
+    public void convertJudgment_extractReceiptDate() {
+        
+        // given
+        LocalDate receiptDate = new LocalDate();
+        when(judgmentDataExtractor.extractReceiptDate(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(receiptDate);
+        
+        
+        // execute
+        judgmentConverter.convertJudgment(sourceJudgment);
+        
+        
+        // assert
+        assertEquals(receiptDate, judgment.getReceiptDate());
+    }
+    
+    
+    @Test
+    public void convertJudgment_extractLowerCourtJudgments() {
+        
+        // given
+        List<String> lowerCourtJudgments = Lists.newArrayList("first", "second");
+        when(judgmentDataExtractor.extractLowerCourtJudgments(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(lowerCourtJudgments);
+        
+        
+        // execute
+        judgmentConverter.convertJudgment(sourceJudgment);
+        
+        
+        // assert
+        assertEquals(lowerCourtJudgments.size(), judgment.getLowerCourtJudgments().size());
+        assertEquals(lowerCourtJudgments.get(0), judgment.getLowerCourtJudgments().get(0));
+        assertEquals(lowerCourtJudgments.get(1), judgment.getLowerCourtJudgments().get(1));
+    }
+    
+    
+    @Test
+    public void convertJudgment_extractMeansOfAppeal() {
+        
+        // given
+        MeansOfAppeal meansOfAppeal = new MeansOfAppeal(CourtType.CONSTITUTIONAL_TRIBUNAL, "text");
+        when(judgmentDataExtractor.extractMeansOfAppeal(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(meansOfAppeal);
+        
+        
+        // execute
+        judgmentConverter.convertJudgment(sourceJudgment);
+        
+        
+        // assert
+        assertTrue(meansOfAppeal == judgment.getMeansOfAppeal());
+    }
+    
+    
+    @Test
+    public void convertJudgment_extractJudgmentResult() {
+        
+        // given
+        JudgmentResult judgmentResult = new JudgmentResult(CourtType.CONSTITUTIONAL_TRIBUNAL, "text");
+        when(judgmentDataExtractor.extractJudgmentResult(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(judgmentResult);
+        
+        
+        // execute
+        judgmentConverter.convertJudgment(sourceJudgment);
+        
+        
+        // assert
+        assertTrue(judgmentResult == judgment.getJudgmentResult());
+    }
+    
+    
     
     
     @Test
@@ -502,6 +578,10 @@ public class JudgmentConverterImplTest {
         verify(judgmentDataExtractor).extractSourceJudgmentUrl(eq(sourceJudgment), argCorrectionList.capture());
         verify(judgmentDataExtractor).extractSummary(eq(sourceJudgment), argCorrectionList.capture());
         verify(judgmentDataExtractor).extractTextContent(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractReceiptDate(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractLowerCourtJudgments(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractMeansOfAppeal(eq(sourceJudgment), argCorrectionList.capture());
+        verify(judgmentDataExtractor).extractJudgmentResult(eq(sourceJudgment), argCorrectionList.capture());
         verify(judgmentDataExtractor).convertSpecific(eq(retJudgmentWithC.getJudgment()), eq(sourceJudgment), argCorrectionList.capture());
         
         // check if this test takes all methods into account

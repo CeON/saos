@@ -42,6 +42,8 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.persistence.repository.JudgmentResultRepository;
+import pl.edu.icm.saos.persistence.repository.MeansOfAppealRepository;
 import pl.edu.icm.saos.persistence.repository.RawSourceScJudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
@@ -79,6 +81,12 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     
     @Autowired
     private ScJudgmentFormRepository scjFormRepository;
+    
+    @Autowired
+    private MeansOfAppealRepository meansOfAppealRepository;
+    
+    @Autowired
+    private JudgmentResultRepository judgmentResultRepository;
     
     @Autowired
     private JudgmentRepository judgmentRepository;
@@ -137,6 +145,8 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         assertChamberDivisions("Izba Cywilna", "Wydział II", "Wydział III");
         
         assertScJudgmentForms("uchwała SN", "wyrok SN");
+        assertMeansOfAppeals("zagadnienie prawne");
+        assertJudgmentResults("udzielono odpowiedzi");
         
         assertJudgment_24ffe0d974d5823db702e6436dbb9f0f();
         
@@ -197,6 +207,8 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         assertChamberDivisions("Izba Cywilna", "Wydział III");
         
         assertScJudgmentForms("uchwała SN", "wyrok SN");
+        assertMeansOfAppeals("zagadnienie prawne");
+        assertJudgmentResults("udzielono odpowiedzi");
         
         
         // should not exist anymore
@@ -291,6 +303,17 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
 
         assertEquals("Wyrok z dnia 28 września 1994 r.\nII URN 30/94\nPracownik dffdc", scJudgment.getTextContent());
         
+        assertEquals(new LocalDate("2002-05-29"), scJudgment.getReceiptDate());
+        
+        assertEquals(1, scJudgment.getLowerCourtJudgments().size());
+        assertEquals("I ACa 124/02 - postanowienie z dnia 23 maja 2002 r. - Sąd Apelacyjny w Rzeszowie", scJudgment.getLowerCourtJudgments().get(0));
+        
+        assertEquals(CourtType.SUPREME, scJudgment.getMeansOfAppeal().getCourtType());
+        assertEquals("zagadnienie prawne", scJudgment.getMeansOfAppeal().getName());
+        
+        assertEquals(CourtType.SUPREME, scJudgment.getJudgmentResult().getCourtType());
+        assertEquals("udzielono odpowiedzi", scJudgment.getJudgmentResult().getText());
+        
         assertSpecificFieldsEmpty(scJudgment);
     }
 
@@ -313,6 +336,16 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     private void assertChambers(String... chamberNames) {
         List<String> names = scChamberRepository.findAll().stream().map(c->c.getName()).collect(Collectors.toList());
         assertThat(names, containsInAnyOrder(chamberNames));
+    }
+    
+    private void assertMeansOfAppeals(String ... meansOfAppealNames) {
+        List<String> names = meansOfAppealRepository.findAll().stream().map(m->m.getName()).collect(Collectors.toList());
+        assertThat(names, containsInAnyOrder(meansOfAppealNames));
+    }
+    
+    private void assertJudgmentResults(String ... judgmentResultsTexts) {
+        List<String> texts = judgmentResultRepository.findAll().stream().map(r->r.getText()).collect(Collectors.toList());
+        assertThat(texts, containsInAnyOrder(judgmentResultsTexts));
     }
     
     

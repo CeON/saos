@@ -55,6 +55,10 @@ public class SourceScJudgmentParserTest {
             + "judgmentDate:'1994-02-22',"
             + "supremeCourtJudgmentForm:'wyrok SN',"
             + "personnelType:null,"
+            + "receiptDate : '2001-01-04',"
+            + "meansOfAppeal : 'kasacja',"
+            + "judgmentResult : 'uchylono i przekazano do ponownego rozpoznania',"
+            + "lowerCourtJudgments : [ 'II Kws 5/00 - wyrok z dnia 13 marca 2000 r. - Sąd Rejonowy Strzelce Krajeńskie', '(Kw 141/99) Kw 141/99 - orzeczenie z dnia 26 stycznia 2000 r. - Kolegium d/s Wykroczeń przy SR w Strzelcach Krajeńskich' ],"
             + "supremeCourtChambers:['Izba Administracyjna, Pracy i Ubezpieczeń Społecznych'],"
             + "supremeCourtChamberDivision:'Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych Wydział I'}";
 
@@ -97,6 +101,14 @@ public class SourceScJudgmentParserTest {
         assertNull(sourceScJudgment.getPersonnelType());
         assertEquals(Lists.newArrayList("Izba Administracyjna, Pracy i Ubezpieczeń Społecznych"), sourceScJudgment.getSupremeCourtChambers());
         assertEquals("Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych Wydział I", sourceScJudgment.getSupremeCourtChamberDivision());
+        
+        assertEquals("uchylono i przekazano do ponownego rozpoznania", sourceScJudgment.getJudgmentResult());
+        assertEquals("kasacja", sourceScJudgment.getMeansOfAppeal());
+        assertEquals(new LocalDate(2001, 1, 4), sourceScJudgment.getReceiptDate());
+        
+        assertEquals(2, sourceScJudgment.getLowerCourtJudgments().size());
+        assertEquals("II Kws 5/00 - wyrok z dnia 13 marca 2000 r. - Sąd Rejonowy Strzelce Krajeńskie", sourceScJudgment.getLowerCourtJudgments().get(0));
+        assertEquals("(Kw 141/99) Kw 141/99 - orzeczenie z dnia 26 stycznia 2000 r. - Kolegium d/s Wykroczeń przy SR w Strzelcach Krajeńskich", sourceScJudgment.getLowerCourtJudgments().get(1));
         
         Source source = sourceScJudgment.getSource();
         assertEquals("Orzeczenia1&3042", source.getSourceJudgmentId());

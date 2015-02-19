@@ -12,6 +12,8 @@ import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
@@ -56,6 +58,14 @@ public interface JudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_JUDGMEN
     List<String> extractCourtReporters(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList);
 
     LocalDate extractJudgmentDate(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList);
+    
+    LocalDate extractReceiptDate(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList);
+    
+    List<String> extractLowerCourtJudgments(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList);
+    
+    MeansOfAppeal extractMeansOfAppeal(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList);
+    
+    JudgmentResult extractJudgmentResult(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList);
 
     String extractSourceJudgmentId(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList);
     
