@@ -32,19 +32,11 @@ $(document).ready(function() {
     $(".hint").click(function(event) {
     	event.preventDefault();
     });
-    
-    
-    /* Enable bootstrap tooltip */
-    $('[data-toggle="tooltip"]').tooltip({container: 'body'});
 	
-    /* Enable bootstrap popover's */
-    $('[data-toggle="popover"]').popover({container: 'body'});
-    
-    
-    /* Hints */
-    $(".hint").click(function(event) {
-    	event.preventDefault();
-    });
+	/* Anchor with empty href, should not reload page*/
+	$("a[href='']").click(function(event) {
+		event.preventDefault();
+	});
 	
 	
 });

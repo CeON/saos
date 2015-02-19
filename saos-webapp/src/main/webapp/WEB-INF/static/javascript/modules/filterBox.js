@@ -134,25 +134,31 @@ var FilterBox = (function() {
 	hideBox = function() {
 		saveCookie("false");
 		
-		var positionRight = "-" + ($parent.width() - 50) + "px";
+		var positionRight = getFilterBoxWidth() + "px";
 		
 		if ($parent.css("position") === "fixed") {
+			var $settingsButton = $("#" + settingsButton.className);
+			
 			positionRight = $parent.position().right;
 			
+			/* Situation when button show filter is not visible on page.
+			 * When user scrolls up to button, special marker will appear
+			 * on button. This way user knows how to make filter box visible again.  
+			 */
 			$(window).scroll(function() {
 				var $settingsButton = $("#" + settingsButton.className);
 				
 				if ($settingsButton.visible()) {
 					$settingsButton.tooltip("toggle");
 					
+					//Create expanding circle marker
 					$settingsButton.after("<div id='point' class='point'><div class='expanding-circle'></div></div>")
 					
 					setTimeout(function() {
-						var $settButt = $("#" + settingsButton.className),
-							filtAttr = $settButt.attr("aria-describedby");
+						var filtAttr = $settingsButton.attr("aria-describedby");
 						
 						if (typeof filtAttr !== typeof undefined && filtAttr !== false ) {
-							$settButt.tooltip("toggle");
+							$settingsButton.tooltip("toggle");
 						}
 						
 						$("#point").remove();
@@ -162,9 +168,18 @@ var FilterBox = (function() {
 					$(window).off("scroll");
 				}
 			});
+			
+			$settingsButton.hover(function() {
+				$settingsButton.next(".point").remove();
+				$settingsButton.off("hover");
+			});
+			
 		}
 		
+		
 		$parent.animate({width: 0, height: 0, top: "-150px", right: positionRight}, 600, function() {
+			$parent.css({position: "relative"});
+			$parent.addClass("filter-box-hidden");
 			showFilterButton();
 			$(resultList).animate({width: widthMax}, 400);
 		});
@@ -172,9 +187,12 @@ var FilterBox = (function() {
 	
 	showBox = function() {
 		var fBoxSlideDown = function() {
-			var positionRight = "-" + ($parent.width() - 50) + "px";
 			
-			$parent.css({width: 0, height: 0, top: "-150px", right: positionRight});
+			var positionRight = getFilterBoxWidth();
+			
+			$parent.removeClass("filter-box-hidden");
+			
+			$parent.css({width: 0, height: 0, top: "-150px", right: positionRight + "px"});
 			
 			$parent.animate({width: "100%", height: "100%", top: 0, right: 0}, 600, function() {
 				$(this).css({width: "auto", height: "auto", right: "auto"});
@@ -184,6 +202,34 @@ var FilterBox = (function() {
 		saveCookie("true");
 		$(resultList).animate({width: widthBase}, 400, function() {});
 		hideFilterButton(fBoxSlideDown);
+	},
+
+	
+	/* Check width of filter box 
+	 * 
+	 * @return width of filter box
+	 */
+	getFilterBoxWidth = function() {
+		var positionRight = $parent.attr("data-filterbox-posRight");
+		
+		if (positionRight === undefined) {
+			positionRight = $parent.width();
+			
+			if (positionRight === 0) {
+				var right = $parent.css("right");
+				positionRight = right.substring(0, right.length - 2); 
+			}
+			
+			//Animated button position 
+			if (positionRight > 0) {
+				positionRight -= 50;
+				positionRight *= -1;
+			}
+			
+			$parent.attr("data-filterbox-posRight", positionRight);
+		}
+
+		return positionRight;
 	},
 	
 	/* Assign button "show filter box" */
