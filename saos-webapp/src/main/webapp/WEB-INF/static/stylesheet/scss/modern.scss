@@ -39,7 +39,12 @@ a, .hint {
 }
 
 header {
-	background: url("http://subtlepatterns.com/patterns/debut_light.png") repeat scroll 0 0 transparent;
+	@include background-image("header/debut_light.png");
+	background: {
+		repeat: repeat; 
+	}
+	padding-top: 50px;
+	
 	
 	h1 {
 		font-weight: 300;
@@ -137,32 +142,6 @@ footer {
 	padding-bottom: 0;
 	padding-top: 0;
 	margin-bottom: 0;
-}
-
-.language-change {
-	
-	li {
-		a {
-			padding: 8px;
-			margin: 2px 7px;
-			
-			&:hover {
-				background: inherit;
-			}
-		}
-	}
-
-	.lang-selected {
-		
-		font: {
-			size: 1.3em;
-			weight: 400;
-		}
-	}
-	
-	.font-small {
-		font-size: 10px;
-	}
 }
 
 form.search {
@@ -286,72 +265,6 @@ form.search {
 			@include background-image("icons/computer.png");
 			background-position: 50%;
 			background-repeat: no-repeat;
-		}
-	}
-}
-
-.spinner {
-	img {
-		border: 2px solid $panel-color;
-		border-top: 0;
-	}
-	
-	.stage {
-		background: #e8e8e8;
-		@include background-image("banners/stats.png");
-		background-repeat: no-repeat;
-		border-top: 0;	
-		height: 320px;
-		position: relative;
-		width: 100%; 
-		
-		.block-info {
-			background: $orange;
-			bottom: 20px;
-			color: $grey98;
-			left: 20px;
-			padding: 20px;
-			position: absolute;
-			width: 460px;
-			
-			h3 {
-				font-size: 20px;
-				font-weight: bold;
-				margin: 5px 0;
-			}
-			
-			p {
-				font-size: 17px;
-				line-height: 1.5em;
-			}
-		}
-		
-		.block-button {
-		
-		}
-	}
-	
-	.pagination {
-		background: rgba(0, 0, 0, 0);
-		border: 0;
-		text-align: center;
-		width: 100%;
-	
-		ul {
-			list-style: none;
-			
-			li {
-				border: 4px solid #333;
-				cursor: pointer;
-				display: inline-block;
-				height: 16px;
-				margin: 5px 10px;
-				width: 16px;
-			
-				&:hover, &.active {
-					border-color: $orange;
-				}
-			}
 		}
 	}
 }
