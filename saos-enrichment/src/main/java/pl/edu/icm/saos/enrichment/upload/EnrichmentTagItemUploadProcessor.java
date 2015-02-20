@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.enrichment.upload;
 
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,10 @@ public class EnrichmentTagItemUploadProcessor {
     
     private UploadEnrichmentTagRepository uploadEnrichmentTagRepository;
     
+    private EntityManager entityManager;
+    
     private CommonValidator commonValidator;
+    
     
     
     //------------------------ LOGIC --------------------------
@@ -37,6 +41,8 @@ public class EnrichmentTagItemUploadProcessor {
         UploadEnrichmentTag uploadEnrichmentTag = enrichmentTagItemConverter.convertEnrichmentTagItem(enrichmentTagItem);
         
         uploadEnrichmentTagRepository.saveAndFlush(uploadEnrichmentTag);
+        
+        entityManager.clear();
         
     }
 
@@ -56,6 +62,11 @@ public class EnrichmentTagItemUploadProcessor {
     @Autowired
     public void setCommonValidator(CommonValidator commonValidator) {
         this.commonValidator = commonValidator;
+    }
+
+    @Autowired
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
     }
     
 }

@@ -1,6 +1,5 @@
 package pl.edu.icm.saos.persistence.enrichment.model;
 
-import javax.persistence.Cacheable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +17,6 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(name="tag_judgment_type_value_unique", columnNames={"judgmentId", "tagType"})})
-@Cacheable(true)
 @SequenceGenerator(name = "seq_enrichment_tag", allocationSize = 1, sequenceName = "seq_enrichment_tag")
 public class EnrichmentTag extends AbstractEnrichmentTag {
 
