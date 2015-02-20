@@ -20,8 +20,8 @@ var jsInitInJudgmentSearch = function() {
 			} else {
 				return true;
 			}
-		},
-	    springMessage.judgmentSearchFormFieldDateWrongFormat
+		}, 
+		""
 	);
     
 	$('#search-form').validate({
@@ -34,6 +34,8 @@ var jsInitInJudgmentSearch = function() {
 			dateTo: {
 				dateFormat: true
 			}
+		},
+		errorPlacement: function(error, element) {
 		},
 		highlight: function(element, errorClass, validClass) {
 			$(element).parent().parent().addClass("has-error");
@@ -137,7 +139,7 @@ var jsInitInJudgmentSearch = function() {
 		removeAllButton: "#clearAllFilters",
 		noFiltersMessage: "#no-filters",
 		filterField: ".filter-item",
-		resultList: ".judgment-list > div:first-child",
+		resultList: "#judgment-list",
 		buttonHide: "#filter-hide",
 		stickyOptions: {enabled: true, topSpacing: 10},
 		settingsButton: {className: "filter-box-button"},

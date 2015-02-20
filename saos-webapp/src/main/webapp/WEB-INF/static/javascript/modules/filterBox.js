@@ -84,6 +84,11 @@ var FilterBox = (function() {
 				top = stickyOptions.topSpacing;
 			}
 			$parent.sticky({ topSpacing: top, getWidthFrom: "#" + $parent.attr("id") + "-sticky-wrapper" });
+			
+			
+			if ($parent.hasClass("filter-box-hidden")) {
+				$parent.parent().css("display", "none");
+			}
 		}
 	},
 	
@@ -178,7 +183,8 @@ var FilterBox = (function() {
 		
 		
 		$parent.animate({width: 0, height: 0, top: "-150px", right: positionRight}, 600, function() {
-			$parent.css({position: "relative"});
+			$parent.css({position: "relative",});
+			$parent.parent().css("display", "none");
 			$parent.addClass("filter-box-hidden");
 			showFilterButton();
 			$(resultList).animate({width: widthMax}, 400);
@@ -190,9 +196,11 @@ var FilterBox = (function() {
 			
 			var positionRight = getFilterBoxWidth();
 			
+			$parent.parent().css("display", "block");
 			$parent.removeClass("filter-box-hidden");
 			
-			$parent.css({width: 0, height: 0, top: "-150px", right: positionRight + "px"});
+			$parent.css({width: 0, height: 0, top: "-150px", right: positionRight + "px", position: "relative"});
+			$parent.parent().css("display", "block");
 			
 			$parent.animate({width: "100%", height: "100%", top: 0, right: 0}, 600, function() {
 				$(this).css({width: "auto", height: "auto", right: "auto"});
@@ -224,6 +232,10 @@ var FilterBox = (function() {
 			if (positionRight > 0) {
 				positionRight -= 50;
 				positionRight *= -1;
+			}
+			
+			if (positionRight === -2) {
+				positionRight = -200;
 			}
 			
 			$parent.attr("data-filterbox-posRight", positionRight);
