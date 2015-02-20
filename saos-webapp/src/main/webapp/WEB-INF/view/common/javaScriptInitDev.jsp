@@ -11,8 +11,9 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.visible.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.wrapInTag.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/modernizr.js"></script>
-<script type="text/javascript" src="${contextPath}/static/javascript/libs/bootstrap.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/daterangepicker.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/moment.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/typography.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/cookies.js"></script>
@@ -30,5 +31,6 @@
 
 <script type="text/javascript" src="${contextPath}/static/javascript/judgmentDetails.js"></script> 
 <script type="text/javascript" src="${contextPath}/static/javascript/judgmentSearch.js"></script> 
+<script type="text/javascript" src="${contextPath}/static/javascript/analysis.js"></script> 
 <script type="text/javascript" src="${contextPath}/static/javascript/saos-common.js"></script>
 

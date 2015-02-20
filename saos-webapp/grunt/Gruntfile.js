@@ -124,6 +124,7 @@ module.exports = function(grunt) {
 				  '<%= project.js.dir %>/libs/modernizr.js',
 				  '<%= project.js.dir %>/libs/bootstrap.min.js',
 				  '<%= project.js.dir %>/libs/moment.js',
+				  '<%= project.js.dir %>/libs/daterangepicker.js',
 				  
 				  '<%= project.js.dir %>/modules/typography.js',
         	      '<%= project.js.dir %>/modules/cookies.js',
@@ -140,6 +141,7 @@ module.exports = function(grunt) {
         	      '<%= project.js.dir %>/modules/details/correctionBox.js',
         	      '<%= project.js.dir %>/judgmentDetails.js',
         	      '<%= project.js.dir %>/judgmentSearch.js',
+        	      '<%= project.js.dir %>/analysis.js',
         	      '<%= project.js.dir %>/saos-common.js'
     	      ],
     	      
