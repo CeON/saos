@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import javax.persistence.EntityManager;
 import javax.validation.ValidationException;
 
 import org.junit.Before;
@@ -34,6 +35,8 @@ public class EnrichmentTagItemUploadProcessorTest {
     
     @Mock private CommonValidator commonValidator;
     
+    @Mock private EntityManager entityManager;
+    
     
     
     @Before
@@ -46,6 +49,8 @@ public class EnrichmentTagItemUploadProcessorTest {
         enrichmentTagItemUploadProcessor.setUploadEnrichmentTagRepository(uploadEnrichmentTagRepository);
         
         enrichmentTagItemUploadProcessor.setCommonValidator(commonValidator);
+        
+        enrichmentTagItemUploadProcessor.setEntityManager(entityManager);
         
     }
     
@@ -78,7 +83,7 @@ public class EnrichmentTagItemUploadProcessorTest {
         verify(uploadEnrichmentTagRepository).saveAndFlush(uploadEnrichmentTagArg.capture());
         assertTrue(uploadEnrichmentTag == uploadEnrichmentTagArg.getValue());
         
-        
+        verify(entityManager).clear();
 
     }
     
