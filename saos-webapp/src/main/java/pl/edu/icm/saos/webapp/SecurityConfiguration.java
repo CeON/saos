@@ -156,7 +156,8 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeRequests()
                     .anyRequest().permitAll()
-                    
+                .and()
+                    .csrf().disable()
                 ;
         }
         

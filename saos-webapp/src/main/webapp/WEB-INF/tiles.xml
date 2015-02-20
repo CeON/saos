@@ -48,12 +48,25 @@
         <put-attribute name="skipLinks" value="skipLinksJudgmentDetails" />
         <put-attribute name="title" value="pageTitle.judgmentDetails" type="string" />
     </definition>
-        
+
     <definition name="siteMap" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/siteMap/siteMap.jsp" />
         <put-attribute name="skipLinks" value="skipLinksSimple" />
         <put-attribute name="title" value="pageTitle.siteMap" type="string" />
     </definition>
+    
+    
+    
+    <!-- ************** Analysis -->
+    
+    <definition name="analysis" extends="template">
+        <put-attribute name="content" value="/WEB-INF/view/analysis/analysis.jsp" />
+        <put-attribute name="skipLinks" value="analysisSkipLinks" />
+        <put-attribute name="title" value="pageTitle.analysis" type="string" />
+    </definition>
+        
+    <definition name="analysisSearchCriteria" template="/WEB-INF/view/analysis/analysisSearchCriteria.jsp"/>
+    
     
     <!-- ************** SkipLinks -->
     
@@ -72,6 +85,11 @@
     <definition name="skipLinksJudgmentDetails" extends="skipLinksTemplate">
     	<put-attribute name="skipLinksContent" value="/WEB-INF/view/template/skipLinks/skipLinksJudgmentDetails.jsp" />
     </definition>
+    
+    <definition name="analysisSkipLinks" extends="skipLinksTemplate">
+        <put-attribute name="skipLinksContent" value="/WEB-INF/view/analysis/analysisSkipLinks.jsp" />
+    </definition>
+    
     
     <!-- ************** Errors -->
     
