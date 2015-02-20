@@ -21,37 +21,58 @@ public class JudgeNameNormalizer {
      private final String[] DEFAULT_PARTS_TO_REMOVE = new String[] {
             "sędzia",
             "sędziowie",
+            "sędziego",
             "sądu",
             "rejonowego",
             "okręgowego",
+            "apelacyjnego",
             "st. sekr.",
+            "sekr. sąd.",
             "sekr",
+            "sek.",
             "sądowy",
             "prof", "prof.",
-            "sa", "sa.", 
+            "dr",
+            "sso", "s.s.o", "s.s.o.", "s s o", "s. s.o",
+            "so", "so.", "s.o.", "s o",
+            "soo",
+            "sa", "sa.", "s.a.", "s a",
             "do",
-            "spr", "spr.", 
+            "spr", "spr.",
             "wso",
             "w",
             "gdańsku",
             "słupsku",
             "toruniu",
             "sw",
-            "so",
             "sprawozdawca",
+            "protokolant",
+            "stażysta",
+            "przewodniczący",
             "p.o.",
-            "sso",
-            "s.s.r", "s.s.r.",
-            "spraw", "spraw.",
+            "ssa",
+            "ss", "sss", "ssw",
+            "s.s.r", "s.s.r.", "ssr",
+            "spraw", "spraw.", "spr.aw",
+            "sprw",
+            "spr.awozdanie",
             "delegowana",
             "delegowany",
             "sn",
             "swsg",
             "gen", "gen.",
-            "płk",
-            "ppłk",
-            "sr",
-            "del", "del."
+            "dyw.",
+            "płk", "plk",
+            "ppłk", "pplk",
+            "sr", "s.r", "s r",
+            "srr",
+            "del", "del.", "dei.",
+            "deleg.", "deleg",
+            "dal.",
+            "wdel",
+            "s. ref.", "s. ref", "ref", "ref.",
+            "z izby pracy", "z izby cywilnej",
+            "pr."
             
      };
     
@@ -60,9 +81,14 @@ public class JudgeNameNormalizer {
      
      private String[] DEFAULT_REGEXES_TO_REMOVE = new String[] {
              "\\-(spr)\\s*$",
+             "\\-(spraw.)\\s*$",
              "\\-(sprawozdawca)\\s*$",
+             "\\-(ref.)\\s*$",
              "^\\s*w\\s+w\\s+",
              "^\\s*(sa)\\s*\\-",
+             "^\\s*(sędzia)\\s*\\-",
+             "^\\s*(sędzia sa)\\s*\\-",
+             "^\\s*(del)\\s*\\-",
       };
 
      
@@ -141,8 +167,9 @@ public class JudgeNameNormalizer {
             String beginningPart = "^\\s*("+partToRemove+")"+"\\s+";
             String middlePart = "\\s+("+partToRemove+")\\s+";
             String endPart = "\\s+("+partToRemove+")\\s*$";
+            String partAsWhole = "^\\s*("+partToRemove+")\\s*$";
             
-            allRegexesToRemove[j+i] = beginningPart+"|"+middlePart+"|"+endPart;
+            allRegexesToRemove[j+i] = beginningPart+"|"+middlePart+"|"+endPart+"|"+partAsWhole;
             
         }
         
@@ -170,11 +197,11 @@ public class JudgeNameNormalizer {
 
 
     private String removeTrailingDashes(String judgeName) {
-        return judgeName.replaceAll("^(\\s*\\-)|(\\-\\s*)$", "");
+        return judgeName.replaceAll("^(\\s*\\-+)|(\\-+\\s*)$", "");
     }
 
     private String removeTrailingDots(String judgeName) {
-        return judgeName.replaceAll("^(\\s*\\.)|(\\.\\s*)$", "");
+        return judgeName.replaceAll("^(\\s*\\.+)|(\\.+\\s*)$", "");
     }
     
    
