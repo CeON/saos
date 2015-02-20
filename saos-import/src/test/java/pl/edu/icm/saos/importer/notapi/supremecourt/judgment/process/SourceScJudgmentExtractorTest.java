@@ -20,6 +20,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import pl.edu.icm.saos.importer.common.JudgmentMeansOfAppealCreator;
+import pl.edu.icm.saos.importer.common.JudgmentResultCreator;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrection;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgeExtractorHelper;
@@ -28,7 +30,10 @@ import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgme
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -59,6 +64,10 @@ public class SourceScJudgmentExtractorTest {
     
     @Mock private ScJudgmentFormCreator scJudgmentFormCreator;
     
+    @Mock private JudgmentMeansOfAppealCreator judgmentMeansOfAppealCreator;
+    
+    @Mock private JudgmentResultCreator judgmentResultCreator;
+    
     @Mock private SourceJudgeExtractorHelper sourceJudgeExtractorHelper;
     
     
@@ -79,6 +88,8 @@ public class SourceScJudgmentExtractorTest {
         judgmentExtractor.setScJudgmentFormConverter(scJudgmentFormConverter);
         judgmentExtractor.setScJudgmentFormCreator(scJudgmentFormCreator);
         judgmentExtractor.setScJudgmentFormNameNormalizer(scJudgmentFormNameNormalizer);
+        judgmentExtractor.setJudgmentMeansOfAppealCreator(judgmentMeansOfAppealCreator);
+        judgmentExtractor.setJudgmentResultCreator(judgmentResultCreator);
         judgmentExtractor.setSourceJudgeExtractorHelper(sourceJudgeExtractorHelper);
     }
 
@@ -279,6 +290,69 @@ public class SourceScJudgmentExtractorTest {
         
         assertNotNull(referencedRegulations);
         assertEquals(0, referencedRegulations.size());
+    }
+    
+    
+    @Test
+    public void extractReceiptDate() {
+        // given
+        LocalDate receiptDate = new LocalDate();
+        sJudgment.setReceiptDate(receiptDate);
+        
+        // execute
+        LocalDate retReceiptDate = judgmentExtractor.extractReceiptDate(sJudgment, correctionList);
+        
+        // assert
+        assertEquals(receiptDate, retReceiptDate);
+    }
+    
+    @Test
+    public void extractLowerCourtJudgments() {
+        // given
+        List<String> lowerCourtJudgments = Lists.newArrayList("first", "second");
+        sJudgment.setLowerCourtJudgments(lowerCourtJudgments);
+        
+        // execute
+        List<String> retLowerCourtJudgments = judgmentExtractor.extractLowerCourtJudgments(sJudgment, correctionList);
+        
+        // assert
+        assertThat(retLowerCourtJudgments, Matchers.contains(lowerCourtJudgments.get(0), lowerCourtJudgments.get(1)));
+    }
+    
+    @Test
+    public void extractMeansOfAppeal() {
+        // given
+        String meansOfAppealString = "meansOfAppeal";
+        MeansOfAppeal meansOfAppeal = new MeansOfAppeal(CourtType.SUPREME, meansOfAppealString);
+        sJudgment.setMeansOfAppeal(meansOfAppealString);
+        
+        when(judgmentMeansOfAppealCreator.fetchOrCreateMeansOfAppeal(CourtType.SUPREME, meansOfAppealString)).thenReturn(meansOfAppeal);
+        
+        
+        // execute
+        MeansOfAppeal retMeansOfAppeal = judgmentExtractor.extractMeansOfAppeal(sJudgment, correctionList);
+        
+        
+        // assert
+        assertTrue(meansOfAppeal == retMeansOfAppeal);
+    }
+    
+    @Test
+    public void extractJudgmentResult() {
+        // given
+        String judgmentResultString = "judgmentResult";
+        JudgmentResult judgmentResult = new JudgmentResult(CourtType.SUPREME, judgmentResultString);
+        sJudgment.setJudgmentResult(judgmentResultString);
+        
+        when(judgmentResultCreator.fetchOrCreateJudgmentResult(CourtType.SUPREME, judgmentResultString)).thenReturn(judgmentResult);
+        
+        
+        // execute
+        JudgmentResult retJudgmentResult = judgmentExtractor.extractJudgmentResult(sJudgment, correctionList);
+        
+        
+        // assert
+        assertTrue(judgmentResult == retJudgmentResult);
     }
 
 

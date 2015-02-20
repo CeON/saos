@@ -2,11 +2,14 @@ package pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.importer.common.JudgmentMeansOfAppealCreator;
+import pl.edu.icm.saos.importer.common.JudgmentResultCreator;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgeExtractorHelper;
@@ -15,9 +18,12 @@ import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.Sour
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
 import com.google.common.collect.Lists;
@@ -27,6 +33,10 @@ import com.google.common.collect.Lists;
  */
 @Service("sourceCtJudgmentExtractor")
 public class SourceCtJudgmentExtractor implements JudgmentDataExtractor<ConstitutionalTribunalJudgment, SourceCtJudgment> {
+    
+    private JudgmentMeansOfAppealCreator judgmentMeansOfAppealCreator;
+    
+    private JudgmentResultCreator judgmentResultCreator;
     
     private SourceJudgeExtractorHelper sourceJudgeExtractorHelper;
     
@@ -103,6 +113,32 @@ public class SourceCtJudgmentExtractor implements JudgmentDataExtractor<Constitu
     public LocalDate extractJudgmentDate(SourceCtJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getJudgmentDate();
     }
+    
+    @Override
+    public LocalDate extractReceiptDate(SourceCtJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        return sourceJudgment.getReceiptDate();
+    }
+
+    @Override
+    public List<String> extractLowerCourtJudgments(SourceCtJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        return Lists.newArrayList(sourceJudgment.getLowerCourtJudgments());
+    }
+
+    @Override
+    public MeansOfAppeal extractMeansOfAppeal(SourceCtJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        if (StringUtils.isEmpty(sourceJudgment.getMeansOfAppeal())) {
+            return null;
+        }
+        return judgmentMeansOfAppealCreator.fetchOrCreateMeansOfAppeal(CourtType.CONSTITUTIONAL_TRIBUNAL, sourceJudgment.getMeansOfAppeal());
+    }
+
+    @Override
+    public JudgmentResult extractJudgmentResult(SourceCtJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        if (StringUtils.isEmpty(sourceJudgment.getJudgmentResult())) {
+            return null;
+        }
+        return judgmentResultCreator.fetchOrCreateJudgmentResult(CourtType.CONSTITUTIONAL_TRIBUNAL, sourceJudgment.getJudgmentResult());
+    }
 
     @Override
     public String extractSourceJudgmentId(SourceCtJudgment sourceJudgment, ImportCorrectionList correctionList) {
@@ -154,7 +190,17 @@ public class SourceCtJudgmentExtractor implements JudgmentDataExtractor<Constitu
 
     
     //------------------------ SETTERS --------------------------
-    
+
+    @Autowired
+    public void setJudgmentMeansOfAppealCreator(JudgmentMeansOfAppealCreator judgmentMeansOfAppealCreator) {
+        this.judgmentMeansOfAppealCreator = judgmentMeansOfAppealCreator;
+    }
+
+    @Autowired
+    public void setJudgmentResultCreator(JudgmentResultCreator judgmentResultCreator) {
+        this.judgmentResultCreator = judgmentResultCreator;
+    }
+
     @Autowired
     public void setSourceJudgeExtractorHelper(SourceJudgeExtractorHelper sourceJudgeExtractorHelper) {
         this.sourceJudgeExtractorHelper = sourceJudgeExtractorHelper;

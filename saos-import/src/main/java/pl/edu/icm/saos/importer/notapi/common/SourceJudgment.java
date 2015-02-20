@@ -24,6 +24,10 @@ public abstract class SourceJudgment {
     private LocalDate judgmentDate;
     private List<SourceJudge> judges = Lists.newArrayList();
     private List<String> courtReporters = Lists.newArrayList();
+    private LocalDate receiptDate;
+    private List<String> lowerCourtJudgments = Lists.newArrayList();
+    private String meansOfAppeal;
+    private String judgmentResult;
     private Source source;
     
     
@@ -47,12 +51,29 @@ public abstract class SourceJudgment {
         return courtReporters;
     }
     
+    @JsonDeserialize(using = LocalDateIsoDeserializer.class)
+    public LocalDate getReceiptDate() {
+        return receiptDate;
+    }
+    
+    public List<String> getLowerCourtJudgments() {
+        return lowerCourtJudgments;
+    }
+    
+    public String getMeansOfAppeal() {
+        return meansOfAppeal;
+    }
+    
+    public String getJudgmentResult() {
+        return judgmentResult;
+    }
+    
     @NotNull
     public Source getSource() {
         return source;
     }
     
-    
+
     //------------------------ SETTERS --------------------------
 
     public void setTextContent(String textContent) {
@@ -69,6 +90,22 @@ public abstract class SourceJudgment {
     
     public void setCourtReporters(List<String> courtReporters) {
         this.courtReporters = courtReporters;
+    }
+    
+    public void setReceiptDate(LocalDate receiptDate) {
+        this.receiptDate = receiptDate;
+    }
+    
+    public void setLowerCourtJudgments(List<String> lowerCourtJudgments) {
+        this.lowerCourtJudgments = lowerCourtJudgments;
+    }
+    
+    public void setMeansOfAppeal(String meansOfAppeal) {
+        this.meansOfAppeal = meansOfAppeal;
+    }
+    
+    public void setJudgmentResult(String judgmentResult) {
+        this.judgmentResult = judgmentResult;
     }
     
     public void setSource(Source source) {

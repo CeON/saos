@@ -75,6 +75,8 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
         deleteJudgeRoles(judgmentIds);
         deleteJudgmentAttributes(Judge.class, judgmentIds);
         
+        deleteJudgmentAttributesSql("judgment_lower_court_judgments", judgmentIds);
+        
         deleteEnrichmentTags(judgmentIds);
         
         deleteJudgments(judgmentIds);

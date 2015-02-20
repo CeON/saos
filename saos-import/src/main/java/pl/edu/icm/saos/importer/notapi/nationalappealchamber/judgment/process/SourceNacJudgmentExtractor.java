@@ -2,13 +2,14 @@ package pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.process;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
-
+import pl.edu.icm.saos.importer.common.JudgmentMeansOfAppealCreator;
+import pl.edu.icm.saos.importer.common.JudgmentResultCreator;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgeExtractorHelper;
@@ -16,9 +17,14 @@ import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.json.Sourc
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author madryk
@@ -26,6 +32,10 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
 @Service("sourceNacJudgmentExtractor")
 public class SourceNacJudgmentExtractor implements JudgmentDataExtractor<NationalAppealChamberJudgment, SourceNacJudgment> {
 
+    private JudgmentMeansOfAppealCreator judgmentMeansOfAppealCreator;
+    
+    private JudgmentResultCreator judgmentResultCreator;
+    
     private SourceJudgeExtractorHelper sourceJudgeExtractorHelper;
     
     
@@ -104,6 +114,32 @@ public class SourceNacJudgmentExtractor implements JudgmentDataExtractor<Nationa
     public LocalDate extractJudgmentDate(SourceNacJudgment sourceJudgment, ImportCorrectionList correctionList) {
         return sourceJudgment.getJudgmentDate();
     }
+    
+    @Override
+    public LocalDate extractReceiptDate(SourceNacJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        return sourceJudgment.getReceiptDate();
+    }
+
+    @Override
+    public List<String> extractLowerCourtJudgments(SourceNacJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        return Lists.newArrayList(sourceJudgment.getLowerCourtJudgments());
+    }
+
+    @Override
+    public MeansOfAppeal extractMeansOfAppeal(SourceNacJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        if (StringUtils.isEmpty(sourceJudgment.getMeansOfAppeal())) {
+            return null;
+        }
+        return judgmentMeansOfAppealCreator.fetchOrCreateMeansOfAppeal(CourtType.NATIONAL_APPEAL_CHAMBER, sourceJudgment.getMeansOfAppeal());
+    }
+
+    @Override
+    public JudgmentResult extractJudgmentResult(SourceNacJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        if (StringUtils.isEmpty(sourceJudgment.getJudgmentResult())) {
+            return null;
+        }
+        return judgmentResultCreator.fetchOrCreateJudgmentResult(CourtType.NATIONAL_APPEAL_CHAMBER, sourceJudgment.getJudgmentResult());
+    }
 
     @Override
     public String extractSourceJudgmentId(SourceNacJudgment sourceJudgment, ImportCorrectionList correctionList) {
@@ -128,7 +164,17 @@ public class SourceNacJudgmentExtractor implements JudgmentDataExtractor<Nationa
 
     
     //------------------------ SETTERS --------------------------
-    
+
+    @Autowired
+    public void setJudgmentMeansOfAppealCreator(JudgmentMeansOfAppealCreator judgmentMeansOfAppealCreator) {
+        this.judgmentMeansOfAppealCreator = judgmentMeansOfAppealCreator;
+    }
+
+    @Autowired
+    public void setJudgmentResultCreator(JudgmentResultCreator judgmentResultCreator) {
+        this.judgmentResultCreator = judgmentResultCreator;
+    }
+
     @Autowired
     public void setSourceJudgeExtractorHelper(
             SourceJudgeExtractorHelper sourceJudgeExtractorHelper) {

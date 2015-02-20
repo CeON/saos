@@ -11,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Before;
@@ -19,12 +20,17 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import pl.edu.icm.saos.importer.common.JudgmentMeansOfAppealCreator;
+import pl.edu.icm.saos.importer.common.JudgmentResultCreator;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgeExtractorHelper;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.Source;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.json.SourceNacJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
@@ -41,6 +47,12 @@ public class SourceNacJudgmentExtractorTest {
     private SourceNacJudgmentExtractor judgmentExtractor = new SourceNacJudgmentExtractor();
     
     @Mock
+    private JudgmentMeansOfAppealCreator judgmentMeansOfAppealCreator;
+    
+    @Mock
+    private JudgmentResultCreator judgmentResultCreator;
+    
+    @Mock
     private SourceJudgeExtractorHelper sourceJudgeExtractorHelper;
     
     
@@ -51,6 +63,8 @@ public class SourceNacJudgmentExtractorTest {
     
     @Before
     public void setUp() {
+        judgmentExtractor.setJudgmentMeansOfAppealCreator(judgmentMeansOfAppealCreator);
+        judgmentExtractor.setJudgmentResultCreator(judgmentResultCreator);
         judgmentExtractor.setSourceJudgeExtractorHelper(sourceJudgeExtractorHelper);
     }
     
@@ -275,6 +289,69 @@ public class SourceNacJudgmentExtractorTest {
         
         // assert
         assertThat(referencedRegulations, is(empty()));
+    }
+    
+    
+    @Test
+    public void extractReceiptDate() {
+        // given
+        LocalDate receiptDate = new LocalDate();
+        sJudgment.setReceiptDate(receiptDate);
+        
+        // execute
+        LocalDate retReceiptDate = judgmentExtractor.extractReceiptDate(sJudgment, correctionList);
+        
+        // assert
+        assertEquals(receiptDate, retReceiptDate);
+    }
+    
+    @Test
+    public void extractLowerCourtJudgments() {
+        // given
+        List<String> lowerCourtJudgments = Lists.newArrayList("first", "second");
+        sJudgment.setLowerCourtJudgments(lowerCourtJudgments);
+        
+        // execute
+        List<String> retLowerCourtJudgments = judgmentExtractor.extractLowerCourtJudgments(sJudgment, correctionList);
+        
+        // assert
+        assertThat(retLowerCourtJudgments, Matchers.contains(lowerCourtJudgments.get(0), lowerCourtJudgments.get(1)));
+    }
+    
+    @Test
+    public void extractMeansOfAppeal() {
+        // given
+        String meansOfAppealString = "meansOfAppeal";
+        MeansOfAppeal meansOfAppeal = new MeansOfAppeal(CourtType.NATIONAL_APPEAL_CHAMBER, meansOfAppealString);
+        sJudgment.setMeansOfAppeal(meansOfAppealString);
+        
+        when(judgmentMeansOfAppealCreator.fetchOrCreateMeansOfAppeal(CourtType.NATIONAL_APPEAL_CHAMBER, meansOfAppealString)).thenReturn(meansOfAppeal);
+        
+        
+        // execute
+        MeansOfAppeal retMeansOfAppeal = judgmentExtractor.extractMeansOfAppeal(sJudgment, correctionList);
+        
+        
+        // assert
+        assertTrue(meansOfAppeal == retMeansOfAppeal);
+    }
+    
+    @Test
+    public void extractJudgmentResult() {
+        // given
+        String judgmentResultString = "judgmentResult";
+        JudgmentResult judgmentResult = new JudgmentResult(CourtType.NATIONAL_APPEAL_CHAMBER, judgmentResultString);
+        sJudgment.setJudgmentResult(judgmentResultString);
+        
+        when(judgmentResultCreator.fetchOrCreateJudgmentResult(CourtType.NATIONAL_APPEAL_CHAMBER, judgmentResultString)).thenReturn(judgmentResult);
+        
+        
+        // execute
+        JudgmentResult retJudgmentResult = judgmentExtractor.extractJudgmentResult(sJudgment, correctionList);
+        
+        
+        // assert
+        assertTrue(judgmentResult == retJudgmentResult);
     }
     
     
