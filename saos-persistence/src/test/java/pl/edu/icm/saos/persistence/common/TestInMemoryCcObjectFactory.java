@@ -104,6 +104,14 @@ final class TestInMemoryCcObjectFactory {
         JudgmentKeyword secondKeyword = new JudgmentKeyword(CourtType.COMMON, CC_SECOND_KEYWORD);
         ccJudgment.addKeyword(firstKeyword);
         ccJudgment.addKeyword(secondKeyword);
+        
+        ccJudgment.setReceiptDate(new LocalDate(CC_RECEIPT_DATE_YEAR, CC_RECEIPT_DATE_MONTH, CC_RECEIPT_DATE_DAY));
+        
+        ccJudgment.setMeansOfAppeal(new MeansOfAppeal(CourtType.COMMON, CC_MEANS_OF_APPEAL));
+        ccJudgment.setJudgmentResult(new JudgmentResult(CourtType.COMMON, CC_JUDGMENT_RESULT));
+        
+        ccJudgment.addLowerCourtJudgment(CC_FIRST_LOWER_COURT_JUDGMENT);
+        ccJudgment.addLowerCourtJudgment(CC_SECOND_LOWER_COURT_JUDGMENT);
 
 
         return ccJudgment;

@@ -57,11 +57,13 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
+    
+    //------------------------ TESTS --------------------------
 
     @Test
     public void search__it_should_not_throw_lazy_exception_for_empty_dissenting_opinions_list(){
         //given
-        ConstitutionalTribunalJudgment ctJudgment = testPersistenceObjectFactory.createSimpleCtJudgment();
+        testPersistenceObjectFactory.createSimpleCtJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -81,7 +83,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Test
     public void search__it_should_not_throw_lazy_exception_for_empty_scChambers_list(){
         //given
-        SupremeCourtJudgment scJudgment = testPersistenceObjectFactory.createSimpleScJudgment();
+        testPersistenceObjectFactory.createSimpleScJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -99,7 +101,8 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
 
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_court_cases(){
-        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
+        //given
+        testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -115,7 +118,8 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
 
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_judges_list(){
-        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
+        //given
+        testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -130,7 +134,8 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
 
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_courtReporters_list(){
-        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
+        //given
+        testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -146,7 +151,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_legalBases_list(){
         //given
-        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
+        testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -162,7 +167,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
     
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_referencedRegulations_list(){
-        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
+        testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -177,7 +182,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
 
     @Test
     public void search_it_should_not_throw_lazy_exception_for_empty_keywords_list(){
-        CommonCourtJudgment firstJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
+        testPersistenceObjectFactory.createSimpleCcJudgment();
 
         //when
         JudgmentSearchFilter searchFilter = JudgmentSearchFilter.builder()
@@ -228,6 +233,11 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
 
         assertThat("last modification date should not be null", actualJudgment.getModificationDate(), notNullValue());
         assertThat("last modification date ", actualJudgment.getModificationDate(), is(ccJudgment.getModificationDate()));
+        
+        assertThat("lower court judgments", actualJudgment.getLowerCourtJudgments(), containsListInAnyOrder(ccJudgment.getLowerCourtJudgments()));
+        assertThat("receipt date", actualJudgment.getReceiptDate(), is(ccJudgment.getReceiptDate()));
+        assertThat("judgment result", actualJudgment.getJudgmentResult(), is(ccJudgment.getJudgmentResult()));
+        assertThat("means of appeal", actualJudgment.getMeansOfAppeal(), is(ccJudgment.getMeansOfAppeal()));
     }
 
     @Test

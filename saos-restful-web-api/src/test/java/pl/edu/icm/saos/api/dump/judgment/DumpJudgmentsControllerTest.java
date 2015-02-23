@@ -226,6 +226,14 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
 
                 .andExpect(jsonPath(pathPrefix+".keywords.[0]").value(CC_FIRST_KEYWORD))
                 .andExpect(jsonPath(pathPrefix + ".keywords.[1]").value(CC_SECOND_KEYWORD))
+                
+                .andExpect(jsonPath(pathPrefix + ".receiptDate").value(CC_RECEIPT_DATE_YEAR + "-" + CC_RECEIPT_DATE_MONTH + "-" + CC_RECEIPT_DATE_DAY))
+                .andExpect(jsonPath(pathPrefix + ".meansOfAppeal").value(CC_MEANS_OF_APPEAL))
+                .andExpect(jsonPath(pathPrefix + ".judgmentResult").value(CC_JUDGMENT_RESULT))
+                
+                .andExpect(jsonPath(pathPrefix + ".lowerCourtJudgments", hasSize(2)))
+                .andExpect(jsonPath(pathPrefix + ".lowerCourtJudgments.[0]").value(CC_FIRST_LOWER_COURT_JUDGMENT))
+                .andExpect(jsonPath(pathPrefix + ".lowerCourtJudgments.[1]").value(CC_SECOND_LOWER_COURT_JUDGMENT))
 
                 .andExpect(jsonPath(pathPrefix + ".division.id").value(equalsLong(testObjectContext.getCcFirstDivisionId())));
         
@@ -313,6 +321,14 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalYear").value(SC_THIRD_REFERENCED_REGULATION_YEAR))
                 .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].text").value(SC_THIRD_REFERENCED_REGULATION_TEXT))
                 
+                .andExpect(jsonPath(pathPrefix + ".receiptDate").value(SC_RECEIPT_DATE_YEAR + "-" + SC_RECEIPT_DATE_MONTH + "-" + SC_RECEIPT_DATE_DAY))
+                .andExpect(jsonPath(pathPrefix + ".meansOfAppeal").value(SC_MEANS_OF_APPEAL))
+                .andExpect(jsonPath(pathPrefix + ".judgmentResult").value(SC_JUDGMENT_RESULT))
+                
+                .andExpect(jsonPath(pathPrefix + ".lowerCourtJudgments", hasSize(2)))
+                .andExpect(jsonPath(pathPrefix + ".lowerCourtJudgments.[0]").value(SC_FIRST_LOWER_COURT_JUDGMENT))
+                .andExpect(jsonPath(pathPrefix + ".lowerCourtJudgments.[1]").value(SC_SECOND_LOWER_COURT_JUDGMENT))
+                
                 .andExpect(jsonPath(pathPrefix+".referencedCourtCases").doesNotExist())
                 
         ;
@@ -379,6 +395,14 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
 
                 .andExpect(jsonPath(pathPrefix + ".keywords.[0]").value(CT_FIRST_KEYWORD))
                 .andExpect(jsonPath(pathPrefix + ".keywords.[1]").value(CT_SECOND_KEYWORD))
+                
+                .andExpect(jsonPath(pathPrefix + ".receiptDate").value(CT_RECEIPT_DATE_YEAR + "-" + CT_RECEIPT_DATE_MONTH + "-" + CT_RECEIPT_DATE_DAY))
+                .andExpect(jsonPath(pathPrefix + ".meansOfAppeal").value(CT_MEANS_OF_APPEAL))
+                .andExpect(jsonPath(pathPrefix + ".judgmentResult").value(CT_JUDGMENT_RESULT))
+                
+                .andExpect(jsonPath(pathPrefix + ".lowerCourtJudgments", hasSize(2)))
+                .andExpect(jsonPath(pathPrefix + ".lowerCourtJudgments.[0]").value(CT_FIRST_LOWER_COURT_JUDGMENT))
+                .andExpect(jsonPath(pathPrefix + ".lowerCourtJudgments.[1]").value(CT_SECOND_LOWER_COURT_JUDGMENT))
                 
                 .andExpect(jsonPath(pathPrefix+".referencedCourtCases").doesNotExist())
         ;
