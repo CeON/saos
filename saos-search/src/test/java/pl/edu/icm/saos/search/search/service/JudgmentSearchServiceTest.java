@@ -97,6 +97,10 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechali").build() },
             { Lists.newArrayList(21l), new JudgmentCriteriaBuilder("zaniechały").build() },
             
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder("AND").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder("OR").build() },
+            { Lists.newArrayList(), new JudgmentCriteriaBuilder("NOT").build() },
+            
             { Lists.newArrayList(1961l), new JudgmentCriteriaBuilder().withDateRange(new LocalDate(2012, 5, 15), new LocalDate(2012, 5, 15)).build() },
             { Lists.newArrayList(41808l), new JudgmentCriteriaBuilder().withDateFrom(new LocalDate(2014, 9, 3)).build() },
             { Lists.newArrayList(1961l, 41808l), new JudgmentCriteriaBuilder().withDateTo(new LocalDate(2014, 9, 3)).build() },

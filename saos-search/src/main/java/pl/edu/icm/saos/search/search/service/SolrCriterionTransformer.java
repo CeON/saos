@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.search.config.model.IndexField;
 import pl.edu.icm.saos.search.util.SearchDateTimeUtils;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 /**
@@ -38,6 +39,8 @@ public class SolrCriterionTransformer<F extends IndexField> {
          */
         OR
     }
+    
+    private final static List<String> SOLR_OPERATORS = ImmutableList.of("AND", "OR", "NOT");
     
     
     //------------------------ LOGIC --------------------------
@@ -261,7 +264,11 @@ public class SolrCriterionTransformer<F extends IndexField> {
     //------------------------ PRIVATE --------------------------
     
     private String buildEqualsCriterion(String fieldName, String value, Operator operator) {
-        return ((operator == Operator.AND) ? "+" : "") + fieldName + ":" + ClientUtils.escapeQueryChars(value);
+        String preparedValue = value.trim();
+        preparedValue = ClientUtils.escapeQueryChars(preparedValue);
+        preparedValue = escapeOperators(preparedValue);
+        
+        return ((operator == Operator.AND) ? "+" : "") + fieldName + ":" + preparedValue;
     }
     
     private String buildParsedEqualsCriterion(String fieldName, String value, String defaultOperator) {
@@ -271,7 +278,9 @@ public class SolrCriterionTransformer<F extends IndexField> {
             preparedValue = preparedValue.substring(1);
         }
         if (!isPhrase(value)) {
+            preparedValue = preparedValue.trim();
             preparedValue = ClientUtils.escapeQueryChars(preparedValue);
+            preparedValue = escapeOperators(preparedValue);
         }
         
         return operator + fieldName + ":" + preparedValue;
@@ -339,5 +348,13 @@ public class SolrCriterionTransformer<F extends IndexField> {
     
     private boolean isExclusion(String value) {
         return value.length() > 1 && value.startsWith("-");
+    }
+    
+    private String escapeOperators(String value) {
+        
+        if (value.equals("AND") || value.equals("OR") || value.equals("NOT")) {
+            return "\\" + value;
+        }
+        return value;
     }
 }
