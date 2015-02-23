@@ -103,6 +103,14 @@ final class TestInMemoryScObjectFactory {
         SupremeCourtJudgmentForm scForm = new SupremeCourtJudgmentForm();
         scForm.setName(SC_JUDGMENT_FORM_NAME);
         scJudgment.setScJudgmentForm(scForm);
+        
+        scJudgment.setReceiptDate(new LocalDate(SC_RECEIPT_DATE_YEAR, SC_RECEIPT_DATE_MONTH, SC_RECEIPT_DATE_DAY));
+        
+        scJudgment.setMeansOfAppeal(new MeansOfAppeal(CourtType.SUPREME, SC_MEANS_OF_APPEAL));
+        scJudgment.setJudgmentResult(new JudgmentResult(CourtType.SUPREME, SC_JUDGMENT_RESULT));
+        
+        scJudgment.addLowerCourtJudgment(SC_FIRST_LOWER_COURT_JUDGMENT);
+        scJudgment.addLowerCourtJudgment(SC_SECOND_LOWER_COURT_JUDGMENT);
 
 
         return scJudgment;

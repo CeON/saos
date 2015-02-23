@@ -12,64 +12,7 @@ import static pl.edu.icm.saos.api.services.Constants.SINGLE_COURTS_PATH;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_DIVISIONS_PATH;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_JUDGMENTS_PATH;
 import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CASE_NUMBER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_CODE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_TYPE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_DAY;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_MONTH;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_YEAR;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DECISION;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_COURT_REPORTER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_CODE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_TYPE_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_FUNCTION;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_ROLE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_KEYWORD;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_LEGAL_BASE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_ENTRY;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_JOURNAL_NO;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_TEXT;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_TITLE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_YEAR;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_JUDGMENT_TYPE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_COURT_REPORTER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_JUDGE_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_KEYWORD;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_LEGAL_BASE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_ENTRY;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_JOURNAL_NO;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_TEXT;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_TITLE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_YEAR;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_JUDGMENT_ID;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_JUDGMENT_URL;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_PUBLISHER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_REVISER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SUMMARY;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_TEXT_CONTENT;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_JUDGE_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_ENTRY;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_JOURNAL_NO;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_TEXT;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_TITLE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_YEAR;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_FIRST_DISSENTING_OPINION_FIRST_AUTHOR;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_FIRST_DISSENTING_OPINION_SECOND_AUTHOR;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_FIRST_DISSENTING_OPINION_TEXT;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_SECOND_DISSENTING_OPINION_FIRST_AUTHOR;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CT_SECOND_DISSENTING_OPINION_TEXT;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_FIRST_CASE_NUMBER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_SECOND_CASE_NUMBER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_CHAMBER_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_CHAMBER_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_DIVISION_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_JUDGMENT_FORM_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_PERSONNEL_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
@@ -166,6 +109,14 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.data.judges.[1].specialRoles").value(emptyIterable()))
                 .andExpect(jsonPath("$.data.judges.[2].name").value(CC_THIRD_JUDGE_NAME))
                 .andExpect(jsonPath("$.data.judges.[2].specialRoles").value(emptyIterable()))
+                
+                .andExpect(jsonPath("$.data.receiptDate").value(CC_RECEIPT_DATE_YEAR + "-" + CC_RECEIPT_DATE_MONTH + "-" + CC_RECEIPT_DATE_DAY))
+                .andExpect(jsonPath("$.data.meansOfAppeal").value(CC_MEANS_OF_APPEAL))
+                .andExpect(jsonPath("$.data.judgmentResult").value(CC_JUDGMENT_RESULT))
+                
+                .andExpect(jsonPath("$.data.lowerCourtJudgments", hasSize(2)))
+                .andExpect(jsonPath("$.data.lowerCourtJudgments.[0]").value(CC_FIRST_LOWER_COURT_JUDGMENT))
+                .andExpect(jsonPath("$.data.lowerCourtJudgments.[1]").value(CC_SECOND_LOWER_COURT_JUDGMENT))
                 
                 .andExpect(jsonPath("$.data.referencedCourtCases", hasSize(2)))
                 .andExpect(jsonPath("$.data.referencedCourtCases.[0].caseNumber").value(REFERENCED_COURT_CASES_TAG_FIRST_CASE_NUMBER))

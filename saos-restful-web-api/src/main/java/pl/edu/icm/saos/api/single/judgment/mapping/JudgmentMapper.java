@@ -207,6 +207,10 @@ public class JudgmentMapper {
         data.setReferencedRegulations(toReferencedRegulations(judgment.getReferencedRegulations()));
         data.setKeywords(toListFromKeywords(judgment.getKeywords()));
         data.setReferencedCourtCases(toReferencedCourtCases(judgment.getReferencedCourtCases()));
+        data.setReceiptDate(dateMapping.toISO8601Format(judgment.getReceiptDate()));
+        data.setMeansOfAppeal((judgment.getMeansOfAppeal() == null) ? null : judgment.getMeansOfAppeal().getName());
+        data.setJudgmentResult((judgment.getJudgmentResult() == null) ? null : judgment.getJudgmentResult().getText());
+        data.setLowerCourtJudgments(toSimpleList(judgment.getLowerCourtJudgments()));
         
     }
     

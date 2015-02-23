@@ -4,6 +4,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
+
 import pl.edu.icm.saos.persistence.model.*;
 
 import java.util.ArrayList;
@@ -90,6 +91,15 @@ final class TestInMemoryCtObjectFactory {
         JudgmentKeyword secondKeyword = new JudgmentKeyword(CourtType.CONSTITUTIONAL_TRIBUNAL, CT_SECOND_KEYWORD);
         ctJudgment.addKeyword(firstKeyword);
         ctJudgment.addKeyword(secondKeyword);
+        
+        ctJudgment.setReceiptDate(new LocalDate(CT_RECEIPT_DATE_YEAR, CT_RECEIPT_DATE_MONTH, CT_RECEIPT_DATE_DAY));
+        
+        ctJudgment.setMeansOfAppeal(new MeansOfAppeal(CourtType.CONSTITUTIONAL_TRIBUNAL, CT_MEANS_OF_APPEAL));
+        ctJudgment.setJudgmentResult(new JudgmentResult(CourtType.CONSTITUTIONAL_TRIBUNAL, CT_JUDGMENT_RESULT));
+        
+        ctJudgment.addLowerCourtJudgment(CT_FIRST_LOWER_COURT_JUDGMENT);
+        ctJudgment.addLowerCourtJudgment(CT_SECOND_LOWER_COURT_JUDGMENT);
+        
 
         ConstitutionalTribunalJudgmentDissentingOpinion firstOpinion = new ConstitutionalTribunalJudgmentDissentingOpinion();
         firstOpinion.setTextContent(CT_FIRST_DISSENTING_OPINION_TEXT);

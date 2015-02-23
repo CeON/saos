@@ -260,6 +260,47 @@ public final class TextObjectDefaultData {
     public static final String CT_SECOND_DISSENTING_OPINION_FIRST_AUTHOR = "ct Agnieszka Sok";
     
     
+    public static final int CC_RECEIPT_DATE_YEAR = 2002;
+    public static final int CC_RECEIPT_DATE_MONTH = 12;
+    public static final int CC_RECEIPT_DATE_DAY = 21;
+    
+    public static final int SC_RECEIPT_DATE_YEAR = 2003;
+    public static final int SC_RECEIPT_DATE_MONTH = 11;
+    public static final int SC_RECEIPT_DATE_DAY = 22;
+    
+    public static final int CT_RECEIPT_DATE_YEAR = 2004;
+    public static final int CT_RECEIPT_DATE_MONTH = 10;
+    public static final int CT_RECEIPT_DATE_DAY = 23;
+    
+    public static final int NAC_RECEIPT_DATE_YEAR = 2005;
+    public static final int NAC_RECEIPT_DATE_MONTH = 11;
+    public static final int NAC_RECEIPT_DATE_DAY = 24;
+    
+    
+    public static final String CC_MEANS_OF_APPEAL = "skarga";
+    public static final String SC_MEANS_OF_APPEAL = "apelacja";
+    public static final String CT_MEANS_OF_APPEAL = "wniosek";
+    public static final String NAC_MEANS_OF_APPEAL = "zagadnienie prawne";
+    
+    
+    public static final String CC_JUDGMENT_RESULT = "utrzymano w mocy";
+    public static final String SC_JUDGMENT_RESULT = "zawieszono sprawe";
+    public static final String CT_JUDGMENT_RESULT = "umorzono";
+    public static final String NAC_JUDGMENT_RESULT = "oddalono";
+    
+    
+    public static final String CC_FIRST_LOWER_COURT_JUDGMENT = "XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sad Okregowy Warszawa";
+    public static final String CC_SECOND_LOWER_COURT_JUDGMENT = "WSD 20/00 - orzeczenie z dnia 30 wrzesnia 2000 r. - Wyzszy Sad Dyscyplinarny Warszawa";
+    
+    public static final String SC_FIRST_LOWER_COURT_JUDGMENT = "SC XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sad Okregowy Warszawa";
+    public static final String SC_SECOND_LOWER_COURT_JUDGMENT = "SC WSD 20/00 - orzeczenie z dnia 30 wrzesnia 2000 r. - Wyzszy Sad Dyscyplinarny Warszawa";
+    
+    public static final String CT_FIRST_LOWER_COURT_JUDGMENT = "CT XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sad Okregowy Warszawa";
+    public static final String CT_SECOND_LOWER_COURT_JUDGMENT = "CT WSD 20/00 - orzeczenie z dnia 30 wrzesnia 2000 r. - Wyzszy Sad Dyscyplinarny Warszawa";
+    
+    public static final String NAC_FIRST_LOWER_COURT_JUDGMENT = "NAC XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sad Okregowy Warszawa";
+    public static final String NAC_SECOND_LOWER_COURT_JUDGMENT = "NAC WSD 20/00 - orzeczenie z dnia 30 wrzesnia 2000 r. - Wyzszy Sad Dyscyplinarny Warszawa";
+    
     
     public static final String FIRST_ENRICHMENT_TAG_TYPE = "REFERENCED_REGULATIONS";
     public static final String FIRST_ENRICHMENT_TAG_VALUE_KEY = "ref";

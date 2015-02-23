@@ -1,39 +1,6 @@
 package pl.edu.icm.saos.persistence.common;
 
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_CASE_NUMBER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_DATE_DAY;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_DATE_MONTH;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_DATE_YEAR;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_DECISION;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_FIRST_COURT_REPORTER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_FIRST_JUDGE_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_FIRST_JUDGE_ROLE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_FIRST_KEYWORD;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_FIRST_LEGAL_BASE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_FIRST_REFERENCED_REGULATION_ENTRY;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_FIRST_REFERENCED_REGULATION_JOURNAL_NO;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_FIRST_REFERENCED_REGULATION_TEXT;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_FIRST_REFERENCED_REGULATION_TITLE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_FIRST_REFERENCED_REGULATION_YEAR;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_JUDGMENT_TYPE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SECOND_COURT_REPORTER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SECOND_JUDGE_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SECOND_KEYWORD;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SECOND_LEGAL_BASE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SECOND_REFERENCED_REGULATION_ENTRY;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SECOND_REFERENCED_REGULATION_JOURNAL_NO;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SECOND_REFERENCED_REGULATION_TEXT;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SECOND_REFERENCED_REGULATION_TITLE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SECOND_REFERENCED_REGULATION_YEAR;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SOURCE_CODE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SOURCE_JUDGMENT_ID;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SOURCE_JUDGMENT_URL;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SOURCE_PUBLISHER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SOURCE_REVISER;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_SUMMARY;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_TEXT_CONTENT;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_THIRD_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +15,10 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
@@ -137,6 +106,14 @@ final class TestInMemoryNacObjectFactory {
         JudgmentKeyword secondKeyword = new JudgmentKeyword(CourtType.NATIONAL_APPEAL_CHAMBER, NAC_SECOND_KEYWORD);
         nacJudgment.addKeyword(firstKeyword);
         nacJudgment.addKeyword(secondKeyword);
+        
+        nacJudgment.setReceiptDate(new LocalDate(NAC_RECEIPT_DATE_YEAR, NAC_RECEIPT_DATE_MONTH, NAC_RECEIPT_DATE_DAY));
+        
+        nacJudgment.setMeansOfAppeal(new MeansOfAppeal(CourtType.NATIONAL_APPEAL_CHAMBER, NAC_MEANS_OF_APPEAL));
+        nacJudgment.setJudgmentResult(new JudgmentResult(CourtType.NATIONAL_APPEAL_CHAMBER, NAC_JUDGMENT_RESULT));
+        
+        nacJudgment.addLowerCourtJudgment(NAC_FIRST_LOWER_COURT_JUDGMENT);
+        nacJudgment.addLowerCourtJudgment(NAC_SECOND_LOWER_COURT_JUDGMENT);
 
         return nacJudgment;
     }
