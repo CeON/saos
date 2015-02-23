@@ -74,6 +74,7 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
         initializeCourtReporters(judgmentIds);
         initializeLegalBases(judgmentIds);
         initializeReferencedRegulationsAndTheirLawJournalEntries(judgmentIds, searchResult);
+        initializeLowerCourtJudgments(judgmentIds);
 
         initializeCommonCourtJudgmentSpecificFields(judgmentIds);
         initializeSupremeCourtJudgmentSpecificFields(judgmentIds);
@@ -119,6 +120,10 @@ public class JudgmentJpqlSearchImplementor extends AbstractJpqlSearchImplementor
             setIdsParameterAndExecuteQuery(" select regulation from " + JudgmentReferencedRegulation.class.getName() + " regulation join fetch regulation.lawJournalEntry  lawJournalEntry where regulation.id in (:ids) ",
                     extractReferencedRegulationsIds(searchResult));
         }
+    }
+    
+    private void initializeLowerCourtJudgments(List<Long> judgmentIds) {
+        setIdsParameterAndExecuteQuery(" select judgment from " + Judgment.class.getName() + " judgment left join fetch judgment.lowerCourtJudgments_ lowerCourtJudgments where judgment.id in (:ids) ", judgmentIds);
     }
 
     private void initializeCommonCourtJudgmentSpecificFields(List<Long> judgmentIds) {

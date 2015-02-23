@@ -11,7 +11,7 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
 import com.google.common.base.Objects;
 
 /**
- * Represent common {@link pl.edu.icm.saos.persistence.model.Judgment Judgmnet} fields.
+ * Represent common {@link pl.edu.icm.saos.persistence.model.Judgment Judgment} fields.
  * @author pavtel
  */
 public class JudgmentData implements Serializable{
@@ -34,6 +34,10 @@ public class JudgmentData implements Serializable{
     private List<ReferencedRegulation> referencedRegulations;
     private List<String> keywords;
     private List<ReferencedCourtCase> referencedCourtCases;
+    private String receiptDate;
+    private String meansOfAppeal;
+    private String judgmentResult;
+    private List<String> lowerCourtJudgments;
 
 
     //------------------------ GETTERS --------------------------
@@ -100,6 +104,22 @@ public class JudgmentData implements Serializable{
 
     public List<ReferencedCourtCase> getReferencedCourtCases() {
         return referencedCourtCases;
+    }
+    
+    public String getReceiptDate() {
+        return receiptDate;
+    }
+
+    public String getMeansOfAppeal() {
+        return meansOfAppeal;
+    }
+
+    public String getJudgmentResult() {
+        return judgmentResult;
+    }
+
+    public List<String> getLowerCourtJudgments() {
+        return lowerCourtJudgments;
     }
 
     
@@ -169,6 +189,22 @@ public class JudgmentData implements Serializable{
         this.referencedCourtCases = referencedCourtCases;
     }
     
+    public void setReceiptDate(String receiptDate) {
+        this.receiptDate = receiptDate;
+    }
+
+    public void setMeansOfAppeal(String meansOfAppeal) {
+        this.meansOfAppeal = meansOfAppeal;
+    }
+
+    public void setJudgmentResult(String judgmentResult) {
+        this.judgmentResult = judgmentResult;
+    }
+
+    public void setLowerCourtJudgments(List<String> lowerCourtJudgments) {
+        this.lowerCourtJudgments = lowerCourtJudgments;
+    }
+    
 
 
     //------------------------ HashCode & Equals --------------------------
@@ -180,7 +216,8 @@ public class JudgmentData implements Serializable{
                 judgmentDate, judges,
                 source, courtReporters,
                 decision, summary, textContent,
-                legalBases, referencedRegulations, keywords, referencedCourtCases);
+                legalBases, referencedRegulations, keywords, referencedCourtCases,
+                receiptDate, meansOfAppeal, judgmentResult, lowerCourtJudgments);
     }
 
     @Override
@@ -207,7 +244,11 @@ public class JudgmentData implements Serializable{
                 && Objects.equal(this.legalBases, other.legalBases)
                 && Objects.equal(this.referencedRegulations, other.referencedRegulations)
                 && Objects.equal(this.keywords, other.keywords)
-                && Objects.equal(this.referencedCourtCases, other.referencedCourtCases);
+                && Objects.equal(this.referencedCourtCases, other.referencedCourtCases)
+                && Objects.equal(this.receiptDate, other.receiptDate)
+                && Objects.equal(this.meansOfAppeal, other.meansOfAppeal)
+                && Objects.equal(this.judgmentResult, other.judgmentResult)
+                && Objects.equal(this.lowerCourtJudgments, other.lowerCourtJudgments);
     }
 
 
@@ -231,6 +272,10 @@ public class JudgmentData implements Serializable{
                 .add("legalBases", legalBases)
                 .add("referencedRegulation", referencedRegulations)
                 .add("referencedCourtCases", referencedCourtCases)
+                .add("receiptDate", receiptDate)
+                .add("meansOfAppeal", meansOfAppeal)
+                .add("judgmentResult", judgmentResult)
+                .add("lowerCourtJudgments", lowerCourtJudgments)
                 .toString();
     }
 

@@ -13,6 +13,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
@@ -253,11 +254,8 @@ public class TestPersistenceObjectFactory {
             CommonCourt ccCourt = division.getCourt();
             saveCcCourt(ccCourt, false);
         }
-
-
-        for(JudgmentReferencedRegulation referencedRegulation: ccJudgment.getReferencedRegulations()){
-            entityManager.persist(referencedRegulation.getLawJournalEntry());
-        }
+        
+        saveJudgmentCommonAttributes(ccJudgment);
 
         entityManager.persist(ccJudgment);
 
@@ -291,9 +289,7 @@ public class TestPersistenceObjectFactory {
         }
 
 
-        for(JudgmentReferencedRegulation referencedRegulation: scJudgment.getReferencedRegulations()){
-            entityManager.persist(referencedRegulation.getLawJournalEntry());
-        }
+        saveJudgmentCommonAttributes(scJudgment);
 
         if(scJudgment.getScJudgmentForm() != null){
             entityManager.persist(scJudgment.getScJudgmentForm());
@@ -306,9 +302,8 @@ public class TestPersistenceObjectFactory {
 
     @Transactional
     private void saveCtJudgment(ConstitutionalTribunalJudgment ctJudgment){
-        for(JudgmentReferencedRegulation referencedRegulation: ctJudgment.getReferencedRegulations()){
-            entityManager.persist(referencedRegulation.getLawJournalEntry());
-        }
+        
+        saveJudgmentCommonAttributes(ctJudgment);
 
         entityManager.persist(ctJudgment);
 
@@ -317,9 +312,8 @@ public class TestPersistenceObjectFactory {
     
     @Transactional
     private void saveNacJudgment(NationalAppealChamberJudgment nacJudgment){
-        for(JudgmentReferencedRegulation referencedRegulation: nacJudgment.getReferencedRegulations()){
-            entityManager.persist(referencedRegulation.getLawJournalEntry());
-        }
+        
+        saveJudgmentCommonAttributes(nacJudgment);
 
         entityManager.persist(nacJudgment);
 
@@ -333,6 +327,22 @@ public class TestPersistenceObjectFactory {
         if(flush){
             entityManager.flush();
         }
+    }
+    
+    @Transactional
+    private void saveJudgmentCommonAttributes(Judgment judgment) {
+        
+        if (judgment.getJudgmentResult() != null) {
+            entityManager.persist(judgment.getJudgmentResult());
+        }
+        if (judgment.getMeansOfAppeal() != null) {
+            entityManager.persist(judgment.getMeansOfAppeal());
+        }
+        
+        for(JudgmentReferencedRegulation referencedRegulation: judgment.getReferencedRegulations()){
+            entityManager.persist(referencedRegulation.getLawJournalEntry());
+        }
+        
     }
     
     @Transactional

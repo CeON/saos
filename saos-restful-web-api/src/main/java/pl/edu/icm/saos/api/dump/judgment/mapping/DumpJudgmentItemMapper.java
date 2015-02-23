@@ -45,6 +45,10 @@ public class DumpJudgmentItemMapper {
         judgmentItem.setCourtType(judgment.getCourtType());
         judgmentItem.setKeywords(judgmentMapper.toListFromKeywords(judgment.getKeywords()));
         judgmentItem.setReferencedCourtCases(judgmentMapper.toReferencedCourtCases(judgment.getReferencedCourtCases()));
+        judgmentItem.setReceiptDate(dateMapping.toISO8601Format(judgment.getReceiptDate()));
+        judgmentItem.setMeansOfAppeal((judgment.getMeansOfAppeal() == null) ? null : judgment.getMeansOfAppeal().getName());
+        judgmentItem.setJudgmentResult((judgment.getJudgmentResult() == null) ? null : judgment.getJudgmentResult().getText());
+        judgmentItem.setLowerCourtJudgments(judgmentMapper.toSimpleList(judgment.getLowerCourtJudgments()));
         
     }
 
