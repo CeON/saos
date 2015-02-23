@@ -351,8 +351,7 @@ public class SolrCriterionTransformer<F extends IndexField> {
     }
     
     private String escapeOperators(String value) {
-        
-        if (value.equals("AND") || value.equals("OR") || value.equals("NOT")) {
+        if (SOLR_OPERATORS.contains(value)) {
             return "\\" + value;
         }
         return value;
