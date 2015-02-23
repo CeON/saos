@@ -12,5 +12,5 @@
 	<c:set var="filterValueToShow" value="${value}" scope="page"/>
 </c:if>
 
-<span class="${cssClass}" data-filter-value="${filterValueToShow}" ><c:out value="${value}" /></span>
+<a href="" class="${cssClass}" data-filter-value="${filterValueToShow}" ><c:out value="${value}" /></a>
 

@@ -11,7 +11,7 @@
 
 	<p>
 		<spring:message code="judgmentSearch.filterBox.header" />
-		<span id="filter-hide" class="filter-hide" data-toggle="tooltip" data-placement="right" title="<spring:message code='judgmentSearch.filterBox.hide' />"></span>
+		<a href="" id="filter-hide" class="filter-hide" data-toggle="tooltip" data-placement="right" title="<spring:message code='judgmentSearch.filterBox.hide' />"></a>
 	</p>
 	
 	<saos:filterField assignedField="input-search-all" label="judgmentSearch.formField.all" filterValue="${judgmentCriteriaForm.all}" id="filter-all"></saos:filterField>
@@ -71,7 +71,7 @@
 	
 	<%@ include file="ctJudgment/ctJudgmentFilterFields.jsp" %>
 	
-	<p id="clearAllFilters" class="clear-button" ><spring:message code="judgmentSearch.filterBox.clearAll" /></p>
+	<a href="" id="clearAllFilters" class="clear-button" ><spring:message code="judgmentSearch.filterBox.clearAll" /></a>
 		
 	<p id="no-filters" >
 		<spring:message code="judgmentSearch.filterBox.noFilters" />

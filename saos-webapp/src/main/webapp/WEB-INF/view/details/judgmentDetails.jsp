@@ -156,9 +156,11 @@ $(document).ready(function() {
 		<c:if test="${!empty judgment.keywords}" >
 			<h3><spring:message code="judgment.keywords" />:</h3>
 			<div class="keywords">	
-				<c:forEach items="${judgment.keywords}" var="keyword" >
-					<div class="keyword"><c:out value="${keyword.phrase}" /></div>
-				</c:forEach>
+				<ul>
+					<c:forEach items="${judgment.keywords}" var="keyword" >
+						<li class="keyword"><c:out value="${keyword.phrase}" /></li>
+					</c:forEach>
+				</ul>
 			</div>
 		</c:if>
 		

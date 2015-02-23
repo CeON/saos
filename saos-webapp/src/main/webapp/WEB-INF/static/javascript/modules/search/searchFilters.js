@@ -20,7 +20,7 @@ var SearchFilters = (function(){
 		
 		parentContainer = ".judgment-list",
 		
-		removeButtonBaseShape = "<span></span>",
+		removeButtonBaseShape = "<a href='' ></a>",
 		
 		fieldGroups = [{filterField: "", container: ""}],
 		
@@ -91,22 +91,22 @@ var SearchFilters = (function(){
 										}
 									});
 								};
-							} else if($searchFormField.is("input:hidden")) {
-								return function() {
-									selectFormType($selectFormType);
-									
-									if ($searchFormField.val() === "") {
-										$searchFormField.val(filterValue).change();
-									} else {
-										$searchFormField.val($searchFormField.val() + ", " + filterValue).change();
-									}
-									
-									submitForm();
-								};	
 							} else if($searchFormField.is("input")) {
 								return function() {
-									selectFormType($selectFormType);
-									$searchFormField.val(filterValue);
+									
+									if ($searchFormField.attr('type') == "hidden"){
+										selectFormType($selectFormType);
+										
+										if ($searchFormField.val() === "") {
+											$searchFormField.val(filterValue).change();
+										} else {
+											$searchFormField.val($searchFormField.val() + ", " + filterValue).change();
+										}
+									} else {
+										selectFormType($selectFormType);
+										$searchFormField.val(filterValue);
+									}
+										
 									submitForm();
 								};
 							} else if($searchFormField.is("select")) {
@@ -234,7 +234,8 @@ var SearchFilters = (function(){
 					clearField($assignedFieldId, filterItemValue);
 					$filterItem.remove();
 				})
-				.click(function() {
+				.click(function(event) {
+					event.preventDefault();
 					$(this).trigger(REMOVE_FILTER_EVENT);
 					submitForm();
 				})
@@ -297,9 +298,9 @@ var SearchFilters = (function(){
 	assignButtonRemoveAllFilters = function() {
 		var $removeAllButton = $(removeAllFiltersButton);
 			
-		$removeAllButton.click(function() {
+		$removeAllButton.click(function(event) {
 			//$(form).clearForm();
-			
+			event.preventDefault();
 			$("." + removeButtonClass).each(function() {
 				$(this).trigger(REMOVE_FILTER_EVENT);
 			})

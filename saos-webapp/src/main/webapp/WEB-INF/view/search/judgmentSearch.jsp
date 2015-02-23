@@ -36,9 +36,13 @@ $(document).ready(function() {
 	
 	<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
 	
-	<div class="container judgment-list" id="judgment-list">
+	<div class="container judgment-list">
 	
-		<div class="col-xs-9 ${resultsListClass}">	
+		<div class="col-xs-3 float-right" >
+			<%@ include file="filterBox.jsp" %>
+		</div>
+	
+		<div id="judgment-list" class="col-xs-9 ${resultsListClass}">	
 		
 			<%@ include file="judgmentList.jsp" %>
 		
@@ -48,10 +52,6 @@ $(document).ready(function() {
 				</div>
 			</c:if>
 		
-		</div>
-		
-		<div class="col-xs-3">
-			<%@ include file="filterBox.jsp" %>
 		</div>
 		
 	</div>
