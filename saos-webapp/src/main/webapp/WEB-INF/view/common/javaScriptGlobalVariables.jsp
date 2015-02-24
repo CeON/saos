@@ -7,7 +7,10 @@ var contextPath = '${pageContext.request.contextPath}',
 	 */
 	springMessage = {
 			judgmentSearchFormFieldDateWrongFormat: '<spring:message code="judgmentSearch.formField.dateWrongFormat" />',			
-			judgmentSearchFormFieldKeywordsPlaceholder: '<spring:message code="judgmentSearch.formField.keywordsPlaceholder" />'
+			judgmentSearchFormFieldKeywordsPlaceholder: '<spring:message code="judgmentSearch.formField.keywordsPlaceholder" />',
+			judgmentSearchFormFieldLawJournalChoseItem: '<spring:message code="judgmentSearch.formField.lawJournal.choseItem" />',
+			judgmentSearchFormFieldLawJournalNoItems: '<spring:message code="judgmentSearch.formField.lawJournal.noItems" />',
+			
 	};
 
 </script>

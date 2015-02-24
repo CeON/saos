@@ -54,6 +54,7 @@ public class JudgmentCriteriaForm {
     
     private String legalBase;
     private String referencedRegulation;
+    private Long lawJournalEntryId;
     
     
     
@@ -135,6 +136,10 @@ public class JudgmentCriteriaForm {
 		return referencedRegulation;
 	}
 	
+	public Long getLawJournalEntryId() {
+		return lawJournalEntryId;
+	}
+	
 	//------------------------ SETTERS --------------------------
 	
 	public void setAll(String all) {
@@ -203,6 +208,10 @@ public class JudgmentCriteriaForm {
 
 	public void setReferencedRegulation(String referencedRegulation) {
 		this.referencedRegulation = referencedRegulation;
+	}
+	
+	public void setLawJournalEntryId(Long lawJournalEntryId) {
+		this.lawJournalEntryId = lawJournalEntryId;
 	}
 
 }
