@@ -172,5 +172,30 @@ var jsInitInJudgmentSearch = function() {
         	letters: ["a", "i", "e", "o", "w", "z", "–", "k"]
         });
     });
+    
+    
+    /* Law journal selection */
+    SelectLawJournalEntry.init({
+		url: contextPath + "/search/lawJournalEntries",
+		
+		fieldLawJournalId: "#lawJournalEntryId",
+		fieldsContainer: "#law-journal-fields",
+		buttonsContainer: "#law-journal-navigation",
+		buttonCloseContainer: "#law-journal-close",
+		setButton: "#law-journal-set",
+		list: "#law-journal-list",
+		
+		fields: {
+			year: "#law-journal-year",
+			journalNo: "#law-journal-journalNo",
+			entry: "#law-journal-entry",
+			text: "#law-journal-text"
+		},
+
+		text: {
+			choseItem: springMessage.judgmentSearchFormFieldLawJournalChoseItem,
+			noItems: springMessage.judgmentSearchFormFieldLawJournalNoItems,
+		}
+	});
 }
  

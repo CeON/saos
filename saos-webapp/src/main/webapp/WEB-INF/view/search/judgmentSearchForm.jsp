@@ -80,8 +80,63 @@
 				<spring:message code="judgmentSearch.hint.legalBases.content" var="hintLegalBasesContent" />
 				<saos:hint title="${hintLegalBasesTitle}" content="${hintLegalBasesContent}" />
 			</div>
-						 
-			<saos:formFieldText path="referencedRegulation" labelName="input-search-referencedregulations" labelText="judgmentSearch.formField.referencedRegulations" />
+			
+		    
+		    <%-- Law journal entry --%>
+		    <div class="form-group law-journal">
+		    	<label for="input-search-referencedregulations" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.referencedRegulations" />:</label>
+			   	<div class="col-sm-7">
+			   		 
+			   		 <div id="law-journal-navigation">
+			   			<button type="button" id="law-journal-set" class="btn btn-primary button-blue btn-sm"><spring:message code="judgmentSearch.formField.lawJournal.set" /></button> 
+			   		 </div>
+			   		
+			   		
+			   		<div id="law-journal-fields" class="well col-sm-12" >
+			   			
+			   			<spring:message code="judgmentSearch.formField.lawJournal.close" var="lawJournalClose" />
+		   				<a class="remove law-close" href="" id="law-journal-close" title="${lawJournalClose}" data-placement="top" data-toggle="tooltip"  ></a>
+			   			
+			   			<div class="row">
+				   			<div class="col-sm-2">
+				   				<spring:message code="judgmentSearch.formField.lawJournal.year" />:
+				   			</div>
+				   			<div class="col-sm-2">
+				   				<spring:message code="judgmentSearch.formField.lawJournal.journalNo" />:
+				   			</div>
+				   			<div class="col-sm-2">
+				   				<spring:message code="judgmentSearch.formField.lawJournal.entry" />:
+				   			</div>
+				   			<div class="col-sm-6">
+				   				<spring:message code="judgmentSearch.formField.lawJournal.text" />:
+				   			</div>
+			   			</div>
+			   		
+			   			<div class="row">
+				   			<div class="col-sm-2">
+				   				<input class="form-control" id="law-journal-year" type="text" size="4"  />
+				   			</div>
+				   			<div class="col-sm-2">
+				   				<input class="form-control" id="law-journal-journalNo" type="text" size="4" />
+				   			</div>
+				   			<div class="col-sm-2">
+				   				<input class="form-control" id="law-journal-entry" type="text" size="4" />
+				   			</div>
+				   			<div class="col-sm-6">
+				   				<input class="form-control" id="law-journal-text" type="text" />
+				   			</div>
+			   			</div>
+				    	
+				    	<div class="col-sm-12">
+				    		<ul id="law-journal-list" />
+				    	</div>
+				    	
+		    		</div>
+			    	
+				</div>
+		    	<input type="hidden" name="lawJournalEntryId" id="lawJournalEntryId" />
+		    </div>
+		    
 		    
 		    <div class="form-group radio-group">
 			    <label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>
