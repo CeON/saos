@@ -25,8 +25,10 @@ import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
+import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.CourtType;
@@ -61,6 +63,12 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
     
     @Autowired
     private JudgmentCorrectionRepository judgmentCorrectionRepository;
+    
+    @Autowired
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
+    
+    @Autowired
+    private EnrichmentTagRepository enrichmentTagRepository;
     
     //------------------------ TESTS --------------------------
     
@@ -105,6 +113,8 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         jobExecutor.forceStartNewJob(ctJudgmentImportJob);
         long ctJudgment04e47013Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.CONSTITUTIONAL_TRIBUNAL, "04e47013023d2b315b841f99ccb9c290").getId();
         
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ctJudgment04e47013Id);
+        
         ctjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
                 "import/constitutionalTribunal/judgments/version2"));
         
@@ -131,6 +141,7 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         
         
         assertEquals(ctJudgment04e47013Id, judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.CONSTITUTIONAL_TRIBUNAL, "04e47013023d2b315b841f99ccb9c290").getId());
+        assertEquals(0, enrichmentTagRepository.findAllByJudgmentId(ctJudgment04e47013Id).size());
         
         assertJudgment_3b42a6299303c65d869c4806fdcdbf7a();
         assertJudgment_04e47013023d2b315b841f99ccb9c290_afterUpdate();

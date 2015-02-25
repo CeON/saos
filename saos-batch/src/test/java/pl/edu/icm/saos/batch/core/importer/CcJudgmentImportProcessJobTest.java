@@ -26,11 +26,13 @@ import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.ChangeOperation;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder;
+import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
@@ -86,6 +88,12 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     
     @Autowired
     private JudgmentCorrectionRepository judgmentCorrectionRepository;
+    
+    @Autowired
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
+    
+    @Autowired
+    private EnrichmentTagRepository enrichmentTagRepository;
     
     
     
@@ -175,7 +183,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         assertProcessedOk(17929);
         
         // assert in detail a processed judgment
-        assertJudgment_1420();
+        assertJudgment_12420();
         
         // assert in detail last version of duplicated judgment
         assertJudgment_54();
@@ -200,7 +208,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
         JobExecutionAssertUtils.assertJobExecution(execution, 0, ALL_RAW_JUDGMENTS_COUNT);
         
-        assertJudgment_1420();
+        assertJudgment_12420();
         
         // preparing new rawJudgment version
         
@@ -211,11 +219,15 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         rawCcJudgmentRepository.save(rJudgment_12420);
         rawCcJudgmentRepository.flush();
         
+        
         RawSourceCcJudgment rJudgment_10869 = rawCcJudgmentRepository.findOne(10869l);
         Whitebox.setInternalState(rJudgment_10869, "processed", false);
         rJudgment_10869.setTextMetadata(rJudgment_10869.getTextMetadata().replace("<type>SENTENCE, REASON</type>", "<type>DECISION, REASON</type>")); // correction will be changed
         rawCcJudgmentRepository.save(rJudgment_10869);
         rawCcJudgmentRepository.flush();
+        
+        // creating enrichment tags for rJudgment_12420
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment_12420.getSourceId()).getId());
         
         // and second execution
         
@@ -260,6 +272,10 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         assertJudgmentCorrections(judgmentCorrections, ChangeOperation.DELETE, Judge.class, null, 3);
         assertJudgmentCorrections(judgmentCorrections, ChangeOperation.UPDATE, CommonCourtJudgment.class, JUDGMENT_TYPE, 3);
         assertJudgmentCorrections(judgmentCorrections, ChangeOperation.UPDATE, Judge.class, CorrectedProperty.NAME, 1);
+        
+        
+        // --- assert no enrichment tags 12420
+        assertEquals(0, enrichmentTagRepository.findAllByJudgmentId(judgment_12420.getId()).size());
         
                 
         // corrections of judgment_12420
@@ -326,7 +342,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     
     
     
-    private void assertJudgment_1420() {
+    private void assertJudgment_12420() {
         RawSourceCcJudgment rJudgment = rawCcJudgmentRepository.findOne(12420l);
         Judgment j = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment.getSourceId());
         CommonCourtJudgment judgment = judgmentRepository.findOneAndInitialize(j.getId());
