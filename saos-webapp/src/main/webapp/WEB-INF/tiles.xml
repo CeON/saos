@@ -57,20 +57,20 @@
     
     <!-- ************** SkipLinks -->
     
-    <definition name="skipLinksTemplate" template="/WEB-INF/view/template/skipLinks/skipLinksTemplate.jsp">
+    <definition name="skipLinksTemplate" template="/WEB-INF/view/template/skipLinksTemplate.jsp">
     	<put-attribute name="skipLinksContent" value="" />
     </definition>
     
     <definition name="skipLinksSimple" extends="skipLinksTemplate">
-    	<put-attribute name="skipLinksContent" value="/WEB-INF/view/template/skipLinks/skipLinksSimple.jsp" />
+    	<put-attribute name="skipLinksContent" value="/WEB-INF/view/common/simpleSkipLinks.jsp" />
     </definition>
     
     <definition name="skipLinksJudgmentSearch" extends="skipLinksTemplate">
-    	<put-attribute name="skipLinksContent" value="/WEB-INF/view/template/skipLinks/skipLinksJudgmentSearch.jsp" />
+    	<put-attribute name="skipLinksContent" value="/WEB-INF/view/search/judgmentSearchSkipLinks.jsp" />
     </definition>
     
     <definition name="skipLinksJudgmentDetails" extends="skipLinksTemplate">
-    	<put-attribute name="skipLinksContent" value="/WEB-INF/view/template/skipLinks/skipLinksJudgmentDetails.jsp" />
+    	<put-attribute name="skipLinksContent" value="/WEB-INF/view/details/judgmentDetailsSkipLinks.jsp" />
     </definition>
     
     <definition name="analysisSkipLinks" extends="skipLinksTemplate">
