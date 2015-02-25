@@ -27,9 +27,11 @@ import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
+import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
@@ -97,6 +99,12 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     @Autowired
     private JudgmentCorrectionRepository judgmentCorrectionRepository;
     
+    @Autowired
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
+    
+    @Autowired
+    private EnrichmentTagRepository enrichmentTagRepository;
+    
     /*
      * 
      * Info:
@@ -111,7 +119,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
      * b082922617256d5b4092cf23864c8894 Izba Administracyjna, Pracy i Ubezpieczeń Społecznych -> Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych
      */
     
-    //------------------------ LOGIC --------------------------
+    //------------------------ TESTS --------------------------
     
     @Test
     public void scJudgmentImportProcessJob_IMPORT_NEW() throws Exception {
@@ -179,6 +187,8 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
                 "import/supremeCourt/judgments/version1"));
         JobExecution jobExecution = jobExecutor.forceStartNewJob(scJudgmentImportJob);
         long scJudgmentb082Id = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "b082922617256d5b4092cf23864c8894").getId();
+        
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(scJudgmentb082Id);
                 
         scjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
                 "import/supremeCourt/judgments/version2"));
@@ -220,6 +230,9 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         assertJudgment_b082922617256d5b4092cf23864c8894();
         // id shouldn't have changed if it's been update not delete/insert
         assertEquals(scJudgmentb082Id, scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "b082922617256d5b4092cf23864c8894").getId());
+        
+        // enrichment tags for changed judgment should be removed
+        assertEquals(0, enrichmentTagRepository.findAllByJudgmentId(scJudgmentb082Id).size());
         
         
         
