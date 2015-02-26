@@ -30,8 +30,8 @@ import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
  * @author pavtel
  */
 @Controller
-@RequestMapping("/api/dump/courts")
-public class DumpCourtsController extends ControllersEntityExceptionHandler {
+@RequestMapping("/api/dump/commonCourts")
+public class DumpCommonCourtsController extends ControllersEntityExceptionHandler {
 
     @Autowired
     private ParametersExtractor parametersExtractor;
@@ -45,6 +45,7 @@ public class DumpCourtsController extends ControllersEntityExceptionHandler {
 
 
     //------------------------ LOGIC --------------------------
+    
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @RestrictParamsNames
     @ResponseBody
@@ -66,7 +67,7 @@ public class DumpCourtsController extends ControllersEntityExceptionHandler {
 
 
         DumpCourtsView representation = dumpCourtsListSuccessRepresentationBuilder
-                .build(searchResult, pagination, linkTo(DumpCourtsController.class).toUriComponentsBuilder());
+                .build(searchResult, pagination, linkTo(DumpCommonCourtsController.class).toUriComponentsBuilder());
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
@@ -74,7 +75,7 @@ public class DumpCourtsController extends ControllersEntityExceptionHandler {
     }
 
 
-    //*** setters ***
+    //------------------------ SETTERS --------------------------
 
     public void setParametersExtractor(ParametersExtractor parametersExtractor) {
         this.parametersExtractor = parametersExtractor;

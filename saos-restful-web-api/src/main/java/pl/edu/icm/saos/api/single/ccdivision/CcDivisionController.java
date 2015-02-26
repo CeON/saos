@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.api.single.division;
+package pl.edu.icm.saos.api.single.ccdivision;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,20 +21,16 @@ import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
  * @author pavtel
  */
 @Controller
-@RequestMapping("/api/divisions/{divisionId}")
-public class DivisionController extends ControllersEntityExceptionHandler{
+@RequestMapping("/api/ccDivisions/{divisionId}")
+public class CcDivisionController extends ControllersEntityExceptionHandler{
 
-    //******** fields *********
-    @Autowired
     private CcDivisionRepository ccDivisionRepository;
 
-    @Autowired
     private DivisionSuccessRepresentationBuilder divisionSuccessRepresentationBuilder;
 
-    //********* END fields ***********
 
+    //------------------------ LOGIC --------------------------
 
-    //******** business methods ************
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Object> showDivision(@PathVariable("divisionId") long divisionId) throws ElementDoesNotExistException {
@@ -51,14 +47,16 @@ public class DivisionController extends ControllersEntityExceptionHandler{
 
         return new ResponseEntity<>(representation, httpHeaders, HttpStatus.OK);
     }
-    //*********** END business methods ********
 
 
-    //*** setters ***
+    //------------------------ TESTS --------------------------
+    
+    @Autowired
     public void setCcDivisionRepository(CcDivisionRepository ccDivisionRepository) {
         this.ccDivisionRepository = ccDivisionRepository;
     }
 
+    @Autowired
     public void setDivisionSuccessRepresentationBuilder(DivisionSuccessRepresentationBuilder divisionSuccessRepresentationBuilder) {
         this.divisionSuccessRepresentationBuilder = divisionSuccessRepresentationBuilder;
     }

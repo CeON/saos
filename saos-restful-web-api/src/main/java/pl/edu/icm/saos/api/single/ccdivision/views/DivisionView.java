@@ -1,9 +1,9 @@
-package pl.edu.icm.saos.api.single.division.views;
+package pl.edu.icm.saos.api.single.ccdivision.views;
 
 import java.io.Serializable;
 
 import pl.edu.icm.saos.api.services.representations.success.SingleElementRepresentation;
-import pl.edu.icm.saos.api.single.division.views.DivisionView.Data;
+import pl.edu.icm.saos.api.single.ccdivision.views.DivisionView.Data;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 
 import com.google.common.base.Objects;

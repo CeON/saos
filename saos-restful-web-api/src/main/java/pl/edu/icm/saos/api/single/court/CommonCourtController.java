@@ -20,20 +20,16 @@ import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
  * @author pavtel
  */
 @Controller
-@RequestMapping("/api/courts/{courtId}")
-public class CourtController extends ControllersEntityExceptionHandler {
+@RequestMapping("/api/commonCourts/{courtId}")
+public class CommonCourtController extends ControllersEntityExceptionHandler {
 
-    //******** fields ***********
-    @Autowired
     private CommonCourtRepository courtRepository;
 
-    @Autowired
     private SingleCourtSuccessRepresentationBuilder singleCourtSuccessRepresentationBuilder;
 
-    //********* END fields ***********
 
+    //------------------------ LOGIC --------------------------
 
-    //***** business methods *************
     @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseBody
     public ResponseEntity<Object> showCourt(@PathVariable("courtId") long courtId) throws ElementDoesNotExistException {
@@ -48,14 +44,15 @@ public class CourtController extends ControllersEntityExceptionHandler {
         return new ResponseEntity<>(representation, HttpStatus.OK);
     }
 
-    //******* END business methods ***************
 
+    //------------------------ SETTERS --------------------------
 
-    //*** setters ****
+    @Autowired
     public void setCourtRepository(CommonCourtRepository courtRepository) {
         this.courtRepository = courtRepository;
     }
 
+    @Autowired
     public void setSingleCourtSuccessRepresentationBuilder(SingleCourtSuccessRepresentationBuilder singleCourtSuccessRepresentationBuilder) {
         this.singleCourtSuccessRepresentationBuilder = singleCourtSuccessRepresentationBuilder;
     }
