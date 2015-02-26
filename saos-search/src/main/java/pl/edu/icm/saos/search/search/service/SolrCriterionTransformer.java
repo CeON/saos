@@ -87,7 +87,11 @@ public class SolrCriterionTransformer<F extends IndexField> {
             } else {
                 List<String> orQueryParts = Lists.newLinkedList();
                 for (String orValue : orValuesGroup) {
-                    orQueryParts.add(buildParsedEqualsCriterion(field.getFieldName(), orValue, ""));
+                    if (isExclusion(orValue)) {
+                        orQueryParts.add("(*:* " + buildParsedEqualsCriterion(field.getFieldName(), orValue, "") + ")");
+                    } else {
+                        orQueryParts.add(buildParsedEqualsCriterion(field.getFieldName(), orValue, ""));
+                    }
                 }
                 queryPart = "+(" + orQueryParts.stream().collect(Collectors.joining(" ")) + ")";
             }

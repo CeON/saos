@@ -74,12 +74,12 @@ public class SolrCriterionTransformerTest {
                 {"+content:word1 -content:\"word2 word3\"", "word1 -\"word2 word3\""},
                 
                 // with OR operator and exclusion
-                {"+(content:word1 -content:word2)", "word1 OR -word2"},
+                {"+(content:word1 (*:* -content:word2))", "word1 OR -word2"},
                 {"+(content:word1 content:word2) -content:word3", "word1 OR word2 -word3"},
                 
                 // with OR operator, quote and exclusion
-                {"+(content:word1 -content:\"word2 word3\")", "word1 OR -\"word2 word3\""},
-                {"+(-content:word1 content:\"word2 word3\")", "-word1 OR \"word2 word3\""},
+                {"+(content:word1 (*:* -content:\"word2 word3\"))", "word1 OR -\"word2 word3\""},
+                {"+((*:* -content:word1) content:\"word2 word3\")", "-word1 OR \"word2 word3\""},
                 
                 {"+content:\\AND", "AND"},
                 {"+content:\\NOT", "NOT"},
