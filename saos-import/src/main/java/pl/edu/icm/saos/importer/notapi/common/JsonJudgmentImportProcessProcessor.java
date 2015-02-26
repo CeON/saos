@@ -1,7 +1,5 @@
 package pl.edu.icm.saos.importer.notapi.common;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ItemProcessor;
@@ -12,7 +10,6 @@ import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.JsonRawSourceJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -81,9 +78,7 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
             
             judgmentOverwriter.overwriteJudgment(oldJudgment, judgment, judgmentWithCorrectionList.getCorrectionList());
             
-            List<EnrichmentTag> judgmentEnrichmentTags = enrichmentTagRepository.findAllByJudgmentId(oldJudgment.getId());
-            
-            enrichmentTagRepository.delete(judgmentEnrichmentTags);
+            enrichmentTagRepository.deleteAllByJudgmentId(oldJudgment.getId());
             
             judgmentWithCorrectionList.setJudgment(oldJudgment);
             

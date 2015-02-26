@@ -1,23 +1,16 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.reflect.Whitebox;
-
-import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
@@ -25,7 +18,6 @@ import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
@@ -49,9 +41,6 @@ public class CcjProcessingServiceTest {
     @Mock
     private EnrichmentTagRepository enrichmentTagRepository;
     
-    
-    @Captor
-    private ArgumentCaptor<Iterable<? extends EnrichmentTag>> enrichmentTagsCapture;
     
     
     private SourceCcJudgment sourceCcJudgment = new SourceCcJudgment();
@@ -117,14 +106,9 @@ public class CcjProcessingServiceTest {
         ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
         ccJudgment.getSourceInfo().setSourceJudgmentId("1232345");
         
-        EnrichmentTag oldEnrichmentTag1 = new EnrichmentTag();
-        EnrichmentTag oldEnrichmentTag2 = new EnrichmentTag();
-        List<EnrichmentTag> oldEnrichmentTags = Lists.newArrayList(oldEnrichmentTag1, oldEnrichmentTag2);
-        
         
         when(sourceCcJudgmentConverter.convertJudgment(Mockito.isA(SourceCcJudgment.class))).thenReturn(jWithCorrectionList);
         when(ccJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(Mockito.eq(ccJudgment.getSourceInfo().getSourceCode()), Mockito.eq(ccJudgment.getSourceInfo().getSourceJudgmentId()))).thenReturn(existingCcJudgment);
-        when(enrichmentTagRepository.findAllByJudgmentId(5L)).thenReturn(oldEnrichmentTags);
         
         
         //------------------ method invocation -----------------------
@@ -152,13 +136,7 @@ public class CcjProcessingServiceTest {
         assertTrue(ccJudgment == argNewJudgment.getValue());
         assertTrue(correctionList == argCorrectionList.getValue());
         
-        verify(enrichmentTagRepository).findAllByJudgmentId(5L);
-        verify(enrichmentTagRepository).delete(enrichmentTagsCapture.capture());
-        
-        Iterator<? extends EnrichmentTag> it = enrichmentTagsCapture.getValue().iterator();
-        assertTrue(oldEnrichmentTag1 == it.next());
-        assertTrue(oldEnrichmentTag2 == it.next());
-        assertFalse(it.hasNext());
+        verify(enrichmentTagRepository).deleteAllByJudgmentId(5L);
     }
     
     
