@@ -29,7 +29,6 @@ import com.google.common.collect.Iterables;
 @Service("parametersExtractor")
 public class ParametersExtractor {
 
-    //********* fields *********
     private static final Splitter SPLITTER = Splitter.on(",").trimResults().omitEmptyStrings();
 
     private static final Splitter DATE_SPLITTER = Splitter.on("-").trimResults().omitEmptyStrings();
@@ -39,11 +38,10 @@ public class ParametersExtractor {
     private int defaultPageSize=20;
 
     @Value("${restful.api.max.page.size}")
-    private int maxPageSize=21;
+    private int maxPageSize=100;
 
-    //********** END fields **********
 
-    //************* business methods **********
+    //------------------------ LOGIC --------------------------
 
     /**
      * Extracts 'joined' request parameter.
@@ -140,10 +138,8 @@ public class ParametersExtractor {
         return pageSize != 0 ? pageSize : defaultPageSize;
     }
 
-    //******* END business methods **********
 
-
-    // ******** setters ******
+    //------------------------ SETTERS --------------------------
 
     public void setDefaultPageSize(int defaultPageSize) {
         this.defaultPageSize = defaultPageSize;
