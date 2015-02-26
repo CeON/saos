@@ -26,8 +26,10 @@ import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
+import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
+import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
@@ -61,6 +63,12 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
     
     @Autowired
     private JudgmentCorrectionRepository judgmentCorrectionRepository;
+    
+    @Autowired
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
+    
+    @Autowired
+    private EnrichmentTagRepository enrichmentTagRepository;
     
     
     //------------------------ TESTS --------------------------
@@ -106,8 +114,10 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         nacjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
                 "import/nationalAppealChamber/judgments/version1"));
         jobExecutor.forceStartNewJob(nacJudgmentImportJob);
-        long ctJudgmentf1fb6b13Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
+        long nacJudgmentf1fb6b13Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.NATIONAL_APPEAL_CHAMBER, "f1fb6b13d57e25be69d1159356655528").getId();
+        
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(nacJudgmentf1fb6b13Id);
         
         nacjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
                 "import/nationalAppealChamber/judgments/version2"));
@@ -134,8 +144,9 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
                 SourceCode.NATIONAL_APPEAL_CHAMBER, "863efdb59cd4a257ca8eefa34362fec2", NationalAppealChamberJudgment.class));
         
         
-        assertEquals(ctJudgmentf1fb6b13Id, judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
+        assertEquals(nacJudgmentf1fb6b13Id, judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.NATIONAL_APPEAL_CHAMBER, "f1fb6b13d57e25be69d1159356655528").getId());
+        assertEquals(0, enrichmentTagRepository.findAllByJudgmentId(nacJudgmentf1fb6b13Id).size());
         
         assertJudgment_71254a2118594e375df2fe7dcde9b1db();
         assertJudgment_f1fb6b13d57e25be69d1159356655528_afterUpdate();

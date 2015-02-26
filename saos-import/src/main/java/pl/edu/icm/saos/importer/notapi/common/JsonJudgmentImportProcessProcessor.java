@@ -9,6 +9,7 @@ import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
+import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.JsonRawSourceJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -37,6 +38,8 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
     private JudgmentOverwriter<J> judgmentOverwriter;
     
     private RawSourceJudgmentRepository rawSourceJudgmentRepository;
+    
+    private EnrichmentTagRepository enrichmentTagRepository;
     
     
     private Class<J> judgmentClass;
@@ -74,6 +77,8 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
             log.trace("same found (rJudgmentId:{}, judgmentId: {}), updating...", rJudgment.getId(), oldJudgment.getId());
             
             judgmentOverwriter.overwriteJudgment(oldJudgment, judgment, judgmentWithCorrectionList.getCorrectionList());
+            
+            enrichmentTagRepository.deleteAllByJudgmentId(oldJudgment.getId());
             
             judgmentWithCorrectionList.setJudgment(oldJudgment);
             
@@ -118,6 +123,11 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
     @Autowired
     public void setRawSourceJudgmentRepository(RawSourceJudgmentRepository rawSourceJudgmentRepository) {
         this.rawSourceJudgmentRepository = rawSourceJudgmentRepository;
+    }
+
+    @Autowired
+    public void setEnrichmentTagRepository(EnrichmentTagRepository enrichmentTagRepository) {
+        this.enrichmentTagRepository = enrichmentTagRepository;
     }
 
 }

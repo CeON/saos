@@ -5,6 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
@@ -12,6 +13,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.powermock.reflect.Whitebox;
 
 import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
@@ -19,6 +21,7 @@ import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
+import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
@@ -49,6 +52,8 @@ public class JsonJudgmentImportProcessProcessorTest {
     
     @Mock private RawSourceJudgmentRepository rawSourceJudgmentRepository;
     
+    @Mock private EnrichmentTagRepository enrichmentTagRepository;
+    
     
     // data
     
@@ -73,6 +78,7 @@ public class JsonJudgmentImportProcessProcessorTest {
         scjImportProcessProcessor.setJudgmentRepository(judgmentRepository);
         scjImportProcessProcessor.setJudgmentOverwriter(judgmentOverwriter);
         scjImportProcessProcessor.setRawSourceJudgmentRepository(rawSourceJudgmentRepository);
+        scjImportProcessProcessor.setEnrichmentTagRepository(enrichmentTagRepository);
         
     }
 
@@ -118,6 +124,7 @@ public class JsonJudgmentImportProcessProcessorTest {
         verify(rawSourceJudgmentRepository).save(rJudgment);
         
         verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, judgmentRepository);
+        verifyZeroInteractions(enrichmentTagRepository);
     }
     
     
@@ -137,6 +144,9 @@ public class JsonJudgmentImportProcessProcessorTest {
         when(sourceScJudgmentConverter.convertJudgment(sourceScJudgment)).thenReturn(jWithCorrectionList);
         
         SupremeCourtJudgment oldScJudgment = new SupremeCourtJudgment();
+        long oldScJudgmentId = 2L;
+        Whitebox.setInternalState(oldScJudgment, "id", oldScJudgmentId);
+        
         when(judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId(), SupremeCourtJudgment.class)).thenReturn(oldScJudgment);
         
@@ -157,12 +167,18 @@ public class JsonJudgmentImportProcessProcessorTest {
         
         verify(sourceScJudgmentParser).parseAndValidate(rJudgment.getJsonContent());
         verify(sourceScJudgmentConverter).convertJudgment(sourceScJudgment);
+        
         verify(judgmentRepository).findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId(), SupremeCourtJudgment.class);
         verify(judgmentOverwriter).overwriteJudgment(oldScJudgment, scJudgment, correctionList);
+        
+        verify(enrichmentTagRepository).deleteAllByJudgmentId(oldScJudgmentId);
+        
+        
         verify(rawSourceJudgmentRepository).save(rJudgment);
          
         verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, judgmentRepository, judgmentOverwriter);
+        verifyNoMoreInteractions(enrichmentTagRepository);
     }
 
     

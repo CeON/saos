@@ -138,6 +138,21 @@ public class EnrichmentTagRepositoryTest extends PersistenceTestSupport {
         assertThat(enrichmentTags, containsInAnyOrder(enrichmentTag1, enrichmentTag2, enrichmentTag3));
         
     }
+    
+    @Test
+    public void deleteAllByJudgmentId() {
+        // given
+        createAndSaveEnrichmentTag(1, EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fff\"}");
+        createAndSaveEnrichmentTag(1, EnrichmentTagTypes.REFERENCED_REGULATIONS, "{\"key\":\"fff\"}");
+        EnrichmentTag enrichmentTag3 = createAndSaveEnrichmentTag(2, EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}");
+        EnrichmentTag enrichmentTag4 = createAndSaveEnrichmentTag(3, EnrichmentTagTypes.REFERENCED_COURT_CASES, "{\"key\":\"fax\"}");
+        
+        // execute
+        enrichmentTagRepository.deleteAllByJudgmentId(1);
+        
+        // assert
+        assertThat(enrichmentTagRepository.findAll(), containsInAnyOrder(enrichmentTag3, enrichmentTag4));
+    }
    
     
     //------------------------ PRIVATE --------------------------

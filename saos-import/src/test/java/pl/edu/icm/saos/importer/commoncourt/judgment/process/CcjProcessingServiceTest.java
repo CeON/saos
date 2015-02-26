@@ -10,12 +10,14 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.powermock.reflect.Whitebox;
 
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
+import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.CcJudgmentRepository;
@@ -36,6 +38,10 @@ public class CcjProcessingServiceTest {
     @Mock
     private JudgmentConverter<CommonCourtJudgment, SourceCcJudgment> sourceCcJudgmentConverter;
     
+    @Mock
+    private EnrichmentTagRepository enrichmentTagRepository;
+    
+    
     
     private SourceCcJudgment sourceCcJudgment = new SourceCcJudgment();
     
@@ -52,6 +58,7 @@ public class CcjProcessingServiceTest {
         ccjProcessingService.setCcJudgmentRepository(ccJudgmentRepository);
         ccjProcessingService.setJudgmentOverwriter(judgmentOverwriter);
         ccjProcessingService.setSourceCcJudgmentConverter(sourceCcJudgmentConverter);
+        ccjProcessingService.setEnrichmentTagRepository(enrichmentTagRepository);
         
     }
     
@@ -95,6 +102,7 @@ public class CcjProcessingServiceTest {
         ccJudgment.getSourceInfo().setSourceJudgmentId("1232345");
         
         CommonCourtJudgment existingCcJudgment = new CommonCourtJudgment();
+        Whitebox.setInternalState(existingCcJudgment, "id", 5L);
         ccJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
         ccJudgment.getSourceInfo().setSourceJudgmentId("1232345");
         
@@ -128,6 +136,7 @@ public class CcjProcessingServiceTest {
         assertTrue(ccJudgment == argNewJudgment.getValue());
         assertTrue(correctionList == argCorrectionList.getValue());
         
+        verify(enrichmentTagRepository).deleteAllByJudgmentId(5L);
     }
     
     
