@@ -39,7 +39,7 @@ public class ParametersExtractor {
     private int defaultPageSize=20;
 
     @Value("${restful.api.max.page.size}")
-    private int maxPageSize=100;
+    private int maxPageSize=21;
 
     //********** END fields **********
 

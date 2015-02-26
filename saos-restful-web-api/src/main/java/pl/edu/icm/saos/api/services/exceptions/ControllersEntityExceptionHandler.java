@@ -24,7 +24,7 @@ public class ControllersEntityExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(ControllersEntityExceptionHandler.class);
 
 
-    @Value("${restful.api.error.documentation.site}")
+    
     private String errorDocumentationSite;
 
 
@@ -87,7 +87,7 @@ public class ControllersEntityExceptionHandler {
         ErrorRepresentation.Builder builder = new ErrorRepresentation.Builder();
         builder.httpStatus(errorStatus.httpStatusValue())
                 .message(ex.getMessage())
-                .name(errorStatus.errorName())
+                .httpStatusName(errorStatus.httpStatus().getReasonPhrase())
                 .moreInfo(errorDocumentationSite+errorStatus.name());
 
         return builder;
@@ -113,6 +113,7 @@ public class ControllersEntityExceptionHandler {
 
 
     //----------------- setters ----------------------
+    @Value("${restful.api.error.documentation.site}")
     public void setErrorDocumentationSite(String errorDocumentationSite) {
         this.errorDocumentationSite = errorDocumentationSite;
     }

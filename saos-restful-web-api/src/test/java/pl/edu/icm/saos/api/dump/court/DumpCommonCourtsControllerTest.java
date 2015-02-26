@@ -42,7 +42,7 @@ import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
 @Category(SlowTest.class)
-public class DumpCourtsControllerTest extends PersistenceTestSupport {
+public class DumpCommonCourtsControllerTest extends PersistenceTestSupport {
 
 
     @Autowired
@@ -65,7 +65,7 @@ public class DumpCourtsControllerTest extends PersistenceTestSupport {
     public void setUp(){
         testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
 
-        DumpCourtsController dumpCourtsController = new DumpCourtsController();
+        DumpCommonCourtsController dumpCourtsController = new DumpCommonCourtsController();
 
         dumpCourtsController.setParametersExtractor(parametersExtractor);
         dumpCourtsController.setDatabaseSearchService(databaseSearchService);

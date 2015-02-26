@@ -45,7 +45,7 @@ public class SearchCommonCourtJudgmentItemMapper {
 
     private Court toCourt(JudgmentSearchResult judgment) {
         Court view = new Court();
-        view.setHref(linksBuilder.urlToCourt(judgment.getCcCourtId()));
+        view.setHref(linksBuilder.urlToCommonCourt(judgment.getCcCourtId()));
         view.setId(judgment.getCcCourtId());
         view.setCode(judgment.getCcCourtCode());
         view.setName(judgment.getCcCourtName());

@@ -6,8 +6,8 @@ import static pl.edu.icm.saos.api.ApiConstants.SELF;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.api.single.court.CourtController;
-import pl.edu.icm.saos.api.single.division.DivisionController;
+import pl.edu.icm.saos.api.single.ccdivision.CcDivisionController;
+import pl.edu.icm.saos.api.single.court.CommonCourtController;
 import pl.edu.icm.saos.api.single.judgment.JudgmentController;
 import pl.edu.icm.saos.api.single.scchamber.ScChamberController;
 import pl.edu.icm.saos.api.single.scdivision.ScDivisionController;
@@ -30,11 +30,11 @@ public class LinksBuilder {
     }
 
     public String urlToCcDivision(long divisionId){
-        return urlToElement(DivisionController.class, divisionId);
+        return urlToElement(CcDivisionController.class, divisionId);
     }
 
     public Link linkToCcDivision(long divisionId) {
-        return linkFor(DivisionController.class, divisionId);
+        return linkFor(CcDivisionController.class, divisionId);
     }
 
     public String urlToScDivision(long divisionId){
@@ -62,16 +62,16 @@ public class LinksBuilder {
         return linkFor(ScChamberController.class, chamberId, relName);
     }
 
-    public String urlToCourt(long courtId) {
-        return urlToElement(CourtController.class, courtId);
+    public String urlToCommonCourt(long courtId) {
+        return urlToElement(CommonCourtController.class, courtId);
     }
 
-    public Link linkToCourt(long courtId){
-        return linkFor(CourtController.class, courtId);
+    public Link linkToCommonCourt(long courtId){
+        return linkFor(CommonCourtController.class, courtId);
     }
 
-    public Link linkToCourt(long courtId, String relName){
-        return linkFor(CourtController.class, courtId, relName);
+    public Link linkToCommonCourt(long courtId, String relName){
+        return linkFor(CommonCourtController.class, courtId, relName);
     }
 
     private String urlToElement(Class<?> controller, long elementId){

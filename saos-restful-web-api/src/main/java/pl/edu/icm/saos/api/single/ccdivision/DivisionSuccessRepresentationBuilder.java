@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.api.single.division;
+package pl.edu.icm.saos.api.single.ccdivision;
 
 import static pl.edu.icm.saos.api.ApiConstants.COURT;
 
@@ -10,7 +10,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.api.services.links.LinksBuilder;
-import pl.edu.icm.saos.api.single.division.views.DivisionView;
+import pl.edu.icm.saos.api.single.ccdivision.views.DivisionView;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 
@@ -28,7 +28,7 @@ public class DivisionSuccessRepresentationBuilder {
 
     //------------------------ LOGIC --------------------------
     /**
-     * Constructs division's view {@link pl.edu.icm.saos.api.single.division.views.DivisionView DivisionView}.
+     * Constructs division's view {@link pl.edu.icm.saos.api.single.ccdivision.views.DivisionView DivisionView}.
      * @param division to process.
      * @return representation.
      */
@@ -48,7 +48,7 @@ public class DivisionSuccessRepresentationBuilder {
 
     private List<Link> toLinks(CommonCourtDivision division) {
         Link divisionLink = linksBuilder.linkToCcDivision(division.getId());
-        Link courtLink = linksBuilder.linkToCourt(division.getCourt().getId(), COURT);
+        Link courtLink = linksBuilder.linkToCommonCourt(division.getCourt().getId(), COURT);
 
         return Arrays.asList(divisionLink, courtLink);
     }
@@ -65,7 +65,7 @@ public class DivisionSuccessRepresentationBuilder {
     private DivisionView.Court toCourt(CommonCourt court) {
         DivisionView.Court courtView = new DivisionView.Court();
         courtView.setId(court.getId());
-        courtView.setHref(linksBuilder.urlToCourt(court.getId()));
+        courtView.setHref(linksBuilder.urlToCommonCourt(court.getId()));
         courtView.setName(court.getName());
         courtView.setCode(court.getCode());
         courtView.setType(court.getType());
@@ -73,7 +73,7 @@ public class DivisionSuccessRepresentationBuilder {
         if(court.getParentCourt() != null){
             DivisionView.ParentCourt parentCourt = new DivisionView.ParentCourt();
             parentCourt.setId(court.getParentCourt().getId());
-            parentCourt.setHref(linksBuilder.urlToCourt(court.getParentCourt().getId()));
+            parentCourt.setHref(linksBuilder.urlToCommonCourt(court.getParentCourt().getId()));
             courtView.setParentCourt(parentCourt);
         }
 

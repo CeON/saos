@@ -42,7 +42,7 @@ public class LinksBuilderTest {
         String actualUrl = linksBuilder.urlToCcDivision(someDivisionId);
 
         //then
-        assertTrue(actualUrl.endsWith("/api/divisions/"+someDivisionId));
+        assertTrue(actualUrl.endsWith("/api/ccDivisions/"+someDivisionId));
     }
 
     @Test
@@ -51,10 +51,10 @@ public class LinksBuilderTest {
         int someCourtId = 321321;
 
         //when
-        String actualUrl = linksBuilder.urlToCourt(someCourtId);
+        String actualUrl = linksBuilder.urlToCommonCourt(someCourtId);
 
         //then
-        assertTrue(actualUrl.endsWith("/api/courts/"+someCourtId));
+        assertTrue(actualUrl.endsWith("/api/commonCourts/"+someCourtId));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class LinksBuilderTest {
         Link link = linksBuilder.linkToCcDivision(someDivisionId);
 
         //then
-        assertThat(link.getHref(), endsWith("/api/divisions/"+someDivisionId));
+        assertThat(link.getHref(), endsWith("/api/ccDivisions/"+someDivisionId));
         assertThat(link.getRel(), is(SELF));
     }
 
@@ -89,10 +89,10 @@ public class LinksBuilderTest {
         int someCourtId = 909;
 
         //when
-        Link link = linksBuilder.linkToCourt(someCourtId);
+        Link link = linksBuilder.linkToCommonCourt(someCourtId);
 
         //then
-        assertThat(link.getHref(), endsWith("/api/courts/"+someCourtId));
+        assertThat(link.getHref(), endsWith("/api/commonCourts/"+someCourtId));
         assertThat(link.getRel(), is(SELF));
     }
 
@@ -103,10 +103,10 @@ public class LinksBuilderTest {
         String someRelName = "someCourtRelName";
 
         //when
-        Link link = linksBuilder.linkToCourt(someCourtId, someRelName);
+        Link link = linksBuilder.linkToCommonCourt(someCourtId, someRelName);
 
         //then
-        assertThat(link.getHref(), endsWith("/api/courts/"+someCourtId));
+        assertThat(link.getHref(), endsWith("/api/commonCourts/"+someCourtId));
         assertThat(link.getRel(), is(someRelName));
     }
 

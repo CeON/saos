@@ -68,7 +68,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
 
             def content = contentAsJson(actions)
             content.error.httpStatus == "500"
-            content.error.name == GENERAL_INTERNAL_ERROR.errorName()
+            content.error.httpStatusName == "Internal Server Error"
             content.error.message == exceptionMsg
             content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.name()
     }
@@ -94,7 +94,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
 
             def content = contentAsJson(actions)
             content.error.httpStatus == "400"
-            content.error.name == WRONG_REQUEST_PARAMETER_ERROR.errorName()
+            content.error.httpStatusName == "Bad Request"
             content.error.message.contains message
             content.error.moreInfo.endsWith WRONG_REQUEST_PARAMETER_ERROR.name()
             content.error.propertyName == paramName
@@ -123,7 +123,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
         then:
             def content = contentAsJson(actions)
             content.error.httpStatus == "400"
-            content.error.name == WRONG_REQUEST_PARAMETER_ERROR.errorName()
+            content.error.httpStatusName == "Bad Request"
             content.error.message.contains fieldName
             content.error.message.contains rejectedValue
             content.error.moreInfo.endsWith WRONG_REQUEST_PARAMETER_ERROR.name()
@@ -150,7 +150,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
 
             def content = contentAsJson(actions)
             content.error.httpStatus == "500"
-            content.error.name == GENERAL_INTERNAL_ERROR.errorName()
+            content.error.httpStatusName == "Internal Server Error"
             content.error.message == exceptionMsg
             content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.name()
     }
@@ -176,7 +176,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
 
             def content = contentAsJson(actions)
             content.error.httpStatus == "404"
-            content.error.name == ELEMENT_DOES_NOT_EXIST_ERROR.errorName
+            content.error.httpStatusName == "Not Found"
             content.error.message.contains exceptionMsg
             content.error.message.contains elementId.toString()
             content.error.moreInfo.endsWith ELEMENT_DOES_NOT_EXIST_ERROR.name()

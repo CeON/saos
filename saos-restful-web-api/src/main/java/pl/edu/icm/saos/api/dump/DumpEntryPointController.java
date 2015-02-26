@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pl.edu.icm.saos.api.dump.court.DumpCourtsController;
+import pl.edu.icm.saos.api.dump.court.DumpCommonCourtsController;
 import pl.edu.icm.saos.api.dump.enrichmenttag.DumpEnrichmentTagController;
 import pl.edu.icm.saos.api.dump.judgment.DumpJudgmentsController;
 import pl.edu.icm.saos.api.dump.supreme.court.chamber.DumpSupremeCourtChambersController;
@@ -40,8 +40,8 @@ public class DumpEntryPointController {
     public ResponseEntity<Object> show(Locale locale)  {
 
         LinkWithDescription dumpCourts = new LinkWithDescriptionBuilder()
-                .rel("courts")
-                .href(DumpCourtsController.class)
+                .rel("commonCourts")
+                .href(DumpCommonCourtsController.class)
                 .description(apiMessageService.getMessage("dump.courts.description", null, locale))
                 .build();
 
