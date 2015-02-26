@@ -91,44 +91,40 @@
 			   			<button type="button" id="law-journal-set" class="btn btn-primary button-blue btn-sm"><spring:message code="judgmentSearch.formField.lawJournal.set" /></button> 
 			   		 </div>
 			   		
-			   		
 			   		<div id="law-journal-fields" class="well col-sm-12" >
 			   			
 			   			<spring:message code="judgmentSearch.formField.lawJournal.close" var="lawJournalClose" />
 		   				<a class="remove law-close" href="" id="law-journal-close" title="${lawJournalClose}" data-placement="top" data-toggle="tooltip"  ></a>
 			   			
 			   			<div class="row">
-				   			<div class="col-sm-2">
-				   				<spring:message code="judgmentSearch.formField.lawJournal.year" />:
+			   			
+			   				<div class="col-sm-6">
+				   				<spring:message code="judgmentSearch.formField.lawJournal.year" />/
+				   				<spring:message code="judgmentSearch.formField.lawJournal.journalNo" />/
+				   				<spring:message code="judgmentSearch.formField.lawJournal.entry" />
 				   			</div>
-				   			<div class="col-sm-2">
-				   				<spring:message code="judgmentSearch.formField.lawJournal.journalNo" />:
-				   			</div>
-				   			<div class="col-sm-2">
-				   				<spring:message code="judgmentSearch.formField.lawJournal.entry" />:
-				   			</div>
+				   			
 				   			<div class="col-sm-6">
 				   				<spring:message code="judgmentSearch.formField.lawJournal.text" />:
 				   			</div>
 			   			</div>
 			   		
 			   			<div class="row">
-				   			<div class="col-sm-2">
-				   				<input class="form-control" id="law-journal-year" type="text" size="4"  />
-				   			</div>
-				   			<div class="col-sm-2">
-				   				<input class="form-control" id="law-journal-journalNo" type="text" size="4" />
-				   			</div>
-				   			<div class="col-sm-2">
+			   							   			
+				   			<div class="col-sm-6">
+				   				<input class="form-control" id="law-journal-year" type="text" size="4" />/
+				   				<input class="form-control" id="law-journal-journalNo" type="text" size="4" />/
 				   				<input class="form-control" id="law-journal-entry" type="text" size="4" />
 				   			</div>
+				   			
 				   			<div class="col-sm-6">
 				   				<input class="form-control" id="law-journal-text" type="text" />
 				   			</div>
 			   			</div>
 				    	
 				    	<div class="col-sm-12">
-				    		<ul id="law-journal-list" />
+				    		<ul id="law-journal-list" ></ul>
+				    		<a href="" id="law-journal-more" class="display-none" ><spring:message code="more" /></a>
 				    	</div>
 				    	
 		    		</div>

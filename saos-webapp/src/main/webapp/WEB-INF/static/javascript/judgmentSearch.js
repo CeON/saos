@@ -1,7 +1,7 @@
 /**
- * @author Łukasz Pawełczak
- * 
  * Modules used in judgment search view.
+ * 
+ * @author Łukasz Pawełczak
  */
 
 var jsInitInJudgmentSearch = function() {
@@ -182,6 +182,7 @@ var jsInitInJudgmentSearch = function() {
 		fieldsContainer: "#law-journal-fields",
 		buttonsContainer: "#law-journal-navigation",
 		buttonCloseContainer: "#law-journal-close",
+		buttonLoadMore: "#law-journal-more",
 		setButton: "#law-journal-set",
 		list: "#law-journal-list",
 		

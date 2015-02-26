@@ -24,7 +24,7 @@ import pl.edu.icm.saos.persistence.search.result.SearchResult;
 @Controller
 public class LawJournalEntryAutocompletionController {
 
-    private final static String DEFAULT_MAX_RESULTS_COUNT = "10";
+    private final static String DEFAULT_PAGE_SIZE = "10";
     
     @Autowired
     private DatabaseSearchService databaseSearchService;
@@ -42,14 +42,16 @@ public class LawJournalEntryAutocompletionController {
             @RequestParam(value = "journalNo", required = false) Integer journalNo,
             @RequestParam(value = "entry", required = false) Integer entry,
             @RequestParam(value = "text", required = false) String text,
-            @RequestParam(value = "maxResults", defaultValue = DEFAULT_MAX_RESULTS_COUNT) int maxResults) {
+            @RequestParam(value = "pageSize", required = false, defaultValue = DEFAULT_PAGE_SIZE) int pageSize,
+            @RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber) {
         
         LawJournalEntrySearchFilter searchFilter = LawJournalEntrySearchFilter.builder()
                 .year(year)
                 .journalNo(journalNo)
                 .entry(entry)
                 .text(text)
-                .limit(maxResults)
+                .offset((pageNumber) * pageSize)
+                .limit(pageSize)
                 .filter();
         
         SearchResult<LawJournalEntry> results = databaseSearchService.search(searchFilter);
