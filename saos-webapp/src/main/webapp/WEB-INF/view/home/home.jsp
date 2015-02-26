@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-<div class="container advert-idea">
+<div id="content" class="container advert-idea">
 
 	<div class="" >
 		<h2 class="advert-header" ><spring:message code="home.header.idea" /></h2>
