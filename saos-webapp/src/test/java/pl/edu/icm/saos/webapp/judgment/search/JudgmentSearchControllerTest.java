@@ -100,7 +100,7 @@ public class JudgmentSearchControllerTest {
 	
 	private SearchResults<JudgmentSearchResult> results;
 	
-	private LawJournalEntry lawJournlaEntry = getTestLawJournalEntry();
+	private LawJournalEntry lawJournalEntry = getTestLawJournalEntry();
     
 	@Before
 	public void setUp() {
@@ -240,12 +240,12 @@ public class JudgmentSearchControllerTest {
 		
 		Long lawJournalEntryId = 18l;
 		
-		when(lawJournalEntryRepository.findOne(lawJournalEntryId)).thenReturn(lawJournlaEntry);
+		when(lawJournalEntryRepository.findOne(lawJournalEntryId)).thenReturn(lawJournalEntry);
 		
 		mockMvc.perform(get("/search").param("lawJournalEntryId", lawJournalEntryId.toString()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentSearch"))
-			.andExpect(model().attribute("lawJournalEntry", lawJournlaEntry))
+			.andExpect(model().attribute("lawJournalEntry", lawJournalEntry))
 			;
 		
 		verify(lawJournalEntryRepository, times(1)).findOne(lawJournalEntryId);
