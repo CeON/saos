@@ -37,8 +37,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
+import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
@@ -70,7 +72,6 @@ public class JudgmentSearchControllerTest {
 	@InjectMocks
 	private JudgmentSearchController judgmentSearchController;
 	
-	
 	@Mock
 	private ScJudgmentFormRepository scJudgmentFormRepository;
 	
@@ -82,6 +83,9 @@ public class JudgmentSearchControllerTest {
 	
 	@Mock
 	private JudgmentWebSearchService judgmentsWebSearchService;
+	
+	@Mock
+	private LawJournalEntryRepository lawJournalEntryRepository;
 	
 	@Autowired
     private TestCourtsFactory testCourtsFactory;
@@ -95,6 +99,8 @@ public class JudgmentSearchControllerTest {
     private List<SupremeCourtJudgmentForm> scJudgmentForms = getTestScJudgmentForm();
     
     private SearchResults<JudgmentSearchResult> results;
+    
+    private LawJournalEntry lawJournlaEntry = getTestLawJournalEntry();
     
 	@Before
 	public void setUp() {
@@ -229,6 +235,22 @@ public class JudgmentSearchControllerTest {
 	}
 	
 	
+	@Test
+	public void judgmentSearchResults_search_form_contains_lawJournalEntryId() throws Exception {
+		
+		Long lawJournalEntryId = 18l;
+		
+		when(lawJournalEntryRepository.findOne(lawJournalEntryId)).thenReturn(lawJournlaEntry);
+		
+		mockMvc.perform(get("/search").param("lawJournalEntryId", lawJournalEntryId.toString()))
+			.andExpect(status().isOk())
+			.andExpect(view().name("judgmentSearch"))
+			.andExpect(model().attribute("lawJournalEntry", lawJournlaEntry))
+			;
+		
+		verify(lawJournalEntryRepository, times(1)).findOne(lawJournalEntryId);
+	}
+	
 	//------------------------ PRIVATE --------------------------
 	
 	private List<CommonCourt> getTestCommonCourts() {
@@ -269,4 +291,7 @@ public class JudgmentSearchControllerTest {
 		return Lists.newArrayList(scJudgmentFormOne, scJudgmentFormTwo);
 	}
 	
+	private LawJournalEntry getTestLawJournalEntry() {
+		return new LawJournalEntry(2000, 1, 18, "Ustawa karna i cywilna");
+	}
 }

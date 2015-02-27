@@ -178,6 +178,7 @@ var jsInitInJudgmentSearch = function() {
     SelectLawJournalEntry.init({
 		url: contextPath + "/search/lawJournalEntries",
 		
+		form: "#search-form",
 		fieldLawJournalId: "#lawJournalEntryId",
 		fieldsContainer: "#law-journal-fields",
 		buttonsContainer: "#law-journal-navigation",

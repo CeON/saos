@@ -1,5 +1,5 @@
 /*
- * 
+ * Module for selecting lawJournalEntry. 
  * 
  * @author Łukasz Pawełczak
  */
@@ -14,30 +14,47 @@ var SelectLawJournalEntry = (function() {
 			SELECTED_CLASS : "selected-law"
 		},
 		pageNumber = 0,
-		lastPageNumber = 0,
-		lastUrl = "",
-	
-	
+		
+		
+	/* Prepare fields used in lawJournalEntry searching.
+	 */
+	prepareFields = function() {
+		
+		if($("." + defaults.SELECTED_CLASS).length > 0) {
+		
+			$("." + defaults.SELECTED_CLASS + " a.remove").click(function() {
+				$(options.buttonsContainer).trigger("removeSelected");
+			});
+			
+			$(options.setButton).trigger("hide");
+		}
+		
+		for(var property in options.fields) {
+			$(options.fields[property]).attr("autocomplete", "off");
+		}
+	}
+		
 	/*
 	 * 
-	 * Field container events:
-	 * - hide - make container not visible,
-	 * - show - make container visible
+
 	 * 
-	 * Buttons container events:
+
+	 * 
+
+	 */
+	
+	/* Buttons container events:
 	 * - setSelected @param(text) - adds selected law journal with text
 	 * - removeSelected - hides selected law journal
-	 * 
-	 * Field law journal id events:
-	 * - setValue @param(value) - sets value of field options.fieldLawJournalId
+	 * - hideContainer - hides buttons 
+	 * - showContainer - shows buttons
 	 */
-		
 	assignButtonsContainerEventHandlers = function() {
 		
 		$(options.buttonsContainer)
 			.on("setSelected", function(event, selectedText) {
 				var $selectedElement = $("<div></div>"),
-					$removeButton = $("<a></a>");
+					$removeButton = $("<a><span></span></a>");
 				
 				$removeButton
 					.attr("href", "")
@@ -49,44 +66,66 @@ var SelectLawJournalEntry = (function() {
 					});
 				
 				$selectedElement
-					.text(selectedText)
 					.addClass(defaults.SELECTED_CLASS)
+					.append($("<span>" + selectedText + "</span>"))
 					.append($removeButton);
 				
 				$(options.setButton)
-					.addClass("display-none")
-					.before($selectedElement);
+					.before($selectedElement)
+					.trigger("hide");
 				
 			})
 			.on("removeSelected", function() {
 				
 				$(options.fieldLawJournalId).val("");
+				
 				$(this).find("." + defaults.SELECTED_CLASS).remove();
-				$(options.setButton).removeClass("display-none");
+				
+				$(options.setButton).trigger("show")
+			})
+			.on("showContainer", function() {
+				
+				$(this).removeClass("display-none");
+			})
+			.on("hideContainer", function() {
+				$(this).addClass("display-none");
 			});
 		
 	},
 		
+	/* On form reset, reset lawJournalEntry field.
+	 */
+	assignFieldLawJournalReset = function() {
+		$(options.form)
+			.on("reset", function() {
+				$(options.buttonsContainer).trigger("removeSelected");
+				$(options.fieldLawJournalId).val("");
+			});
+	}
 	
+	/* Button for closing lawJournalEntry selecting area.
+	 */
 	assignCloseContainerButtonEventHandler = function() {
 		
 		$(options.buttonCloseContainer).click(function() {
 			$(options.fieldsContainer).trigger("hide");
 		});
-		
-		
 	},
 	
+	/* Area for selecting lawJournalEntry 
+	 * Event handlers:
+	 * - hide - make container not visible,
+	 * - show - make container visible
+	 */
 	assignContainerEventHandlers = function() {
-		
 		
 		$(options.fieldsContainer)
 			.on("hide", function() {
 				var $this = $(this);
 				
 				$this.slideUp(600, function() {
-					$(options.buttonsContainer).removeClass("display-none");
-					s
+					$(options.buttonsContainer).trigger("showContainer");
+					
 					$this.find(options.list).empty();
 					
 					for(var property in options.fields) {
@@ -95,10 +134,10 @@ var SelectLawJournalEntry = (function() {
 					}	
 				});
 				
-				$(options.buttonLoadMore).addClass("display-none");
+				$(options.buttonLoadMore).trigger("hide");
 			})
 			.on("show", function() {
-				$(options.buttonsContainer).addClass("display-none");
+				$(options.buttonsContainer).trigger("hideContainer");
 				
 				$(this).slideDown(600, function() {
 					$(options.fieldsContainer).removeClass("display-none");
@@ -107,31 +146,44 @@ var SelectLawJournalEntry = (function() {
 		
 	},
 	
-	assignSetButton = function() {
+	/* Assign events to button that opens/hides area for selecting lawJournalEntry.
+	 */
+	assignSetButtonEventHandlers = function() {
 		
-		$(options.setButton).click(function(event) {
-		
-			event.preventDefault();
-			$(options.fieldsContainer).removeClass("display-none");
-			$(options.fieldsContainer).trigger("show");
-		});
+		$(options.setButton)
+			.click(function(event) {
+			
+				event.preventDefault();
+				$(options.fieldsContainer).removeClass("display-none");
+				$(options.fieldsContainer).trigger("show");
+			})
+			.on("show", function(event) {
+				$(this).removeClass("display-none");
+				event.stopPropagation();
+			})
+			.on("hide", function(event) {
+				$(this).addClass("display-none");
+				event.stopPropagation();
+			});
 	},
 	
+	/*  
+	 * Search and show lawJournalEntry, when fields change their value.
+	 */
 	assignLawJournalSelectionFields = function() {
 
 		for(var property in options.fields) {
 			
 			$(options.fields[property])
 				.keyup(function() {
-				
 					findAndLoadLawJournalEntry(true);
 				});
 		}
 
 	},
 	
-	assignNextPage = function() {
-		
+	/* Event handlers for button load more lawJournalEntries */
+	assignButtonLoadMore = function() {
 		
 		$(options.buttonLoadMore)
 			.click(function(event) {
@@ -139,14 +191,30 @@ var SelectLawJournalEntry = (function() {
 				event.preventDefault();
 				
 				pageNumber += 1;
-				
 				findAndLoadLawJournalEntry(false);
-				
+			})
+			.on("show", function(event) {
+				event.stopPropagation();
+				$(this).removeClass("display-none").addClass("display-inline-block");
+			})
+			.on("hide", function(event) {
+				event.stopPropagation();
+				$(this).addClass("display-none").removeClass("display-inline-block");
 			});
 		
 	},
 	
-	findAndLoadLawJournalEntry = function(cleanContainer) {
+	
+	/* Find lawJournalEntry and load it to container */
+	findAndLoadLawJournalEntry = function findAndLoadLawJournalEntry(cleanContainer) {
+		
+		if (!findAndLoadLawJournalEntry.lastUrl) {
+			findAndLoadLawJournalEntry.lastUrl = "";
+		}
+		
+		if (!findAndLoadLawJournalEntry.lastPageNumber){
+			findAndLoadLawJournalEntry.lastPageNumber = 0;
+		}
 		
 		var url = options.url,
 			year = $(options.fields.year).val(),
@@ -155,8 +223,8 @@ var SelectLawJournalEntry = (function() {
 			text = $(options.fields.text).val(),
 			$container = $(options.list);
 		
-		
-		if (year == "" && journalNo == "" && entry == "" && title == "") {
+		//Dont load new data if url is empty
+		if (year == "" && journalNo == "" && entry == "" && text == "") {
 			return;
 		}
 		
@@ -166,26 +234,21 @@ var SelectLawJournalEntry = (function() {
 		url += "&text=" + text;
 		url += "&pageSize=" + defaults.PAGE_SIZE;
 	
-		
-		if (lastUrl == url) {
-			
-			if (pageNumber === lastPageNumber) {
-				return;
-			} 
-			
-			
+		//Dont load new data if url has not changed
+		if (findAndLoadLawJournalEntry.lastUrl === url
+				&& findAndLoadLawJournalEntry.lastPageNumber === pageNumber) {
+			return;			
 		} else {
-			lastUrl = url
+			pageNumber = 0;
 		}
-
-		lastPageNumber = pageNumber;
 		
+		findAndLoadLawJournalEntry.lastPageNumber = pageNumber;
+		findAndLoadLawJournalEntry.lastUrl = url;
 		
 		$.ajax(url + "&pageNumber=" + pageNumber)
 			.done(function(data) {
 				var dataLength = data.length,
 					$firstLi = $("<li></li>");
-				
 				
 				if (cleanContainer) {
 					$container.empty();
@@ -194,7 +257,9 @@ var SelectLawJournalEntry = (function() {
 				if (dataLength > 0) {
 					$firstLi.text(options.text.choseItem);
 				} else {
-					$firstLi.text(options.text.noItems);
+					$firstLi
+						.addClass("no-items")
+						.text(options.text.noItems);
 				}
 				
 				if ($container.find("li").length === 0) {
@@ -204,26 +269,27 @@ var SelectLawJournalEntry = (function() {
 
 				for(var j = 0; j < dataLength; j += 1) {
 					
-
-					//Closure for storing law journal entry id & text
+					//Closure for storing law journal entry id & innerText
 					(function () {
 						var $li = $("<li><a></a></li>"),
-							lawJournalEntryId = data[j].id
+							lawJournalEntryId = data[j].id,
 							innerText = "";
 						
-						innerText = highlight(data[j], year, journalNo, entry, text);
+						innerText = prepareLawJournalEntryForDisplay(data[j], year, journalNo, entry, text);
 						
 						$li.find("a")
 							.attr("href", "")
 							.html(innerText);
 	
+						innerText = innerText.replace(/(<([^>]+)>)/ig,"");
+						
 						$li.click(function(event) {
 							
 							event.preventDefault();
 							
 							$(options.fieldLawJournalId).val(lawJournalEntryId);
 							$(options.fieldsContainer).trigger("hide");									
-							$(options.buttonsContainer).trigger("setSelected", [innerText.replace(/(<([^>]+)>)/ig,"")]);
+							$(options.buttonsContainer).trigger("setSelected", [innerText]);
 						});
 						
 						$container.append($li);
@@ -231,64 +297,88 @@ var SelectLawJournalEntry = (function() {
 					})();
 					
 				}
-				
-				
+
+				//Show/hide button load more jawJournalEntries
 				if (defaults.PAGE_SIZE == dataLength) {
-					$(options.buttonLoadMore).removeClass("display-none");
+					$(options.buttonLoadMore).trigger("show");
 				} else {
-					$(options.buttonLoadMore).addClass("display-none");
+					$(options.buttonLoadMore).trigger("hide");
 				}
-				
-	
+
 			});
-		
-		/*
-		function checkUrlChange(url) {
-			if(!checkUrlChange.lastUrl) {
-				checkUrlChange.lastUrl = url;
-			}
-			
-			if(url === checkUrlChange.lastUrl) {}
-			
-		}*/
+
 	},
 	
-	highlight = function(data, year, journalNo, entry, title) {
-		var text = "";
+	/* Prepares lawJournalEntry for display.
+	 * Converts object data that represents lawJournal entry
+	 * into string of format:
+	 * year/journalNo/entry - title
+	 * Function also highlights search phrases.
+	 * 
+	 * @param data - object that represents lawJournalEntry:
+	 * 			data.year 
+	 * 			data.journalNo
+	 * 			data.entry
+	 * 			data.title 
+	 * @param year - year that should be highlighted
+	 * @param journalNo - journalNo that should be highlighted
+	 * @param entry - entry that should be highlighted
+	 * @param title - title that should be highlighted
+	 * 
+	 * @return string text with highlighted phrases
+	 * */
+	prepareLawJournalEntryForDisplay = function(data, year, journalNo, entry, title) {
 		
+		return prepare();
 		
-		text += highlightMatchingPhrase(data.year, year);
-		text += "/" + highlightMatchingPhrase(data.journalNo, journalNo);
-		text += "/" + highlightMatchingPhrase(data.entry, entry);
-		text += " - " + highlightMatchingPhrase(data.title, title);
-		
-		
-		return text;
-		
-		function highlightMatchingPhrase(text, phrase) {
-			var string = "" + text;
+		function prepare() {
+			var text = "";
 			
-			return string.replace(phrase, "<b>" + phrase + "</b>");
+			text += highlightMatchingPhrase(data.year, year);
+			text += "/" + highlightMatchingPhrase(data.journalNo, journalNo);
+			text += "/" + highlightMatchingPhrase(data.entry, entry);
+			text += " - " + highlightAndMovePhrase(data.title, title);
+			
+			return text;
 		}
 		
-		function bold() {}
+		function highlightMatchingPhrase(line, word ) {
+		     return (line + "").replace( new RegExp( '(' + word + ')', 'gi' ), "<b>$1</b>" );
+		}
 		
-	}
+		function findPosition(line, word) {
+			return (line + "").search(new RegExp( '(' + word + ')', 'gi' ));
+		}
+		
+		function highlightAndMovePhrase(text, phrase) {
+			var string = highlightMatchingPhrase(text, phrase),
+				position = findPosition(string, phrase);
+
+			if (position > 40) {
+				string = string.substr(position - 20, string.length);
+				string = "... " + string;
+			}
+			
+			return string;
+		}		
+	},
 	
-	
-	
+	//------------------------ PUBLIC --------------------------
 	
 	space.init = function(source) {
 		
 		options = source;
+		
 		assignButtonsContainerEventHandlers();
+		assignFieldLawJournalReset();
 		assignContainerEventHandlers();
 		assignCloseContainerButtonEventHandler();
-		assignSetButton();
+		assignSetButtonEventHandlers();
 		assignLawJournalSelectionFields();
-		assignNextPage();
+		assignButtonLoadMore();
+		
+		prepareFields();
 	};
-	
 	
 	return space;
 })();
