@@ -16,7 +16,7 @@ import spock.lang.Specification
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup
-import static pl.edu.icm.saos.api.services.exceptions.status.ErrorStatus.*
+import static pl.edu.icm.saos.api.services.exceptions.status.ErrorReason.*
 import static pl.edu.icm.saos.api.utils.JsonHelper.contentAsJson
 /**
  * @author pavtel
@@ -68,7 +68,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
 
             def content = contentAsJson(actions)
             content.error.httpStatus == "500"
-            content.error.httpStatusName == "Internal Server Error"
+            content.error.reason == GENERAL_INTERNAL_ERROR.errorReason
             content.error.message == exceptionMsg
             content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.name()
     }
@@ -94,7 +94,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
 
             def content = contentAsJson(actions)
             content.error.httpStatus == "400"
-            content.error.httpStatusName == "Bad Request"
+            content.error.reason == WRONG_REQUEST_PARAMETER_ERROR.errorReason
             content.error.message.contains message
             content.error.moreInfo.endsWith WRONG_REQUEST_PARAMETER_ERROR.name()
             content.error.propertyName == paramName
@@ -123,7 +123,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
         then:
             def content = contentAsJson(actions)
             content.error.httpStatus == "400"
-            content.error.httpStatusName == "Bad Request"
+            content.error.reason == WRONG_REQUEST_PARAMETER_ERROR.errorReason
             content.error.message.contains fieldName
             content.error.message.contains rejectedValue
             content.error.moreInfo.endsWith WRONG_REQUEST_PARAMETER_ERROR.name()
@@ -150,7 +150,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
 
             def content = contentAsJson(actions)
             content.error.httpStatus == "500"
-            content.error.httpStatusName == "Internal Server Error"
+            content.error.reason == GENERAL_INTERNAL_ERROR.errorReason
             content.error.message == exceptionMsg
             content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.name()
     }
@@ -176,7 +176,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
 
             def content = contentAsJson(actions)
             content.error.httpStatus == "404"
-            content.error.httpStatusName == "Not Found"
+            content.error.reason == ELEMENT_DOES_NOT_EXIST_ERROR.errorReason
             content.error.message.contains exceptionMsg
             content.error.message.contains elementId.toString()
             content.error.moreInfo.endsWith ELEMENT_DOES_NOT_EXIST_ERROR.name()

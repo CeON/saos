@@ -32,8 +32,8 @@ public class ErrorRepresentation {
             return this;
         }
 
-        public Builder httpStatusName(String name){
-            errorData.httpStatusName = name;
+        public Builder reason(String reason){
+            errorData.reason = reason;
             return this;
         }
 
