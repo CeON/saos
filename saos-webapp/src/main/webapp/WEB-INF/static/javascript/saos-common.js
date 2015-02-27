@@ -8,6 +8,11 @@ function clearSubmitMade() {
 }
 
 
+/**
+ * Adds space every three digits
+ * 
+ * @param nStr number in string format 
+ * */
 function addSpacesEvery3Digits(nStr) {
 	nStr += '';
 	x = nStr.split('.');

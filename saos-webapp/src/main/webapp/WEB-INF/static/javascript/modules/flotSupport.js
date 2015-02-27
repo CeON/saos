@@ -104,9 +104,9 @@ function showTooltip(x, y, content) {
  * ymin is calculated as #getMinYForRange - ((#getMaxYForRange - #getMinYForRange) * 0.1)
  * ymin is calculated as #getMaxYForRange + ((#getMaxYForRange - #getMinYForRange) * 0.1)
  * if xmin or xmas == null then ymin and ymax will be null too
- * @param chart
- * @param xmin
- * @param xmax
+ * @param chart chart data, js equivalent of pl.edu.icm.saos.webapp.chart.Chart
+ * @param xmin min value of x range
+ * @param xmax max value of x range 
  * @param yminLessThanZeroToZero if set to true then if ymin < 0 -> ymin=0, if not set defaults to true
  * Does not currently support stacked charts
  */
@@ -140,6 +140,7 @@ function calculateYAxisRangeForXRange(chart, xmin, xmax, yminLessThanZeroToZero)
 	return yAxisRange;
 }
 
+/** Returns min x value for the given series */
 function getMinX(series) {
 	var minX = null;
 	var index;
@@ -152,7 +153,7 @@ function getMinX(series) {
 	return minX;
 }
 
-
+/** Returns max x value for the given series */
 function getMaxX(series) {
 	var maxX = null;
 	var index;
