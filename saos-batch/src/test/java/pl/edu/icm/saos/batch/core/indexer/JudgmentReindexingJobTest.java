@@ -18,6 +18,7 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrInputDocument;
 import org.assertj.core.util.Maps;
 import org.junit.After;
 import org.junit.Before;
@@ -32,6 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
@@ -144,6 +147,9 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         applyCtChanges(ctJudgments.get(3).getId());
         applyNacChanges(nacJudgments.get(5).getId());
         
+        long notExistingJudgmentId = findMaxJudgmentId() + 1;
+        indexSimpleDocument(notExistingJudgmentId); // this judgment will be in index but not in database
+        
         
         // execute
         JobExecution jobExecution = jobLauncher.run(judgmentReindexingJob, createJobParameters());
@@ -161,6 +167,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(3).getId()), judgmentRepository.findOneAndInitialize(ctJudgments.get(3).getId()));
         assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), judgmentRepository.findOneAndInitialize(nacJudgments.get(5).getId()));
         
+        assertNotInIndex(notExistingJudgmentId);
     }
 
     
@@ -190,6 +197,10 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     
     //------------------------ PRIVATE --------------------------
     
+    private long findMaxJudgmentId() {
+        return judgmentRepository.findAll(new Sort(Direction.DESC, "id")).get(0).getId();
+    }
+    
     private SolrDocument fetchJudgmentDoc(long judgmentId) throws SolrServerException {
         SolrQuery query = new SolrQuery("databaseId:" + String.valueOf(judgmentId));
         QueryResponse response = solrJudgmentsServer.query(query);
@@ -211,6 +222,12 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         params.put("sourceCode", new JobParameter(sourceCode.name()));
         
         return new JobParameters(params);
+    }
+    
+    private void indexSimpleDocument(long id) throws SolrServerException, IOException {
+        SolrInputDocument doc = new SolrInputDocument();
+        doc.addField("databaseId", id);
+        solrJudgmentsServer.add(doc);
     }
     
     
@@ -320,6 +337,12 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         SolrQuery query = new SolrQuery("courtType:" + courtType.name());
         QueryResponse response = solrJudgmentsServer.query(query);
         assertEquals(count, response.getResults().getNumFound());
+    }
+    
+    private void assertNotInIndex(long id) throws SolrServerException {
+        SolrQuery query = new SolrQuery("databaseId:" + id);
+        QueryResponse response = solrJudgmentsServer.query(query);
+        assertEquals(0, response.getResults().getNumFound());
     }
     
 }
