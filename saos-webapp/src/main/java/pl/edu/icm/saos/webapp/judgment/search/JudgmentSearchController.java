@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
@@ -41,6 +42,9 @@ public class JudgmentSearchController {
 	@Autowired
 	private ScJudgmentFormRepository scJudgmentFormRepository;
 	
+	@Autowired
+	private LawJournalEntryRepository lawJournalEntryRepository;
+	
 	
 	//------------------------ LOGIC --------------------------
 	
@@ -58,6 +62,7 @@ public class JudgmentSearchController {
 		
 		addCommonCourtsToModel(judgmentCriteriaForm, model);
 		addSupremeCourtChambersToModel(judgmentCriteriaForm, model);
+		addLawJournalEntryToModel(judgmentCriteriaForm, model);
 		
 		model.addAttribute("scJudgmentForms", scJudgmentFormRepository.findAll());
 		
@@ -81,6 +86,12 @@ public class JudgmentSearchController {
 		if (judgmentCriteriaForm.getSupremeChamberId() != null) {
 			model.addAttribute("supremeChamberDivisions", scListService.findScChamberDivisions(judgmentCriteriaForm.getSupremeChamberId()));
 		}
-	}	
+	}
+	
+	private void addLawJournalEntryToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
+		if (judgmentCriteriaForm.getLawJournalEntryId() != null) {
+			model.addAttribute("lawJournalEntry", lawJournalEntryRepository.findOne(judgmentCriteriaForm.getLawJournalEntryId()));
+		}
+	}
 
 }
