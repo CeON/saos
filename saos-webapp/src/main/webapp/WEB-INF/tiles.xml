@@ -52,7 +52,7 @@
         <put-attribute name="title" value="pageTitle.analysis" type="string" />
     </definition>
         
-    <definition name="analysisSearchCriteria" template="/WEB-INF/view/analysis/analysisSearchCriteria.jsp"/>
+    <definition name="analysisForm" template="/WEB-INF/view/analysis/analysisForm.jsp"/>
     
     
     <!-- ************** SkipLinks -->
