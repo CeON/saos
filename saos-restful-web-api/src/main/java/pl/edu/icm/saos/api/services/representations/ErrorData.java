@@ -12,8 +12,8 @@ public class ErrorData {
     @JsonProperty("httpStatus")
     public String httpStatus;
 
-    @JsonProperty("name")
-    public String name;
+    @JsonProperty("reason")
+    public String reason;
 
     @JsonProperty("propertyName")
     public String propertyName;

@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
  * Represents app error's status dictionary
  * @author pavtel
  */
-public enum  ErrorStatus {
+public enum  ErrorReason {
     /**
      * Represents internal server error
      */
@@ -25,11 +25,11 @@ public enum  ErrorStatus {
     ELEMENT_DOES_NOT_EXIST_ERROR(HttpStatus.NOT_FOUND, "ELEMENT DOES NOT EXIST");
 
     private HttpStatus httpStatus;
-    private String errorName;
+    private String errorReason;
 
-    ErrorStatus(HttpStatus httpStatus, String errorName) {
+    ErrorReason(HttpStatus httpStatus, String errorReason) {
         this.httpStatus = httpStatus;
-        this.errorName = errorName;
+        this.errorReason = errorReason;
     }
 
     public HttpStatus httpStatus() {
@@ -40,8 +40,8 @@ public enum  ErrorStatus {
         return String.valueOf(httpStatus.value());
     }
 
-    public String errorName() {
-        return errorName;
+    public String errorReason() {
+        return errorReason;
     }
 
 }

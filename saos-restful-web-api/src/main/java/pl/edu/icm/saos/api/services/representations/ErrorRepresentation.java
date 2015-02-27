@@ -32,8 +32,8 @@ public class ErrorRepresentation {
             return this;
         }
 
-        public Builder name(String name){
-            errorData.name = name;
+        public Builder reason(String reason){
+            errorData.reason = reason;
             return this;
         }
 

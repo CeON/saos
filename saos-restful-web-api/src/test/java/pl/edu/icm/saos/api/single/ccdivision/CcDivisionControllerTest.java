@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.api.single.division;
+package pl.edu.icm.saos.api.single.ccdivision;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -26,6 +26,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.ApiTestConfiguration;
+import pl.edu.icm.saos.api.single.ccdivision.CcDivisionController;
+import pl.edu.icm.saos.api.single.ccdivision.DivisionSuccessRepresentationBuilder;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
@@ -35,7 +37,7 @@ import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
 @Category(SlowTest.class)
-public class DivisionControllerTest extends PersistenceTestSupport {
+public class CcDivisionControllerTest extends PersistenceTestSupport {
 
     @Autowired
     private CcDivisionRepository ccDivisionRepository;
@@ -63,7 +65,7 @@ public class DivisionControllerTest extends PersistenceTestSupport {
         courtPath = SINGLE_COURTS_PATH + "/" +testObjectContext.getCcCourtId();
         parentCourtPath = SINGLE_COURTS_PATH + "/" +testObjectContext.getCcCourtParentId();
 
-        DivisionController divisionController = new DivisionController();
+        CcDivisionController divisionController = new CcDivisionController();
 
         divisionController.setCcDivisionRepository(ccDivisionRepository);
         divisionController.setDivisionSuccessRepresentationBuilder(divisionSuccessRepresentationBuilder);

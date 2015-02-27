@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.config.SpringDataWebConfiguration;
@@ -107,6 +108,13 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
         pageableResolver.setOneIndexedParameters(true);
         pageableResolver.setMaxPageSize(100);
         return pageableResolver;
+    }
+    
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer() {
+        PropertySourcesPlaceholderConfigurer propertyPlaceholderConfigurer = new PropertySourcesPlaceholderConfigurer();
+        propertyPlaceholderConfigurer.setIgnoreUnresolvablePlaceholders(false);
+        return propertyPlaceholderConfigurer;
     }
 
 

@@ -49,11 +49,11 @@ public class SingleCourtSuccessRepresentationBuilder {
     private List<Link> toLinks(CommonCourt court) {
         List<Link> links = new LinkedList<>();
 
-        Link link = linksBuilder.linkToCourt(court.getId());
+        Link link = linksBuilder.linkToCommonCourt(court.getId());
         links.add(link);
 
         if(court.getParentCourt()!=null){
-            Link parentLink = linksBuilder.linkToCourt(court.getParentCourt().getId(), PARENT_COURT);
+            Link parentLink = linksBuilder.linkToCommonCourt(court.getParentCourt().getId(), PARENT_COURT);
             links.add(parentLink);
         }
 
@@ -62,7 +62,7 @@ public class SingleCourtSuccessRepresentationBuilder {
 
     private void fillData(CommonCourtView.Data data, CommonCourt court) {
         data.setId(court.getId());
-        data.setHref(linksBuilder.urlToCourt(court.getId()));
+        data.setHref(linksBuilder.urlToCommonCourt(court.getId()));
         data.setCode(court.getCode());
         data.setName(court.getName());
         data.setType(court.getType());
@@ -70,7 +70,7 @@ public class SingleCourtSuccessRepresentationBuilder {
         if(court.getParentCourt() != null){
             CommonCourtView.ParentCourt parentCourtView = new CommonCourtView.ParentCourt();
             parentCourtView.setId(court.getParentCourt().getId());
-            parentCourtView.setHref(linksBuilder.urlToCourt(court.getParentCourt().getId()));
+            parentCourtView.setHref(linksBuilder.urlToCommonCourt(court.getParentCourt().getId()));
             data.setParentCourt(parentCourtView);
         }
         data.setDivisions(toDivisions(court));

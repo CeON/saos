@@ -35,7 +35,7 @@ import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
 @Category(SlowTest.class)
-public class CourtControllerTest extends PersistenceTestSupport {
+public class CommonCourtControllerTest extends PersistenceTestSupport {
 
     @Autowired
     private CommonCourtRepository courtRepository;
@@ -62,7 +62,7 @@ public class CourtControllerTest extends PersistenceTestSupport {
         path = SINGLE_COURTS_PATH+"/"+testObjectContext.getCcCourtId();
         parentPath = SINGLE_COURTS_PATH+"/"+testObjectContext.getCcCourtParentId();
 
-        CourtController courtController = new CourtController();
+        CommonCourtController courtController = new CommonCourtController();
 
         courtController.setCourtRepository(courtRepository);
         courtController.setSingleCourtSuccessRepresentationBuilder(singleCourtSuccessRepresentationBuilder);

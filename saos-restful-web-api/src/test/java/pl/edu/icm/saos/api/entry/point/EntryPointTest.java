@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.dump.DumpEntryPointController;
-import pl.edu.icm.saos.api.dump.court.DumpCourtsController;
+import pl.edu.icm.saos.api.dump.court.DumpCommonCourtsController;
 import pl.edu.icm.saos.api.dump.judgment.DumpJudgmentsController;
 import pl.edu.icm.saos.api.dump.supreme.court.chamber.DumpSupremeCourtChambersController;
 import pl.edu.icm.saos.api.search.SearchEntryPointController;
@@ -55,7 +55,7 @@ public class EntryPointTest {
                 mainEntryPointController,
                 dumpEntryPointController,
 
-                new DumpCourtsController(),
+                new DumpCommonCourtsController(),
                 new DumpJudgmentsController(),
                 new DumpSupremeCourtChambersController(),
 
@@ -104,8 +104,8 @@ public class EntryPointTest {
 
         //then
         actions
-                .andExpect(jsonPath("$.links[0].rel").value("courts"))
-                .andExpect(jsonPath("$.links[0].href").value(endsWith("/api/dump/courts")))
+                .andExpect(jsonPath("$.links[0].rel").value("commonCourts"))
+                .andExpect(jsonPath("$.links[0].href").value(endsWith("/api/dump/commonCourts")))
                 .andExpect(jsonPath("$.links[0].description").value(notNullValue()))
 
                 .andExpect(jsonPath("$.links[1].rel").value("judgments"))

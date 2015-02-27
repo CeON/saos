@@ -54,7 +54,7 @@ public class CommonCourtJudgmentMapper {
     private CommonCourtJudgmentData.Court toCourt(CommonCourt court) {
         CommonCourtJudgmentData.Court courtView = new CommonCourtJudgmentData.Court();
 
-        courtView.setHref(linksBuilder.urlToCourt(court.getId()));
+        courtView.setHref(linksBuilder.urlToCommonCourt(court.getId()));
         courtView.setId(court.getId());
         courtView.setName(court.getName());
         courtView.setCode(court.getCode());

@@ -26,6 +26,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -35,7 +36,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.services.exceptions.status.ErrorStatus;
+import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -185,7 +186,8 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
         
         actions
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.error.name").value(ErrorStatus.WRONG_REQUEST_PARAMETER_ERROR.errorName()))
+            .andExpect(jsonPath("$.error.httpStatus").value(String.valueOf(HttpStatus.BAD_REQUEST.value())))
+            .andExpect(jsonPath("$.error.reason").value(ErrorReason.WRONG_REQUEST_PARAMETER_ERROR.errorReason()))
             .andExpect(jsonPath("$.error.propertyName").value("some_incorrect_parameter_name"));
     }
     

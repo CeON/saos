@@ -9,7 +9,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import pl.edu.icm.saos.api.services.exceptions.status.ErrorStatus;
+import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
 import pl.edu.icm.saos.api.services.representations.ErrorRepresentation;
 
 import java.util.Map;
@@ -24,14 +24,14 @@ public class ControllersEntityExceptionHandler {
     private static final Logger log = LoggerFactory.getLogger(ControllersEntityExceptionHandler.class);
 
 
-    @Value("${restful.api.error.documentation.site}")
+    
     private String errorDocumentationSite;
 
 
     //------------------------ LOGIC --------------------------
     @ExceptionHandler(ElementDoesNotExistException.class)
     public ResponseEntity<Map<String, Object>> handelIllegalArgumentError(Exception ex){
-        ErrorStatus errorStatus = ErrorStatus.ELEMENT_DOES_NOT_EXIST_ERROR;
+        ErrorReason errorStatus = ErrorReason.ELEMENT_DOES_NOT_EXIST_ERROR;
 
         ErrorRepresentation.Builder errorRepresentation = create(errorStatus , ex);
 
@@ -40,7 +40,7 @@ public class ControllersEntityExceptionHandler {
 
     @ExceptionHandler(WrongRequestParameterException.class)
     public ResponseEntity<Map<String, Object>> handleWrongRequestParameterError(WrongRequestParameterException ex){
-        ErrorStatus errorStatus = ErrorStatus.WRONG_REQUEST_PARAMETER_ERROR;
+        ErrorReason errorStatus = ErrorReason.WRONG_REQUEST_PARAMETER_ERROR;
 
         ErrorRepresentation.Builder builder = create(errorStatus, ex);
         builder.propertyName(ex.getParameterName());
@@ -50,7 +50,7 @@ public class ControllersEntityExceptionHandler {
 
     @ExceptionHandler(BindException.class)
     public ResponseEntity<Map<String, Object>> handleConversionFailedError(BindException ex) {
-        ErrorStatus errorStatus = ErrorStatus.WRONG_REQUEST_PARAMETER_ERROR;
+        ErrorReason errorStatus = ErrorReason.WRONG_REQUEST_PARAMETER_ERROR;
 
         ErrorRepresentation.Builder builder = create(errorStatus, ex);
 
@@ -68,7 +68,7 @@ public class ControllersEntityExceptionHandler {
     @ExceptionHandler({RuntimeException.class, Exception.class})
     public ResponseEntity<Map<String, Object>> handleGeneralError(Exception ex) {
 
-        ErrorStatus errorStatus = ErrorStatus.GENERAL_INTERNAL_ERROR;
+        ErrorReason errorStatus = ErrorReason.GENERAL_INTERNAL_ERROR;
 
         ErrorRepresentation.Builder builder = create(errorStatus, ex);
 
@@ -83,17 +83,17 @@ public class ControllersEntityExceptionHandler {
 
     //----------- PRIVATE ----------------------------
 
-    private ErrorRepresentation.Builder create(ErrorStatus errorStatus, Exception ex){
+    private ErrorRepresentation.Builder create(ErrorReason errorStatus, Exception ex){
         ErrorRepresentation.Builder builder = new ErrorRepresentation.Builder();
         builder.httpStatus(errorStatus.httpStatusValue())
                 .message(ex.getMessage())
-                .name(errorStatus.errorName())
+                .reason(errorStatus.errorReason())
                 .moreInfo(errorDocumentationSite+errorStatus.name());
 
         return builder;
     }
 
-    private ResponseEntity<Map<String, Object>> createErrorResponse(ErrorRepresentation.Builder builder, ErrorStatus errorStatus){
+    private ResponseEntity<Map<String, Object>> createErrorResponse(ErrorRepresentation.Builder builder, ErrorReason errorStatus){
         Map<String, Object> representation = builder.build();
         return new ResponseEntity<>(representation, errorStatus.httpStatus());
     }
@@ -112,7 +112,9 @@ public class ControllersEntityExceptionHandler {
     }
 
 
-    //----------------- setters ----------------------
+    //----------------- SETTERS ----------------------
+    
+    @Value("${restful.api.error.documentation.site}")
     public void setErrorDocumentationSite(String errorDocumentationSite) {
         this.errorDocumentationSite = errorDocumentationSite;
     }
