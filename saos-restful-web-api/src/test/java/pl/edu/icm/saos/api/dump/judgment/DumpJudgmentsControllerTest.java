@@ -406,7 +406,6 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 
                 .andExpect(jsonPath(pathPrefix+".referencedCourtCases").doesNotExist())
         ;
-
     }
 
 

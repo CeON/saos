@@ -1,12 +1,16 @@
 package pl.edu.icm.saos.webapp.lawjournal;
 
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
 
+import java.util.List;
+
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -37,8 +41,7 @@ public class LawJournalEntryAutocompletionControllerTest extends WebappTestSuppo
     
     private MockMvc mockMvc;
     
-    
-    private LawJournalEntry lawJournalEntry;
+    private List<LawJournalEntry> lawJournalEntryList;
     
     private static final String PATH = "/search/lawJournalEntries";
     
@@ -46,11 +49,12 @@ public class LawJournalEntryAutocompletionControllerTest extends WebappTestSuppo
     @Before
     public void setUp() throws Exception {
         
-        lawJournalEntry = new LawJournalEntry(1964, 43, 296, "Ustawa z dnia 17 listopada 1964 r. - Kodeks postepowania cywilnego");
-        lawJournalEntryRepository.save(lawJournalEntry);
-        
-        mockMvc = standaloneSetup(lawJournalController)
-                .build();
+		lawJournalEntryList = createLawJournalEntryTestData();
+		
+		lawJournalEntryRepository.save(lawJournalEntryList);
+		
+		mockMvc = standaloneSetup(lawJournalController)
+				.build();
     }
     
     
@@ -71,11 +75,35 @@ public class LawJournalEntryAutocompletionControllerTest extends WebappTestSuppo
         // assert
         
         result
-            .andExpect(jsonPath("$.[0].id").value(equalsLong(lawJournalEntry.getId())))
-            .andExpect(jsonPath("$.[0].year").value(lawJournalEntry.getYear()))
-            .andExpect(jsonPath("$.[0].journalNo").value(lawJournalEntry.getJournalNo()))
-            .andExpect(jsonPath("$.[0].entry").value(lawJournalEntry.getEntry()))
-            .andExpect(jsonPath("$.[0].title").value(lawJournalEntry.getTitle()));
+			.andExpect(jsonPath("$", hasSize(1)))
+			.andExpect(jsonPath("$.[0].id").value(equalsLong(lawJournalEntryList.get(0).getId())))
+			.andExpect(jsonPath("$.[0].year").value(lawJournalEntryList.get(0).getYear()))
+			.andExpect(jsonPath("$.[0].journalNo").value(lawJournalEntryList.get(0).getJournalNo()))
+			.andExpect(jsonPath("$.[0].entry").value(lawJournalEntryList.get(0).getEntry()))
+			.andExpect(jsonPath("$.[0].title").value(lawJournalEntryList.get(0).getTitle()));
+        
+    }
+    
+    @Test
+    public void lawJournalSearch_FOUND_THREE() throws Exception {
+        
+        // execute
+        
+        ResultActions result = mockMvc.perform(get(PATH)
+                .param("year", "1964")
+                .param("pageSize", "1")
+                .param("pageNumber", "1"));
+        
+        
+        // assert
+        
+        result
+			.andExpect(jsonPath("$", hasSize(1)))
+            .andExpect(jsonPath("$.[0].id").value(equalsLong(lawJournalEntryList.get(1).getId())))
+            .andExpect(jsonPath("$.[0].year").value(lawJournalEntryList.get(1).getYear()))
+            .andExpect(jsonPath("$.[0].journalNo").value(lawJournalEntryList.get(1).getJournalNo()))
+            .andExpect(jsonPath("$.[0].entry").value(lawJournalEntryList.get(1).getEntry()))
+            .andExpect(jsonPath("$.[0].title").value(lawJournalEntryList.get(1).getTitle()));
         
     }
     
@@ -90,6 +118,14 @@ public class LawJournalEntryAutocompletionControllerTest extends WebappTestSuppo
         
     }
     
+
+    //------------------------ private --------------------------    
     
-    
+    private List<LawJournalEntry> createLawJournalEntryTestData() {
+    	LawJournalEntry lawJournalEntryOne = new LawJournalEntry(1964, 43, 296, "Ustawa z dnia 17 listopada 1964 r. - Kodeks postepowania cywilnego");
+    	LawJournalEntry lawJournalEntryTwo = new LawJournalEntry(1964, 42, 291, "Ustawa z dnia 15 wrzesnia 1964 r. - Kodeks spolek handlowych");
+    	LawJournalEntry lawJournalEntryThree = new LawJournalEntry(1964, 41, 292, "Ustawa z dnia 21 lutego 1964 r. - Przepisy wprowadzające ustawę o Krajowym Rejestrze Sądowym");
+    	
+    	return Lists.newArrayList(lawJournalEntryOne, lawJournalEntryTwo, lawJournalEntryThree);
+    }
 }
