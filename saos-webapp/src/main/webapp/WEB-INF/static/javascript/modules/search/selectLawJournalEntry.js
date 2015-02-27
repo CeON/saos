@@ -16,8 +16,7 @@ var SelectLawJournalEntry = (function() {
 		pageNumber = 0,
 		
 		
-	/* Prepare fields used in lawJournalEntry searching.
-	 */
+	/* Prepare fields used in lawJournalEntry searching. */
 	prepareFields = function() {
 		
 		if($("." + defaults.SELECTED_CLASS).length > 0) {
@@ -33,15 +32,6 @@ var SelectLawJournalEntry = (function() {
 			$(options.fields[property]).attr("autocomplete", "off");
 		}
 	}
-		
-	/*
-	 * 
-
-	 * 
-
-	 * 
-
-	 */
 	
 	/* Buttons container events:
 	 * - setSelected @param(text) - adds selected law journal with text
@@ -93,8 +83,7 @@ var SelectLawJournalEntry = (function() {
 		
 	},
 		
-	/* On form reset, reset lawJournalEntry field.
-	 */
+	/* On form reset, reset lawJournalEntry field. */
 	assignFieldLawJournalReset = function() {
 		$(options.form)
 			.on("reset", function() {
@@ -103,8 +92,7 @@ var SelectLawJournalEntry = (function() {
 			});
 	}
 	
-	/* Button for closing lawJournalEntry selecting area.
-	 */
+	/* Button for closing lawJournalEntry selecting area. */
 	assignCloseContainerButtonEventHandler = function() {
 		
 		$(options.buttonCloseContainer).click(function() {
@@ -146,8 +134,7 @@ var SelectLawJournalEntry = (function() {
 		
 	},
 	
-	/* Assign events to button that opens/hides area for selecting lawJournalEntry.
-	 */
+	/* Assign events to button that opens/hides area for selecting lawJournalEntry. */
 	assignSetButtonEventHandlers = function() {
 		
 		$(options.setButton)

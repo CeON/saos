@@ -49,12 +49,12 @@ public class LawJournalEntryAutocompletionControllerTest extends WebappTestSuppo
     @Before
     public void setUp() throws Exception {
         
-    	lawJournalEntryList = createLawJournalEntryTestData();
-        
-    	lawJournalEntryRepository.save(lawJournalEntryList);
-        
-        mockMvc = standaloneSetup(lawJournalController)
-                .build();
+		lawJournalEntryList = createLawJournalEntryTestData();
+		
+		lawJournalEntryRepository.save(lawJournalEntryList);
+		
+		mockMvc = standaloneSetup(lawJournalController)
+				.build();
     }
     
     
@@ -75,12 +75,12 @@ public class LawJournalEntryAutocompletionControllerTest extends WebappTestSuppo
         // assert
         
         result
-        	.andExpect(jsonPath("$", hasSize(1)))
-            .andExpect(jsonPath("$.[0].id").value(equalsLong(lawJournalEntryList.get(0).getId())))
-            .andExpect(jsonPath("$.[0].year").value(lawJournalEntryList.get(0).getYear()))
-            .andExpect(jsonPath("$.[0].journalNo").value(lawJournalEntryList.get(0).getJournalNo()))
-            .andExpect(jsonPath("$.[0].entry").value(lawJournalEntryList.get(0).getEntry()))
-            .andExpect(jsonPath("$.[0].title").value(lawJournalEntryList.get(0).getTitle()));
+			.andExpect(jsonPath("$", hasSize(1)))
+			.andExpect(jsonPath("$.[0].id").value(equalsLong(lawJournalEntryList.get(0).getId())))
+			.andExpect(jsonPath("$.[0].year").value(lawJournalEntryList.get(0).getYear()))
+			.andExpect(jsonPath("$.[0].journalNo").value(lawJournalEntryList.get(0).getJournalNo()))
+			.andExpect(jsonPath("$.[0].entry").value(lawJournalEntryList.get(0).getEntry()))
+			.andExpect(jsonPath("$.[0].title").value(lawJournalEntryList.get(0).getTitle()));
         
     }
     
@@ -98,7 +98,7 @@ public class LawJournalEntryAutocompletionControllerTest extends WebappTestSuppo
         // assert
         
         result
-        	.andExpect(jsonPath("$", hasSize(1)))
+			.andExpect(jsonPath("$", hasSize(1)))
             .andExpect(jsonPath("$.[0].id").value(equalsLong(lawJournalEntryList.get(1).getId())))
             .andExpect(jsonPath("$.[0].year").value(lawJournalEntryList.get(1).getYear()))
             .andExpect(jsonPath("$.[0].journalNo").value(lawJournalEntryList.get(1).getJournalNo()))

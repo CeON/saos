@@ -88,19 +88,19 @@ public class JudgmentSearchControllerTest {
 	private LawJournalEntryRepository lawJournalEntryRepository;
 	
 	@Autowired
-    private TestCourtsFactory testCourtsFactory;
-    
-    private List<SimpleDivision> simpleDivisions;
+	private TestCourtsFactory testCourtsFactory;
 	
-    private List<CommonCourt> commonCourts = getTestCommonCourts();
+	private List<SimpleDivision> simpleDivisions;
 	
-    private List<SupremeCourtChamber> scChambers = getTestScChamber();
-    
-    private List<SupremeCourtJudgmentForm> scJudgmentForms = getTestScJudgmentForm();
-    
-    private SearchResults<JudgmentSearchResult> results;
-    
-    private LawJournalEntry lawJournlaEntry = getTestLawJournalEntry();
+	private List<CommonCourt> commonCourts = getTestCommonCourts();
+	
+	private List<SupremeCourtChamber> scChambers = getTestScChamber();
+	
+	private List<SupremeCourtJudgmentForm> scJudgmentForms = getTestScJudgmentForm();
+	
+	private SearchResults<JudgmentSearchResult> results;
+	
+	private LawJournalEntry lawJournlaEntry = getTestLawJournalEntry();
     
 	@Before
 	public void setUp() {
