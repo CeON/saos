@@ -194,13 +194,13 @@ var initAnalysisJs = function() {
     }
     
     /** Show a point tooltip on the main chart */
-    $("#mainChart").bind("plothover", function (event, pos, item) {
+    $("#mainChart").on("plothover", function (event, pos, item) {
         showDateNumberPointTooltip(event, pos, item);
     });
     
     
     /** zoom the main chart */
-    $("#mainChart").bind("plotselected", function (event, ranges) {
+    $("#mainChart").on("plotselected", function (event, ranges) {
         $('#mainChartZoomCancelHint').text(zoomCancelHint);
         printMainChart(mainChart, ranges.xaxis.from, ranges.xaxis.to);
     });
