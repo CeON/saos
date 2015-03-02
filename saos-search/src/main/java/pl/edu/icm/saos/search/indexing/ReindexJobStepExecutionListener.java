@@ -16,13 +16,15 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 /**
  * Resets all judgments indexed flag before step execution.
  * It can use job parameter <code>sourceCode</code> to limit
  * reseting to judgments with specified {@link SourceCode}.
- * It also deletes all judgments from index if parameter
- * <code>sourceCode</code> was null.
+ * It also deletes judgments from index whose <code>sourceCode</code>
+ * is equals to the provided one (all judgments in case of
+ * <code>sourceCode</code> equals to null).
  * 
  * @author madryk
  */
@@ -45,12 +47,12 @@ public class ReindexJobStepExecutionListener implements StepExecutionListener {
         SourceCode sc = EnumUtils.getEnum(SourceCode.class, sourceCode);
         judgmentRepository.markAsNotIndexedBySourceCode(sc);
         
-        if (sc == null) {
-            try {
-                solrJudgmentsServer.deleteByQuery("*:*");
-            } catch (SolrServerException | IOException e) {
-                throw new RuntimeException(e);
-            }
+        String deletingQuery = (sc == null) ? "*:*" : JudgmentIndexField.SOURCE_CODE.getFieldName() + ":" + sc.name();
+        
+        try {
+            solrJudgmentsServer.deleteByQuery(deletingQuery);
+        } catch (SolrServerException | IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

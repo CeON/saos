@@ -4,7 +4,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 import org.apache.solr.client.solrj.SolrServer;
 import org.junit.Before;
@@ -57,8 +56,8 @@ public class ReindexJobStepExecutionListenerTest {
         
         // assert
         verify(judgmentRepository, times(1)).markAsNotIndexedBySourceCode(SourceCode.COMMON_COURT);
-        verifyNoMoreInteractions(judgmentRepository);
-        verifyZeroInteractions(judgmentSolrServer);
+        verify(judgmentSolrServer).deleteByQuery("sourceCode:COMMON_COURT");
+        verifyNoMoreInteractions(judgmentRepository, judgmentSolrServer);
     }
 
 }

@@ -127,7 +127,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, ALL_JUDGMENTS_COUNT);
 
         assertAllMarkedAsIndexed();
-        assertAllInIndex(ALL_JUDGMENTS_COUNT);
+        assertIndexCount(ALL_JUDGMENTS_COUNT);
         
         assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), ccJudgments.get(1));
         assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), scJudgments.get(0));
@@ -148,7 +148,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         applyNacChanges(nacJudgments.get(5).getId());
         
         long notExistingJudgmentId = findMaxJudgmentId() + 1;
-        indexSimpleDocument(notExistingJudgmentId); // this judgment will be in index but not in database
+        indexSimpleJudgment(notExistingJudgmentId, SourceCode.CONSTITUTIONAL_TRIBUNAL); // this judgment will be in index but not in database
         
         
         // execute
@@ -160,7 +160,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, ALL_JUDGMENTS_COUNT);
 
         assertAllMarkedAsIndexed();
-        assertAllInIndex(ALL_JUDGMENTS_COUNT);
+        assertIndexCount(ALL_JUDGMENTS_COUNT);
         
         assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), judgmentRepository.findOneAndInitialize(ccJudgments.get(1).getId()));
         assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), judgmentRepository.findOneAndInitialize(scJudgments.get(0).getId()));
@@ -179,6 +179,11 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         judgments.forEach(x -> x.markAsIndexed());
         judgmentRepository.save(judgments);
         
+        long notExistingScJudgmentId = findMaxJudgmentId() + 1;
+        long notExistingCcJudgmentId = findMaxJudgmentId() + 2;
+        indexSimpleJudgment(notExistingScJudgmentId, SourceCode.SUPREME_COURT); // this judgment will be in index but not in database
+        indexSimpleJudgment(notExistingCcJudgmentId, SourceCode.COMMON_COURT); // this judgment will be in index but not in database
+        
         
         // execute
         JobExecution jobExecution = jobLauncher.run(judgmentReindexingJob, createJobParameters(SourceCode.SUPREME_COURT));
@@ -189,10 +194,13 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, SUPREME_COURT_JUDGMENTS_COUNT);
         
         assertAllMarkedAsIndexed();
-        assertAllInIndex(SUPREME_COURT_JUDGMENTS_COUNT);
-        assertAllInIndexIsOfType(SUPREME_COURT_JUDGMENTS_COUNT, CourtType.SUPREME);
+        assertIndexCount(SUPREME_COURT_JUDGMENTS_COUNT + 1); // +1 for notExistingCcJudgment
+        assertIndexWithSourceCodeCount(SUPREME_COURT_JUDGMENTS_COUNT, SourceCode.SUPREME_COURT);
         
         assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), scJudgments.get(0));
+        
+        assertNotInIndex(notExistingScJudgmentId);
+        assertInIndex(notExistingCcJudgmentId); // shouldn't do anything with this judgment
     }
     
     //------------------------ PRIVATE --------------------------
@@ -224,9 +232,10 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         return new JobParameters(params);
     }
     
-    private void indexSimpleDocument(long id) throws SolrServerException, IOException {
+    private void indexSimpleJudgment(long id, SourceCode sourceCode) throws SolrServerException, IOException {
         SolrInputDocument doc = new SolrInputDocument();
         doc.addField("databaseId", id);
+        doc.addField("sourceCode", sourceCode.name());
         solrJudgmentsServer.add(doc);
     }
     
@@ -327,22 +336,30 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         assertEquals(0, notIndexedJudgments.getTotalElements());
     }
     
-    private void assertAllInIndex(int count) throws SolrServerException {
+    private void assertIndexCount(int count) throws SolrServerException {
         SolrQuery query = new SolrQuery("*:*");
         QueryResponse response = solrJudgmentsServer.query(query);
         assertEquals(count, response.getResults().getNumFound());
     }
     
-    private void assertAllInIndexIsOfType(int count, CourtType courtType) throws SolrServerException {
-        SolrQuery query = new SolrQuery("courtType:" + courtType.name());
+    private void assertIndexWithSourceCodeCount(int count, SourceCode sourceCode) throws SolrServerException {
+        SolrQuery query = new SolrQuery("sourceCode:" + sourceCode.name());
         QueryResponse response = solrJudgmentsServer.query(query);
         assertEquals(count, response.getResults().getNumFound());
     }
     
     private void assertNotInIndex(long id) throws SolrServerException {
+        assertPresenceInIndex(id, false);
+    }
+    
+    private void assertInIndex(long id) throws SolrServerException {
+        assertPresenceInIndex(id, true);
+    }
+    
+    private void assertPresenceInIndex(long id, boolean present) throws SolrServerException {
         SolrQuery query = new SolrQuery("databaseId:" + id);
         QueryResponse response = solrJudgmentsServer.query(query);
-        assertEquals(0, response.getResults().getNumFound());
+        assertEquals(present ? 1 : 0, response.getResults().getNumFound());
     }
     
 }

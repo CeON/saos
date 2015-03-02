@@ -16,9 +16,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.reflect.Whitebox;
 
+import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
@@ -47,10 +50,13 @@ public class JudgmentIndexFieldsFillerTest {
         SolrInputFieldFactory fieldFactory = new SolrInputFieldFactory();
 
         // simple
-        Judgment simpleJudgment = new CommonCourtJudgment();
+        Judgment simpleJudgment = TestInMemoryObjectFactory.createSimpleCcJudgment();
         Whitebox.setInternalState(simpleJudgment, "id", 1);
-        List<SolrInputField> simpleFields = Collections.singletonList(
-                fieldFactory.create("databaseId", 1l));
+        
+        List<SolrInputField> simpleFields = Lists.newArrayList(
+                fieldFactory.create("databaseId", 1l),
+                fieldFactory.create("sourceCode", SourceCode.COMMON_COURT.name()),
+                fieldFactory.create("courtType", CourtType.COMMON.name()));
         
         
         // court case
@@ -142,8 +148,7 @@ public class JudgmentIndexFieldsFillerTest {
                 fieldFactory.create("content", "some content"));
 
         //general
-        Judgment generalJudgment = new CommonCourtJudgment();
-        generalJudgment.addCourtCase(new CourtCase("ABC1A"));
+        Judgment generalJudgment = TestInMemoryObjectFactory.createSimpleScJudgment();
         generalJudgment.addJudge(thirdJudge);
         generalJudgment.addLegalBase("art 1023 kc");
         generalJudgment.addReferencedRegulation(firstReferencedRegulation);
@@ -153,7 +158,9 @@ public class JudgmentIndexFieldsFillerTest {
 
         List<SolrInputField> generalFields =
             Lists.newArrayList(
-                    fieldFactory.create("caseNumber", "ABC1A"),
+                    fieldFactory.create("sourceCode", SourceCode.SUPREME_COURT.name()),
+                    fieldFactory.create("courtType", CourtType.SUPREME.name()),
+                    fieldFactory.create("caseNumber", generalJudgment.getCaseNumbers().get(0)),
                     fieldFactory.create("judge", "Adam Nowak"),
                     fieldFactory.create("judgeName", "Adam Nowak"),
                     fieldFactory.create("judgeWithRole_#_NO_ROLE", "Adam Nowak"),
