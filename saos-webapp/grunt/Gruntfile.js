@@ -125,6 +125,16 @@ module.exports = function(grunt) {
 				  '<%= project.js.dir %>/libs/bootstrap.min.js',
 				  '<%= project.js.dir %>/libs/moment.js',
 				  '<%= project.js.dir %>/libs/daterangepicker.js',
+				  '<%= project.js.dir %>/libs/jquery-dateFormat.min.js">',
+				  
+				  '<%= project.js.dir %>/libs/jquery.flot.min.js">',
+				  '<%= project.js.dir %>/libs/jquery.flot.navigate.min.js">',
+				  '<%= project.js.dir %>/libs/jquery.flot.resize.min.js">',
+				  '<%= project.js.dir %>/libs/jquery.flot.selection.min.js">',
+				  '<%= project.js.dir %>/libs/jquery.flot.stack.min.js">',
+				  '<%= project.js.dir %>/libs/jquery.flot.time.min.js">',
+				  
+				  '<%= project.js.dir %>/modules/flotSupport.js">',
 				  
 				  '<%= project.js.dir %>/modules/typography.js',
         	      '<%= project.js.dir %>/modules/cookies.js',

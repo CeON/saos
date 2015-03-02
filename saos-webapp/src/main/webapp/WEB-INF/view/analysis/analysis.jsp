@@ -3,43 +3,30 @@
 
 <script>
 $(document).ready(function() {
-	new initAnalysisJs().initButtonActions();
+	
+	zoomCancelHint = '<spring:message code="chart.zoomCancelHint"/>'
+	mainChartUrl = '<c:url value="/analysis/generate"/>';
+    
+	initAnalysisJs();
+	
 });
 </script>
 
 
 <div class="container judgment-page block" id="analysis">
 
-<form:form id="analysisForm" class="form-horizontal" role="form" modelAttribute="analysisForm" action="${contextPath}/analysis" method="GET">
+<div class="form-group" id="analysisFormDiv">
 
-<div class="container block">
-
-
-    <fieldset id="analysisFieldset" >
-        
-        <div class="form-group" id="analysisSearchCriteriaDiv">
-	        <%@ include file="analysisSearchCriteria.jsp" %>
-        </div>
-        
-        <%--
-        <div class="form-group">
-	        <div class="col-sm-2">
-	            
-	            <input id="daterange" maxlength="10" />                 
-	        
-	        </div>
-        </div>
-        --%>
-        
-        <div class="form-group button-group">
-            <div class="col-sm-9">
-                <button type="submit" class="btn btn-primary button button-blue"><spring:message code="analysis.button.generateChart" /></button>
-            </div>
-        </div>
-        
-    </fieldset>
+       <%@ include file="analysisForm.jsp" %>
 
 </div>
 
-</form:form>
+
+<div class="col-sm-12">
+    <span class="small" id="mainChartZoomCancelHint"></span>
+    <div id="mainChart" style="width: 100%; height: 400px;">
+    </div>
+</div>
+
+
 </div>
