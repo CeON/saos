@@ -2,8 +2,6 @@
 
 <spring:eval expression="@exposedProperties.getProperty('webapp.distribution')" var="webappDistribution" />
    
-<%@include file="/WEB-INF/view/common/cssFonts.jsp"%>
-   
 <%@ include file="../view/common/javaScriptGlobalVariables.jsp" %>   
    
 <c:choose>
