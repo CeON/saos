@@ -15,6 +15,7 @@ public enum JudgmentIndexField implements IndexField {
     REFERENCED_REGULATION("referencedRegulations"),
     LAW_JOURNAL_ENTRY_ID("lawJournalEntryId"),
     
+    SOURCE_CODE("sourceCode"),
     COURT_TYPE("courtType"),
     
     /* common court */

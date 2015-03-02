@@ -18,7 +18,7 @@ import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingReader;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingWriter;
-import pl.edu.icm.saos.search.indexing.ResetJudgmentIndexFlagStepExecutionListener;
+import pl.edu.icm.saos.search.indexing.ReindexJobStepExecutionListener;
 
 @Configuration
 @ComponentScan
@@ -45,10 +45,10 @@ public class IndexingJobConfiguration {
     private JudgmentIndexingWriter judgmentIndexingWriter;
     
     
-    // reseting indexed flag beans
+    // reindex specific beans
     
     @Autowired
-    private ResetJudgmentIndexFlagStepExecutionListener resetJudgmentIndexFlagStepExecutionListener;
+    private ReindexJobStepExecutionListener reindexJobStepExecutionListener;
     
     
     //------------------------ LOGIC --------------------------
@@ -104,7 +104,7 @@ public class IndexingJobConfiguration {
                 .reader(judgmentIndexingReader)
                 .processor(judgmentIndexingProcessor)
                 .writer(judgmentIndexingWriter)
-                .listener(resetJudgmentIndexFlagStepExecutionListener)
+                .listener(reindexJobStepExecutionListener)
                 .taskExecutor(judgmentIndexingTaskExecutor)
                 .build();
     }
