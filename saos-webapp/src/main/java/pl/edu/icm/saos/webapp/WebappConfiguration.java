@@ -48,6 +48,7 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     @Autowired
     private LocaleResolver localeResolver;
     
+    @Autowired
     
     @Bean
     public TilesViewResolver viewResolver() {

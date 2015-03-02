@@ -14,6 +14,16 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/daterangepicker.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/moment.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/bootstrap.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery-dateFormat.min.js"></script>
+
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.navigate.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.resize.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.selection.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.stack.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.time.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/flotSupport.js"></script>
+
 
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/typography.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/cookies.js"></script>
