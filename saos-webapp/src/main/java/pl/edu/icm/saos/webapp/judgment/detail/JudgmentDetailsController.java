@@ -6,7 +6,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionService;
 
 /**
@@ -17,9 +16,8 @@ import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionServi
 @Controller
 public class JudgmentDetailsController {
 
-	
 	@Autowired
-	private JudgmentEnrichmentService judgmentEnrichmentService;
+	private JudgmentGetService judgmentGetService;
 	
 	@Autowired
 	private JudgmentCorrectionService judgmentCorrectionService;
@@ -33,7 +31,7 @@ public class JudgmentDetailsController {
 	@RequestMapping("/judgments/{judgmentId}")
 	public String showJudgmentDetails(ModelMap model, @PathVariable("judgmentId") long judgmentId) {
 		
-		model.addAttribute("judgment", judgmentDetailsSortService.sortJudges(judgmentEnrichmentService.findOneAndEnrich(judgmentId)));
+		model.addAttribute("judgment", judgmentDetailsSortService.sortJudges(judgmentGetService.getJudgment(judgmentId)));
 		model.addAttribute("corrections", judgmentCorrectionService.findAllByJudgmentIdSorted(judgmentId));
 		
 		return "judgmentDetails";

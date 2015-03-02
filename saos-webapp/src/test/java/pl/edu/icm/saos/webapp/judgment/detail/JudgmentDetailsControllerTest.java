@@ -29,7 +29,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder;
@@ -59,7 +58,7 @@ public class JudgmentDetailsControllerTest {
     private JudgmentDetailsController judgmentDetailController;
 	
 	@Mock
-	private JudgmentEnrichmentService judgmentEnrichmentService;
+	private JudgmentGetService judgmentGetService;
 	
 	@Mock
 	private JudgmentCorrectionService judgmentCorrectionService;
@@ -74,7 +73,7 @@ public class JudgmentDetailsControllerTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		
-		when(judgmentEnrichmentService.findOneAndEnrich(judgment.getId())).thenReturn(judgment);
+		when(judgmentGetService.getJudgment(judgment.getId())).thenReturn(judgment);
 		when(judgmentDetailsSortService.sortJudges(judgment)).thenReturn(judgment);
 		when(judgmentCorrectionService.findAllByJudgmentIdSorted(judgment.getId())).thenReturn(judgmentCorrections);
 		
@@ -99,7 +98,7 @@ public class JudgmentDetailsControllerTest {
 			.andExpect(model().attribute("judgment", judgment))
 			.andExpect(model().attribute("corrections", judgmentCorrections));
 		
-		verify(judgmentEnrichmentService).findOneAndEnrich(judgment.getId());
+		verify(judgmentGetService).getJudgment(judgment.getId());
 		verify(judgmentDetailsSortService).sortJudges(judgment);
 		verify(judgmentCorrectionService).findAllByJudgmentIdSorted(judgment.getId());
 	}

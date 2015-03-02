@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
         
         if (judgment != null) {
             judgment.accept(new InitializingVisitor());
-        }
+        } 
         
         @SuppressWarnings("unchecked")
         T retJudgment = (T)judgment;

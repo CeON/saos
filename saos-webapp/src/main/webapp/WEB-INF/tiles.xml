@@ -88,5 +88,9 @@
         <put-attribute name="content" value="/WEB-INF/view/error/error500.jsp" />
     </definition>
     
+	<definition name="judgmentNotFound" extends="simpleTemplate">
+        <put-attribute name="content" value="/WEB-INF/view/error/judgmentNotFound.jsp" />
+    </definition>
+    
     
 </tiles-definitions>
