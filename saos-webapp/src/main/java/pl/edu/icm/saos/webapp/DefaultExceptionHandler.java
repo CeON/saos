@@ -12,7 +12,6 @@ public class DefaultExceptionHandler {
 	@ExceptionHandler(ObjectNotFoundException.class)
 	public String objectNotFoundExceptionErrorHandler(ObjectNotFoundException e) {
 		e.printStackTrace();
-		
 		return "judgmentNotFound";
 	}
 	
