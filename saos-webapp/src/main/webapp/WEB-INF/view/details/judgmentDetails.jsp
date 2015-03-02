@@ -239,15 +239,40 @@ $(document).ready(function() {
 							<spring:message code="judgment.sourceLink" />
 						</a>	
 					</li>
-					
+				</c:if>
+				<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >	
 					<li>
-						<div class="" >
+						<div >
 							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.url" />:</div>
 							<div class="desc" >${judgment.sourceInfo.sourceJudgmentUrl}</div>
 						</div>
 					</li>
-				
 				</c:if>
+				<c:if test="${!empty judgment.sourceInfo.publicationDate}" >	
+					<li>
+						<div >
+							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.publicationDate" />:</div>
+							<div class="desc" ><joda:format value="${judgment.sourceInfo.publicationDate}" pattern="${DATE_PATTERN}"/></div>
+						</div>
+					</li>
+				</c:if>
+				<c:if test="${!empty judgment.sourceInfo.publisher}" >
+					<li>
+						<div >
+							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.publisher" />:</div>
+							<div class="desc" >${judgment.sourceInfo.publisher}</div>
+						</div>
+					</li>
+				</c:if>
+				<c:if test="${!empty judgment.sourceInfo.reviser}" >
+					<li>
+						<div >
+							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.reviser" />:</div>
+							<div class="desc" >${judgment.sourceInfo.reviser}</div>
+						</div>
+					</li>
+				</c:if>
+				
 			</ul>
 		</c:if>
 	
