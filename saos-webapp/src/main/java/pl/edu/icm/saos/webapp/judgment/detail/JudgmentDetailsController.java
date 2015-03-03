@@ -17,7 +17,6 @@ import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionServi
 @Controller
 public class JudgmentDetailsController {
 
-	
 	@Autowired
 	private JudgmentEnrichmentService judgmentEnrichmentService;
 	
@@ -31,7 +30,7 @@ public class JudgmentDetailsController {
 	//------------------------ LOGIC --------------------------
 	
 	@RequestMapping("/judgments/{judgmentId}")
-	public String showJudgmentDetails(ModelMap model, @PathVariable("judgmentId") long judgmentId) {
+	public String showJudgmentDetails(ModelMap model, @PathVariable("judgmentId") long judgmentId) {		
 		
 		model.addAttribute("judgment", judgmentDetailsSortService.sortJudges(judgmentEnrichmentService.findOneAndEnrich(judgmentId)));
 		model.addAttribute("corrections", judgmentCorrectionService.findAllByJudgmentIdSorted(judgmentId));
