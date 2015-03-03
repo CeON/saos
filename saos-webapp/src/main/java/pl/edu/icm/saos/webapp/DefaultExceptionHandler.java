@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.webapp;
 
-import org.hibernate.ObjectNotFoundException;
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -9,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class DefaultExceptionHandler {
 	
 	
-	@ExceptionHandler(ObjectNotFoundException.class)
-	public String objectNotFoundExceptionErrorHandler(ObjectNotFoundException e) {
+	@ExceptionHandler(EntityNotFoundException.class)
+	public String entityNotFoundExceptionErrorHandler(EntityNotFoundException e) {
 		e.printStackTrace();
 		return "judgmentNotFound";
 	}

@@ -12,6 +12,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.hibernate.LazyInitializationException;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -267,6 +269,13 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         // assert
         assertNotNull(dbJudgment);
         dbJudgment.getJudges().size();
+    }
+    
+    @Test(expected=EntityNotFoundException.class)
+    public void findOneAndInitialize_NOT_FOUND() {
+        
+        // execute
+        judgmentRepository.findOneAndInitialize(987654l);
     }
     
     @Test

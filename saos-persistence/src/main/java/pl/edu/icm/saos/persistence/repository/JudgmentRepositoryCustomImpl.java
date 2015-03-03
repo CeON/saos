@@ -3,6 +3,7 @@ package pl.edu.icm.saos.persistence.repository;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
@@ -45,7 +46,9 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
         
         if (judgment != null) {
             judgment.accept(new InitializingVisitor());
-        } 
+        } else {
+        	throw new EntityNotFoundException();
+        }
         
         @SuppressWarnings("unchecked")
         T retJudgment = (T)judgment;
