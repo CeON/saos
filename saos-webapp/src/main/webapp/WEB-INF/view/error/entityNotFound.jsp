@@ -3,5 +3,5 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-<div class="alert alert-danger"><spring:message code="error.judgmentNotFound"/></div>
+<div class="alert alert-danger"><spring:message code="error.entityNotFound"/></div>
 

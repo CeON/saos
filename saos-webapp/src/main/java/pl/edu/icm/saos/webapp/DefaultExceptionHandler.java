@@ -13,7 +13,7 @@ public class DefaultExceptionHandler {
 	@ExceptionHandler(EntityNotFoundException.class)
 	public String entityNotFoundExceptionErrorHandler(EntityNotFoundException e) {
 		e.printStackTrace();
-		return "judgmentNotFound";
+		return "entityNotFound";
 	}
 	
 }
