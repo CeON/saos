@@ -26,6 +26,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.jdbc.datasource.init.ScriptException;
 
+import com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
@@ -119,6 +121,34 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         
     }
     
+    @Test
+    public void judgmentIndexingJob_REMOVE_NOT_EXISTING_JUDGMENTS() throws Exception {
+        
+        // given
+        jobExecutor.forceStartNewJob(judgmentIndexingJob);
+        solrJudgmentsServer.commit();
+        
+        List<Long> toRemoveIds = Lists.newArrayList(ccJudgments.get(1).getId(), ccJudgments.get(5).getId());
+        judgmentRepository.delete(toRemoveIds);
+        
+        int removedCount = toRemoveIds.size();
+        
+        
+        // execute
+        JobExecution jobExecution = jobExecutor.forceStartNewJob(judgmentIndexingJob);
+        solrJudgmentsServer.commit();
+        
+        
+        // assert
+        JobExecutionAssertUtils.assertJobExecution(jobExecution, 0, 0); // all judgments was already indexed
+        
+        assertAllMarkedAsIndexed();
+        assertAllInIndex(ALL_JUDGMENTS_COUNT - removedCount);
+        
+        assertNotInIndex(ccJudgments.get(1).getId());
+        assertNotInIndex(ccJudgments.get(5).getId());
+    }
+    
     
     //------------------------ PRIVATE --------------------------
     
@@ -140,4 +170,11 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         QueryResponse response = solrJudgmentsServer.query(query);
         assertEquals(count, response.getResults().getNumFound());
     }
+    
+    private void assertNotInIndex(long id) throws SolrServerException {
+        SolrQuery query = new SolrQuery("databaseId:" + id);
+        QueryResponse response = solrJudgmentsServer.query(query);
+        assertEquals(0, response.getResults().getNumFound());
+    }
+
 }

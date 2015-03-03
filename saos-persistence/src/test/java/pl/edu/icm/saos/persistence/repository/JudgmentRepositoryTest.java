@@ -570,6 +570,21 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
     }
     
+    @Test
+    public void filterIdsToExisting() {
+        
+        // given
+        long judgmentId1 = createCcJudgment(SourceCode.COMMON_COURT, "1", "AA1").getId();
+        long judgmentId2 = createCcJudgment(SourceCode.COMMON_COURT, "2", "AA2").getId();
+        long notExistingJudgmentId = Math.max(judgmentId1, judgmentId2) + 1;
+        
+        // execute 
+        List<Long> filtered = judgmentRepository.filterIdsToExisting(Lists.newArrayList(judgmentId1, judgmentId2, notExistingJudgmentId));
+        
+        // assert
+        assertThat(filtered, containsInAnyOrder(judgmentId1, judgmentId2));
+    }
+    
     
     
     @Test
