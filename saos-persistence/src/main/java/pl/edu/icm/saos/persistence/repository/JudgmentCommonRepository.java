@@ -47,4 +47,9 @@ public interface JudgmentCommonRepository<T extends Judgment> extends IndexableO
     @Transactional
     @Query("update #{#entityName} j set j.indexed=false where j.indexed=true and (j.sourceInfo.sourceCode=:sourceCode or :sourceCode is null)")
     void markAsNotIndexedBySourceCode(@Param("sourceCode") SourceCode sourceCode);
+    
+    
+    @Query("select j.id from #{#entityName} j where j.id in(:ids)")
+    List<Long> filterIdsToExisting(@Param("ids") List<Long> ids);
+    
 }
