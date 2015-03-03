@@ -15,6 +15,7 @@ import org.springframework.core.task.TaskExecutor;
 
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.search.indexing.IndexingJobStepExecutionListener;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingReader;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingWriter;
@@ -43,6 +44,9 @@ public class IndexingJobConfiguration {
     
     @Autowired
     private JudgmentIndexingWriter judgmentIndexingWriter;
+    
+    @Autowired
+    private IndexingJobStepExecutionListener indexingJobStepExecutionListener;
     
     
     // reindex specific beans
@@ -94,6 +98,7 @@ public class IndexingJobConfiguration {
                 .reader(judgmentIndexingReader)
                 .processor(judgmentIndexingProcessor)
                 .writer(judgmentIndexingWriter)
+                .listener(indexingJobStepExecutionListener)
                 .taskExecutor(judgmentIndexingTaskExecutor)
                 .build();
     }
