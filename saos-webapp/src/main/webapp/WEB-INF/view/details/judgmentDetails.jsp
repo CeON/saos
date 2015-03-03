@@ -11,6 +11,20 @@ $(document).ready(function() {
 
 <div class="container judgment-page block" id="judgment">
 
+
+	<div class="judgment-desc" >
+	
+	<p>	
+	Lorem ipsum dolor sit amet, auctor vel interdum, ligula platea quis non vestibulum sapien id, hendrerit quisquam metus. Lacus vestibulum eu ac lorem wisi aptent, aliquam pede penatibus eu lobortis ut, vestibulum ut, lorem eu elit, proin non cursus eget. Phasellus sociosqu eu odio eu diam, mi tempor urna non fusce luctus nisl. Dolor velit vitae, justo sit vel augue, arcu curabitur urna sed tellus aliquam. Congue eget dictum sem, lectus fames urna commodo pharetra mi, convallis vestibulum morbi accumsan pretium, leo magna magna consectetuer vivamus pede aliquam. Montes mauris ipsum mauris, maecenas sit ultricies libero vestibulum, lorem felis vel. Lacus lorem interdum duis, rutrum libero a. Ut fusce massa ut, enim tempus fermentum massa duis commodo, felis amet feugiat laoreet nam id adipiscing, lectus habitasse et sodales quam aliquam. Et vestibulum orci lorem at quis pretium. Vel condimentum integer consequat magna tincidunt. Ut mus sit morbi lacus, et massa lorem pede lorem quam iaculis. Integer ornare semper porta cum.
+	</p>
+	</div>
+
+
+
+
+
+
+
 	<c:if test="${!empty judgment.judgmentType}" >
 		<div class="judgment-type">
 			<spring:message code="judgment.${fn:toLowerCase(judgment.judgmentType)}" />
@@ -150,20 +164,23 @@ $(document).ready(function() {
 				</li>
 			</c:if>
 			
+			<c:if test="${!empty judgment.keywords}" >
+				<li>
+					<div class="" >
+						<div class="label-title" ><spring:message code="judgment.keywords" />:</div>
+						<div class="desc" >
+							<c:forEach items="${judgment.keywords}" var="keyword" varStatus="status">
+								<c:out value="${keyword.phrase}" /><c:if test="${!status.last}">,</c:if>
+							</c:forEach>
+						</div>
+					</div>
+				</li>
+			</c:if>
+			
 		</ul>
 	
 	
-		<c:if test="${!empty judgment.keywords}" >
-			<h3><spring:message code="judgment.keywords" />:</h3>
-			<div class="keywords">	
-				<ul>
-					<c:forEach items="${judgment.keywords}" var="keyword" >
-						<li class="keyword"><c:out value="${keyword.phrase}" /></li>
-					</c:forEach>
-				</ul>
-			</div>
-		</c:if>
-		
+				
 			
 		<c:if test="${!empty judgment.legalBases}" >
 			<h3><spring:message code="judgment.legalBases" />:</h3>
@@ -224,11 +241,9 @@ $(document).ready(function() {
 					</div>
 				</div>
 			</div>
-		
+			<div class="break" ></div>	
 		</c:if>
 
-	
-		<div class="break" ></div>	
 	
 		<c:if test="${!empty judgment.sourceInfo}">
 			<h3><spring:message code="judgment.sourceInfo" />:</h3>
