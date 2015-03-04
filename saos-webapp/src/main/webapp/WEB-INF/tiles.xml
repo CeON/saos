@@ -88,5 +88,9 @@
         <put-attribute name="content" value="/WEB-INF/view/error/error500.jsp" />
     </definition>
     
+	<definition name="entityNotFound" extends="simpleTemplate">
+        <put-attribute name="content" value="/WEB-INF/view/error/entityNotFound.jsp" />
+    </definition>
+    
     
 </tiles-definitions>
