@@ -110,26 +110,26 @@
 			   			
 			   			<div class="row">
 			   			
-			   				<div class="col-sm-6">
+			   				<div class="col-md-6">
 				   				<spring:message code="judgmentSearch.formField.lawJournal.year" />/
 				   				<spring:message code="judgmentSearch.formField.lawJournal.journalNo" />/
 				   				<spring:message code="judgmentSearch.formField.lawJournal.entry" />
 				   			</div>
 				   			
-				   			<div class="col-sm-6">
+				   			<div class="col-md-6">
 				   				<spring:message code="judgmentSearch.formField.lawJournal.text" />:
 				   			</div>
 			   			</div>
 			   		
 			   			<div class="row">
 			   							   			
-				   			<div class="col-sm-6">
+				   			<div class="col-md-6">
 				   				<input class="form-control" id="law-journal-year" type="text" size="4" />/
 				   				<input class="form-control" id="law-journal-journalNo" type="text" size="4" />/
 				   				<input class="form-control" id="law-journal-entry" type="text" size="4" />
 				   			</div>
 				   			
-				   			<div class="col-sm-6">
+				   			<div class="col-md-6">
 				   				<input class="form-control width-full" id="law-journal-text" type="text" />
 				   			</div>
 			   			</div>

@@ -12,15 +12,104 @@ $(document).ready(function() {
 <div class="container judgment-page block" id="judgment">
 
 
-	<div class="judgment-desc" >
+	<%-- Judgment section navigation --%>
+	<div class="judgment-info col-sm-12" >
+		<div class="judgment-section-nav">
+			<c:if test="${!empty corrections}">
+				<a href="" id="corrections-nav" class="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.corrections.show" />" >
+					<img src="${contextPath}/static/image/icons/corrections.png" alt="<spring:message code="judgmentDetails.corrections.iconAlt" />" height="28" />
+				</a>
+			</c:if>
+		
+			<c:if test="${!empty judgment.sourceInfo }">
+				<a href="" id="source-info-nav" class="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.sourceInfo.show" />" >
+					<img src="${contextPath}/static/image/icons/sourceInfo.png" alt="<spring:message code="judgmentDetails.sourceInfo.iconAlt" />" height="28" />
+				</a>
+			</c:if>
+		</div>
 	
-	<p>	
-	Lorem ipsum dolor sit amet, auctor vel interdum, ligula platea quis non vestibulum sapien id, hendrerit quisquam metus. Lacus vestibulum eu ac lorem wisi aptent, aliquam pede penatibus eu lobortis ut, vestibulum ut, lorem eu elit, proin non cursus eget. Phasellus sociosqu eu odio eu diam, mi tempor urna non fusce luctus nisl. Dolor velit vitae, justo sit vel augue, arcu curabitur urna sed tellus aliquam. Congue eget dictum sem, lectus fames urna commodo pharetra mi, convallis vestibulum morbi accumsan pretium, leo magna magna consectetuer vivamus pede aliquam. Montes mauris ipsum mauris, maecenas sit ultricies libero vestibulum, lorem felis vel. Lacus lorem interdum duis, rutrum libero a. Ut fusce massa ut, enim tempus fermentum massa duis commodo, felis amet feugiat laoreet nam id adipiscing, lectus habitasse et sodales quam aliquam. Et vestibulum orci lorem at quis pretium. Vel condimentum integer consequat magna tincidunt. Ut mus sit morbi lacus, et massa lorem pede lorem quam iaculis. Integer ornare semper porta cum.
-	</p>
+	
+		<%-- Judgment sections: corrections & sourceInfo--%>
+	 	
+		<%-- Corrections --%>
+		<c:if test="${!empty corrections }">
+		 	<div class="judgment-section col-sm-8" id="corrections-section" >
+		 		<a id="corrections-hide" class="judgment-section-hide" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.corrections.hide" />">
+		 		</a>
+		 	
+		 		<div class="corrections" id="corrections">
+					
+					<h3><spring:message code="judgmentDetails.corrections" />:</h3>
+			
+					<c:forEach items="${corrections}" var="correction">
+						<saos:correction correction="${correction}"></saos:correction>
+					</c:forEach>
+					
+					<div class="correction-desc" >
+						<spring:message code="judgmentDetails.corrections.sysInfo" />
+					</div>
+				</div>
+		 	
+		 	</div>
+	 	</c:if>
+	 	
+	 	<%-- Judgment source info --%>
+	 	<c:if test="${!empty judgment.sourceInfo}">
+	 		<div class="judgment-section col-sm-8" id="source-info-section">
+	 	
+	 			<a id="source-info-hide" class="judgment-section-hide" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.sourceInfo.hide" />" >
+	 			</a>
+	 			
+				<div  class="judgment-section-body" >
+					<h3><spring:message code="judgment.sourceInfo" />:</h3>
+					<ul class="judgment-data judgment-source-info">
+						<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >
+							<li>
+								<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
+									<spring:message code="judgment.sourceLink" />
+								</a>	
+							</li>
+						</c:if>
+						<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >	
+							<li>
+								<div >
+									<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.url" />:</div>
+									<div class="desc" >${judgment.sourceInfo.sourceJudgmentUrl}</div>
+								</div>
+							</li>
+						</c:if>
+						<c:if test="${!empty judgment.sourceInfo.publicationDate}" >	
+							<li>
+								<div >
+									<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.publicationDate" />:</div>
+									<div class="desc" ><joda:format value="${judgment.sourceInfo.publicationDate}" pattern="${DATE_PATTERN}"/></div>
+								</div>
+							</li>
+						</c:if>
+						<c:if test="${!empty judgment.sourceInfo.publisher}" >
+							<li>
+								<div >
+									<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.publisher" />:</div>
+									<div class="desc" >${judgment.sourceInfo.publisher}</div>
+								</div>
+							</li>
+						</c:if>
+						<c:if test="${!empty judgment.sourceInfo.reviser}" >
+							<li>
+								<div >
+									<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.reviser" />:</div>
+									<div class="desc" >${judgment.sourceInfo.reviser}</div>
+								</div>
+							</li>
+						</c:if>
+						
+					</ul>
+				</div>
+			
+	 		</div>
+	 	</c:if>
+	
 	</div>
-
-
-
 
 
 
@@ -37,7 +126,7 @@ $(document).ready(function() {
 		</h2>
 	</c:if>
 	
-	<div class="col-md-12" >
+	<div >
 	
 		<ul class="judgment-data">
 		
@@ -137,14 +226,14 @@ $(document).ready(function() {
 						<div class="label-title" ><spring:message code="judgment.judges" />:</div>
 						<div class="desc" >
 							<c:forEach items="${judgment.judges}" var="judge" >
-								<p>
+								<span>
 									<c:out value="${judge.name}" />
 									<c:if test="${judge.presidingJudge}" >
 										<span class="presiding-judge"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >
 											<img src="${contextPath}/static/image/icons/judge.png" alt="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE.iconAlt" />" />
 										</span>
 									</c:if>
-								</p>
+								</span>
 							</c:forEach>
 						</div>
 					</div>
@@ -214,9 +303,10 @@ $(document).ready(function() {
 				<div class="panel-body">
 					<div class="label-title"><spring:message code="judgmentDetails.enrichmentTag.referencedCourtCases" />:</div>
 					<div class="desc">
-					
-						<c:forEach items="${judgment.referencedCourtCases}" var="refCourtCase" >
-							<p>
+
+						<p>					
+							<c:forEach items="${judgment.referencedCourtCases}" var="refCourtCase" >
+
 								<c:choose>
 									<c:when test="${!empty refCourtCase.judgmentIds}" >
 										<c:forEach items="${refCourtCase.judgmentIds}" var="judgmentId" >
@@ -235,92 +325,21 @@ $(document).ready(function() {
 										</a>
 									</c:otherwise>
 								</c:choose>
-							</p>
-						</c:forEach>
+							
+							</c:forEach>
+						</p>
 					
 					</div>
 				</div>
 			</div>
-			<div class="break" ></div>	
 		</c:if>
 
-	
-		<c:if test="${!empty judgment.sourceInfo}">
-			<h3><spring:message code="judgment.sourceInfo" />:</h3>
-			<ul class="judgment-data judgment-source-info">
-				<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >
-					<li>
-						<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
-							<spring:message code="judgment.sourceLink" />
-						</a>	
-					</li>
-				</c:if>
-				<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >	
-					<li>
-						<div >
-							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.url" />:</div>
-							<div class="desc" >${judgment.sourceInfo.sourceJudgmentUrl}</div>
-						</div>
-					</li>
-				</c:if>
-				<c:if test="${!empty judgment.sourceInfo.publicationDate}" >	
-					<li>
-						<div >
-							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.publicationDate" />:</div>
-							<div class="desc" ><joda:format value="${judgment.sourceInfo.publicationDate}" pattern="${DATE_PATTERN}"/></div>
-						</div>
-					</li>
-				</c:if>
-				<c:if test="${!empty judgment.sourceInfo.publisher}" >
-					<li>
-						<div >
-							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.publisher" />:</div>
-							<div class="desc" >${judgment.sourceInfo.publisher}</div>
-						</div>
-					</li>
-				</c:if>
-				<c:if test="${!empty judgment.sourceInfo.reviser}" >
-					<li>
-						<div >
-							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.reviser" />:</div>
-							<div class="desc" >${judgment.sourceInfo.reviser}</div>
-						</div>
-					</li>
-				</c:if>
-				
-			</ul>
-		</c:if>
-	
 	</div>
 	
 </div>
 
 
-
-<%-- Corrections --%>
-<c:if test="${!empty corrections}">
-	<div class="container correction-block">
-
-		<div class="correction-info" >
-			<spring:message code="judgmentDetails.corrections.info" /><a id="show-correction-box" href="" ><spring:message code="button.look" /></a>
-		</div>
-	
-		<div class="corrections" id="corrections">
-			
-			<div class="correction-desc" >
-				<spring:message code="judgmentDetails.corrections.sysInfo" />
-			</div>
-			
-			<h3><spring:message code="judgmentDetails.corrections" />:</h3>
-	
-			<c:forEach items="${corrections}" var="correction">
-				<saos:correction correction="${correction}"></saos:correction>
-			</c:forEach>
-		</div>
-	</div>
-</c:if>
-
-<%-- Judgment summary --%>
+<%-- Judgment content --%>
 <div class="container block" id="judgment-content">
 	<h2 ><spring:message code="judgmentDetails.judgmentFullText" /></h2>
 	<div class="body">
