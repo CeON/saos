@@ -84,7 +84,7 @@
 		    
 		    <%-- Law journal entry --%>
 		    <div class="form-group law-journal">
-		    	<label for="input-search-referencedregulations" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.referencedRegulations" /></label>
+		    	<label for="lawJournalEntryId" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.lawJournalEntry" /></label>
 			   	<div class="col-sm-7">
 			   		 
 			   		 <div id="law-journal-navigation" >

@@ -216,7 +216,11 @@ var SearchFilters = (function(){
 	createRemoveFilterButtons = function() {
 		$("." + filterItemClass).each(function() {
 			var $filterItem = $(this),
-				filterItemValue = $filterItem.text().trim();
+				filterItemValue = $filterItem.attr("data-filter-value");
+			
+			if (!filterItemValue) {
+				filterItemValue = $filterItem.text().trim();	
+			}
 			
 			if (filterItemValue !== "") {
 				var $removeFilterButton = $(removeButtonBaseShape),
@@ -267,10 +271,11 @@ var SearchFilters = (function(){
 
 		if ($field.is("input[type=hidden]")) {
 			if (filterValue !== undefined) {
-				var value = $field.attr("value")
+				var value = $field.attr("value");
+				
 				value = value.replace(filterValue + ",", "");
 				value = value.replace(filterValue, "");
-				
+
 				$field.attr("value", value);
 			} else {
 				$field.attr("value", "");
