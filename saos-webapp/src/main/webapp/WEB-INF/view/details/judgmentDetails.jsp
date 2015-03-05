@@ -13,8 +13,8 @@ $(document).ready(function() {
 
 
 	<%-- Judgment section navigation --%>
-	<div class="judgment-info col-sm-12" >
-		<div class="judgment-section-nav">
+	<div class="info-box" >
+		<div class="info-box-nav">
 			<c:if test="${!empty corrections}">
 				<a href="" id="corrections-nav" class="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.corrections.show" />" >
 					<img src="${contextPath}/static/image/icons/corrections.png" alt="<spring:message code="judgmentDetails.corrections.iconAlt" />" height="28" />
@@ -33,13 +33,13 @@ $(document).ready(function() {
 	 	
 		<%-- Corrections --%>
 		<c:if test="${!empty corrections }">
-		 	<div class="judgment-section col-sm-8" id="corrections-section" >
-		 		<a id="corrections-hide" class="judgment-section-hide" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.corrections.hide" />">
+		 	<div class="info-box-section" id="corrections-section" >
+		 		<a id="corrections-hide" class="btn-hide" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.corrections.hide" />">
 		 		</a>
 		 	
 		 		<div class="corrections" id="corrections">
 					
-					<h3><spring:message code="judgmentDetails.corrections" />:</h3>
+					<h3><spring:message code="judgmentDetails.corrections.title" />:</h3>
 			
 					<c:forEach items="${corrections}" var="correction">
 						<saos:correction correction="${correction}"></saos:correction>
@@ -55,12 +55,12 @@ $(document).ready(function() {
 	 	
 	 	<%-- Judgment source info --%>
 	 	<c:if test="${!empty judgment.sourceInfo}">
-	 		<div class="judgment-section col-sm-8" id="source-info-section">
+	 		<div class="info-box-section" id="source-info-section">
 	 	
-	 			<a id="source-info-hide" class="judgment-section-hide" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.sourceInfo.hide" />" >
+	 			<a id="source-info-hide" class="btn-hide" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.sourceInfo.hide" />" >
 	 			</a>
 	 			
-				<div  class="judgment-section-body" >
+				<div  class="info-box-content" >
 					<h3><spring:message code="judgment.sourceInfo" />:</h3>
 					<ul class="judgment-data judgment-source-info">
 						<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >
@@ -68,14 +68,6 @@ $(document).ready(function() {
 								<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
 									<spring:message code="judgment.sourceLink" />
 								</a>	
-							</li>
-						</c:if>
-						<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >	
-							<li>
-								<div >
-									<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.url" />:</div>
-									<div class="desc" >${judgment.sourceInfo.sourceJudgmentUrl}</div>
-								</div>
 							</li>
 						</c:if>
 						<c:if test="${!empty judgment.sourceInfo.publicationDate}" >	
