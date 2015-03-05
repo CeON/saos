@@ -130,6 +130,19 @@ $(document).ready(function() {
 					</div>
 				</li>
 			</c:if>
+		
+		
+			<%-- CourtType --%>	
+			<c:if test="${!empty judgment.courtType }">
+				<li>
+					<div >
+						<div class="label-title" ><spring:message code="judgment.courtType" />:</div>
+						<div class="desc" >
+							<saos:enum value="${judgment.courtType}" />
+						</div>
+					</div>
+				</li>
+			</c:if>
 			
 			
 			<%-- CommonCourtJudgment properties --%>
@@ -257,6 +270,51 @@ $(document).ready(function() {
 					</div>
 				</li>
 			</c:if>
+			
+			<c:if test="${!empty judgment.receiptDate}" >
+				<li>
+					<div class="" >
+						<div class="label-title" ><spring:message code="judgment.receiptDate" />:</div>
+						<div class="desc" ><joda:format value="${judgment.receiptDate}" pattern="${DATE_PATTERN}"/></div>
+					</div>
+				</li>
+			</c:if>
+			
+			<c:if test="${!empty judgment.meansOfAppeal }">
+				<li>
+					<div >
+						<div class="label-title" ><spring:message code="judgment.meansOfAppeal" />:</div>
+						<div class="desc" >
+							<c:out value="${judgment.meansOfAppeal.name}" />
+						</div>
+					</div>
+				</li>
+			</c:if>
+			
+			<c:if test="${!empty judgment.judgmentResult }">
+				<li>
+					<div >
+						<div class="label-title" ><spring:message code="judgment.judgmentResult" />:</div>
+						<div class="desc" >
+							<c:out value="${judgment.judgmentResult.text}" />
+						</div>
+					</div>
+				</li>
+			</c:if>
+			
+			<c:if test="${!empty judgment.lowerCourtJudgments}" >
+				<li>
+					<div class="" >
+						<div class="label-title" ><spring:message code="judgment.lowerCourtJudgments" />:</div>
+						<div class="desc" >
+							<c:forEach items="${judgment.lowerCourtJudgments}" var="lowerCourt" varStatus="status">
+								<c:out value="${lowerCourt}" /><c:if test="${!status.last}">,</c:if>
+							</c:forEach>
+						</div>
+					</div>
+				</li>
+			</c:if>
+			
 			
 		</ul>
 	
