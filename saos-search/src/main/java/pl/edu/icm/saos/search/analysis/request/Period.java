@@ -5,26 +5,28 @@ import java.util.Objects;
 import com.google.common.base.Preconditions;
 
 /**
+ * Period of time
+ * 
  * @author Łukasz Dumiszewski
  */
 
 public class Period {
     
-    public enum PartialUnit { WEEK, MONTH, YEAR};
+    public enum PeriodUnit { WEEK, MONTH, YEAR};
     
     private int value;
-    private PartialUnit unit;
+    private PeriodUnit unit;
     
     //------------------------ CONSTRUCTORS --------------------------
     
     /**
-     * @param value value of the gap, must be greater than 0, e.g. 2
-     * @param unit unit of the gap, e.g. MONTH
+     * @param value value of the period, must be greater than 0, e.g. 2
+     * @param unit unit of the period, e.g. MONTH
      * 
      * @throws IllegalArgumentException if value <= 0
      * @throws NullPointerException if unit is null
      */
-    public Period(int value, PartialUnit unit) {
+    public Period(int value, PeriodUnit unit) {
         Preconditions.checkNotNull(unit);
         Preconditions.checkArgument(value>0);
         
@@ -34,11 +36,17 @@ public class Period {
     
     //------------------------ GETTERS --------------------------
     
+    /**
+     * Value of the period 
+     */
     public int getValue() {
         return value;
     }
     
-    public PartialUnit getUnit() {
+    /**
+     * Unit of the period, e.g. MONTH 
+     */
+    public PeriodUnit getUnit() {
         return unit;
     }
     

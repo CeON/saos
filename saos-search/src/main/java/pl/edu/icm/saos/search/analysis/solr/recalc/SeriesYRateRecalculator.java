@@ -30,6 +30,8 @@ public class SeriesYRateRecalculator implements SeriesYRecalculator {
         
         RateYValue rateYValue = (RateYValue)ysettings.getValueType();
         
+        Preconditions.checkNotNull(rateYValue);
+        
         Series<X, Integer> baseSeries = rateBaseSeriesGenerator.generateRateBaseSeries(xsettings);
         
         return recalculateSeries(series, baseSeries, rateYValue.getRateRatio());
@@ -53,15 +55,15 @@ public class SeriesYRateRecalculator implements SeriesYRecalculator {
  
     <X> Series<X, Float> recalculateSeries(Series<X, Integer> series, Series<X, Integer> baseSeries, int rateRatio) {
         
-        Preconditions.checkArgument(series.getPoints().equals(baseSeries.getPoints()));
+        Preconditions.checkArgument(series.getPoints().size() == baseSeries.getPoints().size());
         
         Series<X, Float> rateSeries = new Series<>();
         for (int i = 0; i < series.getPoints().size(); i++) {
         
-            Point<X, Integer> aPoint = baseSeries.getPoints().get(i);
+            Point<X, Integer> bPoint = baseSeries.getPoints().get(i);
             Point<X, Integer> sPoint = series.getPoints().get(i);
             
-            float newY = calcRate(sPoint.getY(), aPoint.getY(), rateRatio);
+            float newY = calcRate(sPoint.getY(), bPoint.getY(), rateRatio);
             Point<X, Float> recPoint = new Point<>(sPoint.getX(), newY);  
             
             rateSeries.addPoint(recPoint);
@@ -70,6 +72,9 @@ public class SeriesYRateRecalculator implements SeriesYRecalculator {
     } 
     
     private float calcRate(int value, int baseValue, int rateRatio) {
+        if (baseValue == 0) {
+            return 0;
+        }
         return ((float)((long)value * rateRatio)) / baseValue; 
     }
 

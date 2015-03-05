@@ -1,8 +1,13 @@
 package pl.edu.icm.saos.search.analysis.request;
 
+import java.util.Objects;
+
 import com.google.common.base.Preconditions;
 
 /**
+ * {@link YValueType} implementation that represents y value as a rate (for example the number of judgments meeting
+ * certain criteria per 1000 of judgments)
+ *  
  * @author Łukasz Dumiszewski
  */
 
@@ -21,6 +26,7 @@ public class RateYValue implements YValueType {
     public RateYValue(int rateRatio) {
         super();
         Preconditions.checkArgument(rateRatio > 0);
+        this.rateRatio = rateRatio;
     }
     
     
@@ -37,9 +43,34 @@ public class RateYValue implements YValueType {
      * <li>C = the rate ratio</li>
      * Then the y-value of the given point will be calculated as: A*(C/B)  
      */
-    public Integer getRateRatio() {
+    public int getRateRatio() {
         return rateRatio;
     }
 
+    
+    //------------------------ HashCode & Equals --------------------------
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.rateRatio);
+    }
+    
+    
+    @Override
+    public boolean equals(Object obj) {
+        
+        if (obj == null) {
+           return false;
+        }
+        
+        if (getClass() != obj.getClass()) {
+           return false;
+        }
+        
+        final RateYValue other = (RateYValue) obj;
+        
+        return Objects.equals(this.rateRatio, other.rateRatio);
+
+    }
     
 }

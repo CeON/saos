@@ -31,7 +31,7 @@ public class SeriesYRecalculatorManager {
             
         }
         
-        throw new IllegalStateException("no seriesYRecalculator handling " + yValueType + " can be found");
+        throw new IllegalArgumentException("no seriesYRecalculator handling " + yValueType + " can be found");
         
     }
     

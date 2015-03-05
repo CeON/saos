@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
  * @author Łukasz Dumiszewski
  */
 
-public class SeriesYDoNothingRecalculator implements SeriesYRecalculator {
+public class SeriesYAbsoluteNumberRecalculator implements SeriesYRecalculator {
 
     
     

@@ -13,10 +13,11 @@ import pl.edu.icm.saos.search.analysis.solr.recalc.SeriesYRecalculatorManager;
 import com.google.common.base.Preconditions;
 
 /**
+ * A solr {@link SeriesService} implementation
  * @author Łukasz Dumiszewski
  * 
  */
-@Service("seriesService")
+@Service("solrSeriesService")
 public class SolrSeriesService implements SeriesService {
 
     private SeriesGenerator seriesGenerator;
@@ -24,6 +25,7 @@ public class SolrSeriesService implements SeriesService {
     private SeriesYRecalculatorManager seriesYRecalculatorManager;
     
     
+    @Override
     public <X> Series<X, Number> generateSeries(JudgmentSeriesCriteria criteria, XSettings xsettings, YSettings ysettings) {
         
         checkArguments(criteria, xsettings, ysettings);

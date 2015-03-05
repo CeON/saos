@@ -14,6 +14,8 @@ import pl.edu.icm.saos.search.analysis.result.Series;
 import com.google.common.base.Preconditions;
 
 /**
+ * Main analysis service.
+ * 
  * @author Łukasz Dumiszewski
  */
 @Service("analysisService")
@@ -25,7 +27,12 @@ public class AnalysisService {
     
     //------------------------ LOGIC --------------------------
     
-    
+    /**
+     * Returns a {@link Chart} based on the specified criteria and x,y axis settings
+     * @param criteriaList list of criteria objects, each criteria for one series of a chart
+     * @param xsettings settings of x-axis
+     * @param ysettings settings of y-axis
+     */
     public <X> Chart<X, Number> generateChart(List<JudgmentSeriesCriteria> criteriaList, XSettings xsettings, YSettings ysettings) {
         
         Preconditions.checkNotNull(criteriaList);

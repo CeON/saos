@@ -9,6 +9,8 @@ import pl.edu.icm.saos.search.analysis.result.Series;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 
 /**
+ * Solr specific series generator
+ * 
  * @author Łukasz Dumiszewski
  */
 @Service("seriesGenerator")
@@ -17,6 +19,10 @@ public class SeriesGenerator {
     private JudgmentSeriesCriteriaConverter judgmentSeriesCriteriaConverter;
     
     
+    /**
+     * Generates and returns {@link Series} based on the given criteria and x settings. The y-values
+     * of the series are absolute numbers of judgments meeting specified criteria for a given x value. 
+     */
     public <X> Series<X, Integer> generateSeries(JudgmentSeriesCriteria judgmentSeriesCriteria, XSettings xsettings) {
         
         JudgmentCriteria judgmentCriteria = judgmentSeriesCriteriaConverter.convert(judgmentSeriesCriteria);

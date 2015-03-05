@@ -18,7 +18,7 @@ public class RateBaseSeriesGenerator {
     private SeriesGenerator seriesGenerator;
 
     
-    // TODO: cache it
+    // TODO: cache it, see https://github.com/CeON/saos/issues/594
     public <X> Series<X, Integer> generateRateBaseSeries(XSettings xsettings) {
         
         return seriesGenerator.generateSeries(new JudgmentSeriesCriteria(), xsettings);
