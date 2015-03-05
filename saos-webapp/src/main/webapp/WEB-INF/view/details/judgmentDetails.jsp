@@ -11,6 +11,101 @@ $(document).ready(function() {
 
 <div class="container judgment-page block" id="judgment">
 
+
+	<%-- Judgment section navigation --%>
+	<div class="info-box" >
+		<div class="info-box-nav">
+			<c:if test="${!empty corrections}">
+				<a href="" id="corrections-nav" class="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.corrections.show" />" >
+					<img src="${contextPath}/static/image/icons/corrections.png" alt="<spring:message code="judgmentDetails.corrections.iconAlt" />" height="28" />
+				</a>
+			</c:if>
+		
+			<c:if test="${!empty judgment.sourceInfo }">
+				<a href="" id="source-info-nav" class="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.sourceInfo.show" />" >
+					<img src="${contextPath}/static/image/icons/sourceInfo.png" alt="<spring:message code="judgmentDetails.sourceInfo.iconAlt" />" height="28" />
+				</a>
+			</c:if>
+		</div>
+	
+	
+		<%-- Judgment sections: corrections & sourceInfo--%>
+	 	
+		<%-- Corrections --%>
+		<c:if test="${!empty corrections }">
+		 	<div class="info-box-section" id="corrections-section" >
+		 		<a id="corrections-hide" class="btn-hide" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.corrections.hide" />">
+		 		</a>
+		 	
+		 		<div class="corrections" id="corrections">
+					
+					<h3><spring:message code="judgmentDetails.corrections.title" />:</h3>
+			
+					<c:forEach items="${corrections}" var="correction">
+						<saos:correction correction="${correction}"></saos:correction>
+					</c:forEach>
+					
+					<div class="correction-desc" >
+						<spring:message code="judgmentDetails.corrections.sysInfo" />
+					</div>
+				</div>
+		 	
+		 	</div>
+	 	</c:if>
+	 	
+	 	<%-- Judgment source info --%>
+	 	<c:if test="${!empty judgment.sourceInfo}">
+	 		<div class="info-box-section" id="source-info-section">
+	 	
+	 			<a id="source-info-hide" class="btn-hide" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.sourceInfo.hide" />" >
+	 			</a>
+	 			
+				<div  class="info-box-content" >
+					<h3><spring:message code="judgment.sourceInfo" />:</h3>
+					<ul class="judgment-data judgment-source-info">
+						<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >
+							<li>
+								<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
+									<spring:message code="judgment.sourceLink" />
+								</a>	
+							</li>
+						</c:if>
+						<c:if test="${!empty judgment.sourceInfo.publicationDate}" >	
+							<li>
+								<div >
+									<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.publicationDate" />:</div>
+									<div class="desc" ><joda:format value="${judgment.sourceInfo.publicationDate}" pattern="${DATE_PATTERN}"/></div>
+								</div>
+							</li>
+						</c:if>
+						<c:if test="${!empty judgment.sourceInfo.publisher}" >
+							<li>
+								<div >
+									<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.publisher" />:</div>
+									<div class="desc" >${judgment.sourceInfo.publisher}</div>
+								</div>
+							</li>
+						</c:if>
+						<c:if test="${!empty judgment.sourceInfo.reviser}" >
+							<li>
+								<div >
+									<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.reviser" />:</div>
+									<div class="desc" >${judgment.sourceInfo.reviser}</div>
+								</div>
+							</li>
+						</c:if>
+						
+					</ul>
+				</div>
+			
+	 		</div>
+	 	</c:if>
+	
+	</div>
+
+
+
+
 	<c:if test="${!empty judgment.judgmentType}" >
 		<div class="judgment-type">
 			<spring:message code="judgment.${fn:toLowerCase(judgment.judgmentType)}" />
@@ -23,7 +118,7 @@ $(document).ready(function() {
 		</h2>
 	</c:if>
 	
-	<div class="col-md-12" >
+	<div >
 	
 		<ul class="judgment-data">
 		
@@ -123,14 +218,14 @@ $(document).ready(function() {
 						<div class="label-title" ><spring:message code="judgment.judges" />:</div>
 						<div class="desc" >
 							<c:forEach items="${judgment.judges}" var="judge" >
-								<p>
+								<span>
 									<c:out value="${judge.name}" />
 									<c:if test="${judge.presidingJudge}" >
 										<span class="presiding-judge"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >
 											<img src="${contextPath}/static/image/icons/judge.png" alt="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE.iconAlt" />" />
 										</span>
 									</c:if>
-								</p>
+								</span>
 							</c:forEach>
 						</div>
 					</div>
@@ -150,20 +245,23 @@ $(document).ready(function() {
 				</li>
 			</c:if>
 			
+			<c:if test="${!empty judgment.keywords}" >
+				<li>
+					<div class="" >
+						<div class="label-title" ><spring:message code="judgment.keywords" />:</div>
+						<div class="desc" >
+							<c:forEach items="${judgment.keywords}" var="keyword" varStatus="status">
+								<c:out value="${keyword.phrase}" /><c:if test="${!status.last}">,</c:if>
+							</c:forEach>
+						</div>
+					</div>
+				</li>
+			</c:if>
+			
 		</ul>
 	
 	
-		<c:if test="${!empty judgment.keywords}" >
-			<h3><spring:message code="judgment.keywords" />:</h3>
-			<div class="keywords">	
-				<ul>
-					<c:forEach items="${judgment.keywords}" var="keyword" >
-						<li class="keyword"><c:out value="${keyword.phrase}" /></li>
-					</c:forEach>
-				</ul>
-			</div>
-		</c:if>
-		
+				
 			
 		<c:if test="${!empty judgment.legalBases}" >
 			<h3><spring:message code="judgment.legalBases" />:</h3>
@@ -197,9 +295,10 @@ $(document).ready(function() {
 				<div class="panel-body">
 					<div class="label-title"><spring:message code="judgmentDetails.enrichmentTag.referencedCourtCases" />:</div>
 					<div class="desc">
-					
-						<c:forEach items="${judgment.referencedCourtCases}" var="refCourtCase" >
-							<p>
+
+						<p>					
+							<c:forEach items="${judgment.referencedCourtCases}" var="refCourtCase" >
+
 								<c:choose>
 									<c:when test="${!empty refCourtCase.judgmentIds}" >
 										<c:forEach items="${refCourtCase.judgmentIds}" var="judgmentId" >
@@ -218,94 +317,21 @@ $(document).ready(function() {
 										</a>
 									</c:otherwise>
 								</c:choose>
-							</p>
-						</c:forEach>
+							
+							</c:forEach>
+						</p>
 					
 					</div>
 				</div>
 			</div>
-		
 		</c:if>
 
-	
-		<div class="break" ></div>	
-	
-		<c:if test="${!empty judgment.sourceInfo}">
-			<h3><spring:message code="judgment.sourceInfo" />:</h3>
-			<ul class="judgment-data judgment-source-info">
-				<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >
-					<li>
-						<a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
-							<spring:message code="judgment.sourceLink" />
-						</a>	
-					</li>
-				</c:if>
-				<c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >	
-					<li>
-						<div >
-							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.url" />:</div>
-							<div class="desc" >${judgment.sourceInfo.sourceJudgmentUrl}</div>
-						</div>
-					</li>
-				</c:if>
-				<c:if test="${!empty judgment.sourceInfo.publicationDate}" >	
-					<li>
-						<div >
-							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.publicationDate" />:</div>
-							<div class="desc" ><joda:format value="${judgment.sourceInfo.publicationDate}" pattern="${DATE_PATTERN}"/></div>
-						</div>
-					</li>
-				</c:if>
-				<c:if test="${!empty judgment.sourceInfo.publisher}" >
-					<li>
-						<div >
-							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.publisher" />:</div>
-							<div class="desc" >${judgment.sourceInfo.publisher}</div>
-						</div>
-					</li>
-				</c:if>
-				<c:if test="${!empty judgment.sourceInfo.reviser}" >
-					<li>
-						<div >
-							<div class="label-title" ><spring:message code="judgmentDetails.sourceInfo.reviser" />:</div>
-							<div class="desc" >${judgment.sourceInfo.reviser}</div>
-						</div>
-					</li>
-				</c:if>
-				
-			</ul>
-		</c:if>
-	
 	</div>
 	
 </div>
 
 
-
-<%-- Corrections --%>
-<c:if test="${!empty corrections}">
-	<div class="container correction-block">
-
-		<div class="correction-info" >
-			<spring:message code="judgmentDetails.corrections.info" /><a id="show-correction-box" href="" ><spring:message code="button.look" /></a>
-		</div>
-	
-		<div class="corrections" id="corrections">
-			
-			<div class="correction-desc" >
-				<spring:message code="judgmentDetails.corrections.sysInfo" />
-			</div>
-			
-			<h3><spring:message code="judgmentDetails.corrections" />:</h3>
-	
-			<c:forEach items="${corrections}" var="correction">
-				<saos:correction correction="${correction}"></saos:correction>
-			</c:forEach>
-		</div>
-	</div>
-</c:if>
-
-<%-- Judgment summary --%>
+<%-- Judgment content --%>
 <div class="container block" id="judgment-content">
 	<h2 ><spring:message code="judgmentDetails.judgmentFullText" /></h2>
 	<div class="body">
