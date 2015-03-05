@@ -15,16 +15,29 @@ public class JudgmentCriteriaBuilder {
     
     //------------------------ CONSTRUCTORS --------------------------
     
+    /**
+     * @deprecated use {@link #create()}
+     */
+    @Deprecated
     public JudgmentCriteriaBuilder() {
         criteria = new JudgmentCriteria();
     }
     
+    /**
+     * @deprecated use {@link #create()}
+     */
     public JudgmentCriteriaBuilder(String all) {
         criteria = new JudgmentCriteria(all);
     }
     
     
     //------------------------ LOGIC --------------------------
+    
+    public static JudgmentCriteriaBuilder create() {
+        JudgmentCriteriaBuilder builder = new JudgmentCriteriaBuilder();
+        builder.criteria = new JudgmentCriteria();
+        return builder;
+    }
     
     public JudgmentCriteria build() {
         return criteria;

@@ -60,7 +60,7 @@ public class EnrichmentTagUploadService {
      * reads {@link EnrichmentTagItem}s from the passed inputStream, converts them into {@link UploadEnrichmentTag}s
      * and saves into the SAOS datasource ({@link UploadEnrichmentTag}).
      * 
-     * @throws ServiceException in case of any recongnizable service exception like parse error, i/o error etc. 
+     * @throws ServiceException in case of any recognizable service exception like parse error, i/o error etc. 
      */
     @Transactional
     public void uploadEnrichmentTags(InputStream inputStream) {
