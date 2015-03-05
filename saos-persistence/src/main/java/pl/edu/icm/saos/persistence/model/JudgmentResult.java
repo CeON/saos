@@ -28,6 +28,7 @@ import com.google.common.base.Preconditions;
  * 
  * pl. skrócony wynik sprawy
  * @author Łukasz Dumiszewski
+ * 
  */
 @Entity
 @Table(uniqueConstraints={@UniqueConstraint(name="court_type_judgment_result_text_unique", columnNames={"courtType", "text"})})
