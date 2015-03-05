@@ -13,7 +13,7 @@ import java.util.Objects;
 public class YSettings {
 
    
-    public YValueType valueType;
+    private YValueType valueType;
 
     
     //------------------------ GETTERS --------------------------
