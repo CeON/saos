@@ -1,9 +1,9 @@
 /*
- * Judgment info section module.
+ * Info box module.
  * 
  * @author Łukasz Pawełczak
  */
-var InfoSection = (function() {
+var InfoBox = (function() {
 	
 	var space = {},
 		

@@ -10,7 +10,7 @@ var jsInitInJudgmentDetails = function(options) {
 		$(document).attr("title", options.pageTitle + " " + $(document).attr("title"));
 	}
 		
-	InfoSection.init({
+	InfoBox.init({
 		elements: [{buttonId: "#source-info-nav", sectionId: "#source-info-section", buttonHideId: "#source-info-hide"},
 		            {buttonId: "#corrections-nav", sectionId: "#corrections-section", buttonHideId: "#corrections-hide"}]
 	});
