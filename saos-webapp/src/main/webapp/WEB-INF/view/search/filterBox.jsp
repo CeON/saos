@@ -55,7 +55,20 @@
 	
 	<saos:filterField assignedField="input-search-legalbases" label="judgmentSearch.formField.legalBases" filterValue="${judgmentCriteriaForm.legalBase}" id="filter-legal-base"></saos:filterField>
 	
-	<saos:filterField assignedField="input-search-referencedregulations" label="judgmentSearch.formField.referencedRegulations" filterValue="${judgmentCriteriaForm.referencedRegulation}" id="filter-referenced-regulations"></saos:filterField>
+	<c:if test="${!empty lawJournalEntry}" >
+		<p><spring:message code="judgmentSearch.filterBox.lawJournalEntry" />:</p>
+		<div class="filter-item" id="filter-law-journal-entry" data-assigned-field="lawJournalEntryId" data-filter-value="${judgmentCriteriaForm.lawJournalEntryId}" >
+			<div data-tooltip-text="<spring:message code='judgmentSearch.filterBox.removeFilter' />" >
+			
+				<span>
+					<c:out value="${lawJournalEntry.year}" />/<c:out value="${lawJournalEntry.journalNo}" />/<c:out value="${lawJournalEntry.entry}" />
+					-
+					<c:out value="${lawJournalEntry.title}" /> 
+				</span>
+			
+			</div>
+		</div>
+	</c:if>
 	
 	<%--Court type --%>
 	<c:if test="${!empty judgmentCriteriaForm.courtType}">
