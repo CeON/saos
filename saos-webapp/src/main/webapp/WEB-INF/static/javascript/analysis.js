@@ -45,7 +45,7 @@ var initAnalysisJs = function() {
         
         var oldAction = $('#analysisForm').attr('action');
         $('#analysisForm').attr('action', oldAction + "/removePhrase");
-        $('#analysisForm').append($('<input>').attr('id', 'searchCriteriaIndexToRemove').attr('type', 'hidden').attr('name', 'searchCriteriaIndexToRemove').val(phraseIndexToRemove));
+        $('#analysisForm').append($('<input>').attr('id', 'filterIndexToRemove').attr('type', 'hidden').attr('name', 'filterIndexToRemove').val(phraseIndexToRemove));
         
         submitAndPrintAnalysisForm();
         

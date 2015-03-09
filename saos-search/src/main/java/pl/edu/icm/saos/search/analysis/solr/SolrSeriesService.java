@@ -26,14 +26,14 @@ public class SolrSeriesService implements SeriesService {
     
     
     @Override
-    public <X> Series<X, Number> generateSeries(JudgmentSeriesCriteria criteria, XSettings xsettings, YSettings ysettings) {
+    public Series<Object, Number> generateSeries(JudgmentSeriesCriteria criteria, XSettings xsettings, YSettings ysettings) {
         
         checkArguments(criteria, xsettings, ysettings);
         
-        Series<X, Integer> series = seriesGenerator.generateSeries(criteria, xsettings);
+        Series<Object, Integer> series = seriesGenerator.generateSeries(criteria, xsettings);
         
         @SuppressWarnings("unchecked")
-        Series<X, Number> recalcSeries = (Series<X, Number>)seriesYRecalculatorManager.getSeriesYRecalculator(ysettings.getValueType()).recalculateSeries(series, xsettings, ysettings);
+        Series<Object, Number> recalcSeries = (Series<Object, Number>)seriesYRecalculatorManager.getSeriesYRecalculator(ysettings.getValueType()).recalculateSeries(series, xsettings, ysettings);
         
         return recalcSeries;
     }

@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import org.joda.time.LocalDate;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Date range of the x values
  * 
@@ -19,6 +21,20 @@ public class XDateRange implements XRange {
     private Period gap;
     
 
+    //------------------------ CONSTRUCTORS --------------------------
+    
+    public XDateRange(LocalDate startDate, LocalDate endDate, Period gap) {
+        super();
+        
+        Preconditions.checkNotNull(startDate);
+        Preconditions.checkNotNull(endDate);
+        Preconditions.checkNotNull(gap);
+        
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.gap = gap;
+    }
+    
     //------------------------ GETTERS --------------------------
     
     /**

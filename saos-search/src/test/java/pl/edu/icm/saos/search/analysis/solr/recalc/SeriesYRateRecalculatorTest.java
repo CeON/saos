@@ -62,7 +62,7 @@ public class SeriesYRateRecalculatorTest {
     public void recalculateSeries_NullRateYValue() {
     
         // given
-        Series<String, Integer> series = new Series<>();
+        Series<Object, Integer> series = new Series<>();
         
         // execute
         recalculator.recalculateSeries(series, new XSettings(), new YSettings());
@@ -75,11 +75,11 @@ public class SeriesYRateRecalculatorTest {
     public void recalculateSeries() {
         
         // given
-        Series<String, Integer> series = new Series<>();
+        Series<Object, Integer> series = new Series<>();
         series.addPoint("A", 123);
         series.addPoint("B", 30);
         
-        Series<String, Integer> baseSeries = new Series<>();
+        Series<Object, Integer> baseSeries = new Series<>();
         baseSeries.addPoint("A", 12343);
         baseSeries.addPoint("B", 267);
         
@@ -88,11 +88,11 @@ public class SeriesYRateRecalculatorTest {
         YSettings ysettings = new YSettings();
         ysettings.setValueType(new RateYValue(1000));
         
-        when(rateBaseSeriesGenerator.<String>generateRateBaseSeries(xsettings)).thenReturn(baseSeries);
+        when(rateBaseSeriesGenerator.generateRateBaseSeries(xsettings)).thenReturn(baseSeries);
         
         
         // execute
-        Series<String, ? extends Number> recalcSeries = recalculator.recalculateSeries(series, xsettings, ysettings);
+        Series<Object, ? extends Number> recalcSeries = recalculator.recalculateSeries(series, xsettings, ysettings);
         
         
         // assert
@@ -103,7 +103,7 @@ public class SeriesYRateRecalculatorTest {
 
     //------------------------ PRIVATE --------------------------
     
-    private void assertRecalcPoint(Point<String, ? extends Number> recalcPoint, String newXValue, float newYValue) {
+    private void assertRecalcPoint(Point<Object, ? extends Number> recalcPoint, String newXValue, float newYValue) {
         assertEquals(newXValue, recalcPoint.getX());
         assertTrue(Math.abs(recalcPoint.getY().floatValue() - newYValue) < 0.001);
     }

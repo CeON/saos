@@ -19,6 +19,6 @@ public interface SeriesService {
      * @param xsettings x axis settings
      * @param ysettings y axis setting
      */
-    public <X> Series<X, Number> generateSeries(JudgmentSeriesCriteria criteria, XSettings xsettings, YSettings ysettings);
+    public Series<Object, Number> generateSeries(JudgmentSeriesCriteria criteria, XSettings xsettings, YSettings ysettings);
     
 }

@@ -26,13 +26,13 @@ public class SeriesYRateRecalculator implements SeriesYRecalculator {
     //------------------------ LOGIC --------------------------
     
     @Override
-    public <X> Series<X, ? extends Number> recalculateSeries(Series<X, Integer> series, XSettings xsettings, YSettings ysettings) {
+    public Series<Object, ? extends Number> recalculateSeries(Series<Object, Integer> series, XSettings xsettings, YSettings ysettings) {
         
         RateYValue rateYValue = (RateYValue)ysettings.getValueType();
         
         Preconditions.checkNotNull(rateYValue);
         
-        Series<X, Integer> baseSeries = rateBaseSeriesGenerator.generateRateBaseSeries(xsettings);
+        Series<Object, Integer> baseSeries = rateBaseSeriesGenerator.generateRateBaseSeries(xsettings);
         
         return recalculateSeries(series, baseSeries, rateYValue.getRateRatio());
         

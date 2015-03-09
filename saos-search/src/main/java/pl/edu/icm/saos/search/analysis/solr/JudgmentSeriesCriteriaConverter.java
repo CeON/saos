@@ -19,7 +19,9 @@ public class JudgmentSeriesCriteriaConverter {
     public JudgmentCriteria convert(JudgmentSeriesCriteria judgmentSeriesCriteria) {
         
         JudgmentCriteria judgmentCriteria = new JudgmentCriteria();
+        
         judgmentCriteria.setAll(judgmentSeriesCriteria.getPhrase());
+        
         return judgmentCriteria;
         
     }

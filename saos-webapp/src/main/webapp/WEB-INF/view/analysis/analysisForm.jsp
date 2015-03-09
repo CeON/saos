@@ -14,12 +14,12 @@
 	
 		    <spring:message code='analysis.seriesSeachCriteria.phrase.placeholder' var="placeholder"/>
 	
-		    <c:forEach items="${analysisForm.seriesSearchCriteriaList}" var="seriesSearchCriteria" varStatus="status">
+		    <c:forEach items="${analysisForm.filters}" var="seriesSearchCriteria" varStatus="status">
 		        <div class="col-sm-4" id="seriesSearchPhraseDiv_${status.index}">
 		            <div class="col-sm-10">
-		                <form:input path="seriesSearchCriteriaList[${status.index}].phrase" class="form-control" id="seriesSearchPhraseInput_${status.index}" placeholder="${placeholder}"/>
+		                <form:input path="filters[${status.index}].phrase" class="form-control" id="seriesSearchPhraseInput_${status.index}" placeholder="${placeholder}"/>
 		            </div>
-		            <c:if test="${fn:length(analysisForm.seriesSearchCriteriaList) > 1}">
+		            <c:if test="${fn:length(analysisForm.filters) > 1}">
 		                <div class="col-sm-2">
 		                    <img id="deletePhraseButton_${status.index}" tabindex="0" data-toggle="tooltip" style="cursor: pointer;" title="<spring:message code='analysis.button.deletePhrase'/>" src="${contextPath}/static/image/icons/close.png"/>
 		                </div>

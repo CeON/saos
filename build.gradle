@@ -126,6 +126,7 @@ subprojects {
 
         compile lib.'com.google.guava:guava'
         compile lib.'commons-collections:commons-collections'
+        compile lib.'org.apache.commons:commons-lang3'
         compile lib.'org.slf4j:slf4j-api'
         compile lib.'ch.qos.logback:logback-classic'
         compile lib.'org.codehaus.groovy:groovy-all'
