@@ -56,7 +56,7 @@ public class JudgmentSeriesFilterConverterTest {
         JudgmentSeriesCriteria criteria = judgmentSeriesFilterConverter.convert(filter1);
         
         // assert
-        assertNotNull(filter1);
+        assertNotNull(criteria);
         assertCriteria(filter1, criteria);
         
     }
