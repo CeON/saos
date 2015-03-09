@@ -33,16 +33,16 @@ public class AnalysisService {
      * @param xsettings settings of x-axis
      * @param ysettings settings of y-axis
      */
-    public <X> Chart<X, Number> generateChart(List<JudgmentSeriesCriteria> criteriaList, XSettings xsettings, YSettings ysettings) {
+    public Chart<Object, Number> generateChart(List<JudgmentSeriesCriteria> criteriaList, XSettings xsettings, YSettings ysettings) {
         
         Preconditions.checkNotNull(criteriaList);
         Preconditions.checkArgument(!criteriaList.isEmpty());
         
-        Chart<X, Number> chart = new Chart<>();
+        Chart<Object, Number> chart = new Chart<>();
         
         for (JudgmentSeriesCriteria criteria : criteriaList) {
             
-            Series<X, Number> series = seriesService.generateSeries(criteria, xsettings, ysettings);
+            Series<Object, Number> series = seriesService.generateSeries(criteria, xsettings, ysettings);
             
             chart.addSeries(series);
         
