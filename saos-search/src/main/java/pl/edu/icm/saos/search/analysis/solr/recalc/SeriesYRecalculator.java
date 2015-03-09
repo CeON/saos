@@ -11,7 +11,7 @@ import pl.edu.icm.saos.search.analysis.result.Series;
 
 public interface SeriesYRecalculator {
         
-        public <X> Series<X, ? extends Number> recalculateSeries(Series<X, Integer> series, XSettings xsettings, YSettings ysettings);
+        public Series<Object, ? extends Number> recalculateSeries(Series<Object, Integer> series, XSettings xsettings, YSettings ysettings);
         
         public boolean handles(YValueType yValueType);    
 }

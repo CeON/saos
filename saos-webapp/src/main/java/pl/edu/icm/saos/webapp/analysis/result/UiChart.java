@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.chart;
+package pl.edu.icm.saos.webapp.analysis.result;
 
 import java.util.List;
 
@@ -6,53 +6,60 @@ import com.google.common.collect.Lists;
 
 
 /**
- * Representation of non-specific chart data.
+ * Representation of non-specific chart data for use on UI view.
  * 
  * @author Łukasz Dumiszewski
  *
  */
-public class Chart {
+public class UiChart {
 
-    private List<Series> seriesList = Lists.newArrayList();
+    private List<UiSeries> seriesList = Lists.newArrayList();
     private List<String[]> xaxisTicks = Lists.newArrayList();
     
     
-    public Chart() {
+    
+    //------------------------ CONSTRUCTORS --------------------------
+    
+    public UiChart() {
         
     }
     
-    public Chart(Series... series) {
-        for (Series s : series) {
+    public UiChart(UiSeries... series) {
+        for (UiSeries s : series) {
             seriesList.add(s);
         }
     }
     
     
-    //******************** GETTERS ********************
+    //------------------------ GETTERS --------------------------
     
     /**
      * List of series data for the chart. Note that there can be more than one series for a chart.
      * 
      * */
-    public List<Series> getSeriesList() {
+    public List<UiSeries> getSeriesList() {
         return seriesList;
     }
 
+    /**
+     * Short labels of the series, legend.  
+     */
     public List<String[]> getXaxisTicks() {
         return xaxisTicks;
     }
 
     
-    //******************** LOGIC ********************
     
-    public void addSeries(Series series) {
+    //------------------------ LOGIC --------------------------
+    
+    public void addSeries(UiSeries series) {
         seriesList.add(series);
     }
     
     
-    //******************** SETTERS ********************
+    //------------------------ SETTERS --------------------------
     
-    public void setSeriesList(List<Series> seriesList) {
+    public void setSeriesList(List<UiSeries> seriesList) {
         this.seriesList = seriesList;
     }
 
@@ -68,20 +75,29 @@ public class Chart {
     
     
     
-    //******************** SERIES CLASS ********************
+    //------------------------ INNER CLASSES --------------------------
     
-    public static class Series {
+    /**
+     * UI series representation, contains points.
+     * 
+     * @author Łukasz Dumiszewski
+     *
+     */
+    public static class UiSeries {
         
         List<String[]> data = Lists.newArrayList();
         
         
-        //******************** GETTERS ********************
+        //------------------------ GETTERS --------------------------
         
+        /**
+         * Data of the series (points).
+         */
         public List<String[]> getData() {
             return data;
         }
         
-        //******************** LOGIC ********************
+        //------------------------ LOGIC --------------------------
         
         public void addPoint(String x, String y) {
             addPoint(new String[]{x, y});
@@ -92,7 +108,7 @@ public class Chart {
         }
         
         
-        //******************** SETTERS ********************
+        //------------------------ SETTERS --------------------------
         
         public void setData(List<String[]> data) {
             this.data = data;
