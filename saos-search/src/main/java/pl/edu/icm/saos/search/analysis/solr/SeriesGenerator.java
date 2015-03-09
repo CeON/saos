@@ -30,17 +30,12 @@ public class SeriesGenerator {
     
     private JudgmentSeriesCriteriaConverter judgmentSeriesCriteriaConverter;
     
-    @Autowired
     private SearchQueryFactory<JudgmentCriteria> judgmentSearchQueryFactory;
     
-    @Autowired
     private XSettingsFacetQueryApplier xSettingsFacetQueryApplier;
     
-    @Autowired
     private SeriesResultsConverter seriesResultsConverter;
     
-    @Autowired
-    @Qualifier("solrJudgmentsServer")
     private SolrServer solrServer;
     
     
@@ -76,6 +71,27 @@ public class SeriesGenerator {
     @Autowired
     public void setJudgmentSeriesCriteriaConverter(JudgmentSeriesCriteriaConverter judgmentSeriesCriteriaConverter) {
         this.judgmentSeriesCriteriaConverter = judgmentSeriesCriteriaConverter;
+    }
+
+    @Autowired
+    public void setJudgmentSearchQueryFactory(SearchQueryFactory<JudgmentCriteria> judgmentSearchQueryFactory) {
+        this.judgmentSearchQueryFactory = judgmentSearchQueryFactory;
+    }
+
+    @Autowired
+    public void setxSettingsFacetQueryApplier(XSettingsFacetQueryApplier xSettingsFacetQueryApplier) {
+        this.xSettingsFacetQueryApplier = xSettingsFacetQueryApplier;
+    }
+
+    @Autowired
+    public void setSeriesResultsConverter(SeriesResultsConverter seriesResultsConverter) {
+        this.seriesResultsConverter = seriesResultsConverter;
+    }
+
+    @Autowired
+    @Qualifier("solrJudgmentsServer")
+    public void setSolrServer(SolrServer solrServer) {
+        this.solrServer = solrServer;
     }
     
 }
