@@ -9,6 +9,18 @@ function clearSubmitMade() {
 
 
 /**
+ * Extracts and returns an index of the passed element. Assumes that the index is the last part
+ * of the element id preceded by an underscore (_). <br/>
+ * This function is useful in situation where one prints collection elements and then wants to deal with them individually
+ * (for example delete from collection).
+ */   
+function extractIndex(element) {
+    return element.attr('id').split('_')[1];
+}
+
+
+
+/**
  * Adds space every three digits
  * 
  * @param nStr number in string format 

@@ -15,20 +15,22 @@
 		    <spring:message code='analysis.seriesSeachCriteria.phrase.placeholder' var="placeholder"/>
 	
 		    <c:forEach items="${analysisForm.filters}" var="seriesSearchCriteria" varStatus="status">
-		        <div class="col-sm-4" id="seriesSearchPhraseDiv_${status.index}">
-		            <div class="col-sm-10">
-		                <form:input path="filters[${status.index}].phrase" class="form-control" id="seriesSearchPhraseInput_${status.index}" placeholder="${placeholder}"/>
-		            </div>
-		            <c:if test="${fn:length(analysisForm.filters) > 1}">
-		                <div class="col-sm-2">
-		                    <img id="deletePhraseButton_${status.index}" tabindex="0" data-toggle="tooltip" style="cursor: pointer;" title="<spring:message code='analysis.button.deletePhrase'/>" src="${contextPath}/static/image/icons/close.png"/>
-		                </div>
-		            </c:if>
-		        </div>
-		            
+		        <div class="col-sm-12">
+			        <div class="col-xs-1" id="inputColourBox_${status.index}" style="padding:0px; width: 20px; height: 20px; border:1px solid"></div>
+			        <div class="col-sm-4" id="seriesSearchPhraseDiv_${status.index}">
+			            <div class="col-sm-10">
+			                <form:input path="filters[${status.index}].phrase" class="form-control" id="seriesSearchPhraseInput_${status.index}" placeholder="${placeholder}"/>
+			            </div>
+			            <c:if test="${fn:length(analysisForm.filters) > 1}">
+			                <div class="col-sm-2">
+			                    <img id="deletePhraseButton_${status.index}" tabindex="0" data-toggle="tooltip" style="cursor: pointer;" title="<spring:message code='analysis.button.deletePhrase'/>" src="${contextPath}/static/image/icons/close.png"/>
+			                </div>
+			            </c:if>
+			        </div>
+		        </div>    
 		    </c:forEach>
 		  
-		    <div class="col-sm-3">
+		    <div class="col-sm-12">
 		        <input id="addPhraseButton" type="button" class="btn btn-primary button button-blue" value="<spring:message code='analysis.button.addPhrase'/>"/>
 		    </div>
 	
@@ -46,7 +48,7 @@
         --%>
         
 	     <div class="form-group button-group">
-	         <div class="col-sm-9">
+	         <div class="col-sm-12">
 	             <button type="submit" class="btn btn-primary button button-blue"><spring:message code="analysis.button.generateChart" /></button>
 	         </div>
 	     </div>

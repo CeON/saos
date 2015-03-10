@@ -5,11 +5,77 @@ var initAnalysisJs = function() {
 
     var mainChart = null;
     
-    var colours = ["#AA0000", "#00AA00", "#0000AA", "#AA00AA", "#AAAA00", "#00AAAA", "#AAAAAA", "#AA5500"]
+    // based on jquery.colors Colour.names
+    var colours = [
+                   "#0000ff", // blue
+                   "#ff0000", // red
+                   "#008000", // green
+                   "#000000", // black
+                   "#ffa500", // orange
+                   "#00ffff", // cyan
+                   "#800080", // purple
+                   "#ff00ff", // magenta
+                   "#a52a2a", // brown
+                   "#808000", // olive
+                   "#ffff00", // yellow
+                   "#ffc0cb", // pink  
+                   "#008b8b", // darkcyan
+                   "#a9a9a9", // darkgrey
+                   "#006400", // darkgreen
+                   "#000080", // navy
+                   "#bdb76b", // darkkhaki
+                   "#8b008b", // darkmagenta
+                   "#556b2f", // darkolivegreen
+                   "#ff8c00", // darkorange
+                   "#9932cc", // darkorchid
+                   "#8b0000", // darkred
+                   "#e9967a", // darksalmon
+                   "#9400d3", // darkviolet
+                   "#ff00ff", // fuchsia
+                   "#ffd700", // gold
+                   "#4b0082", // indigo
+                   "#f0e68c", // khaki
+                   "#add8e6", // lightblue
+                   "#e0ffff", // lightcyan
+                   "#90ee90", // lightgreen
+                   "#d3d3d3", // lightgrey
+                   "#ffb6c1", // lighpink
+                   "#ffffe0", // lightyellow
+                   "#00ff00", // lime
+                   "#800000", // maroon
+               	   "#00ffff", // aqua
+               	   "#00008b", // darkblue
+               	   "#f5f5dc", // beige
+                
+                
+               	   "#c0c0c0"  // silver
+               	   //"#ffffff"           // white
+               	   //"#f0ffff", // azure
+                
+               	   ];
     
-    initButtons();
+    
+    
+    initFormElements();
     
     generateCharts();
+    
+    
+    
+    //------------------------------- FUNCTIONS ----------------------------------
+    
+    
+    
+    /**
+     * Initializes certain analysis form elements
+     */
+    function initFormElements() {
+        
+        initButtons();
+        
+        colourPhraseInputs();
+
+    }
     
     
     /**
@@ -18,6 +84,27 @@ var initAnalysisJs = function() {
     function initButtons() {
         initAddNewSearchPhraseButton();
         initDeleteSearchPhraseButtons();
+    }
+    
+    /**
+     * Returns a colour for the specified index from colours array. A colour is always retrieved even if the
+     * given index in bigger than colours.length (uses modulo inside)
+     */
+    function getColour(index) {
+    	
+        return colours[index % colours.length];
+    	
+    }
+    
+    /**
+     * Paints phrase input boxes with the same colours as corresponding series.
+    */
+    function colourPhraseInputs() {
+        
+        $('[id^=inputColourBox_]').each(function() {
+            $(this).css("background-color", getColour(extractIndex($(this))));
+        });
+        
     }
     
     
@@ -32,7 +119,7 @@ var initAnalysisJs = function() {
             
             // TODO: delete tooltip
             
-            deleteSearchPhrase($(this).attr('id').split('_')[1]);
+            deleteSearchPhrase(extractIndex($(this)));
             
         });
     }
@@ -47,7 +134,7 @@ var initAnalysisJs = function() {
         $('#analysisForm').attr('action', oldAction + "/removePhrase");
         $('#analysisForm').append($('<input>').attr('id', 'filterIndexToRemove').attr('type', 'hidden').attr('name', 'filterIndexToRemove').val(phraseIndexToRemove));
         
-        submitAndPrintAnalysisForm();
+        submitAndPrintAnalysisForm(true);
         
     }
     
@@ -75,18 +162,19 @@ var initAnalysisJs = function() {
         var oldAction = $('#analysisForm').attr('action');
         $('#analysisForm').attr('action', oldAction + "/addNewPhrase");
         
-        submitAndPrintAnalysisForm();
+        submitAndPrintAnalysisForm(false);
     }
     
     
     /****************** COMMON **/
     
     /**
-     * Submit (ajaxly) the analysisForm and reprints (and initiaties) it with the version (html) received 
+     * Submit (ajaxly) the analysisForm and reprints (and initializes) it with the version (html) received 
      * from the server endpoint.
+     * @param regenerateChart if true then the charts will be regenerated
      *  
      */
-    function submitAndPrintAnalysisForm() {
+    function submitAndPrintAnalysisForm(regenerateChart) {
         
         $('#analysisForm').attr('method', 'post');
         
@@ -94,8 +182,14 @@ var initAnalysisJs = function() {
             
             $('#analysisFormDiv').html(view);  
         
-            initButtons();
-            generateCharts();
+            initFormElements();
+            
+            
+            if (regenerateChart) {
+                
+                generateCharts();
+                
+            }
             
         });
     }
@@ -161,7 +255,7 @@ var initAnalysisJs = function() {
         var seriesArr = [];
         
         for (var i = 0; i < chart.seriesList.length; i++) {
-            seriesArr.push({color: colours[i], label: "", data: chart.seriesList[i].data});
+            seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].data});
         }
         
         $.plot($("#mainChart"), seriesArr,    {
