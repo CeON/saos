@@ -16,7 +16,7 @@
 	
 		    <c:forEach items="${analysisForm.filters}" var="seriesSearchCriteria" varStatus="status">
 		        <div class="col-sm-12">
-			        <div class="col-xs-1" id="inputColourBox_${status.index}" style="padding:0px; width: 20px; height: 20px; border:1px solid"></div>
+			        <div class="col-sm-1" id="inputColourBox_${status.index}" style="padding:0px; width: 20px; height: 20px; border:1px solid"></div>
 			        <div class="col-sm-4" id="seriesSearchPhraseDiv_${status.index}">
 			            <div class="col-sm-10">
 			                <form:input path="filters[${status.index}].phrase" class="form-control" id="seriesSearchPhraseInput_${status.index}" placeholder="${placeholder}"/>

@@ -43,13 +43,11 @@ var initAnalysisJs = function() {
                    "#ffffe0", // lightyellow
                    "#00ff00", // lime
                    "#800000", // maroon
-               	   "#00ffff", // aqua
+                   "#00ffff", // aqua
                	   "#00008b", // darkblue
                	   "#f5f5dc", // beige
-                
-                
                	   "#c0c0c0"  // silver
-               	   //"#ffffff"           // white
+               	   //"#ffffff"  // white
                	   //"#f0ffff", // azure
                 
                	   ];
