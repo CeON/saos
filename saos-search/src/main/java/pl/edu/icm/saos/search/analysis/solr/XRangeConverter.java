@@ -15,7 +15,7 @@ public interface XRangeConverter {
      * @param xRange
      * @return
      */
-    boolean isApplicable(XRange xRange);
+    boolean isApplicable(Class<? extends XRange> clazz);
 
     /**
      * Converts {@link XRange} into solr range start param

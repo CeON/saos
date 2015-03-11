@@ -14,6 +14,8 @@ import pl.edu.icm.saos.search.analysis.request.Period.PeriodUnit;
 import pl.edu.icm.saos.search.util.SearchDateTimeUtils;
 
 /**
+ * Converter of {@link XDateRange} to solr params defining range facet 
+ * 
  * @author madryk
  */
 @Service
@@ -31,8 +33,8 @@ public class XDateRangeConverter implements XRangeConverter {
     //------------------------ LOGIC --------------------------
     
     @Override
-    public boolean isApplicable(XRange xRange) {
-        return XDateRange.class.isAssignableFrom(xRange.getClass());
+    public boolean isApplicable(Class<? extends XRange> clazz) {
+        return XDateRange.class.isAssignableFrom(clazz);
     }
 
     @Override

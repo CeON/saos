@@ -1,7 +1,8 @@
 package pl.edu.icm.saos.search.analysis.solr;
 
-import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.joda.time.LocalDate;
 import org.junit.Test;
@@ -24,8 +25,8 @@ public class XDateRangeConverterTest {
     @Test
     public void isApplicable() {
         // execute & assert
-        assertTrue(xDateRangeConverter.isApplicable(new XDateRange(new LocalDate(), new LocalDate(), new Period(1, PeriodUnit.MONTH))));
-        assertFalse(xDateRangeConverter.isApplicable(mock(XRange.class)));
+        assertTrue(xDateRangeConverter.isApplicable(XDateRange.class));
+        assertFalse(xDateRangeConverter.isApplicable(XRange.class));
     }
     
     @Test

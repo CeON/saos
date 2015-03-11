@@ -1,13 +1,8 @@
 package pl.edu.icm.saos.search.analysis.solr;
 
 import org.apache.solr.client.solrj.SolrQuery;
-import org.apache.solr.client.solrj.SolrServer;
-import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
@@ -16,28 +11,29 @@ import pl.edu.icm.saos.search.analysis.result.Series;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.Paging;
 import pl.edu.icm.saos.search.search.service.SearchQueryFactory;
+import pl.edu.icm.saos.search.search.service.SolrQueryExecutor;
 
 /**
  * Solr specific series generator
  * 
  * @author Łukasz Dumiszewski
+ * @author madryk
  */
 @Service("seriesGenerator")
 public class SeriesGenerator {
-    
-    private final static Logger log = LoggerFactory.getLogger(SeriesGenerator.class);
-
     
     private JudgmentSeriesCriteriaConverter judgmentSeriesCriteriaConverter;
     
     private SearchQueryFactory<JudgmentCriteria> judgmentSearchQueryFactory;
     
-    private XSettingsFacetQueryApplier xSettingsFacetQueryApplier;
+    private XSettingsToQueryApplier xSettingsToQueryApplier;
     
-    private SeriesResultsConverter seriesResultsConverter;
+    private SeriesResultConverter seriesResultConverter;
     
-    private SolrServer solrServer;
+    private SolrQueryExecutor solrQueryExecutor;
     
+    
+    //------------------------ LOGIC --------------------------
     
     /**
      * Generates and returns {@link Series} based on the given criteria and x settings. The y-values
@@ -49,17 +45,13 @@ public class SeriesGenerator {
          
         SolrQuery query = judgmentSearchQueryFactory.createQuery(judgmentCriteria, new Paging(0, 0));
         
-        xSettingsFacetQueryApplier.applyXSettingsToQuery(query, xsettings);
+        xSettingsToQueryApplier.applyXSettingsToQuery(query, xsettings);
         
-        QueryResponse response = null;
-        try {
-            response = solrServer.query(query);
-        } catch (SolrServerException e) {
-            log.warn("Error in generating series", e);
-            return new Series<Object, Integer>();
-        }
         
-        Series<Object, Integer> series = seriesResultsConverter.convertToSeries(response, xsettings.getField());
+        QueryResponse response = solrQueryExecutor.executeQuery(query);
+        
+        
+        Series<Object, Integer> series = seriesResultConverter.convertToSeries(response, xsettings.getField());
         
         
         return series;
@@ -79,19 +71,18 @@ public class SeriesGenerator {
     }
 
     @Autowired
-    public void setxSettingsFacetQueryApplier(XSettingsFacetQueryApplier xSettingsFacetQueryApplier) {
-        this.xSettingsFacetQueryApplier = xSettingsFacetQueryApplier;
+    public void setxSettingsToQueryApplier(XSettingsToQueryApplier xSettingsToQueryApplier) {
+        this.xSettingsToQueryApplier = xSettingsToQueryApplier;
     }
 
     @Autowired
-    public void setSeriesResultsConverter(SeriesResultsConverter seriesResultsConverter) {
-        this.seriesResultsConverter = seriesResultsConverter;
+    public void setSeriesResultConverter(SeriesResultConverter seriesResultsConverter) {
+        this.seriesResultConverter = seriesResultsConverter;
     }
 
     @Autowired
-    @Qualifier("solrJudgmentsServer")
-    public void setSolrServer(SolrServer solrServer) {
-        this.solrServer = solrServer;
+    public void setSolrQueryExecutor(SolrQueryExecutor solrQueryExecutor) {
+        this.solrQueryExecutor = solrQueryExecutor;
     }
     
 }
