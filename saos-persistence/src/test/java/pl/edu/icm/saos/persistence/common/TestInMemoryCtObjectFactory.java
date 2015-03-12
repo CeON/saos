@@ -40,8 +40,13 @@ final class TestInMemoryCtObjectFactory {
         ctJudgment.setDecision(CT_DECISION);
         ctJudgment.setSummary(CT_SUMMARY);
         ctJudgment.setJudgmentType(CT_JUDGMENT_TYPE);
-        ctJudgment.setTextContent(CT_TEXT_CONTENT);
         ctJudgment.setJudgmentDate(new LocalDate(CT_DATE_YEAR, CT_DATE_MONTH, CT_DATE_DAY));
+        
+        JudgmentTextContent textContent = new JudgmentTextContent();
+        textContent.setRawTextContent(CT_TEXT_CONTENT);
+        textContent.setType(CT_TEXT_CONTENT_TYPE);
+        textContent.setPath(CT_TEXT_CONTENT_PATH);
+        ctJudgment.setTextContent(textContent);
 
 
         LawJournalEntry firstLawJournalEntry = new LawJournalEntry();

@@ -173,7 +173,7 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         
         assertThat(judgment.getSourceInfo().getSourceJudgmentUrl(), is("http://otk.trybunal.gov.pl/orzeczenia/teksty/otk/2005/P_25_02.doc"));
         assertThat(judgment.getJudgmentDate(), is(new LocalDate("2005-06-21")));
-        assertThat(judgment.getTextContent(), is("65/6/A/2005\n\nWYROK\nz dnia 21 czerwca 2005 r.\nSygn. akt P 25/02*\n\n* ..."));
+        assertThat(judgment.getRawTextContent(), is("65/6/A/2005\n\nWYROK\nz dnia 21 czerwca 2005 r.\nSygn. akt P 25/02*\n\n* ..."));
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
         
         assertSpecificFieldsEmpty(judgment);
@@ -214,7 +214,7 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         
         assertThat(judgment.getSourceInfo().getSourceJudgmentUrl(), is("http://otk.trybunal.gov.pl/orzeczenia/teksty/otk/2005/K_27_03.doc"));
         assertThat(judgment.getJudgmentDate(), is(new LocalDate("2005-03-08")));
-        assertThat(judgment.getTextContent(), is("22/3/A/2005\n\nWYROK\nz dnia 8 marca 2005 r.\nSygn. akt K 27/03*\n\n* Sentencja została ogłoszona dnia 15 marca 2005 r. ..."));
+        assertThat(judgment.getRawTextContent(), is("22/3/A/2005\n\nWYROK\nz dnia 8 marca 2005 r.\nSygn. akt K 27/03*\n\n* Sentencja została ogłoszona dnia 15 marca 2005 r. ..."));
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
     }
     

@@ -161,7 +161,7 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
         List<CommonCourtJudgment> ccJudgments = testPersistenceObjectFactory
                 .createCcJudgmentListWithRandomData(COMMON_COURT_JUDGMENTS_COUNT -1);
         ccJudgments.forEach(x -> x.setCourtDivision(division));
-        ccJudgments.forEach(x -> x.setTextContent(textContent));
+        ccJudgments.forEach(x -> x.setRawTextContent(textContent));
         judgmentRepository.save(ccJudgments);
         judgmentRepository.flush();
         

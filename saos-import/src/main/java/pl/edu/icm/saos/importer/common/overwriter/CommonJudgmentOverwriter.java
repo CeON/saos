@@ -8,6 +8,7 @@ import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 
 import com.google.common.base.Preconditions;
 
@@ -33,7 +34,8 @@ public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
         oldJudgment.setJudgmentType(newJudgment.getJudgmentType());
         overwriteLegalBases(oldJudgment, newJudgment);
         oldJudgment.setSummary(newJudgment.getSummary());
-        oldJudgment.setTextContent(newJudgment.getTextContent());
+        
+        overwriteJudgmentTextContent(oldJudgment.getTextContent(), newJudgment.getTextContent());
         
         overwriteSourceInfo(oldJudgment.getSourceInfo(), newJudgment.getSourceInfo());
         
@@ -141,6 +143,13 @@ public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
         oldJudgmentSource.setSourceCode(newJudgmentSource.getSourceCode());
         oldJudgmentSource.setPublisher(newJudgmentSource.getPublisher());
         oldJudgmentSource.setReviser(newJudgmentSource.getReviser());
+    }
+    
+    
+    private void overwriteJudgmentTextContent(JudgmentTextContent oldTextContent, JudgmentTextContent newTextContent) {
+        oldTextContent.setRawTextContent(newTextContent.getRawTextContent());
+        oldTextContent.setType(newTextContent.getType());
+        oldTextContent.setPath(newTextContent.getPath());
     }
    
 }

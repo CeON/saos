@@ -10,7 +10,9 @@ import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 
 /**
  * @author madryk
@@ -64,11 +66,16 @@ final class TestInMemoryObjectFactoryHelper {
         judgment.setDecision(prefix+RandomStringUtils.randomAlphabetic(5));
         judgment.setSummary(prefix+RandomStringUtils.randomAlphabetic(5));
         judgment.setJudgmentType(SC_JUDGMENT_TYPE);
-        judgment.setTextContent(prefix+RandomStringUtils.randomAlphabetic(5));
 
         int month = 1 + (int)(Math.random()*12);
         int day = 1 +(int)(Math.random()*28);
         judgment.setJudgmentDate(new LocalDate(2000, month, day));
+        
+        JudgmentTextContent textContent = new JudgmentTextContent();
+        textContent.setRawTextContent(prefix+RandomStringUtils.randomAlphabetic(5));
+        textContent.setType(ContentType.PDF);
+        textContent.setPath("/" + prefix+RandomStringUtils.randomAlphabetic(5) + ".pdf");
+        judgment.setTextContent(textContent);
 
 
 

@@ -19,15 +19,19 @@ public class InitializingVisitor implements Visitor {
     
     public void visit(CommonCourtJudgment judgment) {
         initializeJudgment(judgment);
-        JpaUtils.initialize(judgment.getCourtDivision());
-        JpaUtils.initialize(judgment.getCourtDivision().getCourt());
+        if (judgment.getCourtDivision() != null) {
+            JpaUtils.initialize(judgment.getCourtDivision());
+            JpaUtils.initialize(judgment.getCourtDivision().getCourt());
+        }
     }
 
     
     public void visit(SupremeCourtJudgment judgment) {
         initializeJudgment(judgment);
-        JpaUtils.initialize(judgment.getScChamberDivision());
-        JpaUtils.initialize(judgment.getScChamberDivision().getScChamber());
+        if (judgment.getScChamberDivision() != null) {
+            JpaUtils.initialize(judgment.getScChamberDivision());
+            JpaUtils.initialize(judgment.getScChamberDivision().getScChamber());
+        }
         JpaUtils.initialize(judgment.getScChambers());
         JpaUtils.initialize(judgment.getScJudgmentForm());
     }

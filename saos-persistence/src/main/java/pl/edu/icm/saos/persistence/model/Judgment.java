@@ -24,6 +24,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -90,7 +91,7 @@ public abstract class Judgment extends IndexableObject {
     
     private String summary;
     
-    private String textContent;
+    private JudgmentTextContent textContent = new JudgmentTextContent();
     
     private List<String> legalBases = Lists.newArrayList();
     private List<JudgmentReferencedRegulation> referencedRegulations = Lists.newArrayList();
@@ -223,9 +224,15 @@ public abstract class Judgment extends IndexableObject {
     }
 
     /** 
-     * A full text content of the judgment  
+     * A full raw text content of the judgment  
      */
-    public String getTextContent() {
+    @Transient
+    public String getRawTextContent() {
+        return textContent.getRawTextContent();
+    }
+    
+    @OneToOne(mappedBy="judgment", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public JudgmentTextContent getTextContent() {
         return textContent;
     }
 
@@ -255,7 +262,7 @@ public abstract class Judgment extends IndexableObject {
     }
 
     /**
-     * Court cases that are referred in {@link #getTextContent()}
+     * Court cases that are referred in {@link #getRawTextContent()}
      */
     @Transient
     public List<ReferencedCourtCase> getReferencedCourtCases() {
@@ -598,8 +605,18 @@ public abstract class Judgment extends IndexableObject {
         this.judgmentType = judgmentType;
     }
 
-    public void setTextContent(String textContent) {
+    public void setTextContent(JudgmentTextContent textContent) {
+        if (textContent != null) {
+            textContent.setJudgment(this);
+        }
         this.textContent = textContent;
+    }
+    
+    public void setRawTextContent(String rawTextContent) {
+        if (this.textContent == null) {
+            this.textContent = new JudgmentTextContent();
+        }
+        this.textContent.setRawTextContent(rawTextContent);
     }
 
     public void setSourceInfo(JudgmentSourceInfo sourceInfo) {

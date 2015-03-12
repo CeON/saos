@@ -43,7 +43,7 @@ public class ScJudgmentIndexFieldsFillerTest {
 
         // basic
         SupremeCourtJudgment basicJudgment = new SupremeCourtJudgment();
-        basicJudgment.setTextContent(textContent);
+        basicJudgment.setRawTextContent(textContent);
         Whitebox.setInternalState(basicJudgment, "id", scJudgmentId);
 
         List<SolrInputField> basicFields = Lists.newArrayList(

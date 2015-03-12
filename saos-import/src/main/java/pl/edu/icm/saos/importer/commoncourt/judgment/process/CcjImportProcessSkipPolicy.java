@@ -3,6 +3,8 @@ package pl.edu.icm.saos.importer.commoncourt.judgment.process;
 import javax.persistence.PersistenceException;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.step.skip.SkipLimitExceededException;
 import org.springframework.batch.core.step.skip.SkipPolicy;
 import org.springframework.stereotype.Service;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Service;
  */
 @Service("ccjImportProcessSkipPolicy")
 public class CcjImportProcessSkipPolicy implements SkipPolicy {
-
+    public final static Logger log = LoggerFactory.getLogger(CcjImportProcessSkipPolicy.class);
     
     @Override
     public boolean shouldSkip(Throwable t, int skipCount) throws SkipLimitExceededException {

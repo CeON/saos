@@ -37,6 +37,8 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
@@ -155,7 +157,10 @@ public class JudgmentConverterImplTest {
         
         // given
         
-        String textContent = "sdsd";
+        JudgmentTextContent textContent = new JudgmentTextContent();
+        textContent.setRawTextContent("sdsd");
+        textContent.setType(ContentType.PDF);
+        textContent.setPath("/path/to/file.pdf");
         when(judgmentDataExtractor.extractTextContent(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(textContent);
         
         
@@ -166,7 +171,9 @@ public class JudgmentConverterImplTest {
         
         // assert
         
-        assertEquals(textContent, judgment.getTextContent());
+        assertEquals(textContent.getRawTextContent(), judgment.getRawTextContent());
+        assertEquals(textContent.getType(), judgment.getTextContent().getType());
+        assertEquals(textContent.getPath(), judgment.getTextContent().getPath());
         
         
     }

@@ -202,7 +202,7 @@ public class JudgmentMapper {
         data.setCourtReporters(toSimpleList(judgment.getCourtReporters()));
         data.setDecision(judgment.getDecision());
         data.setSummary(judgment.getSummary());
-        data.setTextContent(judgment.getTextContent());
+        data.setTextContent(judgment.getRawTextContent());
         data.setLegalBases(toSimpleList(judgment.getLegalBases()));
         data.setReferencedRegulations(toReferencedRegulations(judgment.getReferencedRegulations()));
         data.setKeywords(toListFromKeywords(judgment.getKeywords()));

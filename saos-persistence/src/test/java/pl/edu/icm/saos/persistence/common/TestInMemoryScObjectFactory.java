@@ -45,9 +45,14 @@ final class TestInMemoryScObjectFactory {
         scJudgment.setDecision(SC_DECISION);
         scJudgment.setSummary(SC_SUMMARY);
         scJudgment.setJudgmentType(SC_JUDGMENT_TYPE);
-        scJudgment.setTextContent(SC_TEXT_CONTENT);
         scJudgment.setJudgmentDate(new LocalDate(SC_DATE_YEAR, SC_DATE_MONTH, SC_DATE_DAY));
         scJudgment.setPersonnelType(SC_PERSONNEL_TYPE);
+        
+        JudgmentTextContent textContent = new JudgmentTextContent();
+        textContent.setRawTextContent(SC_TEXT_CONTENT);
+        textContent.setType(SC_TEXT_CONTENT_TYPE);
+        textContent.setPath(SC_TEXT_CONTENT_PATH);
+        scJudgment.setTextContent(textContent);
 
         LawJournalEntry firstLawJournalEntry = new LawJournalEntry();
         firstLawJournalEntry.setTitle(SC_FIRST_REFERENCED_REGULATION_TITLE);
