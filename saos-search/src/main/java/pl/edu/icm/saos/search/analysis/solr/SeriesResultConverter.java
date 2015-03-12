@@ -5,10 +5,14 @@ import org.apache.solr.client.solrj.response.RangeFacet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
+
 import pl.edu.icm.saos.search.analysis.request.XField;
 import pl.edu.icm.saos.search.analysis.result.Series;
 
 /**
+ * Converts solr {@link QueryResponse} to {@link Series}
+ * 
  * @author madryk
  */
 @Service
@@ -22,6 +26,9 @@ public class SeriesResultConverter {
     //------------------------ LOGIC --------------------------
     
     public Series<Object, Integer> convertToSeries(QueryResponse response, XField xField) {
+        
+        Preconditions.checkNotNull(response);
+        Preconditions.checkNotNull(xField);
         
         RangeFacet<?, ?> facet = xFieldFacetExtractor.extractFacet(response, xField);
         

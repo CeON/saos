@@ -54,4 +54,16 @@ public class SeriesResultConverterTest {
         verify(facetToSeriesConverter).convert(rangeFacet, XField.JUDGMENT_DATE);
     }
     
+    @Test(expected = NullPointerException.class)
+    public void convertToSeries_NULL_RESPONSE() {
+        // expected
+        seriesResultsConverter.convertToSeries(null, XField.JUDGMENT_DATE);
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void convertToSeries_NULL_XFIELD() {
+        // expected
+        seriesResultsConverter.convertToSeries(new QueryResponse(), null);
+    }
+    
 }

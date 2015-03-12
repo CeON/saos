@@ -52,4 +52,17 @@ public class FacetToSeriesConverterTest {
         
         assertEquals(expectedPoints, series.getPoints());
     }
+    
+    @Test(expected = NullPointerException.class)
+    public void convert_NULL_RANGE_FACET() {
+        // execute
+        facetToSeriesConverter.convert(null, XField.JUDGMENT_DATE);
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void convert_NULL_XFIELD() {
+        // execute
+        facetToSeriesConverter.convert(new RangeFacet.Numeric(null, null, null, null, null, null, null), null);
+    }
+    
 }
