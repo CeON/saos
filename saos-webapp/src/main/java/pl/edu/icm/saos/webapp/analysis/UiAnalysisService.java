@@ -12,8 +12,8 @@ import pl.edu.icm.saos.search.analysis.request.YSettings;
 import pl.edu.icm.saos.search.analysis.result.Chart;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilterConverter;
-import pl.edu.icm.saos.webapp.analysis.request.UiXSettingsConverter;
-import pl.edu.icm.saos.webapp.analysis.request.UiYSettingsConverter;
+import pl.edu.icm.saos.webapp.analysis.request.UixSettingsConverter;
+import pl.edu.icm.saos.webapp.analysis.request.UiySettingsConverter;
 import pl.edu.icm.saos.webapp.analysis.result.ChartConverter;
 import pl.edu.icm.saos.webapp.analysis.result.UiChart;
 
@@ -33,9 +33,9 @@ public class UiAnalysisService {
     
     private JudgmentSeriesFilterConverter judgmentSeriesFilterConverter;
     
-    private UiXSettingsConverter uiXSettingsConverter;
+    private UixSettingsConverter uixSettingsConverter;
     
-    private UiYSettingsConverter uiYSettingsConverter;
+    private UiySettingsConverter uiySettingsConverter;
     
     private ChartConverter chartConverter;
     
@@ -55,9 +55,9 @@ public class UiAnalysisService {
         
         List<JudgmentSeriesCriteria> judgmentSeriesCriteriaList = judgmentSeriesFilterConverter.convertList(analysisForm.getFilters());
   
-        XSettings xsettings = uiXSettingsConverter.convert(analysisForm.getUiXSettings());
+        XSettings xsettings = uixSettingsConverter.convert(analysisForm.getXsettings());
         
-        YSettings ysettings = uiYSettingsConverter.convert(analysisForm.getUiYSettings());
+        YSettings ysettings = uiySettingsConverter.convert(analysisForm.getYsettings());
         
         
         // execute
@@ -85,13 +85,13 @@ public class UiAnalysisService {
     }
 
     @Autowired
-    public void setUiXSettingsConverter(UiXSettingsConverter uiXSettingsConverter) {
-        this.uiXSettingsConverter = uiXSettingsConverter;
+    public void setUixSettingsConverter(UixSettingsConverter uixSettingsConverter) {
+        this.uixSettingsConverter = uixSettingsConverter;
     }
 
     @Autowired
-    public void setUiYSettingsConverter(UiYSettingsConverter uiYSettingsConverter) {
-        this.uiYSettingsConverter = uiYSettingsConverter;
+    public void setUiySettingsConverter(UiySettingsConverter uiySettingsConverter) {
+        this.uiySettingsConverter = uiySettingsConverter;
     }
 
     @Autowired

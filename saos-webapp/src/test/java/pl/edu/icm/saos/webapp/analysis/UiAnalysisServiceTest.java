@@ -21,10 +21,10 @@ import pl.edu.icm.saos.search.analysis.result.Series;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilterConverter;
-import pl.edu.icm.saos.webapp.analysis.request.UiXSettings;
-import pl.edu.icm.saos.webapp.analysis.request.UiXSettingsConverter;
-import pl.edu.icm.saos.webapp.analysis.request.UiYSettings;
-import pl.edu.icm.saos.webapp.analysis.request.UiYSettingsConverter;
+import pl.edu.icm.saos.webapp.analysis.request.UixSettings;
+import pl.edu.icm.saos.webapp.analysis.request.UixSettingsConverter;
+import pl.edu.icm.saos.webapp.analysis.request.UiySettings;
+import pl.edu.icm.saos.webapp.analysis.request.UiySettingsConverter;
 import pl.edu.icm.saos.webapp.analysis.result.ChartConverter;
 import pl.edu.icm.saos.webapp.analysis.result.UiChart;
 import pl.edu.icm.saos.webapp.analysis.result.UiChart.UiSeries;
@@ -41,9 +41,9 @@ public class UiAnalysisServiceTest {
     
     @Mock private JudgmentSeriesFilterConverter judgmentSeriesFilterConverter;
     
-    @Mock private UiXSettingsConverter uiXSettingsConverter;
+    @Mock private UixSettingsConverter uixSettingsConverter;
     
-    @Mock private UiYSettingsConverter uiYSettingsConverter;
+    @Mock private UiySettingsConverter uiySettingsConverter;
     
     @Mock private ChartConverter chartConverter;
     
@@ -55,8 +55,8 @@ public class UiAnalysisServiceTest {
         
         uiAnalysisService.setAnalysisService(analysisService);
         uiAnalysisService.setJudgmentSeriesFilterConverter(judgmentSeriesFilterConverter);
-        uiAnalysisService.setUiXSettingsConverter(uiXSettingsConverter);
-        uiAnalysisService.setUiYSettingsConverter(uiYSettingsConverter);
+        uiAnalysisService.setUixSettingsConverter(uixSettingsConverter);
+        uiAnalysisService.setUiySettingsConverter(uiySettingsConverter);
         uiAnalysisService.setChartConverter(chartConverter);
         
     }
@@ -91,8 +91,8 @@ public class UiAnalysisServiceTest {
         
         
         List<JudgmentSeriesFilter> filters = Lists.newArrayList(filter1, filter2);
-        UiXSettings uiXSettings = new UiXSettings();
-        UiYSettings uiYSettings = new UiYSettings();
+        UixSettings uiXSettings = new UixSettings();
+        UiySettings uiYSettings = new UiySettings();
         
         AnalysisForm analysisForm = createAnalysisForm(filters, uiXSettings, uiYSettings);
         
@@ -117,8 +117,8 @@ public class UiAnalysisServiceTest {
         
         
         when(judgmentSeriesFilterConverter.convertList(filters)).thenReturn(criteriaList);
-        when(uiXSettingsConverter.convert(uiXSettings)).thenReturn(xsettings);
-        when(uiYSettingsConverter.convert(uiYSettings)).thenReturn(ysettings);
+        when(uixSettingsConverter.convert(uiXSettings)).thenReturn(xsettings);
+        when(uiySettingsConverter.convert(uiYSettings)).thenReturn(ysettings);
         when(analysisService.generateChart(criteriaList, xsettings, ysettings)).thenReturn(chart);
         when(chartConverter.convert(chart)).thenReturn(uiChart);
                 
@@ -132,8 +132,8 @@ public class UiAnalysisServiceTest {
         
         assertEquals(uiChart, generatedUiChart);
         verify(judgmentSeriesFilterConverter).convertList(filters);
-        verify(uiXSettingsConverter).convert(uiXSettings);
-        verify(uiYSettingsConverter).convert(uiYSettings);
+        verify(uixSettingsConverter).convert(uiXSettings);
+        verify(uiySettingsConverter).convert(uiYSettings);
         verify(analysisService).generateChart(criteriaList, xsettings, ysettings);
         verify(chartConverter).convert(chart);
         
@@ -161,13 +161,13 @@ public class UiAnalysisServiceTest {
     }
 
 
-    private AnalysisForm createAnalysisForm(List<JudgmentSeriesFilter> filters, UiXSettings uiXSettings,
-            UiYSettings uiYSettings) {
+    private AnalysisForm createAnalysisForm(List<JudgmentSeriesFilter> filters, UixSettings uiXSettings,
+            UiySettings uiYSettings) {
         
         AnalysisForm analysisForm = new AnalysisForm();
         analysisForm.setFilters(filters);
-        analysisForm.setUiXSettings(uiXSettings);
-        analysisForm.setUiYSettings(uiYSettings);
+        analysisForm.setXsettings(uiXSettings);
+        analysisForm.setYsettings(uiYSettings);
         return analysisForm;
     }
 

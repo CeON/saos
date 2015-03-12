@@ -3,6 +3,7 @@ package pl.edu.icm.saos.webapp.analysis;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
+import pl.edu.icm.saos.webapp.analysis.request.UixSettings;
 import pl.edu.icm.saos.webapp.analysis.result.UiChart;
 
 /**
@@ -35,6 +37,11 @@ public class AnalysisController {
     public AnalysisForm analysisForm() {
         AnalysisForm analysisForm = new AnalysisForm();
         analysisForm.addSeriesSearchCriteria(new JudgmentSeriesFilter()); // one empty phrase by default
+        UixSettings uixSettings = analysisForm.getXsettings();
+        uixSettings.setYearStart(new LocalDate().getYear() - 20);
+        uixSettings.setMonthStart(1);
+        uixSettings.setYearEnd(new LocalDate().getYear());
+        uixSettings.setMonthEnd(new LocalDate().getMonthOfYear());
         return analysisForm;
     }
     
