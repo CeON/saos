@@ -13,6 +13,8 @@
 
 <c:forEach items="${commaSplittedYears}" var="year">
 
+    <c:set var="year" value="${fn:trim(year)}"/>
+
     <c:choose>
         
         <c:when test="${!fn:contains(year, '-')}">
@@ -30,14 +32,15 @@
             <%-- forEach loop can not iterate down and step cannot be < 1. Nevertheless the solution below deals with it and
             can print the years up or down, depending on the range --%>
             
-            <c:set var="beginYear" value="${dashSplittedYears[0]}"/>
-            <c:set var="endYear" value="${dashSplittedYears[1]}"/>
+            <c:set var="beginYear" value="${fn:trim(dashSplittedYears[0])}"/>
+            <c:set var="endYear" value="${fn:trim(dashSplittedYears[1])}"/>
             <c:set var="order" value="asc"/>
             <c:if test="${beginYear>endYear}">
                 <c:set var="beginYear" value="${endYear}"/>
-                <c:set var="endYear" value="${dashSplittedYears[0]}"/>
+                <c:set var="endYear" value="${fn:trim(dashSplittedYears[0])}"/>
                 <c:set var="order" value="desc"/>
             </c:if>
+            
             
             <c:forEach begin="${beginYear}" end="${endYear}" step="1" varStatus="loop">
                 <c:if test="${order=='asc'}">

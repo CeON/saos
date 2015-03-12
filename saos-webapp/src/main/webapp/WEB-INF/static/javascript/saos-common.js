@@ -48,7 +48,7 @@ function tieMonthYearRangeSelects(monthStartId, yearStartId, monthEndId, yearEnd
     
     yearStart.change(function() {
         
-        if (yearStart.val() > yearEnd.val()) {
+        if (yearStart.val() >= yearEnd.val()) {
             
             yearEnd.val(yearStart.val());
             
@@ -64,7 +64,7 @@ function tieMonthYearRangeSelects(monthStartId, yearStartId, monthEndId, yearEnd
 
     yearEnd.change(function() {
         
-        if (yearStart.val() > yearEnd.val()) {
+        if (yearStart.val() >= yearEnd.val()) {
             
             yearStart.val(yearEnd.val());
             
