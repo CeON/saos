@@ -12,20 +12,20 @@ import pl.edu.icm.saos.search.analysis.request.XSettings;
 
 /**
  * 
- * A converter of {@link UiXSettings} objects
+ * A converter of {@link UixSettings} objects
  * 
  * @author Łukasz Dumiszewski
  */
-@Service("uiXSettingsConverter")
-public class UiXSettingsConverter {
+@Service("uixSettingsConverter")
+public class UixSettingsConverter {
 
     
     //------------------------ LOGIC --------------------------
     
     /**
-     * Converts {@link UiXSettings} into {@link XSettings}
+     * Converts {@link UixSettings} into {@link XSettings}
      */
-    public XSettings convert(UiXSettings uiXSettings) {
+    public XSettings convert(UixSettings uixSettings) {
         
         // TODO: will be changed in https://github.com/CeON/saos/issues/599
         

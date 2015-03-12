@@ -6,6 +6,7 @@
 
     <c:set var="contextPath" value="${pageContext.request.contextPath}" scope="session"></c:set>  
     <c:set var="DATE_PATTERN" value="dd-MM-yyyy" scope="session"></c:set>  
+    <c:set var="MONTH_YEAR_PATTERN" value="MM-yyyy" scope="session"></c:set>  
       
     <head>
 	    <meta charset="UTF-8" />

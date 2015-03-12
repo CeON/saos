@@ -4,8 +4,9 @@
 <script>
 $(document).ready(function() {
 	
-	zoomCancelHint = '<spring:message code="chart.zoomCancelHint"/>'
-	mainChartUrl = '<c:url value="/analysis/generate"/>';
+    analysisJsProperties = {
+            ZOOM_CANCEL_HINT: '<spring:message code="chart.zoomCancelHint"/>'
+    }
     
 	initAnalysisJs();
 	

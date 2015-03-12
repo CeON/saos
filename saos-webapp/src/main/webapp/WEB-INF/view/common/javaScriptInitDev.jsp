@@ -11,8 +11,6 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.visible.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.wrapInTag.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/modernizr.js"></script>
-<script type="text/javascript" src="${contextPath}/static/javascript/libs/daterangepicker.js"></script>
-<script type="text/javascript" src="${contextPath}/static/javascript/libs/moment.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/bootstrap.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery-dateFormat.min.js"></script>
 

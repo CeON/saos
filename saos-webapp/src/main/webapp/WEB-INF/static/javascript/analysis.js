@@ -4,6 +4,7 @@
 var initAnalysisJs = function() {    
 
     var mainChart = null;
+    var isZoomed = false;
     
     // based on jquery.colors Colour.names
     var colours = [
@@ -72,6 +73,8 @@ var initAnalysisJs = function() {
         initButtons();
         
         colourPhraseInputs();
+        
+        tieMonthYearRangeSelects("xRangeMonthStart", "xRangeYearStart", "xRangeMonthEnd", "xRangeYearEnd");
 
     }
     
@@ -163,6 +166,9 @@ var initAnalysisJs = function() {
         submitAndPrintAnalysisForm(false);
     }
     
+
+    
+    
     
     /****************** COMMON **/
     
@@ -194,11 +200,7 @@ var initAnalysisJs = function() {
     
     
     
-    
-    <!--$('input[id="daterange"]').daterangepicker();-->
-    
-    
-    
+  
     //******************************* MAIN CHART ***************************************************
     
     /**
@@ -293,15 +295,17 @@ var initAnalysisJs = function() {
     
     /** zoom the main chart */
     $("#mainChart").on("plotselected", function (event, ranges) {
-        $('#mainChartZoomCancelHint').text(zoomCancelHint);
+        $('#mainChartZoomCancelHint').text(analysisJsProperties.ZOOM_CANCEL_HINT);
         printMainChart(mainChart, ranges.xaxis.from, ranges.xaxis.to);
+        isZoomed = true;
     });
     
     /** cancel zoom if the user clicks outside the chart */
     $(document).click(function(event) { 
-        if($(event.target).parents().index($('#mainChart')) == -1) {
+        if($(event.target).parents().index($('#mainChart')) == -1 && mainChart != null && isZoomed) {
             $('[id$="ZoomCancelHint"]').html("");
             printMainChart(mainChart, null, null);
+            isZoomed = false;
         }        
     });
     
