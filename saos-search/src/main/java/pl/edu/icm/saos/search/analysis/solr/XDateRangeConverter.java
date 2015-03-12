@@ -5,6 +5,7 @@ import java.util.Map;
 import org.joda.time.LocalDate;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 import pl.edu.icm.saos.search.analysis.request.Period;
@@ -34,11 +35,18 @@ public class XDateRangeConverter implements XRangeConverter {
     
     @Override
     public boolean isApplicable(Class<? extends XRange> clazz) {
+        
+        Preconditions.checkNotNull(clazz);
+        
         return XDateRange.class.isAssignableFrom(clazz);
     }
 
     @Override
     public String convertStart(XRange xRange) {
+        
+        Preconditions.checkNotNull(xRange);
+        Preconditions.checkArgument(isApplicable(xRange.getClass()));
+        
         XDateRange xDateRange = (XDateRange) xRange;
         LocalDate startDate = xDateRange.getStartDate();
         
@@ -47,6 +55,10 @@ public class XDateRangeConverter implements XRangeConverter {
 
     @Override
     public String convertEnd(XRange xRange) {
+        
+        Preconditions.checkNotNull(xRange);
+        Preconditions.checkArgument(isApplicable(xRange.getClass()));
+        
         XDateRange xDateRange = (XDateRange) xRange;
         LocalDate endDate = xDateRange.getEndDate();
         
@@ -55,6 +67,10 @@ public class XDateRangeConverter implements XRangeConverter {
 
     @Override
     public String convertGap(XRange xRange) {
+        
+        Preconditions.checkNotNull(xRange);
+        Preconditions.checkArgument(isApplicable(xRange.getClass()));
+        
         XDateRange xDateRange = (XDateRange) xRange;
         Period gap = xDateRange.getGap();
         
@@ -63,6 +79,10 @@ public class XDateRangeConverter implements XRangeConverter {
         
         
         PeriodUnitMapping periodMapping = PERIOD_UNIT_MAPPINGS.get(gapUnit);
+        
+        if (periodMapping == null) {
+            throw new IllegalArgumentException("PeriodUnit " + gapUnit.name() + " is not supported");
+        }
         
         return "+" + (gapValue * periodMapping.getUnitMultiplier()) + periodMapping.getUnit();
     }

@@ -5,10 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.search.analysis.request.XRange;
 
+/**
+ * Picks appropriate {@link XRangeConverter} based on {@literal class} of
+ * {@link XRange} 
+ * 
+ * @author madryk
+ */
 @Service
 public class XRangeConverterManager {
 
@@ -17,7 +24,18 @@ public class XRangeConverterManager {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Returns {@link XRangeConverter} that is applicable to {@link XRange}
+     * with class provided as argument 
+     * 
+     * @param clazz
+     * @return
+     * @throws IllegalArgumentException if no suitable {@link XRangeConverter} was found
+     */
     public XRangeConverter getXRangeConverter(Class<? extends XRange> clazz) {
+        
+        Preconditions.checkNotNull(clazz);
+        
         for (XRangeConverter xRangeConverter : xRangeConverters) {
             if (xRangeConverter.isApplicable(clazz)) {
                 return xRangeConverter;

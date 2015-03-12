@@ -8,9 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
+
 import pl.edu.icm.saos.search.search.exceptions.SolrSearchExecutionException;
 
 /**
+ * Executes solr {@link SolrQuery queries}
+ * 
  * @author madryk
  */
 @Service
@@ -21,7 +25,17 @@ public class SolrQueryExecutor {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Executes provided {@link SolrQuery}
+     * 
+     * @param query
+     * @return
+     * @throws SolrSearchExecutionException if solr responded with error
+     */
     public QueryResponse executeQuery(SolrQuery query) {
+        
+        Preconditions.checkNotNull(query);
+        
         QueryResponse response = null;
         
         try {

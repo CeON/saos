@@ -4,12 +4,16 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
+
 import pl.edu.icm.saos.search.analysis.request.XField;
 import pl.edu.icm.saos.search.analysis.request.XRange;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.search.service.RangeFacetToQueryApplier;
 
 /**
+ * Applies {@link XSettings} to {@link SolrQuery}
+ * 
  * @author madryk
  */
 @Service
@@ -25,6 +29,9 @@ public class XSettingsToQueryApplier {
     //------------------------ LOGIC --------------------------
     
     public void applyXSettingsToQuery(SolrQuery query, XSettings xSettings) {
+        
+        Preconditions.checkNotNull(query);
+        Preconditions.checkNotNull(xSettings);
         
         XField xField = xSettings.getField();
         String fieldName = xFieldNameMapper.mapXField(xField);

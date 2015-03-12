@@ -35,4 +35,10 @@ public class FacetXValueConverterManagerTest {
         // execute
         facetXValueConverterManager.getXValueConverter(XField.JUDGMENT_DATE);
     }
+    
+    @Test(expected = NullPointerException.class)
+    public void getXValueConverter_NULL_XFIELD() {
+        // execute
+        facetXValueConverterManager.getXValueConverter(null);
+    }
 }

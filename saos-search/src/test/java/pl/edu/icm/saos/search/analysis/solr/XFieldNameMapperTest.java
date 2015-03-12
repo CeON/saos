@@ -32,4 +32,11 @@ public class XFieldNameMapperTest {
         // execute
         xFieldNameMapper.mapXField(XField.JUDGMENT_DATE);
     }
+    
+    @Test(expected = NullPointerException.class)
+    public void mapXField_MAPPING_NULL_XFIELD() {
+        // execute
+        xFieldNameMapper.mapXField(null);
+    }
+    
 }

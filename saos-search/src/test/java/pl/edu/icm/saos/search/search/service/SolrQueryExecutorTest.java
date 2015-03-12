@@ -1,7 +1,9 @@
 package pl.edu.icm.saos.search.search.service;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
@@ -9,6 +11,8 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.junit.Before;
 import org.junit.Test;
+
+import pl.edu.icm.saos.search.search.exceptions.SolrSearchExecutionException;
 
 /**
  * @author madryk
@@ -41,13 +45,19 @@ public class SolrQueryExecutorTest {
         
     }
     
-    @Test(expected = SolrServerException.class)
+    @Test(expected = SolrSearchExecutionException.class)
     public void executeQuery_SOLR_EXCEPTION() throws SolrServerException {
         // given
         when(solrServer.query(any())).thenThrow(new SolrServerException(""));
         
         // execute
         solrQueryExecutor.executeQuery(new SolrQuery());
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void executeQuery_NULL_QUERY() {
+        // execute
+        solrQueryExecutor.executeQuery(null);
     }
     
 }

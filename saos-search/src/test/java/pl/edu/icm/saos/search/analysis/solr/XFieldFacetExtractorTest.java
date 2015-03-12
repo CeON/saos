@@ -46,13 +46,25 @@ public class XFieldFacetExtractorTest {
         RangeFacet<?, ?> facet = xFieldFacetExtractor.extractFacet(response, XField.JUDGMENT_DATE);
         
         // assert
-        assertEquals(2, facet.getCounts());
+        assertEquals(2, facet.getCounts().size());
         
         assertEquals("key1", facet.getCounts().get(0).getValue());
         assertEquals(1, facet.getCounts().get(0).getCount());
         
         assertEquals("key2", facet.getCounts().get(1).getValue());
         assertEquals(5, facet.getCounts().get(1).getCount());
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void extractFacet_NULL_RESPONSE() {
+        // execute
+        xFieldFacetExtractor.extractFacet(null, XField.JUDGMENT_DATE);
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void extractFacet_NULL_XFIELD() {
+        // execute
+        xFieldFacetExtractor.extractFacet(new QueryResponse(), null);
     }
     
     

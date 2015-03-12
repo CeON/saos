@@ -55,4 +55,10 @@ public class XRangeConverterManagerTest {
         xRangeConverterManager.getXRangeConverter(XDateRange.class);
     }
     
+    @Test(expected = NullPointerException.class)
+    public void getXRangeConverter_NULL_CLASS_ARGUMENT() {
+        // execute
+        xRangeConverterManager.getXRangeConverter(null);
+    }
+    
 }

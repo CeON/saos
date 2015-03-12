@@ -74,4 +74,16 @@ public class XSettingsToQueryApplierTest {
         verify(xRangeConverter).convertGap(xDateRange);
         verify(rangeFacetToQueryApplier).applyRangeFacet(query, "judgmentDate", "startParam", "endParam", "gapParam");
     }
+    
+    @Test(expected = NullPointerException.class)
+    public void applyXSettingsToQuery_NULL_QUERY() {
+        // execute
+        xSettingsFacetQueryApplier.applyXSettingsToQuery(new SolrQuery(), null);
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void applyXSettingsToQuery_NULL_XSETTINGS() {
+        // execute
+        xSettingsFacetQueryApplier.applyXSettingsToQuery(null, new XSettings());
+    }
 }

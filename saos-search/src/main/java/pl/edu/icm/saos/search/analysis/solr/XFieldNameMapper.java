@@ -8,9 +8,12 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.analysis.request.XField;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 /**
+ * Maps {@link XField} to solr field name
+ * 
  * @author madryk
  */
 @Service
@@ -21,7 +24,17 @@ public class XFieldNameMapper {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Returns mapped {@link XField} to solr field name
+     * 
+     * @param xField
+     * @return
+     * @throws IllegalArgumentException if no mapping was found
+     */
     public String mapXField(XField xField) {
+        
+        Preconditions.checkNotNull(xField);
+        
         String fieldName = fieldNamesMappings.get(xField);
         
         if (fieldName == null) {

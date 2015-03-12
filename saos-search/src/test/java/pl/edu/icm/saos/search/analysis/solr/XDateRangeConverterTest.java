@@ -29,6 +29,13 @@ public class XDateRangeConverterTest {
         assertFalse(xDateRangeConverter.isApplicable(XRange.class));
     }
     
+    @Test(expected = NullPointerException.class)
+    public void isApplicable_NULL_CLASS_ARGUMENT() {
+        // execute
+        xDateRangeConverter.isApplicable(null);
+    }
+    
+    
     @Test
     public void convertStart() {
         // given
@@ -41,6 +48,13 @@ public class XDateRangeConverterTest {
         assertEquals("2012-05-07T00:00:00Z", startParam);
     }
     
+    @Test(expected = NullPointerException.class)
+    public void convertStart_NULL_XRANGE() {
+        // execute
+        xDateRangeConverter.convertStart(null);
+    }
+    
+    
     @Test
     public void convertEnd() {
         // given
@@ -52,6 +66,13 @@ public class XDateRangeConverterTest {
         // assert
         assertEquals("2012-05-07T00:00:00Z", endParam);
     }
+    
+    @Test(expected = NullPointerException.class)
+    public void convertEnd_NULL_XRANGE() {
+        // execute
+        xDateRangeConverter.convertEnd(null);
+    }
+    
     
     @Test
     public void convertGap_WEEK() {
@@ -87,5 +108,11 @@ public class XDateRangeConverterTest {
         
         // assert
         assertEquals("+1YEARS", gapParam);
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void convertGap_NULL_XRANGE() {
+        // execute
+        xDateRangeConverter.convertGap(null);
     }
 }

@@ -5,6 +5,8 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Preconditions;
+
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.result.Series;
@@ -40,6 +42,9 @@ public class SeriesGenerator {
      * of the series are absolute numbers of judgments meeting specified criteria for a given x value. 
      */
     public Series<Object, Integer> generateSeries(JudgmentSeriesCriteria judgmentSeriesCriteria, XSettings xsettings) {
+        
+        Preconditions.checkNotNull(judgmentSeriesCriteria);
+        Preconditions.checkNotNull(xsettings);
         
         JudgmentCriteria judgmentCriteria = judgmentSeriesCriteriaConverter.convert(judgmentSeriesCriteria);
          
