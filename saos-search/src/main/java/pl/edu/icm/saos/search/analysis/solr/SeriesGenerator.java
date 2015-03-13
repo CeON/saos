@@ -1,25 +1,41 @@
 package pl.edu.icm.saos.search.analysis.solr;
 
-import org.apache.commons.lang3.RandomUtils;
-import org.joda.time.LocalDate;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.common.base.Preconditions;
 
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.result.Series;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.search.search.model.Paging;
+import pl.edu.icm.saos.search.search.service.SearchQueryFactory;
+import pl.edu.icm.saos.search.search.service.SolrQueryExecutor;
 
 /**
  * Solr specific series generator
  * 
  * @author Łukasz Dumiszewski
+ * @author madryk
  */
 @Service("seriesGenerator")
 public class SeriesGenerator {
-
+    
     private JudgmentSeriesCriteriaConverter judgmentSeriesCriteriaConverter;
     
+    private SearchQueryFactory<JudgmentCriteria> judgmentSearchQueryFactory;
+    
+    private XSettingsToQueryApplier xSettingsToQueryApplier;
+    
+    private SeriesResultConverter seriesResultConverter;
+    
+    private SolrQueryExecutor solrQueryExecutor;
+    
+    
+    //------------------------ LOGIC --------------------------
     
     /**
      * Generates and returns {@link Series} based on the given criteria and x settings. The y-values
@@ -27,30 +43,24 @@ public class SeriesGenerator {
      */
     public Series<Object, Integer> generateSeries(JudgmentSeriesCriteria judgmentSeriesCriteria, XSettings xsettings) {
         
+        Preconditions.checkNotNull(judgmentSeriesCriteria);
+        Preconditions.checkNotNull(xsettings);
+        
         JudgmentCriteria judgmentCriteria = judgmentSeriesCriteriaConverter.convert(judgmentSeriesCriteria);
+         
+        SolrQuery query = judgmentSearchQueryFactory.createQuery(judgmentCriteria, new Paging(0, 0));
         
-        // generic: create base query part 
+        xSettingsToQueryApplier.applyXSettingsToQuery(query, xsettings);
         
-        // specific: create facet query part
         
-        // generic: execute query
+        QueryResponse response = solrQueryExecutor.executeQuery(query);
         
-        // generic: convert result
         
-        return generateMockSeries();
+        Series<Object, Integer> series = seriesResultConverter.convertToSeries(response, xsettings.getField());
         
-    }
-    
-    //------------------------ PRIVATE --------------------------
-    // Mock for now
-    private Series<Object, Integer> generateMockSeries() {
-        Series<Object, Integer> series = new Series<>();
-        for (int i = 100; i > 0; i--) {
-            LocalDate month = new LocalDate().minusMonths(i);
-            int value = RandomUtils.nextInt(0, 100);
-            series.addPoint(""+month.toDate().getTime(), value);
-        }
+        
         return series;
+        
     }
 
     //------------------------ SETTERS --------------------------
@@ -58,6 +68,26 @@ public class SeriesGenerator {
     @Autowired
     public void setJudgmentSeriesCriteriaConverter(JudgmentSeriesCriteriaConverter judgmentSeriesCriteriaConverter) {
         this.judgmentSeriesCriteriaConverter = judgmentSeriesCriteriaConverter;
+    }
+
+    @Autowired
+    public void setJudgmentSearchQueryFactory(SearchQueryFactory<JudgmentCriteria> judgmentSearchQueryFactory) {
+        this.judgmentSearchQueryFactory = judgmentSearchQueryFactory;
+    }
+
+    @Autowired
+    public void setxSettingsToQueryApplier(XSettingsToQueryApplier xSettingsToQueryApplier) {
+        this.xSettingsToQueryApplier = xSettingsToQueryApplier;
+    }
+
+    @Autowired
+    public void setSeriesResultConverter(SeriesResultConverter seriesResultsConverter) {
+        this.seriesResultConverter = seriesResultsConverter;
+    }
+
+    @Autowired
+    public void setSolrQueryExecutor(SolrQueryExecutor solrQueryExecutor) {
+        this.solrQueryExecutor = solrQueryExecutor;
     }
     
 }

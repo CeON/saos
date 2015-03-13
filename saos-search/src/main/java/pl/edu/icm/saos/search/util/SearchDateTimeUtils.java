@@ -21,4 +21,8 @@ public class SearchDateTimeUtils {
     public static String convertDateToISOStringAtEndOfDay(LocalDate date) {
         return date.toString(DateTimeFormat.forPattern(ISO_DATE_PATTERN_END_OF_DAY));
     }
+    
+    public static LocalDate convertISOStringToDate(String dateString) {
+        return LocalDate.parse(dateString, DateTimeFormat.forPattern(ISO_DATE_PATTERN));
+    }
 }
