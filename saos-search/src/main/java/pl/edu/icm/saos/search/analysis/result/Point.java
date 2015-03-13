@@ -60,6 +60,14 @@ public class Point<X, Y> {
 
     }
 
+    
+    //------------------------ toString --------------------------
+
+    @Override
+    public String toString() {
+        return "Point [x=" + x + ", y=" + y + "]";
+    }
+
 
    
 }

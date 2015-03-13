@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ClassPathResource;
 
+import pl.edu.icm.saos.search.analysis.AnalysisConfiguration;
 import pl.edu.icm.saos.search.config.model.IndexConfiguration;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.config.service.IndexReloader;
@@ -32,6 +34,7 @@ import pl.edu.icm.saos.search.search.service.SearchResultsTranslatorImpl;
  */
 @Configuration
 @ComponentScan
+@Import({ AnalysisConfiguration.class })
 public class SearchConfiguration {
     
     private static Logger log = LoggerFactory.getLogger(SearchConfiguration.class);
