@@ -6,70 +6,97 @@
 
 <form:form id="analysisForm" class="form-horizontal" role="form" modelAttribute="analysisForm" action="${contextPath}/analysis" method="GET">
 
-<div class="container block">
 
+    <fieldset>
+    
+        <legend><spring:message code="analysis.filters.title"/></legend>
 
-    <fieldset id="analysisFieldset" >
-        
-	    <div class="col-sm-12">
+        <div class="form-group">
 	
-		    <spring:message code='analysis.seriesSeachCriteria.phrase.placeholder' var="placeholder"/>
+	       <div class="col-sm-12">
 	
-		    <c:forEach items="${analysisForm.filters}" var="seriesSearchCriteria" varStatus="status">
-		        <div class="col-sm-12">
-			        <div class="col-sm-1" id="inputColourBox_${status.index}" style="padding:0px; width: 20px; height: 20px; border:1px solid"></div>
-			        <div class="col-sm-4" id="seriesSearchPhraseDiv_${status.index}">
-			            <div class="col-sm-10">
-			                <form:input path="filters[${status.index}].phrase" class="form-control" id="seriesSearchPhraseInput_${status.index}" placeholder="${placeholder}"/>
-			            </div>
-			            <c:if test="${fn:length(analysisForm.filters) > 1}">
-			                <div class="col-sm-2">
-			                    <img id="deletePhraseButton_${status.index}" tabindex="0" data-toggle="tooltip" style="cursor: pointer;" title="<spring:message code='analysis.button.deletePhrase'/>" src="${contextPath}/static/image/icons/close.png"/>
-			                </div>
-			            </c:if>
+			    <spring:message code='analysis.filters.phrase.placeholder' var="placeholder"/>
+		
+			    <c:forEach items="${analysisForm.filters}" var="seriesSearchCriteria" varStatus="status">
+				    
+				    <div class="form-group" id="seriesSearchPhraseDiv_${status.index}">
+				    
+				         <div class = "col-xs-8 col-sm-5">
+				            <div class="input-group">
+	
+	                             <span class="input-group-addon" id="inputColourBox_${status.index}"></span>
+			                
+			                     <form:input path="filters[${status.index}].phrase" class="form-control" id="seriesSearchPhraseInput_${status.index}" placeholder="${placeholder}"/>
+			                
+			                     <c:if test="${fn:length(analysisForm.filters) > 1}">
+			                     
+			                         <span class="input-group-addon">
+	                                     <img id="deletePhraseButton_${status.index}" tabindex="0" data-toggle="tooltip" style="cursor: pointer;" title="<spring:message code='analysis.button.deletePhrase'/>" src="${contextPath}/static/image/icons/close.png"/>
+	                                </span>
+	                             
+	                             </c:if>
+			              </div>
+			             </div>
 			        </div>
-		        </div>    
-		    </c:forEach>
+			    </c:forEach>
 		  
+		    </div>
+		    
 	    </div>
 
-        <div class="col-sm-12">
-             <input id="addPhraseButton" type="button" class="btn btn-primary button button-blue" value="<spring:message code='analysis.button.addPhrase'/>"/>
+        <div class="col-sm-12 form-group">
+                <input id="addPhraseButton" type="button" class="btn btn-default" value="<spring:message code='analysis.button.addPhrase'/>"/>
         </div>
-    
-      
-        
-        <div class="col-sm-12" id="daterange">
-            <label for="dateRangeInputs" class="col-sm-1 control-label"><spring:message code="analysis.xsettings.dateRange"/></label>
-            <div id="dateRangeInputs" class="col-sm-11">
-                <label for="dateRangeFrom" class="col-sm-1 control-label"><spring:message code="from"/></label>
-                <div class="col-sm-2">
-                    <saos:monthSelect path="xsettings.monthStart" id="xRangeMonthStart"/>
-                </div>
-	            <div class="col-sm-2">
-	                <saos:yearSelect path="xsettings.yearStart" id="xRangeYearStart" yearRange="${currentYear}-1970, 1960, 1950, 1940, 1930"/>
-                </div>
-	        <label for="dateRangeTo" class="col-sm-1 control-label"><spring:message code="to"/></label>
-                <div class="col-sm-2">
-                    <saos:monthSelect path="xsettings.monthEnd" id="xRangeMonthEnd"/>
-	            </div>
-	            <div class="col-sm-2">
-                    <saos:yearSelect path="xsettings.yearEnd" id="xRangeYearEnd" yearRange="${currentYear}-1970, 1960, 1950, 1940, 1930"/>
-                </div>
-        </div>
-      </div> 
-        
-        
-        
-	     <div class="form-group button-group">
-	         <div class="col-sm-12">
-	             <button type="submit" class="btn btn-primary button button-blue"><spring:message code="analysis.button.generateChart" /></button>
-	         </div>
-	     </div>
-        
-        
-    </fieldset>
 
-</div>
+
+    </fieldset>        
+      
+      
+    
+    <fieldset>
+    
+        <legend><spring:message code="analysis.xsettings.title"/></legend>
+        
+          
+        <div class="form-group">
+	        
+	        <div class="form-inline">
+	        
+	                   <div id="dateRangeInputs" class="col-xs-8 col-sm-12 col-md-9 col-lg-8">
+		                   <div class="form-group col-xs-12 col-sm-7">
+		                           <label class="control-label"><spring:message code="analysis.xsettings.dateRange"/></label>
+		                           <label class="control-label col-sm-offset-1"><spring:message code="from"/></label>
+		                           <saos:monthSelect path="xsettings.monthStart" id="xRangeMonthStart"/>
+		                           <saos:yearSelect path="xsettings.yearStart" id="xRangeYearStart" yearRange="${currentYear}-1970, 1960, 1950, 1940, 1930"/>
+		                   </div>
+		                   <div class="form-group col-xs-12 col-sm-5">
+	                                <label class="control-label"><spring:message code="to"/></label>
+	                                <saos:monthSelect path="xsettings.monthEnd" id="xRangeMonthEnd"/>
+	                                <saos:yearSelect path="xsettings.yearEnd" id="xRangeYearEnd" yearRange="${currentYear}-1970, 1960, 1950, 1940, 1930"/>
+	                       </div>
+                       </div>
+	               
+	        
+        </div>
+        
+        
+        
+      </div> 
+      
+      </fieldset>  
+      
+      <fieldset>
+    
+        <legend><spring:message code="analysis.ysettings.title"/></legend>
+        
+      </fieldset>
+        
+        
+	  <div class="form-group col-sm-12">
+          <button type="submit" class="btn btn-primary"><spring:message code="analysis.button.generateChart" /></button>
+	  </div>
+        
+        
+
 
 </form:form>
