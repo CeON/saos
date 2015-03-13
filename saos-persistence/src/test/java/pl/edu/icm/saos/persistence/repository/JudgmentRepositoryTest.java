@@ -615,7 +615,8 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     
     @Test
     public void getJudgment_NOT_NULL_TEXT_CONTENT() {
-        Judgment judgment = TestInMemoryObjectFactory.createSimpleCcJudgment();
+        // given
+        Judgment judgment = TestInMemoryObjectFactory.createSimpleNacJudgment();
         
         JudgmentTextContent textContent = new JudgmentTextContent();
         textContent.setRawTextContent("raw content");
@@ -623,8 +624,11 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         judgmentRepository.save(judgment);
         
+        // execute
         Judgment actualJudgment = judgmentRepository.findOneAndInitialize(judgment.getId());
         
+        
+        // assert
         assertNotNull("judgment text content is null", actualJudgment.getTextContent());
         assertEquals("raw content", actualJudgment.getTextContent().getRawTextContent());
     }

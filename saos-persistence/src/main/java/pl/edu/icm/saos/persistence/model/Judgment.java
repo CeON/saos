@@ -231,7 +231,7 @@ public abstract class Judgment extends IndexableObject {
         return textContent.getRawTextContent();
     }
     
-    @OneToOne(mappedBy="judgment", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToOne(mappedBy="judgment", cascade=CascadeType.ALL, fetch=FetchType.LAZY, optional=false)
     public JudgmentTextContent getTextContent() {
         return textContent;
     }
@@ -612,12 +612,12 @@ public abstract class Judgment extends IndexableObject {
         this.textContent = textContent;
     }
     
-    public void setRawTextContent(String rawTextContent) {
-        if (this.textContent == null) {
-            this.textContent = new JudgmentTextContent();
-        }
-        this.textContent.setRawTextContent(rawTextContent);
-    }
+//    public void setRawTextContent(String rawTextContent) {
+//        if (this.textContent == null) {
+//            this.textContent = new JudgmentTextContent();
+//        }
+//        this.textContent.setRawTextContent(rawTextContent);
+//    }
 
     public void setSourceInfo(JudgmentSourceInfo sourceInfo) {
         this.sourceInfo = sourceInfo;

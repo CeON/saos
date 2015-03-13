@@ -46,7 +46,7 @@ final class TestInMemoryCcObjectFactory {
         JudgmentTextContent textContent = new JudgmentTextContent();
         textContent.setRawTextContent(CC_TEXT_CONTENT);
         textContent.setType(CC_TEXT_CONTENT_TYPE);
-        textContent.setPath(CC_TEXT_CONTENT_PATH);
+        textContent.setFilePath(CC_TEXT_CONTENT_PATH);
         ccJudgment.setTextContent(textContent);
 
 

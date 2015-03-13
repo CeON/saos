@@ -46,7 +46,7 @@ public class CcJudgmentIndexFieldsFillerTest {
 
         CommonCourtJudgment basicJudgment = new CommonCourtJudgment();
         Whitebox.setInternalState(basicJudgment, "id", idValue);
-        basicJudgment.setRawTextContent(textContent);
+        basicJudgment.getTextContent().setRawTextContent(textContent);
 
         List<SolrInputField> basicFields = Lists.newArrayList(
                 fieldFactory.create("databaseId", idValue),

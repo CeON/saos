@@ -28,13 +28,15 @@ public class JudgmentTextContent extends DataObject {
     private Judgment judgment;
     private String rawTextContent;
     private ContentType type;
-    private String path;
+    private String filePath;
     
     /**
-     * Defines type of content stored under {@link JudgmentTextContent#getPath()} 
+     * Defines type of content stored under {@link JudgmentTextContent#getFilePath()} 
      */
     public enum ContentType {
+        /** Portable Document Format */
         PDF,
+        /**  Microsoft Word Binary File Format */
         DOC
     }
     
@@ -48,32 +50,47 @@ public class JudgmentTextContent extends DataObject {
         return id;
     }
     
+    /**
+     * Judgment associated with this text content
+     */
     @OneToOne
     public Judgment getJudgment() {
         return judgment;
     }
     
+    /**
+     * Textual content of judgment represented as
+     * {@literal String}.
+     * It can contain html tags used for formatting.
+     */
     public String getRawTextContent() {
         return rawTextContent;
     }
     
+    /**
+     * Type of stored content file.
+     * i.e. {@link ContentType#DOC} for Microsoft Word format
+     */
     @Enumerated(EnumType.STRING)
     public ContentType getType() {
         return type;
     }
     
-    public String getPath() {
-        return path;
+    /**
+     * Location of external file containing content.
+     */
+    public String getFilePath() {
+        return filePath;
     }
     
     
     //------------------------ LOGIC --------------------------
     
     /**
-     * Tells if with content is associated some external file.
+     * Tells if with content is associated with some external file.
      */
     public boolean haveExternalContent() {
-        return StringUtils.isNotBlank(path);
+        return StringUtils.isNotBlank(filePath);
     }
     
     
@@ -91,8 +108,8 @@ public class JudgmentTextContent extends DataObject {
         this.type = type;
     }
     
-    public void setPath(String path) {
-        this.path = path;
+    public void setFilePath(String path) {
+        this.filePath = path;
     }
 
 }

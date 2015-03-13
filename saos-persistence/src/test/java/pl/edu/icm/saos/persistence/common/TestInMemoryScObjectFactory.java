@@ -51,7 +51,7 @@ final class TestInMemoryScObjectFactory {
         JudgmentTextContent textContent = new JudgmentTextContent();
         textContent.setRawTextContent(SC_TEXT_CONTENT);
         textContent.setType(SC_TEXT_CONTENT_TYPE);
-        textContent.setPath(SC_TEXT_CONTENT_PATH);
+        textContent.setFilePath(SC_TEXT_CONTENT_PATH);
         scJudgment.setTextContent(textContent);
 
         LawJournalEntry firstLawJournalEntry = new LawJournalEntry();

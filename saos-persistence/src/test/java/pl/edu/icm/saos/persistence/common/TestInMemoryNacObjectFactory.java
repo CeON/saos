@@ -60,7 +60,7 @@ final class TestInMemoryNacObjectFactory {
         JudgmentTextContent textContent = new JudgmentTextContent();
         textContent.setRawTextContent(NAC_TEXT_CONTENT);
         textContent.setType(NAC_TEXT_CONTENT_TYPE);
-        textContent.setPath(NAC_TEXT_CONTENT_PATH);
+        textContent.setFilePath(NAC_TEXT_CONTENT_PATH);
         nacJudgment.setTextContent(textContent);
 
 

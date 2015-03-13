@@ -149,7 +149,7 @@ public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
     private void overwriteJudgmentTextContent(JudgmentTextContent oldTextContent, JudgmentTextContent newTextContent) {
         oldTextContent.setRawTextContent(newTextContent.getRawTextContent());
         oldTextContent.setType(newTextContent.getType());
-        oldTextContent.setPath(newTextContent.getPath());
+        oldTextContent.setFilePath(newTextContent.getFilePath());
     }
    
 }

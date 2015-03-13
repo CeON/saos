@@ -160,7 +160,7 @@ public class JudgmentConverterImplTest {
         JudgmentTextContent textContent = new JudgmentTextContent();
         textContent.setRawTextContent("sdsd");
         textContent.setType(ContentType.PDF);
-        textContent.setPath("/path/to/file.pdf");
+        textContent.setFilePath("/path/to/file.pdf");
         when(judgmentDataExtractor.extractTextContent(eq(sourceJudgment), any(ImportCorrectionList.class))).thenReturn(textContent);
         
         
@@ -173,7 +173,7 @@ public class JudgmentConverterImplTest {
         
         assertEquals(textContent.getRawTextContent(), judgment.getRawTextContent());
         assertEquals(textContent.getType(), judgment.getTextContent().getType());
-        assertEquals(textContent.getPath(), judgment.getTextContent().getPath());
+        assertEquals(textContent.getFilePath(), judgment.getTextContent().getFilePath());
         
         
     }

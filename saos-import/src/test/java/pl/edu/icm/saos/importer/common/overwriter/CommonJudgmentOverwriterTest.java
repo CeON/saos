@@ -151,14 +151,14 @@ public class CommonJudgmentOverwriterTest {
         JudgmentTextContent oldTextContent = new JudgmentTextContent();
         oldTextContent.setRawTextContent("salkd;lad a;dlks; d;sadkl ;l3ke ;lk;l344343kk34j3jh4j3h43 ");
         oldTextContent.setType(ContentType.PDF);
-        oldTextContent.setPath("/old/file/path.pdf");
+        oldTextContent.setFilePath("/old/file/path.pdf");
         
         oldJudgment.setTextContent(oldTextContent);
         
         JudgmentTextContent newTextContent = new JudgmentTextContent();
         newTextContent.setRawTextContent("23232l32323230239 2030230293 029 302 3023\n03923");
         newTextContent.setType(ContentType.DOC);
-        newTextContent.setPath("/new/file/path.doc");
+        newTextContent.setFilePath("/new/file/path.doc");
         
         newJudgment.setTextContent(newTextContent);
         
@@ -166,11 +166,11 @@ public class CommonJudgmentOverwriterTest {
         
         assertEquals(newTextContent.getRawTextContent(), oldJudgment.getRawTextContent());
         assertEquals(newTextContent.getType(), oldJudgment.getTextContent().getType());
-        assertEquals(newTextContent.getPath(), oldJudgment.getTextContent().getPath());
+        assertEquals(newTextContent.getFilePath(), oldJudgment.getTextContent().getFilePath());
         
         assertEquals(newTextContent.getRawTextContent(), newJudgment.getRawTextContent());
         assertEquals(newTextContent.getType(), newJudgment.getTextContent().getType());
-        assertEquals(newTextContent.getPath(), newJudgment.getTextContent().getPath());
+        assertEquals(newTextContent.getFilePath(), newJudgment.getTextContent().getFilePath());
     }
     
     @Test

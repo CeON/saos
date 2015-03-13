@@ -286,7 +286,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     
     private void applyJudgmentChanges(Judgment judgment) {
         judgment.setJudgmentDate(judgment.getJudgmentDate().plusMonths(2));
-        judgment.setRawTextContent(judgment.getRawTextContent() + "_changed");
+        judgment.getTextContent().setRawTextContent(judgment.getRawTextContent() + "_changed");
         judgment.setJudgmentType(pickDifferentJudgmentType(judgment.getJudgmentType()));
         
         judgment.removeAllCourtCases();

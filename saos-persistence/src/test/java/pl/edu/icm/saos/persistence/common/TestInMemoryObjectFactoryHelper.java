@@ -74,7 +74,7 @@ final class TestInMemoryObjectFactoryHelper {
         JudgmentTextContent textContent = new JudgmentTextContent();
         textContent.setRawTextContent(prefix+RandomStringUtils.randomAlphabetic(5));
         textContent.setType(ContentType.PDF);
-        textContent.setPath("/" + prefix+RandomStringUtils.randomAlphabetic(5) + ".pdf");
+        textContent.setFilePath("/" + prefix+RandomStringUtils.randomAlphabetic(5) + ".pdf");
         judgment.setTextContent(textContent);
 
 

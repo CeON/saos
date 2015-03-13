@@ -45,7 +45,7 @@ final class TestInMemoryCtObjectFactory {
         JudgmentTextContent textContent = new JudgmentTextContent();
         textContent.setRawTextContent(CT_TEXT_CONTENT);
         textContent.setType(CT_TEXT_CONTENT_TYPE);
-        textContent.setPath(CT_TEXT_CONTENT_PATH);
+        textContent.setFilePath(CT_TEXT_CONTENT_PATH);
         ctJudgment.setTextContent(textContent);
 
 
