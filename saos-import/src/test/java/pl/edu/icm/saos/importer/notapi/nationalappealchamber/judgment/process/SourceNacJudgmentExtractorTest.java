@@ -30,6 +30,7 @@ import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
@@ -201,10 +202,10 @@ public class SourceNacJudgmentExtractorTest {
         sJudgment.setTextContent("sdlsdklskd <sbfmd ck dkjcd kjcdkj cndjc\n fdfdf");
         
         // execute
-        String textContent = judgmentExtractor.extractTextContent(sJudgment, correctionList);
+        JudgmentTextContent textContent = judgmentExtractor.extractTextContent(sJudgment, correctionList);
         
         // assert
-        assertEquals(sJudgment.getTextContent(), textContent);
+        assertEquals(sJudgment.getTextContent(), textContent.getRawTextContent());
         
     }
     

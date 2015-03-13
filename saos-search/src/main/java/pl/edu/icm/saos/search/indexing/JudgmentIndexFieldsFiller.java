@@ -122,7 +122,7 @@ public abstract class JudgmentIndexFieldsFiller {
     }
     
     private void fillContent(SolrInputDocument doc, Judgment item) {
-        fieldAdder.addField(doc, JudgmentIndexField.CONTENT, item.getTextContent());
+        fieldAdder.addField(doc, JudgmentIndexField.CONTENT, item.getRawTextContent());
     }
 
     

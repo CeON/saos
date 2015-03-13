@@ -20,6 +20,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
@@ -60,6 +61,7 @@ public class DbCleaner {
 
         deleteAll(JudgmentCorrection.class);
         
+        deleteAll(JudgmentTextContent.class);
         deleteAll(Judgment.class);
         
         deleteAll(MeansOfAppeal.class);

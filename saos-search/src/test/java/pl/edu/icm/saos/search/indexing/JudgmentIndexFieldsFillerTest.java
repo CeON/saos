@@ -142,7 +142,7 @@ public class JudgmentIndexFieldsFillerTest {
         
         // text content
         Judgment contentJudgment = new CommonCourtJudgment();
-        contentJudgment.setTextContent("some content");
+        contentJudgment.getTextContent().setRawTextContent("some content");
 
         List<SolrInputField> contentFields = Collections.singletonList(
                 fieldFactory.create("content", "some content"));
@@ -154,7 +154,7 @@ public class JudgmentIndexFieldsFillerTest {
         generalJudgment.addReferencedRegulation(firstReferencedRegulation);
         generalJudgment.setJudgmentDate(new LocalDate(2014, 9, 4));
         generalJudgment.setJudgmentType(JudgmentType.SENTENCE);
-        generalJudgment.setTextContent("some content");
+        generalJudgment.getTextContent().setRawTextContent("some content");
 
         List<SolrInputField> generalFields =
             Lists.newArrayList(

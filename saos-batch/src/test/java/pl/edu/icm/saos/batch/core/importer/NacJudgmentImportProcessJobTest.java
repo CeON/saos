@@ -162,7 +162,7 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
                 SourceCode.NATIONAL_APPEAL_CHAMBER, "71254a2118594e375df2fe7dcde9b1db", NationalAppealChamberJudgment.class);
         judgment = judgmentRepository.findOneAndInitialize(judgment.getId());
         
-        assertThat(judgment.getTextContent(), is("Sygn. akt:  KIO/UZP 44/08,  \nKIO/UZP 46/08,  \nKIO/UZP 57/08  \n \nWYROK \nz dnia 07 lutego 2008r. ..."));
+        assertThat(judgment.getRawTextContent(), is("Sygn. akt:  KIO/UZP 44/08,  \nKIO/UZP 46/08,  \nKIO/UZP 57/08  \n \nWYROK \nz dnia 07 lutego 2008r. ..."));
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
         assertThat(judgment.getJudgmentDate(), is(new LocalDate("2008-02-07")));
         assertThat(judgment.getCourtReporters(), containsInAnyOrder("Magdalena Pazura"));
@@ -213,7 +213,7 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
     
     private void assertJudgment_f1fb6b13d57e25be69d1159356655528_unchangedValues(NationalAppealChamberJudgment judgment) {
         
-        assertThat(judgment.getTextContent(), is("Sygn. akt: KIO 80/13 \nSygn. akt: KIO 81/13 \n \nWYROK \nz dnia 31 stycznia 2013 r. ..."));
+        assertThat(judgment.getRawTextContent(), is("Sygn. akt: KIO 80/13 \nSygn. akt: KIO 81/13 \n \nWYROK \nz dnia 31 stycznia 2013 r. ..."));
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
         assertThat(judgment.getCourtReporters(), containsInAnyOrder("Mateusz Michalec"));
         assertThat(judgment.getCaseNumbers(), containsInAnyOrder("KIO 80/13", "KIO 81/13"));

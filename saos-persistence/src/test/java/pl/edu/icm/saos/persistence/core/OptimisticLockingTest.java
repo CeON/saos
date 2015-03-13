@@ -44,7 +44,7 @@ public class OptimisticLockingTest extends PersistenceTestSupport {
         
         CommonCourtJudgment ccJudgmentDb = ccJudgmentRepository.findOne(ccJudgment.getId());
         Assert.assertEquals(0, ccJudgmentDb.getVer());
-        ccJudgmentDb.setTextContent("bleble");
+        ccJudgmentDb.setSummary("abcd");
         entityManager.persist(ccJudgmentDb);
         entityManager.flush();
         

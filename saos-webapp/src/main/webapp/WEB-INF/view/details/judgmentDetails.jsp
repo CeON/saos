@@ -393,6 +393,6 @@ $(document).ready(function() {
 <div class="container block" id="judgment-content">
 	<h2 ><spring:message code="judgmentDetails.judgmentFullText" /></h2>
 	<div class="body">
-		<c:out value="${judgment.textContent}" escapeXml="false" />
+		<c:out value="${judgment.textContent.rawTextContent}" escapeXml="false" />
 	</div>
 </div>

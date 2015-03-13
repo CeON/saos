@@ -17,6 +17,7 @@ import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentResult;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
@@ -54,8 +55,13 @@ final class TestInMemoryNacObjectFactory {
         nacJudgment.setDecision(NAC_DECISION);
         nacJudgment.setSummary(NAC_SUMMARY);
         nacJudgment.setJudgmentType(NAC_JUDGMENT_TYPE);
-        nacJudgment.setTextContent(NAC_TEXT_CONTENT);
         nacJudgment.setJudgmentDate(new LocalDate(NAC_DATE_YEAR, NAC_DATE_MONTH, NAC_DATE_DAY));
+        
+        JudgmentTextContent textContent = new JudgmentTextContent();
+        textContent.setRawTextContent(NAC_TEXT_CONTENT);
+        textContent.setType(NAC_TEXT_CONTENT_TYPE);
+        textContent.setFilePath(NAC_TEXT_CONTENT_PATH);
+        nacJudgment.setTextContent(textContent);
 
 
         LawJournalEntry firstLawJournalEntry = new LawJournalEntry();

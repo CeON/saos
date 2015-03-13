@@ -13,6 +13,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -35,7 +36,7 @@ public interface JudgmentDataExtractor<JUDGMENT extends Judgment, SOURCE_JUDGMEN
     
     List<CourtCase> extractCourtCases(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList);
 
-    String extractTextContent(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList);
+    JudgmentTextContent extractTextContent(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList);
     
     DateTime extractPublicationDate(SOURCE_JUDGMENT sourceJudgment, ImportCorrectionList correctionList);
     

@@ -114,7 +114,7 @@ class JudgmentIndexAssertUtils {
         assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE, judgment.getCourtType().name());
         
         assertSolrDocumentValues(doc, JudgmentIndexField.LEGAL_BASE, judgment.getLegalBases());
-        assertSolrDocumentValues(doc, JudgmentIndexField.CONTENT, judgment.getTextContent());
+        assertSolrDocumentValues(doc, JudgmentIndexField.CONTENT, judgment.getRawTextContent());
         assertSolrDocumentValues(doc, JudgmentIndexField.JUDGMENT_TYPE, judgment.getJudgmentType().name());
         assertSolrDocumentValues(doc, JudgmentIndexField.CASE_NUMBER, judgment.getCaseNumbers());
         
