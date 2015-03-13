@@ -20,6 +20,7 @@ import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 
 import com.google.common.collect.Lists;
 
@@ -81,6 +82,8 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
         deleteJudgmentAttributesSql("judgment_lower_court_judgments", judgmentIds);
         
         deleteEnrichmentTags(judgmentIds);
+        
+        deleteJudgmentAttributes(JudgmentTextContent.class, judgmentIds);
         
         deleteJudgments(judgmentIds);
         

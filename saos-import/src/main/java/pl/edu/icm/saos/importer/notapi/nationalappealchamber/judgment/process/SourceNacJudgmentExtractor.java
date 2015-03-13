@@ -20,6 +20,7 @@ import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -55,8 +56,11 @@ public class SourceNacJudgmentExtractor implements JudgmentDataExtractor<Nationa
     }
 
     @Override
-    public String extractTextContent(SourceNacJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return sourceJudgment.getTextContent();
+    public JudgmentTextContent extractTextContent(SourceNacJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        JudgmentTextContent textContent = new JudgmentTextContent();
+        textContent.setRawTextContent(sourceJudgment.getTextContent());
+        
+        return textContent;
     }
 
     @Override

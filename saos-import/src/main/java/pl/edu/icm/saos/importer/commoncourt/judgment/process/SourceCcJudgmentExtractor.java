@@ -25,6 +25,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
@@ -117,8 +118,11 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     }
         
     @Override
-    public String extractTextContent(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return sourceJudgment.getTextContent();
+    public JudgmentTextContent extractTextContent(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        JudgmentTextContent textContent = new JudgmentTextContent();
+        textContent.setRawTextContent(sourceJudgment.getTextContent());
+        
+        return textContent;
     }
     
     

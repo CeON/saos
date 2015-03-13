@@ -34,6 +34,7 @@ import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentin
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
@@ -610,6 +611,26 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         ConstitutionalTribunalJudgmentDissentingOpinion expected = tribunalJudgment.getDissentingOpinions().get(0);
         assertThat("opinion id ", actual.getId(), is(expected.getId()));
         assertThat("opinion ", actual, is(expected));
+    }
+    
+    @Test
+    public void getJudgment_NOT_NULL_TEXT_CONTENT() {
+        // given
+        Judgment judgment = TestInMemoryObjectFactory.createSimpleNacJudgment();
+        
+        JudgmentTextContent textContent = new JudgmentTextContent();
+        textContent.setRawTextContent("raw content");
+        judgment.setTextContent(textContent);
+        
+        judgmentRepository.save(judgment);
+        
+        // execute
+        Judgment actualJudgment = judgmentRepository.findOneAndInitialize(judgment.getId());
+        
+        
+        // assert
+        assertNotNull("judgment text content is null", actualJudgment.getTextContent());
+        assertEquals("raw content", actualJudgment.getTextContent().getRawTextContent());
     }
     
     

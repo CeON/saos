@@ -22,10 +22,12 @@ import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
 import com.google.common.collect.Lists;
@@ -146,15 +148,29 @@ public class CommonJudgmentOverwriterTest {
     
     @Test
     public void overwriteJudgment_TextContent() {
-        oldJudgment.setTextContent("salkd;lad a;dlks; d;sadkl ;l3ke ;lk;l344343kk34j3jh4j3h43 ");
+        JudgmentTextContent oldTextContent = new JudgmentTextContent();
+        oldTextContent.setRawTextContent("salkd;lad a;dlks; d;sadkl ;l3ke ;lk;l344343kk34j3jh4j3h43 ");
+        oldTextContent.setType(ContentType.PDF);
+        oldTextContent.setFilePath("/old/file/path.pdf");
         
-        String newTextContent = "23232l32323230239 2030230293 029 302 3023\n03923";
+        oldJudgment.setTextContent(oldTextContent);
+        
+        JudgmentTextContent newTextContent = new JudgmentTextContent();
+        newTextContent.setRawTextContent("23232l32323230239 2030230293 029 302 3023\n03923");
+        newTextContent.setType(ContentType.DOC);
+        newTextContent.setFilePath("/new/file/path.doc");
+        
         newJudgment.setTextContent(newTextContent);
         
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
         
-        assertEquals(newTextContent, oldJudgment.getTextContent());
-        assertEquals(newTextContent, newJudgment.getTextContent());
+        assertEquals(newTextContent.getRawTextContent(), oldJudgment.getRawTextContent());
+        assertEquals(newTextContent.getType(), oldJudgment.getTextContent().getType());
+        assertEquals(newTextContent.getFilePath(), oldJudgment.getTextContent().getFilePath());
+        
+        assertEquals(newTextContent.getRawTextContent(), newJudgment.getRawTextContent());
+        assertEquals(newTextContent.getType(), newJudgment.getTextContent().getType());
+        assertEquals(newTextContent.getFilePath(), newJudgment.getTextContent().getFilePath());
     }
     
     @Test

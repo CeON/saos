@@ -4,6 +4,7 @@ import static pl.edu.icm.saos.common.json.JsonNormalizer.normalizeJson;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
@@ -129,9 +130,20 @@ public final class TextObjectDefaultData {
     public static final Judgment.JudgmentType NAC_JUDGMENT_TYPE = Judgment.JudgmentType.DECISION;
 
     public static final String CC_TEXT_CONTENT = "CC some text content";
+    public static final ContentType CC_TEXT_CONTENT_TYPE = ContentType.DOC;
+    public static final String CC_TEXT_CONTENT_PATH = "/test/ccContent.doc";
+    
     public static final String SC_TEXT_CONTENT = "SC some text content";
+    public static final ContentType SC_TEXT_CONTENT_TYPE = ContentType.DOC;
+    public static final String SC_TEXT_CONTENT_PATH = "/test/scContent.doc";
+    
     public static final String CT_TEXT_CONTENT = "CT some text content";
+    public static final ContentType CT_TEXT_CONTENT_TYPE = ContentType.PDF;
+    public static final String CT_TEXT_CONTENT_PATH = "/test/ctContent.pdf";
+    
     public static final String NAC_TEXT_CONTENT = "NAC some text content";
+    public static final ContentType NAC_TEXT_CONTENT_TYPE = ContentType.DOC;
+    public static final String NAC_TEXT_CONTENT_PATH = "/test/nacContent.doc";
 
     public static final int CC_DATE_YEAR = 2011;
     public static final int CC_DATE_MONTH = 12;

@@ -369,7 +369,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         CommonCourt court = commonCourtRepository.findOneByCode("15201000");
         CommonCourtDivision courtDivision = ccDivisionRepository.findOneByCourtIdAndCode(court.getId(), "0001003");
         assertEquals(courtDivision.getId(), judgment.getCourtDivision().getId());
-        assertTrue(judgment.getTextContent().contains("SSO Katarzyna Oleksiak"));
+        assertTrue(judgment.getRawTextContent().contains("SSO Katarzyna Oleksiak"));
     }
     
     private void assertJudgment_54() {
@@ -400,7 +400,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         CommonCourt court = commonCourtRepository.findOneByCode("15502000");
         CommonCourtDivision courtDivision = ccDivisionRepository.findOneByCourtIdAndCode(court.getId(), "0001003");
         assertEquals(courtDivision.getId(), judgment.getCourtDivision().getId());
-        assertTrue(judgment.getTextContent().contains("zasądza od strony pozwanej na rzecz"));
+        assertTrue(judgment.getRawTextContent().contains("zasądza od strony pozwanej na rzecz"));
     }
     
 

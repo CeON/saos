@@ -20,6 +20,7 @@ import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentin
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentResult;
@@ -54,8 +55,11 @@ public class SourceCtJudgmentExtractor implements JudgmentDataExtractor<Constitu
     }
 
     @Override
-    public String extractTextContent(SourceCtJudgment sourceJudgment, ImportCorrectionList correctionList) {
-        return sourceJudgment.getTextContent();
+    public JudgmentTextContent extractTextContent(SourceCtJudgment sourceJudgment, ImportCorrectionList correctionList) {
+        JudgmentTextContent textContent = new JudgmentTextContent();
+        textContent.setRawTextContent(sourceJudgment.getTextContent());
+        
+        return textContent;
     }
 
     @Override

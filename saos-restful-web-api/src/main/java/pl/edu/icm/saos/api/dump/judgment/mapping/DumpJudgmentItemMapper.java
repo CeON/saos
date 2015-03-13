@@ -38,7 +38,7 @@ public class DumpJudgmentItemMapper {
         judgmentItem.setJudgmentType(judgment.getJudgmentType());
         judgmentItem.setLegalBases(judgmentMapper.toSimpleList(judgment.getLegalBases()));
         judgmentItem.setSummary(judgment.getSummary());
-        judgmentItem.setTextContent(judgment.getTextContent());
+        judgmentItem.setTextContent(judgment.getRawTextContent());
         judgmentItem.setSource(judgmentMapper.toSource(judgment.getSourceInfo()));
         judgmentItem.setDecision(judgment.getDecision());
         judgmentItem.setReferencedRegulations(judgmentMapper.toReferencedRegulations(judgment.getReferencedRegulations()));

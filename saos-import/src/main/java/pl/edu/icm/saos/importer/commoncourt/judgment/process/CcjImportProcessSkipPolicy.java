@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
  */
 @Service("ccjImportProcessSkipPolicy")
 public class CcjImportProcessSkipPolicy implements SkipPolicy {
-
     
     @Override
     public boolean shouldSkip(Throwable t, int skipCount) throws SkipLimitExceededException {
