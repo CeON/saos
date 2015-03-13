@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.base.Preconditions;
 
 /**
- * Applies range facet request to {@link SolrQuery}
+ * Applier of range facet request to {@link SolrQuery}
  * 
  * @author madryk
  */
@@ -17,6 +17,9 @@ public class RangeFacetToQueryApplier {
 
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Applies range facet request to {@link SolrQuery}
+     */
     public void applyRangeFacet(SolrQuery query, String fieldName, String start, String end, String gap) {
         
         checkArguments(query, fieldName, start, end, gap);

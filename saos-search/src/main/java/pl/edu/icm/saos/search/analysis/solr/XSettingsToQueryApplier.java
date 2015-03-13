@@ -12,7 +12,7 @@ import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.search.service.RangeFacetToQueryApplier;
 
 /**
- * Applies {@link XSettings} to {@link SolrQuery}
+ * Applier of {@link XSettings} to {@link SolrQuery}
  * 
  * @author madryk
  */
@@ -28,6 +28,9 @@ public class XSettingsToQueryApplier {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Applies {@link XSettings} to {@link SolrQuery}
+     */
     public void applyXSettingsToQuery(SolrQuery query, XSettings xSettings) {
         
         Preconditions.checkNotNull(query);

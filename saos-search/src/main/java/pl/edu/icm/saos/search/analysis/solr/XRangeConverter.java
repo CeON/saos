@@ -11,33 +11,21 @@ public interface XRangeConverter {
 
     /**
      * Tells if {@link XRange} can be processed by this converter 
-     * 
-     * @param xRange
-     * @return
      */
     boolean isApplicable(Class<? extends XRange> clazz);
 
     /**
      * Converts {@link XRange} into solr range start param
-     * 
-     * @param xRange
-     * @return
      */
     String convertStart(XRange xRange);
     
     /**
      * Converts {@link XRange} into solr range end param
-     * 
-     * @param xRange
-     * @return
      */
     String convertEnd(XRange xRange);
     
     /**
      * Converts {@link XRange} into solr range gap param
-     * 
-     * @param xRange
-     * @return
      */
     String convertGap(XRange xRange);
     

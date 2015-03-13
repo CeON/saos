@@ -13,7 +13,7 @@ import com.google.common.base.Preconditions;
 import pl.edu.icm.saos.search.search.exceptions.SolrSearchExecutionException;
 
 /**
- * Executes solr {@link SolrQuery queries}
+ * Executor of solr {@link SolrQuery queries}
  * 
  * @author madryk
  */
@@ -28,8 +28,6 @@ public class SolrQueryExecutor {
     /**
      * Executes provided {@link SolrQuery}
      * 
-     * @param query
-     * @return
      * @throws SolrSearchExecutionException if solr responded with error
      */
     public QueryResponse executeQuery(SolrQuery query) {

@@ -11,7 +11,7 @@ import pl.edu.icm.saos.search.analysis.request.XField;
 import pl.edu.icm.saos.search.analysis.result.Series;
 
 /**
- * Converts solr {@link QueryResponse} to {@link Series}
+ * Converter of solr {@link QueryResponse} into {@link Series}
  * 
  * @author madryk
  */
@@ -25,6 +25,9 @@ public class SeriesResultConverter {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Converts solr {@link QueryResponse} to {@link Series}
+     */
     public Series<Object, Integer> convertToSeries(QueryResponse response, XField xField) {
         
         Preconditions.checkNotNull(response);

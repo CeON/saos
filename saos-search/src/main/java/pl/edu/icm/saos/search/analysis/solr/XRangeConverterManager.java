@@ -11,8 +11,7 @@ import com.google.common.collect.Lists;
 import pl.edu.icm.saos.search.analysis.request.XRange;
 
 /**
- * Picks appropriate {@link XRangeConverter} based on {@literal class} of
- * {@link XRange} 
+ * Manager of converting {@link XRange} to solr facet request
  * 
  * @author madryk
  */
@@ -28,8 +27,6 @@ public class XRangeConverterManager {
      * Returns {@link XRangeConverter} that is applicable to {@link XRange}
      * with class provided as argument 
      * 
-     * @param clazz
-     * @return
      * @throws IllegalArgumentException if no suitable {@link XRangeConverter} was found
      */
     public XRangeConverter getXRangeConverter(Class<? extends XRange> clazz) {

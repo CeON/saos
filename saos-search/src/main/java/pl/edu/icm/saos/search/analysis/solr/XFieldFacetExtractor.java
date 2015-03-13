@@ -11,8 +11,7 @@ import com.google.common.base.Preconditions;
 import pl.edu.icm.saos.search.analysis.request.XField;
 
 /**
- * Extracts {@link RangeFacet} associated with {@link XField}
- * from solr {@link QueryResponse response}
+ * Extractor of {@link RangeFacet} from solr {@link QueryResponse response}
  * 
  * @author madryk
  */
@@ -24,6 +23,10 @@ public class XFieldFacetExtractor {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Extracts {@link RangeFacet} associated with {@link XField}
+     * from solr {@link QueryResponse response}
+     */
     public RangeFacet<?, ?> extractFacet(QueryResponse response, XField xField) {
         
         Preconditions.checkNotNull(response);

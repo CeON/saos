@@ -13,7 +13,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 /**
- * Picks appropriate function for {@link XField} converting solr facet value
+ * Manager of converting solr facets to X values.
  * 
  * @author madryk
  */
@@ -25,6 +25,11 @@ public class FacetXValueConverterManager {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Picks appropriate function for {@link XField} converting solr facet value
+     * 
+     * @throws IllegalArgumentException if no appropriate converting function was found
+     */
     public Function<String, Object> getXValueConverter(XField xField) {
         
         Preconditions.checkNotNull(xField);

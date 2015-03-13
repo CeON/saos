@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 /**
- * Maps {@link XField} to solr field name
+ * Mapper of {@link XField} to solr field name
  * 
  * @author madryk
  */
@@ -27,8 +27,6 @@ public class XFieldNameMapper {
     /**
      * Returns mapped {@link XField} to solr field name
      * 
-     * @param xField
-     * @return
      * @throws IllegalArgumentException if no mapping was found
      */
     public String mapXField(XField xField) {
