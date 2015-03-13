@@ -13,7 +13,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 /**
- * Manager of converting solr facets to X values.
+ * Manager of solr facet to X value converters.
  * 
  * @author madryk
  */
