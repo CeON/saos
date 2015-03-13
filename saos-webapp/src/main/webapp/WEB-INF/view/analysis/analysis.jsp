@@ -14,7 +14,7 @@ $(document).ready(function() {
 </script>
 
 
-<div class="container judgment-page block" id="analysis">
+<div class="container search-page block" id="analysis">
 
 <div class="form-group" id="analysisFormDiv">
 
