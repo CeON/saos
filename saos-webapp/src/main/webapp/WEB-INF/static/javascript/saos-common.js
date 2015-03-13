@@ -20,6 +20,90 @@ function extractIndex(element) {
 
 
 
+
+
+
+/****************** MONTH YEAR RANGE PICKER **/
+
+
+/**
+ * Ties the month-year range selects. Month-year range selects are four html selects 
+ * corresponding to month start, year start, month end, year end. Options of these selects are whole numbers
+ * representing months or years. </br>
+ * This function binds the selects together so, for example, changes to one of them can influence the other ones.
+ * E.g. changing the end year to the value lower than the start year decreases the start year.
+ * 
+ * @param monthStartId the id of the select representing the range start month
+ * @param yearStartId the id of the select representing the range start year
+ * @param monthEndId the id of the select representing the range end month
+ * @param yearEndId the id of the select representing the range end year
+ */
+function tieMonthYearRangeSelects(monthStartId, yearStartId, monthEndId, yearEndId) {
+    
+    var monthStart = $('#' + monthStartId);
+    var yearStart = $('#' + yearStartId);
+    var monthEnd = $('#' + monthEndId);
+    var yearEnd = $('#' + yearEndId);
+    
+    
+    yearStart.change(function() {
+        
+        if (yearStart.val() >= yearEnd.val()) {
+            
+            yearEnd.val(yearStart.val());
+            
+            if (monthStart.val() > monthEnd.val()) {
+                
+                monthEnd.val(monthStart.val());
+                
+            }
+        }
+        
+    });
+
+
+    yearEnd.change(function() {
+        
+        if (yearStart.val() >= yearEnd.val()) {
+            
+            yearStart.val(yearEnd.val());
+            
+            if (monthStart.val() > monthEnd.val()) {
+                
+                monthStart.val(monthEnd.val());
+                
+            }
+        }
+        
+    });
+    
+    
+    monthStart.change(function() {
+       
+        if (yearStart.val() == yearEnd.val() && monthStart.val() > monthEnd.val()) {
+            
+            monthEnd.val(monthStart.val());
+            
+        }
+            
+    });
+    
+
+    monthEnd.change(function() {
+        
+        if (yearStart.val() == yearEnd.val() && monthStart.val() > monthEnd.val()) {
+            
+            monthStart.val(monthEnd.val());
+            
+        }
+            
+    });
+    
+    
+}
+
+
+
 /**
  * Adds space every three digits
  * 

@@ -12,9 +12,9 @@ public class AnalysisForm {
 
     private List<JudgmentSeriesFilter> filters = Lists.newArrayList();
     
-    private UiXSettings uiXSettings;
+    private UixSettings xsettings = new UixSettings();
     
-    private UiYSettings uiYSettings;
+    private UiySettings ysettings = new UiySettings();
     
     
     
@@ -24,14 +24,16 @@ public class AnalysisForm {
         return filters;
     }
     
-    public UiXSettings getUiXSettings() {
-        return uiXSettings;
+    public UixSettings getXsettings() {
+        return xsettings;
     }
 
-    public UiYSettings getUiYSettings() {
-        return uiYSettings;
+    public UiySettings getYsettings() {
+        return ysettings;
     }
 
+
+    
     
     
     //------------------------ LOGIC --------------------------
@@ -48,14 +50,15 @@ public class AnalysisForm {
         this.filters = filters;
     }
 
-    public void setUiXSettings(UiXSettings uiXSettings) {
-        this.uiXSettings = uiXSettings;
+    public void setXsettings(UixSettings xsettings) {
+        this.xsettings = xsettings;
     }
 
-    public void setUiYSettings(UiYSettings uiYSettings) {
-        this.uiYSettings = uiYSettings;
+    public void setYsettings(UiySettings ysettings) {
+        this.ysettings = ysettings;
     }
-    
+
+   
    
     
 }

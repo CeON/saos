@@ -8,21 +8,21 @@ import pl.edu.icm.saos.search.analysis.request.YValueType;
 
 /**
  * 
- * A converter of {@link UiYSettings} objects
+ * A converter of {@link UiySettings} objects
  * 
  * @author Łukasz Dumiszewski
  */
 @Service("uiYSettingsConverter")
-public class UiYSettingsConverter {
+public class UiySettingsConverter {
 
 
     
     //------------------------ LOGIC --------------------------
     
     /**
-     * Converts {@link UiYSettings} into {@link YSettings}
+     * Converts {@link UiySettings} into {@link YSettings}
      */
-    public YSettings convert(UiYSettings uiYSettings) {
+    public YSettings convert(UiySettings uiySettings) {
         
         // TODO: will be changed in https://github.com/CeON/saos/issues/600
         
