@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.importer.common.ImportException;
@@ -71,6 +72,7 @@ public class ImportContentFileUtils {
     
     //------------------------ SETTERS --------------------------
 
+    @Value("${import.judgments.download.dir}")
     public void setContentFilesBaseDir(String contentFilesBaseDir) {
         this.contentFilesBaseDir = contentFilesBaseDir;
     }

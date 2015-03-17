@@ -94,7 +94,7 @@ public class NacjImportJobConfiguration {
             .processor(nacjImportDownloadProcessor)
             .writer(nacjImportDownloadWriter)
             .listener(nacjImportDownloadStepExecutionListener)
-//            .listener(nacjContentDownloadStepExecutionListener) // TODO uncomment with task https://github.com/CeON/saos/issues/612
+            .listener(nacjContentDownloadStepExecutionListener)
             .build();
     }
     

@@ -95,7 +95,7 @@ public class ScjImportJobConfiguration {
             .processor(scjImportDownloadProcessor)
             .writer(scjImportDownloadWriter)
             .listener(scjImportDownloadStepExecutionListener)
-//            .listener(scjContentDownloadStepExecutionListener) // TODO uncomment with task https://github.com/CeON/saos/issues/612
+            .listener(scjContentDownloadStepExecutionListener)
             .build();
     } 
     

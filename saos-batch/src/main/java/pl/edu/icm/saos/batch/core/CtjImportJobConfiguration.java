@@ -88,7 +88,7 @@ public class CtjImportJobConfiguration {
             .processor(ctjImportDownloadProcessor)
             .writer(ctjImportDownloadWriter)
             .listener(ctjImportDownloadStepExecutionListener)
-//            .listener(ctjContentDownloadStepExecutionListener) // TODO uncomment with task https://github.com/CeON/saos/issues/612
+            .listener(ctjContentDownloadStepExecutionListener)
             .build();
     }
     
