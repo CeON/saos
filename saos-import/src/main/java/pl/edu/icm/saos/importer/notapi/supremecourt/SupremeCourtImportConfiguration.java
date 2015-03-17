@@ -17,6 +17,7 @@ import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.SourceScJudgmentExtractor;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -83,6 +84,19 @@ public class SupremeCourtImportConfiguration {
     @Bean
     public NotApiImportDownloadStepExecutionListener scjImportDownloadStepExecutionListener() {
         NotApiImportDownloadStepExecutionListener stepExecutionListener = new NotApiImportDownloadStepExecutionListener();
+        stepExecutionListener.setRawJudgmentClass(RawSourceScJudgment.class);
+        
+        return stepExecutionListener;
+    }
+    
+    @Bean
+    public ContentDownloadStepExecutionListener scjContentDownloadStepExecutionListener(
+            @Value("${import.judgments.supremeCourt.dir}") String importDir,
+            @Value("${import.judgments.supremeCourt.content.dir}") String importContentDir) {
+        
+        ContentDownloadStepExecutionListener stepExecutionListener = new ContentDownloadStepExecutionListener();
+        stepExecutionListener.setImportDir(importDir);
+        stepExecutionListener.setImportContentDir(importContentDir);
         stepExecutionListener.setRawJudgmentClass(RawSourceScJudgment.class);
         
         return stepExecutionListener;

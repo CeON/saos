@@ -18,8 +18,10 @@ import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
+import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentNode;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.json.SourceNacJudgment;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.process.NacjImportProcessStepExecutionListener;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
@@ -56,6 +58,9 @@ public class NacjImportJobConfiguration {
     @Autowired
     private NotApiImportDownloadStepExecutionListener nacjImportDownloadStepExecutionListener;
     
+    @Autowired
+    private ContentDownloadStepExecutionListener nacjContentDownloadStepExecutionListener;
+    
     
     
     @Autowired
@@ -84,11 +89,12 @@ public class NacjImportJobConfiguration {
     
     @Bean
     protected Step nacJudgmentImportDownloadStep() {
-        return steps.get("nacJudgmentImportDownloadStep").<String, RawSourceNacJudgment> chunk(20)
+        return steps.get("nacJudgmentImportDownloadStep").<JsonJudgmentNode, RawSourceNacJudgment> chunk(20)
             .reader(nacjImportDownloadReader)
             .processor(nacjImportDownloadProcessor)
             .writer(nacjImportDownloadWriter)
             .listener(nacjImportDownloadStepExecutionListener)
+//            .listener(nacjContentDownloadStepExecutionListener) // TODO uncomment with task https://github.com/CeON/saos/issues/612
             .build();
     }
     

@@ -15,10 +15,12 @@ import pl.edu.icm.saos.importer.common.JudgmentImportProcessWriter;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.JudgmentImportDownloadWriter;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
+import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentNode;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.ScjImportProcessStepExecutionListener;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -56,6 +58,9 @@ public class ScjImportJobConfiguration {
     @Autowired
     private NotApiImportDownloadStepExecutionListener scjImportDownloadStepExecutionListener;
     
+    @Autowired
+    private ContentDownloadStepExecutionListener scjContentDownloadStepExecutionListener;
+    
     
     
     @Autowired
@@ -85,11 +90,12 @@ public class ScjImportJobConfiguration {
     
     @Bean
     protected Step scJudgmentImportDownloadStep() {
-        return steps.get("scJudgmentImportDownloadStep").<String, RawSourceScJudgment> chunk(20)
+        return steps.get("scJudgmentImportDownloadStep").<JsonJudgmentNode, RawSourceScJudgment> chunk(20)
             .reader(scjImportDownloadReader)
             .processor(scjImportDownloadProcessor)
             .writer(scjImportDownloadWriter)
             .listener(scjImportDownloadStepExecutionListener)
+//            .listener(scjContentDownloadStepExecutionListener) // TODO uncomment with task https://github.com/CeON/saos/issues/612
             .build();
     } 
     

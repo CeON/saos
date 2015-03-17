@@ -11,11 +11,12 @@ import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverterImpl;
 import pl.edu.icm.saos.importer.common.overwriter.DelegatingJudgmentOverwriter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
-import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process.CtSpecificJudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process.SourceCtJudgmentExtractor;
@@ -72,6 +73,19 @@ public class ConstitutionalTribunalImportConfiguration {
     @Bean
     public NotApiImportDownloadStepExecutionListener ctjImportDownloadStepExecutionListener() {
         NotApiImportDownloadStepExecutionListener stepExecutionListener = new NotApiImportDownloadStepExecutionListener();
+        stepExecutionListener.setRawJudgmentClass(RawSourceCtJudgment.class);
+        
+        return stepExecutionListener;
+    }
+    
+    @Bean
+    public ContentDownloadStepExecutionListener ctjContentDownloadStepExecutionListener(
+            @Value("${import.judgments.constitutionalTribunal.dir}") String importDir,
+            @Value("${import.judgments.constitutionalTribunal.content.dir}") String importContentDir) {
+        
+        ContentDownloadStepExecutionListener stepExecutionListener = new ContentDownloadStepExecutionListener();
+        stepExecutionListener.setImportDir(importDir);
+        stepExecutionListener.setImportContentDir(importContentDir);
         stepExecutionListener.setRawJudgmentClass(RawSourceCtJudgment.class);
         
         return stepExecutionListener;

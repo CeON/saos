@@ -16,6 +16,7 @@ import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.json.SourceNacJudgment;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.process.NacSpecificJudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.process.SourceNacJudgmentExtractor;
@@ -72,6 +73,19 @@ public class NationalAppealChamberImportConfiguration {
     @Bean
     public NotApiImportDownloadStepExecutionListener nacjImportDownloadStepExecutionListener() {
         NotApiImportDownloadStepExecutionListener stepExecutionListener = new NotApiImportDownloadStepExecutionListener();
+        stepExecutionListener.setRawJudgmentClass(RawSourceNacJudgment.class);
+        
+        return stepExecutionListener;
+    }
+    
+    @Bean
+    public ContentDownloadStepExecutionListener nacjContentDownloadStepExecutionListener(
+            @Value("${import.judgments.nationalAppealChamber.dir}") String importDir,
+            @Value("${import.judgments.nationalAppealChamber.content.dir}") String importContentDir) {
+        
+        ContentDownloadStepExecutionListener stepExecutionListener = new ContentDownloadStepExecutionListener();
+        stepExecutionListener.setImportDir(importDir);
+        stepExecutionListener.setImportContentDir(importContentDir);
         stepExecutionListener.setRawJudgmentClass(RawSourceNacJudgment.class);
         
         return stepExecutionListener;
