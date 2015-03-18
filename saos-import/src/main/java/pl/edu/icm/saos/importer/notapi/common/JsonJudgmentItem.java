@@ -7,18 +7,18 @@ import java.io.File;
  * 
  * @author madryk
  */
-public class JsonJudgmentNode {
+public class JsonJudgmentItem {
 
     private String json;
     
-    private File fileSource;
+    private File sourceMetadataFile;
 
     
     //------------------------ CONSTRUCTORS --------------------------
     
-    public JsonJudgmentNode(String json, File fileSource) {
+    public JsonJudgmentItem(String json, File fileSource) {
         this.json = json;
-        this.fileSource = fileSource;
+        this.sourceMetadataFile = fileSource;
     }
     
     
@@ -34,8 +34,8 @@ public class JsonJudgmentNode {
     /**
      * Returns reference to json file in which judgment was defined
      */
-    public File getFileSource() {
-        return fileSource;
+    public File getSourceMetadataFile() {
+        return sourceMetadataFile;
     }
     
     

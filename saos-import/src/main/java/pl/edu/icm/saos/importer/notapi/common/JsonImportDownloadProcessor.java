@@ -6,7 +6,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.common.json.JsonStringParser;
-import pl.edu.icm.saos.importer.notapi.common.content.ImportContentFileUtils;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentSourceFileFinder;
 import pl.edu.icm.saos.persistence.model.importer.notapi.JsonRawSourceJudgment;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -18,13 +18,15 @@ import com.fasterxml.jackson.core.JsonParseException;
  * @author Łukasz Dumiszewski
  * @param <T> - type of judgment that can be processed 
  */
-public class JsonImportDownloadProcessor<T extends JsonRawSourceJudgment> implements ItemProcessor<JsonJudgmentNode, T> {
+public class JsonImportDownloadProcessor<T extends JsonRawSourceJudgment> implements ItemProcessor<JsonJudgmentItem, T> {
     
     private JsonStringParser<? extends SourceJudgment> sourceJudgmentParser;
     
     private Class<T> rawSourceJugmentClass;
     
-    private ImportContentFileUtils importContentFileUtils;
+    private ContentSourceFileFinder contentSourceFileFinder;
+    
+    private String downloadedContentDir;
     
     
     //------------------------ CONSTRUCTORS --------------------------
@@ -36,7 +38,7 @@ public class JsonImportDownloadProcessor<T extends JsonRawSourceJudgment> implem
     //------------------------ LOGIC --------------------------
     
     @Override
-    public T process(JsonJudgmentNode item) throws JsonParseException, InstantiationException, IllegalAccessException {
+    public T process(JsonJudgmentItem item) throws JsonParseException, InstantiationException, IllegalAccessException {
         
         String jsonJudgment = item.getJson();
         
@@ -47,8 +49,9 @@ public class JsonImportDownloadProcessor<T extends JsonRawSourceJudgment> implem
         rawJudgment.setJsonContent(jsonJudgment);
         rawJudgment.setSourceId(sourceJudgment.getSource().getSourceJudgmentId());
         
-        File contentFile = importContentFileUtils.locateContentFile(item.getFileSource(), rawSourceJugmentClass);
-        rawJudgment.setJudgmentContentPath(contentFile.getName());
+        
+        File downloadedContentFile = contentSourceFileFinder.findContentFile(new File(downloadedContentDir), item.getSourceMetadataFile());
+        rawJudgment.setJudgmentContentFilename(downloadedContentFile.getName());
 
 
         return rawJudgment;
@@ -62,8 +65,12 @@ public class JsonImportDownloadProcessor<T extends JsonRawSourceJudgment> implem
     }
 
     @Autowired
-    public void setImportContentFileUtils(ImportContentFileUtils importContentFileUtils) {
-        this.importContentFileUtils = importContentFileUtils;
+    public void setContentSourceFileFinder(ContentSourceFileFinder contentSourceFileFinder) {
+        this.contentSourceFileFinder = contentSourceFileFinder;
+    }
+
+    public void setDownloadedContentDir(String downloadedContentDir) {
+        this.downloadedContentDir = downloadedContentDir;
     }
 
 }

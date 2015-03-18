@@ -44,6 +44,16 @@ public class NationalAppealChamberImportConfiguration {
     private NacSpecificJudgmentOverwriter nacSpecificJudgmentOverwriter;
     
     
+    @Value("${import.judgments.nationalAppealChamber.dir}")
+    private String importMetadataDir;
+    
+    @Value("${import.judgments.nationalAppealChamber.content.dir}")
+    private String importContentDir;
+    
+    @Value("${import.judgments.nationalAppealChamber.download.dir}")
+    private String downloadedContentDir;
+    
+    
     //------------------------ BEANS --------------------------
     
     @Bean
@@ -55,9 +65,9 @@ public class NationalAppealChamberImportConfiguration {
     }
     
     @Bean
-    public JsonImportDownloadReader nacjImportDownloadReader(@Value("${import.judgments.nationalAppealChamber.dir}") String importDir) {
+    public JsonImportDownloadReader nacjImportDownloadReader() {
         JsonImportDownloadReader nacjImportDownloadReader = new JsonImportDownloadReader();
-        nacjImportDownloadReader.setImportDir(importDir);
+        nacjImportDownloadReader.setImportDir(importMetadataDir);
         
         return nacjImportDownloadReader;
     }
@@ -66,6 +76,7 @@ public class NationalAppealChamberImportConfiguration {
     public JsonImportDownloadProcessor<RawSourceNacJudgment> nacjImportDownloadProcessor() {
         JsonImportDownloadProcessor<RawSourceNacJudgment> nacjImportDownloadProcessor = new JsonImportDownloadProcessor<>(RawSourceNacJudgment.class);
         nacjImportDownloadProcessor.setSourceJudgmentParser(sourceNacJudgmentParser());
+        nacjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir);
         
         return nacjImportDownloadProcessor;
     }
@@ -79,14 +90,12 @@ public class NationalAppealChamberImportConfiguration {
     }
     
     @Bean
-    public ContentDownloadStepExecutionListener nacjContentDownloadStepExecutionListener(
-            @Value("${import.judgments.nationalAppealChamber.dir}") String importDir,
-            @Value("${import.judgments.nationalAppealChamber.content.dir}") String importContentDir) {
+    public ContentDownloadStepExecutionListener nacjContentDownloadStepExecutionListener() {
         
         ContentDownloadStepExecutionListener stepExecutionListener = new ContentDownloadStepExecutionListener();
-        stepExecutionListener.setImportDir(importDir);
+        stepExecutionListener.setImportMetadataDir(importMetadataDir);
         stepExecutionListener.setImportContentDir(importContentDir);
-        stepExecutionListener.setRawJudgmentClass(RawSourceNacJudgment.class);
+        stepExecutionListener.setDownloadedContentDir(downloadedContentDir);
         
         return stepExecutionListener;
     }

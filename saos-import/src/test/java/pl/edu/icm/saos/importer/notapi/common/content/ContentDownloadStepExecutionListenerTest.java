@@ -1,19 +1,24 @@
 package pl.edu.icm.saos.importer.notapi.common.content;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.apache.commons.io.FileUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.batch.core.StepExecution;
 
 import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
-import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 
 import com.google.common.collect.Lists;
+import com.google.common.io.Files;
 
 /**
  * @author madryk
@@ -24,44 +29,57 @@ public class ContentDownloadStepExecutionListenerTest {
     
     private ImportFileUtils importFileUtils = mock(ImportFileUtils.class);
     
-    private ImportContentFileUtils importContentFileUtils = mock(ImportContentFileUtils.class);
-    
     private ContentSourceFileFinder importContentFileFinder = mock(ContentSourceFileFinder.class);
     
     private String importPath = "some/path";
     
-    private String importContentPath = "some/content/path";
+    private File importContentDir;
+    
+    private File downloadedContentDir;
     
     
     @Before
     public void setUp() {
         contentDownloadListenter.setImportFileUtils(importFileUtils);
-        contentDownloadListenter.setImportContentFileUtils(importContentFileUtils);
         contentDownloadListenter.setImportContentFileFinder(importContentFileFinder);
         
-        contentDownloadListenter.setImportDir(importPath);
-        contentDownloadListenter.setImportContentDir(importContentPath);
-        contentDownloadListenter.setRawJudgmentClass(RawSourceCcJudgment.class);
+        importContentDir = Files.createTempDir();
+        downloadedContentDir = Files.createTempDir();
+        
+        contentDownloadListenter.setImportMetadataDir(importPath);
+        contentDownloadListenter.setImportContentDir(importContentDir.getPath());
+        contentDownloadListenter.setDownloadedContentDir(downloadedContentDir.getPath());
+    }
+    
+    @After
+    public void cleanup() throws IOException {
+        FileUtils.deleteDirectory(importContentDir);
+        FileUtils.deleteDirectory(downloadedContentDir);
     }
     
     
     //------------------------ TESTS --------------------------
     
     @Test
-    public void beforeStep() {
+    public void beforeStep() throws IOException {
         
         // given
-        File importFile1 = new File("some/path/1");
-        File importFile2 = new File("some/path/2");
+        File importMetadataFile1 = new File("some/path/1");
+        File importMetadataFile2 = new File("some/path/2");
         
-        File importContentDir = new File(importContentPath);
-        File contentFile1 = new File("some/content/path/1");
-        File contentFile2 = new File("some/content/path/2");
+        File contentFile1 = new File(importContentDir, "abc.zip");
+        File contentFile2 = new File(importContentDir, "123.zip");
         
-        when(importFileUtils.listImportFiles(importPath)).thenReturn(Lists.newArrayList(importFile1, importFile2));
+        contentFile1.createNewFile();
+        contentFile2.createNewFile();
         
-        when(importContentFileFinder.findContentFile(importContentDir, importFile1)).thenReturn(contentFile1);
-        when(importContentFileFinder.findContentFile(importContentDir, importFile2)).thenReturn(contentFile2);
+        File oldDownloadedContentFile = new File(downloadedContentDir, "zxc.zip");
+        oldDownloadedContentFile.createNewFile();
+        
+        when(importFileUtils.listImportFiles(importPath)).thenReturn(Lists.newArrayList(importMetadataFile1, importMetadataFile2));
+        
+        when(importContentFileFinder.findContentFile(importContentDir, importMetadataFile1)).thenReturn(contentFile1);
+        when(importContentFileFinder.findContentFile(importContentDir, importMetadataFile2)).thenReturn(contentFile2);
         
         
         // execute
@@ -69,15 +87,17 @@ public class ContentDownloadStepExecutionListenerTest {
         
         
         // assert
-        verify(importContentFileUtils).deleteAllContentFiles(RawSourceCcJudgment.class);
+        File downloadedContentFile1 = new File(downloadedContentDir, "abc.zip");
+        File downloadedContentFile2 = new File(downloadedContentDir, "123.zip");
+        
+        assertTrue(downloadedContentFile1.exists());
+        assertTrue(downloadedContentFile2.exists());
+        assertFalse(oldDownloadedContentFile.exists());
         
         verify(importFileUtils).listImportFiles(importPath);
         
-        verify(importContentFileFinder).findContentFile(importContentDir, importFile1);
-        verify(importContentFileFinder).findContentFile(importContentDir, importFile2);
-        
-        verify(importContentFileUtils).copyContentFile(contentFile1, RawSourceCcJudgment.class);
-        verify(importContentFileUtils).copyContentFile(contentFile2, RawSourceCcJudgment.class);
+        verify(importContentFileFinder).findContentFile(importContentDir, importMetadataFile1);
+        verify(importContentFileFinder).findContentFile(importContentDir, importMetadataFile2);
         
     }
     

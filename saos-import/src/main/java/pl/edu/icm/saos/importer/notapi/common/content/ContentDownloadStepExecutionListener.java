@@ -1,17 +1,17 @@
 package pl.edu.icm.saos.importer.notapi.common.content;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collection;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.batch.core.ExitStatus;
 import org.springframework.batch.core.StepExecution;
 import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import pl.edu.icm.saos.importer.common.ImportException;
 import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
-import pl.edu.icm.saos.persistence.model.importer.RawSourceJudgment;
-
-import com.google.common.collect.Lists;
 
 /**
  * Listener responsible for copying content files.
@@ -22,15 +22,13 @@ public class ContentDownloadStepExecutionListener implements StepExecutionListen
     
     private ImportFileUtils importFileUtils;
     
-    private ImportContentFileUtils importContentFileUtils;
-    
     private ContentSourceFileFinder importContentFileFinder;
     
-    private String importDir;
+    private String importMetadataDir;
     
     private String importContentDir;
     
-    private Class<? extends RawSourceJudgment> rawJudgmentClass;
+    private String downloadedContentDir;
     
     
     //------------------------ LOGIC --------------------------
@@ -38,23 +36,26 @@ public class ContentDownloadStepExecutionListener implements StepExecutionListen
     @Override
     public void beforeStep(StepExecution stepExecution) {
         
-        importContentFileUtils.deleteAllContentFiles(rawJudgmentClass);
-        
-        File contentSourceDir = new File(importContentDir);
-        
-        Collection<File> importFiles = importFileUtils.listImportFiles(importDir);
-        Collection<File> contentFiles = Lists.newArrayList();
-        
-        
-        for (File importFile : importFiles) {
-            File contentFile = importContentFileFinder.findContentFile(contentSourceDir, importFile);
-            contentFiles.add(contentFile);
+        try {
+            FileUtils.deleteDirectory(new File(downloadedContentDir));
+        } catch (IOException e) {
+            throw new ImportException(e);
         }
         
         
-        for (File contentFile : contentFiles) {
-            importContentFileUtils.copyContentFile(contentFile, rawJudgmentClass);
+        Collection<File> importMetadataFiles = importFileUtils.listImportFiles(importMetadataDir);
+        
+        
+        for (File importMetadataFile : importMetadataFiles) {
+            File importContentFile = importContentFileFinder.findContentFile(new File(importContentDir), importMetadataFile);
+            
+            try {
+                FileUtils.copyFileToDirectory(importContentFile, new File(downloadedContentDir));
+            } catch (IOException e) {
+                throw new ImportException(e);
+            }
         }
+        
     }
 
     @Override
@@ -71,25 +72,20 @@ public class ContentDownloadStepExecutionListener implements StepExecutionListen
     }
 
     @Autowired
-    public void setImportContentFileUtils(ImportContentFileUtils importContentFileUtils) {
-        this.importContentFileUtils = importContentFileUtils;
-    }
-
-    @Autowired
     public void setImportContentFileFinder(ContentSourceFileFinder importContentFileFinder) {
         this.importContentFileFinder = importContentFileFinder;
     }
 
-    public void setImportDir(String importDir) {
-        this.importDir = importDir;
+    public void setImportMetadataDir(String importMetadataDir) {
+        this.importMetadataDir = importMetadataDir;
     }
 
     public void setImportContentDir(String importContentDir) {
         this.importContentDir = importContentDir;
     }
 
-    public void setRawJudgmentClass(Class<? extends RawSourceJudgment> rawJudgmentClass) {
-        this.rawJudgmentClass = rawJudgmentClass;
+    public void setDownloadedContentDir(String downloadedContentDir) {
+        this.downloadedContentDir = downloadedContentDir;
     }
 
     

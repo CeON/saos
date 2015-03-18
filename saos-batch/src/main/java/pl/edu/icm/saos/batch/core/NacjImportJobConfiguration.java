@@ -18,7 +18,7 @@ import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
-import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentNode;
+import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentItem;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
@@ -89,7 +89,7 @@ public class NacjImportJobConfiguration {
     
     @Bean
     protected Step nacJudgmentImportDownloadStep() {
-        return steps.get("nacJudgmentImportDownloadStep").<JsonJudgmentNode, RawSourceNacJudgment> chunk(20)
+        return steps.get("nacJudgmentImportDownloadStep").<JsonJudgmentItem, RawSourceNacJudgment> chunk(20)
             .reader(nacjImportDownloadReader)
             .processor(nacjImportDownloadProcessor)
             .writer(nacjImportDownloadWriter)

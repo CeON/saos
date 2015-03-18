@@ -12,9 +12,14 @@ import static org.junit.Assert.assertTrue;
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalDate;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.batch.core.Job;
@@ -25,7 +30,9 @@ import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
@@ -40,6 +47,8 @@ import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceNacJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.RawSourceJudgmentRepository;
 
+import com.google.common.io.Files;
+
 /**
  * @author madryk
  */
@@ -50,10 +59,18 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
     private JsonImportDownloadReader nacjImportDownloadReader;
     
     @Autowired
+    private ContentDownloadStepExecutionListener nacjContentDownloadStepExecutionListener;
+    
+    @Autowired
+    private JsonImportDownloadProcessor<RawSourceNacJudgment> nacjImportDownloadProcessor;
+    
+    
+    @Autowired
     private Job nacJudgmentImportJob;
     
     @Autowired
     private JobForcingExecutor jobExecutor;
+    
     
     @Autowired
     private RawSourceJudgmentRepository rJudgmentRepository;
@@ -71,6 +88,23 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
     private EnrichmentTagRepository enrichmentTagRepository;
     
     
+    private File downloadedContentDir;
+    
+    
+    @Before
+    public void setUp() {
+        downloadedContentDir = Files.createTempDir();
+        
+        nacjContentDownloadStepExecutionListener.setDownloadedContentDir(downloadedContentDir.getPath());
+        nacjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
+    }
+    
+    @After
+    public void cleanup() throws IOException {
+        FileUtils.deleteDirectory(downloadedContentDir);
+    }
+    
+    
     //------------------------ TESTS --------------------------
     
     @Test
@@ -78,8 +112,7 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         
         // given
         
-        nacjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
-                "import/nationalAppealChamber/judgments/version1"));
+        setImportDirs("import/nationalAppealChamber/judgments/version1", "import/nationalAppealChamber/judgments/content/version1");
         
         
         // execute
@@ -111,16 +144,14 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         
         // given
         
-        nacjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
-                "import/nationalAppealChamber/judgments/version1"));
+        setImportDirs("import/nationalAppealChamber/judgments/version1", "import/nationalAppealChamber/judgments/content/version1");
         jobExecutor.forceStartNewJob(nacJudgmentImportJob);
         long nacJudgmentf1fb6b13Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.NATIONAL_APPEAL_CHAMBER, "f1fb6b13d57e25be69d1159356655528").getId();
         
         testPersistenceObjectFactory.createEnrichmentTagsForJudgment(nacJudgmentf1fb6b13Id);
         
-        nacjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
-                "import/nationalAppealChamber/judgments/version2"));
+        setImportDirs("import/nationalAppealChamber/judgments/version2", "import/nationalAppealChamber/judgments/content/version2");
         
         
         // execute
@@ -251,4 +282,11 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         assertThat(judgment.getSourceInfo().getReviser(), is(nullValue()));
 
     }
+    
+    private void setImportDirs(String importMetadataDir, String importContentDir) {
+        nacjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(importMetadataDir));
+        nacjContentDownloadStepExecutionListener.setImportMetadataDir(PathResolver.resolveToAbsolutePath(importMetadataDir));
+        nacjContentDownloadStepExecutionListener.setImportContentDir(PathResolver.resolveToAbsolutePath(importContentDir));
+    }
+    
 }

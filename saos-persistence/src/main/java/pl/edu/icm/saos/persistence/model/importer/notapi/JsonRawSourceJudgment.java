@@ -21,7 +21,7 @@ public class JsonRawSourceJudgment extends RawSourceJudgment {
 
     private String jsonContent;
     
-    private String judgmentContentPath;
+    private String judgmentContentFilename;
 
     
     //------------------------ GETTERS --------------------------
@@ -32,8 +32,8 @@ public class JsonRawSourceJudgment extends RawSourceJudgment {
         return jsonContent;
     }
     
-    public String getJudgmentContentPath() {
-        return judgmentContentPath;
+    public String getJudgmentContentFilename() {
+        return judgmentContentFilename;
     }
     
     
@@ -43,8 +43,8 @@ public class JsonRawSourceJudgment extends RawSourceJudgment {
         this.jsonContent = jsonContent;
     }
     
-    public void setJudgmentContentPath(String judgmentContentPath) {
-        this.judgmentContentPath = judgmentContentPath;
+    public void setJudgmentContentFilename(String judgmentContentFilename) {
+        this.judgmentContentFilename = judgmentContentFilename;
     }
     
     //------------------------ HashCode & Equals --------------------------

@@ -99,7 +99,7 @@ public class JsonImportDownloadReaderTest {
         
         // execute
         
-        JsonJudgmentNode result = jsonImportDownloadReader.read();
+        JsonJudgmentItem result = jsonImportDownloadReader.read();
         
         // assert
         
@@ -146,7 +146,7 @@ public class JsonImportDownloadReaderTest {
         
         // execute
         
-        JsonJudgmentNode judgment = jsonImportDownloadReader.read();
+        JsonJudgmentItem judgment = jsonImportDownloadReader.read();
         
         
         // assert 
@@ -158,7 +158,7 @@ public class JsonImportDownloadReaderTest {
         assertDownloadReaderState(currentFile, fileReader, jsonParser, importFiles.get(0));
         
         assertEquals(nextJudgment, judgment.getJson());
-        assertEquals(currentFile, judgment.getFileSource());
+        assertEquals(currentFile, judgment.getSourceMetadataFile());
         
     }
     
@@ -191,7 +191,7 @@ public class JsonImportDownloadReaderTest {
         
         // execute
         
-        JsonJudgmentNode judgment = jsonImportDownloadReader.read();
+        JsonJudgmentItem judgment = jsonImportDownloadReader.read();
         
         
         // assert
@@ -209,7 +209,7 @@ public class JsonImportDownloadReaderTest {
         assertDownloadReaderState(currentFile2Loop, fileReader2Loop, jsonParser2Loop);
         
         assertEquals(judgment2Loop, judgment.getJson());
-        assertEquals(currentFile2Loop, judgment.getFileSource());
+        assertEquals(currentFile2Loop, judgment.getSourceMetadataFile());
         
         
         

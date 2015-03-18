@@ -15,7 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.Source;
-import pl.edu.icm.saos.importer.notapi.common.content.ImportContentFileUtils;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentSourceFileFinder;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
@@ -32,13 +32,16 @@ public class JsonImportDownloadProcessorTest {
     private JsonStringParser<SourceScJudgment> sourceScJudgmentParser;
     
     @Mock
-    private ImportContentFileUtils importContentFileUtils;
+    private ContentSourceFileFinder contentSourceFileFinder;
+    
+    private String downloadedContentDir = "some/downloaded/content/path";
     
     
     @Before
     public void before() {
         scjImportProcessor.setSourceJudgmentParser(sourceScJudgmentParser);
-        scjImportProcessor.setImportContentFileUtils(importContentFileUtils);
+        scjImportProcessor.setContentSourceFileFinder(contentSourceFileFinder);
+        scjImportProcessor.setDownloadedContentDir(downloadedContentDir);
     }
     
     @Test
@@ -59,19 +62,19 @@ public class JsonImportDownloadProcessorTest {
         
         Mockito.when(sourceScJudgmentParser.parseAndValidate(Mockito.eq(content))).thenReturn(sourceScJudgment);
         
-        Mockito.when(importContentFileUtils.locateContentFile(importFile, RawSourceScJudgment.class)).thenReturn(contentFile);
+        Mockito.when(contentSourceFileFinder.findContentFile(new File(downloadedContentDir), importFile)).thenReturn(contentFile);
         
         
         // execute
         
-        RawSourceScJudgment retRJudgment = scjImportProcessor.process(new JsonJudgmentNode(content, new File("judgment.json")));
+        RawSourceScJudgment retRJudgment = scjImportProcessor.process(new JsonJudgmentItem(content, new File("judgment.json")));
         
         
         // assert
         
         assertEquals(content, retRJudgment.getJsonContent());
         assertEquals(source.getSourceJudgmentId(), retRJudgment.getSourceId());
-        assertEquals(contentFile.getPath(), retRJudgment.getJudgmentContentPath());
+        assertEquals(contentFile.getName(), retRJudgment.getJudgmentContentFilename());
         assertNull(retRJudgment.getProcessingDate());
         assertFalse(retRJudgment.isProcessed());
         

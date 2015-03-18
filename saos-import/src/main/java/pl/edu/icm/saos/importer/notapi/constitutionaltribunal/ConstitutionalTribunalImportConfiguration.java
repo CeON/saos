@@ -44,6 +44,16 @@ public class ConstitutionalTribunalImportConfiguration {
     private CtSpecificJudgmentOverwriter ctSpecificJudgmentOverwriter;
     
     
+    @Value("${import.judgments.constitutionalTribunal.dir}")
+    private String importMetadataDir;
+    
+    @Value("${import.judgments.constitutionalTribunal.content.dir}")
+    private String importContentDir;
+    
+    @Value("${import.judgments.constitutionalTribunal.download.dir}")
+    private String downloadedContentDir;
+    
+    
     //------------------------ BEANS --------------------------
     
     @Bean
@@ -55,9 +65,9 @@ public class ConstitutionalTribunalImportConfiguration {
     }
     
     @Bean
-    public JsonImportDownloadReader ctjImportDownloadReader(@Value("${import.judgments.constitutionalTribunal.dir}") String importDir) {
+    public JsonImportDownloadReader ctjImportDownloadReader() {
         JsonImportDownloadReader ctjImportDownloadReader = new JsonImportDownloadReader();
-        ctjImportDownloadReader.setImportDir(importDir);
+        ctjImportDownloadReader.setImportDir(importMetadataDir);
         
         return ctjImportDownloadReader;
     }
@@ -66,6 +76,7 @@ public class ConstitutionalTribunalImportConfiguration {
     public JsonImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor() {
         JsonImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor = new JsonImportDownloadProcessor<>(RawSourceCtJudgment.class);
         ctjImportDownloadProcessor.setSourceJudgmentParser(sourceCtJudgmentParser());
+        ctjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir);
         
         return ctjImportDownloadProcessor;
     }
@@ -79,14 +90,12 @@ public class ConstitutionalTribunalImportConfiguration {
     }
     
     @Bean
-    public ContentDownloadStepExecutionListener ctjContentDownloadStepExecutionListener(
-            @Value("${import.judgments.constitutionalTribunal.dir}") String importDir,
-            @Value("${import.judgments.constitutionalTribunal.content.dir}") String importContentDir) {
+    public ContentDownloadStepExecutionListener ctjContentDownloadStepExecutionListener() {
         
         ContentDownloadStepExecutionListener stepExecutionListener = new ContentDownloadStepExecutionListener();
-        stepExecutionListener.setImportDir(importDir);
+        stepExecutionListener.setImportMetadataDir(importMetadataDir);
         stepExecutionListener.setImportContentDir(importContentDir);
-        stepExecutionListener.setRawJudgmentClass(RawSourceCtJudgment.class);
+        stepExecutionListener.setDownloadedContentDir(downloadedContentDir);
         
         return stepExecutionListener;
     }

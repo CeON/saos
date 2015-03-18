@@ -15,7 +15,7 @@ import pl.edu.icm.saos.importer.common.JudgmentImportProcessWriter;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.JudgmentImportDownloadWriter;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
-import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentNode;
+import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentItem;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
@@ -90,7 +90,7 @@ public class ScjImportJobConfiguration {
     
     @Bean
     protected Step scJudgmentImportDownloadStep() {
-        return steps.get("scJudgmentImportDownloadStep").<JsonJudgmentNode, RawSourceScJudgment> chunk(20)
+        return steps.get("scJudgmentImportDownloadStep").<JsonJudgmentItem, RawSourceScJudgment> chunk(20)
             .reader(scjImportDownloadReader)
             .processor(scjImportDownloadProcessor)
             .writer(scjImportDownloadWriter)

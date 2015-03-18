@@ -32,12 +32,12 @@ public class ContentSourceFileFinder {
      * but extensions may differ.
      * Extension of returned file must be one of the {@link #setEligibleFileExtensions(String[])}
      */
-    public File findContentFile(File baseDir, File correspondingMetadataFile) {
+    public File findContentFile(File contentDir, File correspondingMetadataFile) {
         String filenameBase = extractFilenameBase(correspondingMetadataFile.getName());
         
         List<String> possibleFileNames = buildPossibleFilenames(filenameBase);
         
-        Collection<File> foundContentFiles = FileUtils.listFiles(baseDir, new NameFileFilter(possibleFileNames), TrueFileFilter.INSTANCE);
+        Collection<File> foundContentFiles = FileUtils.listFiles(contentDir, new NameFileFilter(possibleFileNames), TrueFileFilter.INSTANCE);
         
         if (foundContentFiles.size() == 0) {
             throw new ImportException("No content file was found for " + correspondingMetadataFile);

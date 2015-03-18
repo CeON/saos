@@ -49,6 +49,16 @@ public class SupremeCourtImportConfiguration {
     private JudgmentOverwriter<SupremeCourtJudgment> scSpecificJudgmentOverwriter;
     
     
+    @Value("${import.judgments.supremeCourt.dir}")
+    private String importMetadataDir;
+    
+    @Value("${import.judgments.supremeCourt.content.dir}")
+    private String importContentDir;
+    
+    @Value("${import.judgments.supremeCourt.download.dir}")
+    private String downloadedContentDir;
+    
+    
     
     //------------------------ BEANS --------------------------
     
@@ -66,9 +76,9 @@ public class SupremeCourtImportConfiguration {
     }
     
     @Bean
-    public JsonImportDownloadReader scjImportDownloadReader(@Value("${import.judgments.supremeCourt.dir}") String importDir) {
+    public JsonImportDownloadReader scjImportDownloadReader() {
         JsonImportDownloadReader scjImportDownloadReader = new JsonImportDownloadReader();
-        scjImportDownloadReader.setImportDir(importDir);
+        scjImportDownloadReader.setImportDir(importMetadataDir);
         
         return scjImportDownloadReader;
     }
@@ -77,6 +87,7 @@ public class SupremeCourtImportConfiguration {
     public JsonImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor() {
         JsonImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor = new JsonImportDownloadProcessor<>(RawSourceScJudgment.class);
         scjImportDownloadProcessor.setSourceJudgmentParser(sourceScJudgmentParser());
+        scjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir);
         
         return scjImportDownloadProcessor;
     }
@@ -90,14 +101,12 @@ public class SupremeCourtImportConfiguration {
     }
     
     @Bean
-    public ContentDownloadStepExecutionListener scjContentDownloadStepExecutionListener(
-            @Value("${import.judgments.supremeCourt.dir}") String importDir,
-            @Value("${import.judgments.supremeCourt.content.dir}") String importContentDir) {
+    public ContentDownloadStepExecutionListener scjContentDownloadStepExecutionListener() {
         
         ContentDownloadStepExecutionListener stepExecutionListener = new ContentDownloadStepExecutionListener();
-        stepExecutionListener.setImportDir(importDir);
+        stepExecutionListener.setImportMetadataDir(importMetadataDir);
         stepExecutionListener.setImportContentDir(importContentDir);
-        stepExecutionListener.setRawJudgmentClass(RawSourceScJudgment.class);
+        stepExecutionListener.setDownloadedContentDir(downloadedContentDir);
         
         return stepExecutionListener;
     }
