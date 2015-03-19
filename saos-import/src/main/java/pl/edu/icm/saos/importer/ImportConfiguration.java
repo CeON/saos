@@ -11,6 +11,7 @@ import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.commoncourt.CommonCourtImportConfiguration;
 import pl.edu.icm.saos.importer.notapi.common.DateTimeDeserializer;
 import pl.edu.icm.saos.importer.notapi.common.ImportFileUtils;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentSourceFileFinder;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.ConstitutionalTribunalImportConfiguration;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.NationalAppealChamberImportConfiguration;
 import pl.edu.icm.saos.importer.notapi.supremecourt.SupremeCourtImportConfiguration;
@@ -41,6 +42,13 @@ public class ImportConfiguration {
         ImportFileUtils scjImportFileUtils = new ImportFileUtils();
         scjImportFileUtils.setEligibleFileExtensions(new String[]{"json", "json.gz"});
         return scjImportFileUtils;
+    }
+    
+    @Bean
+    public ContentSourceFileFinder contentSourceFileFinder() {
+        ContentSourceFileFinder contentSourceFileFinder = new ContentSourceFileFinder();
+        contentSourceFileFinder.setEligibleFileExtensions(new String[] { "zip" });
+        return contentSourceFileFinder;
     }
     
     

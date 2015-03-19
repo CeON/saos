@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
  *  
  * @author Łukasz Dumiszewski
  */
-public class JsonImportDownloadReader implements ItemStreamReader<String> {
+public class JsonImportDownloadReader implements ItemStreamReader<JsonJudgmentItem> {
     
     private ImportFileUtils importFileUtils;
     
@@ -52,7 +52,7 @@ public class JsonImportDownloadReader implements ItemStreamReader<String> {
     //------------------------ LOGIC --------------------------
     
     @Override
-    public String read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+    public JsonJudgmentItem read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         
         if (currentFile == null) {
             return null;
@@ -78,9 +78,7 @@ public class JsonImportDownloadReader implements ItemStreamReader<String> {
             String judgment = jsonFormatter.formatCurrentTokenTree(jsonParser);
             
             if (judgment != null) {
-                
-                return StringUtils.trim(judgment);
-            
+                return new JsonJudgmentItem(StringUtils.trim(judgment), currentFile);
             }
         }
         

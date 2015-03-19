@@ -11,9 +11,14 @@ import static org.junit.Assert.assertTrue;
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalDate;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.batch.core.Job;
@@ -24,7 +29,9 @@ import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
@@ -40,6 +47,8 @@ import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.RawSourceJudgmentRepository;
 
+import com.google.common.io.Files;
+
 /**
  * @author madryk
  */
@@ -50,10 +59,18 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
     private JsonImportDownloadReader ctjImportDownloadReader;
     
     @Autowired
+    private ContentDownloadStepExecutionListener ctjContentDownloadStepExecutionListener;
+    
+    @Autowired
+    private JsonImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor;
+    
+    
+    @Autowired
     private Job ctJudgmentImportJob;
     
     @Autowired
     private JobForcingExecutor jobExecutor;
+    
     
     @Autowired
     private RawSourceJudgmentRepository rJudgmentRepository;
@@ -70,6 +87,24 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
     @Autowired
     private EnrichmentTagRepository enrichmentTagRepository;
     
+    
+    private File downloadedContentDir;
+    
+    
+    @Before
+    public void setUp() {
+        downloadedContentDir = Files.createTempDir();
+        
+        ctjContentDownloadStepExecutionListener.setDownloadedContentDir(downloadedContentDir.getPath());
+        ctjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
+    }
+    
+    @After
+    public void cleanup() throws IOException {
+        FileUtils.deleteDirectory(downloadedContentDir);
+    }
+    
+    
     //------------------------ TESTS --------------------------
     
     @Test
@@ -77,8 +112,7 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         
         // given
         
-        ctjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
-                "import/constitutionalTribunal/judgments/version1"));
+        setImportDirs("import/constitutionalTribunal/judgments/version1", "import/constitutionalTribunal/judgments/content/version1");
         
         
         // execute
@@ -108,15 +142,13 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         
         // given
         
-        ctjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
-                "import/constitutionalTribunal/judgments/version1"));
+        setImportDirs("import/constitutionalTribunal/judgments/version1", "import/constitutionalTribunal/judgments/content/version1");
         jobExecutor.forceStartNewJob(ctJudgmentImportJob);
         long ctJudgment04e47013Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.CONSTITUTIONAL_TRIBUNAL, "04e47013023d2b315b841f99ccb9c290").getId();
         
         testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ctJudgment04e47013Id);
         
-        ctjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
-                "import/constitutionalTribunal/judgments/version2"));
+        setImportDirs("import/constitutionalTribunal/judgments/version2", "import/constitutionalTribunal/judgments/content/version2");
         
         
         // execute
@@ -251,4 +283,11 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         assertThat(dissentingOpinion.getTextContent(), is(textContent));
         assertThat(dissentingOpinion.getAuthors(), containsInAnyOrder(authors));
     }
+    
+    private void setImportDirs(String importMetadataDir, String importContentDir) {
+        ctjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(importMetadataDir));
+        ctjContentDownloadStepExecutionListener.setImportMetadataDir(PathResolver.resolveToAbsolutePath(importMetadataDir));
+        ctjContentDownloadStepExecutionListener.setImportContentDir(PathResolver.resolveToAbsolutePath(importContentDir));
+    }
+    
 }

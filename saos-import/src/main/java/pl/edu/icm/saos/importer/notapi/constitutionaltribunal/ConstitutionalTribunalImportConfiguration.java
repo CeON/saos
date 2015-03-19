@@ -11,11 +11,12 @@ import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverterImpl;
 import pl.edu.icm.saos.importer.common.overwriter.DelegatingJudgmentOverwriter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
-import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process.CtSpecificJudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process.SourceCtJudgmentExtractor;
@@ -43,6 +44,16 @@ public class ConstitutionalTribunalImportConfiguration {
     private CtSpecificJudgmentOverwriter ctSpecificJudgmentOverwriter;
     
     
+    @Value("${import.judgments.constitutionalTribunal.dir}")
+    private String importMetadataDir;
+    
+    @Value("${import.judgments.constitutionalTribunal.content.dir}")
+    private String importContentDir;
+    
+    @Value("${import.judgments.constitutionalTribunal.download.dir}")
+    private String downloadedContentDir;
+    
+    
     //------------------------ BEANS --------------------------
     
     @Bean
@@ -54,9 +65,9 @@ public class ConstitutionalTribunalImportConfiguration {
     }
     
     @Bean
-    public JsonImportDownloadReader ctjImportDownloadReader(@Value("${import.judgments.constitutionalTribunal.dir}") String importDir) {
+    public JsonImportDownloadReader ctjImportDownloadReader() {
         JsonImportDownloadReader ctjImportDownloadReader = new JsonImportDownloadReader();
-        ctjImportDownloadReader.setImportDir(importDir);
+        ctjImportDownloadReader.setImportDir(importMetadataDir);
         
         return ctjImportDownloadReader;
     }
@@ -65,6 +76,7 @@ public class ConstitutionalTribunalImportConfiguration {
     public JsonImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor() {
         JsonImportDownloadProcessor<RawSourceCtJudgment> ctjImportDownloadProcessor = new JsonImportDownloadProcessor<>(RawSourceCtJudgment.class);
         ctjImportDownloadProcessor.setSourceJudgmentParser(sourceCtJudgmentParser());
+        ctjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir);
         
         return ctjImportDownloadProcessor;
     }
@@ -73,6 +85,17 @@ public class ConstitutionalTribunalImportConfiguration {
     public NotApiImportDownloadStepExecutionListener ctjImportDownloadStepExecutionListener() {
         NotApiImportDownloadStepExecutionListener stepExecutionListener = new NotApiImportDownloadStepExecutionListener();
         stepExecutionListener.setRawJudgmentClass(RawSourceCtJudgment.class);
+        
+        return stepExecutionListener;
+    }
+    
+    @Bean
+    public ContentDownloadStepExecutionListener ctjContentDownloadStepExecutionListener() {
+        
+        ContentDownloadStepExecutionListener stepExecutionListener = new ContentDownloadStepExecutionListener();
+        stepExecutionListener.setImportMetadataDir(importMetadataDir);
+        stepExecutionListener.setImportContentDir(importContentDir);
+        stepExecutionListener.setDownloadedContentDir(downloadedContentDir);
         
         return stepExecutionListener;
     }
