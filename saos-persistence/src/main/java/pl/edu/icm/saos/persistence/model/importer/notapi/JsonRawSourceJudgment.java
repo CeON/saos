@@ -20,6 +20,8 @@ import pl.edu.icm.saos.persistence.model.importer.RawSourceJudgment;
 public class JsonRawSourceJudgment extends RawSourceJudgment {
 
     private String jsonContent;
+    
+    private String judgmentContentFilename;
 
     
     //------------------------ GETTERS --------------------------
@@ -30,11 +32,19 @@ public class JsonRawSourceJudgment extends RawSourceJudgment {
         return jsonContent;
     }
     
+    public String getJudgmentContentFilename() {
+        return judgmentContentFilename;
+    }
+    
     
     //------------------------ SETTERS --------------------------
 
     public void setJsonContent(String jsonContent) {
         this.jsonContent = jsonContent;
+    }
+    
+    public void setJudgmentContentFilename(String judgmentContentFilename) {
+        this.judgmentContentFilename = judgmentContentFilename;
     }
     
     //------------------------ HashCode & Equals --------------------------

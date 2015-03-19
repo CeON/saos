@@ -17,6 +17,7 @@ import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.SourceScJudgmentExtractor;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -48,6 +49,16 @@ public class SupremeCourtImportConfiguration {
     private JudgmentOverwriter<SupremeCourtJudgment> scSpecificJudgmentOverwriter;
     
     
+    @Value("${import.judgments.supremeCourt.dir}")
+    private String importMetadataDir;
+    
+    @Value("${import.judgments.supremeCourt.content.dir}")
+    private String importContentDir;
+    
+    @Value("${import.judgments.supremeCourt.download.dir}")
+    private String downloadedContentDir;
+    
+    
     
     //------------------------ BEANS --------------------------
     
@@ -65,9 +76,9 @@ public class SupremeCourtImportConfiguration {
     }
     
     @Bean
-    public JsonImportDownloadReader scjImportDownloadReader(@Value("${import.judgments.supremeCourt.dir}") String importDir) {
+    public JsonImportDownloadReader scjImportDownloadReader() {
         JsonImportDownloadReader scjImportDownloadReader = new JsonImportDownloadReader();
-        scjImportDownloadReader.setImportDir(importDir);
+        scjImportDownloadReader.setImportDir(importMetadataDir);
         
         return scjImportDownloadReader;
     }
@@ -76,6 +87,7 @@ public class SupremeCourtImportConfiguration {
     public JsonImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor() {
         JsonImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor = new JsonImportDownloadProcessor<>(RawSourceScJudgment.class);
         scjImportDownloadProcessor.setSourceJudgmentParser(sourceScJudgmentParser());
+        scjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir);
         
         return scjImportDownloadProcessor;
     }
@@ -84,6 +96,17 @@ public class SupremeCourtImportConfiguration {
     public NotApiImportDownloadStepExecutionListener scjImportDownloadStepExecutionListener() {
         NotApiImportDownloadStepExecutionListener stepExecutionListener = new NotApiImportDownloadStepExecutionListener();
         stepExecutionListener.setRawJudgmentClass(RawSourceScJudgment.class);
+        
+        return stepExecutionListener;
+    }
+    
+    @Bean
+    public ContentDownloadStepExecutionListener scjContentDownloadStepExecutionListener() {
+        
+        ContentDownloadStepExecutionListener stepExecutionListener = new ContentDownloadStepExecutionListener();
+        stepExecutionListener.setImportMetadataDir(importMetadataDir);
+        stepExecutionListener.setImportContentDir(importContentDir);
+        stepExecutionListener.setDownloadedContentDir(downloadedContentDir);
         
         return stepExecutionListener;
     }

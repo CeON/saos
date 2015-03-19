@@ -11,10 +11,15 @@ import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.JUD
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
 import org.joda.time.LocalDate;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.batch.core.Job;
@@ -26,7 +31,9 @@ import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
@@ -52,6 +59,8 @@ import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentRepository;
 
+import com.google.common.io.Files;
+
 /**
  * @author Łukasz Dumiszewski
  */
@@ -64,10 +73,18 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     private JsonImportDownloadReader scjImportDownloadReader;
     
     @Autowired
+    private ContentDownloadStepExecutionListener scjContentDownloadStepExecutionListener;
+    
+    @Autowired
+    private JsonImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor;
+    
+    
+    @Autowired
     private Job scJudgmentImportJob;
     
     @Autowired
     private JobForcingExecutor jobExecutor;
+    
     
     @Autowired
     private RawSourceScJudgmentRepository rJudgmentRepository;
@@ -105,6 +122,23 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     @Autowired
     private EnrichmentTagRepository enrichmentTagRepository;
     
+    
+    private File downloadedContentDir;
+    
+    
+    @Before
+    public void setUp() {
+        downloadedContentDir = Files.createTempDir();
+        
+        scjContentDownloadStepExecutionListener.setDownloadedContentDir(downloadedContentDir.getPath());
+        scjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
+    }
+    
+    @After
+    public void cleanup() throws IOException {
+        FileUtils.deleteDirectory(downloadedContentDir);
+    }
+    
     /*
      * 
      * Info:
@@ -126,8 +160,7 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         
         //-------------- given --------------
                 
-        scjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
-                "import/supremeCourt/judgments/version1"));
+        setImportDirs("import/supremeCourt/judgments/version1", "import/supremeCourt/judgments/content/version1");
         
         
         //-------------- execute --------------
@@ -183,15 +216,13 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         
         //-------------- given --------------
         
-        scjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
-                "import/supremeCourt/judgments/version1"));
+        setImportDirs("import/supremeCourt/judgments/version1", "import/supremeCourt/judgments/content/version1");
         JobExecution jobExecution = jobExecutor.forceStartNewJob(scJudgmentImportJob);
         long scJudgmentb082Id = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "b082922617256d5b4092cf23864c8894").getId();
         
         testPersistenceObjectFactory.createEnrichmentTagsForJudgment(scJudgmentb082Id);
                 
-        scjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(
-                "import/supremeCourt/judgments/version2"));
+        setImportDirs("import/supremeCourt/judgments/version2", "import/supremeCourt/judgments/content/version2");
         
         
         //--------------- execute --------------
@@ -416,6 +447,12 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         List<SupremeCourtChamberDivision> scChamberDivisions = scChamberDivisionRepository.findAllByScChamberId(scChamber.getId());
         List<String> scChamber1DivisionNames = scChamberDivisions.stream().map(d->d.getName()).collect(Collectors.toList());
         assertThat(scChamber1DivisionNames, containsInAnyOrder(divisionNames));
+    }
+    
+    private void setImportDirs(String importMetadataDir, String importContentDir) {
+        scjImportDownloadReader.setImportDir(PathResolver.resolveToAbsolutePath(importMetadataDir));
+        scjContentDownloadStepExecutionListener.setImportMetadataDir(PathResolver.resolveToAbsolutePath(importMetadataDir));
+        scjContentDownloadStepExecutionListener.setImportContentDir(PathResolver.resolveToAbsolutePath(importContentDir));
     }
 
 }
