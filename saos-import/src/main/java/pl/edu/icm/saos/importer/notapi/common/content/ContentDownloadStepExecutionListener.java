@@ -36,15 +36,31 @@ public class ContentDownloadStepExecutionListener implements StepExecutionListen
     @Override
     public void beforeStep(StepExecution stepExecution) {
         
+        deleteDownloadedContentFiles();
+        
+        downloadContentFiles();
+    }
+
+    @Override
+    public ExitStatus afterStep(StepExecution stepExecution) {
+        return ExitStatus.COMPLETED;
+    }
+    
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private void deleteDownloadedContentFiles() {
         try {
             FileUtils.deleteDirectory(new File(downloadedContentDir));
         } catch (IOException e) {
             throw new ImportException(e);
         }
-        
+    }
+    
+    
+    private void downloadContentFiles() {
         
         Collection<File> importMetadataFiles = importFileUtils.listImportFiles(importMetadataDir);
-        
         
         for (File importMetadataFile : importMetadataFiles) {
             File importContentFile = importContentFileFinder.findContentFile(new File(importContentDir), importMetadataFile);
@@ -55,12 +71,6 @@ public class ContentDownloadStepExecutionListener implements StepExecutionListen
                 throw new ImportException(e);
             }
         }
-        
-    }
-
-    @Override
-    public ExitStatus afterStep(StepExecution stepExecution) {
-        return ExitStatus.COMPLETED;
     }
 
     
