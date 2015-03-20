@@ -33,28 +33,28 @@ function extractIndex(element) {
  * This function binds the selects together so, for example, changes to one of them can influence the other ones.
  * E.g. changing the end year to the value lower than the start year decreases the start year.
  * 
- * @param monthStartId the id of the select representing the range start month
- * @param yearStartId the id of the select representing the range start year
- * @param monthEndId the id of the select representing the range end month
- * @param yearEndId the id of the select representing the range end year
+ * @param startMonthId the id of the select representing the range start month
+ * @param startYearId the id of the select representing the range start year
+ * @param endMonthId the id of the select representing the range end month
+ * @param endYearId the id of the select representing the range end year
  */
-function tieMonthYearRangeSelects(monthStartId, yearStartId, monthEndId, yearEndId) {
+function tieMonthYearRangeSelects(startMonthId, startYearId, endMonthId, endYearId) {
     
-    var monthStart = $('#' + monthStartId);
-    var yearStart = $('#' + yearStartId);
-    var monthEnd = $('#' + monthEndId);
-    var yearEnd = $('#' + yearEndId);
+    var startMonth = $('#' + startMonthId);
+    var startYear = $('#' + startYearId);
+    var endMonth = $('#' + endMonthId);
+    var endYear = $('#' + endYearId);
     
     
-    yearStart.change(function() {
+    startYear.change(function() {
         
-        if (yearStart.val() >= yearEnd.val()) {
+        if (+startYear.val() >= +endYear.val()) {
             
-            yearEnd.val(yearStart.val());
+            endYear.val(startYear.val());
             
-            if (monthStart.val() > monthEnd.val()) {
+            if (+startMonth.val() > +endMonth.val()) {
                 
-                monthEnd.val(monthStart.val());
+                endMonth.val(startMonth.val());
                 
             }
         }
@@ -62,15 +62,15 @@ function tieMonthYearRangeSelects(monthStartId, yearStartId, monthEndId, yearEnd
     });
 
 
-    yearEnd.change(function() {
+    endYear.change(function() {
         
-        if (yearStart.val() >= yearEnd.val()) {
+        if (+startYear.val() >= +endYear.val()) {
             
-            yearStart.val(yearEnd.val());
+            startYear.val(endYear.val());
             
-            if (monthStart.val() > monthEnd.val()) {
+            if (+startMonth.val() > +endMonth.val()) {
                 
-                monthStart.val(monthEnd.val());
+                startMonth.val(endMonth.val());
                 
             }
         }
@@ -78,22 +78,22 @@ function tieMonthYearRangeSelects(monthStartId, yearStartId, monthEndId, yearEnd
     });
     
     
-    monthStart.change(function() {
+    startMonth.change(function() {
        
-        if (yearStart.val() == yearEnd.val() && monthStart.val() > monthEnd.val()) {
+        if (+startYear.val() == +endYear.val() && +startMonth.val() > +endMonth.val()) {
             
-            monthEnd.val(monthStart.val());
+            endMonth.val(startMonth.val());
             
         }
             
     });
     
 
-    monthEnd.change(function() {
+    endMonth.change(function() {
         
-        if (yearStart.val() == yearEnd.val() && monthStart.val() > monthEnd.val()) {
+        if (+startYear.val() == +endYear.val() && +startMonth.val() > +endMonth.val()) {
             
-            monthStart.val(monthEnd.val());
+            startMonth.val(endMonth.val());
             
         }
             
