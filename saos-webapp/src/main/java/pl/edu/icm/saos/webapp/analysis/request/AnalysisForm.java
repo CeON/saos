@@ -5,6 +5,9 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 /**
+ * 
+ * An analysis form data holder
+ * 
  * @author Łukasz Dumiszewski
  */
 

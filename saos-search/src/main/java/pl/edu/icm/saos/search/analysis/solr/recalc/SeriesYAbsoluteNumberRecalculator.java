@@ -2,11 +2,11 @@ package pl.edu.icm.saos.search.analysis.solr.recalc;
 
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.common.chart.Series;
 import pl.edu.icm.saos.search.analysis.request.AbsoluteNumberYValue;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
 import pl.edu.icm.saos.search.analysis.request.YValueType;
-import pl.edu.icm.saos.search.analysis.result.Series;
 
 import com.google.common.base.Preconditions;
 

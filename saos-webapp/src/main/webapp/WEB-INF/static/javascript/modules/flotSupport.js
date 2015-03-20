@@ -4,15 +4,43 @@
  * 
  */
 
+/**
+ * Formats x ticks labels so they do not overlap each other (hides some labels).
+ * <br/>
+ * @param minXtickLabelLength min length in px that should be reserved for each x tick label
+ * 
+ * Taken from: http://www.willhallonline.co.uk/blog/dynamically-hide-tick-labels-when-using-flot-chart-categories
+ */
+function formatXTicks(minXtickLabelLength){
+    
+    var xWidth = $('.flot-x-axis').width();
+    var xTicks = $('.flot-x-axis .flot-tick-label').length;
+    
+    var limiter = Math.floor(xWidth/xTicks);
+            
+    if(limiter < minXtickLabelLength){
+                
+        $('.flot-x-axis .flot-tick-label').each(function(index){
+            if(index%Math.floor(minXtickLabelLength/limiter) > 0){
+                $(this).css("display","none");
+            }
+         });
+     
+    }
+}
 
-/** Shows date/number point tooltip on flot plothover event */
-function showDateNumberPointTooltip(event, pos, item) {
+
+/** Shows a point tooltip with a number on y-axis. The number values are formatted (there are spaces added
+ * every 3 digits) */
+function showYNumberPointTooltip(event, pos, item) {
 	if (item) {
 		
 			$("#tooltip").remove();
-			var x = $.format.date(item.datapoint[0], "MM/yyyy"), y = addSpacesEvery3Digits(item.datapoint[1].toFixed(0));
+			var x =  item.series.xaxis.ticks[item.dataIndex].label;
+			x = x.replace(/<br\/>/g, "");
+			var y = addSpacesEvery3Digits(item.datapoint[1].toFixed(0));
 
-			showTooltip(item.pageX, item.pageY, x + ", <b>" + y + "</b>");
+			showTooltip(item.pageX, item.pageY, x + ",  <b>" + y + "</b>");
 		
 	} else {
 		$("#tooltip").remove();
@@ -144,8 +172,8 @@ function calculateYAxisRangeForXRange(chart, xmin, xmax, yminLessThanZeroToZero)
 function getMinX(series) {
 	var minX = null;
 	var index;
-	for (index = 0; index < series.data.length; index++) {
-		var currentX = parseFloat(series.data[index][0]);
+	for (index = 0; index < series.points.length; index++) {
+		var currentX = parseFloat(series.points[index][0]);
 		if (minX == null || minX > currentX) {
 			minX = currentX;
 		}
@@ -157,8 +185,8 @@ function getMinX(series) {
 function getMaxX(series) {
 	var maxX = null;
 	var index;
-	for (index = 0; index < series.data.length; index++) {
-		var currentX = parseFloat(series.data[index][0]);
+	for (index = 0; index < series.points.length; index++) {
+		var currentX = parseFloat(series.points[index][0]);
 		if (maxX == null || maxX < currentX) {
 			maxX = currentX;
 		}
@@ -173,9 +201,9 @@ function getMinMaxYForXRange(chart, xmin, xmax, max) {
 	var minMaxValue = null;
 	exloop: for (seriesIndex = 0; seriesIndex < chart.seriesList.length; seriesIndex++) {
 		var series = chart.seriesList[seriesIndex];
-		inloop: for (index = 0; index < series.data.length; index++) {
-			var currentValue = parseInt(series.data[index][1]);
-			var currentX = parseFloat(series.data[index][0]);
+		inloop: for (index = 0; index < series.points.length; index++) {
+			var currentValue = parseInt(series.points[index][1]);
+			var currentX = parseFloat(series.points[index][0]);
 			if (parseFloat(xmin) > currentX) {
 				continue inloop;
 			}

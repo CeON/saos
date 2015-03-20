@@ -14,7 +14,6 @@ import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAM
 import java.util.Arrays;
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -41,6 +40,8 @@ import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SourceCode;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski

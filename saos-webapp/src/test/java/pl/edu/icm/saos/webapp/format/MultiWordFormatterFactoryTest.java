@@ -1,12 +1,13 @@
 package pl.edu.icm.saos.webapp.format;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.text.ParseException;
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Test;
+
+import com.google.common.collect.Lists;
 
 public class MultiWordFormatterFactoryTest {
 

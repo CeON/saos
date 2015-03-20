@@ -6,7 +6,6 @@ import static org.mockito.Mockito.doThrow;
 
 import javax.validation.ValidationException;
 
-import org.assertj.core.util.Lists;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +21,7 @@ import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
+import com.google.common.collect.Lists;
 
 /**
  * @author madryk

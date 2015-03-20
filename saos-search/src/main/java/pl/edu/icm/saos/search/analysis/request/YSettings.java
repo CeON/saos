@@ -56,5 +56,13 @@ public class YSettings {
         return Objects.equals(this.valueType, other.valueType);
 
     }
+
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "YSettings [valueType=" + valueType + "]";
+    }
     
 }

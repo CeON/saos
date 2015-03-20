@@ -2,15 +2,20 @@ package pl.edu.icm.saos.webapp.analysis.result;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import pl.edu.icm.saos.search.analysis.result.Chart;
-import pl.edu.icm.saos.search.analysis.result.Series;
-import pl.edu.icm.saos.webapp.analysis.result.UiChart.UiSeries;
+import pl.edu.icm.saos.common.chart.Chart;
+import pl.edu.icm.saos.common.chart.Series;
+import pl.edu.icm.saos.webapp.analysis.result.FlotChart.FlotSeries;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski
@@ -23,12 +28,15 @@ public class ChartConverterTest {
     
     private SeriesConverter seriesConverter = mock(SeriesConverter.class);
     
+    private FlotXticksGenerator flotXticksGenerator = mock(FlotXticksGenerator.class);
+        
+    
     
     @Before
     public void before() {
         
         chartConverter.setSeriesConverter(seriesConverter);
-        
+        chartConverter.setFlotXticksGenerator(flotXticksGenerator);
     }
 
     
@@ -51,21 +59,24 @@ public class ChartConverterTest {
         // given
         Chart<Object, Number> chart = createChart();
         
-        UiSeries uiSeries1 = new UiSeries();
-        UiSeries uiSeries2 = new UiSeries();
+        FlotSeries flotSeries1 = mock(FlotSeries.class);
+        FlotSeries flotSeries2 = mock(FlotSeries.class);
         
-        when(seriesConverter.convert(chart.getSeriesList().get(0))).thenReturn(uiSeries1);
-        when(seriesConverter.convert(chart.getSeriesList().get(1))).thenReturn(uiSeries2);
+        List<Object[]> xticks = Lists.newArrayList();
+        
+        when(seriesConverter.convert(chart.getSeriesList().get(0))).thenReturn(flotSeries1);
+        when(seriesConverter.convert(chart.getSeriesList().get(1))).thenReturn(flotSeries2);
+        when(flotXticksGenerator.generateXticks(chart)).thenReturn(xticks);
         
         // execute
-        UiChart uiChart = chartConverter.convert(chart);
+        FlotChart flotChart = chartConverter.convert(chart);
         
         // assert
-        assertNotNull(uiChart);
-        assertEquals(2, uiChart.getSeriesList().size());
-        assertEquals(uiSeries1, uiChart.getSeriesList().get(0));
-        assertEquals(uiSeries2, uiChart.getSeriesList().get(1));
-        
+        assertNotNull(flotChart);
+        assertEquals(2, flotChart.getSeriesList().size());
+        assertTrue(flotSeries1 == flotChart.getSeriesList().get(0));
+        assertTrue(flotSeries2 == flotChart.getSeriesList().get(1));
+        assertTrue(xticks == flotChart.getXticks());
     }
 
     

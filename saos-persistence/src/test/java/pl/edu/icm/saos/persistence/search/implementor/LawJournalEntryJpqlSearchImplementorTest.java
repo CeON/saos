@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -23,6 +22,8 @@ import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.LawJournalEntrySearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author madryk

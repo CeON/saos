@@ -1,9 +1,9 @@
 package pl.edu.icm.saos.search.analysis;
 
+import pl.edu.icm.saos.common.chart.Series;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
-import pl.edu.icm.saos.search.analysis.result.Series;
 
 /**
  * A contract for classes responsible for generating series data.

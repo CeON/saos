@@ -11,5 +11,4 @@ public final class WebappConst {
 
 	
 	public final static Locale LOCALE_PL = new Locale("pl", "PL");
-
 }

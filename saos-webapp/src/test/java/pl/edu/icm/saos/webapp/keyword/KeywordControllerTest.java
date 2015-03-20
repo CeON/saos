@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -33,6 +32,8 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.repository.JudgmentKeywordRepository;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
+
+import com.google.common.collect.Lists;
 
 /**
  * 

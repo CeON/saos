@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -20,6 +19,8 @@ import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
+
+import com.google.common.collect.Lists;
 
 
 /**

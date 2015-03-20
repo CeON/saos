@@ -19,7 +19,6 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
-import org.assertj.core.util.Maps;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,6 +54,8 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+
+import com.google.common.collect.Maps;
 
 /**
  * @author madryk

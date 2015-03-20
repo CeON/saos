@@ -1,33 +1,35 @@
 package pl.edu.icm.saos.webapp.analysis;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import pl.edu.icm.saos.common.chart.Chart;
+import pl.edu.icm.saos.common.chart.Series;
 import pl.edu.icm.saos.search.analysis.AnalysisService;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
-import pl.edu.icm.saos.search.analysis.result.Chart;
-import pl.edu.icm.saos.search.analysis.result.Series;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
-import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilterConverter;
 import pl.edu.icm.saos.webapp.analysis.request.UixSettings;
-import pl.edu.icm.saos.webapp.analysis.request.UixSettingsConverter;
 import pl.edu.icm.saos.webapp.analysis.request.UiySettings;
-import pl.edu.icm.saos.webapp.analysis.request.UiySettingsConverter;
+import pl.edu.icm.saos.webapp.analysis.request.converter.JudgmentSeriesFilterConverter;
+import pl.edu.icm.saos.webapp.analysis.request.converter.UixSettingsConverter;
+import pl.edu.icm.saos.webapp.analysis.request.converter.UiySettingsConverter;
 import pl.edu.icm.saos.webapp.analysis.result.ChartConverter;
-import pl.edu.icm.saos.webapp.analysis.result.UiChart;
-import pl.edu.icm.saos.webapp.analysis.result.UiChart.UiSeries;
+import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
+import pl.edu.icm.saos.webapp.analysis.result.FlotChart.FlotSeries;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski
@@ -35,6 +37,7 @@ import pl.edu.icm.saos.webapp.analysis.result.UiChart.UiSeries;
 
 public class UiAnalysisServiceTest {
 
+    @InjectMocks
     private UiAnalysisService uiAnalysisService = new UiAnalysisService();
     
     @Mock private AnalysisService analysisService;
@@ -45,20 +48,14 @@ public class UiAnalysisServiceTest {
     
     @Mock private UiySettingsConverter uiySettingsConverter;
     
-    @Mock private ChartConverter chartConverter;
+    @Mock private ChartConverter flotChartConverter;
     
     
     @Before
     public void before() {
     
         initMocks(this);
-        
-        uiAnalysisService.setAnalysisService(analysisService);
-        uiAnalysisService.setJudgmentSeriesFilterConverter(judgmentSeriesFilterConverter);
-        uiAnalysisService.setUixSettingsConverter(uixSettingsConverter);
-        uiAnalysisService.setUiySettingsConverter(uiySettingsConverter);
-        uiAnalysisService.setChartConverter(chartConverter);
-        
+       
     }
     
     
@@ -112,7 +109,7 @@ public class UiAnalysisServiceTest {
         
         
         Chart<Object, Number> chart = createChart();
-        UiChart uiChart = createUiChart();
+        FlotChart flotChart = createFlotChart();
         
         
         
@@ -120,22 +117,22 @@ public class UiAnalysisServiceTest {
         when(uixSettingsConverter.convert(uiXSettings)).thenReturn(xsettings);
         when(uiySettingsConverter.convert(uiYSettings)).thenReturn(ysettings);
         when(analysisService.generateChart(criteriaList, xsettings, ysettings)).thenReturn(chart);
-        when(chartConverter.convert(chart)).thenReturn(uiChart);
+        when(flotChartConverter.convert(chart)).thenReturn(flotChart);
                 
         
         // execute
         
-        UiChart generatedUiChart = uiAnalysisService.generateChart(analysisForm);
+        FlotChart generatedFlotChart = uiAnalysisService.generateChart(analysisForm);
         
         
         // assert
         
-        assertEquals(uiChart, generatedUiChart);
+        assertTrue(flotChart == generatedFlotChart);
         verify(judgmentSeriesFilterConverter).convertList(filters);
         verify(uixSettingsConverter).convert(uiXSettings);
         verify(uiySettingsConverter).convert(uiYSettings);
         verify(analysisService).generateChart(criteriaList, xsettings, ysettings);
-        verify(chartConverter).convert(chart);
+        verify(flotChartConverter).convert(chart);
         
     }
 
@@ -152,12 +149,12 @@ public class UiAnalysisServiceTest {
     }
 
     
-    private UiChart createUiChart() {
-        UiChart uiChart = new UiChart();
-        UiSeries uiSeries = new UiSeries();
-        uiSeries.addPoint("XYZ", "123");
-        uiChart.addSeries(uiSeries);
-        return uiChart;
+    private FlotChart createFlotChart() {
+        FlotChart flotChart = new FlotChart();
+        FlotSeries flotSeries = new FlotSeries();
+        flotSeries.addPoint(123, 34);
+        flotChart.addSeries(flotSeries);
+        return flotChart;
     }
 
 
