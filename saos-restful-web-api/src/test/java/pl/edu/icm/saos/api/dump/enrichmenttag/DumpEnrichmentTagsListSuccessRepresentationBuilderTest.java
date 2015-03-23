@@ -8,7 +8,6 @@ import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.hateoas.Link;
@@ -21,6 +20,8 @@ import pl.edu.icm.saos.api.dump.enrichmenttag.views.DumpEnrichmentTagsView.DumpE
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author madryk

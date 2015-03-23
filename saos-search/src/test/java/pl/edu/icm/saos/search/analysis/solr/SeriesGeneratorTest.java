@@ -12,10 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import pl.edu.icm.saos.common.chart.Series;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.XField;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
-import pl.edu.icm.saos.search.analysis.result.Series;
+import pl.edu.icm.saos.search.analysis.solr.request.JudgmentSeriesCriteriaConverter;
+import pl.edu.icm.saos.search.analysis.solr.request.XSettingsToQueryApplier;
+import pl.edu.icm.saos.search.analysis.solr.result.SeriesResultConverter;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.Paging;
 import pl.edu.icm.saos.search.search.service.SearchQueryFactory;
@@ -61,27 +64,27 @@ public class SeriesGeneratorTest {
         
         QueryResponse response = new QueryResponse();
         
-        XSettings xSettings = new XSettings();
-        xSettings.setField(XField.JUDGMENT_DATE);
+        XSettings xsettings = new XSettings();
+        xsettings.setField(XField.JUDGMENT_DATE);
         
         Series<Object, Integer> series = new Series<Object, Integer>();
         
         when(judgmentSeriesCriteriaConverter.convert(judgmentSeriesCriteria)).thenReturn(judgmentCriteria);
         when(judgmentSearchQueryFactory.createQuery(judgmentCriteria, new Paging(0, 0))).thenReturn(solrQuery);
-        when(seriesResultConverter.convertToSeries(response, XField.JUDGMENT_DATE)).thenReturn(series);
+        when(seriesResultConverter.convert(response, xsettings)).thenReturn(series);
         when(solrQueryExecutor.executeQuery(solrQuery)).thenReturn(response);
         
         
         // execute
-        Series<Object, Integer> retSeries = seriesGenerator.generateSeries(judgmentSeriesCriteria, xSettings);
+        Series<Object, Integer> retSeries = seriesGenerator.generateSeries(judgmentSeriesCriteria, xsettings);
         
         // assert
         assertTrue(retSeries == series);
         
         verify(judgmentSeriesCriteriaConverter).convert(judgmentSeriesCriteria);
         verify(judgmentSearchQueryFactory).createQuery(judgmentCriteria, new Paging(0, 0));
-        verify(xSettingsToQueryApplier).applyXSettingsToQuery(solrQuery, xSettings);
-        verify(seriesResultConverter).convertToSeries(response, XField.JUDGMENT_DATE);
+        verify(xSettingsToQueryApplier).applyXSettingsToQuery(solrQuery, xsettings);
+        verify(seriesResultConverter).convert(response, xsettings);
         verify(solrQueryExecutor).executeQuery(solrQuery);
     }
     

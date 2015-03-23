@@ -5,15 +5,18 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.base.Preconditions;
-
+import pl.edu.icm.saos.common.chart.Series;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
-import pl.edu.icm.saos.search.analysis.result.Series;
+import pl.edu.icm.saos.search.analysis.solr.request.JudgmentSeriesCriteriaConverter;
+import pl.edu.icm.saos.search.analysis.solr.request.XSettingsToQueryApplier;
+import pl.edu.icm.saos.search.analysis.solr.result.SeriesResultConverter;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
 import pl.edu.icm.saos.search.search.model.Paging;
 import pl.edu.icm.saos.search.search.service.SearchQueryFactory;
 import pl.edu.icm.saos.search.search.service.SolrQueryExecutor;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Solr specific series generator
@@ -56,7 +59,7 @@ public class SeriesGenerator {
         QueryResponse response = solrQueryExecutor.executeQuery(query);
         
         
-        Series<Object, Integer> series = seriesResultConverter.convertToSeries(response, xsettings.getField());
+        Series<Object, Integer> series = seriesResultConverter.convert(response, xsettings);
         
         
         return series;

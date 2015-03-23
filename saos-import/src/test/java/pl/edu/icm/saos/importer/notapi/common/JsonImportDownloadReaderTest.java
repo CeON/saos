@@ -12,7 +12,6 @@ import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,6 +24,7 @@ import pl.edu.icm.saos.common.json.JsonFormatter;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski

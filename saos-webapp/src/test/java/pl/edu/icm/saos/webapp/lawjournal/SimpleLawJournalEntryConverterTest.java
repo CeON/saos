@@ -6,12 +6,13 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author madryk

@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -50,6 +49,8 @@ import pl.edu.icm.saos.webapp.court.ScListService;
 import pl.edu.icm.saos.webapp.court.SimpleDivision;
 import pl.edu.icm.saos.webapp.court.TestCourtsFactory;
 import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaForm;
+
+import com.google.common.collect.Lists;
 
 /**
  * 

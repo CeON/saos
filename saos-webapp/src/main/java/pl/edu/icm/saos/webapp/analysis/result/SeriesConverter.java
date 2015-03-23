@@ -1,53 +1,49 @@
 package pl.edu.icm.saos.webapp.analysis.result;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.search.analysis.result.Point;
-import pl.edu.icm.saos.search.analysis.result.Series;
-import pl.edu.icm.saos.webapp.analysis.result.UiChart.UiSeries;
+import pl.edu.icm.saos.common.chart.Point;
+import pl.edu.icm.saos.common.chart.Series;
+import pl.edu.icm.saos.webapp.analysis.result.FlotChart.FlotSeries;
 
 import com.google.common.base.Preconditions;
 
 /**
- * A series converter.
+ * A {@link Series} to {@link FlotSeries} converter.
  * 
  * @author Łukasz Dumiszewski
  */
-@Service("seriesConverter")
+@Service("flotSeriesConverter")
 public class SeriesConverter {
 
-    private PointFormatter pointFormatter;
-    
     
     
     //------------------------ LOGIC --------------------------
     
     /**
-     * Converts {@link Series} into {@link UiSeries} 
+     * Converts {@link Series} into {@link FlotSeries} 
      */
-    public UiSeries convert(Series<?, ?> series) {
+    public FlotSeries convert(Series<?, Number> series) {
         
         Preconditions.checkNotNull(series);
         
-        UiSeries uiSeries = new UiSeries();
+        FlotSeries flotSeries = new FlotSeries();
         
-        for (Point<?,?> point : series.getPoints()) {
+        for (int i=0; i<series.getPoints().size(); i++) {
             
-            uiSeries.addPoint(pointFormatter.formatPoint(point));
+            Point<?, Number> point = series.getPoints().get(i);
+            
+            flotSeries.addPoint(i, point.getY());
             
         }
         
-        return uiSeries;
+        return flotSeries;
         
     }
 
     
     //------------------------ SETTERS --------------------------
     
-    @Autowired
-    public void setPointFormatter(PointFormatter pointFormatter) {
-        this.pointFormatter = pointFormatter;
-    }
+  
     
 }

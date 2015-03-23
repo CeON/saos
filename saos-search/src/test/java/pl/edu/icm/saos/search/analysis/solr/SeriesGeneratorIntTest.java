@@ -6,10 +6,10 @@ import java.util.List;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
-import org.assertj.core.util.Lists;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import pl.edu.icm.saos.common.chart.Point;
+import pl.edu.icm.saos.common.chart.Series;
+import pl.edu.icm.saos.common.chart.value.MonthYear;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.search.SearchTestConfiguration;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
@@ -26,8 +29,8 @@ import pl.edu.icm.saos.search.analysis.request.Period.PeriodUnit;
 import pl.edu.icm.saos.search.analysis.request.XDateRange;
 import pl.edu.icm.saos.search.analysis.request.XField;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
-import pl.edu.icm.saos.search.analysis.result.Point;
-import pl.edu.icm.saos.search.analysis.result.Series;
+
+import com.google.common.collect.Lists;
 
 
 /**
@@ -58,7 +61,7 @@ public class SeriesGeneratorIntTest {
     //------------------------ TESTS --------------------------
     
     @Test
-    public void generateSeries_MONTH() {
+    public void generateSeries_MONTHS() {
         // given
         JudgmentSeriesCriteria jsc = new JudgmentSeriesCriteria();
         jsc.setPhrase("content");
@@ -76,15 +79,17 @@ public class SeriesGeneratorIntTest {
         // assert
         
         List<Point<Object, Integer>> expectedPoints = Lists.newArrayList();
-        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 3, 1), 2));
-        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 4, 1), 0));
-        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 1), 3));
+        expectedPoints.add(new Point<Object, Integer>(new MonthYear(3, 2000), 2));
+        expectedPoints.add(new Point<Object, Integer>(new MonthYear(4, 2000), 0));
+        expectedPoints.add(new Point<Object, Integer>(new MonthYear(5, 2000), 4));
+        expectedPoints.add(new Point<Object, Integer>(new MonthYear(6, 2000), 3)); 
         
         Assert.assertEquals(expectedPoints, series.getPoints());
         
     }
     
     @Test
+    @Ignore // until https://github.com/CeON/saos/issues/616
     public void generateSeries_WEEKS() {
         // given
         JudgmentSeriesCriteria jsc = new JudgmentSeriesCriteria();
@@ -104,8 +109,40 @@ public class SeriesGeneratorIntTest {
         
         List<Point<Object, Integer>> expectedPoints = Lists.newArrayList();
         expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 1), 1));
-        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 15), 2));
+        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 15), 3));
         expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 29), 2)); // to 2000-06-12
+        
+        Assert.assertEquals(expectedPoints, series.getPoints());
+        
+    }
+    
+    
+    @Test
+    public void generateSeries_DAYS() {
+        // given
+        JudgmentSeriesCriteria jsc = new JudgmentSeriesCriteria();
+        jsc.setPhrase("content");
+        
+        XSettings xSettings = createDateXSettings(
+                XField.JUDGMENT_DATE,
+                new LocalDate(2000, 5, 20),
+                new LocalDate(2000, 5, 26),
+                new Period(1, PeriodUnit.DAY));
+        
+        
+        // execute
+        Series<Object, Integer> series = seriesGenerator.generateSeries(jsc, xSettings);
+        
+        // assert
+        
+        List<Point<Object, Integer>> expectedPoints = Lists.newArrayList();
+        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 20), 0));
+        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 21), 2));
+        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 22), 0));
+        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 23), 0));
+        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 24), 0));
+        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 25), 1));
+        expectedPoints.add(new Point<Object, Integer>(new LocalDate(2000, 5, 26), 0));
         
         Assert.assertEquals(expectedPoints, series.getPoints());
         
@@ -134,6 +171,7 @@ public class SeriesGeneratorIntTest {
         judgmentsServer.add(fetchDocument(31L, "2000-03-25T00:00:00Z", "other"));
         judgmentsServer.add(fetchDocument(4L, "2000-05-01T00:00:00Z", "content"));
         judgmentsServer.add(fetchDocument(5L, "2000-05-21T00:00:00Z", "content"));
+        judgmentsServer.add(fetchDocument(51L, "2000-05-21T00:00:00Z", "content"));
         judgmentsServer.add(fetchDocument(6L, "2000-05-25T00:00:00Z", "content"));
         judgmentsServer.add(fetchDocument(7L, "2000-06-02T00:00:00Z", "content"));
         judgmentsServer.add(fetchDocument(71L, "2000-06-02T00:00:00Z", "other"));

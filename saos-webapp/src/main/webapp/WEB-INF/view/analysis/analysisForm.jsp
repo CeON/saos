@@ -55,27 +55,38 @@
     
     <fieldset>
     
-        <legend><spring:message code="analysis.xsettings.title"/></legend>
+        <legend><spring:message code="analysis.xsettings.title"/>
+        
+        </legend>
+        
+        
         
           
         <div class="form-group">
 	        
-	        <div class="form-inline">
-	        
-	                   <div id="dateRangeInputs" class="col-xs-8 col-sm-12 col-md-9 col-lg-8">
-		                   <div class="form-group col-xs-12 col-sm-7">
-		                           <label class="control-label"><spring:message code="analysis.xsettings.dateRange"/></label>
-		                           <label class="control-label col-sm-offset-1"><spring:message code="from"/></label>
-		                           <saos:monthSelect path="xsettings.monthStart" id="xRangeMonthStart"/>
-		                           <saos:yearSelect path="xsettings.yearStart" id="xRangeYearStart" yearRange="${currentYear}-1970, 1960, 1950, 1940, 1930"/>
-		                   </div>
-		                   <div class="form-group col-xs-12 col-sm-5">
-	                                <label class="control-label"><spring:message code="to"/></label>
-	                                <saos:monthSelect path="xsettings.monthEnd" id="xRangeMonthEnd"/>
-	                                <saos:yearSelect path="xsettings.yearEnd" id="xRangeYearEnd" yearRange="${currentYear}-1970, 1960, 1950, 1940, 1930"/>
-	                       </div>
+	        <div class="form-inline col-xs-12">
+	                   
+	                   <div class="form-group col-xs-6 col-sm-4 col-md-3">
+	                       <form:select path="xsettings.field" class="form-control">
+                                <saos:enumOptions enumType="pl.edu.icm.saos.search.analysis.request.XField" selected="${analysisForm.xsettings.field}"/>
+                           </form:select>
                        </div>
-	               
+              
+                       <c:if test="${analysisForm.xsettings.field=='JUDGMENT_DATE'}">         
+	                       <div id="dateRangeInputs" class="col-xs-12 col-sm-12 col-md-9 col-lg-8">
+			                   <div class="form-group col-xs-10 col-sm-6">
+			                           <label class="control-label"><spring:message code="from"/></label>
+			                           <saos:monthSelect path="xsettings.range.startMonth" id="xRangeStartMonth"/>
+			                           <saos:yearSelect path="xsettings.range.startYear" id="xRangeStartYear" yearRange="${currentYear}-1970, 1960, 1950, 1940, 1930"/>
+			                   </div>
+			                   <div class="form-group col-xs-10 col-sm-6">
+		                                <label class="control-label"><spring:message code="to"/></label>
+		                                <saos:monthSelect path="xsettings.range.endMonth" id="xRangeEndMonth"/>
+		                                <saos:yearSelect path="xsettings.range.endYear" id="xRangeEndYear" yearRange="${currentYear}-1970, 1960, 1950, 1940, 1930"/>
+		                       </div>
+		                   </div>
+	                    </c:if>
+             
 	        
         </div>
         

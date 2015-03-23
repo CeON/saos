@@ -6,7 +6,6 @@ import static org.mockito.Mockito.doThrow;
 
 import javax.validation.ValidationException;
 
-import org.assertj.core.util.Lists;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,8 +13,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.json.JsonNormalizer;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.Source;
 import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
@@ -23,6 +22,7 @@ import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.Sour
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
+import com.google.common.collect.Lists;
 
 /**
  * @author madryk

@@ -10,7 +10,6 @@ import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBui
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +21,8 @@ import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski

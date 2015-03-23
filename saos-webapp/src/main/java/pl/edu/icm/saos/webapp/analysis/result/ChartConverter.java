@@ -3,43 +3,45 @@ package pl.edu.icm.saos.webapp.analysis.result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.search.analysis.result.Chart;
-import pl.edu.icm.saos.search.analysis.result.Series;
+import pl.edu.icm.saos.common.chart.Chart;
+import pl.edu.icm.saos.common.chart.Series;
 
 import com.google.common.base.Preconditions;
 
 /**
- * A chart converter
+ * A {@link Chart} to {@link FlotChart}  converter
  * 
  * @author Łukasz Dumiszewski
  */
-@Service("chartConverter")
+@Service("flotChartConverter")
 public class ChartConverter {
 
     
-    private SeriesConverter seriesConverter;
+    private SeriesConverter flotSeriesConverter;
     
-    
+    private FlotXticksGenerator flotXticksGenerator;
     
     
     //------------------------ LOGIC --------------------------
     
     /**
-     * Converts {@link Chart} into {@link UiChart} 
+     * Converts {@link Chart} into {@link FlotChart} 
      */
-    public UiChart convert(Chart<?, ?> chart) {
+    public FlotChart convert(Chart<?, Number> chart) {
         
         Preconditions.checkNotNull(chart);
         
-        UiChart uiChart = new UiChart();
+        FlotChart flotChart = new FlotChart();
         
-        for (Series<?, ?> series : chart.getSeriesList()) {
+        for (Series<?, Number> series : chart.getSeriesList()) {
             
-            uiChart.addSeries(seriesConverter.convert(series));
+            flotChart.addSeries(flotSeriesConverter.convert(series));
             
         }
 
-        return uiChart;
+        flotChart.setXticks(flotXticksGenerator.generateXticks(chart));
+        
+        return flotChart;
         
     }
 
@@ -47,8 +49,14 @@ public class ChartConverter {
     //------------------------ SETTERS --------------------------
     
     @Autowired
-    public void setSeriesConverter(SeriesConverter seriesConverter) {
-        this.seriesConverter = seriesConverter;
+    public void setSeriesConverter(SeriesConverter flotSeriesConverter) {
+        this.flotSeriesConverter = flotSeriesConverter;
     }
+
+    @Autowired
+    public void setFlotXticksGenerator(FlotXticksGenerator flotXticksGenerator) {
+        this.flotXticksGenerator = flotXticksGenerator;
+    }
+
     
 }

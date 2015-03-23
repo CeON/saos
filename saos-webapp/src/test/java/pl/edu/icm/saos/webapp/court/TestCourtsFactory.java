@@ -2,8 +2,9 @@ package pl.edu.icm.saos.webapp.court;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
 
 /**
  * 
