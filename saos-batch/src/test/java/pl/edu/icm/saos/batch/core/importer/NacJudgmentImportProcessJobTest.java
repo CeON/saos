@@ -29,10 +29,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
+import pl.edu.icm.saos.common.testcommon.PathResolver;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
+import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.common.content.transaction.FilesOperationsTransactionManager;
+import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.json.SourceNacJudgment;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
@@ -64,6 +68,12 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
     @Autowired
     private JsonImportDownloadProcessor<RawSourceNacJudgment> nacjImportDownloadProcessor;
     
+    @Autowired
+    private JsonJudgmentImportProcessProcessor<SourceNacJudgment, NationalAppealChamberJudgment> nacjImportProcessProcessor;
+    
+    @Autowired
+    private FilesOperationsTransactionManager filesOperationsTransactionManager;
+    
     
     @Autowired
     private Job nacJudgmentImportJob;
@@ -90,18 +100,24 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
     
     private File downloadedContentDir;
     
+    private File judgmentContentDir;
+    
     
     @Before
     public void setUp() {
         downloadedContentDir = Files.createTempDir();
+        judgmentContentDir = Files.createTempDir();
         
         nacjContentDownloadStepExecutionListener.setDownloadedContentDir(downloadedContentDir.getPath());
         nacjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
+        filesOperationsTransactionManager.setContentDirectoryPath(judgmentContentDir.getPath());
+        nacjImportProcessProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
     }
     
     @After
     public void cleanup() throws IOException {
         FileUtils.deleteDirectory(downloadedContentDir);
+//        FileUtils.deleteDirectory(judgmentContentDir);
     }
     
     
@@ -136,6 +152,16 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         assertJudgment_71254a2118594e375df2fe7dcde9b1db();
         assertJudgment_f1fb6b13d57e25be69d1159356655528();
         
+        
+        JudgmentContentAssertUtils.assertJudgmentContentsExists(judgmentContentDir,
+                "national_appeal_chamber/2008/2/7/71254a2118594e375df2fe7dcde9b1db.pdf",
+                "national_appeal_chamber/2013/1/31/f1fb6b13d57e25be69d1159356655528.pdf",
+                "national_appeal_chamber/2008/2/7/b785e2f4821d4f67e6bac9b2af694cc8.pdf",
+                "national_appeal_chamber/2010/7/30/037081ed371001c56f0320ebd41cb457.pdf",
+                "national_appeal_chamber/2010/7/29/863efdb59cd4a257ca8eefa34362fec2.pdf");
+        
+        String expectedContentPath = PathResolver.resolveToAbsolutePath("/import/nationalAppealChamber/judgments/content/f1fb6b13d57e25be69d1159356655528_original.pdf");
+        JudgmentContentAssertUtils.assertJudgmentContent(new File(expectedContentPath), new File(judgmentContentDir, "national_appeal_chamber/2013/1/31//f1fb6b13d57e25be69d1159356655528.pdf"));
     }
     
     
@@ -182,6 +208,17 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         assertJudgment_71254a2118594e375df2fe7dcde9b1db();
         assertJudgment_f1fb6b13d57e25be69d1159356655528_afterUpdate();
         assertCorrections_f1fb6b13d57e25be69d1159356655528_afterUpdate();
+        
+        
+        JudgmentContentAssertUtils.assertJudgmentContentsExists(judgmentContentDir,
+                "national_appeal_chamber/2008/2/7/71254a2118594e375df2fe7dcde9b1db.pdf",
+                "national_appeal_chamber/2013/1/29/f1fb6b13d57e25be69d1159356655528.pdf",
+                "national_appeal_chamber/2008/2/7/b785e2f4821d4f67e6bac9b2af694cc8.pdf",
+                "national_appeal_chamber/2010/7/30/037081ed371001c56f0320ebd41cb457.pdf",
+                "national_appeal_chamber/2014/3/24/b8f67ea194b9cb89186c0b66c993d5d7.pdf");
+        
+        String expectedContentPath = PathResolver.resolveToAbsolutePath("/import/nationalAppealChamber/judgments/content/f1fb6b13d57e25be69d1159356655528_changed.pdf");
+        JudgmentContentAssertUtils.assertJudgmentContent(new File(expectedContentPath), new File(judgmentContentDir, "national_appeal_chamber/2013/1/31//f1fb6b13d57e25be69d1159356655528.pdf"));
         
     }
     

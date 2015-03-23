@@ -22,6 +22,7 @@ import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentItem;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentProcessChunkListener;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.json.SourceNacJudgment;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.process.NacjImportProcessStepExecutionListener;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
@@ -72,6 +73,9 @@ public class NacjImportJobConfiguration {
     @Autowired
     private NacjImportProcessStepExecutionListener nacjImportProcessStepExecutionListener;
     
+    @Autowired
+    private ContentProcessChunkListener contentProcessChunkListener;
+    
     @Bean
     public JudgmentImportProcessWriter<NationalAppealChamberJudgment> nacjImportProcessWriter() {
         return new JudgmentImportProcessWriter<>();
@@ -112,6 +116,7 @@ public class NacjImportJobConfiguration {
             .processor(nacjImportProcessProcessor)
             .writer(nacjImportProcessWriter())
             .listener(nacjImportProcessStepExecutionListener)
+            .listener(contentProcessChunkListener)
             .build();
     }
     

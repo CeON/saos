@@ -129,6 +129,7 @@ public class ConstitutionalTribunalImportConfiguration {
         ctjImportProcessProcessor.setSourceJudgmentParser(sourceCtJudgmentParser());
         ctjImportProcessProcessor.setSourceJudgmentConverter(sourceCtJudgmentConverter());
         ctjImportProcessProcessor.setJudgmentOverwriter(ctJudgmentOverwriter());
+        ctjImportProcessProcessor.setDownloadedContentDir(downloadedContentDir);
         
         return ctjImportProcessProcessor;
     }

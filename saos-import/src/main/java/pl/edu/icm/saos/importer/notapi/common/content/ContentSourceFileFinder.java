@@ -40,7 +40,7 @@ public class ContentSourceFileFinder {
         Collection<File> foundContentFiles = FileUtils.listFiles(contentDir, new NameFileFilter(possibleFileNames), TrueFileFilter.INSTANCE);
         
         if (foundContentFiles.size() == 0) {
-            throw new ImportException("No content file was found for " + correspondingMetadataFile);
+            throw new ImportException("No content file was found for " + correspondingMetadataFile + " in " + contentDir.getPath());
         }
         if (foundContentFiles.size() > 1) {
             throw new ImportException("More than one file found as content file candidate of " + correspondingMetadataFile);

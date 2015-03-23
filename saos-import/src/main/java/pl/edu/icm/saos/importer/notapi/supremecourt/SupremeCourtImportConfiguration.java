@@ -12,11 +12,11 @@ import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverterImpl;
 import pl.edu.icm.saos.importer.common.overwriter.DelegatingJudgmentOverwriter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
-import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.process.SourceScJudgmentExtractor;
@@ -141,6 +141,7 @@ public class SupremeCourtImportConfiguration {
         scjImportProcessProcessor.setSourceJudgmentParser(sourceScJudgmentParser());
         scjImportProcessProcessor.setSourceJudgmentConverter(sourceScJudgmentConverter());
         scjImportProcessProcessor.setJudgmentOverwriter(scJudgmentOverwriter());
+        scjImportProcessProcessor.setDownloadedContentDir(downloadedContentDir);
         
         return scjImportProcessProcessor;
     }

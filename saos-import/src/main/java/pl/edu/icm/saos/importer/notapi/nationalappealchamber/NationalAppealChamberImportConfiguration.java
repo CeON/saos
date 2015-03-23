@@ -129,6 +129,7 @@ public class NationalAppealChamberImportConfiguration {
         nacjImportProcessProcessor.setSourceJudgmentParser(sourceNacJudgmentParser());
         nacjImportProcessProcessor.setSourceJudgmentConverter(sourceNacJudgmentConverter());
         nacjImportProcessProcessor.setJudgmentOverwriter(nacJudgmentOverwriter());
+        nacjImportProcessProcessor.setDownloadedContentDir(downloadedContentDir);
         
         return nacjImportProcessProcessor;
     }
