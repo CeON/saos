@@ -1528,3 +1528,13 @@ label.error {
 	color: #a94442;
 }
 
+.message-no-js {
+	background: $sand;
+	border-bottom: 4px solid #666;
+	padding: 16px 0;
+	position: fixed;
+	text-align: center;
+	top: 0px;
+	width: 100%;
+}
+

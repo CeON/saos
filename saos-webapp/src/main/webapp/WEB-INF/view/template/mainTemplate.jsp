@@ -42,5 +42,11 @@
        		<tiles:insertAttribute name="footer" /> 
         </footer>
         
+        <noscript>
+	        <div class="container message-no-js">
+	        	<spring:message code="message.noJavascript" />
+	        </div>
+        </noscript>
+        
     </body>
 </html>
