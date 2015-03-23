@@ -5,10 +5,11 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski

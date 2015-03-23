@@ -3,7 +3,6 @@ package pl.edu.icm.saos.webapp.analysis;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -13,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pl.edu.icm.saos.search.analysis.request.XField;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
+import pl.edu.icm.saos.webapp.analysis.request.UixRangeFactory;
 import pl.edu.icm.saos.webapp.analysis.request.UixSettings;
-import pl.edu.icm.saos.webapp.analysis.result.UiChart;
+import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
 
 /**
  * @author Łukasz Dumiszewski
@@ -29,6 +30,8 @@ public class AnalysisController {
     @Autowired
     private UiAnalysisService uiAnalysisService;
     
+    @Autowired
+    private UixRangeFactory uixRangeFactory;
     
     
     //------------------------ MODEL --------------------------
@@ -38,10 +41,8 @@ public class AnalysisController {
         AnalysisForm analysisForm = new AnalysisForm();
         analysisForm.addSeriesSearchCriteria(new JudgmentSeriesFilter()); // one empty phrase by default
         UixSettings uixSettings = analysisForm.getXsettings();
-        uixSettings.setYearStart(new LocalDate().getYear() - 20);
-        uixSettings.setMonthStart(1);
-        uixSettings.setYearEnd(new LocalDate().getYear());
-        uixSettings.setMonthEnd(new LocalDate().getMonthOfYear());
+        uixSettings.setField(XField.JUDGMENT_DATE);
+        uixSettings.setRange(uixRangeFactory.createUixRange(uixSettings.getField()));
         return analysisForm;
     }
     
@@ -67,7 +68,7 @@ public class AnalysisController {
     
     @RequestMapping(value="/analysis/generate", method= RequestMethod.GET)
     @ResponseBody
-    public UiChart generate(@ModelAttribute("analysisForm") AnalysisForm analysisForm) {
+    public FlotChart generate(@ModelAttribute("analysisForm") AnalysisForm analysisForm) {
         
         return uiAnalysisService.generateChart(analysisForm);
         

@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -18,6 +17,8 @@ import org.springframework.batch.item.ExecutionContext;
 
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 import pl.edu.icm.saos.persistence.repository.RawSourceJudgmentRepository;
+
+import com.google.common.collect.Lists;
 
 
 /**

@@ -12,6 +12,7 @@ import pl.edu.icm.saos.enrichment.EnrichmentConfiguration;
 import pl.edu.icm.saos.importer.ImportConfiguration;
 import pl.edu.icm.saos.persistence.PersistenceConfiguration;
 import pl.edu.icm.saos.search.SearchConfiguration;
+import pl.edu.icm.saos.webapp.analysis.UiAnalysisConfiguration;
 
 
    
@@ -19,7 +20,7 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
    
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {  GeneralConfiguration.class, CommonConfiguration.class, EnrichmentConfiguration.class, SecurityConfiguration.class, BatchConfiguration.class, PersistenceConfiguration.class, ImportConfiguration.class,  SearchConfiguration.class, ApiConfiguration.class};
+        return new Class<?>[] {  GeneralConfiguration.class, CommonConfiguration.class, EnrichmentConfiguration.class, SecurityConfiguration.class, BatchConfiguration.class, PersistenceConfiguration.class, ImportConfiguration.class,  SearchConfiguration.class, ApiConfiguration.class, UiAnalysisConfiguration.class};
     }
 
     @Override

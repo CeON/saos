@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -36,6 +35,8 @@ import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
 import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionService;
+
+import com.google.common.collect.Lists;
 
 /**
  * 

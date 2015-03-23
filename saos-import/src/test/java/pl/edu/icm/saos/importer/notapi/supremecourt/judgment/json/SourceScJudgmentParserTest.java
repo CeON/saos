@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNull;
 
 import javax.validation.ValidationException;
 
-import org.assertj.core.util.Lists;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Before;
@@ -14,8 +13,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.json.JsonNormalizer;
+import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.notapi.common.DateTimeDeserializer;
@@ -24,6 +23,7 @@ import pl.edu.icm.saos.importer.notapi.common.SourceJudgment.SourceJudge;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.MappingJsonFactory;
+import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski

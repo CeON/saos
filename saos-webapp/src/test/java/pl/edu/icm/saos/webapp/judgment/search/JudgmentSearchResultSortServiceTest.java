@@ -4,13 +4,14 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Test;
 
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.search.search.model.JudgeResult;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
+
+import com.google.common.collect.Lists;
 
 /**
  * 

@@ -1,55 +1,56 @@
 package pl.edu.icm.saos.webapp.analysis.request;
 
+import pl.edu.icm.saos.search.analysis.request.XField;
+
 /**
+ * Settings of the x axis
+ * 
  * @author Łukasz Dumiszewski
  */
 
 public class UixSettings {
     
-    private int monthStart;
-    private int yearStart;
+    private XField field;
     
-    private int monthEnd;
-    private int yearEnd;
+    private UixRange range;
     
     
     //------------------------ GETTERS --------------------------
     
-    public int getMonthStart() {
-        return monthStart;
+    
+    
+    /**
+     * The selected field of the x axis 
+     */
+    public XField getField() {
+        return field;
     }
-    
-    public int getYearStart() {
-        return yearStart;
+
+    /**
+     * Range of the x field
+     */
+    public UixRange getRange() {
+        return range;
     }
+
+
     
-    public int getMonthEnd() {
-        return monthEnd;
-    }
-    
-    public int getYearEnd() {
-        return yearEnd;
-    }
-    
-    
+   
     //------------------------ SETTERS --------------------------
     
-    public void setMonthStart(int monthStart) {
-        this.monthStart = monthStart;
+ 
+
+    public void setField(XField field) {
+        this.field = field;
+    }
+
+
+   public void setRange(UixRange range) {
+        this.range = range;
     }
     
-    public void setYearStart(int yearStart) {
-        this.yearStart = yearStart;
-    }
     
-    public void setMonthEnd(int monthEnd) {
-        this.monthEnd = monthEnd;
-    }
-    
-    public void setYearEnd(int yearEnd) {
-        this.yearEnd = yearEnd;
-    }
-    
+ 
     
    
     

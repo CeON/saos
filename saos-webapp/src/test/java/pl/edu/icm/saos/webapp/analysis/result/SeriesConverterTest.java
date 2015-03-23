@@ -3,15 +3,12 @@ package pl.edu.icm.saos.webapp.analysis.result;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import pl.edu.icm.saos.search.analysis.result.Point;
-import pl.edu.icm.saos.search.analysis.result.Series;
-import pl.edu.icm.saos.webapp.analysis.result.UiChart.UiSeries;
+import pl.edu.icm.saos.common.chart.Point;
+import pl.edu.icm.saos.common.chart.Series;
+import pl.edu.icm.saos.webapp.analysis.result.FlotChart.FlotSeries;
 
 /**
  * @author Łukasz Dumiszewski
@@ -22,19 +19,8 @@ public class SeriesConverterTest {
     
     private SeriesConverter seriesConverter = new SeriesConverter();
     
-    private PointFormatter pointFormatter = mock(PointFormatter.class);
     
-    
-    
-    @Before
-    public void before() {
         
-        seriesConverter.setPointFormatter(pointFormatter);
-        
-    }
-
-    
-    
     //------------------------ TESTS --------------------------
     
     
@@ -52,31 +38,29 @@ public class SeriesConverterTest {
         
         // given
         
-        Series<String, Integer> series = new Series<>();
+        Series<String, Number> series = new Series<>();
         
-        Point<String, Integer> point1 = new Point<>("A", 1); 
-        Point<String, Integer> point2 = new Point<>("B", 2);
+        Point<String, Number> point1 = new Point<>("A", 123); 
+        Point<String, Number> point2 = new Point<>("B", 245);
         series.addPoint(point1);
         series.addPoint(point2);
         
-        String[] uiPoint1 = new String[]{"X", "1243"};
-        String[] uiPoint2 = new String[]{"Y", "223"};
+        Number[] flotPoint1 = new Number[]{0, 123};
+        Number[] flotPoint2 = new Number[]{1, 245};
         
-        when(pointFormatter.formatPoint(point1)).thenReturn(uiPoint1);
-        when(pointFormatter.formatPoint(point2)).thenReturn(uiPoint2);
         
         
         // execute
         
-        UiSeries uiSeries = seriesConverter.convert(series);
+        FlotSeries uiSeries = seriesConverter.convert(series);
         
         
         // assert
         
         assertNotNull(uiSeries);
-        assertEquals(2, uiSeries.getData().size());
-        assertArrayEquals(uiPoint1, uiSeries.getData().get(0));
-        assertArrayEquals(uiPoint2, uiSeries.getData().get(1));
+        assertEquals(2, uiSeries.getPoints().size());
+        assertArrayEquals(flotPoint1, uiSeries.getPoints().get(0));
+        assertArrayEquals(flotPoint2, uiSeries.getPoints().get(1));
         
     }
 

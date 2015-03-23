@@ -74,7 +74,7 @@ var initAnalysisJs = function() {
         
         colourPhraseInputs();
         
-        tieMonthYearRangeSelects("xRangeMonthStart", "xRangeYearStart", "xRangeMonthEnd", "xRangeYearEnd");
+        tieMonthYearRangeSelects("xRangeStartMonth", "xRangeStartYear", "xRangeEndMonth", "xRangeEndYear");
 
     }
     
@@ -255,7 +255,7 @@ var initAnalysisJs = function() {
         var seriesArr = [];
         
         for (var i = 0; i < chart.seriesList.length; i++) {
-            seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].data});
+            seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points});
         }
         
         $.plot($("#mainChart"), seriesArr,    {
@@ -264,11 +264,10 @@ var initAnalysisJs = function() {
                                                          align: 'left'
                                                     }, 
                                                     xaxis: { 
-                                                        mode: "time", 
-                                                        timeformat: "%m/%y",
-                                                        minTickSize: [1, "month"],
                                                         min: xmin,
-                                                        max: xmax
+                                                        max: xmax,
+                                                        ticks: chart.xticks
+                                                        
                                                     }, 
                                                     yaxis: {
                                                         tickDecimals: 0,
@@ -285,11 +284,14 @@ var initAnalysisJs = function() {
                                                      
                                                 }
                                             );
+        
+        formatXTicks(140);
+        
     }
     
     /** Show a point tooltip on the main chart */
     $("#mainChart").on("plothover", function (event, pos, item) {
-        showDateNumberPointTooltip(event, pos, item);
+        showYNumberPointTooltip(event, pos, item);
     });
     
     

@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.common.chart.Chart;
 import pl.edu.icm.saos.search.analysis.AnalysisService;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
-import pl.edu.icm.saos.search.analysis.result.Chart;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
-import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilterConverter;
-import pl.edu.icm.saos.webapp.analysis.request.UixSettingsConverter;
-import pl.edu.icm.saos.webapp.analysis.request.UiySettingsConverter;
+import pl.edu.icm.saos.webapp.analysis.request.converter.JudgmentSeriesFilterConverter;
+import pl.edu.icm.saos.webapp.analysis.request.converter.UixSettingsConverter;
+import pl.edu.icm.saos.webapp.analysis.request.converter.UiySettingsConverter;
 import pl.edu.icm.saos.webapp.analysis.result.ChartConverter;
-import pl.edu.icm.saos.webapp.analysis.result.UiChart;
+import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
 
 import com.google.common.base.Preconditions;
 
@@ -37,16 +37,16 @@ public class UiAnalysisService {
     
     private UiySettingsConverter uiySettingsConverter;
     
-    private ChartConverter chartConverter;
+    private ChartConverter flotChartConverter;
     
     
     
     //------------------------ LOGIC --------------------------
     
     /**
-     * Generates and returns a {@link UiChart} according to the settings in the passed analysisForm  
+     * Generates and returns a {@link FlotChart} according to the settings in the passed analysisForm  
      */
-    public UiChart generateChart(AnalysisForm analysisForm) {
+    public FlotChart generateChart(AnalysisForm analysisForm) {
         
         Preconditions.checkNotNull(analysisForm);
         
@@ -67,7 +67,7 @@ public class UiAnalysisService {
         
         // convert & return result
         
-        return chartConverter.convert(chart);
+        return flotChartConverter.convert(chart);
         
     }
 
@@ -95,8 +95,8 @@ public class UiAnalysisService {
     }
 
     @Autowired
-    public void setChartConverter(ChartConverter chartConverter) {
-        this.chartConverter = chartConverter;
+    public void setFlotChartConverter(ChartConverter flotChartConverter) {
+        this.flotChartConverter = flotChartConverter;
     }
     
     

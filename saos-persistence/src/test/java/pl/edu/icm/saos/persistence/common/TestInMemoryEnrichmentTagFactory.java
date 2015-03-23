@@ -8,11 +8,11 @@ import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENR
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
-
 import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author madryk

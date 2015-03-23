@@ -10,11 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import pl.edu.icm.saos.common.chart.Series;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
 import pl.edu.icm.saos.search.analysis.request.YValueType;
-import pl.edu.icm.saos.search.analysis.result.Series;
 import pl.edu.icm.saos.search.analysis.solr.recalc.SeriesYRecalculator;
 import pl.edu.icm.saos.search.analysis.solr.recalc.SeriesYRecalculatorManager;
 

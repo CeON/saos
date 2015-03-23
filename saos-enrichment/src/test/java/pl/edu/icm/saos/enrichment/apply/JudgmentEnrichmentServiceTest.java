@@ -11,7 +11,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -22,6 +21,8 @@ import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski

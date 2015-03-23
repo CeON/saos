@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
 
 public class Period {
     
-    public enum PeriodUnit { WEEK, MONTH, YEAR};
+    public enum PeriodUnit { DAY, WEEK, MONTH, YEAR};
     
     private int value;
     private PeriodUnit unit;
@@ -74,6 +74,14 @@ public class Period {
         return Objects.equals(this.value, other.value)
                 && Objects.equals(this.unit, other.unit);
 
+    }
+
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "Period [value=" + value + ", unit=" + unit + "]";
     }
 
     

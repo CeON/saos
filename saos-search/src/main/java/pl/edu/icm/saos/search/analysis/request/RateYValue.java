@@ -72,5 +72,13 @@ public class RateYValue implements YValueType {
         return Objects.equals(this.rateRatio, other.rateRatio);
 
     }
+
+    
+    //------------------------ toString --------------------------
+
+    @Override
+    public String toString() {
+        return "RateYValue [rateRatio=" + rateRatio + "]";
+    }
     
 }
