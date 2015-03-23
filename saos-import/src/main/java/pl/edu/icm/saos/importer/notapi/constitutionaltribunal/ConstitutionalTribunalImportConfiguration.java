@@ -17,6 +17,7 @@ import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.common.content.JudgmentContentFileProcessor;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process.CtSpecificJudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process.SourceCtJudgmentExtractor;
@@ -114,6 +115,15 @@ public class ConstitutionalTribunalImportConfiguration {
         ctJudgmentOverwriter.setSpecificJudgmentOverwriter(ctSpecificJudgmentOverwriter);
         return ctJudgmentOverwriter;
     }
+    
+    
+    @Bean
+    public JudgmentContentFileProcessor ctJudgmentContentFileProcessor() {
+        JudgmentContentFileProcessor ctJudgmentContentFileProcessor = new JudgmentContentFileProcessor();
+        ctJudgmentContentFileProcessor.setDownloadedContentDir(downloadedContentDir);
+        
+        return ctJudgmentContentFileProcessor;
+    }
 
 
 
@@ -129,6 +139,7 @@ public class ConstitutionalTribunalImportConfiguration {
         ctjImportProcessProcessor.setSourceJudgmentParser(sourceCtJudgmentParser());
         ctjImportProcessProcessor.setSourceJudgmentConverter(sourceCtJudgmentConverter());
         ctjImportProcessProcessor.setJudgmentOverwriter(ctJudgmentOverwriter());
+        ctjImportProcessProcessor.setJudgmentContentFileProcessor(ctJudgmentContentFileProcessor());
         
         return ctjImportProcessProcessor;
     }

@@ -14,4 +14,5 @@ dependencies {
     //compile lib.'net.sf.ehcache:ehcache'
     compile lib.'org.hibernate:hibernate-ehcache'
     compile lib.'org.hibernate:hibernate-entitymanager'
+    compile lib.'commons-io:commons-io'
 }

@@ -1,7 +1,11 @@
 package pl.edu.icm.saos.importer.notapi.common;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.annotation.BeforeChunk;
+import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -9,13 +13,13 @@ import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.notapi.common.content.JudgmentContentFileProcessor;
+import pl.edu.icm.saos.importer.notapi.common.content.transaction.ContentFileTransactionContext;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.JsonRawSourceJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.RawSourceJudgmentRepository;
-
-import com.fasterxml.jackson.core.JsonParseException;
 
 /**
  * Spring batch import - process - processor for json based raw judgments
@@ -41,6 +45,12 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
     
     private EnrichmentTagRepository enrichmentTagRepository;
     
+    private JudgmentContentFileProcessor judgmentContentFileProcessor;
+    
+    
+    
+    private ChunkContext chunkContext;
+    
     
     private Class<J> judgmentClass;
     
@@ -54,8 +64,13 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
     
     //------------------------ LOGIC --------------------------
     
+    @BeforeChunk
+    public void beforeChunk(ChunkContext context) {
+        this.chunkContext = context;
+    }
+    
     @Override
-    public JudgmentWithCorrectionList<J> process(JsonRawSourceJudgment rJudgment) throws JsonParseException {
+    public JudgmentWithCorrectionList<J> process(JsonRawSourceJudgment rJudgment) throws IOException {
         
         log.trace("Processing: {} id={}", rJudgment.getClass().getName(), rJudgment.getId());
 
@@ -64,17 +79,21 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
         
         JudgmentWithCorrectionList<J> judgmentWithCorrectionList = sourceJudgmentConverter.convertJudgment(sourceJudgment);
         
-        
         J judgment = judgmentWithCorrectionList.getJudgment();
+        
 
         J oldJudgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 judgment.getSourceInfo().getSourceCode(),
                 judgment.getSourceInfo().getSourceJudgmentId(),
                 judgmentClass);
         
+        String oldJudgmentContentPath = null;
+        
         if (oldJudgment != null) {
             
             log.trace("same found (rJudgmentId:{}, judgmentId: {}), updating...", rJudgment.getId(), oldJudgment.getId());
+            
+            oldJudgmentContentPath = oldJudgment.getTextContent().getFilePath();
             
             judgmentOverwriter.overwriteJudgment(oldJudgment, judgment, judgmentWithCorrectionList.getCorrectionList());
             
@@ -83,6 +102,9 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
             judgmentWithCorrectionList.setJudgment(oldJudgment);
             
         }
+        
+        ContentFileTransactionContext context = (ContentFileTransactionContext) chunkContext.getAttribute("contentFileTransactionContext");
+        judgmentContentFileProcessor.processJudgmentContentFile(context, rJudgment.getJudgmentContentFilename(), judgmentWithCorrectionList.getJudgment(), oldJudgmentContentPath);
         
         
         markProcessed(rJudgment);
@@ -128,6 +150,11 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
     @Autowired
     public void setEnrichmentTagRepository(EnrichmentTagRepository enrichmentTagRepository) {
         this.enrichmentTagRepository = enrichmentTagRepository;
+    }
+
+
+    public void setJudgmentContentFileProcessor(JudgmentContentFileProcessor judgmentContentFileHandler) {
+        this.judgmentContentFileProcessor = judgmentContentFileHandler;
     }
 
 }
