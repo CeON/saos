@@ -193,6 +193,17 @@ form.search {
 	}
 }
 
+.beta-info {
+	background: $grey98;
+	border: 1px solid #e6e6e6;
+	margin: 50px 0 20px;
+	padding: 30px 50px;	
+	
+	p {
+		margin-left: 15px;
+	}
+}
+
 .advert-header {
 	background: $panel-color;
 	color: $grey98;
@@ -217,7 +228,7 @@ form.search {
 .advert-ground {
 	background: $black;
 	margin-top: 0;
-	margin-bottom: 150px;
+	margin-bottom: 100px;
 	padding: 30px 0;
 
 	.item {

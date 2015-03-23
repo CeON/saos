@@ -2,6 +2,19 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
+<div class="container" >
+	<div class="beta-info row">
+		<div class="col-sm-1">
+			<img height="64" src="${contextPath}/static/image/icons/warning.png" alt="" />
+		</div>
+		<div class="col-sm-10" >
+			<p>
+				<spring:message code="home.beta.message" /> <a href="mailto:<spring:message code="home.helpdeskAdress" />" ><spring:message code="home.helpdeskAdress" /></a>.
+			</d>
+		</div>
+	</div>
+</div>
+
 <div id="content" class="container advert-idea">
 
 	<div class="" >
@@ -24,27 +37,18 @@
 					<div class="block search"></div>
 					<spring:message code="home.navigation.search" />
 				</a>
-				<p class="item-desc">
-					<spring:message code="lorem.text30" />
-				</p>
 			</div>
 			<div class="col-md-4 item">
 				<a href="#" class="item-title">
 					<div class="block stats"></div>
-					<spring:message code="home.navigation.stats" />
+					<spring:message code="navigation.analysis" />
 				</a>
-				<p class="item-desc">
-					<spring:message code="lorem.text30" />
-				</p>
 			</div>
 			<div class="col-md-4 item">
 				<a href="#" class="item-title">
 					<div class="block api"></div>
 					<spring:message code="home.navigation.api" />
 				</a>
-				<p class="item-desc">
-					<spring:message code="lorem.text30" />
-				</p>
 			</div>
 		</div>
 	
@@ -62,12 +66,26 @@
 	<h2 class="advert-header" ><spring:message code="home.header.partners" /></h2>
 
 	<div class="advert-frame container">
-		<%--<div class="col-md-4 "><img src="${contextPath}/static/image/footer/humanCapital_pl.png" /></div>
-		<div class="col-md-4 "><img src="${contextPath}/static/image/footer/ue_logo.jpg" /></div>
-		<div class="col-md-4 "><img src="${contextPath}/static/image/footer/ic_logo.jpg" /></div> --%>
-		<div class="col-md-4 "><%-- <img src="${contextPath}/static/image/footer/mnisw_logo.jpg" /> --%></div>
-		<div class="col-md-4 "><a href="http://www.icm.edu.pl/ "><img src="${contextPath}/static/image/footer/icm_logo.png" alt="<spring:message code="partners.icm.imageAlt" />" /></a></div>
-		<div class="col-md-4 "><%-- <img src="${contextPath}/static/image/footer/opi_logo.jpg" /> --%></div>
+		<div class="col-md-3">
+			<a href="http://www.icm.edu.pl/ ">
+				<img height="60" src="${contextPath}/static/image/footer/icm_logo.png" alt="<spring:message code="partners.icm.imageAlt" />" />
+			</a>
+		</div>
+		<div class="col-md-3 ">
+			<a href="http://www.akceslab.pl">
+				<img height="70" src="${contextPath}/static/image/footer/logoakceslab.png" alt="<spring:message code="partners.akceslab.imageAlt" />" />
+			</a>
+		</div>
+		<div class="col-md-3 ">
+			<a href="http://siecobywatelska.pl/">
+				<img height="70" src="${contextPath}/static/image/footer/so-logo.png" alt="<spring:message code="partners.sowp.imageAlt" />" />
+			</a>
+		</div>
+		<div class="col-md-3 ">
+			<a href="http://ofop.eu/">
+				<img height="70" src="${contextPath}/static/image/footer/ofop_logo.png"  alt="<spring:message code="partners.ofop.imageAlt" />" />
+			</a>
+		</div>
 	</div>
 </div>
 
