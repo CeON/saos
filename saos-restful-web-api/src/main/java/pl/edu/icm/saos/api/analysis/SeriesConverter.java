@@ -8,7 +8,7 @@ import pl.edu.icm.saos.common.chart.formatter.PointFormatter;
 import com.google.common.base.Preconditions;
 
 /**
- * A {@link Series} to {ApiSeries} converter.
+ * A {@link Series} to {@link ApiSeries} converter.
  * 
  * @author Łukasz Dumiszewski
  */
@@ -27,15 +27,15 @@ public class SeriesConverter {
         
         Preconditions.checkNotNull(series);
         
-        ApiSeries uiSeries = new ApiSeries();
+        ApiSeries apiSeries = new ApiSeries();
         
         for (Point<?,?> point : series.getPoints()) {
             
-            uiSeries.addPoint(pointFormatter.formatPoint(point));
+            apiSeries.addPoint(pointFormatter.formatPoint(point));
             
         }
         
-        return uiSeries;
+        return apiSeries;
         
     }
 

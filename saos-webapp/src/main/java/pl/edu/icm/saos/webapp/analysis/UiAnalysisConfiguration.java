@@ -28,24 +28,24 @@ public class UiAnalysisConfiguration {
     
     
     @Bean
-    public PointValueFormatter pointLocalDateValueFormatterManager() {
+    public PointValueFormatter pointLocalDateValueFormatter() {
         return new PointLocalDateValueFormatter();
     }
 
     
     @Bean
-    public PointValueFormatter pointMonthYearValueFormatterManager() {
+    public PointValueFormatter pointMonthYearValueFormatter() {
         return new PointMonthYearValueFormatter();
     }
 
     
     @Bean
-    public PointValueFormatter pointWeekBrValueFormatterManager() {
+    public PointValueFormatter pointWeekBrValueFormatter() {
         return new PointWeekBrValueFormatter();
     }
     
     @Bean
-    public PointValueFormatter pointObjectValueFormatterManager() {
+    public PointValueFormatter pointObjectValueFormatter() {
         return new PointObjectValueFormatter();
     }
     
@@ -55,10 +55,10 @@ public class UiAnalysisConfiguration {
         
         PointValueFormatterManager pointValueFormatterManager = new PointValueFormatterManager();
         pointValueFormatterManager.setPointValueFormatters(
-                Lists.newArrayList(pointLocalDateValueFormatterManager(),
-                                   pointMonthYearValueFormatterManager(),
-                                   pointWeekBrValueFormatterManager(),
-                                   pointObjectValueFormatterManager()
+                Lists.newArrayList(pointLocalDateValueFormatter(),
+                                   pointMonthYearValueFormatter(),
+                                   pointWeekBrValueFormatter(),
+                                   pointObjectValueFormatter()
                 )
         );
         

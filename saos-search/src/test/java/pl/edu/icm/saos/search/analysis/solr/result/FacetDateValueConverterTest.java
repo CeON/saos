@@ -89,7 +89,7 @@ public class FacetDateValueConverterTest {
         String value = "2010-12-07T00:00:00Z";
         
         // execute
-        assertEquals(new LocalDate(2010, 12, 07), converter.convert(value));
+        assertEquals(new LocalDate(2010, 12, 7), converter.convert(value));
         
     }
 

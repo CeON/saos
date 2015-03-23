@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.api.analysis.ApiChart;
 import pl.edu.icm.saos.common.chart.Chart;
 import pl.edu.icm.saos.search.analysis.AnalysisService;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
@@ -15,8 +14,8 @@ import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.converter.JudgmentSeriesFilterConverter;
 import pl.edu.icm.saos.webapp.analysis.request.converter.UixSettingsConverter;
 import pl.edu.icm.saos.webapp.analysis.request.converter.UiySettingsConverter;
-import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
 import pl.edu.icm.saos.webapp.analysis.result.ChartConverter;
+import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
 
 import com.google.common.base.Preconditions;
 
@@ -45,7 +44,7 @@ public class UiAnalysisService {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Generates and returns a {@link ApiChart} according to the settings in the passed analysisForm  
+     * Generates and returns a {@link FlotChart} according to the settings in the passed analysisForm  
      */
     public FlotChart generateChart(AnalysisForm analysisForm) {
         
