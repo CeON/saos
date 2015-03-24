@@ -16,15 +16,34 @@ function ClearSearchForm($form) {
 		.removeAttr('checked')
 		.removeAttr('selected');
 	
-	//Select first button in radio group
-	$form
-		.find('input[type="radio"]:first')	
-		.attr('checked', true)
-		.trigger('click');
-	
 	//Select first element on select list
 	$form
 		.find('select')
 		.selectedIndex=0;
+	
+
+	//Select first button in radio group
+	var radioGroups = findAllRadioGroups();
+
+	for (group in radioGroups) {
+		
+		$form
+			.find('input[name="' + group + '"]:first')	
+			.attr('checked', true)
+			.trigger('click');
+	}
+	
+	
+	//Finds all radio button groups
+	function findAllRadioGroups() {
+		
+		var radioGroups = [];
+		
+		$form.find(':radio').each(function() {
+			radioGroups[this.name] = true;
+		});
+		
+		return radioGroups;
+	}
 };
 
