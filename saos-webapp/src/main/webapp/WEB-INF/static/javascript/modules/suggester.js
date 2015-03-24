@@ -98,7 +98,8 @@ var Suggester = (function() {
     	}
         
         $field.closest("form").on("reset", function() {
-        	$("." + SELECTED_FIELD_CLASS).each(function() {
+
+        	$("." + SELECTED_FIELD_CLASS).each(function() {        		
         		$(this).remove();
         		
         		$field.val("")

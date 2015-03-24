@@ -139,6 +139,7 @@ module.exports = function(grunt) {
         	      '<%= project.js.dir %>/modules/cookies.js',
         	      '<%= project.js.dir %>/modules/dateFormat.js',
         	      '<%= project.js.dir %>/modules/courtDivisionSelect.js',
+        	      '<%= project.js.dir %>/modules/search/clearSearchForm.js',
         	      '<%= project.js.dir %>/modules/search/searchFormMode.js',
         	      '<%= project.js.dir %>/modules/search/searchCriteria.js',
         	      '<%= project.js.dir %>/modules/search/searchSettingsToolTip.js',
