@@ -1243,10 +1243,10 @@
 
   <court id="15101510"> <!-- SRGDPLN -->
     <model> <!-- SRGDPLN -->
-      <name>Sąd Rejonowy w Gdańsk-Północ</name> <!-- SRGDPLN -->
+      <name>Sąd Rejonowy Gdańsk-Północ</name> <!-- SRGDPLN -->
       <excluded>true</excluded> <!-- SRGDPLN -->
        <!-- SRGDPLN -->
-      <domain>orzeczenia.gdanks-polnoc.sr.gov.pl</domain> <!-- SRGDPLN -->
+      <domain>orzeczenia.gdansk-polnoc.sr.gov.pl</domain> <!-- SRGDPLN -->
        <!-- SRGDPLN -->
       <abbrev>SRGDPLN</abbrev> <!-- SRGDPLN -->
       <departments> <!-- SRGDPLN -->
@@ -1875,7 +1875,7 @@
 
   <court id="15151535"> <!-- SRWODZ -->
     <model> <!-- SRWODZ -->
-      <name>Sąd Rejonowy w Wodzisławiu Śląśkim</name> <!-- SRWODZ -->
+      <name>Sąd Rejonowy w Wodzisławiu Śląskim</name> <!-- SRWODZ -->
       <excluded>true</excluded> <!-- SRWODZ -->
       <domain>orzeczenia.wodzislaw.sr.gov.pl</domain> <!-- SRWODZ -->
       <abbrev>SRWODZ</abbrev> <!-- SRWODZ -->
@@ -3436,7 +3436,7 @@
 
   <court id="15300535"> <!-- SRLUKOW -->
     <model>  <!-- SRLUKOW -->
-      <name>Sąd Rejonowy w  Łukowie</name>  <!-- SRLUKOW -->
+      <name>Sąd Rejonowy w Łukowie</name>  <!-- SRLUKOW -->
       <excluded>true</excluded>   <!-- SRLUKOW -->
          <!-- SRLUKOW -->
       <domain>orzeczenia.lukow.sr.gov.pl</domain>   <!-- SRLUKOW -->
@@ -5120,7 +5120,7 @@
   
   <court id="15451020">
     <model> <!-- WAWPRAPDSR -->
-      <name>Sąd Rejonowy dla Warszawy Pragi-Południe w Waszawie</name><!-- WAWPRAPDSR -->
+      <name>Sąd Rejonowy dla Warszawy Pragi-Południe w Warszawie</name><!-- WAWPRAPDSR -->
       <domain>orzeczenia.warszawa-pragapoludnie.sr.gov.pl</domain><!-- WAWPRAPDSR -->
       <abbrev>SRWAWPRAPN</abbrev><!-- WAWPRAPDSR -->
       <departments> <!-- WAWPRAPDSR -->
@@ -5136,7 +5136,7 @@
   
   <court id="15451025">
     <model> <!-- WAWPRAPNSR -->
-      <name>Sąd Rejonowy dla Warszawy Pragi-Północ w Waszawie</name><!-- WAWPRAPNSR -->
+      <name>Sąd Rejonowy dla Warszawy Pragi-Północ w Warszawie</name><!-- WAWPRAPNSR -->
       <domain>orzeczenia.warszawapraga-pln.sr.gov.pl</domain><!-- WAWPRAPNSR -->
       <abbrev>SRWAWPRAPN</abbrev><!-- WAWPRAPNSR -->
       <departments> <!-- WAWPRAPNSR -->
