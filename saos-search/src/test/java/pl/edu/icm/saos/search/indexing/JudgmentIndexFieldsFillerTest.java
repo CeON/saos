@@ -21,6 +21,8 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -140,6 +142,21 @@ public class JudgmentIndexFieldsFillerTest {
                 fieldFactory.create("judgmentDate", "2014-09-04T00:00:00Z"));
         
         
+        // means of appeal
+        Judgment meansOfAppealJudgment = new CommonCourtJudgment();
+        meansOfAppealJudgment.setMeansOfAppeal(new MeansOfAppeal(CourtType.COMMON, "kasacja z urzędu"));
+        
+        List<SolrInputField> meansOfAppealFields = Collections.singletonList(
+                fieldFactory.create("all", "kasacja z urzędu"));
+        
+        
+        // judgment result
+        Judgment judgmentResultJudgment = new CommonCourtJudgment();
+        judgmentResultJudgment.setJudgmentResult(new JudgmentResult(CourtType.COMMON, "pozostawiono bez rozpoznania"));
+        
+        List<SolrInputField> judgmentResultFields = Collections.singletonList(
+                fieldFactory.create("all", "pozostawiono bez rozpoznania"));
+        
         // text content
         Judgment contentJudgment = new CommonCourtJudgment();
         contentJudgment.getTextContent().setRawTextContent("some content");
@@ -154,6 +171,8 @@ public class JudgmentIndexFieldsFillerTest {
         generalJudgment.addReferencedRegulation(firstReferencedRegulation);
         generalJudgment.setJudgmentDate(new LocalDate(2014, 9, 4));
         generalJudgment.setJudgmentType(JudgmentType.SENTENCE);
+        generalJudgment.setMeansOfAppeal(new MeansOfAppeal(CourtType.SUPREME, "kasacja z urzędu"));
+        generalJudgment.setJudgmentResult(new JudgmentResult(CourtType.SUPREME, "pozostawiono bez rozpoznania"));
         generalJudgment.getTextContent().setRawTextContent("some content");
 
         List<SolrInputField> generalFields =
@@ -168,8 +187,8 @@ public class JudgmentIndexFieldsFillerTest {
                     fieldFactory.create("referencedRegulations", "Ustawa 1"),
                     fieldFactory.create("judgmentDate", "2014-09-04T00:00:00Z"),
                     fieldFactory.create("judgmentType", "SENTENCE"),
-                    fieldFactory.create("content", "some content")
-
+                    fieldFactory.create("content", "some content"),
+                    fieldFactory.create("all", "kasacja z urzędu", "pozostawiono bez rozpoznania")
             );
 
         
@@ -183,6 +202,8 @@ public class JudgmentIndexFieldsFillerTest {
             { typeJudgment, typeFields },
             { dateJudgment, dateFields },
             { contentJudgment, contentFields },
+            { meansOfAppealJudgment, meansOfAppealFields },
+            { judgmentResultJudgment, judgmentResultFields },
             { generalJudgment, generalFields}
         };
     }
@@ -200,9 +221,13 @@ public class JudgmentIndexFieldsFillerTest {
     @Test
     @UseDataProvider("judgmentsFieldsData")
     public void fillFields(Judgment givenJudgment, List<SolrInputField> expectedFields) {
+        // given
         SolrInputDocument doc = new SolrInputDocument();
+        
+        // execute
         judgmentIndexFieldsFiller.fillFields(doc, givenJudgment);
         
+        // assert
         expectedFields.forEach(expectedField -> assertFieldValues(doc, expectedField));
     }
 
