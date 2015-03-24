@@ -7,6 +7,13 @@
 var jsInitInJudgmentSearch = function() {
 
 	
+	/* Clear button clears form */ 
+	$("#search-form button[type='reset']").click(function() {
+		setTimeout(function() {
+			ClearSearchForm($("#search-form"));
+		}, 200);
+	});
+	
 	/* Shorten long url.
 	 * When submiting form, clean empty paramters*/
 	$("#search-form").cleanUrlForm();
