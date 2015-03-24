@@ -51,19 +51,21 @@ public abstract class JudgmentIndexFieldsFiller {
         fillReferencedRegulations(doc, judgment);
         fillJudgmentDate(doc, judgment);
         fillJudgmentType(doc, judgment);
+        fillMeansOfAppeal(doc, judgment);
+        fillJudgmentResult(doc, judgment);
         fillContent(doc, judgment);
     }
     
     
     //------------------------ PRIVATE --------------------------
     
-    private void fillIds(SolrInputDocument doc, Judgment item) {
-        fieldAdder.addField(doc, JudgmentIndexField.DATABASE_ID, item.getId());
+    private void fillIds(SolrInputDocument doc, Judgment judgment) {
+        fieldAdder.addField(doc, JudgmentIndexField.DATABASE_ID, judgment.getId());
     }
     
-    private void fillSourceCode(SolrInputDocument doc, Judgment item) {
-        if (item.getSourceInfo() != null && item.getSourceInfo().getSourceCode() != null) {
-            fieldAdder.addField(doc, JudgmentIndexField.SOURCE_CODE, item.getSourceInfo().getSourceCode().name());
+    private void fillSourceCode(SolrInputDocument doc, Judgment judgment) {
+        if (judgment.getSourceInfo() != null && judgment.getSourceInfo().getSourceCode() != null) {
+            fieldAdder.addField(doc, JudgmentIndexField.SOURCE_CODE, judgment.getSourceInfo().getSourceCode().name());
         }
     }
     
@@ -71,15 +73,15 @@ public abstract class JudgmentIndexFieldsFiller {
         fieldAdder.addField(doc, JudgmentIndexField.COURT_TYPE, judgment.getCourtType().name());
     }
     
-    private void fillCourtCases(SolrInputDocument doc, Judgment item) {
-        for (CourtCase courtCase : item.getCourtCases()) {
+    private void fillCourtCases(SolrInputDocument doc, Judgment judgment) {
+        for (CourtCase courtCase : judgment.getCourtCases()) {
             fieldAdder.addField(doc, JudgmentIndexField.CASE_NUMBER, courtCase.getCaseNumber());
         }
         
     }
     
-    private void fillJudges(SolrInputDocument doc, Judgment item) {
-        for (Judge judge : item.getJudges()) {
+    private void fillJudges(SolrInputDocument doc, Judgment judgment) {
+        for (Judge judge : judgment.getJudges()) {
             List<JudgeRole> roles = judge.getSpecialRoles();
             
             List<String> judgeCompositeField = Lists.newArrayList(judge.getName());
@@ -94,14 +96,14 @@ public abstract class JudgmentIndexFieldsFiller {
         }
     }
     
-    private void fillLegalBases(SolrInputDocument doc, Judgment item) {
-        for (String legalBase : item.getLegalBases()) {
+    private void fillLegalBases(SolrInputDocument doc, Judgment judgment) {
+        for (String legalBase : judgment.getLegalBases()) {
             fieldAdder.addField(doc, JudgmentIndexField.LEGAL_BASE, legalBase);
         }
     }
     
-    private void fillReferencedRegulations(SolrInputDocument doc, Judgment item) {
-        for (JudgmentReferencedRegulation referencedRegulation : item.getReferencedRegulations()) {
+    private void fillReferencedRegulations(SolrInputDocument doc, Judgment judgment) {
+        for (JudgmentReferencedRegulation referencedRegulation : judgment.getReferencedRegulations()) {
             fieldAdder.addField(doc, JudgmentIndexField.REFERENCED_REGULATION, referencedRegulation.getRawText());
             
             LawJournalEntry lawJournalEntry = referencedRegulation.getLawJournalEntry();
@@ -111,18 +113,30 @@ public abstract class JudgmentIndexFieldsFiller {
         }
     }
     
-    private void fillJudgmentDate(SolrInputDocument doc, Judgment item) {
-        fieldAdder.addDateField(doc, JudgmentIndexField.JUDGMENT_DATE, item.getJudgmentDate());
+    private void fillJudgmentDate(SolrInputDocument doc, Judgment judgment) {
+        fieldAdder.addDateField(doc, JudgmentIndexField.JUDGMENT_DATE, judgment.getJudgmentDate());
     }
     
-    private void fillJudgmentType(SolrInputDocument doc, Judgment item) {
-        if (item.getJudgmentType() != null) {
-            fieldAdder.addField(doc, JudgmentIndexField.JUDGMENT_TYPE, item.getJudgmentType().name());
+    private void fillJudgmentType(SolrInputDocument doc, Judgment judgment) {
+        if (judgment.getJudgmentType() != null) {
+            fieldAdder.addField(doc, JudgmentIndexField.JUDGMENT_TYPE, judgment.getJudgmentType().name());
         }
     }
     
-    private void fillContent(SolrInputDocument doc, Judgment item) {
-        fieldAdder.addField(doc, JudgmentIndexField.CONTENT, item.getRawTextContent());
+    private void fillMeansOfAppeal(SolrInputDocument doc, Judgment judgment) {
+        if (judgment.getMeansOfAppeal() != null) {
+            fieldAdder.addField(doc, JudgmentIndexField.ALL, judgment.getMeansOfAppeal().getName());
+        }
+    }
+    
+    private void fillJudgmentResult(SolrInputDocument doc, Judgment judgment) {
+        if (judgment.getJudgmentResult() != null) {
+            fieldAdder.addField(doc, JudgmentIndexField.ALL, judgment.getJudgmentResult().getText());
+        }
+    }
+    
+    private void fillContent(SolrInputDocument doc, Judgment judgment) {
+        fieldAdder.addField(doc, JudgmentIndexField.CONTENT, judgment.getRawTextContent());
     }
 
     
