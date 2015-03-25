@@ -9,7 +9,10 @@
 		</div>
 		<div class="col-sm-10" >
 			<p>
-				<spring:message code="home.beta.message" /> <a href="mailto:<spring:message code="home.helpdeskAdress" />" ><spring:message code="home.helpdeskAdress" /></a>.
+				<spring:message code="home.helpdeskAdress" var="helpdeskAdress" />
+				
+				<spring:message code="home.beta.message" />
+				<saos:mail value="${helpdeskAdress}" />.
 			</d>
 		</div>
 	</div>
@@ -36,18 +39,27 @@
 				<a href="${contextPath}/search" class="item-title">
 					<div class="block search"></div>
 					<spring:message code="home.navigation.search" />
+					<p class="item-desc">
+						<spring:message code="home.navigation.search.desc" />
+					</p>
 				</a>
 			</div>
 			<div class="col-md-4 item">
-				<a href="#" class="item-title">
+				<a href="${contextPath}/analysis" class="item-title">
 					<div class="block stats"></div>
-					<spring:message code="navigation.analysis" />
+					<spring:message code="home.navigation.analysis" />
+					<p class="item-desc">
+						<spring:message code="home.navigation.analysis.desc" />
+					</p>
 				</a>
 			</div>
 			<div class="col-md-4 item">
-				<a href="#" class="item-title">
+				<a href="${contextPath}/api" class="item-title">
 					<div class="block api"></div>
 					<spring:message code="home.navigation.api" />
+					<p class="item-desc">
+						<spring:message code="home.navigation.api.desc" />
+					</p>
 				</a>
 			</div>
 		</div>

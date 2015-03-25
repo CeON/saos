@@ -199,5 +199,6 @@ var jsInitInJudgmentSearch = function() {
 			noItems: springMessage.judgmentSearchFormFieldLawJournalNoItems,
 		}
 	});
+
 }
  

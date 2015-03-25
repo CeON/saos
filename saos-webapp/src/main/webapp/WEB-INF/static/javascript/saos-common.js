@@ -152,5 +152,20 @@ $(document).ready(function() {
 		event.preventDefault();
 	});
 	
-	
+    
+    
+    ConvertFakeEmailAddressToReal({
+		addressTag: ".dummy-mail",
+		
+		itemsToReplace: [
+             {
+				fake: "_AT_",
+				real: "@"
+			},
+			{
+				fake: "_DOT_",
+				real: "."
+			}
+		]
+	});
 });

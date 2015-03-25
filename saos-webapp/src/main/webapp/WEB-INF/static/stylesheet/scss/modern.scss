@@ -257,8 +257,12 @@ form.search {
 		
 		.item-desc {
 			background: $black;
-			font-size: 17px;
-			text-align: justify
+			font: {
+				size: 15px;
+				weight: normal;
+			}
+			margin-top: 15px;
+			text-align: center;
 		}
 		
 		.search {
