@@ -159,11 +159,11 @@ $(document).ready(function() {
 		
 		itemsToReplace: [
              {
-				fake: "_AT_",
+				fake: "_malpka_",
 				real: "@"
 			},
 			{
-				fake: "_DOT_",
+				fake: "_kropka_",
 				real: "."
 			}
 		]
