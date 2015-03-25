@@ -1,9 +1,9 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
-<%@ tag display-name="mail" description="Tag for hiding e-mail adress" %>
+<%@ tag display-name="mail" description="Tag for hiding e-mail address" %>
 
-<%@ attribute name="value" required="true" description="Email adress" rtexprvalue="true" %>
+<%@ attribute name="value" required="true" description="Email address" rtexprvalue="true" %>
 
-<c:set var="adress" value="${fn:replace(value, '@', '_AT_')}" />
-<c:set var="adress" value="${fn:replace(adress, '.', '_DOT_')}" />
+<c:set var="address" value="${fn:replace(value, '@', '_AT_')}" />
+<c:set var="address" value="${fn:replace(address, '.', '_DOT_')}" />
 
-<a href="mailto:${adress}" class="dummy-mail" ><c:out value="${adress}" /></a>
+<a href="mailto:${address}" class="dummy-mail" ><c:out value="${address}" /></a>

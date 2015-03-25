@@ -9,10 +9,10 @@
 		</div>
 		<div class="col-sm-10" >
 			<p>
-				<spring:message code="home.helpdeskAdress" var="helpdeskAdress" />
+				<spring:message code="home.helpdeskAddress" var="helpdeskAddress" />
 				
 				<spring:message code="home.beta.message" />
-				<saos:mail value="${helpdeskAdress}" />.
+				<saos:mail value="${helpdeskAddress}" />.
 			</d>
 		</div>
 	</div>
