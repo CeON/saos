@@ -155,17 +155,18 @@ $(document).ready(function() {
     
     
     ConvertFakeEmailAddressToReal({
-		addressTag: ".dummy-mail",
-		
-		itemsToReplace: [
-             {
-				fake: "_malpka_",
-				real: "@"
-			},
-			{
-				fake: "_kropka_",
-				real: "."
-			}
-		]
-	});
+        addressTag: ".dummy-mail",
+        
+        itemsToReplace: [
+            {
+                fake: "_malpka_",
+                real: "@"
+            },
+            {
+                fake: "_kropka_",
+                real: "."
+            }
+        ]
+    });
+    
 });
