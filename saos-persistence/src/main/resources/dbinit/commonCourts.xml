@@ -219,7 +219,7 @@
 
   <court id="15501515">
     <model> <!-- SRKOZLE -->
-      <name>Sąd Rejonowy w Kędzierzynie Koźlu</name>
+      <name>Sąd Rejonowy w Kędzierzynie-Koźlu</name>
        <!-- SRKOZLE -->
       <domain>orzeczenia.kozle.sr.gov.pl</domain>
        <!-- SRKOZLE -->
@@ -515,7 +515,7 @@
 
   <court id="15502540">
     <model> <!-- SRWF -->
-      <name>Sąd Rejonowy Wrocław Fabryczna we Wrocławiu</name>
+      <name>Sąd Rejonowy dla Wrocławia-Fabrycznej we Wrocławiu</name>
        <!-- SRWF -->
       <domain>orzeczenia.wroclaw-fabryczna.sr.gov.pl</domain>
        <!-- SRWF -->
@@ -541,7 +541,7 @@
 
   <court id="15502545">
     <model> <!-- SRWK -->
-      <name>Sąd Rejonowy Wrocław Krzyki we Wrocławiu</name>
+      <name>Sąd Rejonowy dla Wrocławia-Krzyków we Wrocławiu</name>
        <!-- SRWK -->
       <domain>orzeczenia.wroclaw-krzyki.sr.gov.pl</domain>
        <!-- SRWK -->
@@ -559,7 +559,7 @@
 
   <court id="15502550">
     <model> <!-- SRWS -->
-      <name>Sąd Rejonowy Wrocław Śródmieście we Wrocławiu</name>
+      <name>Sąd Rejonowy dla Wrocławia-Śródmieścia we Wrocławiu</name>
        <!-- SRWS -->
       <domain>orzeczenia.wroclaw-srodmiescie.sr.gov.pl</domain>
        <!-- SRWS -->
