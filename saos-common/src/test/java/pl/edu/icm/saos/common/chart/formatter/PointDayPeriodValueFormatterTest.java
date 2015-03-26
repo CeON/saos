@@ -8,16 +8,15 @@ import static org.junit.Assert.assertTrue;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
-import pl.edu.icm.saos.common.chart.value.Week;
+import pl.edu.icm.saos.common.chart.value.DayPeriod;
 
 /**
  * @author Łukasz Dumiszewski
  */
 
-public class PointWeekValueFormatterTest {
+public class PointDayPeriodValueFormatterTest {
 
-    
- private PointWeekValueFormatter formatter = new PointWeekValueFormatter();
+    private PointDayPeriodValueFormatter formatter = new PointDayPeriodValueFormatter();
     
     
     
@@ -37,7 +36,7 @@ public class PointWeekValueFormatterTest {
         
         // execute & assert
         assertFalse(formatter.handles(Object.class));
-        assertTrue(formatter.handles(Week.class));
+        assertTrue(formatter.handles(DayPeriod.class));
         
     }
     
@@ -52,15 +51,25 @@ public class PointWeekValueFormatterTest {
 
     
     @Test
-    public void format() {
+    public void format_OneDayPeriod() {
         
         // given
-        LocalDate startDate = new LocalDate(2013, 12, 1);
-        LocalDate endDate = new LocalDate(2013, 12, 7);
-        Week week = new Week(startDate, endDate);
+        DayPeriod value = new DayPeriod(new LocalDate(2011, 12, 13), new LocalDate(2011, 12, 13));
         
         // execute
-        assertEquals("01/12/13-07/12/13", formatter.format(week));
+        assertEquals("13/12/11", formatter.format(value));
+        
+    }
+
+    
+    @Test
+    public void format_RangeDayPeriod() {
+        
+        // given
+        DayPeriod value = new DayPeriod(new LocalDate(2011, 11, 13), new LocalDate(2011, 12, 13));
+        
+        // execute
+        assertEquals("13/11/11-13/12/11", formatter.format(value));
         
     }
 }

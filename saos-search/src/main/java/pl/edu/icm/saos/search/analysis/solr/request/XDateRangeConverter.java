@@ -22,13 +22,12 @@ import com.google.common.collect.Maps;
 @Service
 public class XDateRangeConverter implements XRangeConverter {
 
-    private final static Map<PeriodUnit, PeriodUnitMapping> PERIOD_UNIT_MAPPINGS = Maps.newHashMap();
+    private final static Map<PeriodUnit, String> PERIOD_UNIT_MAPPINGS = Maps.newHashMap();
     
     static {
-        PERIOD_UNIT_MAPPINGS.put(PeriodUnit.DAY, new PeriodUnitMapping("DAYS", 1));
-        PERIOD_UNIT_MAPPINGS.put(PeriodUnit.WEEK, new PeriodUnitMapping("DAYS", 7));
-        PERIOD_UNIT_MAPPINGS.put(PeriodUnit.MONTH, new PeriodUnitMapping("MONTHS", 1));
-        PERIOD_UNIT_MAPPINGS.put(PeriodUnit.YEAR, new PeriodUnitMapping("YEARS", 1));
+        PERIOD_UNIT_MAPPINGS.put(PeriodUnit.DAY, "DAYS");
+        PERIOD_UNIT_MAPPINGS.put(PeriodUnit.MONTH, "MONTHS");
+        PERIOD_UNIT_MAPPINGS.put(PeriodUnit.YEAR, "YEARS");
     }
     
     
@@ -78,42 +77,17 @@ public class XDateRangeConverter implements XRangeConverter {
         int gapValue = gap.getValue();
         PeriodUnit gapUnit = gap.getUnit();
         
+        String periodUnit = PERIOD_UNIT_MAPPINGS.get(gapUnit);
         
-        PeriodUnitMapping periodMapping = PERIOD_UNIT_MAPPINGS.get(gapUnit);
-        
-        if (periodMapping == null) {
+        if (periodUnit == null) {
             throw new IllegalArgumentException("PeriodUnit " + gapUnit.name() + " is not supported");
         }
-        
-        return "+" + (gapValue * periodMapping.getUnitMultiplier()) + periodMapping.getUnit();
+
+          
+        return "+" + gapValue + periodUnit;
     }
     
     
-    //------------------------ PRIVATE --------------------------
     
-    private static class PeriodUnitMapping {
-        private String unit;
-        private int unitMultiplier;
-        
-        
-        //------------------------ CONSTRUCTORS --------------------------
-        
-        public PeriodUnitMapping(String unit, int unitMultiplier) {
-            this.unit = unit;
-            this.unitMultiplier = unitMultiplier;
-        }
-        
-        
-        //------------------------ GETTERS --------------------------
-
-        public String getUnit() {
-            return unit;
-        }
-
-        public int getUnitMultiplier() {
-            return unitMultiplier;
-        }
-        
-    }
 
 }
