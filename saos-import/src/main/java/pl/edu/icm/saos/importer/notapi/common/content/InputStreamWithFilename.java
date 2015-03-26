@@ -4,6 +4,8 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.google.common.base.Preconditions;
+
 /**
  * Class representing input stream of file with its name
  * 
@@ -19,6 +21,9 @@ public class InputStreamWithFilename implements Closeable  {
     //------------------------ CONSTRUCTORS --------------------------
     
     public InputStreamWithFilename(InputStream inputStream, String filename) {
+        Preconditions.checkNotNull(inputStream);
+        Preconditions.checkNotNull(filename);
+        
         this.inputStream = inputStream;
         this.filename = filename;
     }

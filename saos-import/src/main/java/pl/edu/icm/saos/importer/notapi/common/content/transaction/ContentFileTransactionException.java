@@ -1,21 +1,21 @@
 package pl.edu.icm.saos.importer.notapi.common.content.transaction;
 
-public class FilesOperationsTransactionException extends RuntimeException {
+public class ContentFileTransactionException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
     
     
     //------------------------ CONSTRUCTORS --------------------------
 
-    public FilesOperationsTransactionException(String message) {
+    public ContentFileTransactionException(String message) {
         super(message);
     }
     
-    public FilesOperationsTransactionException(Throwable cause) {
+    public ContentFileTransactionException(Throwable cause) {
         super(cause);
     }
     
-    public FilesOperationsTransactionException(String message, Throwable cause) {
+    public ContentFileTransactionException(String message, Throwable cause) {
         super(message, cause);
     }
 }

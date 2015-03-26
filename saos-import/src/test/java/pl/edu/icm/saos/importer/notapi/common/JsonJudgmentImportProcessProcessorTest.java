@@ -8,9 +8,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,15 +23,10 @@ import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
-import pl.edu.icm.saos.importer.notapi.common.content.ContentTypeExtractor;
-import pl.edu.icm.saos.importer.notapi.common.content.InputStreamWithFilename;
-import pl.edu.icm.saos.importer.notapi.common.content.JudgmentContentFileExtractor;
-import pl.edu.icm.saos.importer.notapi.common.content.JudgmentContentFilePathGenerator;
-import pl.edu.icm.saos.importer.notapi.common.content.transaction.FilesOperationsTransaction;
-import pl.edu.icm.saos.importer.notapi.common.content.transaction.FilesOperationsTransactionManager;
+import pl.edu.icm.saos.importer.notapi.common.content.JudgmentContentFileProcessor;
+import pl.edu.icm.saos.importer.notapi.common.content.transaction.ContentFileTransactionContext;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
-import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
@@ -64,17 +57,7 @@ public class JsonJudgmentImportProcessProcessorTest {
     
     @Mock private EnrichmentTagRepository enrichmentTagRepository;
     
-    
-    @Mock private JudgmentContentFileExtractor judgmentContentFileExtractor;
-    
-    @Mock private JudgmentContentFilePathGenerator judgmentContentFilePathGenerator;
-    
-    @Mock private ContentTypeExtractor contentTypeExtractor;
-    
-    @Mock private FilesOperationsTransactionManager filesOperationsTransactionManager;
-    
-    
-    private String downloadedContentDir = "/downloaded/content/path/";
+    @Mock private JudgmentContentFileProcessor judgmentContentFileProcessor;
     
     
     // data
@@ -89,7 +72,7 @@ public class JsonJudgmentImportProcessProcessorTest {
     
     private JudgmentWithCorrectionList<SupremeCourtJudgment> jWithCorrectionList = new JudgmentWithCorrectionList<>(scJudgment, correctionList);
     
-    private String transactionId = "transactionId";
+    private ContentFileTransactionContext contentFileTransactionContext;
 
     
     
@@ -103,14 +86,12 @@ public class JsonJudgmentImportProcessProcessorTest {
         scjImportProcessProcessor.setJudgmentOverwriter(judgmentOverwriter);
         scjImportProcessProcessor.setRawSourceJudgmentRepository(rawSourceJudgmentRepository);
         scjImportProcessProcessor.setEnrichmentTagRepository(enrichmentTagRepository);
-        scjImportProcessProcessor.setJudgmentContentFileExtractor(judgmentContentFileExtractor);
-        scjImportProcessProcessor.setJudgmentContentFilePathGenerator(judgmentContentFilePathGenerator);
-        scjImportProcessProcessor.setContentTypeExtractor(contentTypeExtractor);
-        scjImportProcessProcessor.setFilesOperationsTransactionManager(filesOperationsTransactionManager);
-        scjImportProcessProcessor.setDownloadedContentDir(downloadedContentDir);
+        scjImportProcessProcessor.setJudgmentContentFileProcessor(judgmentContentFileProcessor);
         
         ChunkContext chunkContext = Mockito.mock(ChunkContext.class);
-        when(chunkContext.getAttribute("transactionId")).thenReturn(transactionId);
+        contentFileTransactionContext = Mockito.mock(ContentFileTransactionContext.class);
+        
+        when(chunkContext.getAttribute("contentFileTransactionContext")).thenReturn(contentFileTransactionContext);
         scjImportProcessProcessor.beforeChunk(chunkContext);
         
     }
@@ -137,19 +118,6 @@ public class JsonJudgmentImportProcessProcessorTest {
                 Mockito.any(SourceCode.class), Mockito.anyString(), Mockito.any())).thenReturn(null);
         
         
-        InputStreamWithFilename contentStream = Mockito.mock(InputStreamWithFilename.class);
-        InputStream inputStream = Mockito.mock(InputStream.class);
-        when(contentStream.getFilename()).thenReturn("judgmentContent.pdf");
-        when(contentStream.getInputStream()).thenReturn(inputStream);
-        
-        FilesOperationsTransaction filesOperationsTransaction = Mockito.mock(FilesOperationsTransaction.class);
-        
-        when(filesOperationsTransactionManager.fetchTransaction(transactionId)).thenReturn(filesOperationsTransaction);
-        when(judgmentContentFileExtractor.extractJudgmentContent(new File(downloadedContentDir, "contentFilename.zip"), "AAAXXX")).thenReturn(contentStream);
-        when(judgmentContentFilePathGenerator.generatePath(Mockito.any())).thenReturn("/judgment/content/path/");
-        when(contentTypeExtractor.extractContentType("judgmentContent.pdf")).thenReturn(ContentType.PDF);
-        
-        
         // execute
         
         JudgmentWithCorrectionList<SupremeCourtJudgment> retJWithCorrectionList = scjImportProcessProcessor.process(rJudgment);
@@ -169,18 +137,10 @@ public class JsonJudgmentImportProcessProcessorTest {
         verify(judgmentRepository).findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId(), SupremeCourtJudgment.class);
         verify(rawSourceJudgmentRepository).save(rJudgment);
-        
-        verify(filesOperationsTransactionManager).fetchTransaction(transactionId);
-        verify(judgmentContentFileExtractor).extractJudgmentContent(new File(downloadedContentDir, "contentFilename.zip"), "AAAXXX");
-        verify(judgmentContentFilePathGenerator).generatePath(scJudgment);
-        verify(contentTypeExtractor).extractContentType("judgmentContent.pdf");
-        
-        verify(filesOperationsTransaction).addFile(inputStream, "/judgment/content/path/judgmentContent.pdf");
-        verify(contentStream).close();
+        verify(judgmentContentFileProcessor).handleJudgmentContent(contentFileTransactionContext, "contentFilename.zip", scJudgment, null);
         
         
-        verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, judgmentRepository);
-        verifyNoMoreInteractions(filesOperationsTransactionManager, judgmentContentFileExtractor, judgmentContentFilePathGenerator, contentTypeExtractor);
+        verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, judgmentRepository, judgmentContentFileProcessor);
         verifyZeroInteractions(enrichmentTagRepository);
     }
     
@@ -210,19 +170,6 @@ public class JsonJudgmentImportProcessProcessorTest {
                 SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId(), SupremeCourtJudgment.class)).thenReturn(oldScJudgment);
         
         
-        InputStreamWithFilename contentStream = Mockito.mock(InputStreamWithFilename.class);
-        InputStream inputStream = Mockito.mock(InputStream.class);
-        when(contentStream.getFilename()).thenReturn("judgmentContent.pdf");
-        when(contentStream.getInputStream()).thenReturn(inputStream);
-        
-        FilesOperationsTransaction filesOperationsTransaction = Mockito.mock(FilesOperationsTransaction.class);
-        
-        when(filesOperationsTransactionManager.fetchTransaction(transactionId)).thenReturn(filesOperationsTransaction);
-        when(judgmentContentFileExtractor.extractJudgmentContent(new File(downloadedContentDir, "contentFilename.zip"), "ABCXYZ")).thenReturn(contentStream);
-        when(judgmentContentFilePathGenerator.generatePath(Mockito.any())).thenReturn("/judgment/content/path/");
-        when(contentTypeExtractor.extractContentType("judgmentContent.pdf")).thenReturn(ContentType.PDF);
-        
-        
         // execute
         
         JudgmentWithCorrectionList<SupremeCourtJudgment> retJWithCorrectionList = scjImportProcessProcessor.process(rJudgment);
@@ -246,20 +193,11 @@ public class JsonJudgmentImportProcessProcessorTest {
         
         verify(enrichmentTagRepository).deleteAllByJudgmentId(oldScJudgmentId);
         
+        verify(judgmentContentFileProcessor).handleJudgmentContent(contentFileTransactionContext, "contentFilename.zip", scJudgment, "/old/judgment/content/path.pdf");
         
         verify(rawSourceJudgmentRepository).save(rJudgment);
-        
-        
-        verify(filesOperationsTransactionManager).fetchTransaction(transactionId);
-        verify(judgmentContentFileExtractor).extractJudgmentContent(new File(downloadedContentDir, "contentFilename.zip"), "ABCXYZ");
-        verify(judgmentContentFilePathGenerator).generatePath(scJudgment);
-        verify(contentTypeExtractor).extractContentType("judgmentContent.pdf");
-        
-        verify(filesOperationsTransaction).overwriteFile(inputStream, "/judgment/content/path/judgmentContent.pdf", "/old/judgment/content/path.pdf");
-        verify(contentStream).close();
          
-        verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, judgmentRepository, judgmentOverwriter);
-        verifyNoMoreInteractions(filesOperationsTransactionManager, judgmentContentFileExtractor, judgmentContentFilePathGenerator, contentTypeExtractor);
+        verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, judgmentRepository, judgmentOverwriter, judgmentContentFileProcessor);
         verifyNoMoreInteractions(enrichmentTagRepository);
     }
 

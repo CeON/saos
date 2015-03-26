@@ -99,13 +99,11 @@ public class CtjImportJobConfiguration {
     
     
     @Bean
-    @Autowired
     public Job ctJudgmentImportProcessJob() {
         return jobs.get("IMPORT_CT_JUDGMENTS_process").start(ctJudgmentImportProcessStep()).incrementer(new RunIdIncrementer()).build();
     }
     
     @Bean
-    @Autowired
     protected Step ctJudgmentImportProcessStep() {
         return steps.get("ctJudgmentImportProcessStep").<RawSourceCtJudgment, JudgmentWithCorrectionList<ConstitutionalTribunalJudgment>> chunk(20)
             .reader(ctjImportProcessReader)
@@ -119,7 +117,6 @@ public class CtjImportJobConfiguration {
     
     
     @Bean
-    @Autowired
     public Job ctJudgmentImportJob() {
         return jobs.get("IMPORT_CT_JUDGMENTS")
                 .start(ctJudgmentImportDownloadStep())

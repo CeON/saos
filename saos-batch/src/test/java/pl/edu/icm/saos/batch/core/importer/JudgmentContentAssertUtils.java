@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.batch.core.importer;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -22,7 +23,12 @@ class JudgmentContentAssertUtils {
         }
     }
     
+    public static void assertJudgmentContentNotExists(File judgmentContentDir, String path) {
+        File file = new File(judgmentContentDir, path);
+        assertFalse("Judgment content exists in " + path, file.exists());
+    }
+    
     public static void assertJudgmentContent(File expected, File actual) throws IOException {
-        FileUtils.contentEquals(expected, actual);
+        assertTrue(FileUtils.contentEquals(expected, actual));
     }
 }

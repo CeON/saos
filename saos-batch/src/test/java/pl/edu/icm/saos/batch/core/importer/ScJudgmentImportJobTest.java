@@ -34,11 +34,11 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
-import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
-import pl.edu.icm.saos.importer.notapi.common.content.transaction.FilesOperationsTransactionManager;
-import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
+import pl.edu.icm.saos.importer.notapi.common.content.JudgmentContentFileProcessor;
+import pl.edu.icm.saos.importer.notapi.common.content.transaction.ContentFileTransactionManager;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
+import pl.edu.icm.saos.persistence.content.JudgmentContentDeleter;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
@@ -83,10 +83,13 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     private JsonImportDownloadProcessor<RawSourceScJudgment> scjImportDownloadProcessor;
     
     @Autowired
-    private JsonJudgmentImportProcessProcessor<SourceScJudgment, SupremeCourtJudgment> scjImportProcessProcessor;
+    private JudgmentContentFileProcessor scJudgmentContentFileProcessor;
     
     @Autowired
-    private FilesOperationsTransactionManager filesOperationsTransactionManager;
+    private ContentFileTransactionManager contentFileTransactionManager;
+    
+    @Autowired
+    private JudgmentContentDeleter judgmentContentDeleter;
     
     
     @Autowired
@@ -145,8 +148,9 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         
         scjContentDownloadStepExecutionListener.setDownloadedContentDir(downloadedContentDir.getPath());
         scjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
-        filesOperationsTransactionManager.setContentDirectoryPath(judgmentContentDir.getPath());
-        scjImportProcessProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
+        contentFileTransactionManager.setContentDirectoryPath(judgmentContentDir.getPath());
+        scJudgmentContentFileProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
+        judgmentContentDeleter.setJudgmentContentPath(judgmentContentDir.getPath());
     }
     
     @After
@@ -307,13 +311,13 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         
         
         // assert content
-        
         JudgmentContentAssertUtils.assertJudgmentContentsExists(judgmentContentDir,
                 "supreme/1994/9/28/ded0b5bb7135cf1e196f80175ce07584.pdf",
                 "supreme/1994/9/28/5e17ce355710a893e2812807a63d247c.pdf",
                 "supreme/2002/7/5/9b1052b42fde3fe481769042fae34b69.pdf",
                 "supreme/1994/9/28/b082922617256d5b4092cf23864c8894.pdf",
                 "supreme/2002/3/27/9e2119f54a24521c52d20c6cbe580180.pdf");
+        JudgmentContentAssertUtils.assertJudgmentContentNotExists(judgmentContentDir, "supreme/2002/7/5/24ffe0d974d5823db702e6436dbb9f0f.pdf");
         
         String expectedContentPath = PathResolver.resolveToAbsolutePath("/import/supremeCourt/judgments/content/b082922617256d5b4092cf23864c8894_changed.pdf");
         JudgmentContentAssertUtils.assertJudgmentContent(new File(expectedContentPath), new File(judgmentContentDir, "supreme/1994/9/28/b082922617256d5b4092cf23864c8894.doc"));
