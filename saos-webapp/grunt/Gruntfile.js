@@ -70,7 +70,7 @@ module.exports = function(grunt) {
             failHard: true,
             reset: true,
             remotePath: 'http://localhost:8080/saos-webapp',
-            remoteFiles: ['/search', '/', '/judgments/176262', '/siteMap'],
+            remoteFiles: ['/search', '/', '/judgments/176262', '/siteMap', '/analysis'],
             relaxerror: [
                          'Bad value X-UA-Compatible for attribute http-equiv on element meta.',
                          'Element img is missing required attribute src.'

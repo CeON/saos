@@ -15,19 +15,19 @@ $(document).ready(function() {
 
 
 <div class="container search-page block" id="analysis">
-
-<div class="form-group" id="analysisFormDiv">
-
-       <%@ include file="analysisForm.jsp" %>
-
-</div>
-
-
-<div class="col-sm-12">
-    <span class="small" id="mainChartZoomCancelHint"></span>
-    <div id="mainChart" style="width: 100%; height: 400px;">
-    </div>
-</div>
+	
+	<div class="form-group" id="analysisFormDiv">
+	
+	       <%@ include file="analysisForm.jsp" %>
+	
+	</div>
+	
+	
+	<div class="col-sm-12">
+	    <span class="small" id="mainChartZoomCancelHint"></span>
+	    <div id="mainChart" style="width: 100%; height: 400px;">
+	    </div>
+	</div>
 
 
 </div>

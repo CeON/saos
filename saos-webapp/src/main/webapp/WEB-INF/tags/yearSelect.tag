@@ -3,13 +3,14 @@
 
 <%@ attribute name="id" required="true" description="Select element id" rtexprvalue="true" %>
 <%@ attribute name="path" required="true" description="Select element path" rtexprvalue="true" %>
+<%@ attribute name="title" required="false" description="Select element title" rtexprvalue="true" %>
 <%@ attribute name="yearRange" required="true" description="Year range. Use dash '-' or comma ',' to define ranges of years. E.g. 1990-2000, 2006, 2008. The order of year options corresponds directly to the order of years in yearRange." rtexprvalue="true" %>
 
 
 <c:set var="commaSplittedYears" value="${fn:split(yearRange, ',')}"/>
 
 
-<form:select id="${id}" path="${path}" class="form-control">
+<form:select id="${id}" path="${path}" class="form-control" title="${title}" >
 
 <c:forEach items="${commaSplittedYears}" var="year">
 
