@@ -7,12 +7,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.common.chart.formatter.PointLocalDateValueFormatter;
-import pl.edu.icm.saos.common.chart.formatter.PointMonthYearValueFormatter;
+import pl.edu.icm.saos.common.chart.formatter.PointDayPeriodValueFormatter;
+import pl.edu.icm.saos.common.chart.formatter.PointMonthPeriodValueFormatter;
 import pl.edu.icm.saos.common.chart.formatter.PointObjectValueFormatter;
 import pl.edu.icm.saos.common.chart.formatter.PointValueFormatter;
 import pl.edu.icm.saos.common.chart.formatter.PointValueFormatterManager;
-import pl.edu.icm.saos.webapp.analysis.result.PointWeekBrValueFormatter;
+import pl.edu.icm.saos.common.chart.formatter.PointYearPeriodValueFormatter;
+import pl.edu.icm.saos.webapp.analysis.result.PointBrAddingValueFormatter;
 
 import com.google.common.collect.Lists;
 
@@ -28,20 +29,20 @@ public class UiAnalysisConfiguration {
     
     
     @Bean
-    public PointValueFormatter pointLocalDateValueFormatter() {
-        return new PointLocalDateValueFormatter();
+    public PointValueFormatter pointDayPeriodValueFormatter() {
+        return new PointBrAddingValueFormatter(new PointDayPeriodValueFormatter());
     }
 
     
     @Bean
-    public PointValueFormatter pointMonthYearValueFormatter() {
-        return new PointMonthYearValueFormatter();
+    public PointValueFormatter pointMonthPeriodValueFormatter() {
+        return new PointBrAddingValueFormatter(new PointMonthPeriodValueFormatter());
     }
 
     
     @Bean
-    public PointValueFormatter pointWeekBrValueFormatter() {
-        return new PointWeekBrValueFormatter();
+    public PointValueFormatter pointYearPeriodValueFormatter() {
+        return new PointBrAddingValueFormatter(new PointYearPeriodValueFormatter());
     }
     
     @Bean
@@ -55,9 +56,9 @@ public class UiAnalysisConfiguration {
         
         PointValueFormatterManager pointValueFormatterManager = new PointValueFormatterManager();
         pointValueFormatterManager.setPointValueFormatters(
-                Lists.newArrayList(pointLocalDateValueFormatter(),
-                                   pointMonthYearValueFormatter(),
-                                   pointWeekBrValueFormatter(),
+                Lists.newArrayList(pointDayPeriodValueFormatter(),
+                                   pointMonthPeriodValueFormatter(),
+                                   pointYearPeriodValueFormatter(),
                                    pointObjectValueFormatter()
                 )
         );

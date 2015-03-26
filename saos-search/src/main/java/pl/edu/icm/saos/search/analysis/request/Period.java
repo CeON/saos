@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
 
 public class Period {
     
-    public enum PeriodUnit { DAY, WEEK, MONTH, YEAR};
+    public enum PeriodUnit { DAY, MONTH, YEAR};
     
     private int value;
     private PeriodUnit unit;

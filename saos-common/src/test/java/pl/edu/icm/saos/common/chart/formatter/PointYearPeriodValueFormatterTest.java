@@ -1,6 +1,5 @@
 package pl.edu.icm.saos.common.chart.formatter;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -8,15 +7,17 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import pl.edu.icm.saos.common.chart.value.MonthYear;
+import pl.edu.icm.saos.common.chart.value.YearPeriod;
 
 /**
  * @author Łukasz Dumiszewski
  */
 
-public class PointMonthYearValueFormatterTest {
+public class PointYearPeriodValueFormatterTest {
 
-    private PointMonthYearValueFormatter formatter = new PointMonthYearValueFormatter();
+    
+
+    private PointYearPeriodValueFormatter formatter = new PointYearPeriodValueFormatter();
     
     
     
@@ -36,7 +37,7 @@ public class PointMonthYearValueFormatterTest {
         
         // execute & assert
         assertFalse(formatter.handles(Object.class));
-        assertTrue(formatter.handles(MonthYear.class));
+        assertTrue(formatter.handles(YearPeriod.class));
         
     }
     
@@ -51,15 +52,26 @@ public class PointMonthYearValueFormatterTest {
 
     
     @Test
-    public void format() {
+    public void format_OneYearPeriod() {
         
         // given
-        MonthYear value = new MonthYear(12, 2013);
+        YearPeriod value = new YearPeriod(2009, 2009);
         
         // execute
-        assertEquals("12/2013", formatter.format(value));
+        assertEquals("2009", formatter.format(value));
         
     }
 
+    
+    @Test
+    public void format_RangeYearPeriod() {
+        
+        // given
+        YearPeriod value = new YearPeriod(2009, 2017);
+        
+        // execute
+        assertEquals("2009-2017", formatter.format(value));
+        
+    }
     
 }

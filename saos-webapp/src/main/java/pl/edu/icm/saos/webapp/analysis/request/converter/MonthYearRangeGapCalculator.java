@@ -36,7 +36,7 @@ class MonthYearRangeGapCalculator {
         
         if (monthDiff <= 12) {
             
-            return new Period(1, PeriodUnit.WEEK);
+            return new Period(7, PeriodUnit.DAY);
             
         }
         

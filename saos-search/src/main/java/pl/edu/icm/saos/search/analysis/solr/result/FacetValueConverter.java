@@ -16,7 +16,7 @@ public interface FacetValueConverter {
     /**
      * Converts facet value into different object
      */
-    public Object convert(String value);
+    public Object convert(String value, XSettings xsettings);
     
     /**
      * Returns true if this converter handles facet values defined by the given xsettings
