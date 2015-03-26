@@ -11,7 +11,6 @@ import pl.edu.icm.saos.search.analysis.request.Period;
 import pl.edu.icm.saos.search.analysis.request.Period.PeriodUnit;
 import pl.edu.icm.saos.search.analysis.request.XDateRange;
 import pl.edu.icm.saos.search.analysis.request.XRange;
-import pl.edu.icm.saos.search.analysis.solr.request.XDateRangeConverter;
 
 /**
  * @author madryk
@@ -89,9 +88,9 @@ public class XDateRangeConverterTest {
     
     
     @Test
-    public void convertGap_WEEK() {
+    public void convertGap_14DAYS() {
         // given
-        XDateRange xDateRange = new XDateRange(new LocalDate(), new LocalDate(), new Period(2, PeriodUnit.WEEK));
+        XDateRange xDateRange = new XDateRange(new LocalDate(), new LocalDate(), new Period(14, PeriodUnit.DAY));
         
         // execute
         String gapParam = xDateRangeConverter.convertGap(xDateRange);

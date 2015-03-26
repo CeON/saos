@@ -23,6 +23,9 @@ public class FacetToSeriesConverter {
     
     //------------------------ LOGIC --------------------------
     
+    /**
+     * Converts the given facet to Series
+     */
     public Series<Object, Integer> convert(RangeFacet<?, ?> facet, XSettings xsettings) {
         
         Preconditions.checkNotNull(facet);
@@ -35,7 +38,7 @@ public class FacetToSeriesConverter {
         
         for (Count count : facet.getCounts()) {
             
-            series.addPoint(xValueConverter.convert(count.getValue()), count.getCount());
+            series.addPoint(xValueConverter.convert(count.getValue(), xsettings), count.getCount());
         
         }
         

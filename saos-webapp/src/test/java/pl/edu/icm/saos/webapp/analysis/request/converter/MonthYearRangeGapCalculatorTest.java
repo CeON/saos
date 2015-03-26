@@ -33,8 +33,8 @@ public class MonthYearRangeGapCalculatorTest {
     public void calculateGap_WEEK() {
         
         // execute & assert
-        assertEquals(new Period(1, PeriodUnit.WEEK), calculator.calculateGap(2014, 1, 2014, 3));
-        assertEquals(new Period(1, PeriodUnit.WEEK), calculator.calculateGap(2014, 1, 2014, 12));
+        assertEquals(new Period(7, PeriodUnit.DAY), calculator.calculateGap(2014, 1, 2014, 3));
+        assertEquals(new Period(7, PeriodUnit.DAY), calculator.calculateGap(2014, 1, 2014, 12));
         
     }
     
