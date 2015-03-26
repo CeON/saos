@@ -9,7 +9,7 @@
 		</div>
 		<div class="col-sm-10" >
 			<p>
-				<spring:message code="home.helpdeskAddress" var="helpdeskAddress" />
+				<spring:eval expression="@exposedProperties.getProperty('webapp.helpdeskAddress')" var="helpdeskAddress" />
 				
 				<spring:message code="home.beta.message" />
 				<saos:mail value="${helpdeskAddress}" />.
