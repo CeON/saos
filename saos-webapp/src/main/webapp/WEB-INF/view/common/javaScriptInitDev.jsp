@@ -22,6 +22,7 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.time.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/flotSupport.js"></script>
 
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/convertFakeEmailAddressToReal.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/typography.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/cookies.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/courtDivisionSelect.js"></script>

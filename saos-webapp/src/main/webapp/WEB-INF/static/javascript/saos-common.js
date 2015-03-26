@@ -152,5 +152,21 @@ $(document).ready(function() {
 		event.preventDefault();
 	});
 	
-	
+    
+    
+    ConvertFakeEmailAddressToReal({
+        addressTag: ".dummy-mail",
+        
+        itemsToReplace: [
+            {
+                fake: "_malpka_",
+                real: "@"
+            },
+            {
+                fake: "_kropka_",
+                real: "."
+            }
+        ]
+    });
+    
 });
