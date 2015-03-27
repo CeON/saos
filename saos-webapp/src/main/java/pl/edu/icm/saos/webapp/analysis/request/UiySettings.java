@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.webapp.analysis.request;
 
+import com.google.common.base.Preconditions;
+
 /**
  * 
  * Settings of the y axis
@@ -10,7 +12,9 @@ package pl.edu.icm.saos.webapp.analysis.request;
 public class UiySettings {
 
     
-    
+    /**
+     * Possible types of values on an y-axis 
+     */
     public enum UiyValueType {
         
         /** Absolute number of results */
@@ -31,6 +35,9 @@ public class UiySettings {
     
     //------------------------ GETTERS --------------------------
 
+    /**
+     * Returns {@link UiyValueType} set for the y-axis 
+     */
     public UiyValueType getValueType() {
         return valueType;
     }
@@ -39,6 +46,7 @@ public class UiySettings {
     //------------------------ SETTERS --------------------------
 
     public void setValueType(UiyValueType valueType) {
+        Preconditions.checkNotNull(valueType);
         this.valueType = valueType;
     }
     

@@ -9,6 +9,8 @@ import pl.edu.icm.saos.search.analysis.request.YValueType;
 import pl.edu.icm.saos.webapp.analysis.request.UiySettings;
 import pl.edu.icm.saos.webapp.analysis.request.UiySettings.UiyValueType;
 
+import com.google.common.base.Preconditions;
+
 /**
  * 
  * A converter of {@link UiySettings} into {@link YSettings} objects
@@ -27,7 +29,11 @@ public class UiySettingsConverter {
      */
     public YSettings convert(UiySettings uiySettings) {
         
+        Preconditions.checkNotNull(uiySettings);
+        
+        
         YSettings ysettings = new YSettings();
+        
         
         YValueType yValueType = new AbsoluteNumberYValue();
         
