@@ -3,9 +3,13 @@ package pl.edu.icm.saos.webapp.analysis.request.converter;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.analysis.request.AbsoluteNumberYValue;
+import pl.edu.icm.saos.search.analysis.request.RateYValue;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
 import pl.edu.icm.saos.search.analysis.request.YValueType;
 import pl.edu.icm.saos.webapp.analysis.request.UiySettings;
+import pl.edu.icm.saos.webapp.analysis.request.UiySettings.UiyValueType;
+
+import com.google.common.base.Preconditions;
 
 /**
  * 
@@ -25,12 +29,23 @@ public class UiySettingsConverter {
      */
     public YSettings convert(UiySettings uiySettings) {
         
-        // TODO: will be changed in https://github.com/CeON/saos/issues/600
+        Preconditions.checkNotNull(uiySettings);
+        
         
         YSettings ysettings = new YSettings();
         
+        
         YValueType yValueType = new AbsoluteNumberYValue();
         
+        if (uiySettings.getValueType().equals(UiyValueType.PERCENT)) {
+            
+            yValueType = new RateYValue(100);
+            
+        } else if (uiySettings.getValueType().equals(UiyValueType.NUMBER_PER_1000)) {
+            
+            yValueType = new RateYValue(1000);
+        }
+                
         ysettings.setValueType(yValueType);
         
         return ysettings;

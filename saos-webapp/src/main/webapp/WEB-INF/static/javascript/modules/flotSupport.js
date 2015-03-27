@@ -31,14 +31,23 @@ function formatXTicks(minXtickLabelLength){
 
 
 /** Shows a point tooltip with a number on y-axis. The number values are formatted (there are spaces added
- * every 3 digits) */
-function showYNumberPointTooltip(event, pos, item) {
+ * every 3 digits) 
+ * 
+ * @param decimalPrecision the precision that will be used for formatting numbers that are not integers
+ * */
+function showYNumberPointTooltip(event, pos, item, decimalPrecision) {
 	if (item) {
 		
 			$("#tooltip").remove();
 			var x =  item.series.xaxis.ticks[item.dataIndex].label;
 			x = x.replace(/<br\/>/g, "");
-			var y = addSpacesEvery3Digits(item.datapoint[1].toFixed(0));
+			
+			var yValue = item.datapoint[1];
+			var precision = 0;
+			if (!isInt(yValue)) {
+			    precision = decimalPrecision;
+			}
+			var y = addSpacesEvery3Digits(item.datapoint[1].toFixed(precision));
 
 			showTooltip(item.pageX, item.pageY, x + ",  <b>" + y + "</b>");
 		
@@ -47,6 +56,7 @@ function showYNumberPointTooltip(event, pos, item) {
 		
 	}
 }
+
 
 
 /** Shows number/number point tooltip on flot plothover event */

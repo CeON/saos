@@ -13,7 +13,7 @@ import com.google.common.base.Preconditions;
 
 public class RateYValue implements YValueType {
 
-    public int rateRatio;
+    private int rateRatio;
    
     
     //------------------------ CONSTRUCTORS --------------------------

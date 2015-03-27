@@ -20,7 +20,12 @@ function extractIndex(element) {
 
 
 
-
+/**
+ * Is the given number int? 
+ */
+function isInt(n) {
+    return n % 1 === 0;
+ }
 
 
 /****************** MONTH YEAR RANGE PICKER **/
