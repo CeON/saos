@@ -76,6 +76,8 @@ var initAnalysisJs = function() {
         
         tieMonthYearRangeSelects("xRangeStartMonth", "xRangeStartYear", "xRangeEndMonth", "xRangeEndYear");
 
+        //Enables bootstrap tooltip
+        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
     }
     
     
@@ -116,10 +118,11 @@ var initAnalysisJs = function() {
      */
     function initDeleteSearchPhraseButtons() {
     
-        $('[id^=deletePhraseButton_]').click(function(event) {
+        $('[id^=deletePhraseButton_]').click(function() {
             
             // TODO: delete tooltip
-            event.preventDefault();
+            $(this).tooltip("hide");
+            
             deleteSearchPhrase(extractIndex($(this)));
             
         });
@@ -186,7 +189,6 @@ var initAnalysisJs = function() {
             $('#analysisFormDiv').html(view);  
         
             initFormElements();
-            
             
             if (regenerateChart) {
                 
