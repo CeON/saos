@@ -3,6 +3,7 @@ package pl.edu.icm.saos.webapp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import org.springframework.data.web.config.SpringDataWebConfiguration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.LocaleResolver;
@@ -48,7 +50,8 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     @Autowired
     private LocaleResolver localeResolver;
     
-    @Autowired
+    @Value("${judgments.content.dir}")
+    private String judgmentsContentPath; 
     
     @Bean
     public TilesViewResolver viewResolver() {
@@ -67,6 +70,8 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("/WEB-INF/static/").setCachePeriod(3600*24*7);
         registry.addResourceHandler("/robots.txt").addResourceLocations("/WEB-INF/").setCachePeriod(0);
+        registry.addResourceHandler("/files/judgments/**").addResourceLocations(ResourceUtils.FILE_URL_PREFIX + judgmentsContentPath).setCachePeriod(3600*24);
+        
     }
 
     @Override
