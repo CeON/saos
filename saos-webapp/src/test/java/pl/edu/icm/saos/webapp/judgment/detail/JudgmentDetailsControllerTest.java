@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.webapp.judgment.detail;
 
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -98,6 +100,7 @@ public class JudgmentDetailsControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentDetails"))
 			.andExpect(model().attribute("judgment", judgment))
+			.andExpect(model().attribute("judgment", hasProperty("textContent", hasProperty("rawTextContent", is("aaa<br />bbb")))))
 			.andExpect(model().attribute("corrections", judgmentCorrections));
 		
 		verify(judgmentEnrichmentService).findOneAndEnrich(judgment.getId());
@@ -113,6 +116,9 @@ public class JudgmentDetailsControllerTest {
 		CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
 		
 		Whitebox.setInternalState(ccJudgment, "id", 28);
+		
+		ccJudgment.getTextContent().setFilePath("/file/path.txt");
+		ccJudgment.getTextContent().setRawTextContent("aaa\nbbb");
 		
 		return ccJudgment;
 	}

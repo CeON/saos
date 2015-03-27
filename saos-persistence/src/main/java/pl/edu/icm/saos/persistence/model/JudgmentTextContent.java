@@ -91,7 +91,7 @@ public class JudgmentTextContent extends DataObject {
      * Tells if with content is associated with some external file.
      */
     @Transient
-    public boolean isHaveExternalContent() {
+    public boolean isContentInFile() {
         return StringUtils.isNotBlank(filePath);
     }
     
