@@ -390,9 +390,33 @@ $(document).ready(function() {
 
 
 <%-- Judgment content --%>
+
 <div class="container block" id="judgment-content">
+			
 	<h2 ><spring:message code="judgmentDetails.judgmentFullText" /></h2>
+			
+	<c:choose>
+		<c:when test="${judgment.textContent.haveExternalContent}">
+			<c:set var="filetypeIconPath" value="${contextPath}/static/image/icons/filetype/${fn:toLowerCase(judgment.textContent.type)}.png" />
+			<c:set var="filetypeIconAlt"><saos:enum value="${judgment.textContent.type}" /></c:set>
+			<c:set var="filePath" value="${contextPath}/files/judgments/${judgment.textContent.filePath}" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="filetypeIconPath" value="${contextPath}/static/image/icons/filetype/html.png" />
+			<c:set var="filetypeIconAlt"><spring:message code="judgmentDetails.judgmentFullText.type.html" /></c:set>
+			<c:set var="filePath" value="${contextPath}/judgments/content/${judgmentId}.html" />
+		</c:otherwise>
+	</c:choose>
+				
+	<div class="judgment-content-buttons">
+		<a class="" href="${filePath}">
+			<img src="${filetypeIconPath}" alt="${filetypeIconAlt}" height="48" />
+			<spring:message code="judgmentDetails.judgmentFullText.download" />
+		</a>
+	</div>
+	
 	<div class="body">
 		<c:out value="${judgment.textContent.rawTextContent}" escapeXml="false" />
 	</div>
+	
 </div>

@@ -2,7 +2,6 @@
 <%@page isErrorPage="true" %>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 
 
@@ -10,6 +9,7 @@
 
 
 <head>
+	<meta charset="UTF-8" />
 	<saos:cssJsInit></saos:cssJsInit>
 </head>
 
