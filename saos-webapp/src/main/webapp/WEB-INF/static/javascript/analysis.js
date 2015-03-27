@@ -77,7 +77,7 @@ var initAnalysisJs = function() {
         tieMonthYearRangeSelects("xRangeStartMonth", "xRangeStartYear", "xRangeEndMonth", "xRangeEndYear");
 
         //Enables bootstrap tooltip
-        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+        $('#analysisForm [data-toggle="tooltip"]').tooltip({container: 'body'});
     }
     
     
