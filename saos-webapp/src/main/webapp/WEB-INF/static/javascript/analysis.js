@@ -120,7 +120,6 @@ var initAnalysisJs = function() {
     
         $('[id^=deletePhraseButton_]').click(function() {
             
-            // TODO: delete tooltip
             $(this).tooltip("hide");
             
             deleteSearchPhrase(extractIndex($(this)));
