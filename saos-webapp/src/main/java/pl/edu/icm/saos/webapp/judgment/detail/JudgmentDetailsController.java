@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
+import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionService;
 
 /**
@@ -32,8 +33,16 @@ public class JudgmentDetailsController {
 	@RequestMapping("/judgments/{judgmentId}")
 	public String showJudgmentDetails(ModelMap model, @PathVariable("judgmentId") long judgmentId) {		
 		
-		model.addAttribute("judgment", judgmentDetailsSortService.sortJudges(judgmentEnrichmentService.findOneAndEnrich(judgmentId)));
+	    Judgment judgment = judgmentDetailsSortService.sortJudges(judgmentEnrichmentService.findOneAndEnrich(judgmentId));
+	    
+	    String formattedTextContent = judgment.getRawTextContent();
+	    if (judgment.getTextContent().isContentInFile()) {
+	        formattedTextContent = formattedTextContent.replaceAll("\\n", "<br />");
+	    }
+	    
+		model.addAttribute("judgment", judgment);
 		model.addAttribute("corrections", judgmentCorrectionService.findAllByJudgmentIdSorted(judgmentId));
+		model.addAttribute("formattedTextContent", formattedTextContent);
 		
 		return "judgmentDetails";
 	}

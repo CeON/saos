@@ -98,6 +98,7 @@ public class JudgmentDetailsControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentDetails"))
 			.andExpect(model().attribute("judgment", judgment))
+			.andExpect(model().attribute("formattedTextContent", "aaa<br />bbb")) 
 			.andExpect(model().attribute("corrections", judgmentCorrections));
 		
 		verify(judgmentEnrichmentService).findOneAndEnrich(judgment.getId());
@@ -113,6 +114,9 @@ public class JudgmentDetailsControllerTest {
 		CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
 		
 		Whitebox.setInternalState(ccJudgment, "id", 28);
+		
+		ccJudgment.getTextContent().setFilePath("/file/path.txt");
+		ccJudgment.getTextContent().setRawTextContent("aaa\nbbb");
 		
 		return ccJudgment;
 	}

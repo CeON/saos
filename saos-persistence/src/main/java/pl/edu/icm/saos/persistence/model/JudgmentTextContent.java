@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.lang3.StringUtils;
@@ -89,7 +90,8 @@ public class JudgmentTextContent extends DataObject {
     /**
      * Tells if with content is associated with some external file.
      */
-    public boolean haveExternalContent() {
+    @Transient
+    public boolean isContentInFile() {
         return StringUtils.isNotBlank(filePath);
     }
     

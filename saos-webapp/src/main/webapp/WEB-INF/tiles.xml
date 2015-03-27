@@ -35,6 +35,10 @@
         <put-attribute name="skipLinks" value="skipLinksJudgmentDetails" />
         <put-attribute name="title" value="pageTitle.judgmentDetails" type="string" />
     </definition>
+    
+    <definition name="judgmentContent" extends="simpleTemplate">
+    	<put-attribute name="content" value="/WEB-INF/view/details/judgmentContent.jsp" />
+    </definition>
 
     <definition name="siteMap" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/siteMap/siteMap.jsp" />
