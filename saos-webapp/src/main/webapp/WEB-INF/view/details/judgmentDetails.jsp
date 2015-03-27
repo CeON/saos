@@ -418,7 +418,7 @@ $(document).ready(function() {
 	</div>
 	
 	<div class="body">
-		<c:out value="${judgment.textContent.rawTextContent}" escapeXml="false" />
+		<c:out value="${formattedTextContent}" escapeXml="false" />
 	</div>
 	
 </div>

@@ -35,12 +35,14 @@ public class JudgmentDetailsController {
 		
 	    Judgment judgment = judgmentDetailsSortService.sortJudges(judgmentEnrichmentService.findOneAndEnrich(judgmentId));
 	    
+	    String formattedTextContent = judgment.getRawTextContent();
 	    if (judgment.getTextContent().isContentInFile()) {
-	        judgment.getTextContent().setRawTextContent(judgment.getRawTextContent().replaceAll("\\n", "<br />"));
+	        formattedTextContent = formattedTextContent.replaceAll("\\n", "<br />");
 	    }
 	    
 		model.addAttribute("judgment", judgment);
 		model.addAttribute("corrections", judgmentCorrectionService.findAllByJudgmentIdSorted(judgmentId));
+		model.addAttribute("formattedTextContent", formattedTextContent);
 		
 		return "judgmentDetails";
 	}
