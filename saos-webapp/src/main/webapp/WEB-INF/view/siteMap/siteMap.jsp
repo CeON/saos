@@ -14,9 +14,9 @@
 			<li>
 				<a href="${contextPath}/search" ><spring:message code="navigation.search" /></a>
 			</li>
-			<li>
-				<a href="${contextPath}/contact" ><spring:message code="navigation.contact" /></a>
-			</li>
+            <li>
+                <a href="${contextPath}/analysis" ><spring:message code="navigation.analysis" /></a>
+            </li>
 		</ul>
 	
 	</div>

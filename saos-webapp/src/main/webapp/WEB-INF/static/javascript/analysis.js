@@ -116,10 +116,10 @@ var initAnalysisJs = function() {
      */
     function initDeleteSearchPhraseButtons() {
     
-        $('[id^=deletePhraseButton_]').click(function() {
+        $('[id^=deletePhraseButton_]').click(function(event) {
             
             // TODO: delete tooltip
-            
+            event.preventDefault();
             deleteSearchPhrase(extractIndex($(this)));
             
         });
@@ -151,7 +151,6 @@ var initAnalysisJs = function() {
         $('#addPhraseButton').click(function(){
         
               addNewSearchPhrase();
-          
         });
     }
     
