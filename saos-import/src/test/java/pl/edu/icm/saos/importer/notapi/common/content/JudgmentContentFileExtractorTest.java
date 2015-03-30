@@ -49,7 +49,7 @@ public class JudgmentContentFileExtractorTest {
     }
     
     @Test(expected = ImportException.class)
-    public void extractJudgmentContent_NOT_FOUND() {
+    public void extractJudgmentContent_NOT_FOUND() throws IOException {
         // given
         String archivePath = PathResolver.resolveToAbsolutePath("import/content/judgmentContent.zip");
         

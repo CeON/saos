@@ -35,8 +35,15 @@ public class JudgmentContentFileProcessor {
     /**
      * Handles adding of judgment content files.
      * It saves all needed operations on files in {@link ContentFileTransactionContext}.
+     * 
+     * @param context - used to save needed operations on files
+     * @param downloadedContentFilename - name of archive file from which judgment content file can be extracted
+     * @param judgment - judgment which content is processed. This method will update it's {@link Judgment#getTextContent()}
+     * @param oldJudgmentContentPath - path to old version of judgment content file.
+     *     It can be null if old judgment doesn't have content file or processing concerns new judgment.
+     * @throws IOException
      */
-    public void handleJudgmentContent(ContentFileTransactionContext context, String downloadedContentFilename, Judgment judgment, String oldJudgmentContentPath) throws IOException {
+    public void processJudgmentContentFile(ContentFileTransactionContext context, String downloadedContentFilename, Judgment judgment, String oldJudgmentContentPath) throws IOException {
         
         Preconditions.checkNotNull(context);
         Preconditions.checkNotNull(downloadedContentFilename);

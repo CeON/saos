@@ -35,9 +35,9 @@ import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.common.content.JudgmentContentFileProcessor;
-import pl.edu.icm.saos.importer.notapi.common.content.transaction.ContentFileTransactionManager;
+import pl.edu.icm.saos.importer.notapi.common.content.transaction.ContentFileTransactionContextFactory;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
-import pl.edu.icm.saos.persistence.content.JudgmentContentDeleter;
+import pl.edu.icm.saos.persistence.content.JudgmentContentFileDeleter;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
@@ -72,10 +72,10 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
     private JudgmentContentFileProcessor nacJudgmentContentFileProcessor;
     
     @Autowired
-    private ContentFileTransactionManager contentFileTransactionManager;
+    private ContentFileTransactionContextFactory contentFileTransactionContextFactory;
     
     @Autowired
-    private JudgmentContentDeleter judgmentContentDeleter;
+    private JudgmentContentFileDeleter judgmentContentFileDeleter;
     
     
     @Autowired
@@ -113,9 +113,9 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         
         nacjContentDownloadStepExecutionListener.setDownloadedContentDir(downloadedContentDir.getPath());
         nacjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
-        contentFileTransactionManager.setContentDirectoryPath(judgmentContentDir.getPath());
+        contentFileTransactionContextFactory.setContentDirectoryPath(judgmentContentDir.getPath());
         nacJudgmentContentFileProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
-        judgmentContentDeleter.setJudgmentContentPath(judgmentContentDir.getPath());
+        judgmentContentFileDeleter.setJudgmentContentPath(judgmentContentDir.getPath());
     }
     
     @After

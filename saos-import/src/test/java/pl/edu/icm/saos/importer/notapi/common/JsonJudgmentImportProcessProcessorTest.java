@@ -137,7 +137,7 @@ public class JsonJudgmentImportProcessProcessorTest {
         verify(judgmentRepository).findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId(), SupremeCourtJudgment.class);
         verify(rawSourceJudgmentRepository).save(rJudgment);
-        verify(judgmentContentFileProcessor).handleJudgmentContent(contentFileTransactionContext, "contentFilename.zip", scJudgment, null);
+        verify(judgmentContentFileProcessor).processJudgmentContentFile(contentFileTransactionContext, "contentFilename.zip", scJudgment, null);
         
         
         verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, judgmentRepository, judgmentContentFileProcessor);
@@ -193,7 +193,7 @@ public class JsonJudgmentImportProcessProcessorTest {
         
         verify(enrichmentTagRepository).deleteAllByJudgmentId(oldScJudgmentId);
         
-        verify(judgmentContentFileProcessor).handleJudgmentContent(contentFileTransactionContext, "contentFilename.zip", scJudgment, "/old/judgment/content/path.pdf");
+        verify(judgmentContentFileProcessor).processJudgmentContentFile(contentFileTransactionContext, "contentFilename.zip", scJudgment, "/old/judgment/content/path.pdf");
         
         verify(rawSourceJudgmentRepository).save(rJudgment);
          

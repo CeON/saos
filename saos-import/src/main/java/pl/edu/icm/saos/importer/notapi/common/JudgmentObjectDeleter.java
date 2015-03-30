@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.persistence.content.JudgmentContentDeleter;
+import pl.edu.icm.saos.persistence.content.JudgmentContentFileDeleter;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -33,7 +33,7 @@ public class JudgmentObjectDeleter {
     private JudgmentRepository judgmentRepository;
     
     @Autowired
-    private JudgmentContentDeleter judgmentContentDeleter;
+    private JudgmentContentFileDeleter judgmentContentFileDeleter;
     
     
     
@@ -60,7 +60,7 @@ public class JudgmentObjectDeleter {
                     .map(x -> (Long)x[0])
                     .collect(Collectors.toList()));
             
-            judgmentContentDeleter.deleteContents(judgmentIdsWithContentPath.stream()
+            judgmentContentFileDeleter.deleteContents(judgmentIdsWithContentPath.stream()
                     .map(x -> (String)x[1])
                     .filter(path -> StringUtils.isNotEmpty(path))
                     .collect(Collectors.toList()));

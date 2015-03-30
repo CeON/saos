@@ -61,7 +61,7 @@ public class JudgmentContentFileProcessorTest {
     
     
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         judgmentContentFileProcessor.setDownloadedContentDir(downloadedContentDir);
         
         contentStreamWithFilename = mock(InputStreamWithFilename.class);
@@ -79,7 +79,7 @@ public class JudgmentContentFileProcessorTest {
     //------------------------ TESTS --------------------------
     
     @Test
-    public void handleJudgmentContent_NULL_OLD_CONTENT_PATH() throws IOException {
+    public void processJudgmentContentFile_NULL_OLD_CONTENT_PATH() throws IOException {
         // given
         ContentFileTransactionContext transactionContext = mock(ContentFileTransactionContext.class);
         
@@ -88,7 +88,7 @@ public class JudgmentContentFileProcessorTest {
         
         
         // execute
-        judgmentContentFileProcessor.handleJudgmentContent(transactionContext, downloadedContentFilename, judgment, null);
+        judgmentContentFileProcessor.processJudgmentContentFile(transactionContext, downloadedContentFilename, judgment, null);
         
         
         // assert
@@ -103,7 +103,7 @@ public class JudgmentContentFileProcessorTest {
     }
     
     @Test
-    public void handleJudgmentContent_WITH_OLD_CONTENT_PATH() throws IOException {
+    public void processJudgmentContentFile_WITH_OLD_CONTENT_PATH() throws IOException {
         // given
         ContentFileTransactionContext transactionContext = mock(ContentFileTransactionContext.class);
         
@@ -112,7 +112,7 @@ public class JudgmentContentFileProcessorTest {
         
         
         // execute
-        judgmentContentFileProcessor.handleJudgmentContent(transactionContext, downloadedContentFilename, judgment, "/judgment/content/path/oldJudgmentContent.pdf");
+        judgmentContentFileProcessor.processJudgmentContentFile(transactionContext, downloadedContentFilename, judgment, "/judgment/content/path/oldJudgmentContent.pdf");
         
         
         // assert

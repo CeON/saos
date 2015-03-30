@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * @author madryk
  */
 @Service
-public class JudgmentContentDeleter {
+public class JudgmentContentFileDeleter {
 
     private String judgmentContentPath;
     

@@ -22,7 +22,7 @@ import com.google.common.io.Files;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.ImportTestSupport;
-import pl.edu.icm.saos.persistence.content.JudgmentContentDeleter;
+import pl.edu.icm.saos.persistence.content.JudgmentContentFileDeleter;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -42,7 +42,7 @@ public class JudgmentObjectDeleterTest extends ImportTestSupport {
     private JudgmentRepository judgmentRepository;
     
     @Autowired
-    private JudgmentContentDeleter judgmentContentDeleter;
+    private JudgmentContentFileDeleter judgmentContentFileDeleter;
     
     @Autowired
     private RawJudgmentTestFactory rawJudgmentTestFactory;
@@ -54,7 +54,7 @@ public class JudgmentObjectDeleterTest extends ImportTestSupport {
     public void setUp() {
         judgmentContentDir = Files.createTempDir();
         
-        judgmentContentDeleter.setJudgmentContentPath(judgmentContentDir.getPath());
+        judgmentContentFileDeleter.setJudgmentContentPath(judgmentContentDir.getPath());
     }
     
     @After

@@ -17,9 +17,9 @@ import com.google.common.io.Files;
 /**
  * @author madryk
  */
-public class JudgmentContentDeleterTest {
+public class JudgmentContentFileDeleterTest {
 
-    private JudgmentContentDeleter judgmentContentDeleter = new JudgmentContentDeleter();
+    private JudgmentContentFileDeleter judgmentContentFileDeleter = new JudgmentContentFileDeleter();
     
     private File contentDir;
     
@@ -27,7 +27,7 @@ public class JudgmentContentDeleterTest {
     @Before
     public void setUp() {
         contentDir = Files.createTempDir();
-        judgmentContentDeleter.setJudgmentContentPath(contentDir.getPath());
+        judgmentContentFileDeleter.setJudgmentContentPath(contentDir.getPath());
     }
     
     @After
@@ -50,7 +50,7 @@ public class JudgmentContentDeleterTest {
         file3.createNewFile();
         
         // execute
-        judgmentContentDeleter.deleteContents(Lists.newArrayList("file1.txt", "file2.txt"));
+        judgmentContentFileDeleter.deleteContents(Lists.newArrayList("file1.txt", "file2.txt"));
         
         // assert
         assertFalse(file1.exists());

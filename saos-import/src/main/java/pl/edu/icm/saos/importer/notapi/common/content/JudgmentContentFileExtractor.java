@@ -7,7 +7,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.importer.common.ImportException;
@@ -22,10 +21,18 @@ public class JudgmentContentFileExtractor {
     
 
     /**
-     * Extracts judgment content from archive file.
-     * At the moment only zip files are supported.
+     * Extracts judgment content file from archive file.
+     * 
+     * It looks in archive for file with base name (without extension)
+     * equals to judgmentSourceId.
+     * At the moment only zip archive files are supported.
+     * 
+     * @param archiveFile - archive file from which judgment content file can be extracted
+     * @param judgmentSourceId - source id of judgment.
+     * @return 
+     * @throws IOException 
      */
-    public InputStreamWithFilename extractJudgmentContent(File archiveFile, String judgmentSourceId) {
+    public InputStreamWithFilename extractJudgmentContent(File archiveFile, String judgmentSourceId) throws IOException {
         
         if (FilenameUtils.getExtension(archiveFile.getName()).equals("zip")) {
             ZipInputStream inputStream = null;
@@ -49,7 +56,9 @@ public class JudgmentContentFileExtractor {
                 throw new ImportException("Content for judgment with sourceId " + judgmentSourceId + " not found in file " + archiveFile.getName());
                 
             } catch (IOException e) {
-                IOUtils.closeQuietly(inputStream);
+                if (inputStream != null) {
+                    inputStream.close();
+                }
                 throw new ImportException(e);
             }
 

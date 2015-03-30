@@ -64,6 +64,7 @@ public class ContentFileCommitRollbackServiceTest {
         // assert
         assertTrue(file1.exists());
         assertTrue(file2.exists());
+        assertFalse(deletedTmpDir.exists());
     }
     
     @Test
@@ -82,6 +83,7 @@ public class ContentFileCommitRollbackServiceTest {
         // assert
         assertFalse(file1.exists());
         assertFalse(file2.exists());
+        assertFalse(deletedTmpDir.exists());
     }
     
     @Test(expected = NullPointerException.class)
@@ -108,6 +110,7 @@ public class ContentFileCommitRollbackServiceTest {
         // assert
         assertFalse(file1.exists());
         assertFalse(file2.exists());
+        assertFalse(deletedTmpDir.exists());
     }
     
     @Test
@@ -128,5 +131,6 @@ public class ContentFileCommitRollbackServiceTest {
         assertTrue(new File(contentDir, "file2.txt").exists());
         assertFalse(file1.exists());
         assertFalse(file2.exists());
+        assertFalse(deletedTmpDir.exists());
     }
 }

@@ -15,7 +15,7 @@ public class JudgmentContentFilePathGenerator {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Generates path where judgment content should be stored
+     * Generates path where judgment content file should be stored
      */
     public String generatePath(Judgment judgment) {
         

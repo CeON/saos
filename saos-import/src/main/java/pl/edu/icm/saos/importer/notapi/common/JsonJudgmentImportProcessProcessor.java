@@ -104,7 +104,7 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
         }
         
         ContentFileTransactionContext context = (ContentFileTransactionContext) chunkContext.getAttribute("contentFileTransactionContext");
-        judgmentContentFileProcessor.handleJudgmentContent(context, rJudgment.getJudgmentContentFilename(), judgment, oldJudgmentContentPath);
+        judgmentContentFileProcessor.processJudgmentContentFile(context, rJudgment.getJudgmentContentFilename(), judgment, oldJudgmentContentPath);
         
         
         markProcessed(rJudgment);
