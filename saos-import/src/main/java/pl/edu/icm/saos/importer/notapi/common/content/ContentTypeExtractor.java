@@ -30,7 +30,7 @@ public class ContentTypeExtractor {
      * Extracts {@link ContentType} from filename
      */
     public ContentType extractContentType(String filename) {
-        String extension = FilenameUtils.getExtension(filename);
+        String extension = FilenameUtils.getExtension(filename).toLowerCase();
         
         if (!contentTypeMappings.containsKey(extension)) {
             throw new IllegalArgumentException("Files with extension " + extension + " are not supported");

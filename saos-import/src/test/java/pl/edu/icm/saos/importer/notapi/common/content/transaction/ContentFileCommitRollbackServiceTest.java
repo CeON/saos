@@ -4,9 +4,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,17 +56,15 @@ public class ContentFileCommitRollbackServiceTest {
         context.addAddedFile("file1.txt");
         context.addAddedFile("file2.txt");
         
-        File file1 = new File(contentDir, "file1.txt");
-        File file2 = new File(contentDir, "file2.txt");
-        file1.createNewFile();
-        file2.createNewFile();
+        File file1 = createFile(contentDir, "file1.txt", "content1");
+        File file2 = createFile(contentDir, "file2.txt", "content2");
         
         // execute
         contentFileCommitRollbackService.commit(context);
         
         // assert
-        assertTrue(file1.exists());
-        assertTrue(file2.exists());
+        assertFile(file1, "content1");
+        assertFile(file2, "content2");
         assertFalse(deletedTmpDir.exists());
     }
     
@@ -72,10 +73,8 @@ public class ContentFileCommitRollbackServiceTest {
         // given
         ContentFileTransactionContext context = new ContentFileTransactionContext(contentDir, deletedTmpDir);
         
-        File file1 = new File(deletedTmpDir, "file1.txt");
-        File file2 = new File(deletedTmpDir, "file2.txt");
-        file1.createNewFile();
-        file2.createNewFile();
+        File file1 = createFile(deletedTmpDir, "file1.txt", "content1");
+        File file2 = createFile(deletedTmpDir, "file2.txt", "content2");
         
         // execute
         contentFileCommitRollbackService.commit(context);
@@ -99,8 +98,8 @@ public class ContentFileCommitRollbackServiceTest {
         context.addAddedFile("file1.txt");
         context.addAddedFile("file2.txt");
         
-        File file1 = new File(contentDir, "file1.txt");
-        File file2 = new File(contentDir, "file2.txt");
+        File file1 = createFile(contentDir, "file1.txt", "content1");
+        File file2 = createFile(contentDir, "file2.txt", "content2");
         file1.createNewFile();
         file2.createNewFile();
         
@@ -118,19 +117,39 @@ public class ContentFileCommitRollbackServiceTest {
         // given
         ContentFileTransactionContext context = new ContentFileTransactionContext(contentDir, deletedTmpDir);
         
-        File file1 = new File(deletedTmpDir, "file1.txt");
-        File file2 = new File(deletedTmpDir, "file2.txt");
-        file1.createNewFile();
-        file2.createNewFile();
+        File file1 = createFile(deletedTmpDir, "file1.txt", "content1");
+        File file2 = createFile(deletedTmpDir, "file2.txt", "content2");
         
         // execute
         contentFileCommitRollbackService.rollback(context);
         
         // assert
-        assertTrue(new File(contentDir, "file1.txt").exists());
-        assertTrue(new File(contentDir, "file2.txt").exists());
+        assertFile(new File(contentDir, "file1.txt"), "content1");
+        assertFile(new File(contentDir, "file2.txt"), "content2");
         assertFalse(file1.exists());
         assertFalse(file2.exists());
         assertFalse(deletedTmpDir.exists());
+    }
+    
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private File createFile(File dir, String filename, String content) throws IOException {
+        File file = new File(dir, filename);
+        try (InputStream inputStream = IOUtils.toInputStream(content)) {
+            FileUtils.copyInputStreamToFile(inputStream, file);
+        }
+        
+        return file;
+    }
+    
+    private void assertFile(File actualFile, String content) throws IOException {
+        assertTrue(actualFile.exists());
+        try (
+                InputStream actualContentStream = new FileInputStream(actualFile);
+                InputStream expectedContentStream = IOUtils.toInputStream(content);) {
+            
+            assertTrue(IOUtils.contentEquals(actualContentStream, expectedContentStream));
+        }
     }
 }

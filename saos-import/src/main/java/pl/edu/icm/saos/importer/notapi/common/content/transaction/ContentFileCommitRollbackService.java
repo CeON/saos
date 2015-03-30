@@ -40,8 +40,8 @@ public class ContentFileCommitRollbackService {
         File contentDirectory = context.getContentDirectory();
         File deletedTmpDirectory = context.getDeletedTmpDirectory();
         
-        while(!context.isAddedFilesQueueEmpty()) {
-            String addedFilePath = context.pollAddedFileFromQueue();
+        while(!context.containsAnyAddedFile()) {
+            String addedFilePath = context.pollAddedFile();
             File addedFile = new File(contentDirectory, addedFilePath);
             addedFile.delete();
         }

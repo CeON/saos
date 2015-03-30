@@ -193,7 +193,7 @@ public class JsonJudgmentImportProcessProcessorTest {
         
         verify(enrichmentTagRepository).deleteAllByJudgmentId(oldScJudgmentId);
         
-        verify(judgmentContentFileProcessor).processJudgmentContentFile(contentFileTransactionContext, "contentFilename.zip", scJudgment, "/old/judgment/content/path.pdf");
+        verify(judgmentContentFileProcessor).processJudgmentContentFile(contentFileTransactionContext, "contentFilename.zip", oldScJudgment, "/old/judgment/content/path.pdf");
         
         verify(rawSourceJudgmentRepository).save(rJudgment);
          

@@ -9,9 +9,9 @@ import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 /**
  * @author madryk
  */
-public class ContentTypeMapperTest {
+public class ContentTypeExtractorTest {
 
-    private ContentTypeExtractor contentTypeMapper = new ContentTypeExtractor();
+    private ContentTypeExtractor contentTypeExtractor = new ContentTypeExtractor();
     
     
     //------------------------ TESTS --------------------------
@@ -19,15 +19,24 @@ public class ContentTypeMapperTest {
     @Test
     public void extractContentType() {
         // execute
-        ContentType contentType = contentTypeMapper.extractContentType("filename.pdf");
+        ContentType contentType = contentTypeExtractor.extractContentType("filename.pdf");
         
         // assert
         assertEquals(ContentType.PDF, contentType);
     }
     
+    @Test
+    public void extractContentType_LOWER_CASE() {
+        // execute
+        ContentType contentType = contentTypeExtractor.extractContentType("filename.DOC");
+        
+        // assert
+        assertEquals(ContentType.DOC, contentType);
+    }
+    
     @Test(expected = IllegalArgumentException.class)
     public void extractContentType_NOT_SUPPORTED() {
         // execute
-        contentTypeMapper.extractContentType("filename.zip");
+        contentTypeExtractor.extractContentType("filename.zip");
     }
 }

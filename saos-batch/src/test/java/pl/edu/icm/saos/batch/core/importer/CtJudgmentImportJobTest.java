@@ -46,6 +46,7 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -157,7 +158,7 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         assertJudgment_04e47013023d2b315b841f99ccb9c290();
         
         
-        JudgmentContentAssertUtils.assertJudgmentContentsExists(judgmentContentDir,
+        JudgmentContentAssertUtils.assertJudgmentContentsExist(judgmentContentDir,
                 "constitutional_tribunal/2005/6/21/3b42a6299303c65d869c4806fdcdbf7a.doc",
                 "constitutional_tribunal/2005/12/7/5a7ec04c9f5d354e00027929ed86025a.doc",
                 "constitutional_tribunal/2005/10/18/12f3b546205345a265acf9a39c491c6a.doc",
@@ -212,7 +213,7 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         assertJudgment_04e47013023d2b315b841f99ccb9c290_afterUpdate();
         assertCorrections_04e47013023d2b315b841f99ccb9c290_afterUpdate();
         
-        JudgmentContentAssertUtils.assertJudgmentContentsExists(judgmentContentDir,
+        JudgmentContentAssertUtils.assertJudgmentContentsExist(judgmentContentDir,
                 "constitutional_tribunal/2005/6/21/3b42a6299303c65d869c4806fdcdbf7a.doc",
                 "constitutional_tribunal/2005/12/7/5a7ec04c9f5d354e00027929ed86025a.doc",
                 "constitutional_tribunal/2005/10/18/12f3b546205345a265acf9a39c491c6a.doc",
@@ -220,8 +221,7 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
                 "constitutional_tribunal/2005/3/8/04e47013023d2b315b841f99ccb9c290.doc",
                 "constitutional_tribunal/2007/4/3/6201643320dcb6d8a5b5e8813b2cd46c.doc");
         
-        // TODO judgment content deleter
-//        JudgmentContentAssertUtils.assertJudgmentContentNotExists(judgmentContentDir, "constitutional_tribunal/2005/5/31/281c0d5a6739a1e754c2b7b56effb1b6.doc");
+        JudgmentContentAssertUtils.assertJudgmentContentNotExists(judgmentContentDir, "constitutional_tribunal/2005/5/31/281c0d5a6739a1e754c2b7b56effb1b6.doc");
         
         String expectedContentPath = PathResolver.resolveToAbsolutePath("/import/constitutionalTribunal/judgments/content/04e47013023d2b315b841f99ccb9c290_changed.doc");
         JudgmentContentAssertUtils.assertJudgmentContent(new File(expectedContentPath), new File(judgmentContentDir, "constitutional_tribunal/2005/3/8/04e47013023d2b315b841f99ccb9c290.doc"));
@@ -252,8 +252,10 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         
         assertThat(judgment.getSourceInfo().getSourceJudgmentUrl(), is("http://otk.trybunal.gov.pl/orzeczenia/teksty/otk/2005/P_25_02.doc"));
         assertThat(judgment.getJudgmentDate(), is(new LocalDate("2005-06-21")));
-        assertThat(judgment.getRawTextContent(), is("65/6/A/2005\n\nWYROK\nz dnia 21 czerwca 2005 r.\nSygn. akt P 25/02*\n\n* ..."));
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
+        JudgmentContentAssertUtils.assertTextContent(judgment.getTextContent(),
+                "65/6/A/2005\n\nWYROK\nz dnia 21 czerwca 2005 r.\nSygn. akt P 25/02*\n\n* ...",
+                "constitutional_tribunal/2005/6/21/3b42a6299303c65d869c4806fdcdbf7a.doc", ContentType.DOC);
         
         assertSpecificFieldsEmpty(judgment);
     }
@@ -293,8 +295,10 @@ public class CtJudgmentImportJobTest extends BatchTestSupport {
         
         assertThat(judgment.getSourceInfo().getSourceJudgmentUrl(), is("http://otk.trybunal.gov.pl/orzeczenia/teksty/otk/2005/K_27_03.doc"));
         assertThat(judgment.getJudgmentDate(), is(new LocalDate("2005-03-08")));
-        assertThat(judgment.getRawTextContent(), is("22/3/A/2005\n\nWYROK\nz dnia 8 marca 2005 r.\nSygn. akt K 27/03*\n\n* Sentencja została ogłoszona dnia 15 marca 2005 r. ..."));
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
+        JudgmentContentAssertUtils.assertTextContent(judgment.getTextContent(),
+                "22/3/A/2005\n\nWYROK\nz dnia 8 marca 2005 r.\nSygn. akt K 27/03*\n\n* Sentencja została ogłoszona dnia 15 marca 2005 r. ...",
+                "constitutional_tribunal/2005/3/8/04e47013023d2b315b841f99ccb9c290.doc", ContentType.DOC);
     }
     
     private void assertCorrections_04e47013023d2b315b841f99ccb9c290_afterUpdate() {

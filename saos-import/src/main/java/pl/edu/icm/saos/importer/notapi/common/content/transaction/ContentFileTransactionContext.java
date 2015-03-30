@@ -52,7 +52,7 @@ public class ContentFileTransactionContext {
      * Returns queue of file paths which was added within current transaction context.
      * Paths are relative to {@link #getContentDirectory()}.
      */
-    public Queue<String> getAddedFilesQueue() {
+    public Queue<String> getAddedFiles() {
         return addedFilesQueue;
     }
     
@@ -76,14 +76,14 @@ public class ContentFileTransactionContext {
     /**
      * Polls added file path from queue
      */
-    public String pollAddedFileFromQueue() {
+    public String pollAddedFile() {
         return addedFilesQueue.poll();
     }
     
     /**
      * Returns {@literal true} if queue of added file paths is empty
      */
-    public boolean isAddedFilesQueueEmpty() {
+    public boolean containsAnyAddedFile() {
         return addedFilesQueue.isEmpty();
     }
     

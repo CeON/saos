@@ -45,6 +45,7 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceNacJudgment;
@@ -157,7 +158,7 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         assertJudgment_f1fb6b13d57e25be69d1159356655528();
         
         
-        JudgmentContentAssertUtils.assertJudgmentContentsExists(judgmentContentDir,
+        JudgmentContentAssertUtils.assertJudgmentContentsExist(judgmentContentDir,
                 "national_appeal_chamber/2008/2/7/71254a2118594e375df2fe7dcde9b1db.pdf",
                 "national_appeal_chamber/2013/1/31/f1fb6b13d57e25be69d1159356655528.pdf",
                 "national_appeal_chamber/2008/2/7/b785e2f4821d4f67e6bac9b2af694cc8.pdf",
@@ -214,7 +215,7 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         assertCorrections_f1fb6b13d57e25be69d1159356655528_afterUpdate();
         
         
-        JudgmentContentAssertUtils.assertJudgmentContentsExists(judgmentContentDir,
+        JudgmentContentAssertUtils.assertJudgmentContentsExist(judgmentContentDir,
                 "national_appeal_chamber/2008/2/7/71254a2118594e375df2fe7dcde9b1db.pdf",
                 "national_appeal_chamber/2013/1/29/f1fb6b13d57e25be69d1159356655528.pdf",
                 "national_appeal_chamber/2008/2/7/b785e2f4821d4f67e6bac9b2af694cc8.pdf",
@@ -236,7 +237,9 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
                 SourceCode.NATIONAL_APPEAL_CHAMBER, "71254a2118594e375df2fe7dcde9b1db", NationalAppealChamberJudgment.class);
         judgment = judgmentRepository.findOneAndInitialize(judgment.getId());
         
-        assertThat(judgment.getRawTextContent(), is("Sygn. akt:  KIO/UZP 44/08,  \nKIO/UZP 46/08,  \nKIO/UZP 57/08  \n \nWYROK \nz dnia 07 lutego 2008r. ..."));
+        JudgmentContentAssertUtils.assertTextContent(judgment.getTextContent(),
+                "Sygn. akt:  KIO/UZP 44/08,  \nKIO/UZP 46/08,  \nKIO/UZP 57/08  \n \nWYROK \nz dnia 07 lutego 2008r. ...",
+                "national_appeal_chamber/2008/2/7/71254a2118594e375df2fe7dcde9b1db.pdf", ContentType.PDF);
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
         assertThat(judgment.getJudgmentDate(), is(new LocalDate("2008-02-07")));
         assertThat(judgment.getCourtReporters(), containsInAnyOrder("Magdalena Pazura"));
@@ -265,6 +268,10 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         JudgmentAssertUtils.assertJudge(judgment, "Barbara Bettman", null);
         JudgmentAssertUtils.assertJudge(judgment, "Renata Tubisz", null);
         
+        JudgmentContentAssertUtils.assertTextContent(judgment.getTextContent(),
+                "Sygn. akt: KIO 80/13 \nSygn. akt: KIO 81/13 \n \nWYROK \nz dnia 31 stycznia 2013 r. ...",
+                "national_appeal_chamber/2013/1/31/f1fb6b13d57e25be69d1159356655528.pdf", ContentType.PDF);
+        
         assertJudgment_f1fb6b13d57e25be69d1159356655528_unchangedValues(judgment);
     }
     
@@ -281,13 +288,16 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         JudgmentAssertUtils.assertJudge(judgment, "Barbara Bettman", null, JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE);
         JudgmentAssertUtils.assertJudge(judgment, "Renata Tubiszek", null);
         
+        JudgmentContentAssertUtils.assertTextContent(judgment.getTextContent(),
+                "Sygn. akt: KIO 80/13 \nSygn. akt: KIO 81/13 \n \nWYROK \nz dnia 31 stycznia 2013 r. ...",
+                "national_appeal_chamber/2013/1/29/f1fb6b13d57e25be69d1159356655528.pdf", ContentType.PDF);
+        
         assertJudgment_f1fb6b13d57e25be69d1159356655528_unchangedValues(judgment);
     }
     
     
     private void assertJudgment_f1fb6b13d57e25be69d1159356655528_unchangedValues(NationalAppealChamberJudgment judgment) {
         
-        assertThat(judgment.getRawTextContent(), is("Sygn. akt: KIO 80/13 \nSygn. akt: KIO 81/13 \n \nWYROK \nz dnia 31 stycznia 2013 r. ..."));
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
         assertThat(judgment.getCourtReporters(), containsInAnyOrder("Mateusz Michalec"));
         assertThat(judgment.getCaseNumbers(), containsInAnyOrder("KIO 80/13", "KIO 81/13"));

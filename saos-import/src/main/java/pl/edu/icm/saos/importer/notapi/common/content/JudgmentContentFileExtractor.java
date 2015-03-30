@@ -23,14 +23,15 @@ public class JudgmentContentFileExtractor {
     /**
      * Extracts judgment content file from archive file.
      * 
-     * It looks in archive for file with base name (without extension)
-     * equals to judgmentSourceId.
+     * Looks in the given archiveFile for a file with a name (without extension)
+     * equal to judgmentSourceId.
      * At the moment only zip archive files are supported.
      * 
      * @param archiveFile - archive file from which judgment content file can be extracted
      * @param judgmentSourceId - source id of judgment.
      * @return 
      * @throws IOException 
+     * @throws ImportException
      */
     public InputStreamWithFilename extractJudgmentContent(File archiveFile, String judgmentSourceId) throws IOException {
         
@@ -53,13 +54,14 @@ public class JudgmentContentFileExtractor {
                     entry = inputStream.getNextEntry();
 
                 }
+                
                 throw new ImportException("Content for judgment with sourceId " + judgmentSourceId + " not found in file " + archiveFile.getName());
                 
-            } catch (IOException e) {
+            } catch (IOException | ImportException e) {
                 if (inputStream != null) {
                     inputStream.close();
                 }
-                throw new ImportException(e);
+                throw e;
             }
 
         }

@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.batch.core.importer;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -8,6 +10,9 @@ import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
 
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
+
 /**
  * Utils for assertion of judgment content
  * 
@@ -15,7 +20,7 @@ import org.apache.commons.io.FileUtils;
  */
 class JudgmentContentAssertUtils {
 
-    public static void assertJudgmentContentsExists(File judgmentContentDir, String ... paths) {
+    public static void assertJudgmentContentsExist(File judgmentContentDir, String ... paths) {
         for (String path : paths) {
             File file = new File(judgmentContentDir, path);
             
@@ -30,5 +35,11 @@ class JudgmentContentAssertUtils {
     
     public static void assertJudgmentContent(File expected, File actual) throws IOException {
         assertTrue(FileUtils.contentEquals(expected, actual));
+    }
+    
+    public static void assertTextContent(JudgmentTextContent textContent, String rawText, String filePath, ContentType contentType) {
+        assertThat(textContent.getRawTextContent(), is(rawText));
+        assertThat(textContent.getFilePath(), is(filePath));
+        assertThat(textContent.getType(), is(contentType));
     }
 }

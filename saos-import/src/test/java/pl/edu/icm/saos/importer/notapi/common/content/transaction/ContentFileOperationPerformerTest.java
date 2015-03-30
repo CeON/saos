@@ -76,8 +76,8 @@ public class ContentFileOperationPerformerTest {
         // assert
         assertFileInContentDirectory("file.txt", "content of file");
         
-        assertEquals(1, context.getAddedFilesQueue().size());
-        assertEquals("file.txt", context.getAddedFilesQueue().peek());
+        assertEquals(1, context.getAddedFiles().size());
+        assertEquals("file.txt", context.getAddedFiles().peek());
     }
     
     
@@ -124,8 +124,8 @@ public class ContentFileOperationPerformerTest {
         assertFileInContentDirectory("file.txt", "content of file");
         assertFileInDeletedTmpDirectory("oldFile.txt", "");
         
-        assertEquals(1, context.getAddedFilesQueue().size());
-        assertEquals("file.txt", context.getAddedFilesQueue().peek());
+        assertEquals(1, context.getAddedFiles().size());
+        assertEquals("file.txt", context.getAddedFiles().peek());
         
     }
     
