@@ -32,8 +32,8 @@
 			                     <c:if test="${fn:length(analysisForm.filters) > 1}">
 			                     
 			                         <span class="input-group-addon">
-			                             <a href="" >
-	                                       <img id="deletePhraseButton_${status.index}" data-toggle="tooltip" style="cursor: pointer;" title="<spring:message code='analysis.button.deletePhrase'/>" src="${contextPath}/static/image/icons/close.png" alt="<spring:message code='analysis.button.deletePhrase.iconAlt'/>" />
+			                             <a id="deletePhraseButton_${status.index}" href="" data-toggle="tooltip" title="<spring:message code='analysis.button.deletePhrase'/>" >
+	                                       <img style="cursor: pointer;"  src="${contextPath}/static/image/icons/close.png" alt="<spring:message code='analysis.button.deletePhrase.iconAlt'/>" />
 	                                     </a>
 	                                </span>
 	                             
