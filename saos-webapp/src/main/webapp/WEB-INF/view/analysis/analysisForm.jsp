@@ -104,9 +104,25 @@
       
       </fieldset>  
       
+      
+      
       <fieldset>
     
         <legend><spring:message code="analysis.ysettings.title"/></legend>
+        
+            <div class="form-group">
+            
+                <div class="form-inline col-xs-12">
+                       
+                       <div class="form-group col-xs-6 col-sm-4 col-md-3">
+                           <form:select path="ysettings.valueType" class="form-control">
+                                <saos:enumOptions enumType="pl.edu.icm.saos.webapp.analysis.request.UiySettings.UiyValueType" selected="${analysisForm.ysettings.valueType}"/>
+                           </form:select>
+                       </div>
+              
+          </div>
+        
+      </div> 
         
       </fieldset>
         

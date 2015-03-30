@@ -290,7 +290,7 @@ var initAnalysisJs = function() {
     
     /** Show a point tooltip on the main chart */
     $("#mainChart").on("plothover", function (event, pos, item) {
-        showYNumberPointTooltip(event, pos, item);
+        showYNumberPointTooltip(event, pos, item, 2);
     });
     
     
