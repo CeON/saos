@@ -59,6 +59,8 @@ var initAnalysisJs = function() {
     
     generateCharts(false);
     
+    // reloads page on history back (without this
+    // after changing the history in {@link #updateUrl()} the back button would not work properly)
     window.onpopstate = function(e){
         location.reload();
     };
