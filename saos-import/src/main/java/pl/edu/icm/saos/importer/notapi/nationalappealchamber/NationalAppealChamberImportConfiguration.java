@@ -17,6 +17,7 @@ import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.common.content.JudgmentContentFileProcessor;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.json.SourceNacJudgment;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.process.NacSpecificJudgmentOverwriter;
 import pl.edu.icm.saos.importer.notapi.nationalappealchamber.judgment.process.SourceNacJudgmentExtractor;
@@ -114,6 +115,15 @@ public class NationalAppealChamberImportConfiguration {
         nacJudgmentOverwriter.setSpecificJudgmentOverwriter(nacSpecificJudgmentOverwriter);
         return nacJudgmentOverwriter;
     }
+    
+    
+    @Bean
+    public JudgmentContentFileProcessor nacJudgmentContentFileProcessor() {
+        JudgmentContentFileProcessor nacJudgmentContentFileProcessor = new JudgmentContentFileProcessor();
+        nacJudgmentContentFileProcessor.setDownloadedContentDir(downloadedContentDir);
+        
+        return nacJudgmentContentFileProcessor;
+    }
 
 
 
@@ -129,6 +139,7 @@ public class NationalAppealChamberImportConfiguration {
         nacjImportProcessProcessor.setSourceJudgmentParser(sourceNacJudgmentParser());
         nacjImportProcessProcessor.setSourceJudgmentConverter(sourceNacJudgmentConverter());
         nacjImportProcessProcessor.setJudgmentOverwriter(nacJudgmentOverwriter());
+        nacjImportProcessProcessor.setJudgmentContentFileProcessor(nacJudgmentContentFileProcessor());
         
         return nacjImportProcessProcessor;
     }

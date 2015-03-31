@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.batch.core.importer;
+package pl.edu.icm.saos.common.testcommon;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 /**
  * @author madryk
  */
-class PathResolver {
+public class PathResolver {
 
     //------------------------ CONSTRUCTORS --------------------------
     

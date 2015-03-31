@@ -13,15 +13,16 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import pl.edu.icm.saos.importer.common.JudgmentImportDownloadWriter;
-import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.common.JudgmentImportProcessWriter;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
+import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentImportProcessProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonJudgmentItem;
 import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.importer.notapi.common.NotApiImportDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.common.content.ContentProcessChunkListener;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.json.SourceCtJudgment;
 import pl.edu.icm.saos.importer.notapi.constitutionaltribunal.judgment.process.CtjImportProcessStepExecutionListener;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
@@ -68,6 +69,9 @@ public class CtjImportJobConfiguration {
     
     @Autowired
     private CtjImportProcessStepExecutionListener ctjImportProcessStepExecutionListener;
+
+    @Autowired
+    private ContentProcessChunkListener contentProcessChunkListener;
     
     @Bean
     public JudgmentImportProcessWriter<ConstitutionalTribunalJudgment> ctjImportProcessWriter() {
@@ -106,6 +110,7 @@ public class CtjImportJobConfiguration {
             .processor(ctjImportProcessProcessor)
             .writer(ctjImportProcessWriter())
             .listener(ctjImportProcessStepExecutionListener)
+            .listener(contentProcessChunkListener)
             .build();
     }
     

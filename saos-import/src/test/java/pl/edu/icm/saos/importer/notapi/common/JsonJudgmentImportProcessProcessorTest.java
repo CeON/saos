@@ -8,18 +8,23 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.reflect.Whitebox;
+import org.springframework.batch.core.scope.context.ChunkContext;
 
 import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
+import pl.edu.icm.saos.importer.notapi.common.content.JudgmentContentFileProcessor;
+import pl.edu.icm.saos.importer.notapi.common.content.transaction.ContentFileTransactionContext;
 import pl.edu.icm.saos.importer.notapi.supremecourt.judgment.json.SourceScJudgment;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -27,8 +32,6 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.RawSourceJudgmentRepository;
-
-import com.fasterxml.jackson.core.JsonParseException;
 
 /**
  * @author Łukasz Dumiszewski
@@ -54,6 +57,8 @@ public class JsonJudgmentImportProcessProcessorTest {
     
     @Mock private EnrichmentTagRepository enrichmentTagRepository;
     
+    @Mock private JudgmentContentFileProcessor judgmentContentFileProcessor;
+    
     
     // data
     
@@ -66,6 +71,8 @@ public class JsonJudgmentImportProcessProcessorTest {
     private ImportCorrectionList correctionList = new ImportCorrectionList();
     
     private JudgmentWithCorrectionList<SupremeCourtJudgment> jWithCorrectionList = new JudgmentWithCorrectionList<>(scJudgment, correctionList);
+    
+    private ContentFileTransactionContext contentFileTransactionContext;
 
     
     
@@ -79,6 +86,13 @@ public class JsonJudgmentImportProcessProcessorTest {
         scjImportProcessProcessor.setJudgmentOverwriter(judgmentOverwriter);
         scjImportProcessProcessor.setRawSourceJudgmentRepository(rawSourceJudgmentRepository);
         scjImportProcessProcessor.setEnrichmentTagRepository(enrichmentTagRepository);
+        scjImportProcessProcessor.setJudgmentContentFileProcessor(judgmentContentFileProcessor);
+        
+        ChunkContext chunkContext = Mockito.mock(ChunkContext.class);
+        contentFileTransactionContext = Mockito.mock(ContentFileTransactionContext.class);
+        
+        when(chunkContext.getAttribute("contentFileTransactionContext")).thenReturn(contentFileTransactionContext);
+        scjImportProcessProcessor.beforeChunk(chunkContext);
         
     }
 
@@ -87,11 +101,12 @@ public class JsonJudgmentImportProcessProcessorTest {
     //------------------------ LOGIC --------------------------
     
     @Test
-    public void process_OldJudgmentNotFound() throws JsonParseException {
+    public void process_OldJudgmentNotFound() throws IOException {
         
         // given
         
         rJudgment.setJsonContent("12121212esfcsfc");
+        rJudgment.setJudgmentContentFilename("contentFilename.zip");
         
         when(sourceScJudgmentParser.parseAndValidate(rJudgment.getJsonContent())).thenReturn(sourceScJudgment);
         
@@ -122,8 +137,10 @@ public class JsonJudgmentImportProcessProcessorTest {
         verify(judgmentRepository).findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.SUPREME_COURT, scJudgment.getSourceInfo().getSourceJudgmentId(), SupremeCourtJudgment.class);
         verify(rawSourceJudgmentRepository).save(rJudgment);
+        verify(judgmentContentFileProcessor).processJudgmentContentFile(contentFileTransactionContext, "contentFilename.zip", scJudgment, null);
         
-        verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, judgmentRepository);
+        
+        verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, judgmentRepository, judgmentContentFileProcessor);
         verifyZeroInteractions(enrichmentTagRepository);
     }
     
@@ -131,11 +148,12 @@ public class JsonJudgmentImportProcessProcessorTest {
     
     
     @Test
-    public void process_OldJudgmentFound() throws JsonParseException {
+    public void process_OldJudgmentFound() throws IOException {
         
         // given
         
         rJudgment.setJsonContent("12121212esfcsfc");
+        rJudgment.setJudgmentContentFilename("contentFilename.zip");
         
         when(sourceScJudgmentParser.parseAndValidate(rJudgment.getJsonContent())).thenReturn(sourceScJudgment);
         
@@ -145,6 +163,7 @@ public class JsonJudgmentImportProcessProcessorTest {
         
         SupremeCourtJudgment oldScJudgment = new SupremeCourtJudgment();
         long oldScJudgmentId = 2L;
+        oldScJudgment.getTextContent().setFilePath("/old/judgment/content/path.pdf");
         Whitebox.setInternalState(oldScJudgment, "id", oldScJudgmentId);
         
         when(judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
@@ -174,10 +193,11 @@ public class JsonJudgmentImportProcessProcessorTest {
         
         verify(enrichmentTagRepository).deleteAllByJudgmentId(oldScJudgmentId);
         
+        verify(judgmentContentFileProcessor).processJudgmentContentFile(contentFileTransactionContext, "contentFilename.zip", oldScJudgment, "/old/judgment/content/path.pdf");
         
         verify(rawSourceJudgmentRepository).save(rJudgment);
          
-        verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, judgmentRepository, judgmentOverwriter);
+        verifyNoMoreInteractions(sourceScJudgmentParser, sourceScJudgmentConverter, judgmentRepository, judgmentOverwriter, judgmentContentFileProcessor);
         verifyNoMoreInteractions(enrichmentTagRepository);
     }
 

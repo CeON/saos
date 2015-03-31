@@ -29,11 +29,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
+import pl.edu.icm.saos.common.testcommon.PathResolver;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadProcessor;
 import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.common.content.JudgmentContentFileProcessor;
+import pl.edu.icm.saos.importer.notapi.common.content.transaction.ContentFileTransactionContextFactory;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
+import pl.edu.icm.saos.persistence.content.JudgmentContentFileDeleter;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
@@ -41,6 +45,7 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceNacJudgment;
@@ -63,6 +68,15 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
     
     @Autowired
     private JsonImportDownloadProcessor<RawSourceNacJudgment> nacjImportDownloadProcessor;
+    
+    @Autowired
+    private JudgmentContentFileProcessor nacJudgmentContentFileProcessor;
+    
+    @Autowired
+    private ContentFileTransactionContextFactory contentFileTransactionContextFactory;
+    
+    @Autowired
+    private JudgmentContentFileDeleter judgmentContentFileDeleter;
     
     
     @Autowired
@@ -90,18 +104,25 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
     
     private File downloadedContentDir;
     
+    private File judgmentContentDir;
+    
     
     @Before
     public void setUp() {
         downloadedContentDir = Files.createTempDir();
+        judgmentContentDir = Files.createTempDir();
         
         nacjContentDownloadStepExecutionListener.setDownloadedContentDir(downloadedContentDir.getPath());
         nacjImportDownloadProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
+        contentFileTransactionContextFactory.setContentDirectoryPath(judgmentContentDir.getPath());
+        nacJudgmentContentFileProcessor.setDownloadedContentDir(downloadedContentDir.getPath());
+        judgmentContentFileDeleter.setJudgmentContentPath(judgmentContentDir.getPath());
     }
     
     @After
     public void cleanup() throws IOException {
         FileUtils.deleteDirectory(downloadedContentDir);
+        FileUtils.deleteDirectory(judgmentContentDir);
     }
     
     
@@ -136,6 +157,16 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         assertJudgment_71254a2118594e375df2fe7dcde9b1db();
         assertJudgment_f1fb6b13d57e25be69d1159356655528();
         
+        
+        JudgmentContentAssertUtils.assertJudgmentContentsExist(judgmentContentDir,
+                "national_appeal_chamber/2008/2/7/71254a2118594e375df2fe7dcde9b1db.pdf",
+                "national_appeal_chamber/2013/1/31/f1fb6b13d57e25be69d1159356655528.pdf",
+                "national_appeal_chamber/2008/2/7/b785e2f4821d4f67e6bac9b2af694cc8.pdf",
+                "national_appeal_chamber/2010/7/30/037081ed371001c56f0320ebd41cb457.pdf",
+                "national_appeal_chamber/2010/7/29/863efdb59cd4a257ca8eefa34362fec2.pdf");
+        
+        String expectedContentPath = PathResolver.resolveToAbsolutePath("/import/nationalAppealChamber/judgments/content/f1fb6b13d57e25be69d1159356655528_original.pdf");
+        JudgmentContentAssertUtils.assertJudgmentContent(new File(expectedContentPath), new File(judgmentContentDir, "national_appeal_chamber/2013/1/31//f1fb6b13d57e25be69d1159356655528.pdf"));
     }
     
     
@@ -183,6 +214,19 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         assertJudgment_f1fb6b13d57e25be69d1159356655528_afterUpdate();
         assertCorrections_f1fb6b13d57e25be69d1159356655528_afterUpdate();
         
+        
+        JudgmentContentAssertUtils.assertJudgmentContentsExist(judgmentContentDir,
+                "national_appeal_chamber/2008/2/7/71254a2118594e375df2fe7dcde9b1db.pdf",
+                "national_appeal_chamber/2013/1/29/f1fb6b13d57e25be69d1159356655528.pdf",
+                "national_appeal_chamber/2008/2/7/b785e2f4821d4f67e6bac9b2af694cc8.pdf",
+                "national_appeal_chamber/2010/7/30/037081ed371001c56f0320ebd41cb457.pdf",
+                "national_appeal_chamber/2014/3/24/b8f67ea194b9cb89186c0b66c993d5d7.pdf");
+        JudgmentContentAssertUtils.assertJudgmentContentNotExists(judgmentContentDir, "national_appeal_chamber/2013/1/31/f1fb6b13d57e25be69d1159356655528.pdf");
+        JudgmentContentAssertUtils.assertJudgmentContentNotExists(judgmentContentDir, "national_appeal_chamber/2010/7/29/863efdb59cd4a257ca8eefa34362fec2.pdf");
+        
+        String expectedContentPath = PathResolver.resolveToAbsolutePath("/import/nationalAppealChamber/judgments/content/f1fb6b13d57e25be69d1159356655528_changed.pdf");
+        JudgmentContentAssertUtils.assertJudgmentContent(new File(expectedContentPath), new File(judgmentContentDir, "national_appeal_chamber/2013/1/29//f1fb6b13d57e25be69d1159356655528.pdf"));
+        
     }
     
     
@@ -193,7 +237,9 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
                 SourceCode.NATIONAL_APPEAL_CHAMBER, "71254a2118594e375df2fe7dcde9b1db", NationalAppealChamberJudgment.class);
         judgment = judgmentRepository.findOneAndInitialize(judgment.getId());
         
-        assertThat(judgment.getRawTextContent(), is("Sygn. akt:  KIO/UZP 44/08,  \nKIO/UZP 46/08,  \nKIO/UZP 57/08  \n \nWYROK \nz dnia 07 lutego 2008r. ..."));
+        JudgmentContentAssertUtils.assertTextContent(judgment.getTextContent(),
+                "Sygn. akt:  KIO/UZP 44/08,  \nKIO/UZP 46/08,  \nKIO/UZP 57/08  \n \nWYROK \nz dnia 07 lutego 2008r. ...",
+                "national_appeal_chamber/2008/2/7/71254a2118594e375df2fe7dcde9b1db.pdf", ContentType.PDF);
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
         assertThat(judgment.getJudgmentDate(), is(new LocalDate("2008-02-07")));
         assertThat(judgment.getCourtReporters(), containsInAnyOrder("Magdalena Pazura"));
@@ -222,6 +268,10 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         JudgmentAssertUtils.assertJudge(judgment, "Barbara Bettman", null);
         JudgmentAssertUtils.assertJudge(judgment, "Renata Tubisz", null);
         
+        JudgmentContentAssertUtils.assertTextContent(judgment.getTextContent(),
+                "Sygn. akt: KIO 80/13 \nSygn. akt: KIO 81/13 \n \nWYROK \nz dnia 31 stycznia 2013 r. ...",
+                "national_appeal_chamber/2013/1/31/f1fb6b13d57e25be69d1159356655528.pdf", ContentType.PDF);
+        
         assertJudgment_f1fb6b13d57e25be69d1159356655528_unchangedValues(judgment);
     }
     
@@ -238,13 +288,16 @@ public class NacJudgmentImportProcessJobTest extends BatchTestSupport {
         JudgmentAssertUtils.assertJudge(judgment, "Barbara Bettman", null, JudgeRole.PRESIDING_JUDGE, JudgeRole.REPORTING_JUDGE);
         JudgmentAssertUtils.assertJudge(judgment, "Renata Tubiszek", null);
         
+        JudgmentContentAssertUtils.assertTextContent(judgment.getTextContent(),
+                "Sygn. akt: KIO 80/13 \nSygn. akt: KIO 81/13 \n \nWYROK \nz dnia 31 stycznia 2013 r. ...",
+                "national_appeal_chamber/2013/1/29/f1fb6b13d57e25be69d1159356655528.pdf", ContentType.PDF);
+        
         assertJudgment_f1fb6b13d57e25be69d1159356655528_unchangedValues(judgment);
     }
     
     
     private void assertJudgment_f1fb6b13d57e25be69d1159356655528_unchangedValues(NationalAppealChamberJudgment judgment) {
         
-        assertThat(judgment.getRawTextContent(), is("Sygn. akt: KIO 80/13 \nSygn. akt: KIO 81/13 \n \nWYROK \nz dnia 31 stycznia 2013 r. ..."));
         assertThat(judgment.getJudgmentType(), is(JudgmentType.SENTENCE));
         assertThat(judgment.getCourtReporters(), containsInAnyOrder("Mateusz Michalec"));
         assertThat(judgment.getCaseNumbers(), containsInAnyOrder("KIO 80/13", "KIO 81/13"));
