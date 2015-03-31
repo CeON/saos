@@ -174,4 +174,11 @@ $(document).ready(function() {
         ]
     });
     
+    CookiePolicy.init({
+        buttonShowMessageId: "#cookie-show-message",
+        buttonAcceptId: "#cookie-accept",
+        messageId: "#cookie-message",
+        windowId: "#cookie-window"
+    });
+    
 });

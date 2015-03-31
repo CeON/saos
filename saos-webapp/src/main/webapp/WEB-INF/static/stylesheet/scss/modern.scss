@@ -1553,3 +1553,40 @@ label.error {
 	width: 100%;
 }
 
+.cookie-message {
+    background: lighten(#c7c0de, 10%);
+    display: none;
+    padding: 10px 0 12px;
+    position: relative;
+    text-align: center;
+    top: 0px;
+    width: 100%;
+    
+    .text {
+        font: {
+            size: 12px;
+        }
+        text-align: left;
+    }
+    
+    .btn {
+        margin-top: 10px;
+    }
+    
+}
+
+.cookie-window {
+    background: #c7c0de;
+    border-radius: 4px;
+    padding: 12px 16px;
+    position: absolute;
+    right: 16px;
+    width: 220px;
+    top: 10px;
+    
+    .btn {
+        margin-left: 12px;
+        padding: 2px 10px;
+    }
+}
+

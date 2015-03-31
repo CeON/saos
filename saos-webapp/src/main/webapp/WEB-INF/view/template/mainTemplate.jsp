@@ -32,6 +32,8 @@
 
 		<tiles:insertAttribute name="skipLinks" />
 
+        <%@ include file="../common/cookiePolicy.jsp" %>
+
         <header>
             <tiles:insertAttribute name="header" />
         </header>
