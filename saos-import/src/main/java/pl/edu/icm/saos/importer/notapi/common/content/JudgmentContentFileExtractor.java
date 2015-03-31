@@ -30,8 +30,9 @@ public class JudgmentContentFileExtractor {
      * @param archiveFile - archive file from which judgment content file can be extracted
      * @param judgmentSourceId - source id of judgment.
      * @return 
-     * @throws IOException 
-     * @throws ImportException
+     * @throws IOException - when I/O error has occurred
+     * @throws ImportException - when archive is of not supported type or it doesn't contain
+     *     proper judgment content file
      */
     public InputStreamWithFilename extractJudgmentContent(File archiveFile, String judgmentSourceId) throws IOException {
         
