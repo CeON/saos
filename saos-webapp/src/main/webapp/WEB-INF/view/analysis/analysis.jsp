@@ -29,5 +29,7 @@ $(document).ready(function() {
 	    </div>
 	</div>
 
+     <img id="ajaxChartLoaderImg" src="${contextPath}/static/image/icons/ajax-loader.gif" alt="<spring:message code='analysis.button.ajaxLoader.iconAlt'/>" style="visibility: hidden;"/>
+
 
 </div>
