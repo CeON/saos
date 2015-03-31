@@ -263,7 +263,9 @@ var initAnalysisJs = function() {
 
     }
 
-    
+    /**
+     * Shows ajax loader gif in the given div during chart generation process 
+     */
     function showAjaxLoader(chartDivId) {
         ajaxLoader = $('#ajaxChartLoaderImg').clone();
         ajaxLoader.css('visibility', "visible");
