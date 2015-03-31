@@ -4,8 +4,11 @@ package pl.edu.icm.saos.webapp.analysis;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,11 +30,11 @@ public class AnalysisController {
 
     
     
-    @Autowired
     private UiAnalysisService uiAnalysisService;
     
-    @Autowired
     private UixRangeFactory uixRangeFactory;
+    
+    private int maxNumberOfSearchPhrases;
     
     
     //------------------------ MODEL --------------------------
@@ -46,6 +49,15 @@ public class AnalysisController {
         return analysisForm;
     }
     
+    @ModelAttribute("maxNumberOfSearchPhrases")
+    public int maxNumberOfSearchPhrases() {
+        return maxNumberOfSearchPhrases;
+    }
+    
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        dataBinder.setAutoGrowCollectionLimit(maxNumberOfSearchPhrases);
+    }
     
     //------------------------ LOGIC --------------------------
     
@@ -69,9 +81,28 @@ public class AnalysisController {
     @RequestMapping(value="/analysis/generate", method= RequestMethod.GET)
     @ResponseBody
     public FlotChart generate(@ModelAttribute("analysisForm") AnalysisForm analysisForm) {
-        
         return uiAnalysisService.generateChart(analysisForm);
         
+    }
+
+    
+    
+    
+    //------------------------ SETTERS --------------------------
+    
+    @Autowired
+    public void setUiAnalysisService(UiAnalysisService uiAnalysisService) {
+        this.uiAnalysisService = uiAnalysisService;
+    }
+
+    @Autowired
+    public void setUixRangeFactory(UixRangeFactory uixRangeFactory) {
+        this.uixRangeFactory = uixRangeFactory;
+    }
+
+    @Value("${analysis.maxNumberOfSearchPhrases}")
+    public void setMaxNumberOfSearchPhrases(int maxNumberOfSearchPhrases) {
+        this.maxNumberOfSearchPhrases = maxNumberOfSearchPhrases;
     }
 
     

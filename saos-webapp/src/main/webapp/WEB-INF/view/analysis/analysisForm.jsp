@@ -22,7 +22,7 @@
 				    
 				    <div class="form-group" id="seriesSearchPhraseDiv_${status.index}">
 				    
-				         <div class = "col-xs-8 col-sm-5">
+				         <div class = "col-xs-8 col-sm-6 col-md-5">
 				            <div class="input-group">
 	
 	                             <span class="input-group-addon" id="inputColourBox_${status.index}"></span>
@@ -47,9 +47,11 @@
 		    
 	    </div>
 
-        <div class="col-sm-12 form-group">
+        <c:if test="${fn:length(analysisForm.filters)<maxNumberOfSearchPhrases}">
+            <div class="col-sm-12 form-group">
                 <input id="addPhraseButton" type="button" class="btn btn-default" value="<spring:message code='analysis.button.addPhrase'/>"/>
-        </div>
+            </div>
+        </c:if>
 
 
     </fieldset>        
@@ -115,7 +117,7 @@
                 <div class="form-inline col-xs-12">
                        
                        <div class="form-group col-xs-6 col-sm-4 col-md-3">
-                           <form:select path="ysettings.valueType" class="form-control">
+                           <form:select id="yaxisValueType" path="ysettings.valueType" class="form-control">
                                 <saos:enumOptions enumType="pl.edu.icm.saos.webapp.analysis.request.UiySettings.UiyValueType" selected="${analysisForm.ysettings.valueType}"/>
                            </form:select>
                        </div>
@@ -127,11 +129,6 @@
       </fieldset>
         
         
-	  <div class="form-group col-sm-12">
-          <button type="submit" class="btn btn-primary"><spring:message code="analysis.button.generateChart" /></button>
-	  </div>
-        
-        
-
+	 
 
 </form:form>

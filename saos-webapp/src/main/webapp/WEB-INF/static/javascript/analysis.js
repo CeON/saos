@@ -13,32 +13,32 @@ var initAnalysisJs = function() {
                    "#008000", // green
                    "#000000", // black
                    "#ffa500", // orange
-                   "#00ffff", // cyan
                    "#800080", // purple
-                   "#ff00ff", // magenta
+                   "#a9a9a9", // darkgrey
+                   "#00ffff", // cyan
                    "#a52a2a", // brown
                    "#808000", // olive
                    "#ffff00", // yellow
                    "#ffc0cb", // pink  
                    "#008b8b", // darkcyan
-                   "#a9a9a9", // darkgrey
-                   "#006400", // darkgreen
                    "#000080", // navy
+                   "#90ee90", // lightgreen
                    "#bdb76b", // darkkhaki
-                   "#8b008b", // darkmagenta
                    "#556b2f", // darkolivegreen
                    "#ff8c00", // darkorange
                    "#9932cc", // darkorchid
+                   "#ff00ff", // magenta
                    "#8b0000", // darkred
                    "#e9967a", // darksalmon
                    "#9400d3", // darkviolet
                    "#ff00ff", // fuchsia
+                   "#8b008b", // darkmagenta
+                   "#006400", // darkgreen
                    "#ffd700", // gold
                    "#4b0082", // indigo
                    "#f0e68c", // khaki
                    "#add8e6", // lightblue
                    "#e0ffff", // lightcyan
-                   "#90ee90", // lightgreen
                    "#d3d3d3", // lightgrey
                    "#ffb6c1", // lighpink
                    "#ffffe0", // lightyellow
@@ -57,8 +57,12 @@ var initAnalysisJs = function() {
     
     initFormElements();
     
-    generateCharts();
+    generateCharts(false);
     
+    window.onpopstate = function(e){
+        location.reload();
+    };
+
     
     
     //------------------------------- FUNCTIONS ----------------------------------
@@ -70,14 +74,17 @@ var initAnalysisJs = function() {
      */
     function initFormElements() {
         
-        initButtons();
-        
-        colourPhraseInputs();
-        
         tieMonthYearRangeSelects("xRangeStartMonth", "xRangeStartYear", "xRangeEndMonth", "xRangeEndYear");
 
+        initButtons();
+        
+        initInputs();
+
+        colourPhraseInputs();
+        
         //Enables bootstrap tooltip
         $('#analysisForm [data-toggle="tooltip"]').tooltip({container: 'body'});
+
     }
     
     
@@ -154,6 +161,7 @@ var initAnalysisJs = function() {
         
               addNewSearchPhrase();
         });
+        
     }
     
     /**
@@ -164,14 +172,31 @@ var initAnalysisJs = function() {
         var oldAction = $('#analysisForm').attr('action');
         $('#analysisForm').attr('action', oldAction + "/addNewPhrase");
         
-        submitAndPrintAnalysisForm(false);
+        submitAndPrintAnalysisForm(true);
     }
     
 
     
     
+    /****************** Phrase inputs **/
+    
+    /**
+     * Inits form inputs
+     */
+    function initInputs() {
+        
+        $("[id^=seriesSearchPhraseInput], #xRangeStartMonth, #xRangeStartYear, #xRangeEndMonth, #xRangeEndYear, #yaxisValueType").change(function() {
+            generateCharts(true);
+        });
+        
+    }
+
+    
+
     
     /****************** COMMON **/
+    
+        
     
     /**
      * Submit (ajaxly) the analysisForm and reprints (and initializes) it with the version (html) received 
@@ -180,6 +205,7 @@ var initAnalysisJs = function() {
      *  
      */
     function submitAndPrintAnalysisForm(regenerateChart) {
+        
         
         $('#analysisForm').attr('method', 'post');
         
@@ -191,54 +217,61 @@ var initAnalysisJs = function() {
             
             if (regenerateChart) {
                 
-                generateCharts();
+                generateCharts(true);
                 
             }
             
         });
+        
+        
     }
     
     
-    
+    /**
+     * Updates url in brower address and history
+     */
+    function updateUrl() {
+        var newUrl = $(location).attr('protocol') + "//" + $(location).attr('host') + $(location).attr('pathname') + "?" + $("#analysisForm").serialize();
+        
+        history.pushState('html:newUrl', '', newUrl);
+        
+    }
   
     //******************************* MAIN CHART ***************************************************
     
     /**
-     * If the analysis form is not empty (uses #isAnalysisFormEmpty()),
-     * submits the analysisForm to a proper server endpoint and prints relevant charts based on
+     * Submits the analysisForm to a proper server endpoint and prints relevant charts based on
      * data received from the server.
+     * @param updateUrlLocation should the updateUrl function be invoked after generating the chart
      */
-    function generateCharts() {
+    function generateCharts(updateLocationUrl) {
         
-        if (!isAnalysisFormEmpty()) {
+        var analysisForm = $('#analysisForm');
+        var oldAction = analysisForm.attr('action');
+        analysisForm.attr('action', oldAction + "/generate");
             
-            var analysisForm = $('#analysisForm');
-            var oldAction = analysisForm.attr('action');
-            analysisForm.attr('action', oldAction + "/generate");
+        showAjaxLoader("mainChart");
             
-            analysisForm.ajaxSubmit(function(chart) {
-                 analysisForm.attr('action', oldAction)
-                 mainChart = chart;
-                 printMainChart(chart, null, null);
-             });
-         }
+        analysisForm.ajaxSubmit(function(chart) {
+             analysisForm.attr('action', oldAction)
+             mainChart = chart;
+             printMainChart(chart, null, null);
+             if (updateLocationUrl) {
+                 updateUrl();   
+             }
+         });
 
     }
+
     
-    /**
-     * Returns true if the analysis form fields inputs are empty
-     */
-    function isAnalysisFormEmpty() {
-        var empty = true;
-        $("#analysisForm :text").each(function() {
-            if($(this).val() !== "") {
-                empty = false;
-                return;
-            }
-        });
+    function showAjaxLoader(chartDivId) {
+        ajaxLoader = $('#ajaxChartLoaderImg').clone();
+        ajaxLoader.css('visibility', "visible");
+        $('#'+chartDivId).html(ajaxLoader);
         
-        return empty;
     }
+    
+    
     
     /**
      * Prints main chart (number of judgments over the judgment date)
