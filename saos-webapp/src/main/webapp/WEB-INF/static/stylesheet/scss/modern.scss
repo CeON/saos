@@ -194,15 +194,16 @@ form.search {
 }
 
 .beta-info {
-	background: $grey98;
-	border: 1px solid #e6e6e6;
-	margin: 50px 0 20px;
-	padding: 30px 50px;	
+	background: lighten($sand, 10%);
+	border: 1px solid #ccc;
+	margin: 10px -15px 0;
+	padding: 5px 20px 0;	
 	
 	p {
 		margin-left: 15px;
 	}
 }
+/*
 
 .advert-header {
 	background: $panel-color;
@@ -211,10 +212,91 @@ form.search {
 	font-size: 24px;
 	padding: 8px 16px;
 }
+*/
 
-.advert-idea {
-	margin-top: 30px;
-	margin-bottom: 30px;
+.home-content {
+	background: $white;
+    border: 1px solid #e6e6e6;
+    border-radius: 0;
+    margin-bottom: 30px;
+    margin-top: 15px;
+	padding: 20px 40px;
+	
+	h2 {
+	   margin-bottom: 12px;
+	}
+	
+	p {
+	   margin-bottom: 4px;
+	   line-height: 1.6em;
+	}
+	
+	.boxes {
+	   margin-bottom: 20px;
+	   margin-top: 50px;
+	
+	   a {
+               color: $black;
+               display: block;
+               text-decoration: none;
+       }
+	
+	   .box {
+    	   /*background: $grey98;*/
+           border-radius: 2px;
+           cursor: pointer;
+           height: 250px;
+           padding: 6px 12px;
+           text-align: center;
+           
+           &:hover {
+               background-color: #f0f0f0;
+           }   
+           
+           
+           
+           .box-title {
+                font: {
+                    size: 18px;
+                }
+           
+           }
+           
+	   }
+	   
+       .block {
+            background-color: $purple-light;
+            border: 0;
+            border-radius: 75px;
+            height: 150px;
+            margin: 0 auto 10px;
+            width: 150px;
+            
+            /*
+            &:hover {
+                background-color: lighten($purple-light, 10%);
+            }*/
+        }
+	   
+       .search {
+            @include background-image("icons/search.png");
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
+        
+        .stats {
+            @include background-image("icons/chart.png");
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
+        
+        .api {
+            @include background-image("icons/computer.png");
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
+	
+	}
 	
 	.item-desc {
 		background: $grey98;
@@ -285,18 +367,21 @@ form.search {
 	}
 }
 
-.advert-partners {
-	margin: 30px auto 20px;
+.partners {
+	margin: 50px auto 20px;
+	padding-left: 0;
+	padding-right: 0;
 }
 
-.advert-frame {
+.frame {
 	background: $white;
 	border: 1px solid #e6e6e6;
 	border-radius: 0;
 	padding: 15px;
 	
 	img {
-		padding-bottom: 15px;
+		padding-bottom: 7px;
+		padding-top: 8px;
 	}
 	
 	> div {
