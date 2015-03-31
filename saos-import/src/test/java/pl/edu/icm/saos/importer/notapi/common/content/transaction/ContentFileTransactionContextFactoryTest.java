@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
@@ -34,7 +35,7 @@ public class ContentFileTransactionContextFactoryTest {
         
         // assert
         assertNotNull(context);
-        assertEquals(contentDirectoryPath, context.getContentDirectory().getPath());
+        assertEquals(new File(contentDirectoryPath), context.getContentDirectory());
         assertTrue(context.getDeletedTmpDirectory().exists());
         
         FileUtils.deleteDirectory(context.getDeletedTmpDirectory());
