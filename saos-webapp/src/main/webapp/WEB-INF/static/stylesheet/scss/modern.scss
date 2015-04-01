@@ -194,8 +194,8 @@ form.search {
 }
 
 .beta-info {
-	background: lighten($sand, 10%);
-	border: 1px solid #ccc;
+	background: lighten($sand, 21%);
+	border: 1px solid #ff6600;
 	margin: 10px -15px 0;
 	padding: 5px 20px 0;	
 	
@@ -227,6 +227,7 @@ form.search {
 	}
 	
 	p {
+	   font-size: 20px; 
 	   margin-bottom: 4px;
 	   line-height: 1.6em;
 	}
@@ -253,13 +254,15 @@ form.search {
                background-color: #f0f0f0;
            }   
            
-           
-           
            .box-title {
                 font: {
                     size: 18px;
                 }
            
+           }
+           
+           p {
+               font-size: 14px;
            }
            
 	   }

@@ -18,7 +18,6 @@
 <div id="content" class="container home-content">
 	
 	<div class="col-sm-12">
-	   <h2><spring:message code="home.welcome.header" /></h2>
 	   <p><spring:message code="home.welcome.text" /></p>
 	</div>
 	
