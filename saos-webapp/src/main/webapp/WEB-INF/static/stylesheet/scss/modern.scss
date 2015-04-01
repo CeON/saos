@@ -35,9 +35,6 @@ a, .hint {
 	@include outline();
 }
 
-.container {
-	/*width: 970px !important;*/
-}
 
 header {
 	@include background-image("header/debut_light.png");
@@ -194,27 +191,98 @@ form.search {
 }
 
 .beta-info {
-	background: $grey98;
-	border: 1px solid #e6e6e6;
-	margin: 50px 0 20px;
-	padding: 30px 50px;	
+	background: lighten($sand, 21%);
+	border: 1px solid #ff6600;
+	margin: 10px -15px 0;
+	padding: 5px 20px 0;	
 	
 	p {
 		margin-left: 15px;
 	}
 }
 
-.advert-header {
-	background: $panel-color;
-	color: $grey98;
-	display: inline-block;
-	font-size: 24px;
-	padding: 8px 16px;
-}
-
-.advert-idea {
-	margin-top: 30px;
-	margin-bottom: 30px;
+.home-content {
+    background: $white;
+    border: 1px solid #e6e6e6;
+    border-radius: 0;
+    margin-bottom: 30px;
+    margin-top: 15px;
+    padding: 20px 40px;
+	
+	h2 {
+	   margin-bottom: 12px;
+	}
+	
+	p {
+	   font-size: 20px; 
+	   margin-bottom: 4px;
+	   line-height: 1.6em;
+	}
+	
+	.boxes {
+	   margin-bottom: 20px;
+	   margin-top: 50px;
+	
+	   a {
+               color: $black;
+               display: block;
+               text-decoration: none;
+       }
+	
+	   .box {
+    	   /*background: $grey98;*/
+           border-radius: 2px;
+           cursor: pointer;
+           height: 250px;
+           padding: 6px 12px;
+           text-align: center;
+           
+           &:hover {
+               background-color: #f0f0f0;
+           }   
+           
+           .box-title {
+                font: {
+                    size: 18px;
+                }
+           
+           }
+           
+           p {
+               font-size: 14px;
+           }
+           
+	   }
+	   
+       .block {
+            background-color: $purple-light;
+            border: 0;
+            border-radius: 75px;
+            height: 150px;
+            margin: 0 auto 10px;
+            width: 150px;
+            
+        }
+	   
+       .search {
+            @include background-image("icons/search.png");
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
+        
+        .stats {
+            @include background-image("icons/chart.png");
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
+        
+        .api {
+            @include background-image("icons/computer.png");
+            background-position: 50%;
+            background-repeat: no-repeat;
+        }
+	
+	}
 	
 	.item-desc {
 		background: $grey98;
@@ -225,78 +293,21 @@ form.search {
 	}
 }
 
-.advert-ground {
-	background: $black;
-	margin-top: 40px;
-	margin-bottom: 40px;
-	padding: 30px 0;
-
-	.item {
-		background: $black;
-		color: $grey98;
-		padding: 0 40px;
-	
-		.block {
-			background: $sand;
-			border: 0;
-			border-radius: 75px;
-			height: 150px;
-			margin: 10px auto 20px;
-			width: 150px;
-		}
-		
-		.item-title {
-			background: $black;
-			color: $white;
-			display: block;
-			font-size: 20px;
-			font-weight: 600;
-			margin-bottom: 10px;
-			text-align: center;
-		}
-		
-		.item-desc {
-			background: $black;
-			font: {
-				size: 15px;
-				weight: normal;
-			}
-			margin-top: 15px;
-			text-align: center;
-		}
-		
-		.search {
-			@include background-image("icons/search.png");
-			background-position: 50%;
-			background-repeat: no-repeat;
-		}
-		
-		.stats {
-			@include background-image("icons/chart.png");
-			background-position: 50%;
-			background-repeat: no-repeat;
-		}
-		
-		.api {
-			@include background-image("icons/computer.png");
-			background-position: 50%;
-			background-repeat: no-repeat;
-		}
-	}
+.partners {
+	margin: 50px auto 20px;
+	padding-left: 0;
+	padding-right: 0;
 }
 
-.advert-partners {
-	margin: 30px auto 20px;
-}
-
-.advert-frame {
+.frame {
 	background: $white;
 	border: 1px solid #e6e6e6;
 	border-radius: 0;
 	padding: 15px;
 	
 	img {
-		padding-bottom: 15px;
+		padding-bottom: 7px;
+		padding-top: 8px;
 	}
 	
 	> div {
