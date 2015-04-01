@@ -35,9 +35,6 @@ a, .hint {
 	@include outline();
 }
 
-.container {
-	/*width: 970px !important;*/
-}
 
 header {
 	@include background-image("header/debut_light.png");
@@ -203,24 +200,14 @@ form.search {
 		margin-left: 15px;
 	}
 }
-/*
-
-.advert-header {
-	background: $panel-color;
-	color: $grey98;
-	display: inline-block;
-	font-size: 24px;
-	padding: 8px 16px;
-}
-*/
 
 .home-content {
-	background: $white;
+    background: $white;
     border: 1px solid #e6e6e6;
     border-radius: 0;
     margin-bottom: 30px;
     margin-top: 15px;
-	padding: 20px 40px;
+    padding: 20px 40px;
 	
 	h2 {
 	   margin-bottom: 12px;
@@ -275,10 +262,6 @@ form.search {
             margin: 0 auto 10px;
             width: 150px;
             
-            /*
-            &:hover {
-                background-color: lighten($purple-light, 10%);
-            }*/
         }
 	   
        .search {
@@ -307,66 +290,6 @@ form.search {
 		font-size: 17px;
 		line-height: 1.5em;
 		padding: 10px 50px 40px;
-	}
-}
-
-.advert-ground {
-	background: $black;
-	margin-top: 40px;
-	margin-bottom: 40px;
-	padding: 30px 0;
-
-	.item {
-		background: $black;
-		color: $grey98;
-		padding: 0 40px;
-	
-		.block {
-			background: $sand;
-			border: 0;
-			border-radius: 75px;
-			height: 150px;
-			margin: 10px auto 20px;
-			width: 150px;
-		}
-		
-		.item-title {
-			background: $black;
-			color: $white;
-			display: block;
-			font-size: 20px;
-			font-weight: 600;
-			margin-bottom: 10px;
-			text-align: center;
-		}
-		
-		.item-desc {
-			background: $black;
-			font: {
-				size: 15px;
-				weight: normal;
-			}
-			margin-top: 15px;
-			text-align: center;
-		}
-		
-		.search {
-			@include background-image("icons/search.png");
-			background-position: 50%;
-			background-repeat: no-repeat;
-		}
-		
-		.stats {
-			@include background-image("icons/chart.png");
-			background-position: 50%;
-			background-repeat: no-repeat;
-		}
-		
-		.api {
-			@include background-image("icons/computer.png");
-			background-position: 50%;
-			background-repeat: no-repeat;
-		}
 	}
 }
 
