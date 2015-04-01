@@ -176,6 +176,7 @@ $(document).ready(function() {
     
     CookiePolicy.init({
         buttonShowMessageId: "#cookie-show-message",
+        buttonPreviewAcceptId: "#cookie-preview-accept",
         buttonAcceptId: "#cookie-accept",
         messageId: "#cookie-message",
         windowId: "#cookie-window"

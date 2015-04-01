@@ -1,11 +1,11 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-<c:set var="hideCookiePolicy" value="false" />
+<c:set var="cookiePolicyAccepted" value="false" />
   
  <c:forEach var="cookies" items="${cookie}">
     <c:if test="${cookies.value.name == 'cookiePolicyAccepted' }" >
-        <c:set var="hideCookiePolicy" value="${cookies.value.value}" />
+        <c:set var="cookiePolicyAccepted" value="${cookies.value.value}" />
     </c:if>
  </c:forEach>
 
@@ -22,10 +22,11 @@
     </div>
 </div>
 
-<c:if test="${!hideCookiePolicy}" >
+<c:if test="${!cookiePolicyAccepted}" >
     <div class="cookie-window" id="cookie-window">
         <spring:message code="cookie.policy.previewMessage" />
-        <button id="cookie-show-message" class="btn button-default btn-xs" ><spring:message code="cookie.policy.show" /></button>
+        <button id="cookie-preview-accept" class="btn button-blue btn-xs" ><spring:message code="cookie.policy.accept" /></button>
+        <button id="cookie-show-message" class="btn button-blue btn-xs" ><spring:message code="cookie.policy.show" /></button>
     </div>
 </c:if>
- 
+

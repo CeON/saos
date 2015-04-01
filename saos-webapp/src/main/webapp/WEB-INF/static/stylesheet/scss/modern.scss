@@ -476,6 +476,7 @@ form.search {
 	border: {
 		color: $blue;
 	}
+	color: $white;
 	text-shadow: 0 0 2px $black;
 	
 	&:hover {
@@ -483,6 +484,7 @@ form.search {
 		border: {
 			color: $blue;
 		}
+		color: $white;
 	}
 }
 
@@ -1559,7 +1561,7 @@ label.error {
     padding: 10px 0 12px;
     position: relative;
     text-align: center;
-    top: 0px;
+    top: 0;
     width: 100%;
     
     .text {
@@ -1581,7 +1583,7 @@ label.error {
     padding: 12px 16px;
     position: absolute;
     right: 16px;
-    width: 220px;
+    width: 310px;
     top: 10px;
     
     .btn {

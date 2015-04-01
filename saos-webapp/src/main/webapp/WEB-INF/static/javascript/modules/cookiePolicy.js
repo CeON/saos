@@ -9,6 +9,7 @@ var CookiePolicy = (function() {
     var scope = {},
         defaultOptions = {
             buttonShowMessageId: "#cookie-show-message",
+            buttonPreviewAcceptId: "#cookie-preview-accept",
             buttonAcceptId: "#cookie-accept",
             messageId: "#cookie-message",
             windowId: "#cookie-window"
@@ -17,12 +18,25 @@ var CookiePolicy = (function() {
         options = {},
         
         cookieName = "cookiePolicyAccepted",
-        cookieTime = 7 * 24 * 60; // 7 days
+        cookieTime = 2 * 365 * 24 * 60; // 2 years
     
     
-    scope.init = function(arguments) {
+    /*
+     * Initializes module
+     * 
+     * @param userOptions - object 
+     * 
+     * {
+     *     buttonShowMessageId: "", - Id of show message button located in cookie window.
+     *     buttonPreviewAcceptId: "" - Id of button accept policy located in cookie window.  
+     *     buttonAcceptId: "", - Id of button accept policy located in cookie message.
+     *     messageId: "", - cookie message id
+     *     windowId: "" - cookie window
+     * }
+     */
+    scope.init = function(userOptions) {
         
-        options = arguments || defaultOptions;
+        options = userOptions || defaultOptions;
         
         initButtonShowCookiePolicy();
         initButtonAcceptCookiePolicy();
@@ -33,7 +47,7 @@ var CookiePolicy = (function() {
     
     
     /*
-     * Show cookie policy message
+     * Shows cookie policy message
      */
     function initButtonShowCookiePolicy() {
         
@@ -49,7 +63,7 @@ var CookiePolicy = (function() {
     }
     
     /*
-     * Create cookie & hide message 
+     * Creates cookie & hide message 
      */
     function initButtonAcceptCookiePolicy() {
         
@@ -59,6 +73,14 @@ var CookiePolicy = (function() {
             $(options.messageId).slideUp(function() {
                 saveCookie(true);
             });
+        });
+        
+        $(options.buttonPreviewAcceptId).click(function() {
+            
+            saveCookie(true);
+            
+            //Hide cookie window
+            $(options.windowId).fadeOut();
         });
         
     }
