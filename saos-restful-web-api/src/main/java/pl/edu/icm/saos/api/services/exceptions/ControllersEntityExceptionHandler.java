@@ -1,18 +1,18 @@
 package pl.edu.icm.saos.api.services.exceptions;
 
+import java.util.Map;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
 import pl.edu.icm.saos.api.services.representations.ErrorRepresentation;
-
-import java.util.Map;
 
 /**
  * Exception handler for restful api controllers.
@@ -23,9 +23,6 @@ public class ControllersEntityExceptionHandler {
 
     private static final Logger log = LoggerFactory.getLogger(ControllersEntityExceptionHandler.class);
 
-
-    
-    private String errorDocumentationSite;
 
 
     //------------------------ LOGIC --------------------------
@@ -87,8 +84,7 @@ public class ControllersEntityExceptionHandler {
         ErrorRepresentation.Builder builder = new ErrorRepresentation.Builder();
         builder.httpStatus(errorStatus.httpStatusValue())
                 .message(ex.getMessage())
-                .reason(errorStatus.errorReason())
-                .moreInfo(errorDocumentationSite+errorStatus.name());
+                .reason(errorStatus.errorReason());
 
         return builder;
     }
@@ -109,13 +105,5 @@ public class ControllersEntityExceptionHandler {
 
     private FieldError extractFieldError(BindException ex){
         return (FieldError) ex.getAllErrors().get(0);
-    }
-
-
-    //----------------- SETTERS ----------------------
-    
-    @Value("${restful.api.error.documentation.site}")
-    public void setErrorDocumentationSite(String errorDocumentationSite) {
-        this.errorDocumentationSite = errorDocumentationSite;
     }
 }
