@@ -21,7 +21,7 @@ class RestrictParamsHandlerInterceptorTest extends Specification {
     @Controller
     static class SpecialController extends ControllersEntityExceptionHandler{
         SpecialController() {
-            setErrorDocumentationSite("http://www.example.com/errors/")
+            
         }
 
         @RequestMapping(value = "/withoutRPNA", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

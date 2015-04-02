@@ -47,11 +47,6 @@ public class ErrorRepresentation {
             return this;
         }
 
-        public Builder moreInfo(String moreInfo){
-            errorData.moreInfo = moreInfo;
-            return this;
-        }
-
 
         public Map<String, Object> build(){
             ErrorRepresentation errorRepresentation = new ErrorRepresentation(this);
