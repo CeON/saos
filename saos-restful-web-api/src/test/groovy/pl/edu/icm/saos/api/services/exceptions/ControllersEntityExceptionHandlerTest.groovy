@@ -29,7 +29,7 @@ class ControllersEntityExceptionHandlerTest extends Specification {
     @RequestMapping("/special")
     static class SpecialController extends ControllersEntityExceptionHandler{
         SpecialController() {
-            setErrorDocumentationSite("http://www.example.com/errors/")
+            
         }
 
         @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -70,7 +70,6 @@ class ControllersEntityExceptionHandlerTest extends Specification {
             content.error.httpStatus == "500"
             content.error.reason == GENERAL_INTERNAL_ERROR.errorReason
             content.error.message == exceptionMsg
-            content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.name()
     }
 
     def "should return error's representation for WrongRequestParameterException"(){
@@ -96,7 +95,6 @@ class ControllersEntityExceptionHandlerTest extends Specification {
             content.error.httpStatus == "400"
             content.error.reason == WRONG_REQUEST_PARAMETER_ERROR.errorReason
             content.error.message.contains message
-            content.error.moreInfo.endsWith WRONG_REQUEST_PARAMETER_ERROR.name()
             content.error.propertyName == paramName
     }
 
@@ -126,7 +124,6 @@ class ControllersEntityExceptionHandlerTest extends Specification {
             content.error.reason == WRONG_REQUEST_PARAMETER_ERROR.errorReason
             content.error.message.contains fieldName
             content.error.message.contains rejectedValue
-            content.error.moreInfo.endsWith WRONG_REQUEST_PARAMETER_ERROR.name()
             content.error.propertyName == fieldName
     }
 
@@ -152,7 +149,6 @@ class ControllersEntityExceptionHandlerTest extends Specification {
             content.error.httpStatus == "500"
             content.error.reason == GENERAL_INTERNAL_ERROR.errorReason
             content.error.message == exceptionMsg
-            content.error.moreInfo.endsWith GENERAL_INTERNAL_ERROR.name()
     }
 
     def "should return error's representation for ElementDoesNotExistException"(){
@@ -179,7 +175,6 @@ class ControllersEntityExceptionHandlerTest extends Specification {
             content.error.reason == ELEMENT_DOES_NOT_EXIST_ERROR.errorReason
             content.error.message.contains exceptionMsg
             content.error.message.contains elementId.toString()
-            content.error.moreInfo.endsWith ELEMENT_DOES_NOT_EXIST_ERROR.name()
     }
 
 

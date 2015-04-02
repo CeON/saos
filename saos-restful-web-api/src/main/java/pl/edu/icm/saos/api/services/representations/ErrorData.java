@@ -20,7 +20,4 @@ public class ErrorData {
 
     @JsonProperty("message")
     public String message;
-
-    @JsonProperty("moreInfo")
-    public String moreInfo;
 }
