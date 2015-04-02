@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.enrichment.reference.JudgmentReferenceRemover;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
@@ -28,6 +29,8 @@ class CcjProcessingService {
     
     private EnrichmentTagRepository enrichmentTagRepository;
     
+    private JudgmentReferenceRemover enrichmentTagReferenceRemover;
+    
     
     
     
@@ -51,6 +54,7 @@ class CcjProcessingService {
             judgmentOverwriter.overwriteJudgment(oldJudgment, ccJudgment, judgmentWithCorrectionList.getCorrectionList());
             
             enrichmentTagRepository.deleteAllByJudgmentId(oldJudgment.getId());
+            enrichmentTagReferenceRemover.removeReference(oldJudgment.getId());
             
             judgmentWithCorrectionList.setJudgment(oldJudgment);
         }
@@ -86,6 +90,12 @@ class CcjProcessingService {
     @Autowired
     public void setEnrichmentTagRepository(EnrichmentTagRepository enrichmentTagRepository) {
         this.enrichmentTagRepository = enrichmentTagRepository;
+    }
+    
+    @Autowired
+    @Qualifier("defaultJudgmentReferenceRemover")
+    public void setEnrichmentTagReferenceRemover(JudgmentReferenceRemover enrichmentTagReferenceRemover) {
+        this.enrichmentTagReferenceRemover = enrichmentTagReferenceRemover;
     }
 
     

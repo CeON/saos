@@ -8,8 +8,10 @@ import org.springframework.batch.core.annotation.BeforeChunk;
 import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import pl.edu.icm.saos.common.json.JsonStringParser;
+import pl.edu.icm.saos.enrichment.reference.JudgmentReferenceRemover;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.overwriter.JudgmentOverwriter;
@@ -45,8 +47,9 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
     
     private EnrichmentTagRepository enrichmentTagRepository;
     
-    private JudgmentContentFileProcessor judgmentContentFileProcessor;
+    private JudgmentReferenceRemover enrichmentTagReferenceRemover;
     
+    private JudgmentContentFileProcessor judgmentContentFileProcessor;
     
     
     private ChunkContext chunkContext;
@@ -98,6 +101,8 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
             judgmentOverwriter.overwriteJudgment(oldJudgment, judgment, judgmentWithCorrectionList.getCorrectionList());
             
             enrichmentTagRepository.deleteAllByJudgmentId(oldJudgment.getId());
+            enrichmentTagReferenceRemover.removeReference(oldJudgment.getId());
+            
             
             judgmentWithCorrectionList.setJudgment(oldJudgment);
             
@@ -151,7 +156,12 @@ public class JsonJudgmentImportProcessProcessor<S, J extends Judgment> implement
     public void setEnrichmentTagRepository(EnrichmentTagRepository enrichmentTagRepository) {
         this.enrichmentTagRepository = enrichmentTagRepository;
     }
-
+    
+    @Autowired
+    @Qualifier("defaultJudgmentReferenceRemover")
+    public void setEnrichmentTagReferenceRemover(JudgmentReferenceRemover enrichmentTagReferenceRemover) {
+        this.enrichmentTagReferenceRemover = enrichmentTagReferenceRemover;
+    }
 
     public void setJudgmentContentFileProcessor(JudgmentContentFileProcessor judgmentContentFileHandler) {
         this.judgmentContentFileProcessor = judgmentContentFileHandler;

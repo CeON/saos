@@ -23,7 +23,7 @@ public class ReferencedCourtCasesTagValueItem {
     public List<Long> getJudgmentIds() {
         if (judgmentIds == null) {
             judgmentIds = Lists.newArrayList();
-        };
+        }
         return judgmentIds;
     }
         
