@@ -1,7 +1,8 @@
 package pl.edu.icm.saos.search.analysis.solr.result;
 
+import java.util.List;
+
 import org.apache.solr.client.solrj.response.QueryResponse;
-import org.apache.solr.client.solrj.response.RangeFacet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,9 +34,9 @@ public class SeriesResultConverter {
         Preconditions.checkNotNull(response);
         Preconditions.checkNotNull(xsettings);
         
-        RangeFacet<?, ?> facet = xFieldFacetExtractor.extractFacet(response, xsettings.getField());
+        List<FacetCount> facetCounts = xFieldFacetExtractor.extractFacetCounts(response, xsettings.getField());
         
-        return facetToSeriesConverter.convert(facet, xsettings);
+        return facetToSeriesConverter.convert(facetCounts, xsettings);
     }
     
     

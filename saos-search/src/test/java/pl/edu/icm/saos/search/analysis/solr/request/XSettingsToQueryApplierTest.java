@@ -3,6 +3,8 @@ package pl.edu.icm.saos.search.analysis.solr.request;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import org.apache.solr.client.solrj.SolrQuery;
@@ -16,9 +18,7 @@ import pl.edu.icm.saos.search.analysis.request.XDateRange;
 import pl.edu.icm.saos.search.analysis.request.XField;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.solr.XFieldNameMapper;
-import pl.edu.icm.saos.search.analysis.solr.request.XRangeConverter;
-import pl.edu.icm.saos.search.analysis.solr.request.XRangeConverterManager;
-import pl.edu.icm.saos.search.analysis.solr.request.XSettingsToQueryApplier;
+import pl.edu.icm.saos.search.search.service.FieldFacetToQueryApplier;
 import pl.edu.icm.saos.search.search.service.RangeFacetToQueryApplier;
 
 
@@ -36,6 +36,8 @@ public class XSettingsToQueryApplierTest {
     
     private RangeFacetToQueryApplier rangeFacetToQueryApplier = mock(RangeFacetToQueryApplier.class);
     
+    private FieldFacetToQueryApplier fieldFacetToQueryApplier = mock(FieldFacetToQueryApplier.class);
+    
     private XRangeConverter xRangeConverter = mock(XRangeConverter.class);
     
     
@@ -44,6 +46,7 @@ public class XSettingsToQueryApplierTest {
         xSettingsFacetQueryApplier.setxFieldNameMapper(xFieldNameMapper);
         xSettingsFacetQueryApplier.setxRangeConverterManager(xRangeConverterManager);
         xSettingsFacetQueryApplier.setRangeFacetToQueryApplier(rangeFacetToQueryApplier);
+        xSettingsFacetQueryApplier.setFieldFacetToQueryApplier(fieldFacetToQueryApplier);
         
         when(xRangeConverter.convertStart(any())).thenReturn("startParam");
         when(xRangeConverter.convertEnd(any())).thenReturn("endParam");
@@ -57,7 +60,7 @@ public class XSettingsToQueryApplierTest {
     //------------------------ TESTS --------------------------
     
     @Test
-    public void applyXSettingsToQuery() {
+    public void applyXSettingsToQuery_WITH_XRANGE() {
         // given
         XSettings xSettings = new XSettings();
         xSettings.setField(XField.JUDGMENT_DATE);
@@ -77,16 +80,38 @@ public class XSettingsToQueryApplierTest {
         verify(xRangeConverter).convertEnd(xDateRange);
         verify(xRangeConverter).convertGap(xDateRange);
         verify(rangeFacetToQueryApplier).applyRangeFacet(query, "judgmentDate", "startParam", "endParam", "gapParam");
+        
+        verifyNoMoreInteractions(xFieldNameMapper, xRangeConverterManager, xRangeConverter, rangeFacetToQueryApplier);
+        verifyZeroInteractions(fieldFacetToQueryApplier);
+    }
+    
+    @Test
+    public void applyXSettingsToQuery_WITHOUT_XRANGE() {
+        // given
+        XSettings xSettings = new XSettings();
+        xSettings.setField(XField.JUDGMENT_DATE);
+        
+        SolrQuery query = new SolrQuery();
+        
+        // execute
+        xSettingsFacetQueryApplier.applyXSettingsToQuery(query, xSettings);
+        
+        // assert
+        verify(xFieldNameMapper).mapXField(XField.JUDGMENT_DATE);
+        verify(fieldFacetToQueryApplier).applyFieldFacet(query, "judgmentDate");
+        
+        verifyNoMoreInteractions(xFieldNameMapper, fieldFacetToQueryApplier);
+        verifyZeroInteractions(xRangeConverterManager, xRangeConverter, rangeFacetToQueryApplier);
     }
     
     @Test(expected = NullPointerException.class)
-    public void applyXSettingsToQuery_NULL_QUERY() {
+    public void applyXSettingsToQuery_NULL_XSETTINGS() {
         // execute
         xSettingsFacetQueryApplier.applyXSettingsToQuery(new SolrQuery(), null);
     }
     
     @Test(expected = NullPointerException.class)
-    public void applyXSettingsToQuery_NULL_XSETTINGS() {
+    public void applyXSettingsToQuery_NULL_QUERY() {
         // execute
         xSettingsFacetQueryApplier.applyXSettingsToQuery(null, new XSettings());
     }
