@@ -10,6 +10,7 @@ import pl.edu.icm.saos.search.analysis.request.XField;
 import pl.edu.icm.saos.search.analysis.request.XRange;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.solr.XFieldNameMapper;
+import pl.edu.icm.saos.search.search.service.FieldFacetToQueryApplier;
 import pl.edu.icm.saos.search.search.service.RangeFacetToQueryApplier;
 
 /**
@@ -26,6 +27,8 @@ public class XSettingsToQueryApplier {
     
     private RangeFacetToQueryApplier rangeFacetToQueryApplier;
     
+    private FieldFacetToQueryApplier fieldFacetToQueryApplier;
+    
     
     //------------------------ LOGIC --------------------------
     
@@ -41,6 +44,19 @@ public class XSettingsToQueryApplier {
         String fieldName = xFieldNameMapper.mapXField(xField);
         
         XRange xRange = xSettings.getRange();
+        
+        
+        if (xRange != null) {
+            applyRangeFacet(query, fieldName, xRange);
+        } else {
+            applyFieldFacet(query, fieldName);
+        }
+    }
+    
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private void applyRangeFacet(SolrQuery query, String fieldName, XRange xRange) {
         XRangeConverter xRangeConverter = xRangeConverterManager.getXRangeConverter(xRange.getClass());
         
         String startParam = xRangeConverter.convertStart(xRange);
@@ -49,6 +65,10 @@ public class XSettingsToQueryApplier {
         
         
         rangeFacetToQueryApplier.applyRangeFacet(query, fieldName, startParam, endParam, gapParam);
+    }
+    
+    private void applyFieldFacet(SolrQuery query, String fieldName) {
+        fieldFacetToQueryApplier.applyFieldFacet(query, fieldName);
     }
 
     
@@ -67,5 +87,10 @@ public class XSettingsToQueryApplier {
     @Autowired
     public void setRangeFacetToQueryApplier(RangeFacetToQueryApplier rangeFacetToQueryApplier) {
         this.rangeFacetToQueryApplier = rangeFacetToQueryApplier;
+    }
+
+    @Autowired
+    public void setFieldFacetToQueryApplier(FieldFacetToQueryApplier fieldFacetToQueryApplier) {
+        this.fieldFacetToQueryApplier = fieldFacetToQueryApplier;
     }
 }

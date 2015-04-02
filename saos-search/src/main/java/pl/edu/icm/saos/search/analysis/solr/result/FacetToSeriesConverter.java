@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.search.analysis.solr.result;
 
-import org.apache.solr.client.solrj.response.RangeFacet;
-import org.apache.solr.client.solrj.response.RangeFacet.Count;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import pl.edu.icm.saos.search.analysis.request.XSettings;
 import com.google.common.base.Preconditions;
 
 /**
- * Converts {@link RangeFacet} to {@link Series}
+ * Converts list of {@link FacetCount}s to {@link Series}
  * 
  * @author madryk
  */
@@ -24,11 +24,11 @@ public class FacetToSeriesConverter {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Converts the given facet to Series
+     * Converts the given facet counts to Series
      */
-    public Series<Object, Integer> convert(RangeFacet<?, ?> facet, XSettings xsettings) {
+    public Series<Object, Integer> convert(List<FacetCount> facetCounts, XSettings xsettings) {
         
-        Preconditions.checkNotNull(facet);
+        Preconditions.checkNotNull(facetCounts);
         Preconditions.checkNotNull(xsettings);
         
         FacetValueConverter xValueConverter = facetValueConverterManager.getConverter(xsettings);
@@ -36,7 +36,7 @@ public class FacetToSeriesConverter {
         
         Series<Object, Integer> series = new Series<Object, Integer>();
         
-        for (Count count : facet.getCounts()) {
+        for (FacetCount count : facetCounts) {
             
             series.addPoint(xValueConverter.convert(count.getValue(), xsettings), count.getCount());
         
