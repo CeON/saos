@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.powermock.reflect.Whitebox;
 
 import pl.edu.icm.saos.common.json.JsonStringParser;
+import pl.edu.icm.saos.enrichment.reference.JudgmentReferenceRemover;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
@@ -54,6 +55,8 @@ public class JsonJudgmentImportProcessProcessorTest {
     
     @Mock private EnrichmentTagRepository enrichmentTagRepository;
     
+    @Mock private JudgmentReferenceRemover enrichmentTagReferenceRemover;
+    
     
     // data
     
@@ -79,7 +82,7 @@ public class JsonJudgmentImportProcessProcessorTest {
         scjImportProcessProcessor.setJudgmentOverwriter(judgmentOverwriter);
         scjImportProcessProcessor.setRawSourceJudgmentRepository(rawSourceJudgmentRepository);
         scjImportProcessProcessor.setEnrichmentTagRepository(enrichmentTagRepository);
-        
+        scjImportProcessProcessor.setEnrichmentTagReferenceRemover(enrichmentTagReferenceRemover);
     }
 
     
@@ -173,6 +176,7 @@ public class JsonJudgmentImportProcessProcessorTest {
         verify(judgmentOverwriter).overwriteJudgment(oldScJudgment, scJudgment, correctionList);
         
         verify(enrichmentTagRepository).deleteAllByJudgmentId(oldScJudgmentId);
+        verify(enrichmentTagReferenceRemover).removeReference(oldScJudgmentId);
         
         
         verify(rawSourceJudgmentRepository).save(rJudgment);
