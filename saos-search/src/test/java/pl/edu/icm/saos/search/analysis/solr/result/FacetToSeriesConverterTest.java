@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
-import org.apache.solr.client.solrj.response.RangeFacet;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,9 +41,9 @@ public class FacetToSeriesConverterTest {
     @Test
     public void convert() {
         // given
-        RangeFacet<?, ?> rangeFacet = new RangeFacet.Numeric(null, null, null, null, null, null, null);
-        rangeFacet.addCount("AAA", 4);
-        rangeFacet.addCount("EFGH", 1);
+        List<FacetCount> facetCounts = Lists.newArrayList();
+        facetCounts.add(new FacetCount("AAA", 4));
+        facetCounts.add(new FacetCount("EFGH", 1));
         XSettings xsettings = mock(XSettings.class);
         
         FacetValueConverter facetValueConverter = mock(FacetValueConverter.class);
@@ -53,7 +52,7 @@ public class FacetToSeriesConverterTest {
         when(facetValueConverter.convert("EFGH", xsettings)).thenReturn("EFGH_converted");
         
         // execute
-        Series<Object, Integer> series = facetToSeriesConverter.convert(rangeFacet, xsettings);
+        Series<Object, Integer> series = facetToSeriesConverter.convert(facetCounts, xsettings);
         
         // assert
         List<Point<Object, Integer>> expectedPoints = Lists.newArrayList();
@@ -67,7 +66,7 @@ public class FacetToSeriesConverterTest {
     
     
     @Test(expected = NullPointerException.class)
-    public void convert_NULL_FACET() {
+    public void convert_NULL_FACET_COUNTS() {
     
         // execute
         facetToSeriesConverter.convert(null, xsettings);
@@ -77,9 +76,11 @@ public class FacetToSeriesConverterTest {
     
     @Test(expected = NullPointerException.class)
     public void convert_NULL_XSETTINGS() {
-    
+        // given
+        List<FacetCount> facetCounts = Lists.newArrayList();
+        
         // execute
-        facetToSeriesConverter.convert(new RangeFacet.Numeric(null, null, null, null, null, null, null), null);
+        facetToSeriesConverter.convert(facetCounts, null);
     
     }
     
