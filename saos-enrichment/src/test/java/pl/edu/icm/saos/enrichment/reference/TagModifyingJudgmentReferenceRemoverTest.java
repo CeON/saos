@@ -58,6 +58,9 @@ public class TagModifyingJudgmentReferenceRemoverTest {
         tagModifyingJudgmentReferenceRemover.setJsonStringWriter(jsonStringWriter);
     }
     
+    
+    //------------------------ TESTS --------------------------
+    
     @Test
     public void removeReference() throws IOException {
         
