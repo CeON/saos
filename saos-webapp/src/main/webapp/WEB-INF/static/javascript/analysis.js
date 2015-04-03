@@ -91,6 +91,10 @@ var initAnalysisJs = function() {
         //Enables bootstrap tooltip
         $('#analysisForm [data-toggle="tooltip"]').tooltip({container: 'body'});
 
+        /* Anchor with empty href, should not reload page*/
+        $("a[href='']").click(function(event) {
+            event.preventDefault();
+        });
     }
     
     
