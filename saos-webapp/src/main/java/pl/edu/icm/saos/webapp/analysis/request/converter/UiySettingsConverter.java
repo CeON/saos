@@ -2,7 +2,7 @@ package pl.edu.icm.saos.webapp.analysis.request.converter;
 
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.search.analysis.request.AbsoluteNumberYValue;
+import pl.edu.icm.saos.search.analysis.request.NumberYValue;
 import pl.edu.icm.saos.search.analysis.request.RateYValue;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
 import pl.edu.icm.saos.search.analysis.request.YValueType;
@@ -35,7 +35,7 @@ public class UiySettingsConverter {
         YSettings ysettings = new YSettings();
         
         
-        YValueType yValueType = new AbsoluteNumberYValue();
+        YValueType yValueType = new NumberYValue();
         
         if (uiySettings.getValueType().equals(UiyValueType.PERCENT)) {
             

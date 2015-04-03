@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import pl.edu.icm.saos.common.chart.Point;
 import pl.edu.icm.saos.common.chart.Series;
-import pl.edu.icm.saos.search.analysis.request.AbsoluteNumberYValue;
+import pl.edu.icm.saos.search.analysis.request.NumberYValue;
 import pl.edu.icm.saos.search.analysis.request.RateYValue;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
@@ -53,7 +53,7 @@ public class SeriesYRateRecalculatorTest {
     public void handles_OtherValueType() {
         
         // execute & assert
-        assertFalse(recalculator.handles(new AbsoluteNumberYValue()));
+        assertFalse(recalculator.handles(new NumberYValue()));
         
     }
     

@@ -14,7 +14,6 @@ import com.google.common.collect.Lists;
 public class FlotChart {
 
     
-    
     private List<FlotSeries> seriesList = Lists.newArrayList();
     private List<Object[]> xticks = Lists.newArrayList();
     
@@ -78,9 +77,6 @@ public class FlotChart {
         this.xticks = xticks;
     }
 
-
-    
-    
     
     
     
@@ -128,6 +124,10 @@ public class FlotChart {
         
         
     }
+
+
+
+
 
     
     

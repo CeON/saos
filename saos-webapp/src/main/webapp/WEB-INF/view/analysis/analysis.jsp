@@ -22,14 +22,20 @@ $(document).ready(function() {
 	
 	</div>
 	
-	
-	<div class="col-sm-12">
+	<div class="panel panel-default" style="height: 330px; border-width: 2px;">
+	<div class="col-sm-9" style="margin-top: 20px;">
 	    <span class="small" id="mainChartZoomCancelHint"></span>
-	    <div id="mainChart" style="width: 100%; height: 400px;">
+	    <div id="mainChart" style="width: 100%; height: 300px;">
 	    </div>
 	</div>
+    
+    <div class="col-sm-3" style="margin-top: 20px;">
+        <span class="small" id="aggregatedMainChartZoomCancelHint"></span>
+        <div id="aggregatedMainChart" style="width: 100%; height: 180px;">
+        </div>
+    </div>
 
      <img id="ajaxChartLoaderImg" src="${contextPath}/static/image/icons/ajax-loader.gif" alt="<spring:message code='analysis.button.ajaxLoader.iconAlt'/>" style="visibility: hidden;"/>
-
+    </div>
 
 </div>

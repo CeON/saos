@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.webapp.analysis;
 
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
 import pl.edu.icm.saos.webapp.analysis.request.UixRangeFactory;
 import pl.edu.icm.saos.webapp.analysis.request.UixSettings;
+import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
 import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
 
 /**
@@ -80,8 +83,8 @@ public class AnalysisController {
     
     @RequestMapping(value="/analysis/generate", method= RequestMethod.GET)
     @ResponseBody
-    public FlotChart generate(@ModelAttribute("analysisForm") AnalysisForm analysisForm) {
-        return uiAnalysisService.generateChart(analysisForm);
+    public Map<ChartCode, FlotChart> generate(@ModelAttribute("analysisForm") AnalysisForm analysisForm) {
+        return uiAnalysisService.generateCharts(analysisForm);
         
     }
 

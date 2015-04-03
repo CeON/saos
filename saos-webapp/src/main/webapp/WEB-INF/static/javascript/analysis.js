@@ -4,6 +4,7 @@
 var initAnalysisJs = function() {    
 
     var mainChart = null;
+    var aggregatedMainChart = null;
     var isZoomed = false;
     
     // based on jquery.colors Colour.names
@@ -52,6 +53,9 @@ var initAnalysisJs = function() {
                    //"#f0ffff", // azure
                 
                	   ];
+    
+    
+    var analysisFormBaseAction = $('#analysisForm').attr('action');
     
     
     
@@ -142,8 +146,7 @@ var initAnalysisJs = function() {
      */
     function deleteSearchPhrase(phraseIndexToRemove) {
         
-        var oldAction = $('#analysisForm').attr('action');
-        $('#analysisForm').attr('action', oldAction + "/removePhrase");
+        $('#analysisForm').attr('action', analysisFormBaseAction + "/removePhrase");
         $('#analysisForm').append($('<input>').attr('id', 'filterIndexToRemove').attr('type', 'hidden').attr('name', 'filterIndexToRemove').val(phraseIndexToRemove));
         
         submitAndPrintAnalysisForm(true);
@@ -171,8 +174,7 @@ var initAnalysisJs = function() {
      */
     function addNewSearchPhrase() {
         
-        var oldAction = $('#analysisForm').attr('action');
-        $('#analysisForm').attr('action', oldAction + "/addNewPhrase");
+        $('#analysisForm').attr('action', analysisFormBaseAction + "/addNewPhrase");
         
         submitAndPrintAnalysisForm(true);
     }
@@ -238,33 +240,7 @@ var initAnalysisJs = function() {
         history.pushState('html:newUrl', '', newUrl);
         
     }
-  
-    //******************************* MAIN CHART ***************************************************
     
-    /**
-     * Submits the analysisForm to a proper server endpoint and prints relevant charts based on
-     * data received from the server.
-     * @param updateUrlLocation should the updateUrl function be invoked after generating the chart
-     */
-    function generateCharts(updateLocationUrl) {
-        
-        var analysisForm = $('#analysisForm');
-        var oldAction = analysisForm.attr('action');
-        analysisForm.attr('action', oldAction + "/generate");
-            
-        showAjaxLoader("mainChart");
-            
-        analysisForm.ajaxSubmit(function(chart) {
-             analysisForm.attr('action', oldAction)
-             mainChart = chart;
-             printMainChart(chart, null, null);
-             if (updateLocationUrl) {
-                 updateUrl();   
-             }
-         });
-
-    }
-
     /**
      * Shows ajax loader gif in the given div during chart generation process 
      */
@@ -274,11 +250,52 @@ var initAnalysisJs = function() {
         $('#'+chartDivId).html(ajaxLoader);
         
     }
-    
-    
+  
     
     /**
-     * Prints main chart (number of judgments over the judgment date)
+     * Submits the analysisForm to a proper server endpoint and prints relevant charts based on
+     * data received from the server.
+     * @param updateUrlLocation should the updateUrl function be invoked after generating the chart
+     */
+    function generateCharts(updateLocationUrl) {
+        
+        $('#analysisForm').attr('action', analysisFormBaseAction + "/generate");
+            
+        showAjaxLoader("mainChart");
+        showAjaxLoader("mainAggregatedChart");
+            
+        $('#analysisForm').ajaxSubmit(function(charts) {
+            $('#analysisForm').attr('action', analysisFormBaseAction)
+             
+             mainChart = charts['MAIN_CHART'];
+             printMainChart(mainChart, null, null);
+             
+             aggregatedMainChart = charts['AGGREGATED_MAIN_CHART'];
+             printAggregatedMainChart(aggregatedMainChart, null, null);
+             
+             if (updateLocationUrl) {
+                 updateUrl();   
+             }
+         });
+
+    }
+    
+    
+    /** cancel zoom if the user clicks outside the chart */
+    $(document).click(function(event) { 
+        if($(event.target).parents().index($('#mainChart')) == -1 && isZoomed) {
+            $('[id$="mainChartZoomCancelHint"]').html("");
+            printMainChart(mainChart, null, null);
+            isZoomed = false;
+        }        
+    });
+    
+    
+    //******************************* MAIN CHART ***************************************************
+        
+    
+    /**
+     * Prints the main chart (number of judgments over the judgment date)
      * @param chart json chart data, see pl.edu.icm.saos.webapp.chart.Chart 
      * @param xmin min x value that will be shown on the chart, null - the min x value from chart data
      * @param xmax max x value that will be shown on the chart, null - the max x value from chart data
@@ -303,7 +320,10 @@ var initAnalysisJs = function() {
                                                     xaxis: { 
                                                         min: xmin,
                                                         max: xmax,
-                                                        ticks: chart.xticks
+                                                        ticks: chart.xticks,
+                                                        tickFormatter: function(val, axis) { // TODO: 
+                                                            return chart.xticks[val];
+                                                        }
                                                         
                                                     }, 
                                                     yaxis: {
@@ -312,12 +332,13 @@ var initAnalysisJs = function() {
                                                         min: ymin
                                                     }, 
                                                     grid: {
-                                                        hoverable: true
+                                                        hoverable: true,
+                                                        borderWidth: 1,
+                                                        borderColor: '#888'
                                                     },
                                                     selection: {
                                                         mode: "x"
-                                                    }
-                                                      
+                                                    }  
                                                      
                                                 }
                                             );
@@ -339,14 +360,80 @@ var initAnalysisJs = function() {
         isZoomed = true;
     });
     
-    /** cancel zoom if the user clicks outside the chart */
-    $(document).click(function(event) { 
-        if($(event.target).parents().index($('#mainChart')) == -1 && mainChart != null && isZoomed) {
-            $('[id$="ZoomCancelHint"]').html("");
-            printMainChart(mainChart, null, null);
-            isZoomed = false;
-        }        
-    });
+   
+
     
+    //******************************* AGGREGATED MAIN CHART ***************************************************
+        
+    
+    /**
+     * Prints the aggregated main chart (number of judgments in the whole judgment date period)
+     * @param chart json chart data, see pl.edu.icm.saos.webapp.chart.Chart 
+     */
+    function printAggregatedMainChart(chart) {
+
+        var xmin = 0;
+        var xmax = chart.seriesList[chart.seriesList.length-1].points[0][0] + 1;
+        
+        var yMinMax = calculateYAxisRangeForXRange(chart, xmin, xmax);
+        var ymin = 0;
+        var ymax = yMinMax[1]+yMinMax[1]/10;
+        
+        var seriesArr = [];
+        
+        for (var i = 0; i < chart.seriesList.length; i++) {
+            seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points});
+        }
+        
+        $.plot($("#aggregatedMainChart"), seriesArr,    {
+                                                    bars: {
+                                                        show: true,
+                                                        align: 'right',
+                                                        barWidth: 0.4
+                                                    }, 
+                
+                                                    xaxis: { 
+                                                        min: xmin,
+                                                        max: xmax,
+                                                        ticks: chart.xticks
+                                                        
+                                                    }, 
+                                                    yaxis: {
+                                                        tickDecimals: 0,
+                                                        max: ymax,
+                                                        min: ymin
+                                                    }, 
+                                                    grid: {
+                                                        hoverable: true,
+                                                        borderWidth: 1,
+                                                        borderColor: '#888',
+                                                    },
+                                                    selection: {
+                                                        mode: "x"
+                                                    }
+                                                      
+                                                     
+                                                }
+                                            );
+        
+        
+    }
+    
+   
+    /** Show a point tooltip on the main chart */
+    $("#aggregatedMainChart").on("plothover", function (event, pos, item) {
+        if (item) {
+            
+            $("#tooltip").remove();
+            
+            var y = formatNumber(item.datapoint[1], 2);
+            
+            showTooltip(item.pageX, item.pageY, "<b>"+y+"</b>");
+        
+        } else {
+            $("#tooltip").remove();
+        
+        }
+    });
 
 }

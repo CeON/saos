@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import pl.edu.icm.saos.common.chart.Series;
-import pl.edu.icm.saos.search.analysis.request.AbsoluteNumberYValue;
+import pl.edu.icm.saos.search.analysis.request.NumberYValue;
 import pl.edu.icm.saos.search.analysis.request.RateYValue;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
@@ -16,10 +16,10 @@ import pl.edu.icm.saos.search.analysis.request.YSettings;
  * @author Łukasz Dumiszewski
  */
 
-public class SeriesYAbsoluteNumberRecalculatorTest {
+public class SeriesYNumberRecalculatorTest {
 
     
-    private SeriesYAbsoluteNumberRecalculator recalculator = new SeriesYAbsoluteNumberRecalculator();
+    private SeriesYNumberRecalculator recalculator = new SeriesYNumberRecalculator();
     
     
     
@@ -30,7 +30,7 @@ public class SeriesYAbsoluteNumberRecalculatorTest {
     public void handles_AbsoluteNumberYValue() {
         
         // execute & assert
-        assertTrue(recalculator.handles(new AbsoluteNumberYValue()));
+        assertTrue(recalculator.handles(new NumberYValue()));
         
     }
     
