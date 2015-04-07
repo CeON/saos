@@ -98,6 +98,7 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     @Bean
     public PropertiesFactoryBean exposedProperties(@Value("${user.home}") String userHomeDir) {
         PropertiesFactoryBean exposedProperties = new PropertiesFactoryBean();
+        exposedProperties.setIgnoreResourceNotFound(true);
         exposedProperties.setLocations(new Resource[]{new ClassPathResource("saos.default.properties"), new FileSystemResource(userHomeDir + "/.icm/saos.local.properties")});
         return exposedProperties;
     }
