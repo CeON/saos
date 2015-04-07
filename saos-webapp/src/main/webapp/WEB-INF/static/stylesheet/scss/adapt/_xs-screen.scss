@@ -1,0 +1,14 @@
+
+$screen-xs-min: 768px;
+
+
+/* Extra small devices (phones, < 768px) */
+@media (max-width: $screen-xs-min) {
+
+    body {
+        color: red;
+    }
+
+}
+
+

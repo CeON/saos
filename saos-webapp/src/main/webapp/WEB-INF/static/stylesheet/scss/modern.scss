@@ -5,6 +5,30 @@
 @import "_mixins.scss";
 
 
+
+
+$screen-xs-min: 767px;
+$screen-sm-min: 768px;
+$screen-sm-max: 991px;
+$screen-md-min: 992px;
+$screen-md-max: 1200px;
+$screen-lg-min: 1201px;
+
+@media (max-width: $screen-xs-min) {
+
+}
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+
+}
+@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+
+}
+@media (min-width: $screen-lg-min) {
+
+}
+
+
+
 * {
 	margin: 0;
 }
@@ -230,12 +254,16 @@ form.search {
        }
 	
 	   .box {
-    	   /*background: $grey98;*/
-           border-radius: 2px;
-           cursor: pointer;
-           height: 250px;
-           padding: 6px 12px;
-           text-align: center;
+            border-radius: 2px;
+            cursor: pointer;
+            height: 250px;
+            padding: 6px 12px;
+            text-align: center;
+           
+            @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+                height: 280px;
+            }
+           
            
            &:hover {
                background-color: #f0f0f0;
