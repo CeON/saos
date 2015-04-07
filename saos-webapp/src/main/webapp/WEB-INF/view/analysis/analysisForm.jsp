@@ -22,7 +22,7 @@
 				    
 				    <div class="form-group" id="seriesSearchPhraseDiv_${status.index}">
 				    
-				         <div class = "col-xs-8 col-sm-6 col-md-5">
+				         <div class = "col-xs-9 col-sm-8 col-md-7 col-lg-5">
 				            <div class="input-group">
 	
 	                             <span class="input-group-addon" id="inputColourBox_${status.index}"></span>
@@ -31,12 +31,11 @@
 			                
 			                     <c:if test="${fn:length(analysisForm.filters) > 1}">
 			                     
-			                         <span class="input-group-addon">
+			                       	<span class="input-group-addon">
 			                             <a id="deletePhraseButton_${status.index}" href="" data-toggle="tooltip" title="<spring:message code='analysis.button.deletePhrase'/>" >
-	                                       <img style="cursor: pointer;"  src="${contextPath}/static/image/icons/close.png" alt="<spring:message code='analysis.button.deletePhrase.iconAlt'/>" />
+	                                          <img style="cursor: pointer;"  src="${contextPath}/static/image/icons/close.png" alt="<spring:message code='analysis.button.deletePhrase.iconAlt'/>" />
 	                                     </a>
-	                                </span>
-	                             
+		                            </span>
 	                             </c:if>
 			              </div>
 			             </div>

@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import pl.edu.icm.saos.search.analysis.request.AbsoluteNumberYValue;
+import pl.edu.icm.saos.search.analysis.request.NumberYValue;
 import pl.edu.icm.saos.search.analysis.request.RateYValue;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
 import pl.edu.icm.saos.webapp.analysis.request.UiySettings;
@@ -39,14 +39,14 @@ public class UiySettingsConverterTest {
     public void convert_NUMBER() {
         
         // given
-        uiySettings.setValueType(UiyValueType.ABSOLUTE_NUMBER);
+        uiySettings.setValueType(UiyValueType.NUMBER);
         
         // execute
         YSettings ysettings = converter.convert(uiySettings);
         
         // assert
         assertNotNull(ysettings.getValueType());
-        assertTrue(ysettings.getValueType() instanceof AbsoluteNumberYValue);
+        assertTrue(ysettings.getValueType() instanceof NumberYValue);
     }
     
     

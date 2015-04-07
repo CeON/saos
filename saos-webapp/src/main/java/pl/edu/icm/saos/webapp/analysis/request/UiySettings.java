@@ -17,8 +17,8 @@ public class UiySettings {
      */
     public enum UiyValueType {
         
-        /** Absolute number of results */
-        ABSOLUTE_NUMBER,
+        /** Number of results */
+        NUMBER,
         
         /** Percent of all possible items */
         PERCENT,
@@ -29,7 +29,7 @@ public class UiySettings {
     }
     
     
-    private UiyValueType valueType = UiyValueType.ABSOLUTE_NUMBER;
+    private UiyValueType valueType = UiyValueType.NUMBER;
 
     
     

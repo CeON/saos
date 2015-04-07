@@ -107,7 +107,21 @@ function tieMonthYearRangeSelects(startMonthId, startYearId, endMonthId, endYear
     
 }
 
+/**
+ * Formats the given number by invoking #addSpacesEvery3Digits(value) and by
+ * fixing it to the given precision (if the value is not integer)
+ * @param value the number to format
+ * @param decimalPrecision the precision the number should be fixed to
+ */
+function formatNumber(value, decimalPrecision) {
+    
+    var precision = 0;
+    if (!isInt(value)) {
+        precision = decimalPrecision;
+    }
 
+    return addSpacesEvery3Digits(value.toFixed(precision));
+}
 
 /**
  * Adds space every three digits
@@ -125,6 +139,8 @@ function addSpacesEvery3Digits(nStr) {
 	}
 	return x1 + x2;
 }
+
+
 
 $(document).ready(function() {
 	
