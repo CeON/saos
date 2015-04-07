@@ -42,13 +42,8 @@ function showYNumberPointTooltip(event, pos, item, decimalPrecision) {
 			var x =  item.series.xaxis.ticks[item.dataIndex].label;
 			x = x.replace(/<br\/>/g, "");
 			
-			var yValue = item.datapoint[1];
-			var precision = 0;
-			if (!isInt(yValue)) {
-			    precision = decimalPrecision;
-			}
-			var y = addSpacesEvery3Digits(item.datapoint[1].toFixed(precision));
-
+			var y = formatNumber(item.datapoint[1], decimalPrecision);
+			
 			showTooltip(item.pageX, item.pageY, x + ",  <b>" + y + "</b>");
 		
 	} else {
