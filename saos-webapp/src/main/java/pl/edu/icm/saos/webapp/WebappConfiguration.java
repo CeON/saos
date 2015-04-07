@@ -13,6 +13,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
 import org.springframework.data.web.config.SpringDataWebConfiguration;
 import org.springframework.format.FormatterRegistry;
@@ -94,9 +96,9 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     
     /** Properties exposed to view */
     @Bean
-    public PropertiesFactoryBean exposedProperties() {
+    public PropertiesFactoryBean exposedProperties(@Value("${user.home}") String userHomeDir) {
         PropertiesFactoryBean exposedProperties = new PropertiesFactoryBean();
-        exposedProperties.setLocation(new ClassPathResource("saos.default.properties"));
+        exposedProperties.setLocations(new Resource[]{new ClassPathResource("saos.default.properties"), new FileSystemResource(userHomeDir + "/.icm/saos.local.properties")});
         return exposedProperties;
     }
     
