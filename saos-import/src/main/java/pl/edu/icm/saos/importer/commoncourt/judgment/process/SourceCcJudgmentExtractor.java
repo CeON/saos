@@ -28,6 +28,7 @@ import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentResult;
@@ -121,6 +122,7 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
     public JudgmentTextContent extractTextContent(SourceCcJudgment sourceJudgment, ImportCorrectionList correctionList) {
         JudgmentTextContent textContent = new JudgmentTextContent();
         textContent.setRawTextContent(sourceJudgment.getTextContent());
+        textContent.setType(ContentType.HTML);
         
         return textContent;
     }

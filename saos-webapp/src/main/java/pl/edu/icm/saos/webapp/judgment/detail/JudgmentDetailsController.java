@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionService;
 
 /**
@@ -36,7 +37,7 @@ public class JudgmentDetailsController {
 	    Judgment judgment = judgmentDetailsSortService.sortJudges(judgmentEnrichmentService.findOneAndEnrich(judgmentId));
 	    
 	    String formattedTextContent = judgment.getRawTextContent();
-	    if (judgment.getTextContent().isContentInFile()) {
+	    if (judgment.getTextContent().getType() != ContentType.HTML) {
 	        formattedTextContent = formattedTextContent.replaceAll("\\n", "<br />");
 	    }
 	    
