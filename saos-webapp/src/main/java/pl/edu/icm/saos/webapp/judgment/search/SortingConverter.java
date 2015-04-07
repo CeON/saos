@@ -42,6 +42,8 @@ public class SortingConverter {
 			if (JudgmentIndexField.hasFieldName(property)) {
 				return new Sorting(JudgmentIndexField.valueOf(property).getFieldName(), convertDirection(next.getDirection()));
 			}
+			
+            return Sorting.relevanceSorting(convertDirection(next.getDirection()));
 		} 
 		
 		return Sorting.relevanceSorting();
