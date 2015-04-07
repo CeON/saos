@@ -145,17 +145,50 @@
 		    	<form:hidden path="lawJournalEntryId" id="lawJournalEntryId" />
 		    </div>
 		    
-		    
+		    <!--  CourtType  -->
 		    <div class="form-group radio-group">
-			    <label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>
-			    <div class="col-sm-7">
-			    	<div class="col-sm-6">
-				    	<form:radiobutton path="courtType" id="radio-all" value="" checked="checked" />
-				    	<label for="radio-all" ><spring:message code="judgmentSearch.formField.courtTypeAny" /></label>
-			    	</div>
-			    	<saos:enumRadios path="courtType" enumType="pl.edu.icm.saos.persistence.model.CourtType" id="court" columnsNumber="2" />
-			    </div>
-		    </div>
+                <label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>
+                <div class="col-sm-7">
+                    <div class="col-sm-6">
+                        <form:radiobutton path="courtType" id="radio-all" value="" checked="checked" />
+                        <label for="radio-all" ><spring:message code="judgmentSearch.formField.courtTypeAny" /></label>
+                    </div>
+                    
+                    <spring:eval expression="T(pl.edu.icm.saos.persistence.model.CourtType).values()" var="enumItemsToShow" scope="page"/>
+                    <c:set var="path" value="courtType" />
+                    <c:set var="id" value="court" />
+                    
+                    <c:forEach var="enumValue" items="${enumItemsToShow}" >
+                        <c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
+                        <c:set var="idLabel" value="radio-${!empty id ? id:''}${!empty id ? '-':''}${lowerCaseEnumValue}" />
+                    
+                        <c:choose>
+                            <c:when test="${enumValue == 'ADMINISTRATIVE'}">        
+	                            <div class="col-sm-6" >
+	                                <form:radiobutton path="${path}" value="${enumValue}" id="${idLabel}" disabled="true" />
+	                                <label for="${idLabel}" >
+	                                    <saos:enum value="${enumValue}" />
+	                                </label>
+	                                
+	                                <!-- Hint for administrative court -->
+	                                <spring:message code="judgmentSearch.hint.administrativeCourt.title" var="hintAdministrativeCourtTitle" />
+	                                <spring:message code="judgmentSearch.hint.administrativeCourt.content" var="hintAdministrativeCourtContent" />
+	                                <saos:hint title="${hintAdministrativeCourtTitle}" content="${hintAdministrativeCourtContent}" />
+	                            </div>
+                            </c:when>
+                            <c:otherwise>
+	                            <div class="col-sm-6" >
+	                                <form:radiobutton path="${path}" value="${enumValue}" id="${idLabel}" />
+	                                <label for="${idLabel}" >
+	                                    <saos:enum value="${enumValue}" />
+	                                </label>
+	                            </div>
+                            </c:otherwise>
+                        </c:choose>
+					</c:forEach>
+
+                </div>
+            </div>
 		    
 		    <div id="all-fields" class="fields-container" >
 		    	

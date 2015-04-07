@@ -5,6 +5,7 @@
 <%@ attribute name="totalPages" required="true" description="The page link without pageNo parameter" rtexprvalue="true" type="java.lang.Integer"%>
 <%@ attribute name="pageLink" required="true" description="The page link without pageNo parameter" rtexprvalue="true" type="java.lang.String"%>
 
+
 <c:set var="pageNo" value="${pageNo+1}" />
 <c:set var="pageBlocks" value="${totalPages}" />
 <c:set var="pageBlockNumber" value="8" />
@@ -30,8 +31,9 @@
 </c:if>
 
 
-<div class="pagination"> 
-	<c:if test="${totalPages > 1}">		
+<c:if test="${totalPages > 0}">     
+    <div class="pagination"> 
+	
 		<div>
 			<c:if test="${pageNo > 1}">
 		        <a class="page-block" href="${pageLink}&amp;page=1"><spring:message code="pagination.first" /><span><spring:message code="pagination.page.desc" /></span></a>
@@ -53,6 +55,6 @@
 				<spring:message code="pagination.pages" arguments="${pageNo},${totalPages}" />
 			</div>
 		</c:if>
-	</c:if>
-</div>
-
+	
+    </div>
+</c:if>

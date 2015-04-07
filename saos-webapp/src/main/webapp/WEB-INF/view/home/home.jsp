@@ -38,7 +38,7 @@
 	       </a>
 		</div>
 		<div class="col-sm-4" >
-		    <a href="${contextPath}/search" >
+		    <a href="${contextPath}/analysis" >
 			   <div class="box">
 				    <div class="block stats"></div>
 				    <p class="box-title" >
@@ -51,7 +51,7 @@
 		    </a>
 	    </div>
 	    <div class="col-sm-4" >
-	       <a href="${contextPath}/search" >
+	       <a href="${contextPath}/api" >
 		       <div class="box">
 			       <div class="block api"></div>
 			       <p class="box-title" >
