@@ -17,7 +17,7 @@
 	<c:set var="columnsNumber" value="1" />
 </c:if>
 <c:if test="${columnsNumber > 3}" >
-		<c:set var="columnsNumber" value="3" />
+	<c:set var="columnsNumber" value="3" />
 </c:if>
 
 <c:forEach var="enumValue" items="${enumItemsToShow}" >

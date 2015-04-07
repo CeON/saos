@@ -12,6 +12,15 @@
       	<li class="active"><a href="${contextPath}/"><spring:message code="navigation.home" /></a></li>
         <li ><a href="${contextPath}/search"><spring:message code="navigation.search" /></a></li>
         <li ><a href="${contextPath}/analysis"><spring:message code="navigation.analysis" /></a></li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right" id="navigation-footer">
+        <li>
+            <spring:eval expression="@exposedProperties.getProperty('webapp.helpAddress')" var="helpAddress" />
+            <a href="${helpAddress}">
+                <spring:message code="navigation.help" />
+            </a>
+        </li>
       </ul>      
     </div>
   </div>

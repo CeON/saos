@@ -48,7 +48,17 @@ $(document).ready(function() {
 		
 			<c:if test="${resultsNo == 0}">
 				<div class="no-results">
-					<spring:message code="judgmentSearch.results.noRecords" />
+					<p>
+					   <spring:message code="judgmentSearch.results.noRecords" />
+					</p>
+					<p>
+					   <spring:message code="judgmentSearch.results.hints" />:
+					</p>
+					<ul>
+					   <li><spring:message code="judgmentSearch.results.hints.first" />,</li>
+					   <li><spring:message code="judgmentSearch.results.hints.second" />.</li>
+					</ul>
+					
 				</div>
 			</c:if>
 		
