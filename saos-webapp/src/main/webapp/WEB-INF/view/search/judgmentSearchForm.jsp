@@ -156,11 +156,10 @@
                     
                     <spring:eval expression="T(pl.edu.icm.saos.persistence.model.CourtType).values()" var="enumItemsToShow" scope="page"/>
                     <c:set var="path" value="courtType" />
-                    <c:set var="id" value="court" />
                     
                     <c:forEach var="enumValue" items="${enumItemsToShow}" >
                         <c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
-                        <c:set var="idLabel" value="radio-${!empty id ? id:''}${!empty id ? '-':''}${lowerCaseEnumValue}" />
+                        <c:set var="idLabel" value="radio-court-${lowerCaseEnumValue}" />
                     
                         <c:choose>
                             <c:when test="${enumValue == 'ADMINISTRATIVE'}">        
