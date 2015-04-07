@@ -17,7 +17,7 @@
                 g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
              })();
         </script>
-        <noscript><p><img src="//piwik.vls.icm.edu.pl/piwik.php?idsite=27" style="border:0;" alt="" /></p></noscript>
+        <noscript><p><img src="//piwik.vls.icm.edu.pl/piwik.php?idsite=${piwikSiteId}" style="border:0;" alt="" /></p></noscript>
         <!-- End Piwik Code -->
    
    </c:if>
