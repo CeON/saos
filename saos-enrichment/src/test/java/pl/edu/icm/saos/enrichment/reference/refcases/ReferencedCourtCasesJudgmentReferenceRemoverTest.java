@@ -8,9 +8,11 @@ import java.io.IOException;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.enrichment.EnrichmentTestSupport;
+import pl.edu.icm.saos.enrichment.reference.JudgmentReferenceRemover;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
@@ -24,7 +26,8 @@ import com.google.common.collect.Lists;
 public class ReferencedCourtCasesJudgmentReferenceRemoverTest extends EnrichmentTestSupport {
 
     @Autowired
-    private ReferencedCourtCasesJudgmentReferenceRemover referencedCourtCasesJudgmentReferenceRemover;
+    @Qualifier("referencedCourtCasesJudgmentReferenceRemover")
+    private JudgmentReferenceRemover referencedCourtCasesJudgmentReferenceRemover;
     
     @Autowired
     private EnrichmentTagRepository enrichmentTagRepository;
