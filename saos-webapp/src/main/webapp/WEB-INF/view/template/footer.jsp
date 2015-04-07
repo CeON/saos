@@ -3,19 +3,24 @@
 
 <div class="container">
 
-	<ul class="nav navbar-nav" id="saos-version" >
+    <ul class="nav navbar-nav" id="saos-version" >
 		<li>
-			<a href="${contextPath}/" >
+		  <p>		
 			<spring:message code="saos.fullname"/> - 
-			<spring:eval expression="@versionProperties.getProperty('saos.version')"/>			
-			</a>
+			<spring:eval expression="@versionProperties.getProperty('saos.version')"/>
+		  </p>			
 		</li>
-	</ul>
+    </ul>
 	
 	<ul class="nav navbar-nav navbar-right" id="navigation-footer">
 		<li><a href="${contextPath}/"><spring:message code="navigation.home" /></a></li>
 		<li><a href="${contextPath}/search"><spring:message code="navigation.search" /></a></li>	
 		<li ><a href="${contextPath}/analysis"><spring:message code="navigation.analysis" /></a></li>
+        <li>
+            <a href="<spring:eval expression="@exposedProperties.getProperty('webapp.helpAddress')" />">
+                <spring:message code="navigation.help" />
+            </a>
+        </li>
 	</ul>
 
 </div>

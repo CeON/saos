@@ -181,8 +181,7 @@ var FilterBox = (function() {
 			
 		}
 		
-		
-		$parent.animate({width: 0, height: 0, top: "-150px", right: positionRight}, 600, function() {
+		$parent.animate({width: 0, height: 0, top: getPaginationHeight(), right: positionRight}, 600, function() {
 			$parent.css({position: "relative",});
 			$parent.parent().css("display", "none");
 			$parent.addClass("filter-box-hidden");
@@ -199,7 +198,7 @@ var FilterBox = (function() {
 			$parent.parent().css("display", "block");
 			$parent.removeClass("filter-box-hidden");
 			
-			$parent.css({width: 0, height: 0, top: "-150px", right: positionRight + "px", position: "relative"});
+			$parent.css({width: 0, height: 0, top: getPaginationHeight(), right: positionRight + "px", position: "relative"});
 			$parent.parent().css("display", "block");
 			
 			$parent.animate({width: "100%", height: "100%", top: 0, right: 0}, 600, function() {
@@ -212,6 +211,10 @@ var FilterBox = (function() {
 		hideFilterButton(fBoxSlideDown);
 	},
 
+	getPaginationHeight = function() {
+	    var height = $(".pagination").outerHeight() + 45;
+	    return "-" + height + "px";
+	},
 	
 	/* Check width of filter box 
 	 * 

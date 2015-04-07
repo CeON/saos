@@ -7,18 +7,17 @@ package pl.edu.icm.saos.persistence.model;
 public enum CourtType {
     
     /** pl. sąd powszechny */
-	COMMON,
+    COMMON,
 	
-	/** pl. sąd najwyższy */
+    /** pl. sąd najwyższy */
     SUPREME,
-    
-    /** pl. sąd administracyjny */
-    ADMINISTRATIVE,
     
     /** pl. trybunał konstytucyjny */
     CONSTITUTIONAL_TRIBUNAL,
     
     /** pl. krajowa izba odwoławcza */
-    NATIONAL_APPEAL_CHAMBER
+    NATIONAL_APPEAL_CHAMBER,
     
+    /** pl. sąd administracyjny */
+    ADMINISTRATIVE
 }

@@ -108,15 +108,15 @@ footer {
 				color: $black;
 			}
 			
-			a {
+			p {
 				background: $black;
-				color: inherit;
-				@include transition(background, 0.4s);
-				
-				&:hover {
-					background: $grey98;
-					color: inherit;
-				}
+				color: $white;
+                padding-top: 20px;
+			}
+			
+			a {
+			    background: $black;
+                color: $white;
 			}
 		}
 	}
@@ -464,7 +464,17 @@ form.search {
 	.radio-group {
 	
 		div label {
+		    cursor: pointer;
 			display: inline;
+		}
+		
+		label[for="radio-court-administrative"] {
+		    cursor: default;
+		    text-decoration: line-through;
+		}
+		
+		.hint {
+		    margin-left: 10px;
 		}
 	}
 	
@@ -543,11 +553,18 @@ form.search {
 	    padding-left: 0;
 	}
 
+    .col-xs-3 {
+        min-height: 0;
+    }
+
 	.no-results {
 		font: {
-			size: 15px;
+			size: 16px;
 		}
-		padding-top: 40px;
+		
+		p {
+		    margin-top: 40px;
+		}
 	}
 
 	.judgment {
@@ -904,7 +921,7 @@ form.search {
 		font: {
 			size: 24px;
 		}
-		margin-bottom: 15px;
+		margin-bottom: -1px;
 		
 		span {
 			font: {
