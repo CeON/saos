@@ -14,6 +14,8 @@
 </head>
 
 <body>
+    <%@ include file="piwik.jsp" %>
+    
     <tiles:insertAttribute name="content" flush="false" />
 </body>
 </html>

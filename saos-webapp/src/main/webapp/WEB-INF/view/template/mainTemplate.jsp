@@ -28,8 +28,11 @@
 
     </head>
     
+    	
     <body>
-
+        
+        <%@ include file="piwik.jsp" %>
+    
 		<tiles:insertAttribute name="skipLinks" />
 
         <%@ include file="../common/cookiePolicy.jsp" %>
