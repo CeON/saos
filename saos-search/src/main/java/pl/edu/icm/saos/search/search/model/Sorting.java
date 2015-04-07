@@ -42,6 +42,10 @@ public class Sorting {
     public static Sorting relevanceSorting() {
         return new Sorting(SolrConstants.RELEVANCE_SORT_NAME, Direction.DESC);
     }
+    
+    public static Sorting relevanceSorting(Direction direction) {
+        return new Sorting(SolrConstants.RELEVANCE_SORT_NAME, direction);
+    }
 
     //------------------------ HashCode & Equals --------------------------
 
