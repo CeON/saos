@@ -90,7 +90,7 @@ public class JudgmentTextContent extends DataObject {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Tells if with content is associated some external file.
+     * Returns true if there is an external original file with the judgment content.
      */
     @Transient
     public boolean isContentInFile() {
