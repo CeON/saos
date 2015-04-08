@@ -7,7 +7,7 @@ var InfoBox = (function() {
 	
 	var space = {},
 		offsetTop = 0,
-	    containerId = "",
+        containerId = "",
 	
 		elements = [{buttonId: "", sectionId: "", buttonHideId: ""}],
 		
@@ -115,13 +115,13 @@ var InfoBox = (function() {
 	
 	space.init = function(options) {
 		
-	    offsetTop = options.offsetTop;
-	    
-	    containerId = options.containerId;
-	    
-		elements = options.elements;
-		
-		assignToggleOnButtonClick();
+        offsetTop = options.offsetTop;
+        
+        containerId = options.containerId;
+        
+        elements = options.elements;
+        
+        assignToggleOnButtonClick();
 	}
 	
 	return space;

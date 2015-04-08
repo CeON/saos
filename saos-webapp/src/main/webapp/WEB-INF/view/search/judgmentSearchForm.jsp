@@ -110,34 +110,34 @@
 			   			<spring:message code="judgmentSearch.formField.lawJournal.close" var="lawJournalClose" />
 		   				<a class="remove law-close" href="" id="law-journal-close" title="${lawJournalClose}" data-placement="top" data-toggle="tooltip"  ></a>
 			   			
-			   			<div class="row">
-			   			
-				   			<div class="col-md-6">
-				   			
-				   				<div >
-					   				<spring:message code="judgmentSearch.formField.lawJournal.year" />/
-					   				<spring:message code="judgmentSearch.formField.lawJournal.journalNo" />/
-					   				<spring:message code="judgmentSearch.formField.lawJournal.entry" />
-					   			</div>
-					   			<div >
-                                    <input class="form-control" id="law-journal-year" type="text" size="4" />/
-                                    <input class="form-control" id="law-journal-journalNo" type="text" size="4" />/
-                                    <input class="form-control" id="law-journal-entry" type="text" size="4" />
-                                </div>
-				   			</div>
-				   		
-				   			<div class="col-md-6">
-				   							   			
-					   			<div >
-                                    <spring:message code="judgmentSearch.formField.lawJournal.text" />:
-                                </div>
-					   			
-					   			<div >
-					   				<input class="form-control width-full" id="law-journal-text" type="text" />
-					   			</div>
-				   			</div>
-			   			
-			   			</div>
+					<div class="row">
+					
+						<div class="col-md-6">
+							
+							<div >
+								<spring:message code="judgmentSearch.formField.lawJournal.year" />/
+								<spring:message code="judgmentSearch.formField.lawJournal.journalNo" />/
+								<spring:message code="judgmentSearch.formField.lawJournal.entry" />
+							</div>
+							<div >
+								<input class="form-control" id="law-journal-year" type="text" size="4" />/
+								<input class="form-control" id="law-journal-journalNo" type="text" size="4" />/
+								<input class="form-control" id="law-journal-entry" type="text" size="4" />
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+										   			
+							<div >
+						        <spring:message code="judgmentSearch.formField.lawJournal.text" />:
+							</div>
+								
+							<div >
+							    <input class="form-control width-full" id="law-journal-text" type="text" />
+							</div>
+						</div>
+					
+					</div>
 				    	
 				    	<div class="col-sm-12">
 				    		<ul id="law-journal-list" ></ul>

@@ -3,29 +3,7 @@
 @import "_fonts.scss";
 @import "_constans.scss";
 @import "_mixins.scss";
-
-
-
-
-$screen-xs-min: 767px;
-$screen-sm-min: 768px;
-$screen-sm-max: 991px;
-$screen-md-min: 992px;
-$screen-md-max: 1200px;
-$screen-lg-min: 1201px;
-
-@media (max-width: $screen-xs-min) {
-
-}
-@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
-
-}
-@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
-
-}
-@media (min-width: $screen-lg-min) {
-
-}
+@import "_screen.scss";
 
 
 
@@ -69,11 +47,11 @@ header {
 	
 	
 	h1 {
-		font-weight: 300;
-		margin: 0 0 10px;
-		padding: 6px 0 16px;
-		
-    	@media (max-width: $screen-xs-min) {
+        font-weight: 300;
+        margin: 0 0 10px;
+        padding: 6px 0 16px;
+        
+        @media (max-width: $screen-xs-min) {
             padding-left: 10px;
         }
 	}
@@ -93,48 +71,47 @@ header {
 		ul {
 			background: $black;
 			
-			li {
-				background: $black;
-				
-				@media (max-width: $screen-xs-min) {
-			        border-bottom: 1px solid #ccc;
+            li {
+                background: $black;
+                
+                @media (max-width: $screen-xs-min) {
+                    border-bottom: 1px solid #ccc;
                 }
-				
-				a {
-					background: $black;
-				}
-			}
+                
+                a {
+                    background: $black;
+                }
+            }
 		}
 	}
 	
-	.navbar-nav {
+    .navbar-nav {
         @media (max-width: $screen-xs-min) {
             margin: 0;
         }
-	}
+    }
 	
-	.navbar-toggle {
-	    @include outline();
-	
+    .navbar-toggle {
+        @include outline();
+        
         @media (max-width: $screen-xs-min) {
             background: #999;
             border: 0;
             right: 10px;  
         }
-        
-	}
+    }
 	
-	.container {
-		padding-left: 0;
-		padding-right: 0;
-	}
-	
-	.container > .navbar-collapse {
+    .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    .container > .navbar-collapse {
         margin-left: 0;
         margin-right: 0;
-		padding-left: 0;
-		padding-right: 0;
-	}
+        padding-left: 0;
+        padding-right: 0;
+    }
 	
 }
 
@@ -267,11 +244,11 @@ form.search {
 			}
 		}
 		
-		li a {
-        	@media (max-width: $screen-xs-min) {
+        li a {
+            @media (max-width: $screen-xs-min) {
                 background: #666;
             }
-		}
+        }
 		
 	}
 
@@ -281,11 +258,11 @@ form.search {
 }
 
 .beta-info {
-	background: lighten($sand, 21%);
-	border: 1px solid #ff6600;
-	margin: 10px -15px 0;
-	padding: 5px 20px 0;	
-	
+    background: lighten($sand, 21%);
+    border: 1px solid #ff6600;
+    margin: 10px -15px 0;
+    padding: 5px 20px 0;	
+    
     @media (max-width: $screen-xs-min) {
         margin-left: -5px;
         margin-right: -5px;
@@ -414,12 +391,12 @@ form.search {
 	img {
 		padding-bottom: 7px;
 		padding-top: 8px;
-		
+	
         @media (max-width: $screen-xs-min) {
             margin-bottom: 15px;
             margin-top:15px;
         }
-       
+           
         @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
             margin-bottom: 15px;
             margin-top:15px;
