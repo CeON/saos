@@ -5,15 +5,15 @@
  */
 var InfoBox = (function() {
 	
-	var space = {},
-		offsetTop = 0,
+    var space = {},
+        offsetTop = 0,
         containerId = "",
-	
-		elements = [{buttonId: "", sectionId: "", buttonHideId: ""}],
-		
-		animationInProgress = false,
-		
-		openedSectionId = "",
+        
+        elements = [{buttonId: "", sectionId: "", buttonHideId: ""}],
+        
+        animationInProgress = false,
+        
+        openedSectionId = "",
 		
 	/* Assigns on click event to buttons specified in elements.
 	 * Clicking on button should make corresponding section visible.
@@ -113,8 +113,8 @@ var InfoBox = (function() {
 	
 	//------------------------ PUBLIC --------------------------
 	
-	space.init = function(options) {
-		
+    space.init = function(options) {
+    
         offsetTop = options.offsetTop;
         
         containerId = options.containerId;
@@ -122,9 +122,9 @@ var InfoBox = (function() {
         elements = options.elements;
         
         assignToggleOnButtonClick();
-	}
-	
-	return space;
+    }
+    
+    return space;
 	
 })();
 

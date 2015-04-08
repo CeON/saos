@@ -45,8 +45,8 @@ header {
 	}
 	padding-top: 50px;
 	
-	
-	h1 {
+
+    h1 {
         font-weight: 300;
         margin: 0 0 10px;
         padding: 6px 0 16px;
@@ -54,7 +54,7 @@ header {
         @media (max-width: $screen-xs-min) {
             padding-left: 10px;
         }
-	}
+    }
 	
 	.navbar-default {
 		background: $panel-color;
@@ -148,11 +148,11 @@ footer {
 		}
 	}
 	
-	#navigation-footer {
+    #navigation-footer {
         @media (max-width: $screen-xs-min) {
             display: none;
         }
-	}
+    }
 	
     .navbar-collapse {
         padding-left: 0;
