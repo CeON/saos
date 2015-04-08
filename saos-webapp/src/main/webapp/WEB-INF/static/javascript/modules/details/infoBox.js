@@ -6,7 +6,9 @@
 var InfoBox = (function() {
 	
 	var space = {},
-		
+		offsetTop = 0,
+	    containerId = "",
+	
 		elements = [{buttonId: "", sectionId: "", buttonHideId: ""}],
 		
 		animationInProgress = false,
@@ -65,9 +67,20 @@ var InfoBox = (function() {
 		if (animationInProgress === false) {
 			animationInProgress = true;
 			
-			$(sectionId)
-				.css("display", "block")
-				.animate({opacity: 1, right: "0px"}, 400, function() {
+			var $sectionId = $(sectionId),
+			    $containerId = $(containerId),
+			    containerHeight = $containerId.outerHeight(),
+			    sectionHeight = 0;
+			
+			$sectionId.css("display", "block");
+			
+			sectionHeight = $sectionId.outerHeight()
+			
+			if (containerHeight < sectionHeight + offsetTop) {
+			    $containerId.animate({height: sectionHeight + offsetTop + 20 + "px"}, 400);
+			}
+			
+			$(sectionId).animate({opacity: 1, right: "0px"}, 400, function() {
 					openedSectionId = sectionId;
 					animationInProgress = false;
 				});
@@ -102,6 +115,10 @@ var InfoBox = (function() {
 	
 	space.init = function(options) {
 		
+	    offsetTop = options.offsetTop;
+	    
+	    containerId = options.containerId;
+	    
 		elements = options.elements;
 		
 		assignToggleOnButtonClick();

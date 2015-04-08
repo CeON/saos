@@ -11,6 +11,8 @@ var jsInitInJudgmentDetails = function(options) {
 	}
 		
 	InfoBox.init({
+	    offsetTop: 61,
+	    containerId: "#judgment",
 		elements: [{buttonId: "#source-info-nav", sectionId: "#source-info-section", buttonHideId: "#source-info-hide"},
 		            {buttonId: "#corrections-nav", sectionId: "#corrections-section", buttonHideId: "#corrections-hide"}]
 	});

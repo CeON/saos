@@ -4,8 +4,8 @@
 
 <%-- JugmentForm --%>
 <div class="form-group">
-	<label for="select-search-judgment-form" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.scJudgmentForm" />:</label>
-   	<div class="col-sm-7">
+	<label for="select-search-judgment-form" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.scJudgmentForm" />:</label>
+   	<div class="col-lg-7 col-sm-8 col-xs-11">
 		<form:select path="scJudgmentForm" id="select-search-judgment-form" class="form-control" >
 		 	<option value=""><spring:message code="judgmentSearch.formField.chooseScJudgmentForm" /></option>
 			<c:forEach items="${scJudgmentForms}" var="judgmentForm" >
@@ -19,8 +19,8 @@
 
 <%-- PersonnelType --%>
 <div class="form-group">
-	<label for="select-search-personnel-type" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.personnelType" />:</label>
-   	<div class="col-sm-7">
+	<label for="select-search-personnel-type" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.personnelType" />:</label>
+   	<div class="col-lg-7 col-sm-8 col-xs-11">
     	<form:select path="scPersonnelType" class="form-control" id="select-search-personnel-type" >
     		<option value=""><spring:message code="judgmentSearch.formField.chooseScPersonnelType" /></option>
     		<saos:enumOptions enumType="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType" selected="${judgmentCriteriaForm.scPersonnelType}" />
