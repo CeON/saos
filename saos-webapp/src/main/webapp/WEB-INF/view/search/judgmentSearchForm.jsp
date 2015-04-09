@@ -11,7 +11,7 @@
 		<legend><spring:message code="judgmentSearch.form.header" /></legend>
 		<saos:formFieldText path="all" labelName="input-search-all" labelText="judgmentSearch.formField.all" />
     
-	    <div class="col-sm-offset-2 " >
+	    <div class="col-lg-offset-2 col-sm-offset-3 " >
     		<a id="search-more-fields" class="button-advance" href="#search-form" ><spring:message code="judgmentSearch.form.moreFields" /></a>
 	    </div>
 	    
@@ -21,23 +21,23 @@
 
 		    <div class="form-group">
 		    	<spring:message code="judgmentSearch.formField.datePlaceholder" var="datePlaceholder" />	
-			    <label for="datepicker_from" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.dateFrom" />:</label>
-			    <div class="col-sm-7">
-			    	<form:input path="dateFrom" class="form-control form-date" id="datepicker_from" placeholder="${datePlaceholder}" maxlength="10" />
+			    <label for="datepicker_from" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.dateFrom" />:</label>
+			    <div class="col-lg-7 col-sm-8 col-xs-12">
+			    	<form:input path="dateFrom" class="form-control form-date" id="datepicker_from" placeholder="${datePlaceholder}" maxlength="10" autocomplete="off" />
 			    	<label id="datepicker_from-desc" class="" for="datepicker_from"><spring:message code="judgmentSearch.formField.dateWrongFormat" /></label>			       
 			    </div>
 		    </div>
 		    <div class="form-group">
-			    <label for="datepicker_to" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.dateTo" />:</label>
-			    <div class="col-sm-7">
-			    	<form:input path="dateTo" class="form-control form-date" id="datepicker_to" placeholder="${datePlaceholder}" maxlength="10" />
+			    <label for="datepicker_to" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.dateTo" />:</label>
+			    <div class="col-lg-7 col-sm-8 col-xs-12">
+			    	<form:input path="dateTo" class="form-control form-date" id="datepicker_to" placeholder="${datePlaceholder}" maxlength="10" autocomplete="off" />
 			    	<label id="datepicker_to-desc" class="" for="datepicker_to"><spring:message code="judgmentSearch.formField.dateWrongFormat" /></label>
 			    </div>
 		    </div>
 		    
 		    <div class="form-group">
-				<label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.judgmentType" />:</label>
-				<div class="col-sm-7">
+				<label class="col-lg-2 col-sm-3 control-label"><spring:message code="judgmentSearch.formField.judgmentType" />:</label>
+				<div class="col-lg-7 col-sm-8">
 					<div class="checkbox">
 
 			   			<spring:eval expression="T(pl.edu.icm.saos.persistence.model.Judgment.JudgmentType).values()" var="enumJudgmentTypes" scope="page"/>
@@ -72,20 +72,22 @@
 
 			<%-- Legal bases --%>
 			<div class="form-group">
-				<label for="input-search-legalbases" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.legalBases" />:</label>
-			   	<div class="col-sm-7">
+				<label for="input-search-legalbases" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.legalBases" />:</label>
+			   	<div class="col-lg-7 col-sm-8 col-xs-11">
 			    	<form:input path="legalBase" class="form-control" id="input-search-legalbases" />
 				</div>
 				<spring:message code="judgmentSearch.hint.legalBases.title" var="hintLegalBasesTitle" />
 				<spring:message code="judgmentSearch.hint.legalBases.content" var="hintLegalBasesContent" />
-				<saos:hint title="${hintLegalBasesTitle}" content="${hintLegalBasesContent}" />
+				<div class="col-xs-1">
+				    <saos:hint title="${hintLegalBasesTitle}" content="${hintLegalBasesContent}" placement="left" />
+			    </div>
 			</div>
 			
 		    
 		    <%-- Law journal entry --%>
 		    <div class="form-group law-journal">
-		    	<label for="lawJournalEntryId" class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.lawJournalEntry" /></label>
-			   	<div class="col-sm-7">
+		    	<label for="lawJournalEntryId" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.lawJournalEntry" /></label>
+			   	<div class="col-lg-7 col-sm-8 col-xs-11">
 			   		 
 			   		 <div id="law-journal-navigation" >
 			   		 	
@@ -108,31 +110,34 @@
 			   			<spring:message code="judgmentSearch.formField.lawJournal.close" var="lawJournalClose" />
 		   				<a class="remove law-close" href="" id="law-journal-close" title="${lawJournalClose}" data-placement="top" data-toggle="tooltip"  ></a>
 			   			
-			   			<div class="row">
-			   			
-			   				<div class="col-md-6">
-				   				<spring:message code="judgmentSearch.formField.lawJournal.year" />/
-				   				<spring:message code="judgmentSearch.formField.lawJournal.journalNo" />/
-				   				<spring:message code="judgmentSearch.formField.lawJournal.entry" />
-				   			</div>
-				   			
-				   			<div class="col-md-6">
-				   				<spring:message code="judgmentSearch.formField.lawJournal.text" />:
-				   			</div>
-			   			</div>
-			   		
-			   			<div class="row">
-			   							   			
-				   			<div class="col-md-6">
-				   				<input class="form-control" id="law-journal-year" type="text" size="4" />/
-				   				<input class="form-control" id="law-journal-journalNo" type="text" size="4" />/
-				   				<input class="form-control" id="law-journal-entry" type="text" size="4" />
-				   			</div>
-				   			
-				   			<div class="col-md-6">
-				   				<input class="form-control width-full" id="law-journal-text" type="text" />
-				   			</div>
-			   			</div>
+					<div class="row">
+					
+						<div class="col-md-6">
+							
+							<div >
+								<spring:message code="judgmentSearch.formField.lawJournal.year" />/
+								<spring:message code="judgmentSearch.formField.lawJournal.journalNo" />/
+								<spring:message code="judgmentSearch.formField.lawJournal.entry" />
+							</div>
+							<div >
+								<input class="form-control" id="law-journal-year" type="text" size="4" />/
+								<input class="form-control" id="law-journal-journalNo" type="text" size="4" />/
+								<input class="form-control" id="law-journal-entry" type="text" size="4" />
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+										   			
+							<div >
+						        <spring:message code="judgmentSearch.formField.lawJournal.text" />:
+							</div>
+								
+							<div >
+							    <input class="form-control width-full" id="law-journal-text" type="text" />
+							</div>
+						</div>
+					
+					</div>
 				    	
 				    	<div class="col-sm-12">
 				    		<ul id="law-journal-list" ></ul>
@@ -147,8 +152,9 @@
 		    
 		    <!--  CourtType  -->
 		    <div class="form-group radio-group">
-                <label class="col-sm-2 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>
-                <div class="col-sm-7">
+
+                <label class="col-lg-2 col-sm-3 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>
+                <div class="col-lg-7 col-sm-8">
                     <div class="col-sm-6">
                         <form:radiobutton path="courtType" id="radio-all" value="" checked="checked" />
                         <label for="radio-all" ><spring:message code="judgmentSearch.formField.courtTypeAny" /></label>
@@ -207,12 +213,12 @@
 		     
 	    </div>
 	
-		<div class="col-sm-offset-2" >
+		<div class="col-lg-offset-2 col-sm-offset-3" >
 			<a id="search-less-fields" class="button-advance visibility-hidden display-none" href="#search-form" ><spring:message code="judgmentSearch.form.lessFields" /></a>
 		</div>
 	
 		<div class="form-group button-group">
-			<div class="col-sm-9">
+			<div class="col-lg-9 col-sm-11 col-xs-11">
 				<button type="reset" class="btn btn-default button"><spring:message code="button.resetForm" /></button>
 				<button type="submit" class="btn btn-primary button button-blue"><spring:message code="button.judgmentSearch" /></button>
 			</div>

@@ -72,22 +72,22 @@
 <div class="container partners" >
 
 	<div class="frame container">
-		<div class="col-md-3">
+		<div class="col-md-3 col-xs-6">
 			<a href="http://www.icm.edu.pl/ ">
 				<img height="60" src="${contextPath}/static/image/footer/icm_logo.png" alt="<spring:message code="partners.icm.imageAlt" />" />
 			</a>
 		</div>
-		<div class="col-md-3 ">
+		<div class="col-md-3 col-xs-6">
 			<a href="http://www.akceslab.pl">
 				<img height="70" src="${contextPath}/static/image/footer/logoakceslab.png" alt="<spring:message code="partners.akceslab.imageAlt" />" />
 			</a>
 		</div>
-		<div class="col-md-3 ">
+		<div class="col-md-3 col-xs-6">
 			<a href="http://siecobywatelska.pl/">
 				<img height="70" src="${contextPath}/static/image/footer/so-logo.png" alt="<spring:message code="partners.sowp.imageAlt" />" />
 			</a>
 		</div>
-		<div class="col-md-3 ">
+		<div class="col-md-3 col-xs-6">
 			<a href="http://ofop.eu/">
 				<img height="70" src="${contextPath}/static/image/footer/ofop_logo.png"  alt="<spring:message code="partners.ofop.imageAlt" />" />
 			</a>

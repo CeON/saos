@@ -3,6 +3,8 @@
 @import "_fonts.scss";
 @import "_constans.scss";
 @import "_mixins.scss";
+@import "_screen.scss";
+
 
 
 * {
@@ -43,12 +45,16 @@ header {
 	}
 	padding-top: 50px;
 	
-	
-	h1 {
-		font-weight: 300;
-		margin: 0 0 10px;
-		padding: 6px 0 16px;
-	}
+
+    h1 {
+        font-weight: 300;
+        margin: 0 0 10px;
+        padding: 6px 0 16px;
+        
+        @media (max-width: $screen-xs-min) {
+            padding-left: 10px;
+        }
+    }
 	
 	.navbar-default {
 		background: $panel-color;
@@ -65,26 +71,47 @@ header {
 		ul {
 			background: $black;
 			
-			li {
-				background: $black;
-				
-				a {
-					background: $black;
-				}
-			}
+            li {
+                background: $black;
+                
+                @media (max-width: $screen-xs-min) {
+                    border-bottom: 1px solid #ccc;
+                }
+                
+                a {
+                    background: $black;
+                }
+            }
 		}
 	}
 	
-	.container {
-		padding-left: 0;
-		padding-right: 0;
-	}
+    .navbar-nav {
+        @media (max-width: $screen-xs-min) {
+            margin: 0;
+        }
+    }
 	
-	.navbar-collapse {
-		padding-left: 0;
-		padding-right: 0;
-	}
+    .navbar-toggle {
+        @include outline();
+        
+        @media (max-width: $screen-xs-min) {
+            background: #999;
+            border: 0;
+            right: 10px;  
+        }
+    }
 	
+    .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    .container > .navbar-collapse {
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+    }
 	
 }
 
@@ -121,10 +148,37 @@ footer {
 		}
 	}
 	
+    #navigation-footer {
+        @media (max-width: $screen-xs-min) {
+            display: none;
+        }
+    }
+	
+    .navbar-collapse {
+        padding-left: 0;
+        padding-right: 0;
+        
+        @media (max-width: $screen-xs-min) {
+           margin-left: 0;
+           margin-right: 0;
+        }
+    }
+    
+    .navbar-nav {
+        @media (max-width: $screen-xs-min) {
+           margin-left: 0;
+           margin-right: 0;
+        }
+    }
+	
 	.container {
 		padding-left: 0;
 		padding-right: 0;
 	}
+}
+
+.container {
+    min-width: 650px !important;
 }
 
 .navbar-nav {
@@ -141,6 +195,8 @@ footer {
 	padding-top: 0;
 	margin-bottom: 0;
 }
+
+
 
 form.search {
 
@@ -187,14 +243,30 @@ form.search {
 				}
 			}
 		}
+		
+        li a {
+            @media (max-width: $screen-xs-min) {
+                background: #666;
+            }
+        }
+		
 	}
+
+    .navbar-toggle .icon-bar {
+        background-color: $black;
+    }
 }
 
 .beta-info {
-	background: lighten($sand, 21%);
-	border: 1px solid #ff6600;
-	margin: 10px -15px 0;
-	padding: 5px 20px 0;	
+    background: lighten($sand, 21%);
+    border: 1px solid #ff6600;
+    margin: 10px -15px 0;
+    padding: 5px 20px 0;	
+    
+    @media (max-width: $screen-xs-min) {
+        margin-left: -5px;
+        margin-right: -5px;
+    }
 	
 	p {
 		margin-left: 15px;
@@ -220,22 +292,33 @@ form.search {
 	}
 	
 	.boxes {
-	   margin-bottom: 20px;
-	   margin-top: 50px;
+       margin-bottom: 20px;
+       margin-top: 50px;
 	
 	   a {
-               color: $black;
-               display: block;
-               text-decoration: none;
+           color: $black;
+           display: block;
+           text-decoration: none;
        }
 	
 	   .box {
-    	   /*background: $grey98;*/
-           border-radius: 2px;
-           cursor: pointer;
-           height: 250px;
-           padding: 6px 12px;
-           text-align: center;
+            border-radius: 2px;
+            cursor: pointer;
+            height: 250px;
+            padding: 6px 12px;
+            text-align: center;
+           
+            @media (max-width: $screen-xs-min) {
+                height: 260px;
+                margin: 10px auto;
+                padding-top: 10px;
+                width: 300px;
+            }
+           
+            @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+                height: 280px;
+            }
+           
            
            &:hover {
                background-color: #f0f0f0;
@@ -308,6 +391,16 @@ form.search {
 	img {
 		padding-bottom: 7px;
 		padding-top: 8px;
+	
+        @media (max-width: $screen-xs-min) {
+            margin-bottom: 15px;
+            margin-top:15px;
+        }
+           
+        @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+            margin-bottom: 15px;
+            margin-top:15px;
+        }
 	}
 	
 	> div {
@@ -398,8 +491,8 @@ form.search {
     		size: 24px;
     	}
 	    margin-bottom: 30px;
-	    margin-top: 20px;
 	    padding-bottom: 6px;
+	    padding-top: 20px;
 	}
 	
 	.form-group {
@@ -448,7 +541,7 @@ form.search {
 			position: 5px center;
 			repeat: no-repeat;
 		}
-		margin-left: 22px;
+		margin-left: 3px;
 		padding: 4px 4px 4px 26px;
 		@include outline();
 	}
@@ -484,6 +577,10 @@ form.search {
 		&:hover {
 			background: #efefef;
 		}
+	}
+	
+	button[type="submit"] {
+	   margin-right: 15px;
 	}
 }
 

@@ -11,7 +11,7 @@
 
 	<p>
 		<spring:message code="judgmentSearch.filterBox.header" />
-		<a href="" id="filter-hide" class="filter-hide" data-toggle="tooltip" data-placement="right" title="<spring:message code='judgmentSearch.filterBox.hide' />"></a>
+		<a href="" id="filter-hide" class="filter-hide" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.filterBox.hide' />"></a>
 	</p>
 	
 	<saos:filterField assignedField="input-search-all" label="judgmentSearch.formField.all" filterValue="${judgmentCriteriaForm.all}" id="filter-all"></saos:filterField>

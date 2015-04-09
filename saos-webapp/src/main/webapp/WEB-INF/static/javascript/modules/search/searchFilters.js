@@ -245,7 +245,7 @@ var SearchFilters = (function(){
 				})
 				.addClass(removeButtonClass)
 				.attr("data-toggle", "tooltip")
-				.attr("data-placement", "right")
+				.attr("data-placement", "top")
 				.attr("title", $filterItem.find(" > div").attr("data-tooltip-text"))
 				.tooltip();
 				
