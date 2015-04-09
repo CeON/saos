@@ -33,6 +33,7 @@ import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
 import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionService;
 
@@ -115,7 +116,8 @@ public class JudgmentDetailsControllerTest {
 		
 		Whitebox.setInternalState(ccJudgment, "id", 28);
 		
-		ccJudgment.getTextContent().setFilePath("/file/path.txt");
+		ccJudgment.getTextContent().setFilePath("/file/path.pdf");
+		ccJudgment.getTextContent().setType(ContentType.PDF);
 		ccJudgment.getTextContent().setRawTextContent("aaa\nbbb");
 		
 		return ccJudgment;

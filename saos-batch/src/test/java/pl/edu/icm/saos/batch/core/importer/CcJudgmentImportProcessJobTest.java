@@ -45,6 +45,7 @@ import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
 import pl.edu.icm.saos.persistence.model.importer.ImportProcessingStatus;
@@ -382,6 +383,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         CommonCourtDivision courtDivision = ccDivisionRepository.findOneByCourtIdAndCode(court.getId(), "0001003");
         assertEquals(courtDivision.getId(), judgment.getCourtDivision().getId());
         assertTrue(judgment.getRawTextContent().contains("SSO Katarzyna Oleksiak"));
+        assertEquals(ContentType.HTML, judgment.getTextContent().getType());
     }
     
     private void assertJudgment_54() {
@@ -413,6 +415,7 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         CommonCourtDivision courtDivision = ccDivisionRepository.findOneByCourtIdAndCode(court.getId(), "0001003");
         assertEquals(courtDivision.getId(), judgment.getCourtDivision().getId());
         assertTrue(judgment.getRawTextContent().contains("zasądza od strony pozwanej na rzecz"));
+        assertEquals(ContentType.HTML, judgment.getTextContent().getType());
     }
     
 

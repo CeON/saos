@@ -397,18 +397,16 @@ $(document).ready(function() {
 			
 	<c:choose>
 		<c:when test="${judgment.textContent.contentInFile}">
-			<c:set var="filetypeIconPath" value="${contextPath}/static/image/icons/filetype/${fn:toLowerCase(judgment.textContent.type)}.png" />
-			<c:set var="filetypeIconAlt"><saos:enum value="${judgment.textContent.type}" /></c:set>
 			<c:set var="filePath" value="${contextPath}/files/judgments/${judgment.textContent.filePath}" />
-			<c:set var="downloadFileTextMessage"><spring:message code="judgmentDetails.judgmentFullText.download.${fn:toLowerCase(judgment.textContent.type)}" /></c:set>
 		</c:when>
 		<c:otherwise>
-			<c:set var="filetypeIconPath" value="${contextPath}/static/image/icons/filetype/html.png" />
-			<c:set var="filetypeIconAlt"><spring:message code="judgmentDetails.judgmentFullText.type.html" /></c:set>
 			<c:set var="filePath" value="${contextPath}/judgments/content/${judgmentId}.html" />
-			<c:set var="downloadFileTextMessage"><spring:message code="judgmentDetails.judgmentFullText.download.html" /></c:set>
 		</c:otherwise>
 	</c:choose>
+	
+	<c:set var="filetypeIconPath" value="${contextPath}/static/image/icons/filetype/${fn:toLowerCase(judgment.textContent.type)}.png" />
+	<c:set var="filetypeIconAlt"><saos:enum value="${judgment.textContent.type}" /></c:set>
+	<c:set var="downloadFileTextMessage"><spring:message code="judgmentDetails.judgmentFullText.download.${fn:toLowerCase(judgment.textContent.type)}" /></c:set>
 				
 	<div class="judgment-content-buttons">
 		<a class="" href="${filePath}">

@@ -32,13 +32,15 @@ public class JudgmentTextContent extends DataObject {
     private String filePath;
     
     /**
-     * Defines type of content stored under {@link JudgmentTextContent#getFilePath()} 
+     * Defines type of content.
      */
     public enum ContentType {
         /** Portable Document Format */
         PDF,
-        /**  Microsoft Word Binary File Format */
-        DOC
+        /** Microsoft Word Binary File Format */
+        DOC,
+        /** HyperText Markup Language */
+        HTML
     }
     
     
@@ -69,7 +71,7 @@ public class JudgmentTextContent extends DataObject {
     }
     
     /**
-     * Type of stored content file.
+     * Type of content.
      * i.e. {@link ContentType#DOC} for Microsoft Word format
      */
     @Enumerated(EnumType.STRING)
@@ -78,7 +80,7 @@ public class JudgmentTextContent extends DataObject {
     }
     
     /**
-     * Location of external file containing content.
+     * Location of external content file.
      */
     public String getFilePath() {
         return filePath;
@@ -88,7 +90,7 @@ public class JudgmentTextContent extends DataObject {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Tells if with content is associated with some external file.
+     * Returns true if there is an external original file with the judgment content.
      */
     @Transient
     public boolean isContentInFile() {
