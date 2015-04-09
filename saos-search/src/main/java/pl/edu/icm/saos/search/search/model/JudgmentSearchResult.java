@@ -44,7 +44,7 @@ public class JudgmentSearchResult extends Searchable {
     //------------------------ LOGIC --------------------------
 
     public static long getTotalPageNumber(long totalResults, int pageSize) {
-    	return totalResults/pageSize;
+    	return totalResults/pageSize + ((totalResults % pageSize > 0) ? 1 : 0);
     }
     
     //------------------------ GETTERS --------------------------
