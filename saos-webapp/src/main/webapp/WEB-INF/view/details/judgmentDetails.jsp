@@ -391,9 +391,17 @@ $(document).ready(function() {
 
 <%-- Judgment content --%>
 
-<div class="container block" id="judgment-content">
+<div class="container judgment-page-content block" id="judgment-content">
 			
 	<h2 ><spring:message code="judgmentDetails.judgmentFullText" /></h2>
+	
+	<div class="info-box" >
+		<div class="info-box-nav">
+			<spring:message code="judgmentDetails.judgmentFullText.hint.title" var="fullTextHintTitle" />
+			<spring:message code="judgmentDetails.judgmentFullText.hint" var="fullTextHint" />
+			<saos:hint title="${fullTextHintTitle}" content="${fullTextHint}" placement="left" />
+		</div>
+	</div>
 			
 	<c:choose>
 		<c:when test="${judgment.textContent.contentInFile}">
