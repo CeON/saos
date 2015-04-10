@@ -34,7 +34,7 @@ $(document).ready(function() {
 
 	<%@ include file="judgmentSearchForm.jsp" %>
 	
-	<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
+	<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" pageSize="${pageSize}" resultsNo="${resultsNo}" ></saos:pagePagination>
 	
 	<div class="container judgment-list">
 	
@@ -66,7 +66,7 @@ $(document).ready(function() {
 		
 	</div>
 	
-	<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" totalPages="${totalPages}" ></saos:pagePagination>
+	<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" pageSize="${pageSize}" resultsNo="${resultsNo}" ></saos:pagePagination>
 
 </div>
 

@@ -1,37 +1,35 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 <%@ tag display-name="pagePagination" description="Search result page bookmarks" small-icon=""%>
 
-<%@ attribute name="pageNo" required="true" description="The page link without pageNo parameter" rtexprvalue="true" type="java.lang.Integer"%>
-<%@ attribute name="totalPages" required="true" description="The page link without pageNo parameter" rtexprvalue="true" type="java.lang.Integer"%>
+<%@ attribute name="pageNo" required="true" description="Number of page" rtexprvalue="true" type="java.lang.Integer"%>
+<%@ attribute name="pageSize" required="true" description="Maximum results on single page" rtexprvalue="true" type="java.lang.Integer"%>
+<%@ attribute name="resultsNo" required="true" description="Number of all results" rtexprvalue="true" type="java.lang.Integer"%>
 <%@ attribute name="pageLink" required="true" description="The page link without pageNo parameter" rtexprvalue="true" type="java.lang.String"%>
 
 
 <c:set var="pageNo" value="${pageNo+1}" />
-<c:set var="pageBlocks" value="${totalPages}" />
 <c:set var="pageBlockNumber" value="8" />
 
-<c:if test="${totalPages > pageBlockNumber }" >
-	<c:set var="pageBlocks" value="${pageBlockNumber+1}" />
-</c:if>
-
 <fmt:formatNumber var="halfBookmarks" value="${pageBlockNumber/2}" maxFractionDigits="0" scope="page"/>
+<fmt:formatNumber var="totalPages" value="${resultsNo/pageSize + 0.5}" maxFractionDigits="0" pattern="#" scope="page" />
 
-<c:set var="begin" value="1" />
-<c:set var="end" value="${pageBlocks}" />
+<c:set var="begin" value="${pageNo - halfBookmarks }" />
+<c:set var="end" value="${pageNo + halfBookmarks}" />
 
-<c:if test="${pageNo - halfBookmarks > 0 }" >
-	<c:set var="begin" value="${pageNo - halfBookmarks}" />
-	<c:set var="end" value="${pageNo + halfBookmarks}" />
+<c:if test="${begin < 1 }">
+	<c:set var="offset" value="${-begin + 1 }" />
+	<c:set var="begin" value="1" />
+	<c:set var="end" value="${(end + offset > totalPages) ? totalPages : end + offset }" />
 </c:if>
 
-
-<c:if test="${pageNo + halfBookmarks + 1 > totalPages && totalPages > pageBlockNumber}" >
-	<c:set var="begin" value="${totalPages - pageBlockNumber}" />
+<c:if test="${end > totalPages }">
+	<c:set var="offset" value="${end - totalPages }" />
+	<c:set var="begin" value="${(begin - offset < 1) ? 1 : begin - offset }" />
 	<c:set var="end" value="${totalPages}" />
 </c:if>
 
 
-<c:if test="${totalPages > 0}">     
+<c:if test="${totalPages > 1}">     
     <div class="pagination"> 
 	
 		<div>
@@ -50,11 +48,9 @@
 			</c:if>
 		</div>
 		
-		<c:if test="${totalPages > 0}" >
-			<div class="results-number">
-				<spring:message code="pagination.pages" arguments="${pageNo},${totalPages}" />
-			</div>
-		</c:if>
+		<div class="results-number">
+			<spring:message code="pagination.pages" arguments="${pageNo},${totalPages}" />
+		</div>
 	
     </div>
 </c:if>
