@@ -58,7 +58,6 @@ public class JudgmentSearchController {
 		model.addAttribute("pageable", pageable);
 		model.addAttribute("searchResults", searchResults);
 		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
-		model.addAttribute("totalPages", JudgmentSearchResult.getTotalPageNumber(searchResults.getTotalResults(), pageable.getPageSize()));
 		
 		addCommonCourtsToModel(judgmentCriteriaForm, model);
 		addSupremeCourtChambersToModel(judgmentCriteriaForm, model);
