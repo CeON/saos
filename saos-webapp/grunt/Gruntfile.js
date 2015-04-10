@@ -122,7 +122,8 @@ module.exports = function(grunt) {
 				  '<%= project.js.dir %>/libs/jquery.validate.min.js',
 				  '<%= project.js.dir %>/libs/jquery.wrapInTag.js',
 				  '<%= project.js.dir %>/libs/modernizr.js',
-				  '<%= project.js.dir %>/libs/bootstrap.min.js',
+				  '<%= project.js.dir %>/libs/moment.min.js',
+                  '<%= project.js.dir %>/libs/bootstrap.min.js',
 				  '<%= project.js.dir %>/libs/jquery-dateFormat.min.js',
 				  
 				  '<%= project.js.dir %>/libs/jquery.flot.min.js',
