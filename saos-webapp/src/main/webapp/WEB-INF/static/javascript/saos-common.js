@@ -1,4 +1,55 @@
+/**
+ * Inits & binds two complementary sections - one that is an info and the second that is
+ * a form part that a user can use to change the info. In general when the info section is clicked then
+ * it is hidden and the form section is shown to allow changing of the data. And then if
+ * the user clicks outside the form section, the form section disappears and the info section
+ * with updated data is shown again.
+ * @param infoSectionId id of the info section element 
+ * @param infoSectionId id of the form section element
+ * @param updateInfoSectionAction the action that updates the info section with data from form section
+ * 
+ */
+function initInfoFormSections(infoSectionId, formSectionId, updateInfoSectionAction) {
+        
+    updateInfoSectionAction();
+        
+    var formSection = $('#' + formSectionId);
+    var infoSection = $('#' + infoSectionId);
 
+    infoSection.click(function() {
+        infoSection.hide();
+        formSection.show();
+
+    });
+    
+    $(document).off('mouseup', hideFormSectionIfClickedOutside);    
+    $(document).on('mouseup', null, [formSection, infoSection, updateInfoSectionAction], hideFormSectionIfClickedOutside);
+}
+
+/** 
+ * Hides a form section and shows an info section if the target of the click is outside
+ * the form section. <br/> 
+ * Assumes e parameter holds a formSection, infoSection and updateInfoSectionAction variables 
+ * (see #initInfoFormSections for description) in e.data[0], e.data[1], e.data[2] respectively.
+ * */
+function hideFormSectionIfClickedOutside(e) {
+    
+    var formSection = e.data[0];
+    var infoSection = e.data[1];
+    var updateInfoSectionAction = e.data[2];
+    
+    if (!formSection.is(e.target) && !infoSection.is(e.target) // if the target of the click isn't the container...
+            && formSection.has(e.target).length === 0 && infoSection.has(e.target).length === 0) // ... nor a descendant of the container
+    {
+        formSection.hide();
+        infoSection.show();
+        updateInfoSectionAction();
+    }
+
+    
+}
+
+    
 function jAlert(messageText) {
 	$("<span class='col-md-7'>" + messageText +" </span>").dialog({ modal: true, width: "500px", buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); } } ] });
 }

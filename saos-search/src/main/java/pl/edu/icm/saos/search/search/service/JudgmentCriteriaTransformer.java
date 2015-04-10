@@ -36,7 +36,7 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
         list.addAll(transformConstitutionalTribunalCriteria(criteria));
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.COURT_TYPE, criteria.getCourtType()));
         list.add(criterionTransformer.transformToDateRangeCriterion(
-                JudgmentIndexField.JUDGMENT_DATE, criteria.getDateFrom(), criteria.getDateTo()));
+                JudgmentIndexField.JUDGMENT_DATE, criteria.getJudgmentDateFrom(), criteria.getJudgmentDateTo()));
         list.add(criterionTransformer.transformToEqualsEnumCriteria(JudgmentIndexField.JUDGMENT_TYPE, criteria.getJudgmentTypes(), Operator.OR));
         list.add(criterionTransformer.transformToEqualsCriterionWithParsing(JudgmentIndexField.JUDGE_NAME, criteria.getJudgeName()));
         list.add(criterionTransformer.transformToEqualsCriteria(JudgmentIndexField.KEYWORD, criteria.getKeywords(), Operator.AND));

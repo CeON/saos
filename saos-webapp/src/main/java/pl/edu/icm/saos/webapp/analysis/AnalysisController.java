@@ -17,11 +17,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import pl.edu.icm.saos.search.analysis.request.XField;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
+import pl.edu.icm.saos.webapp.analysis.request.DefaultJudgmentGlobalFilterFactory;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
-import pl.edu.icm.saos.webapp.analysis.request.UixRangeFactory;
-import pl.edu.icm.saos.webapp.analysis.request.UixSettings;
 import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
 import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
 
@@ -35,7 +33,7 @@ public class AnalysisController {
     
     private UiAnalysisService uiAnalysisService;
     
-    private UixRangeFactory uixRangeFactory;
+    private DefaultJudgmentGlobalFilterFactory judgmentDateRangeFactory;
     
     private int maxNumberOfSearchPhrases;
     
@@ -44,13 +42,14 @@ public class AnalysisController {
     
     @ModelAttribute("analysisForm")
     public AnalysisForm analysisForm() {
+        
         AnalysisForm analysisForm = new AnalysisForm();
-        analysisForm.addSeriesSearchCriteria(new JudgmentSeriesFilter()); // one empty phrase by default
-        UixSettings uixSettings = analysisForm.getXsettings();
-        uixSettings.setField(XField.JUDGMENT_DATE);
-        uixSettings.setRange(uixRangeFactory.createUixRange(uixSettings.getField()));
+        analysisForm.addSeriesFilter(new JudgmentSeriesFilter()); // one empty phrase by default
+        analysisForm.setGlobalFilter(judgmentDateRangeFactory.createDefaultJudgmentGlobalFilter());
+        
         return analysisForm;
     }
+    
     
     @ModelAttribute("maxNumberOfSearchPhrases")
     public int maxNumberOfSearchPhrases() {
@@ -71,13 +70,13 @@ public class AnalysisController {
     
     @RequestMapping(value="/analysis/removePhrase", method=RequestMethod.POST)
     public String removeSeriesSearchCriteria(@ModelAttribute("analysisForm") AnalysisForm analysisForm, @RequestParam("filterIndexToRemove") int filterIndexToRemove, ModelMap model, HttpServletRequest request) {
-        analysisForm.getFilters().remove(filterIndexToRemove);
+        analysisForm.getSeriesFilters().remove(filterIndexToRemove);
         return "analysisForm";
     }
     
     @RequestMapping(value="/analysis/addNewPhrase", method=RequestMethod.POST)
     public String addNewSeriesSearchCriteria(@ModelAttribute("analysisForm") AnalysisForm analysisForm, ModelMap model, HttpServletRequest request) {
-        analysisForm.addSeriesSearchCriteria(new JudgmentSeriesFilter());
+        analysisForm.addSeriesFilter(new JudgmentSeriesFilter());
         return "analysisForm";
     }
     
@@ -99,10 +98,10 @@ public class AnalysisController {
     }
 
     @Autowired
-    public void setUixRangeFactory(UixRangeFactory uixRangeFactory) {
-        this.uixRangeFactory = uixRangeFactory;
+    public void setJudgmentDateRangeFactory(DefaultJudgmentGlobalFilterFactory judgmentDateRangeFactory) {
+        this.judgmentDateRangeFactory = judgmentDateRangeFactory;
     }
-
+    
     @Value("${analysis.maxNumberOfSearchPhrases}")
     public void setMaxNumberOfSearchPhrases(int maxNumberOfSearchPhrases) {
         this.maxNumberOfSearchPhrases = maxNumberOfSearchPhrases;

@@ -6,18 +6,17 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.analysis.request.Period;
 import pl.edu.icm.saos.search.analysis.request.XDateRange;
-import pl.edu.icm.saos.webapp.analysis.request.UixMonthYearRange;
-import pl.edu.icm.saos.webapp.analysis.request.UixRange;
+import pl.edu.icm.saos.webapp.analysis.request.MonthYearRange;
 
 import com.google.common.base.Preconditions;
 
 /**
- * An {@link UixRangeConverter} implementation handling converting of {@link UixMonthYearRange}
- * 
+ * A {@link MonthYearRange} converter
+ *  
  * @author Łukasz Dumiszewski
  */
-@Service("UixMonthYearRangeConverter")
-public class UixMonthYearRangeConverter implements UixRangeConverter {
+@Service("monthYearRangeConverter")
+public class MonthYearRangeConverter {
 
     
     private MonthYearStartDateCalculator monthYearStartDateCalculator;
@@ -32,20 +31,15 @@ public class UixMonthYearRangeConverter implements UixRangeConverter {
     //------------------------ LOGIC --------------------------
     
     
-    @Override
-    public boolean handles(Class<? extends UixRange> uixRangeClass) {
-        Preconditions.checkNotNull(uixRangeClass);
+    /**
+     * Converts the given {@link MonthYearRange} into {@linkk XDateRange}
+     *
+     * @throws NullPointerException if the passed monthYearRange is null
+     * @throws IllegalArgumentException if the passed monthYearRange has end period before start period
+     */
+    public XDateRange convert(MonthYearRange monthYearRange) {
         
-        return uixRangeClass == UixMonthYearRange.class;
-    }
-
-    
-    @Override
-    public XDateRange convert(UixRange uixRange) {
-        
-        Preconditions.checkNotNull(uixRange);
-        
-        UixMonthYearRange monthYearRange = (UixMonthYearRange)uixRange;
+        Preconditions.checkNotNull(monthYearRange);
         
         Preconditions.checkArgument((monthYearRange.getEndYear() - monthYearRange.getStartYear()) * 12 + monthYearRange.getEndMonth() - monthYearRange.getStartMonth() >= 0);
         

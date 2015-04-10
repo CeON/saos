@@ -13,9 +13,9 @@ import com.google.common.collect.Lists;
 
 public class AnalysisForm {
 
-    private List<JudgmentSeriesFilter> filters = Lists.newArrayList();
+    private List<JudgmentSeriesFilter> seriesFilters = Lists.newArrayList();
     
-    private UixSettings xsettings = new UixSettings();
+    private JudgmentGlobalFilter globalFilter = new JudgmentGlobalFilter();
     
     private UiySettings ysettings = new UiySettings();
     
@@ -23,12 +23,12 @@ public class AnalysisForm {
     
     //------------------------ GETTERS --------------------------
     
-    public List<JudgmentSeriesFilter> getFilters() {
-        return filters;
+    public List<JudgmentSeriesFilter> getSeriesFilters() {
+        return seriesFilters;
     }
     
-    public UixSettings getXsettings() {
-        return xsettings;
+    public JudgmentGlobalFilter getGlobalFilter() {
+        return globalFilter;
     }
 
     public UiySettings getYsettings() {
@@ -41,25 +41,27 @@ public class AnalysisForm {
     
     //------------------------ LOGIC --------------------------
     
-    public void addSeriesSearchCriteria(JudgmentSeriesFilter seriesSearchCriteria) {
-        filters.add(seriesSearchCriteria);
+    public void addSeriesFilter(JudgmentSeriesFilter seriesSearchCriteria) {
+        seriesFilters.add(seriesSearchCriteria);
     }
-    
+
 
     
     //------------------------ SETTERS --------------------------
     
-    public void setFilters(List<JudgmentSeriesFilter> filters) {
-        this.filters = filters;
+
+    public void setSeriesFilters(List<JudgmentSeriesFilter> seriesFilters) {
+        this.seriesFilters = seriesFilters;
     }
 
-    public void setXsettings(UixSettings xsettings) {
-        this.xsettings = xsettings;
+    public void setGlobalFilter(JudgmentGlobalFilter globalFilter) {
+        this.globalFilter = globalFilter;
     }
 
     public void setYsettings(UiySettings ysettings) {
         this.ysettings = ysettings;
     }
+       
 
    
    

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.webapp.analysis.generator.ChartAggregator;
-import pl.edu.icm.saos.webapp.analysis.generator.MainChartGenerator;
+import pl.edu.icm.saos.webapp.analysis.generator.ChartGenerator;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
 import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
@@ -24,7 +24,7 @@ import com.google.common.collect.Maps;
 public class UiAnalysisService {
 
     
-    private MainChartGenerator mainChartGenerator;
+    private ChartGenerator chartGenerator;
     
     private ChartAggregator chartAggregator;
     
@@ -42,30 +42,47 @@ public class UiAnalysisService {
         Map<ChartCode, FlotChart> charts = Maps.newHashMap();
         
         
-        // main chart
+        generateAllPossibleCharts(analysisForm, charts);
         
-        FlotChart mainChart = mainChartGenerator.generateChart(analysisForm);
-        
-        // aggregated chart
-        
-        FlotChart aggregatedMainChart = chartAggregator.aggregateChart(mainChart, analysisForm.getYsettings().getValueType()); 
-        
-        // return
-        
-        charts.put(ChartCode.MAIN_CHART, mainChart);
-        charts.put(ChartCode.AGGREGATED_MAIN_CHART, aggregatedMainChart);
+        generateAggregatedMainChart(analysisForm, charts);
         
         
         return charts;
         
     }
 
+
+   
+
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private void generateAllPossibleCharts(AnalysisForm analysisForm, Map<ChartCode, FlotChart> charts) {
+            
+        for (ChartCode chartCode : ChartCode.values()) {
+            if (chartGenerator.canGenerateChart(chartCode, analysisForm)) {
+                FlotChart chart = chartGenerator.generateChart(chartCode, analysisForm);
+                charts.put(chartCode, chart);
+            }
+        }
+            
+    }
+    
+    private void generateAggregatedMainChart(AnalysisForm analysisForm, Map<ChartCode, FlotChart> charts) {
+        
+        FlotChart mainChart = charts.get(ChartCode.MAIN_CHART);
+        if (mainChart != null) {
+            FlotChart aggregatedMainChart = chartAggregator.aggregateChart(charts.get(ChartCode.MAIN_CHART), analysisForm.getYsettings().getValueType());
+            charts.put(ChartCode.AGGREGATED_MAIN_CHART, aggregatedMainChart);
+        }
+    }
+
     
     //------------------------ SETTERS --------------------------
 
     @Autowired
-    public void setMainChartGenerator(MainChartGenerator mainChartGenerator) {
-        this.mainChartGenerator = mainChartGenerator;
+    public void setChartGenerator(ChartGenerator chartGenerator) {
+        this.chartGenerator = chartGenerator;
     }
 
     @Autowired
