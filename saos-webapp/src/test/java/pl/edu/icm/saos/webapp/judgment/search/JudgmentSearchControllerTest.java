@@ -134,7 +134,6 @@ public class JudgmentSearchControllerTest {
 			.andExpect(view().name("judgmentSearch"))
 			.andExpect(model().attribute("pageable", instanceOf(Pageable.class)))
 			.andExpect(model().attribute("searchResults", results))
-			.andExpect(model().attribute("totalPages", 0L))
 			.andExpect(model().attribute("commonCourts", commonCourts))
 			.andExpect(model().attribute("commonCourts", hasSize(2)))
 			.andExpect(model().attribute("commonCourts", hasItem(
