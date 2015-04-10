@@ -42,8 +42,8 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getAll(), judgmentCriteria.getAll());
 		assertEquals(judgmentCriteriaForm.getSignature(), judgmentCriteria.getCaseNumber());
 
-		assertEquals(judgmentCriteriaForm.getDateFrom(), judgmentCriteria.getDateFrom());
-		assertEquals(judgmentCriteriaForm.getDateTo(), judgmentCriteria.getDateTo());
+		assertEquals(judgmentCriteriaForm.getDateFrom(), judgmentCriteria.getJudgmentDateFrom());
+		assertEquals(judgmentCriteriaForm.getDateTo(), judgmentCriteria.getJudgmentDateTo());
 		
 		assertEquals(judgmentCriteriaForm.getCourtType(), judgmentCriteria.getCourtType());
 		

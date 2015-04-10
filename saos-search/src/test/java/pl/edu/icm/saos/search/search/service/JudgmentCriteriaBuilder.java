@@ -54,18 +54,18 @@ public class JudgmentCriteriaBuilder {
     }
     
     public JudgmentCriteriaBuilder withDateFrom(LocalDate dateFrom) {
-        criteria.setDateFrom(dateFrom);
+        criteria.setJudgmentDateFrom(dateFrom);
         return this;
     }
     
     public JudgmentCriteriaBuilder withDateTo(LocalDate dateTo) {
-        criteria.setDateTo(dateTo);
+        criteria.setJudgmentDateTo(dateTo);
         return this;
     }
     
     public JudgmentCriteriaBuilder withDateRange(LocalDate dateFrom, LocalDate dateTo) {
-        criteria.setDateFrom(dateFrom);
-        criteria.setDateTo(dateTo);
+        criteria.setJudgmentDateFrom(dateFrom);
+        criteria.setJudgmentDateTo(dateTo);
         return this;
     }
     

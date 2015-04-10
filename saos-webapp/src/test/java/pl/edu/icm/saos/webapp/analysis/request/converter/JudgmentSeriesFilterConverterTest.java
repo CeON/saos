@@ -2,16 +2,25 @@ package pl.edu.icm.saos.webapp.analysis.request.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.List;
 import java.util.stream.IntStream;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
+import pl.edu.icm.saos.webapp.analysis.request.JudgmentGlobalFilter;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
+import pl.edu.icm.saos.webapp.analysis.request.MonthYearRange;
 
 import com.google.common.collect.Lists;
 
@@ -22,18 +31,34 @@ import com.google.common.collect.Lists;
 public class JudgmentSeriesFilterConverterTest {
 
     
+    @InjectMocks
     private JudgmentSeriesFilterConverter judgmentSeriesFilterConverter = new JudgmentSeriesFilterConverter();
     
+    @Mock
+    private MonthYearStartDateCalculator monthYearStartDateCalculator;
     
-    private JudgmentSeriesFilter filter1;
-    private JudgmentSeriesFilter filter2;
+    @Mock
+    private MonthYearEndDateCalculator monthYearEndDateCalculator;
+    
+    
+    private JudgmentSeriesFilter seriesFilter1;
+    private JudgmentSeriesFilter seriesFilter2;
+    private JudgmentGlobalFilter globalFilter;
+    private LocalDate startJudgmentDate = new LocalDate(2000, 12, 12);
+    private LocalDate endJudgmentDate = new LocalDate(2001, 2, 1);
     
     
     @Before
     public void before() {
         
-        filter1 = createFilter();
-        filter2 = createFilter();
+        initMocks(this);
+        
+        seriesFilter1 = createSeriesFilter();
+        seriesFilter2 = createSeriesFilter();
+        globalFilter = createGlobalFilter();
+        
+        when(monthYearStartDateCalculator.calculateStartDate(globalFilter.getJudgmentDateRange().getStartYear(), globalFilter.getJudgmentDateRange().getStartMonth())).thenReturn(startJudgmentDate);
+        when(monthYearEndDateCalculator.calculateEndDate(globalFilter.getJudgmentDateRange().getEndYear(), globalFilter.getJudgmentDateRange().getEndMonth())).thenReturn(endJudgmentDate);
         
     }
 
@@ -43,10 +68,19 @@ public class JudgmentSeriesFilterConverterTest {
     
     
     @Test(expected = NullPointerException.class)
-    public void convert_Null() {
+    public void convert_NullJudgmentGlobalFilter() {
         
         // execute
-        judgmentSeriesFilterConverter.convert(null);
+        judgmentSeriesFilterConverter.convert(null, mock(JudgmentSeriesFilter.class));
+        
+    }
+    
+    
+    @Test(expected = NullPointerException.class)
+    public void convert_NullJudgmentSeriesFilter() {
+        
+        // execute
+        judgmentSeriesFilterConverter.convert(mock(JudgmentGlobalFilter.class), null);
         
     }
     
@@ -54,13 +88,13 @@ public class JudgmentSeriesFilterConverterTest {
     @Test
     public void convert() {
         
+        
         // execute
-        JudgmentSeriesCriteria criteria = judgmentSeriesFilterConverter.convert(filter1);
+        JudgmentSeriesCriteria criteria = judgmentSeriesFilterConverter.convert(globalFilter, seriesFilter1);
         
         // assert
         assertNotNull(criteria);
-        assertCriteria(filter1, criteria);
-        
+        assertCriteria(seriesFilter1, criteria);
     }
 
     
@@ -68,10 +102,10 @@ public class JudgmentSeriesFilterConverterTest {
     public void convertList() {
         
         // given
-        List<JudgmentSeriesFilter> filters = Lists.newArrayList(filter1, filter2);
+        List<JudgmentSeriesFilter> filters = Lists.newArrayList(seriesFilter1, seriesFilter2);
         
         // execute
-        List<JudgmentSeriesCriteria> criteriaList = judgmentSeriesFilterConverter.convertList(filters);
+        List<JudgmentSeriesCriteria> criteriaList = judgmentSeriesFilterConverter.convertList(globalFilter, filters);
         
         // assert
         assertNotNull(criteriaList);
@@ -88,12 +122,26 @@ public class JudgmentSeriesFilterConverterTest {
 
     private void assertCriteria(JudgmentSeriesFilter filter, JudgmentSeriesCriteria criteria) {
         assertEquals(filter.getPhrase(), criteria.getPhrase());
+        assertEquals(startJudgmentDate, criteria.getStartJudgmentDate());
+        assertEquals(endJudgmentDate, criteria.getEndJudgmentDate());
+
     }
 
     
-    private JudgmentSeriesFilter createFilter() {
+    private JudgmentSeriesFilter createSeriesFilter() {
         JudgmentSeriesFilter filter = new JudgmentSeriesFilter();
         filter.setPhrase(RandomStringUtils.randomAlphabetic(10));
+        return filter;
+    }
+    
+    private JudgmentGlobalFilter createGlobalFilter() {
+        JudgmentGlobalFilter filter = new JudgmentGlobalFilter();
+        MonthYearRange monthYearRange = new MonthYearRange();
+        monthYearRange.setStartYear(RandomUtils.nextInt(1990, 2020));
+        monthYearRange.setStartMonth(RandomUtils.nextInt(1, 12));
+        monthYearRange.setEndYear(monthYearRange.getEndYear() + RandomUtils.nextInt(1, 20));
+        monthYearRange.setEndMonth(RandomUtils.nextInt(1, 12));
+        filter.setJudgmentDateRange(monthYearRange);
         return filter;
     }
 

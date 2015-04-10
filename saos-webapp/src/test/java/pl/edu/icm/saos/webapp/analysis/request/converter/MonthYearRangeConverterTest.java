@@ -1,9 +1,7 @@
 package pl.edu.icm.saos.webapp.analysis.request.converter;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -16,18 +14,17 @@ import org.mockito.Mock;
 import pl.edu.icm.saos.search.analysis.request.Period;
 import pl.edu.icm.saos.search.analysis.request.Period.PeriodUnit;
 import pl.edu.icm.saos.search.analysis.request.XDateRange;
-import pl.edu.icm.saos.webapp.analysis.request.UixMonthYearRange;
-import pl.edu.icm.saos.webapp.analysis.request.UixRange;
+import pl.edu.icm.saos.webapp.analysis.request.MonthYearRange;
 
 
 /**
  * @author Łukasz Dumiszewski
  */
 
-public class UixMonthYearRangeConverterTest {
+public class MonthYearRangeConverterTest {
 
     @InjectMocks
-    private UixMonthYearRangeConverter uixMonthYearRangeConverter;
+    private MonthYearRangeConverter monthYearRangeConverter;
     
     
     @Mock
@@ -51,33 +48,13 @@ public class UixMonthYearRangeConverterTest {
     
     //------------------------ TESTS --------------------------
     
-    @Test(expected = NullPointerException.class)
-    public void handles_NULL() {
-        
-        // execute
-        
-        uixMonthYearRangeConverter.handles(null);
-        
-    }
-    
-    
-    @Test
-    public void handles() {
-        
-        // execute & assert
-        
-        assertFalse(uixMonthYearRangeConverter.handles(UixRange.class));
-        assertTrue(uixMonthYearRangeConverter.handles(UixMonthYearRange.class));
-         
-    }
-    
     
     @Test(expected = NullPointerException.class)
     public void convert_NULL() {
         
         // execute
         
-        uixMonthYearRangeConverter.convert(null);
+        monthYearRangeConverter.convert(null);
          
     }
     
@@ -88,7 +65,7 @@ public class UixMonthYearRangeConverterTest {
         
         // given
         
-        UixMonthYearRange uixRange = new UixMonthYearRange();
+        MonthYearRange uixRange = new MonthYearRange();
         uixRange.setStartMonth(11);
         uixRange.setStartYear(2010);
         uixRange.setEndMonth(10);
@@ -97,7 +74,7 @@ public class UixMonthYearRangeConverterTest {
         
         // execute
         
-        uixMonthYearRangeConverter.convert(uixRange);
+        monthYearRangeConverter.convert(uixRange);
          
     }
 
@@ -107,7 +84,7 @@ public class UixMonthYearRangeConverterTest {
         
         // given
         
-        UixMonthYearRange uixRange = new UixMonthYearRange();
+        MonthYearRange uixRange = new MonthYearRange();
         uixRange.setStartMonth(1);
         uixRange.setStartYear(2010);
         uixRange.setEndMonth(10);
@@ -125,7 +102,7 @@ public class UixMonthYearRangeConverterTest {
         
         // execute
         
-        XDateRange xDateRange = uixMonthYearRangeConverter.convert(uixRange);
+        XDateRange xDateRange = monthYearRangeConverter.convert(uixRange);
 
         
         // assert

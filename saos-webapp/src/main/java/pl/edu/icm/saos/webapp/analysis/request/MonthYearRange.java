@@ -5,12 +5,12 @@ import com.google.common.base.Preconditions;
 
 /**
  * 
- * An x range defined as a period limited by start and end month-year pairs.
+ * A range defined as a period limited by start and end month-year pairs.
  * 
  * @author Łukasz Dumiszewski
  */
 
-public class UixMonthYearRange implements UixRange {
+public class MonthYearRange {
 
     private int startMonth;
     private int startYear;

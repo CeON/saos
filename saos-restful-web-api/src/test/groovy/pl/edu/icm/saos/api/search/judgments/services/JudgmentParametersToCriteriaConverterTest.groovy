@@ -112,8 +112,8 @@ class JudgmentParametersToCriteriaConverterTest extends Specification {
             expected.setLegalBase(legalBases)
             expected.setCourtType(courtType)
 
-            expected.setDateFrom(judgmentDateFrom)
-            expected.setDateTo(judgmentDateTo)
+            expected.setJudgmentDateFrom(judgmentDateFrom)
+            expected.setJudgmentDateTo(judgmentDateTo)
             expected.setScPersonnelType(personnelType)
 
             expected.setCcCourtType(commonCourtType)

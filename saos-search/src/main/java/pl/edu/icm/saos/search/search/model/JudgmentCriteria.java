@@ -25,8 +25,8 @@ public class JudgmentCriteria extends Criteria {
     
     private String caseNumber;
     
-    private LocalDate dateFrom;
-    private LocalDate dateTo;
+    private LocalDate judgmentDateFrom;
+    private LocalDate judgmentDateTo;
     
     private CourtType courtType;
     
@@ -83,11 +83,11 @@ public class JudgmentCriteria extends Criteria {
     public String getCaseNumber() {
         return caseNumber;
     }
-    public LocalDate getDateFrom() {
-        return dateFrom;
+    public LocalDate getJudgmentDateFrom() {
+        return judgmentDateFrom;
     }
-    public LocalDate getDateTo() {
-        return dateTo;
+    public LocalDate getJudgmentDateTo() {
+        return judgmentDateTo;
     }
     public CourtType getCourtType() {
         return courtType;
@@ -165,11 +165,11 @@ public class JudgmentCriteria extends Criteria {
     public void setCaseNumber(String caseNumber) {
         this.caseNumber = caseNumber;
     }
-    public void setDateFrom(LocalDate dateFrom) {
-        this.dateFrom = dateFrom;
+    public void setJudgmentDateFrom(LocalDate judgmentDateFrom) {
+        this.judgmentDateFrom = judgmentDateFrom;
     }
-    public void setDateTo(LocalDate dateTo) {
-        this.dateTo = dateTo;
+    public void setJudgmentDateTo(LocalDate judgmentDateTo) {
+        this.judgmentDateTo = judgmentDateTo;
     }
     public void setCourtType(CourtType courtType) {
         this.courtType = courtType;
@@ -242,7 +242,7 @@ public class JudgmentCriteria extends Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(all, caseNumber, dateFrom, dateTo,
+        return Objects.hashCode(all, caseNumber, judgmentDateFrom, judgmentDateTo,
                 courtType, ccCourtId, ccCourtCode, ccCourtName,
                 ccCourtDivisionId, ccCourtDivisionCode, ccCourtDivisionName,
 				scJudgmentForm, scPersonnelType, scCourtChamberId, scCourtChamberName, scCourtChamberDivisionId,
@@ -262,8 +262,8 @@ public class JudgmentCriteria extends Criteria {
         final JudgmentCriteria other = (JudgmentCriteria) obj;
         return Objects.equal(this.all, other.all) &&
                 Objects.equal(this.caseNumber, other.caseNumber) &&
-                Objects.equal(this.dateFrom, other.dateFrom) &&
-                Objects.equal(this.dateTo, other.dateTo) &&
+                Objects.equal(this.judgmentDateFrom, other.judgmentDateFrom) &&
+                Objects.equal(this.judgmentDateTo, other.judgmentDateTo) &&
                 Objects.equal(this.courtType, other.courtType) &&
                 Objects.equal(this.ccCourtId, other.ccCourtId) &&
                 Objects.equal(this.ccCourtCode, other.ccCourtCode) &&

@@ -13,8 +13,9 @@ import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.converter.JudgmentSeriesFilterConverter;
-import pl.edu.icm.saos.webapp.analysis.request.converter.UixSettingsConverter;
 import pl.edu.icm.saos.webapp.analysis.request.converter.UiySettingsConverter;
+import pl.edu.icm.saos.webapp.analysis.request.converter.XSettingsGenerator;
+import pl.edu.icm.saos.webapp.analysis.request.converter.XSettingsGeneratorManager;
 import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
 import pl.edu.icm.saos.webapp.analysis.result.ChartConverter;
 import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
@@ -29,15 +30,15 @@ import com.google.common.base.Preconditions;
  * 
  * @author Łukasz Dumiszewski
  */
-@Service("mainChartGenerator")
-public class MainChartGenerator {
+@Service("chartGenerator")
+public class ChartGenerator {
 
     
     private AnalysisService analysisService;
     
     private JudgmentSeriesFilterConverter judgmentSeriesFilterConverter;
     
-    private UixSettingsConverter uixSettingsConverter;
+    private XSettingsGeneratorManager xsettingsGeneratorManager;
     
     private UiySettingsConverter uiySettingsConverter;
     
@@ -46,20 +47,31 @@ public class MainChartGenerator {
     
     //------------------------ LOGIC --------------------------
     
+    
     /**
-     * Generates and returns a {@link FlotChart} according to the settings in the passed analysisForm  
+     * Generates and returns a {@link FlotChart} according to the passed chart code and analysisForm <br/>
+     * @throws IllegalArgumentException if the chart of the given chart code can not be generated for the passed analysisForm,
+     * see: {@link #canGenerateChart(ChartCode, AnalysisForm)}
      */
-    public FlotChart generateChart(AnalysisForm analysisForm) {
+    public FlotChart generateChart(ChartCode chartCode, AnalysisForm analysisForm) {
         
         Preconditions.checkNotNull(analysisForm);
+        Preconditions.checkArgument(canGenerateChart(chartCode, analysisForm));
         
         // create request
         
-        List<JudgmentSeriesCriteria> judgmentSeriesCriteriaList = judgmentSeriesFilterConverter.convertList(analysisForm.getFilters());
-  
-        XSettings xsettings = uixSettingsConverter.convert(analysisForm.getXsettings());
+        XSettingsGenerator xsettingsGenerator = xsettingsGeneratorManager.getXSettingsGenerator(chartCode);
         
+        XSettings xsettings = xsettingsGenerator.generateXSettings(analysisForm.getGlobalFilter());
+
         YSettings ysettings = uiySettingsConverter.convert(analysisForm.getYsettings());
+        
+        
+        List<JudgmentSeriesCriteria> judgmentSeriesCriteriaList = judgmentSeriesFilterConverter.convertList(analysisForm.getGlobalFilter(), analysisForm.getSeriesFilters());
+  
+        
+        
+        
         
         
         // execute
@@ -72,10 +84,26 @@ public class MainChartGenerator {
         return flotChartConverter.convert(chart);
         
         
+    }
+    
+    
+    /**
+     * Checks whether it is possible to generate a chart for the given code and analysisForm.
+     * @see {@link ChartCode#isChartGenerated()}
+     * @see {@link XSettingsGenerator#canGenerateXSettings(pl.edu.icm.saos.webapp.analysis.request.JudgmentGlobalFilter)}
+     */
+    public boolean canGenerateChart(ChartCode chartCode, AnalysisForm analysisForm) {
         
+        if (!chartCode.isChartGenerated()) {
+            return false;
+        }
+        
+        XSettingsGenerator xsettingsGenerator = xsettingsGeneratorManager.getXSettingsGenerator(chartCode);
+        
+        return xsettingsGenerator.canGenerateXSettings(analysisForm.getGlobalFilter());
         
     }
-
+    
     
     //------------------------ SETTERS --------------------------
 
@@ -90,11 +118,6 @@ public class MainChartGenerator {
     }
 
     @Autowired
-    public void setUixSettingsConverter(UixSettingsConverter uixSettingsConverter) {
-        this.uixSettingsConverter = uixSettingsConverter;
-    }
-
-    @Autowired
     public void setUiySettingsConverter(UiySettingsConverter uiySettingsConverter) {
         this.uiySettingsConverter = uiySettingsConverter;
     }
@@ -102,6 +125,11 @@ public class MainChartGenerator {
     @Autowired
     public void setFlotChartConverter(ChartConverter flotChartConverter) {
         this.flotChartConverter = flotChartConverter;
+    }
+
+    @Autowired
+    public void setXsettingGeneratorManager(XSettingsGeneratorManager xsettingsGeneratorManager) {
+        this.xsettingsGeneratorManager = xsettingsGeneratorManager;
     }
 
   

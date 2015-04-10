@@ -80,7 +80,11 @@ var initAnalysisJs = function() {
      */
     function initFormElements() {
         
-        tieMonthYearRangeSelects("xRangeStartMonth", "xRangeStartYear", "xRangeEndMonth", "xRangeEndYear");
+        
+        
+        initInfoFormSections('judgmentDateRangeInfoDiv', 'judgmentDateRangeSelectDiv', updateJudgmentDateRangeInfo);
+         
+        tieMonthYearRangeSelects("judgmentDateStartMonth", "judgmentDateStartYear", "judgmentDateEndMonth", "judgmentDateEndYear");
 
         initButtons();
         
@@ -95,6 +99,7 @@ var initAnalysisJs = function() {
         $("a[href='']").click(function(event) {
             event.preventDefault();
         });
+        
     }
     
     
@@ -127,6 +132,22 @@ var initAnalysisJs = function() {
         
     }
     
+    
+    /****************** CONTEXT DIV **************/
+    
+    
+    /**
+     * Updates the html content of the judgmentDateRangeInfoDiv with information from
+     * judgmentDateRangeSelectDiv inputs.
+     */
+    function updateJudgmentDateRangeInfo() {
+        var dateRangeHtml = '<b>' + $('#judgmentDateStartMonth option:selected').text() + ' ' +
+                       $('#judgmentDateStartYear').val() + ' - ' +
+                       $('#judgmentDateEndMonth option:selected').text() + ' ' +
+                       $('#judgmentDateEndYear').val() + '</b>';
+        
+        $('#judgmentDateRangeInfoDiv').html(dateRangeHtml);
+    }
     
     /****************** REMOVAL OF PHRASE DIV **/
     
@@ -193,8 +214,15 @@ var initAnalysisJs = function() {
      */
     function initInputs() {
         
-        $("[id^=seriesSearchPhraseInput], #xRangeStartMonth, #xRangeStartYear, #xRangeEndMonth, #xRangeEndYear, #yaxisValueType").change(function() {
+        $("[id^=seriesSearchPhraseInput], #judgmentDateStartMonth, #judgmentDateStartYear, #judgmentDateEndMonth, #judgmentDateEndYear, #yaxisValueType").change(function() {
             generateCharts(true);
+        });
+        
+        $("[id^=seriesSearchPhraseInput]").keypress(function (e) {
+            if (e.which == 13) {
+                generateCharts(true);
+                e.preventDefault();
+            }
         });
         
     }

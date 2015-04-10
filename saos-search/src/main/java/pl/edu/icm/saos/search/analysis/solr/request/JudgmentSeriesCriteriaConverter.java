@@ -22,6 +22,10 @@ public class JudgmentSeriesCriteriaConverter {
         
         judgmentCriteria.setAll(judgmentSeriesCriteria.getPhrase());
         
+        judgmentCriteria.setJudgmentDateFrom(judgmentSeriesCriteria.getStartJudgmentDate());
+        
+        judgmentCriteria.setJudgmentDateTo(judgmentSeriesCriteria.getEndJudgmentDate());
+        
         return judgmentCriteria;
         
     }
