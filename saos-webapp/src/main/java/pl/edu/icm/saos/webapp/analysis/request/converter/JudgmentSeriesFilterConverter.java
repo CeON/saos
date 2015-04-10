@@ -3,9 +3,11 @@ package pl.edu.icm.saos.webapp.analysis.request.converter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
+import pl.edu.icm.saos.webapp.analysis.request.JudgmentGlobalFilter;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
 
 import com.google.common.base.Preconditions;
@@ -19,34 +21,57 @@ import com.google.common.base.Preconditions;
 public class JudgmentSeriesFilterConverter {
 
     
+    private MonthYearStartDateCalculator monthYearStartDateCalculator;
+    
+    private MonthYearEndDateCalculator monthYearEndDateCalculator;
+    
     
     //------------------------ LOGIC --------------------------
     
     /**
-     * Converts the given list of {@link JudgmentSeriesFilter} to a list of {@link JudgmentSeriesCriteria}.
-     * Invokes {@link #convert(JudgmentSeriesFilter)} internally for each of {@link JudgmentSeriesCriteria}.
+     * Converts the given globalFilter and seriesFilters to a list of {@link JudgmentSeriesCriteria}.
+     * Invokes {@link #convert(JudgmentGlobalFilter, JudgmentSeriesFilter)} internally for each of {@link JudgmentSeriesCriteria}.
      */
-    public List<JudgmentSeriesCriteria> convertList(List<JudgmentSeriesFilter> judgmentSeriesFilters) {
+    public List<JudgmentSeriesCriteria> convertList(JudgmentGlobalFilter globalFilter, List<JudgmentSeriesFilter> seriesFilters) {
     
-        Preconditions.checkNotNull(judgmentSeriesFilters);
-    
-        return judgmentSeriesFilters.stream().map(f->convert(f)).collect(Collectors.toList());
+        Preconditions.checkNotNull(seriesFilters);
+        
+        return seriesFilters.stream().map(f->convert(globalFilter, f)).collect(Collectors.toList());
     }
     
     
     /**
-     * Converts {@link JudgmentSeriesFilter} into {@link JudgmentSeriesCriteria}
+     * Converts the pair of {@link JudgmentGlobalFilter} and {@link JudgmentSeriesFilter} into {@link JudgmentSeriesCriteria}
      */
-    public JudgmentSeriesCriteria convert(JudgmentSeriesFilter judgmentSeriesFilter) {
+    public JudgmentSeriesCriteria convert(JudgmentGlobalFilter globalFilter, JudgmentSeriesFilter seriesFilter) {
         
-        Preconditions.checkNotNull(judgmentSeriesFilter);
+        Preconditions.checkNotNull(globalFilter);
+        
+        Preconditions.checkNotNull(seriesFilter);
         
         JudgmentSeriesCriteria judgmentSeriesCriteria = new JudgmentSeriesCriteria();
         
-        judgmentSeriesCriteria.setPhrase(judgmentSeriesFilter.getPhrase());
+        judgmentSeriesCriteria.setPhrase(seriesFilter.getPhrase());
+        
+        judgmentSeriesCriteria.setStartJudgmentDate(monthYearStartDateCalculator.calculateStartDate(globalFilter.getJudgmentDateRange().getStartYear(), globalFilter.getJudgmentDateRange().getStartMonth()));
+
+        judgmentSeriesCriteria.setEndJudgmentDate(monthYearEndDateCalculator.calculateEndDate(globalFilter.getJudgmentDateRange().getEndYear(), globalFilter.getJudgmentDateRange().getEndMonth()));
         
         return judgmentSeriesCriteria;
         
+    }
+
+    
+    //------------------------ SETTERS --------------------------
+
+    @Autowired
+    public void setMonthYearStartDateCalculator(MonthYearStartDateCalculator monthYearStartDateCalculator) {
+        this.monthYearStartDateCalculator = monthYearStartDateCalculator;
+    }
+
+    @Autowired
+    public void setMonthYearEndDateCalculator(MonthYearEndDateCalculator monthYearEndDateCalculator) {
+        this.monthYearEndDateCalculator = monthYearEndDateCalculator;
     }
     
 }

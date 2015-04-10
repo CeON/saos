@@ -3,8 +3,9 @@ package pl.edu.icm.saos.webapp.judgment;
 
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Lists;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+
+import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Pawełczak
@@ -21,8 +22,8 @@ public class JudgmentCriteriaFormConverter {
 		
 		judgmentCriteria.setAll(judgmentCriteriaForm.getAll());
 		judgmentCriteria.setCaseNumber(judgmentCriteriaForm.getSignature());
-		judgmentCriteria.setDateFrom(judgmentCriteriaForm.getDateFrom());
-		judgmentCriteria.setDateTo(judgmentCriteriaForm.getDateTo());
+		judgmentCriteria.setJudgmentDateFrom(judgmentCriteriaForm.getDateFrom());
+		judgmentCriteria.setJudgmentDateTo(judgmentCriteriaForm.getDateTo());
 				
 		judgmentCriteria.setJudgeName(judgmentCriteriaForm.getJudgeName());
 		judgmentCriteria.setCourtType(judgmentCriteriaForm.getCourtType());

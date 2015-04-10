@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.api.search.judgments.services;
 
 import org.springframework.stereotype.Service;
+
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.search.judgments.parameters.Sort;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
@@ -49,8 +50,8 @@ public class JudgmentParametersToCriteriaConverter {
         criteria.setScCourtChamberDivisionId(params.getScDivisionId());
         criteria.setScCourtChamberDivisionName(params.getScDivisionName());
 
-        criteria.setDateFrom(params.getJudgmentDateFrom());
-        criteria.setDateTo(params.getJudgmentDateTo());
+        criteria.setJudgmentDateFrom(params.getJudgmentDateFrom());
+        criteria.setJudgmentDateTo(params.getJudgmentDateTo());
 
         criteria.setJudgmentTypes(params.getJudgmentTypes());
         criteria.setKeywords(params.getKeywords());
