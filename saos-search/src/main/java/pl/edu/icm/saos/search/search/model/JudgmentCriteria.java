@@ -57,6 +57,7 @@ public class JudgmentCriteria extends Criteria {
     private String legalBase;
     private String referencedRegulation;
     private Long lawJournalEntryId;
+    private Long referencedCourtCaseId;
 
     public JudgmentCriteria() { }
     
@@ -156,6 +157,10 @@ public class JudgmentCriteria extends Criteria {
         return lawJournalEntryId;
     }
     
+    public Long getReferencedCourtCaseId() {
+        return referencedCourtCaseId;
+    }
+    
     
     //------------------------ SETTERS --------------------------
     
@@ -237,6 +242,10 @@ public class JudgmentCriteria extends Criteria {
     public void setLawJournalEntryId(Long lawJournalEntryId) {
         this.lawJournalEntryId = lawJournalEntryId;
     }
+    
+    public void setReferencedCourtCaseId(Long referencedCourtCaseId) {
+        this.referencedCourtCaseId = referencedCourtCaseId;
+    }
 
     //------------------------ HashCode & Equals --------------------------
 
@@ -248,7 +257,7 @@ public class JudgmentCriteria extends Criteria {
 				scJudgmentForm, scPersonnelType, scCourtChamberId, scCourtChamberName, scCourtChamberDivisionId,
                 scCourtChamberDivisionName, ctDissentingOpinion, ctDissentingOpinionAuthor,
                 judgmentTypes, judgeName, keywords,
-                legalBase, referencedRegulation, lawJournalEntryId);
+                legalBase, referencedRegulation, lawJournalEntryId, referencedCourtCaseId);
     }
 
     @Override
@@ -284,7 +293,8 @@ public class JudgmentCriteria extends Criteria {
                 Objects.equal(this.keywords, other.keywords) &&
                 Objects.equal(this.legalBase, other.legalBase) &&
                 Objects.equal(this.referencedRegulation, other.referencedRegulation) &&
-                Objects.equal(this.lawJournalEntryId, other.lawJournalEntryId);
+                Objects.equal(this.lawJournalEntryId, other.lawJournalEntryId) &&
+                Objects.equal(this.referencedCourtCaseId, other.referencedCourtCaseId);
     }
 
 

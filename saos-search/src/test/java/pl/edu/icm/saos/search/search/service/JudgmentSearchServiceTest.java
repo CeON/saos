@@ -131,6 +131,10 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(41808l), JudgmentCriteriaBuilder.create().withLawJournalEntryId(502).build() },
             { Lists.newArrayList(), JudgmentCriteriaBuilder.create().withLawJournalEntryId(510).build() },
             
+            { Lists.newArrayList(22l, 23l), JudgmentCriteriaBuilder.create().withReferencedCourtCaseId(58).build() },
+            { Lists.newArrayList(23l), JudgmentCriteriaBuilder.create().withReferencedCourtCaseId(59).build() },
+            { Lists.newArrayList(), JudgmentCriteriaBuilder.create().withReferencedCourtCaseId(60).build() },
+            
             { Lists.newArrayList(41808l), JudgmentCriteriaBuilder.create().withCaseNumber("XV K 792/13").build() },
             { Lists.newArrayList(), JudgmentCriteriaBuilder.create().withCaseNumber("XV").build() },
             
@@ -508,6 +512,9 @@ public class JudgmentSearchServiceTest {
         doc.addField("databaseId", "22");
         doc.addField("caseNumber", "constitutionalTribunalCaseNumber");
         
+        doc.addField("referencedCourtCasesIds", "57");
+        doc.addField("referencedCourtCasesIds", "58");
+        
         doc.addField("ctDissentingOpinion", "first dissenting opinion");
         doc.addField("ctDissentingOpinion", "Aleksander Kowalski");
         doc.addField("ctDissentingOpinion", "Jan Nowak");
@@ -528,6 +535,9 @@ public class JudgmentSearchServiceTest {
         doc.addField("all", "meansOfAppeal field");
         doc.addField("all", "judgmentResult");
         doc.addField("caseNumber", "secondConstitutionalTribunalCaseNumber");
+        
+        doc.addField("referencedCourtCasesIds", "58");
+        doc.addField("referencedCourtCasesIds", "59");
         
         doc.addField("ctDissentingOpinion", "text of dissenting opinion");
         doc.addField("ctDissentingOpinion", "Kazimierz Kozłowski");

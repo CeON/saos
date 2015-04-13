@@ -23,6 +23,7 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.JudgmentResult;
 import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
+import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -126,6 +127,25 @@ public class JudgmentIndexFieldsFillerTest {
                 fieldFactory.create("lawJournalEntryId", 55l, 56l));
         
         
+        // referenced court cases
+        Judgment referencedCourtCasesJudgment = new CommonCourtJudgment();
+        
+        ReferencedCourtCase firstReferencedCourtCase = new ReferencedCourtCase();
+        firstReferencedCourtCase.setCaseNumber("AAAB");
+        firstReferencedCourtCase.setJudgmentIds(Lists.newArrayList(12L, 15L));
+        
+        ReferencedCourtCase secondReferencedCourtCase = new ReferencedCourtCase();
+        secondReferencedCourtCase.setCaseNumber("AAAC");
+        secondReferencedCourtCase.setJudgmentIds(Lists.newArrayList());
+        
+        referencedCourtCasesJudgment.addReferencedCourtCase(firstReferencedCourtCase);
+        referencedCourtCasesJudgment.addReferencedCourtCase(secondReferencedCourtCase);
+        
+        
+        List<SolrInputField> referencedCourtCasesFields = Collections.singletonList(
+                fieldFactory.create("referencedCourtCasesIds", 12L, 15L));
+        
+        
         // judgment type
         Judgment typeJudgment = new CommonCourtJudgment();
         typeJudgment.setJudgmentType(JudgmentType.SENTENCE);
@@ -199,6 +219,7 @@ public class JudgmentIndexFieldsFillerTest {
             { judgesJudgment, judgesFields },
             { legalBasesJudgment, legalBasesFields },
             { referencedRegulationsJudgment, referencedRegulationsFields },
+            { referencedCourtCasesJudgment, referencedCourtCasesFields },
             { typeJudgment, typeFields },
             { dateJudgment, dateFields },
             { contentJudgment, contentFields },
