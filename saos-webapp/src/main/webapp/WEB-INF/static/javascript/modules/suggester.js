@@ -105,6 +105,14 @@ var Suggester = (function() {
         		$field.val("")
         			  .trigger("change");
         	});
+        })
+        .on("clear", function() {
+            
+            if ($(this).val() === "") {
+                $("." + SELECTED_FIELD_CLASS).each(function() {             
+                    $(this).remove();
+                });
+            }
         });
         
     },

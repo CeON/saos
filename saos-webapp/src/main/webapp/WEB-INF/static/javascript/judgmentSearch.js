@@ -206,6 +206,15 @@ var jsInitInJudgmentSearch = function() {
 			noItems: springMessage.judgmentSearchFormFieldLawJournalNoItems,
 		}
 	});
+    
+    /* Court form section */
+    FormSection.init({
+        formSectionId: "#court-section",
+        openSectionButtonId: "#open-court-section",
+        selectedValuesSectionId: "#court-section-selected",
+        infoSectionId: "#court-info",
+        infoSectionValueId: "#court-info-value"
+    });
 
 }
  

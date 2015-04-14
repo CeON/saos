@@ -11,9 +11,36 @@
 		<legend><spring:message code="judgmentSearch.form.header" /></legend>
 		<saos:formFieldText path="all" labelName="input-search-all" labelText="judgmentSearch.formField.all" />
     
-	    <div class="col-lg-offset-2 col-sm-offset-3 " >
-    		<a id="search-more-fields" class="button-advance" href="#search-form" ><spring:message code="judgmentSearch.form.moreFields" /></a>
-	    </div>
+    
+        <%-- Form navigations --%>
+        
+        <div class="form-section-navigation">
+            <a href="" class="control-label" ><spring:message code="judgmentSearch.form.judgmentOptions" /> <img src="${contextPath}/static/image/icons/arrow-down.png" /></a>
+        </div>
+        
+        <div class="form-section-navigation">    
+            <a id="open-court-section" href="" class="control-label" ><spring:message code="judgmentSearch.form.courtOptions" /> <img src="${contextPath}/static/image/icons/arrow-down.png" /></a>
+            
+            <div id="court-info" class="form-group form-section-info">
+	            <div class="col-lg-2 col-sm-3 control-label" >
+	               <spring:message code="judgmentSearch.form.courtOptions" />: 
+	            </div>
+	            <div class="col-lg-7 col-sm-8 col-xs-11" >
+	               <div id="court-section-selected" class="form-section-selected" >
+	               
+	                  <div id="court-info-value" class="form-section-value" >
+	                  
+	                  </div>
+	               
+	                  <div id="" class="form-section-close" >
+	                      <img src="${contextPath}/static/image/icons/arrow-down.png" />
+	                  </div>
+	               </div>
+	            </div>
+	        </div>
+            
+        </div>
+        
 	    
 	    <div id="advance-form" class="advance-form" >
 	    
@@ -102,7 +129,7 @@
 		   		 			</div>
 			   		 	</c:if>
 			   		 	 
-			   			<button type="button" id="law-journal-set" class="btn btn-primary button-blue btn-sm"><spring:message code="judgmentSearch.formField.lawJournal.set" /></button> 
+			   			<button type="button" id="law-journal-set" class="btn btn-primary button-blue btn-sm" ><spring:message code="judgmentSearch.formField.lawJournal.set" /></button> 
 			   		 </div>
 			   		
 			   		<div id="law-journal-fields" class="well col-sm-12" >
@@ -150,9 +177,20 @@
 		    	<form:hidden path="lawJournalEntryId" id="lawJournalEntryId" />
 		    </div>
 		    
-		    <!--  CourtType  -->
-		    <div class="form-group radio-group">
+		    
+        </div>
+        
+        <div class="col-lg-offset-2 col-sm-offset-3" >
+            <a id="search-less-fields" class="button-advance visibility-hidden display-none" href="#search-form" ><spring:message code="judgmentSearch.form.lessFields" /></a>
+        </div>
+        
+        		    
+	    <%--  CourtType  --%>
+	    <div id="court-section" class="form-section court-section" >
 
+            <div class="triangle-up"></div>
+
+            <div class="form-group radio-group">
                 <label class="col-lg-2 col-sm-3 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>
                 <div class="col-lg-7 col-sm-8">
                     <div class="col-sm-6">
@@ -193,33 +231,32 @@
 					</c:forEach>
 
                 </div>
+               
+               </div>
+               
+               
+            <div id="all-fields" class="fields-container" >
+               
             </div>
-		    
-		    <div id="all-fields" class="fields-container" >
-		    	
-		    </div>
-		    
-		    <div id="common-court-fields" class="fields-container" >
-			    <%@ include file="ccJudgment/ccJudgmentSearchForm.jsp" %>
-		    </div>
-		     
-		    <div id="supreme-court-fields" class="fields-container" >
-		    	<%@ include file="scJudgment/scJudgmentSearchForm.jsp" %>
-		    </div>
-		    
-		    <div id="constitutional-tribunal-fields" class="fields-container">
-		    	<%@ include file="ctJudgment/ctJudgmentSearchForm.jsp" %>
-		    </div>
-		     
-	    </div>
-	
-		<div class="col-lg-offset-2 col-sm-offset-3" >
-			<a id="search-less-fields" class="button-advance visibility-hidden display-none" href="#search-form" ><spring:message code="judgmentSearch.form.lessFields" /></a>
-		</div>
+            
+            <div id="common-court-fields" class="fields-container" >
+                <%@ include file="ccJudgment/ccJudgmentSearchForm.jsp" %>
+            </div>
+             
+            <div id="supreme-court-fields" class="fields-container" >
+                <%@ include file="scJudgment/scJudgmentSearchForm.jsp" %>
+            </div>
+            
+            <div id="constitutional-tribunal-fields" class="fields-container">
+                <%@ include file="ctJudgment/ctJudgmentSearchForm.jsp" %>
+            </div>
+
+               
+        </div>
+	    
 	
 		<div class="form-group button-group">
 			<div class="col-lg-9 col-sm-11 col-xs-11">
-				<button type="reset" class="btn btn-default button"><spring:message code="button.resetForm" /></button>
 				<button type="submit" class="btn btn-primary button button-blue"><spring:message code="button.judgmentSearch" /></button>
 			</div>
 		</div>
