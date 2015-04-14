@@ -211,9 +211,9 @@ var jsInitInJudgmentSearch = function() {
     FormSection.init({
         formSectionId: "#court-section",
         openSectionButtonId: "#open-court-section",
-        selectedValuesSection: "#court-section-selected",
-        infoSection: "#court-info",
-        infoSectionValue: "#court-info-value"
+        selectedValuesSectionId: "#court-section-selected",
+        infoSectionId: "#court-info",
+        infoSectionValueId: "#court-info-value"
     });
 
 }

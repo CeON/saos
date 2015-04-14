@@ -12,9 +12,9 @@ var FormSection = (function() {
         options = {
             formSectionId: "",
             openSectionButtonId: "",
-            selectedValuesSection: "",
-            infoSection: "",
-            infoSectionValue: ""
+            selectedValuesSectionId: "",
+            infoSectionId: "",
+            infoSectionValueId: ""
         },
     
     
@@ -32,11 +32,11 @@ var FormSection = (function() {
             $formSection.slideDown(400, function() {});
         });
         
-        $(options.selectedValuesSection).click(function(event) {
+        $(options.selectedValuesSectionId).click(function(event) {
 
             event.preventDefault();
             
-            $(options.selectedValuesSection).fadeOut();
+            $(options.selectedValuesSectionId).fadeOut();
             
             $formSection.slideDown(400, function() {});
             
@@ -173,8 +173,8 @@ var FormSection = (function() {
         
         //Hides button "open section" & shows selected value section
         $(options.openSectionButtonId).fadeOut(400, function() {
-            $(options.selectedValuesSection).fadeIn();
-            $(options.infoSection).fadeIn();
+            $(options.selectedValuesSectionId).fadeIn();
+            $(options.infoSectionId).fadeIn();
         });
         
         //Hide form section
@@ -182,7 +182,7 @@ var FormSection = (function() {
             var html = publishInfoFromFormSection(true); 
             
             if (html !== "") {
-                $(options.infoSectionValue).html("<p>" + html + "</p>");
+                $(options.infoSectionValueId).html("<p>" + html + "</p>");
             }
             
         });
@@ -196,11 +196,11 @@ var FormSection = (function() {
         
         if (valuesToPublish !== "") {
             
-            $(options.infoSectionValue).html("<p>" + valuesToPublish + "</p>");
+            $(options.infoSectionValueId).html("<p>" + valuesToPublish + "</p>");
             
             $(options.openSectionButtonId).hide();
             
-            $(options.infoSection).show();
+            $(options.infoSectionId).show();
         }
         
     };
@@ -208,6 +208,26 @@ var FormSection = (function() {
     
     
     //------------------------ PUBLIC --------------------------
+    
+    /*
+     * Init 
+     * 
+     * @param options - object with fields:
+     * 
+     *      formSectionId - id of form section
+     *      openSectionButtonId -id of button that opens section
+     *      infoSectionId - id of info section
+     *      infoSectionValueId - id of info section value
+     *      selectedValuesSectionId - id of element that holds value of selected fields 
+     */
+    
+    options = {
+            formSectionId: "",
+            openSectionButtonId: "",
+            infoSectionId: "",
+            infoSectionValueId: "",
+            selectedValuesSectionId: ""
+        },
     
     scope.init = function(userOptions) {
         

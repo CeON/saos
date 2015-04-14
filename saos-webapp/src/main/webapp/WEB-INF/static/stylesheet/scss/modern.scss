@@ -651,26 +651,26 @@ form.search {
     display: none;
     position: relative;
     
-    $triangleSize: 15;
+    $triangleSize: 13px;
     
     .triangle-up {
-        border-left: 13px solid transparent;
-        border-right: 13px solid transparent;
-        border-bottom: 13px solid #e3e3e3;
+        border-left: $triangleSize solid transparent;
+        border-right: $triangleSize solid transparent;
+        border-bottom: $triangleSize solid #e3e3e3;
         height: 0;
         left: 100px;
         position: absolute;
-        top: -13px;
+        top: -1 * $triangleSize;
         width: 0;
         
         &:after {
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-bottom: 12px solid #f5f5f5;
+            border-left: $triangleSize - 1px solid transparent;
+            border-right: $triangleSize - 1px solid transparent;
+            border-bottom: $triangleSize - 1px solid #f5f5f5;
             content: "";
             display: block;
             height: 0;
-            left: -12px;
+            left: -1 * ($triangleSize - 1px);
             position: absolute;
             top: 1px;
             width: 0;    
