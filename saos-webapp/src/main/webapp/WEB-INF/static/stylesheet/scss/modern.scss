@@ -1640,10 +1640,7 @@ label.error {
 	}
 
 	.label-title {
-		background: none repeat scroll 0 0 #fff;
-	    color: #616161;
-	    display: inline-block;
-	    width: 155px;
+	    margin-bottom: 10px;
 	}
 	
 	.desc {
@@ -1653,9 +1650,11 @@ label.error {
 		p {
 			margin-bottom: 2px;
 			
-			a {
-				margin-right: 12px;
+			a, span {		
+				margin-right: 6px;
+				white-space: nowrap;
 			}
+			
 		}
 	}
 

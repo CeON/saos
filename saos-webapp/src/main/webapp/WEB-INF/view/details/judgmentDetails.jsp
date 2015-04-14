@@ -351,8 +351,8 @@ $(document).ready(function() {
 				<spring:message code="judgmentDetails.enrichmentTag.hintText" var="enrichmentTagHintText" />
 				<div class="panel-heading"><spring:message code="judgmentDetails.enrichmentTag.header" />:<saos:hint title="${enrichmentTagHeader}" content="${enrichmentTagHintText}" /></div>
 				<div class="panel-body">
-					<div class="label-title"><spring:message code="judgmentDetails.enrichmentTag.referencedCourtCases" />:</div>
-					<div class="desc">
+					<div class="col-xs-12 label-title"><spring:message code="judgmentDetails.enrichmentTag.referencedCourtCases" />:</div>
+					<div class="col-xs-12 desc">
 
 						<p>					
 							<c:forEach items="${judgment.referencedCourtCases}" var="refCourtCase" >
@@ -366,13 +366,9 @@ $(document).ready(function() {
 										</c:forEach>
 									</c:when>
 									<c:otherwise>
-										 <spring:url value="/search" var="refCourtCaseUlrSearch" htmlEscape="true" >
-										 	<spring:param name="signature" value="${refCourtCase.caseNumber}" />
-										 </spring:url>
-										 
-										<a href="${refCourtCaseUlrSearch}" >
-											<c:out value="${refCourtCase.caseNumber}"/>
-										</a>
+										<span> 
+										  <c:out value="${refCourtCase.caseNumber}"/>
+										</span>
 									</c:otherwise>
 								</c:choose>
 							
