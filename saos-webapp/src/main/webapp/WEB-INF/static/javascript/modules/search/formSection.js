@@ -212,7 +212,7 @@ var FormSection = (function() {
     /*
      * Init 
      * 
-     * @param options - object with fields:
+     * @param userOptions - object with fields:
      * 
      *      formSectionId - id of form section
      *      openSectionButtonId -id of button that opens section
@@ -220,15 +220,6 @@ var FormSection = (function() {
      *      infoSectionValueId - id of info section value
      *      selectedValuesSectionId - id of element that holds value of selected fields 
      */
-    
-    options = {
-            formSectionId: "",
-            openSectionButtonId: "",
-            infoSectionId: "",
-            infoSectionValueId: "",
-            selectedValuesSectionId: ""
-        },
-    
     scope.init = function(userOptions) {
         
         options = userOptions || {};
