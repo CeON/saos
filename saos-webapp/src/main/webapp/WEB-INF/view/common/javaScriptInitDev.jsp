@@ -34,6 +34,7 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/changeCourtType.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/cleanUrlForm.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/selectLawJournalEntry.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/search/formSection.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/details/infoBox.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/filterBox.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/suggester.js"></script>
