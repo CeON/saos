@@ -10,6 +10,7 @@ import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.webapp.judgment.detail.correction.JudgmentCorrectionService;
+import pl.edu.icm.saos.webapp.judgment.detail.refcourtcases.ReferencingJudgmentsService;
 
 /**
  * Provides view of single judgment.
@@ -28,6 +29,9 @@ public class JudgmentDetailsController {
 	@Autowired 
 	private JudgmentDetailsSortService judgmentDetailsSortService;
 	
+	@Autowired
+	private ReferencingJudgmentsService referencingJudgmentsService;
+	
 	
 	//------------------------ LOGIC --------------------------
 	
@@ -44,6 +48,7 @@ public class JudgmentDetailsController {
 		model.addAttribute("judgment", judgment);
 		model.addAttribute("corrections", judgmentCorrectionService.findAllByJudgmentIdSorted(judgmentId));
 		model.addAttribute("formattedTextContent", formattedTextContent);
+		model.addAttribute("referencingCount", referencingJudgmentsService.fetchReferencingJudgmentsCount(judgment.getId()));
 		
 		return "judgmentDetails";
 	}

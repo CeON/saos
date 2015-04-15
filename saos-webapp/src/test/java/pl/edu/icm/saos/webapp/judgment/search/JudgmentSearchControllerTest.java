@@ -32,13 +32,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
+import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
@@ -87,6 +91,9 @@ public class JudgmentSearchControllerTest {
 	
 	@Mock
 	private LawJournalEntryRepository lawJournalEntryRepository;
+	
+	@Mock
+	private JudgmentRepository judgmentRepository;
 	
 	@Autowired
 	private TestCourtsFactory testCourtsFactory;
@@ -249,6 +256,20 @@ public class JudgmentSearchControllerTest {
 			;
 		
 		verify(lawJournalEntryRepository, times(1)).findOne(lawJournalEntryId);
+	}
+	
+	@Test
+	public void judgmentSearchResults_search_form_contains_referenced_judgment() throws Exception {
+	    Judgment judgment = TestInMemoryObjectFactory.createSimpleCcJudgment();
+	    when(judgmentRepository.findOneAndInitialize(12L)).thenReturn(judgment);
+	    
+	    ResultActions result = mockMvc.perform(get("/search").param("referencedCourtCaseId", "12"));
+	    
+	    result
+	        .andExpect(status().isOk())
+	        .andExpect(view().name("judgmentSearch"))
+	        .andExpect(model().attribute("referencedJudgment", is(judgment)
+	        ));
 	}
 	
 	//------------------------ PRIVATE --------------------------
