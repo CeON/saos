@@ -1750,6 +1750,15 @@ label.error {
     min-width: 250px;
     position: absolute;
     top: -20px;
+    
+    @media (max-width: $screen-xs-min) {
+        left: 235px;
+        top: 10px;
+    }
+    @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+        left: 235px;
+        top: 10px;
+    }
 }
 
 .has-error {

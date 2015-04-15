@@ -63,7 +63,10 @@ var jsInitInJudgmentSearch = function() {
             
             $(id).css({display: "none"});
             
-            $parent.parent().css({marginTop: "0px"});
+            if ($parent.parent().find(".has-error").length === 0) {
+                $parent.parent().css({marginTop: "0px"});
+            }
+            
 		}
 	});
     

@@ -38,17 +38,6 @@
 
             <spring:message code="judgmentSearch.formField.datePlaceholder" var="datePlaceholder" />
             
-            <%-- Date validation messages 
-            <div class="form-group error-group">
-                <div class="col-lg-4 col-lg-offset-2" >
-                    <label id="datepicker_from-error" class="valid-error" for="datepicker_from"><spring:message code="judgmentSearch.validation.date.error" /></label>                    
-                </div>
-                <div class="col-lg-4 " >
-                    <label id="datepicker_to-error" class="valid-error" for="datepicker_to"><spring:message code="judgmentSearch.validation.date.error" /></label>
-                </div>
-            </div>
-            --%>
-            
 		    <div class="form-group ">
 			    <label for="datepicker_from" class="col-lg-2 col-md-3 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.dateFrom" />:</label>
 			    <div class="col-lg-2 col-md-2 col-sm-9 col-xs-12">
@@ -57,7 +46,7 @@
 			    	<label id="datepicker_from-desc" class="for-screen-readers" for="datepicker_from"><spring:message code="judgmentSearch.formField.dateWrongFormat" /></label>
 			    </div>
 
-			    <label for="datepicker_to" class="col-lg-2 col-md-1 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.dateTo" />:</label>
+			    <label for="datepicker_to" class="col-lg-2 col-md-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.dateTo" />:</label>
 			    <div class="col-lg-2 col-md-2 col-sm-9 col-xs-12">
 			    	<label id="datepicker_to-error" class="valid-error" for="datepicker_to"><spring:message code="judgmentSearch.validation.date.error" /></label>
 			    	<form:input path="dateTo" class="form-control form-date" id="datepicker_to" placeholder="${datePlaceholder}" maxlength="10" autocomplete="off" />
