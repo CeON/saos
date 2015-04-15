@@ -210,6 +210,8 @@
 		    <div id="constitutional-tribunal-fields" class="fields-container">
 		    	<%@ include file="ctJudgment/ctJudgmentSearchForm.jsp" %>
 		    </div>
+		    
+		    <form:hidden path="referencedCourtCaseId" id="referencedCourtCaseId" />
 		     
 	    </div>
 	
@@ -227,6 +229,8 @@
 	</fieldset>
 	
 </div>
+
+<%@ include file="judgmentSearchContext.jsp" %>
 
 <div class="container judgment-filter block " >
 

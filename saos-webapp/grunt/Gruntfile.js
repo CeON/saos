@@ -144,6 +144,7 @@ module.exports = function(grunt) {
         	      '<%= project.js.dir %>/modules/search/searchFormMode.js',
         	      '<%= project.js.dir %>/modules/search/searchCriteria.js',
         	      '<%= project.js.dir %>/modules/search/searchSettingsToolTip.js',
+        	      '<%= project.js.dir %>/modules/search/searchContext.js',
         	      '<%= project.js.dir %>/modules/search/searchFilters.js',
         	      '<%= project.js.dir %>/modules/search/changeCourtType.js',
         	      '<%= project.js.dir %>/modules/search/cleanUrlForm.js',
