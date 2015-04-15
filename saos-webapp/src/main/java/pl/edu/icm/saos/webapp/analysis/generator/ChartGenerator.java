@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.chart.Chart;
-import pl.edu.icm.saos.search.analysis.AnalysisService;
+import pl.edu.icm.saos.search.analysis.ChartService;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
@@ -17,7 +17,6 @@ import pl.edu.icm.saos.webapp.analysis.request.converter.UiySettingsConverter;
 import pl.edu.icm.saos.webapp.analysis.request.converter.XSettingsGenerator;
 import pl.edu.icm.saos.webapp.analysis.request.converter.XSettingsGeneratorManager;
 import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
-import pl.edu.icm.saos.webapp.analysis.result.ChartConverter;
 import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
 
 import com.google.common.base.Preconditions;
@@ -34,7 +33,7 @@ import com.google.common.base.Preconditions;
 public class ChartGenerator {
 
     
-    private AnalysisService analysisService;
+    private ChartService chartService;
     
     private JudgmentSeriesFilterConverter judgmentSeriesFilterConverter;
     
@@ -42,8 +41,7 @@ public class ChartGenerator {
     
     private UiySettingsConverter uiySettingsConverter;
     
-    private ChartConverter flotChartConverter;
-    
+   
     
     //------------------------ LOGIC --------------------------
     
@@ -53,7 +51,7 @@ public class ChartGenerator {
      * @throws IllegalArgumentException if the chart of the given chart code can not be generated for the passed analysisForm,
      * see: {@link #canGenerateChart(ChartCode, AnalysisForm)}
      */
-    public FlotChart generateChart(ChartCode chartCode, AnalysisForm analysisForm) {
+    public Chart<Object, Number> generateChart(ChartCode chartCode, AnalysisForm analysisForm) {
         
         Preconditions.checkNotNull(analysisForm);
         Preconditions.checkArgument(canGenerateChart(chartCode, analysisForm));
@@ -76,12 +74,12 @@ public class ChartGenerator {
         
         // execute
         
-        Chart<Object, Number> chart = analysisService.generateChart(judgmentSeriesCriteriaList, xsettings, ysettings);
+        Chart<Object, Number> chart = chartService.generateChart(judgmentSeriesCriteriaList, xsettings, ysettings);
         
         
-        // convert & return
+        // return
         
-        return flotChartConverter.convert(chart);
+        return chart;
         
         
     }
@@ -108,8 +106,8 @@ public class ChartGenerator {
     //------------------------ SETTERS --------------------------
 
     @Autowired
-    public void setAnalysisService(AnalysisService analysisService) {
-        this.analysisService = analysisService;
+    public void setChartService(ChartService chartService) {
+        this.chartService = chartService;
     }
 
     @Autowired
@@ -120,11 +118,6 @@ public class ChartGenerator {
     @Autowired
     public void setUiySettingsConverter(UiySettingsConverter uiySettingsConverter) {
         this.uiySettingsConverter = uiySettingsConverter;
-    }
-
-    @Autowired
-    public void setFlotChartConverter(ChartConverter flotChartConverter) {
-        this.flotChartConverter = flotChartConverter;
     }
 
     @Autowired

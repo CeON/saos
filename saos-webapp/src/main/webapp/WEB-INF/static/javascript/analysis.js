@@ -100,6 +100,7 @@ var initAnalysisJs = function() {
             event.preventDefault();
         });
         
+        
     }
     
     
@@ -109,6 +110,8 @@ var initAnalysisJs = function() {
     function initButtons() {
         initAddNewSearchPhraseButton();
         initDeleteSearchPhraseButtons();
+        initExportToCsvButtons();
+        
     }
     
     /**
@@ -227,7 +230,19 @@ var initAnalysisJs = function() {
         
     }
 
+
     
+    /****************** CSV GENERATION **/
+    
+    function initExportToCsvButtons() {
+        $("[id^=exportToCsv]").click(function () {
+            var chartCode = $(this).attr('id').split("-")[1];
+            $('#analysisForm').attr('action', analysisFormBaseAction + "/generateCsv");
+            $('[name="chartCode"]').remove();
+            $('#analysisForm').append($("<input>").attr('type','hidden').attr("name", "chartCode").val(chartCode));
+            $('#analysisForm').submit();
+        });
+    }
 
     
     /****************** COMMON **/
@@ -267,6 +282,8 @@ var initAnalysisJs = function() {
      * Updates url in brower address and history
      */
     function updateUrl() {
+        $('[name="chartCode"]').remove();
+        
         var newUrl = $(location).attr('protocol') + "//" + $(location).attr('host') + $(location).attr('pathname') + "?" + $("#analysisForm").serialize();
         
         history.pushState('html:newUrl', '', newUrl);

@@ -27,7 +27,7 @@ import pl.edu.icm.saos.webapp.analysis.result.FlotChart.FlotSeries;
 public class ChartAggregatorTest {
 
     @InjectMocks
-    private ChartAggregator chartAggregator = new ChartAggregator();
+    private FlotChartAggregator chartAggregator = new FlotChartAggregator();
     
     @Mock
     private FlotSeriesAggregatorManager flotSeriesAggregatorManager;

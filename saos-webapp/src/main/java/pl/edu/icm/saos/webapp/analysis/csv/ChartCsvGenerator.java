@@ -1,6 +1,4 @@
-package pl.edu.icm.saos.webapp.analysis.result;
-
-import java.util.List;
+package pl.edu.icm.saos.webapp.analysis.csv;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,71 +11,82 @@ import pl.edu.icm.saos.common.chart.Series;
 import pl.edu.icm.saos.common.chart.formatter.PointValueFormatterManager;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 
 /**
- * 
- * Generator of x tick labels, see: {@link FlotChart#getXticks()}
+ * A service for creating csv headers and rows
  * 
  * @author Łukasz Dumiszewski
  */
-@Service("flotXticksGenerator")
-public class FlotXticksGenerator {
+@Service("chartCsvGenerator")
+public class ChartCsvGenerator {
 
     private PointValueFormatterManager pointValueFormatterManager;
+    
     
     
     //------------------------ LOGIC --------------------------
     
     /**
-     * Generates x tick list from the given chart. Uses the first series of the chart
-     * to generate the map (assumes that every series has the same x values). <br/>
-     * Returns empty list if the given chart has no
-     * series or the first series is empty. 
-     * 
-     * @param chart the chart from which the x tick list will be generated
-     * @throws NullPointerException if the passed chart is null
-     * @see FlotChart#getXticks()
+     * Generates csv header from the given chart
      */
-    public List<Object[]> generateXticks(Chart<?, Number> chart) {
+    public String[] generateHeader(Chart<Object, Number> chart) {
         
         Preconditions.checkNotNull(chart);
         
-        List<Object[]> xticks = Lists.newArrayList();
-        
-        
         
         // Assumption: each series has got same x values, so 
-        // the first series of the chart will be enough to generate xticks
+        // the first series of the chart will be enough to generate header
         
         if (CollectionUtils.isEmpty(chart.getSeriesList())) {
-            return xticks;
+            return new String[]{};
         }
         
         Series<?, Number> series = chart.getSeriesList().get(0);
         
         if (series == null) {
-            return xticks;
+            return new String[]{};
         }
         
+        String[] header = new String[series.getPoints().size()];
         
         for (int i=0; i < series.getPoints().size(); i++) {
             
             Point<?, Number> point = series.getPoints().get(i);
             
-            xticks.add(new Object[] {i, pointValueFormatterManager.format(point.getX())});
+            header[i] = pointValueFormatterManager.format(point.getX());
             
         }
         
         
-        return xticks;
+        return header;
+    }
+    
+    /**
+     * Generates csv row from y values of the given series points 
+     */
+    public String[] generateRow(Series<Object, Number> series) {
+        
+        Preconditions.checkNotNull(series);
+        
+        String[] row = new String[series.getPoints().size()];
+        
+        for (int i=0; i < series.getPoints().size(); i++) {
+            
+            Point<?, Number> point = series.getPoints().get(i);
+            
+            row[i] = pointValueFormatterManager.format(point.getY());
+            
+        }
+        
+        return row;
         
     }
+
 
     //------------------------ SETTERS --------------------------
     
     @Autowired
-    @Qualifier("flotChartPointValueFormatterManager")
+    @Qualifier("csvPointValueFormatterManager")
     public void setPointValueFormatterManager(PointValueFormatterManager pointValueFormatterManager) {
         this.pointValueFormatterManager = pointValueFormatterManager;
     }

@@ -54,7 +54,7 @@ import com.google.common.collect.Lists;
  */
 @Entity
 @Table(
-        indexes={@Index(columnList="indexed"), @Index(columnList="judgmentDate, id")},
+        indexes={@Index(columnList="indexed"), @Index(columnList="judgmentDate, id"), @Index(columnList="sourceCode, sourceJudgmentId")},
         uniqueConstraints={@UniqueConstraint(name="source_id_judgment_id_unique", columnNames={"sourceCode", "sourceJudgmentId"})})
 @Inheritance(strategy = InheritanceType.JOINED)
 @Cacheable(false)

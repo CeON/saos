@@ -18,8 +18,8 @@ import com.google.common.base.Preconditions;
  * 
  * @author Łukasz Dumiszewski
  */
-@Service("analysisService")
-public class AnalysisService {
+@Service("chartService")
+public class ChartService {
 
     
     private SeriesService seriesService;
