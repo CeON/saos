@@ -434,12 +434,18 @@ form.search {
 	}
 }
 
+.for-screen-readers {
+    left: -9999px;
+    position: absolute;
+}
+
 .search-form {
-	background: $white;
-	border: 1px solid $grey-border;
-	border-radius: 2px;
+    background: $white;
+    border: 1px solid $grey-border;
+    border-radius: 2px;
     margin-top: 30px;
     padding: 0 30px;
+    position: relative;
 	
 	input {
 		border-radius: 2px;
@@ -495,6 +501,12 @@ form.search {
 	    padding-top: 20px;
 	}
 	
+	.search-form-hint {
+	   position: absolute;
+	   right: 30px;
+	   top: 25px;
+	}
+	
 	.form-group {
 	
 		.hint {
@@ -517,6 +529,10 @@ form.search {
 		
 		div label {
 			margin-left: 5px;
+			
+			&.valid-error {
+			    margin: 0;
+			}
 		}
 	}
 
@@ -562,8 +578,9 @@ form.search {
 		}
 		
 		label[for="radio-court-administrative"] {
+		    background-color: $white;
+		    color: #666;
 		    cursor: default;
-		    text-decoration: line-through;
 		}
 		
 		.hint {
@@ -960,21 +977,12 @@ form.search {
 		li {
 			display: inline;
 		
-			.keyword {
-				background: $grey;
-				border-radius: 2px;
-				color: #666;
-				cursor: pointer;
-				display: inline-block;
-				font-size: 13px;
-				margin: 0 4px 4px 0;
-				padding: 4px 8px;
-				
-				&:hover {
-					background: darken($grey, 10%);
-					color: #666;
-				}
-			}
+            .keyword {
+            @include filter-underline();
+            cursor: pointer;
+            display: inline-block;
+            margin: 0 4px 4px 0;
+            }
 		}
 	}
 }
@@ -1724,3 +1732,38 @@ label.error {
     }
 }
 
+.hasDatepicker {
+    @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+        width: 126px;
+    }
+    @media (min-width: $screen-lg-min) {
+        width: 160px;
+    }
+}
+
+.valid-error {
+    color: $gbRed;
+    display: none;
+    font-size: 12px;
+    margin: 0;
+    min-width: 250px;
+    position: absolute;
+    top: -20px;
+    
+    @media (max-width: $screen-xs-min) {
+        left: 235px;
+        top: 10px;
+    }
+    @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+        left: 235px;
+        top: 10px;
+    }
+}
+
+.has-error {
+    color: $gbRed;
+}
+
+.error-group {
+    margin-bottom: 0;
+}
