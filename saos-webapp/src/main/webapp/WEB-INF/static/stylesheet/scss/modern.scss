@@ -440,9 +440,9 @@ form.search {
 }
 
 .search-form {
-	background: $white;
-	border: 1px solid $grey-border;
-	border-radius: 2px;
+    background: $white;
+    border: 1px solid $grey-border;
+    border-radius: 2px;
     margin-top: 30px;
     padding: 0 30px;
     position: relative;
@@ -977,12 +977,12 @@ form.search {
 		li {
 			display: inline;
 		
-			.keyword {
-			    @include filter-underline();
-                cursor: pointer;
-                display: inline-block;
-				margin: 0 4px 4px 0;
-			}
+            .keyword {
+            @include filter-underline();
+            cursor: pointer;
+            display: inline-block;
+            margin: 0 4px 4px 0;
+            }
 		}
 	}
 }
