@@ -3,7 +3,6 @@
  * 
  * @author Łukasz Pawełczak
  */
-
 var jsInitInJudgmentSearch = function() {
 
 	
@@ -45,10 +44,26 @@ var jsInitInJudgmentSearch = function() {
 		errorPlacement: function(error, element) {
 		},
 		highlight: function(element, errorClass, validClass) {
-			$(element).parent().parent().addClass("has-error");
+		    var id = "#" + $(element).attr("id") + "-error",
+		        $parent = $(element).parent(); 
+		    
+		    $parent.addClass("has-error");
+		    $parent.prev().addClass("has-error");
+		    
+		    $(id).css({display: "block"});
+		    
+		    $parent.parent().css({marginTop: "35px"});
 		},
 		unhighlight: function(element, errorClass, validClass) {
-			$(element).parent().parent().removeClass("has-error");
+		    var id = "#" + $(element).attr("id") + "-error",
+		        $parent = $(element).parent(); 
+            
+            $parent.removeClass("has-error");
+            $parent.prev().removeClass("has-error");
+            
+            $(id).css({display: "none"});
+            
+            $parent.parent().css({marginTop: "0px"});
 		}
 	});
     

@@ -9,6 +9,23 @@
 
 	<fieldset id="search-fieldset" >
 		<legend><spring:message code="judgmentSearch.form.header" /></legend>
+		
+		<div class="search-form-hint">
+		  
+		  <spring:message var="searchQueryLanguage" code="judgmentSearch.hint.searchQueryLanguage" />
+		  <spring:eval expression="@exposedProperties.getProperty('webapp.helpAddress.searchQueryLanguage')" var="linkToHelpAboutSearchQueryLanguage" />
+		  
+		  <c:set var="searchFormHintAddress" >
+		      <saos:helpLink title="${searchQueryLanguage}" pageLink="${linkToHelpAboutSearchQueryLanguage}" ></saos:helpLink>
+		  </c:set>
+		  
+		  <spring:message var="searchFormHintTitle" code="judgmentSearch.hint.searchForm.title" />
+		  <spring:message var="searchFormHintContent" code="judgmentSearch.hint.searchForm.content" arguments="${searchFormHintAddress}" />
+
+		
+		  <saos:hint content="${searchFormHintContent}" title="${searchFormHintTitle}" placement="left" ></saos:hint>
+		</div>
+		
 		<saos:formFieldText path="all" labelName="input-search-all" labelText="judgmentSearch.formField.all" />
     
 	    <div class="col-lg-offset-2 col-sm-offset-3 " >
@@ -19,19 +36,32 @@
 	    
    			<saos:formFieldText path="signature" labelName="input-search-casenumber" labelText="judgmentSearch.formField.caseNumber" />
 
-		    <div class="form-group">
-		    	<spring:message code="judgmentSearch.formField.datePlaceholder" var="datePlaceholder" />	
-			    <label for="datepicker_from" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.dateFrom" />:</label>
-			    <div class="col-lg-7 col-sm-8 col-xs-12">
+            <spring:message code="judgmentSearch.formField.datePlaceholder" var="datePlaceholder" />
+            
+            <%-- Date validation messages 
+            <div class="form-group error-group">
+                <div class="col-lg-4 col-lg-offset-2" >
+                    <label id="datepicker_from-error" class="valid-error" for="datepicker_from"><spring:message code="judgmentSearch.validation.date.error" /></label>                    
+                </div>
+                <div class="col-lg-4 " >
+                    <label id="datepicker_to-error" class="valid-error" for="datepicker_to"><spring:message code="judgmentSearch.validation.date.error" /></label>
+                </div>
+            </div>
+            --%>
+            
+		    <div class="form-group ">
+			    <label for="datepicker_from" class="col-lg-2 col-md-3 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.dateFrom" />:</label>
+			    <div class="col-lg-2 col-md-2 col-sm-9 col-xs-12">
+			        <label id="datepicker_from-error" class="valid-error" for="datepicker_from"><spring:message code="judgmentSearch.validation.date.error" /></label>
 			    	<form:input path="dateFrom" class="form-control form-date" id="datepicker_from" placeholder="${datePlaceholder}" maxlength="10" autocomplete="off" />
-			    	<label id="datepicker_from-desc" class="" for="datepicker_from"><spring:message code="judgmentSearch.formField.dateWrongFormat" /></label>			       
+			    	<label id="datepicker_from-desc" class="for-screen-readers" for="datepicker_from"><spring:message code="judgmentSearch.formField.dateWrongFormat" /></label>
 			    </div>
-		    </div>
-		    <div class="form-group">
-			    <label for="datepicker_to" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.dateTo" />:</label>
-			    <div class="col-lg-7 col-sm-8 col-xs-12">
+
+			    <label for="datepicker_to" class="col-lg-2 col-md-1 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.dateTo" />:</label>
+			    <div class="col-lg-2 col-md-2 col-sm-9 col-xs-12">
+			    	<label id="datepicker_to-error" class="valid-error" for="datepicker_to"><spring:message code="judgmentSearch.validation.date.error" /></label>
 			    	<form:input path="dateTo" class="form-control form-date" id="datepicker_to" placeholder="${datePlaceholder}" maxlength="10" autocomplete="off" />
-			    	<label id="datepicker_to-desc" class="" for="datepicker_to"><spring:message code="judgmentSearch.formField.dateWrongFormat" /></label>
+			    	<label id="datepicker_to-desc" class="for-screen-readers" for="datepicker_to"><spring:message code="judgmentSearch.formField.dateWrongFormat" /></label>
 			    </div>
 		    </div>
 		    
@@ -78,7 +108,7 @@
 				</div>
 				<spring:message code="judgmentSearch.hint.legalBases.title" var="hintLegalBasesTitle" />
 				<spring:message code="judgmentSearch.hint.legalBases.content" var="hintLegalBasesContent" />
-				<div class="col-xs-1">
+				<div >
 				    <saos:hint title="${hintLegalBasesTitle}" content="${hintLegalBasesContent}" placement="left" />
 			    </div>
 			</div>
