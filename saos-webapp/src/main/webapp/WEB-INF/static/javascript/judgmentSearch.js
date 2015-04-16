@@ -3,7 +3,6 @@
  * 
  * @author Łukasz Pawełczak
  */
-
 var jsInitInJudgmentSearch = function() {
 
 	
@@ -31,26 +30,44 @@ var jsInitInJudgmentSearch = function() {
 		""
 	);
     
-	$('#search-form').validate({
-		onkeyup: false,
-		onclick: false,
-		rules: {
-			dateFrom: {
-				dateFormat: true
-			},
-			dateTo: {
-				dateFormat: true
-			}
-		},
-		errorPlacement: function(error, element) {
-		},
-		highlight: function(element, errorClass, validClass) {
-			$(element).parent().parent().addClass("has-error");
-		},
-		unhighlight: function(element, errorClass, validClass) {
-			$(element).parent().parent().removeClass("has-error");
-		}
-	});
+    $('#search-form').validate({
+        onkeyup: false,
+        onclick: false,
+        rules: {
+            dateFrom: {
+                dateFormat: true
+            },
+            dateTo: {
+                dateFormat: true
+            }
+        },
+        errorPlacement: function(error, element) {},
+        highlight: function(element, errorClass, validClass) {
+            var id = "#" + $(element).attr("id") + "-error",
+            $parent = $(element).parent(); 
+            
+            $parent.addClass("has-error");
+            $parent.prev().addClass("has-error");
+            
+            $(id).css({display: "block"});
+            
+            $parent.parent().css({marginTop: "35px"});
+        },
+        unhighlight: function(element, errorClass, validClass) {
+            var id = "#" + $(element).attr("id") + "-error",
+            $parent = $(element).parent(); 
+            
+            $parent.removeClass("has-error");
+            $parent.prev().removeClass("has-error");
+            
+            $(id).css({display: "none"});
+            
+            if ($parent.parent().find(".has-error").length === 0) {
+            $parent.parent().css({marginTop: "0px"});
+            }
+            
+        }
+    });
     
 	/* Format date */
     $("#datepicker_from, #datepicker_to")
