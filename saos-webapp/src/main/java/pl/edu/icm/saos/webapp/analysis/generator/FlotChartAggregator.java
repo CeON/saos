@@ -11,12 +11,12 @@ import com.google.common.base.Preconditions;
 
 /**
  * 
- * A chart aggregator.
+ * A flot chart aggregator.
  * 
  * @author Łukasz Dumiszewski
  */
-@Service("chartAggregator")
-public class ChartAggregator {
+@Service("flotChartAggregator")
+public class FlotChartAggregator {
 
     private FlotSeriesAggregatorManager flotSeriesAggregatorManager;
     

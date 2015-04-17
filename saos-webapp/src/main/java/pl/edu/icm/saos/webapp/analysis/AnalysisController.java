@@ -1,9 +1,11 @@
 package pl.edu.icm.saos.webapp.analysis;
 
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pl.edu.icm.saos.webapp.analysis.csv.ChartCsvService;
+import pl.edu.icm.saos.webapp.analysis.generator.FlotChartService;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.DefaultJudgmentGlobalFilterFactory;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
@@ -31,7 +35,9 @@ public class AnalysisController {
 
     
     
-    private UiAnalysisService uiAnalysisService;
+    private FlotChartService flotChartService;
+    
+    private ChartCsvService chartCsvService;
     
     private DefaultJudgmentGlobalFilterFactory judgmentDateRangeFactory;
     
@@ -83,20 +89,30 @@ public class AnalysisController {
     @RequestMapping(value="/analysis/generate", method= RequestMethod.GET)
     @ResponseBody
     public Map<ChartCode, FlotChart> generate(@ModelAttribute("analysisForm") AnalysisForm analysisForm) {
-        return uiAnalysisService.generateCharts(analysisForm);
+        return flotChartService.generateCharts(analysisForm);
         
     }
 
     
-    
+    @RequestMapping(value="/analysis/generateCsv", method= RequestMethod.GET)
+    public void generateCsv(@ModelAttribute("analysisForm") AnalysisForm analysisForm, @RequestParam("chartCode") ChartCode chartCode, HttpServletResponse response) throws IOException {
+        chartCsvService.generateChartCsv(chartCode, analysisForm, response);
+        
+    }
+
     
     //------------------------ SETTERS --------------------------
     
     @Autowired
-    public void setUiAnalysisService(UiAnalysisService uiAnalysisService) {
-        this.uiAnalysisService = uiAnalysisService;
+    public void setFlotChartService(FlotChartService flotChartService) {
+        this.flotChartService = flotChartService;
     }
 
+    @Autowired
+    public void setChartCsvService(ChartCsvService chartCsvService) {
+        this.chartCsvService = chartCsvService;
+    }
+    
     @Autowired
     public void setJudgmentDateRangeFactory(DefaultJudgmentGlobalFilterFactory judgmentDateRangeFactory) {
         this.judgmentDateRangeFactory = judgmentDateRangeFactory;
@@ -106,6 +122,7 @@ public class AnalysisController {
     public void setMaxNumberOfSearchPhrases(int maxNumberOfSearchPhrases) {
         this.maxNumberOfSearchPhrases = maxNumberOfSearchPhrases;
     }
+
 
     
         

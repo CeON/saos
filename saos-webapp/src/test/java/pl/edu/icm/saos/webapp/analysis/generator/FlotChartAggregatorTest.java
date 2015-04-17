@@ -24,10 +24,10 @@ import pl.edu.icm.saos.webapp.analysis.result.FlotChart.FlotSeries;
  * @author Łukasz Dumiszewski
  */
 
-public class ChartAggregatorTest {
+public class FlotChartAggregatorTest {
 
     @InjectMocks
-    private ChartAggregator chartAggregator = new ChartAggregator();
+    private FlotChartAggregator chartAggregator = new FlotChartAggregator();
     
     @Mock
     private FlotSeriesAggregatorManager flotSeriesAggregatorManager;

@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.webapp.analysis;
+package pl.edu.icm.saos.webapp.analysis.generator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,8 +14,6 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import pl.edu.icm.saos.webapp.analysis.generator.ChartAggregator;
-import pl.edu.icm.saos.webapp.analysis.generator.ChartGenerator;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.UiySettings;
 import pl.edu.icm.saos.webapp.analysis.request.UiySettings.UiyValueType;
@@ -26,17 +24,17 @@ import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
  * @author Łukasz Dumiszewski
  */
 
-public class UiAnalysisServiceTest {
+public class FlotChartServiceTest {
 
     
     @InjectMocks
-    private UiAnalysisService uiAnalysisService = new UiAnalysisService();
+    private FlotChartService flotChartService = new FlotChartService();
     
     @Mock
-    private ChartGenerator chartGenerator;
+    private FlotChartGenerator flotChartGenerator;
     
     @Mock
-    private ChartAggregator chartAggregator;
+    private FlotChartAggregator chartAggregator;
     
 
     
@@ -53,7 +51,7 @@ public class UiAnalysisServiceTest {
     public void generateCharts_NULL() {
         
         // execute
-        uiAnalysisService.generateCharts(null);
+        flotChartService.generateCharts(null);
         
     }
     
@@ -69,9 +67,9 @@ public class UiAnalysisServiceTest {
         when(analysisForm.getYsettings()).thenReturn(uiySettings);
         
         FlotChart mainChart = mock(FlotChart.class);
-        when(chartGenerator.canGenerateChart(ChartCode.MAIN_CHART, analysisForm)).thenReturn(true);
-        when(chartGenerator.generateChart(ChartCode.MAIN_CHART, analysisForm)).thenReturn(mainChart);
-        when(chartGenerator.canGenerateChart(ChartCode.AGGREGATED_MAIN_CHART, analysisForm)).thenReturn(false);
+        when(flotChartGenerator.canGenerateChart(ChartCode.MAIN_CHART, analysisForm)).thenReturn(true);
+        when(flotChartGenerator.generateFlotChart(ChartCode.MAIN_CHART, analysisForm)).thenReturn(mainChart);
+        when(flotChartGenerator.canGenerateChart(ChartCode.AGGREGATED_MAIN_CHART, analysisForm)).thenReturn(false);
         
         
         FlotChart aggregatedMainChart = mock(FlotChart.class);
@@ -80,7 +78,7 @@ public class UiAnalysisServiceTest {
         
         // execute
         
-        Map<ChartCode, FlotChart> flotCharts = uiAnalysisService.generateCharts(analysisForm);
+        Map<ChartCode, FlotChart> flotCharts = flotChartService.generateCharts(analysisForm);
         
         
         // assert
@@ -89,7 +87,7 @@ public class UiAnalysisServiceTest {
         assertTrue(mainChart == flotCharts.get(ChartCode.MAIN_CHART));
         assertTrue(aggregatedMainChart == flotCharts.get(ChartCode.AGGREGATED_MAIN_CHART));
         for (ChartCode chartCode : ChartCode.values()) {
-            verify(chartGenerator).canGenerateChart(chartCode, analysisForm);
+            verify(flotChartGenerator).canGenerateChart(chartCode, analysisForm);
         }
     }
     

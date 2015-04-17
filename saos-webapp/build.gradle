@@ -27,6 +27,7 @@ dependencies {
     compile lib.'org.springframework.hateoas'
     compile lib.'com.fasterxml.jackson.core:jackson-databind'
     compile lib.'com.fasterxml.jackson.core:jackson-core'
+    compile lib.'au.com.bytecode:opencsv'
     testCompile lib.'com.jayway.jsonpath:json-path'
     testCompile lib.'com.jayway.jsonpath:json-path-assert'
     providedCompile lib.'javax.el:javax.el-api'

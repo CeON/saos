@@ -6,6 +6,7 @@ var initAnalysisJs = function() {
     var mainChart = null;
     var aggregatedMainChart = null;
     var isZoomed = false;
+    var isChartGenerating = false; 
     
     // based on jquery.colors Colour.names
     var colours = [
@@ -86,8 +87,6 @@ var initAnalysisJs = function() {
          
         tieMonthYearRangeSelects("judgmentDateStartMonth", "judgmentDateStartYear", "judgmentDateEndMonth", "judgmentDateEndYear");
 
-        initButtons();
-        
         initInputs();
 
         colourPhraseInputs();
@@ -100,6 +99,9 @@ var initAnalysisJs = function() {
             event.preventDefault();
         });
         
+        initButtons();
+        
+        
     }
     
     
@@ -109,6 +111,8 @@ var initAnalysisJs = function() {
     function initButtons() {
         initAddNewSearchPhraseButton();
         initDeleteSearchPhraseButtons();
+        initExportToCsvButtons();
+        
     }
     
     /**
@@ -227,8 +231,38 @@ var initAnalysisJs = function() {
         
     }
 
-    
 
+    
+    /****************** CSV GENERATION **/
+    
+    /**
+     * Initializes export to csv buttons. Clicking on these buttons will execute csv chart data
+     * generation.
+     */
+    function initExportToCsvButtons() {
+        $("[id^=exportToCsv]").click(function () {
+            var chartCode = $(this).attr('id').split("-")[1];
+            if (isChartGenerating) { // hold the csv generation if the chart is generating
+                setTimeout(function() {generateCsv(chartCode)}, 500);
+            } else {
+                generateCsv(chartCode);
+            }
+        });
+    }
+
+    /**
+     * Generates csv data for the chart with the given chartCode
+     */
+    function generateCsv(chartCode) {
+        if (isChartGenerating) {return;}
+        $('#analysisForm').attr('action', analysisFormBaseAction + "/generateCsv");
+        $('[name="chartCode"]').remove();
+        $('#analysisForm').append($("<input>").attr('type','hidden').attr("name", "chartCode").val(chartCode));
+        $('#analysisForm').submit();
+    }
+    
+    
+    
     
     /****************** COMMON **/
     
@@ -267,6 +301,8 @@ var initAnalysisJs = function() {
      * Updates url in brower address and history
      */
     function updateUrl() {
+        $('[name="chartCode"]').remove();
+        
         var newUrl = $(location).attr('protocol') + "//" + $(location).attr('host') + $(location).attr('pathname') + "?" + $("#analysisForm").serialize();
         
         history.pushState('html:newUrl', '', newUrl);
@@ -290,12 +326,14 @@ var initAnalysisJs = function() {
      * @param updateUrlLocation should the updateUrl function be invoked after generating the chart
      */
     function generateCharts(updateLocationUrl) {
+
+        isChartGenerating = true;
         
         $('#analysisForm').attr('action', analysisFormBaseAction + "/generate");
             
         showAjaxLoader("mainChart");
-        showAjaxLoader("mainAggregatedChart");
-            
+        showAjaxLoader("aggregatedMainChart");
+        
         $('#analysisForm').ajaxSubmit(function(charts) {
             $('#analysisForm').attr('action', analysisFormBaseAction)
              
@@ -308,6 +346,8 @@ var initAnalysisJs = function() {
              if (updateLocationUrl) {
                  updateUrl();   
              }
+             
+             isChartGenerating = false;
          });
 
     }
