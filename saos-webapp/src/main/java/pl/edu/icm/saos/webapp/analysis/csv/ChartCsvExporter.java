@@ -33,7 +33,7 @@ public class ChartCsvExporter {
      */
     public void exportChartToCsv(Chart<Object, Number> chart, Writer writer) throws IOException {
         
-        CSVWriter csvWriter = new CSVWriter(writer, fieldSeparator, quoteCharacter);
+        CSVWriter csvWriter = createCsvWriter(writer);
         
         try {
             csvWriter.writeNext(chartCsvGenerator.generateHeader(chart));
@@ -48,6 +48,14 @@ public class ChartCsvExporter {
             csvWriter.close();
         
         }
+    }
+
+    
+    
+    //------------------------ PRIVATE --------------------------
+
+    CSVWriter createCsvWriter(Writer writer) {
+        return new CSVWriter(writer, fieldSeparator, quoteCharacter);
     }
 
 

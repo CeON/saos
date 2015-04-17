@@ -43,9 +43,7 @@ public class ChartCsvGenerator {
         
         Series<?, Number> series = chart.getSeriesList().get(0);
         
-        if (series == null) {
-            return new String[]{};
-        }
+        Preconditions.checkNotNull(series);
         
         String[] header = new String[series.getPoints().size()];
         

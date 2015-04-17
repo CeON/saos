@@ -3,6 +3,7 @@ package pl.edu.icm.saos.common.chart;
 import java.io.Serializable;
 import java.util.List;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
 
@@ -54,6 +55,7 @@ public class Chart<X, Y> implements Serializable {
     //------------------------ LOGIC --------------------------
     
     public void addSeries(Series<X, Y> series) {
+        Preconditions.checkNotNull(series);
         seriesList.add(series);
     }
     
