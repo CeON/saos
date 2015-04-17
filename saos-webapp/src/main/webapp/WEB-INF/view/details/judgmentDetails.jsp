@@ -343,13 +343,16 @@ $(document).ready(function() {
 			</ul>
 		</c:if>
 	
+		<c:set var="showGeneratedPanel" value="${(!empty judgment.referencedCourtCases) || referencingCount > 0 }" />
 		
-		<c:if test="${!empty judgment.referencedCourtCases}">
+		<c:if test="${showGeneratedPanel}">
 		
 			<div class="panel panel-default panel-generated" >
 				<spring:message code="judgmentDetails.enrichmentTag.header" var="enrichmentTagHeader" />
 				<spring:message code="judgmentDetails.enrichmentTag.hintText" var="enrichmentTagHintText" />
 				<div class="panel-heading"><spring:message code="judgmentDetails.enrichmentTag.header" />:<saos:hint title="${enrichmentTagHeader}" content="${enrichmentTagHintText}" /></div>
+				
+				<c:if test="${!empty judgment.referencedCourtCases}">
 				<div class="panel-body">
 					<div class="col-xs-12 label-title"><spring:message code="judgmentDetails.enrichmentTag.referencedCourtCases" />:</div>
 					<div class="col-xs-12 desc">
@@ -377,6 +380,17 @@ $(document).ready(function() {
 					
 					</div>
 				</div>
+				</c:if>
+				<c:if test="${referencingCount > 0}">
+				<div class="panel-body">
+					<div class="label-title"><spring:message code="judgmentDetails.enrichmentTag.referencingJudgments" />:</div>
+					<div class="desc">
+						<a href="${contextPath}/search?referencedCourtCaseId=${judgment.id}" title="<spring:message code="judgmentDetails.enrichmentTag.referencingJudgments.searchLink" />">
+							<spring:message code="judgmentDetails.enrichmentTag.referencingJudgments.count" />: <c:out value="${referencingCount}" />
+						</a> 
+					</div>
+				</div>
+				</c:if>
 			</div>
 		</c:if>
 

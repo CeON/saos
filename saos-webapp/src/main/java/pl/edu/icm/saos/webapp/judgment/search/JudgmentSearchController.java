@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
@@ -45,6 +47,9 @@ public class JudgmentSearchController {
 	@Autowired
 	private LawJournalEntryRepository lawJournalEntryRepository;
 	
+	@Autowired
+	private JudgmentRepository judgmentRepository;
+	
 	
 	//------------------------ LOGIC --------------------------
 	
@@ -62,6 +67,8 @@ public class JudgmentSearchController {
 		addCommonCourtsToModel(judgmentCriteriaForm, model);
 		addSupremeCourtChambersToModel(judgmentCriteriaForm, model);
 		addLawJournalEntryToModel(judgmentCriteriaForm, model);
+		addReferencedJudgmentToModel(judgmentCriteriaForm, model);
+		
 		
 		model.addAttribute("scJudgmentForms", scJudgmentFormRepository.findAll());
 		
@@ -91,6 +98,13 @@ public class JudgmentSearchController {
 		if (judgmentCriteriaForm.getLawJournalEntryId() != null) {
 			model.addAttribute("lawJournalEntry", lawJournalEntryRepository.findOne(judgmentCriteriaForm.getLawJournalEntryId()));
 		}
+	}
+	
+	private void addReferencedJudgmentToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
+	    if (judgmentCriteriaForm.getReferencedCourtCaseId() != null) {
+	        Judgment judgment = judgmentRepository.findOneAndInitialize(judgmentCriteriaForm.getReferencedCourtCaseId());
+	        model.addAttribute("referencedJudgment", judgment);
+	    }
 	}
 
 }

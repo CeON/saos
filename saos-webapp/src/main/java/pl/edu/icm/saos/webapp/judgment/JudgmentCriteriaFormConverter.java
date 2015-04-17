@@ -46,6 +46,7 @@ public class JudgmentCriteriaFormConverter {
 	    judgmentCriteria.setLegalBase(judgmentCriteriaForm.getLegalBase());
 		judgmentCriteria.setReferencedRegulation(judgmentCriteriaForm.getReferencedRegulation());
 		judgmentCriteria.setLawJournalEntryId(judgmentCriteriaForm.getLawJournalEntryId());
+		judgmentCriteria.setReferencedCourtCaseId(judgmentCriteriaForm.getReferencedCourtCaseId());
 	    
 		return judgmentCriteria;
 	}

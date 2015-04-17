@@ -100,6 +100,7 @@ var jsInitInJudgmentSearch = function() {
 	});
 
 	SearchCriteria.init();
+	SearchContext.init();
 	
 	//Search form - init select court & division
 	CourtDivisionSelect.run({

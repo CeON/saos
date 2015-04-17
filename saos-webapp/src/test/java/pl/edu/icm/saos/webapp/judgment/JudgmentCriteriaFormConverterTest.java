@@ -68,6 +68,7 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getLegalBase(), judgmentCriteria.getLegalBase());
 		assertEquals(judgmentCriteriaForm.getReferencedRegulation(), judgmentCriteria.getReferencedRegulation());
 		assertEquals(judgmentCriteriaForm.getLawJournalEntryId(), judgmentCriteria.getLawJournalEntryId());
+		assertEquals(judgmentCriteriaForm.getReferencedCourtCaseId(), judgmentCriteria.getReferencedCourtCaseId());
 	}
 	
 	
@@ -101,6 +102,7 @@ public class JudgmentCriteriaFormConverterTest {
 		judgmentCriteriaForm.setLegalBase("12.55");
 		judgmentCriteriaForm.setReferencedRegulation("Art. 4.6");
 		judgmentCriteriaForm.setLawJournalEntryId(16l);
+		judgmentCriteriaForm.setReferencedCourtCaseId(54l);
 		
 		return judgmentCriteriaForm;
 	}
