@@ -147,13 +147,14 @@ var jsInitInJudgmentSearch = function() {
 	
 	
 	
-	CourtTypeFields.init({
+    CourtTypeFields.init({
         formId: "#search-form",
         FIELD_NAME: "courtType",
         ATTR_COURT_TYPE: "data-court-type"
     });
 	
 	
+    /* Search form section: court type */
     var courtSection = new FormSection({
         formSectionId: "#court-form-section",
         infoSectionId: "#court-info",
