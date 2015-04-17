@@ -52,7 +52,7 @@ public class FlotChartGeneratorTest {
     //------------------------ TESTS --------------------------
     
     @Test
-    public void canGenereateChart_FALSE() {
+    public void canGenerateChart_FALSE() {
         
         // given
         when(chartGenerator.canGenerateChart(chartCode, analysisForm)).thenReturn(false);
@@ -64,7 +64,7 @@ public class FlotChartGeneratorTest {
     
 
     @Test
-    public void canGenereateChart_TRUE() {
+    public void canGenerateChart_TRUE() {
         
         // given
         when(chartGenerator.canGenerateChart(chartCode, analysisForm)).thenReturn(true);
@@ -76,7 +76,7 @@ public class FlotChartGeneratorTest {
     
     
     @Test
-    public void genereateFlotChart_TRUE() {
+    public void generateFlotChart_TRUE() {
         
         // given
         
