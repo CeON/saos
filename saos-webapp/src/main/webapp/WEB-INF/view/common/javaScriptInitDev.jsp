@@ -35,11 +35,13 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/changeCourtType.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/cleanUrlForm.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/selectLawJournalEntry.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/search/courtTypeFields.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/details/infoBox.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/filterBox.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/suggester.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/dateFormat.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/cookiePolicy.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/formSection.js"></script>
 
 <script type="text/javascript" src="${contextPath}/static/javascript/judgmentDetails.js"></script> 
 <script type="text/javascript" src="${contextPath}/static/javascript/judgmentSearch.js"></script> 

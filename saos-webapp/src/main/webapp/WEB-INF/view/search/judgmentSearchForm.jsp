@@ -10,8 +10,8 @@
 	<fieldset id="search-fieldset" >
 		<legend><spring:message code="judgmentSearch.form.header" /></legend>
 		
+		<%-- Search form hint --%>
 		<div class="search-form-hint">
-		  
 		  <spring:message var="searchQueryLanguage" code="judgmentSearch.hint.searchQueryLanguage" />
 		  <spring:eval expression="@exposedProperties.getProperty('webapp.helpAddress.searchQueryLanguage')" var="linkToHelpAboutSearchQueryLanguage" />
 		  
@@ -22,13 +22,94 @@
 		  <spring:message var="searchFormHintTitle" code="judgmentSearch.hint.searchForm.title" />
 		  <spring:message var="searchFormHintContent" code="judgmentSearch.hint.searchForm.content" arguments="${searchFormHintAddress}" />
 
-		
 		  <saos:hint content="${searchFormHintContent}" title="${searchFormHintTitle}" placement="left" ></saos:hint>
 		</div>
 		
-		<saos:formFieldText path="all" labelName="input-search-all" labelText="judgmentSearch.formField.all" />
+		
+		<div class="form-section-container" >
+		
+		    <a id="court-info" class="form-section-open" href="" >
+		        <spring:message code="judgmentSearch.formField.courtType" />: <b><spring:message code="judgmentSearch.formField.courtTypeAny" /></b>
+		    </a>
+	        
+	        <div id="court-form-section" class="row form-section">
+		        
+		        <div class="form-group" >
+		        
+		            <label class="col-lg-2 col-sm-3 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>    
+		            <div class="col-xs-10 radio-group" >
+	                    <div class="col-sm-5" >
+	                        <input type="radio" id="radio-all" name="courtType"  value="" checked="checked" data-field-desc="<spring:message code="judgmentSearch.formField.courtType" />: " />
+	                        <label for="radio-all" ><spring:message code="judgmentSearch.formField.courtTypeAny" /></label>
+	                    </div>
+	                    
+	                    <spring:eval expression="T(pl.edu.icm.saos.persistence.model.CourtType).values()" var="enumItemsToShow" scope="page"/>
+	                    <c:set var="path" value="courtType" />
+	                    
+	                    <c:forEach var="enumValue" items="${enumItemsToShow}" >
+	                        <c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
+	                        <c:set var="idLabel" value="radio-court-${lowerCaseEnumValue}" />
+	                    
+	                        <c:choose>
+	                            <c:when test="${enumValue == 'ADMINISTRATIVE'}">        
+	                                <div class="col-sm-6" >
+	                                    <form:radiobutton path="${path}" value="${enumValue}" id="${idLabel}" disabled="true" />
+	                                    <label for="${idLabel}" >
+	                                        <saos:enum value="${enumValue}" />
+	                                    </label>
+	                                    
+	                                    <!-- Hint for administrative court -->
+	                                    <spring:message code="judgmentSearch.hint.administrativeCourt.title" var="hintAdministrativeCourtTitle" />
+	                                    <spring:message code="judgmentSearch.hint.administrativeCourt.content" var="hintAdministrativeCourtContent" />
+	                                    <saos:hint title="${hintAdministrativeCourtTitle}" content="${hintAdministrativeCourtContent}" />
+	                                </div>
+	                            </c:when>
+	                            <c:otherwise>
+	                                <div class="col-sm-5" >
+	                                    <form:radiobutton path="${path}" value="${enumValue}" id="${idLabel}" />
+	                                    <label for="${idLabel}" >
+	                                        <saos:enum value="${enumValue}" />
+	                                    </label>
+	                                </div>
+	                            </c:otherwise>
+	                        </c:choose>
+	                    </c:forEach>
+		            </div>
+		        </div>
+		        
+		        <%-- Common Courts --%>
+	            <saosSearch:courtSelect items="${commonCourts}" selectedItem="${judgmentCriteriaForm.commonCourtId}" path="commonCourtId" id="select-common-court" labelName="select-common-court" labelText="judgmentSearch.formField.commonCourt" labelEmptyOption="judgmentSearch.formField.chooseCommonCourt" courtType="COMMON" />
+
+                <%-- Common CourtDivisions --%>
+                <saosSearch:courtSelect items="${commonCourtDivisions}" selectedItem="${judgmentCriteriaForm.commonCourtDivisionId}" path="commonCourtDivisionId" id="select-common-division" labelName="select-common-division" labelText="judgmentSearch.formField.commonDivision"  labelEmptyOption="judgmentSearch.formField.chooseCcDivision" courtType="COMMON" />
+                    
+		        <%-- SupremeCourtChamber --%>
+				<saosSearch:courtSelect items="${supremeChambers}" selectedItem="${judgmentCriteriaForm.supremeChamberId}" path="supremeChamberId" id="select-supreme-chamber" labelName="select-supreme-chamber" labelText="judgmentSearch.formField.supremeChamber" labelEmptyOption="judgmentSearch.formField.chooseSupremeChamber" courtType="SUPREME" />
+				
+				<%-- SupremeCourtChamberDivision --%>
+				<saosSearch:courtSelect items="${supremeChamberDivisions}" selectedItem="${judgmentCriteriaForm.supremeChamberDivisionId}" path="supremeChamberDivisionId" id="select-supreme-chamber-division" labelName="select-supreme-chamber-division" labelText="judgmentSearch.formField.supremeChamberDivision" labelEmptyOption="judgmentSearch.formField.chooseScDivision" courtType="SUPREME" />
+						        
+		        
+		        
+	        </div>
+	        
+	        
+		</div>
+			
+	    <div class="form-group">
+	       <spring:message code="judgmentSearch.formField.all" var="searchAllPlaceholder" />
+		   <div class="col-lg-7 col-sm-8 col-xs-11">
+		       <form:input path="all" class="form-control search-all"  id="input-search-all" placeholder="${searchAllPlaceholder}" />
+	       </div>
+	       <div class="col-lg-2" >
+		       <button type="submit" class="btn btn-primary button button-blue"><spring:message code="button.judgmentSearch" /></button>
+		    </div>
+		</div>
+
+
+                   
     
-	    <div class="col-lg-offset-2 col-sm-offset-3 " >
+	    <div >
     		<a id="search-more-fields" class="button-advance" href="#search-form" ><spring:message code="judgmentSearch.form.moreFields" /></a>
 	    </div>
 	    
@@ -54,6 +135,7 @@
 			    </div>
 		    </div>
 		    
+		    <%-- JudgmentType --%>
 		    <div class="form-group">
 				<label class="col-lg-2 col-sm-3 control-label"><spring:message code="judgmentSearch.formField.judgmentType" />:</label>
 				<div class="col-lg-7 col-sm-8">
@@ -85,7 +167,23 @@
 			   		</div>
 			 	</div>
 			</div>
-		    
+			
+			
+		    <%-- Superme JugmentForm --%>
+			<div class="form-group" data-court-type="SUPREME" >
+			    <label for="select-search-judgment-form" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.scJudgmentForm" />:</label>
+			    <div class="col-lg-7 col-sm-8 col-xs-11">
+			        <form:select path="scJudgmentForm" id="select-search-judgment-form" class="form-control" >
+			            <option value=""><spring:message code="judgmentSearch.formField.chooseScJudgmentForm" /></option>
+			            <c:forEach items="${scJudgmentForms}" var="judgmentForm" >
+			                <option value="${judgmentForm.name}" <c:if test="${judgmentCriteriaForm.scJudgmentForm == judgmentForm.name}" >selected="selected"</c:if> >
+			                    <c:out value="${judgmentForm.name}" />
+			                </option>
+			            </c:forEach>
+			        </form:select>
+			    </div>
+			</div>
+
 		    
 		    <saos:formFieldText path="judgeName" labelName="input-search-judge" labelText="judgmentSearch.formField.judge" />
 
@@ -169,78 +267,54 @@
 		    	<form:hidden path="lawJournalEntryId" id="lawJournalEntryId" />
 		    </div>
 		    
-		    <!--  CourtType  -->
-		    <div class="form-group radio-group">
 
-                <label class="col-lg-2 col-sm-3 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>
-                <div class="col-lg-7 col-sm-8">
-                    <div class="col-sm-6">
-                        <form:radiobutton path="courtType" id="radio-all" value="" checked="checked" />
-                        <label for="radio-all" ><spring:message code="judgmentSearch.formField.courtTypeAny" /></label>
-                    </div>
-                    
-                    <spring:eval expression="T(pl.edu.icm.saos.persistence.model.CourtType).values()" var="enumItemsToShow" scope="page"/>
-                    <c:set var="path" value="courtType" />
-                    
-                    <c:forEach var="enumValue" items="${enumItemsToShow}" >
-                        <c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
-                        <c:set var="idLabel" value="radio-court-${lowerCaseEnumValue}" />
-                    
-                        <c:choose>
-                            <c:when test="${enumValue == 'ADMINISTRATIVE'}">        
-	                            <div class="col-sm-6" >
-	                                <form:radiobutton path="${path}" value="${enumValue}" id="${idLabel}" disabled="true" />
-	                                <label for="${idLabel}" >
-	                                    <saos:enum value="${enumValue}" />
-	                                </label>
-	                                
-	                                <!-- Hint for administrative court -->
-	                                <spring:message code="judgmentSearch.hint.administrativeCourt.title" var="hintAdministrativeCourtTitle" />
-	                                <spring:message code="judgmentSearch.hint.administrativeCourt.content" var="hintAdministrativeCourtContent" />
-	                                <saos:hint title="${hintAdministrativeCourtTitle}" content="${hintAdministrativeCourtContent}" />
-	                            </div>
-                            </c:when>
-                            <c:otherwise>
-	                            <div class="col-sm-6" >
-	                                <form:radiobutton path="${path}" value="${enumValue}" id="${idLabel}" />
-	                                <label for="${idLabel}" >
-	                                    <saos:enum value="${enumValue}" />
-	                                </label>
-	                            </div>
-                            </c:otherwise>
-                        </c:choose>
-					</c:forEach>
-
-                </div>
-            </div>
 		    
 		    <div id="all-fields" class="fields-container" >
 		    	
 		    </div>
 		    
 		    <div id="common-court-fields" class="fields-container" >
-			    <%@ include file="ccJudgment/ccJudgmentSearchForm.jsp" %>
+		    
+		      <%-- COMMON Keywords --%>
+			    <div class="form-group" data-court-type="COMMON">
+				    <label for="input-search-keywords-cc" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.keywords" />:</label>
+				    <div class="col-lg-7 col-sm-8 col-xs-11">
+				        <form:input path="keywords" class="form-control" id="input-search-keywords-cc" />
+				    </div>
+				    <spring:message code="judgmentSearch.hint.ccKeywords.title" var="hintCcKeywordsTitle" />
+				    <spring:message code="judgmentSearch.hint.ccKeywords.content" var="hintCcKeywordsContent" />
+				    <div >
+				        <saos:hint title="${hintCcKeywordsTitle}" content="${hintCcKeywordsContent}" placement="left" />
+				    </div>
+				</div>
 		    </div>
 		     
 		    <div id="supreme-court-fields" class="fields-container" >
-		    	<%@ include file="scJudgment/scJudgmentSearchForm.jsp" %>
+		    	
+				<%-- SUPREME PersonnelType --%>
+				<div class="form-group" data-court-type="SUPREME" >
+				    <label for="select-search-personnel-type" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.personnelType" />:</label>
+				    <div class="col-lg-7 col-sm-8 col-xs-11">
+				        <form:select path="scPersonnelType" class="form-control" id="select-search-personnel-type" >
+				            <option value=""><spring:message code="judgmentSearch.formField.chooseScPersonnelType" /></option>
+				            <saos:enumOptions enumType="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType" selected="${judgmentCriteriaForm.scPersonnelType}" />
+				        </form:select>
+				    </div>
+				</div>
+				
 		    </div>
 		    
 		    <div id="constitutional-tribunal-fields" class="fields-container">
-		    	<%@ include file="ctJudgment/ctJudgmentSearchForm.jsp" %>
+		    	
+		    	<%-- CT Dissenting Opinion --%>
+		    	<saos:formFieldText path="ctDissentingOpinion" labelName="input-constitutional-tribunal-dissenting-opinion" labelText="judgmentSearch.formField.ctDissentingOpinion" courtType="CONSTITUTIONAL_TRIBUNAL" />
+		    	
 		    </div>
 		     
 	    </div>
 	
-		<div class="col-lg-offset-2 col-sm-offset-3" >
+		<div >
 			<a id="search-less-fields" class="button-advance visibility-hidden display-none" href="#search-form" ><spring:message code="judgmentSearch.form.lessFields" /></a>
-		</div>
-	
-		<div class="form-group button-group">
-			<div class="col-lg-9 col-sm-11 col-xs-11">
-				<button type="reset" class="btn btn-default button"><spring:message code="button.resetForm" /></button>
-				<button type="submit" class="btn btn-primary button button-blue"><spring:message code="button.judgmentSearch" /></button>
-			</div>
 		</div>
 	
 	</fieldset>
