@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.search.indexing;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -17,13 +19,14 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
  * Spring batch reader of judgments for indexing
  * @author madryk
  */
 @Service
-public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
+public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexingData> {
 
     private JudgmentRepository judgmentRepository;
     
@@ -31,6 +34,7 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
     
     
     private volatile Queue<Long> judgmentIds = Lists.newLinkedList();
+    private volatile Map<Long, Long> idsWithReferencingCount = Maps.newHashMap();
     
     
     //------------------------ LOGIC --------------------------
@@ -39,11 +43,12 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
     public void open(ExecutionContext executionContext) throws ItemStreamException {
         
         judgmentIds = new ConcurrentLinkedQueue<Long>(judgmentRepository.findAllNotIndexedIds());
-    
+        idsWithReferencingCount = Collections.synchronizedMap(judgmentRepository.countReferencingJudgmentsForNotIndexed());
+        
     }
 
     @Override
-    public Judgment read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+    public JudgmentIndexingData read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         
         Long id = judgmentIds.poll();
         
@@ -51,7 +56,19 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
             return null;
         }
         
-        return judgmentEnrichmentService.findOneAndEnrich(id);
+        Judgment judgment = judgmentEnrichmentService.findOneAndEnrich(id);
+        if (judgment == null) {
+            return null;
+        }
+        
+        long referencesCount = (idsWithReferencingCount.containsKey(id)) ? idsWithReferencingCount.get(id) : 0;
+        
+        JudgmentIndexingData judgmentIndexingData = new JudgmentIndexingData();
+        
+        judgmentIndexingData.setJudgment(judgment);
+        judgmentIndexingData.setReferencingCount(referencesCount);
+        
+        return judgmentIndexingData;
     }
     
     @Override

@@ -69,6 +69,7 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+import pl.edu.icm.saos.search.indexing.JudgmentIndexingData;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
 import pl.edu.icm.saos.search.search.model.Sorting;
 
@@ -127,8 +128,14 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         judgmentsServer.deleteByQuery("*:*");
         judgmentsServer.commit();
 
-        SolrInputDocument ccJudgmentDoc = judgmentIndexingProcessor.process(testObjectContext.getCcJudgment());
-        SolrInputDocument scJudgmentDoc = judgmentIndexingProcessor.process(testObjectContext.getScJudgment());
+        JudgmentIndexingData ccJudgmentIndexingData = new JudgmentIndexingData();
+        ccJudgmentIndexingData.setJudgment(testObjectContext.getCcJudgment());
+        
+        JudgmentIndexingData scJudgmentIndexingData = new JudgmentIndexingData();
+        scJudgmentIndexingData.setJudgment(testObjectContext.getScJudgment());
+        
+        SolrInputDocument ccJudgmentDoc = judgmentIndexingProcessor.process(ccJudgmentIndexingData);
+        SolrInputDocument scJudgmentDoc = judgmentIndexingProcessor.process(scJudgmentIndexingData);
         judgmentsServer.add(
                 Arrays.asList(ccJudgmentDoc, scJudgmentDoc)
         );

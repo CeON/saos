@@ -130,10 +130,10 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         assertAllMarkedAsIndexed();
         assertIndexCount(ALL_JUDGMENTS_COUNT);
         
-        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), ccJudgments.get(1));
-        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), scJudgments.get(0));
-        assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(3).getId()), ctJudgments.get(3));
-        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), nacJudgments.get(5));
+        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), ccJudgments.get(1), 0L);
+        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), scJudgments.get(0), 0L);
+        assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(3).getId()), ctJudgments.get(3), 0L);
+        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), nacJudgments.get(5), 0L);
 
     }
     
@@ -163,10 +163,10 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         assertAllMarkedAsIndexed();
         assertIndexCount(ALL_JUDGMENTS_COUNT);
         
-        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), judgmentRepository.findOneAndInitialize(ccJudgments.get(1).getId()));
-        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), judgmentRepository.findOneAndInitialize(scJudgments.get(0).getId()));
-        assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(3).getId()), judgmentRepository.findOneAndInitialize(ctJudgments.get(3).getId()));
-        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), judgmentRepository.findOneAndInitialize(nacJudgments.get(5).getId()));
+        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), judgmentRepository.findOneAndInitialize(ccJudgments.get(1).getId()), 0L);
+        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), judgmentRepository.findOneAndInitialize(scJudgments.get(0).getId()), 0L);
+        assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(3).getId()), judgmentRepository.findOneAndInitialize(ctJudgments.get(3).getId()), 0L);
+        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), judgmentRepository.findOneAndInitialize(nacJudgments.get(5).getId()), 0L);
         
         assertNotInIndex(notExistingJudgmentId);
     }
@@ -198,7 +198,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         assertIndexCount(SUPREME_COURT_JUDGMENTS_COUNT + 1); // +1 for notExistingCcJudgment
         assertIndexWithSourceCodeCount(SUPREME_COURT_JUDGMENTS_COUNT, SourceCode.SUPREME_COURT);
         
-        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), scJudgments.get(0));
+        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), scJudgments.get(0), 0L);
         
         assertNotInIndex(notExistingScJudgmentId);
         assertInIndex(notExistingCcJudgmentId); // shouldn't do anything with this judgment

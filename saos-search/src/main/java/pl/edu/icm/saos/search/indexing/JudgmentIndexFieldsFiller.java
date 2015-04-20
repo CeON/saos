@@ -42,7 +42,9 @@ public abstract class JudgmentIndexFieldsFiller {
      * @param doc
      * @param judgment
      */
-    public void fillFields(SolrInputDocument doc, Judgment judgment) {
+    public void fillFields(SolrInputDocument doc, JudgmentIndexingData judgmentData) {
+        Judgment judgment = judgmentData.getJudgment();
+        
         fillIds(doc, judgment);
         fillSourceCode(doc, judgment);
         fillCourtType(doc, judgment);
@@ -56,6 +58,8 @@ public abstract class JudgmentIndexFieldsFiller {
         fillMeansOfAppeal(doc, judgment);
         fillJudgmentResult(doc, judgment);
         fillContent(doc, judgment);
+        
+        fillReferencingCount(doc, judgmentData);
     }
     
     
@@ -147,6 +151,10 @@ public abstract class JudgmentIndexFieldsFiller {
     
     private void fillContent(SolrInputDocument doc, Judgment judgment) {
         fieldAdder.addField(doc, JudgmentIndexField.CONTENT, judgment.getRawTextContent());
+    }
+    
+    private void fillReferencingCount(SolrInputDocument doc, JudgmentIndexingData judgmentData) {
+        fieldAdder.addField(doc, JudgmentIndexField.REFERENCING_JUDGMENTS_COUNT, judgmentData.getReferencingCount());
     }
 
     

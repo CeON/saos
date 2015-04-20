@@ -3,6 +3,7 @@ package pl.edu.icm.saos.search.indexing;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -29,6 +30,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 /**
@@ -54,9 +56,9 @@ public class JudgmentIndexingReaderTest {
         when(judgmentRepository.findAllNotIndexedIds()).thenReturn(Lists.newLinkedList());
         judgmentIndexingReader.open(new ExecutionContext());
         
-        Judgment judgment = judgmentIndexingReader.read();
+        JudgmentIndexingData judgmentIndexingData = judgmentIndexingReader.read();
         
-        assertNull(judgment);
+        assertNull(judgmentIndexingData);
     }
     
     @Test
@@ -66,21 +68,30 @@ public class JudgmentIndexingReaderTest {
         Judgment thirdJudgment = createCcJudgment(3);
         
         when(judgmentRepository.findAllNotIndexedIds()).thenReturn(Lists.newArrayList(1l, 2l, 3l));
+        when(judgmentRepository.countReferencingJudgmentsForNotIndexed()).thenReturn(ImmutableMap.of(1l, 31l, 3l, 53l));
         when(judgmentEnrichmentService.findOneAndEnrich(1l)).thenReturn(firstJudgment);
         when(judgmentEnrichmentService.findOneAndEnrich(2l)).thenReturn(secondJudgment);
         when(judgmentEnrichmentService.findOneAndEnrich(3l)).thenReturn(thirdJudgment);
         judgmentIndexingReader.open(new ExecutionContext());
 
         
-        Judgment actualFirst = judgmentIndexingReader.read();
-        Judgment actualSecond = judgmentIndexingReader.read();
-        Judgment actualThird = judgmentIndexingReader.read();
-        Judgment actualFourth = judgmentIndexingReader.read();
+        JudgmentIndexingData actualFirst = judgmentIndexingReader.read();
+        JudgmentIndexingData actualSecond = judgmentIndexingReader.read();
+        JudgmentIndexingData actualThird = judgmentIndexingReader.read();
+        JudgmentIndexingData actualFourth = judgmentIndexingReader.read();
         
         
-        assertEquals(firstJudgment.getId(), actualFirst.getId());
-        assertEquals(secondJudgment.getId(), actualSecond.getId());
-        assertEquals(thirdJudgment.getId(), actualThird.getId());
+        assertNotNull(actualFirst.getJudgment());
+        assertEquals(firstJudgment.getId(), actualFirst.getJudgment().getId());
+        assertEquals(31L, actualFirst.getReferencingCount());
+        
+        assertNotNull(actualSecond.getJudgment());
+        assertEquals(secondJudgment.getId(), actualSecond.getJudgment().getId());
+        assertEquals(0L, actualSecond.getReferencingCount());
+        
+        assertNotNull(actualThird.getJudgment());
+        assertEquals(thirdJudgment.getId(), actualThird.getJudgment().getId());
+        assertEquals(53L, actualThird.getReferencingCount());
         assertNull(actualFourth);
     }
     
@@ -135,13 +146,13 @@ public class JudgmentIndexingReaderTest {
         Runnable runner = new Runnable() {
             public void run() {
                 try {
-                    Judgment judgment = null;
+                    JudgmentIndexingData judgmentIndexingData = null;
                     do {
-                        judgment = judgmentIndexingReader.read();
-                        if (judgment != null) {
-                            threadResultsIds.add(judgment.getId());
+                        judgmentIndexingData = judgmentIndexingReader.read();
+                        if (judgmentIndexingData != null) {
+                            threadResultsIds.add(judgmentIndexingData.getJudgment().getId());
                         }
-                    } while (judgment != null);
+                    } while (judgmentIndexingData != null);
 
                 } catch (Exception e) { } finally { latch.countDown(); }
             }

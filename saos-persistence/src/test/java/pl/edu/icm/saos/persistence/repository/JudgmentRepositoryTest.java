@@ -10,6 +10,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -23,11 +24,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
+import pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory;
 import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
@@ -631,6 +636,43 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         // assert
         assertNotNull("judgment text content is null", actualJudgment.getTextContent());
         assertEquals("raw content", actualJudgment.getTextContent().getRawTextContent());
+    }
+    
+    @Test
+    public void fetchNotIndexedWithReferencingCount() {
+        // given
+        Judgment judgment1 = createCcJudgment(SourceCode.COMMON_COURT, "AA1", "ABC1");
+        Judgment judgment2 = createCcJudgment(SourceCode.COMMON_COURT, "AA2", "ABC");
+        Judgment judgment3 = createCcJudgment(SourceCode.COMMON_COURT, "AA3", "ABC");
+        Judgment judgment4 = createCcJudgment(SourceCode.COMMON_COURT, "AA4", "ABC4");
+        
+        judgment3.markAsIndexed();
+        judgmentRepository.save(judgment3);
+        
+        
+        EnrichmentTag tag1 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(judgment1.getId(), EnrichmentTagTypes.REFERENCED_COURT_CASES,
+                JsonNormalizer.normalizeJson("[{'caseNumber':'ABC','judgmentIds':[" + judgment2.getId() + "," + judgment3.getId() + "]},"
+                        + "{'caseNumber':'ABC4','judgmentIds':[" + judgment4.getId() + "]}]"));
+        
+        EnrichmentTag tag2 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(judgment2.getId(), EnrichmentTagTypes.REFERENCED_COURT_CASES,
+                JsonNormalizer.normalizeJson("[{'caseNumber':'ABC','judgmentIds':[" + judgment3.getId() + "]},"
+                        + "{'caseNumber':'ABC4','judgmentIds':[" + judgment4.getId() + "]}]"));
+        
+        
+        enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2));
+        
+        // execute
+        Map<Long, Long> idsWithReferencingCount = judgmentRepository.countReferencingJudgmentsForNotIndexed();
+        
+        
+        // assert
+        assertEquals(2, idsWithReferencingCount.size());
+        
+        assertTrue(idsWithReferencingCount.containsKey(judgment2.getId()));
+        assertEquals(Long.valueOf(1), idsWithReferencingCount.get(judgment2.getId()));
+        
+        assertTrue(idsWithReferencingCount.containsKey(judgment4.getId()));
+        assertEquals(Long.valueOf(2), idsWithReferencingCount.get(judgment4.getId()));
     }
     
     

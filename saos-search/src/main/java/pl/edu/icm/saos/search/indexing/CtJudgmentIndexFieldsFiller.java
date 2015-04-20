@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.CourtType;
-import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 /**
@@ -27,10 +26,10 @@ public class CtJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
     }
 
     @Override
-    public void fillFields(SolrInputDocument doc, Judgment judgment) {
-        super.fillFields(doc, judgment);
+    public void fillFields(SolrInputDocument doc, JudgmentIndexingData judgmentData) {
+        super.fillFields(doc, judgmentData);
         
-        ConstitutionalTribunalJudgment ctJudgment = (ConstitutionalTribunalJudgment) judgment;
+        ConstitutionalTribunalJudgment ctJudgment = (ConstitutionalTribunalJudgment) judgmentData.getJudgment();
         fillDissentingOpinions(doc, ctJudgment);
     }
     

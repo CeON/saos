@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -14,6 +15,7 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
+import org.assertj.core.util.Lists;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,10 +32,14 @@ import org.springframework.jdbc.datasource.init.ScriptException;
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.common.TextObjectDefaultData;
+import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
@@ -58,6 +64,9 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
     private JudgmentRepository judgmentRepository;
     
     @Autowired
+    private EnrichmentTagRepository enrichmentTagRepository;
+    
+    @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
     @Autowired
@@ -69,6 +78,8 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
      * This id should be set before running test method.
      */
     private long ccJudgmentForAssertionId;
+    
+    private Random rnd = new Random();
     
     private final static int MAXIMUM_INDEXING_TIME_MS = 60 * 1000;
     private final static int COMMON_COURT_JUDGMENTS_COUNT = 250;
@@ -104,7 +115,7 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
         long indexingTimestamp = finishTime - startTime;
         log.info("Indexing of judgments took: " + indexingTimestamp + " ms");
         
-        assertAllInIndex(COMMON_COURT_JUDGMENTS_COUNT + SUPREME_COURT_JUDGMENTS_COUNT); 
+        assertAllInIndex(COMMON_COURT_JUDGMENTS_COUNT + SUPREME_COURT_JUDGMENTS_COUNT);
         assertJudgment();
         Assert.assertTrue("Judgment indexing take too much time", indexingTimestamp < MAXIMUM_INDEXING_TIME_MS);
         
@@ -165,6 +176,8 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
         judgmentRepository.save(ccJudgments);
         judgmentRepository.flush();
         
+        generateRefCourtCasesEnrichmentTags(ccJudgments, 5);
+
     }
     
     private CommonCourtJudgment generateCcJudgmentForAssertion() {
@@ -192,6 +205,37 @@ public class JudgmentIndexingJobPerformanceTest extends BatchTestSupport {
         scJudgments.forEach(x -> x.setScChamberDivision(division));
         judgmentRepository.save(scJudgments);
         judgmentRepository.flush();
+    }
+    
+    private void generateRefCourtCasesEnrichmentTags(List<? extends Judgment> judgments, int referencedPerJudgmentCount) {
+        for (int i=0; i<judgments.size(); ++i) {
+            Judgment judgment = judgments.get(i);
+            
+            List<Judgment> randomJudgments = pickRandomJudgmentsIndexes(judgments, 5, i);
+            EnrichmentTag tag = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(judgment.getId(), randomJudgments.toArray(new Judgment[]{ }));
+            
+            enrichmentTagRepository.save(tag);
+        }
+        enrichmentTagRepository.flush();
+    }
+    
+    private List<Judgment> pickRandomJudgmentsIndexes(List<? extends Judgment> judgments, int count, int restrictedIndex) {
+        List<Integer> randomIndexes = Lists.newArrayList();
+        
+        while(randomIndexes.size() < count) {
+            int randomIndex = rnd.nextInt(judgments.size());
+            if (randomIndex == restrictedIndex || randomIndexes.contains(randomIndex)) {
+                continue;
+            }
+            randomIndexes.add(randomIndex);
+        }
+        
+        List<Judgment> randomJudgments = Lists.newArrayList();
+        for (Integer randomIndex : randomIndexes) {
+            randomJudgments.add(judgments.get(randomIndex));
+        }
+        
+        return randomJudgments;
     }
     
 }
