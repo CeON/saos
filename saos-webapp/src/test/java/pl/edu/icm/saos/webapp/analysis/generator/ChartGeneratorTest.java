@@ -16,7 +16,7 @@ import org.mockito.Mock;
 
 import pl.edu.icm.saos.common.chart.Chart;
 import pl.edu.icm.saos.common.chart.Series;
-import pl.edu.icm.saos.search.analysis.AnalysisService;
+import pl.edu.icm.saos.search.analysis.ChartService;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
@@ -29,9 +29,6 @@ import pl.edu.icm.saos.webapp.analysis.request.converter.UiySettingsConverter;
 import pl.edu.icm.saos.webapp.analysis.request.converter.XSettingsGenerator;
 import pl.edu.icm.saos.webapp.analysis.request.converter.XSettingsGeneratorManager;
 import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
-import pl.edu.icm.saos.webapp.analysis.result.ChartConverter;
-import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
-import pl.edu.icm.saos.webapp.analysis.result.FlotChart.FlotSeries;
 
 import com.google.common.collect.Lists;
 
@@ -42,9 +39,9 @@ import com.google.common.collect.Lists;
 public class ChartGeneratorTest {
 
     @InjectMocks
-    private ChartGenerator mainChartGenerator = new ChartGenerator();
+    private ChartGenerator chartGenerator = new ChartGenerator();
     
-    @Mock private AnalysisService analysisService;
+    @Mock private ChartService analysisService;
     
     @Mock private JudgmentSeriesFilterConverter judgmentSeriesFilterConverter;
     
@@ -52,7 +49,6 @@ public class ChartGeneratorTest {
     
     @Mock private UiySettingsConverter uiySettingsConverter;
     
-    @Mock private ChartConverter flotChartConverter;
     
     
     @Before
@@ -72,7 +68,7 @@ public class ChartGeneratorTest {
     public void generateChart_NullAnalysisForm() {
         
         // execute
-        mainChartGenerator.generateChart(ChartCode.MAIN_CHART, null);
+        chartGenerator.generateChart(ChartCode.MAIN_CHART, null);
         
     }
     
@@ -81,7 +77,7 @@ public class ChartGeneratorTest {
     public void generateChart_NullChartCode() {
         
         // execute
-        mainChartGenerator.generateChart(null, mock(AnalysisForm.class));
+        chartGenerator.generateChart(null, mock(AnalysisForm.class));
         
     }
     
@@ -90,7 +86,7 @@ public class ChartGeneratorTest {
     public void generateChart_ChartCodeNotGeneratedChart() {
         
         // execute
-        mainChartGenerator.generateChart(ChartCode.AGGREGATED_MAIN_CHART, mock(AnalysisForm.class));
+        chartGenerator.generateChart(ChartCode.AGGREGATED_MAIN_CHART, mock(AnalysisForm.class));
         
     }
     
@@ -110,7 +106,7 @@ public class ChartGeneratorTest {
         
         // execute
         
-        mainChartGenerator.generateChart(chartCode, analysisForm);
+        chartGenerator.generateChart(chartCode, analysisForm);
         
         
      
@@ -153,7 +149,6 @@ public class ChartGeneratorTest {
         
         
         Chart<Object, Number> chart = createChart();
-        FlotChart flotChart = createFlotChart();
         
         ChartCode chartCode = ChartCode.MAIN_CHART;
         
@@ -165,24 +160,22 @@ public class ChartGeneratorTest {
         when(xsettingsGenerator.canGenerateXSettings(analysisForm.getGlobalFilter())).thenReturn(true);
         when(uiySettingsConverter.convert(uiYSettings)).thenReturn(ysettings);
         when(analysisService.generateChart(criteriaList, xsettings, ysettings)).thenReturn(chart);
-        when(flotChartConverter.convert(chart)).thenReturn(flotChart);
                 
         
         // execute
         
-        FlotChart generatedFlotChart = mainChartGenerator.generateChart(chartCode, analysisForm);
+        Chart<Object, Number> generatedChart = chartGenerator.generateChart(chartCode, analysisForm);
         
         
         // assert
         
-        assertTrue(flotChart == generatedFlotChart);
+        assertTrue(chart == generatedChart);
         verify(judgmentSeriesFilterConverter).convertList(globalFilter, filters);
         verify(xsettingsGeneratorManager, times(2)).getXSettingsGenerator(chartCode);
         verify(xsettingsGenerator).generateXSettings(globalFilter);
         verify(xsettingsGenerator).canGenerateXSettings(globalFilter);
         verify(uiySettingsConverter).convert(uiYSettings);
         verify(analysisService).generateChart(criteriaList, xsettings, ysettings);
-        verify(flotChartConverter).convert(chart);
         
     }
 
@@ -198,16 +191,7 @@ public class ChartGeneratorTest {
         return chart;
     }
 
-    
-    private FlotChart createFlotChart() {
-        FlotChart flotChart = new FlotChart();
-        FlotSeries flotSeries = new FlotSeries();
-        flotSeries.addPoint(123, 34);
-        flotChart.addSeries(flotSeries);
-        return flotChart;
-    }
-
-
+   
     private AnalysisForm createAnalysisForm(JudgmentGlobalFilter globalFilter, List<JudgmentSeriesFilter> filters, UiySettings uiYSettings) {
         
         AnalysisForm analysisForm = new AnalysisForm();

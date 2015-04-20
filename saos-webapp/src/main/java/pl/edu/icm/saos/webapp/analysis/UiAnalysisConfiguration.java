@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.common.chart.formatter.PointDayPeriodValueFormatter;
 import pl.edu.icm.saos.common.chart.formatter.PointMonthPeriodValueFormatter;
 import pl.edu.icm.saos.common.chart.formatter.PointObjectValueFormatter;
-import pl.edu.icm.saos.common.chart.formatter.PointValueFormatter;
 import pl.edu.icm.saos.common.chart.formatter.PointValueFormatterManager;
 import pl.edu.icm.saos.common.chart.formatter.PointYearPeriodValueFormatter;
 import pl.edu.icm.saos.webapp.analysis.result.PointBrAddingValueFormatter;
+import pl.edu.icm.saos.webapp.analysis.result.PointFloatValueFormatter;
 
 import com.google.common.collect.Lists;
 
@@ -28,43 +28,42 @@ public class UiAnalysisConfiguration {
 
     
     
-    @Bean
-    public PointValueFormatter pointDayPeriodValueFormatter() {
-        return new PointBrAddingValueFormatter(new PointDayPeriodValueFormatter());
-    }
-
     
-    @Bean
-    public PointValueFormatter pointMonthPeriodValueFormatter() {
-        return new PointBrAddingValueFormatter(new PointMonthPeriodValueFormatter());
-    }
-
-    
-    @Bean
-    public PointValueFormatter pointYearPeriodValueFormatter() {
-        return new PointBrAddingValueFormatter(new PointYearPeriodValueFormatter());
-    }
-    
-    @Bean
-    public PointValueFormatter pointObjectValueFormatter() {
-        return new PointObjectValueFormatter();
-    }
     
 
     @Bean
-    public PointValueFormatterManager pointValueFormatterManager() {
+    public PointValueFormatterManager flotChartPointValueFormatterManager() {
         
         PointValueFormatterManager pointValueFormatterManager = new PointValueFormatterManager();
         pointValueFormatterManager.setPointValueFormatters(
-                Lists.newArrayList(pointDayPeriodValueFormatter(),
-                                   pointMonthPeriodValueFormatter(),
-                                   pointYearPeriodValueFormatter(),
-                                   pointObjectValueFormatter()
+                Lists.newArrayList(new PointBrAddingValueFormatter(new PointDayPeriodValueFormatter()),
+                                   new PointBrAddingValueFormatter(new PointMonthPeriodValueFormatter()),
+                                   new PointBrAddingValueFormatter(new PointYearPeriodValueFormatter()),
+                                   new PointObjectValueFormatter()
                 )
         );
         
         return pointValueFormatterManager;
         
+        
+    }
+    
+    
+    
+    @Bean
+    public PointValueFormatterManager csvPointValueFormatterManager() {
+                                      
+        PointValueFormatterManager pointValueFormatterManager = new PointValueFormatterManager();
+        pointValueFormatterManager.setPointValueFormatters(
+                Lists.newArrayList(new PointDayPeriodValueFormatter(),
+                                   new PointMonthPeriodValueFormatter(),
+                                   new PointYearPeriodValueFormatter(),
+                                   new PointFloatValueFormatter(),
+                                   new PointObjectValueFormatter()
+                )
+        );
+        
+        return pointValueFormatterManager;
         
         
         

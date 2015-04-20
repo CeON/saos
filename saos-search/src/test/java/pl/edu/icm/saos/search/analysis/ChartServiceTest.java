@@ -23,10 +23,10 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 
-public class AnalysisServiceTest {
+public class ChartServiceTest {
 
     
-    private AnalysisService analysisService = new AnalysisService();
+    private ChartService chartService = new ChartService();
     
     private SeriesService seriesService = mock(SeriesService.class); 
     
@@ -38,7 +38,7 @@ public class AnalysisServiceTest {
     @Before
     public void before() {
         
-        analysisService.setSeriesService(seriesService);
+        chartService.setSeriesService(seriesService);
         
     }
     
@@ -53,7 +53,7 @@ public class AnalysisServiceTest {
     public void generateChart_NullCriteriaList() {
         
         // execute
-        analysisService.generateChart(null, xsettings, ysettings);
+        chartService.generateChart(null, xsettings, ysettings);
         
     }
     
@@ -63,7 +63,7 @@ public class AnalysisServiceTest {
     public void generateChart_EmptyCriteriaList() {
         
         // execute
-        analysisService.generateChart(new ArrayList<>(), xsettings, ysettings);
+        chartService.generateChart(new ArrayList<>(), xsettings, ysettings);
         
     }
 
@@ -85,7 +85,7 @@ public class AnalysisServiceTest {
         when(seriesService.generateSeries(criteria2, xsettings, ysettings)).thenReturn(series2);
         
         // execute
-        Chart<Object, Number> chart = analysisService.generateChart(criteriaList, xsettings, ysettings);
+        Chart<Object, Number> chart = chartService.generateChart(criteriaList, xsettings, ysettings);
      
         // assert
         verify(seriesService).generateSeries(criteria1, xsettings, ysettings);
