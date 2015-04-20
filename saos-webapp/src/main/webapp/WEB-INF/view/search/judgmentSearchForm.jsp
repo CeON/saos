@@ -77,11 +77,11 @@
 		            </div>
 		        </div>
 		        
-		        <%-- Common Courts & Common Court Divisions --%>
-                <%@ include file="ccJudgment/ccJudgmentCourtSelect.jsp" %>
-                
-		        <%-- Supreme CourtChamber & ChamberDivisions --%>
-                <%@ include file="scJudgment/scJudgmentChamberSelect.jsp" %>
+				<%-- Common Courts & Common Court Divisions --%>
+				<%@ include file="ccJudgment/ccJudgmentCourtSelect.jsp" %>
+				
+				<%-- Supreme CourtChamber & ChamberDivisions --%>
+			    <%@ include file="scJudgment/scJudgmentChamberSelect.jsp" %>
 		        
 	        </div>
 	        
