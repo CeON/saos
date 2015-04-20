@@ -147,22 +147,13 @@ var jsInitInJudgmentSearch = function() {
 	
 	
 	
-    CourtTypeFields.init({
-        formId: "#search-form",
-        FIELD_NAME: "courtType",
-        ATTR_COURT_TYPE: "data-court-type"
-    });
+    CourtTypeFields.init();
 	
 	
     /* Search form section: court type */
-    var courtSection = new FormSection({
+    formSection({
         formSectionId: "#court-form-section",
-        infoSectionId: "#court-info",
-        processBeforePublishing: function() {
-            //Clears fields not related to selected court type
-            $("#search-form").trigger("clearCourtType");
-        },
-        separator: ", "
+        infoSectionId: "#court-info"
     });
 	
 	

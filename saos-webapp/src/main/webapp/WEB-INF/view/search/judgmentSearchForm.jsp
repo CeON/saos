@@ -77,19 +77,11 @@
 		            </div>
 		        </div>
 		        
-		        <%-- Common Courts --%>
-	            <saosSearch:courtSelect items="${commonCourts}" selectedItem="${judgmentCriteriaForm.commonCourtId}" path="commonCourtId" id="select-common-court" labelName="select-common-court" labelText="judgmentSearch.formField.commonCourt" labelEmptyOption="judgmentSearch.formField.chooseCommonCourt" courtType="COMMON" />
-
-                <%-- Common CourtDivisions --%>
-                <saosSearch:courtSelect items="${commonCourtDivisions}" selectedItem="${judgmentCriteriaForm.commonCourtDivisionId}" path="commonCourtDivisionId" id="select-common-division" labelName="select-common-division" labelText="judgmentSearch.formField.commonDivision"  labelEmptyOption="judgmentSearch.formField.chooseCcDivision" courtType="COMMON" />
-                    
-		        <%-- SupremeCourtChamber --%>
-				<saosSearch:courtSelect items="${supremeChambers}" selectedItem="${judgmentCriteriaForm.supremeChamberId}" path="supremeChamberId" id="select-supreme-chamber" labelName="select-supreme-chamber" labelText="judgmentSearch.formField.supremeChamber" labelEmptyOption="judgmentSearch.formField.chooseSupremeChamber" courtType="SUPREME" />
-				
-				<%-- SupremeCourtChamberDivision --%>
-				<saosSearch:courtSelect items="${supremeChamberDivisions}" selectedItem="${judgmentCriteriaForm.supremeChamberDivisionId}" path="supremeChamberDivisionId" id="select-supreme-chamber-division" labelName="select-supreme-chamber-division" labelText="judgmentSearch.formField.supremeChamberDivision" labelEmptyOption="judgmentSearch.formField.chooseScDivision" courtType="SUPREME" />
-						        
-		        
+		        <%-- Common Courts & Common Court Divisions --%>
+                <%@ include file="ccJudgment/ccJudgmentCourtSelect.jsp" %>
+                
+		        <%-- Supreme CourtChamber & ChamberDivisions --%>
+                <%@ include file="scJudgment/scJudgmentChamberSelect.jsp" %>
 		        
 	        </div>
 	        
@@ -304,10 +296,10 @@
 				
 		    </div>
 		    
-		    <div id="constitutional-tribunal-fields" class="fields-container">
+		    <div data-court-type="CONSTITUTIONAL_TRIBUNAL" >
 		    	
 		    	<%-- CT Dissenting Opinion --%>
-		    	<saos:formFieldText path="ctDissentingOpinion" labelName="input-constitutional-tribunal-dissenting-opinion" labelText="judgmentSearch.formField.ctDissentingOpinion" courtType="CONSTITUTIONAL_TRIBUNAL" />
+		    	<saos:formFieldText path="ctDissentingOpinion" labelName="input-constitutional-tribunal-dissenting-opinion" labelText="judgmentSearch.formField.ctDissentingOpinion" />
 		    	
 		    </div>
 		     

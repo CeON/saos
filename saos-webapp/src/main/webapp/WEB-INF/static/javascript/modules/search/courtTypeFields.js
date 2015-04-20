@@ -8,25 +8,23 @@ var CourtTypeFields = (function() {
     
     var scope = {},
     
-    defaultOptions = {
-        formId: "#search-form",
-        FIELD_NAME: "courtType",
-        ATTR_COURT_TYPE: "data-court-type"
-    },
-    options = {},
+    FIELD_NAME = "courtType",
+    ATTR_COURT_TYPE = "data-court-type",
     
+    
+    //------------------------ FUNCTIONS --------------------------
     
     getSelectedCourtType = function() {
-        return $("[name=" + options.FIELD_NAME + "]:checked").val();
+        return $("[name=" + FIELD_NAME + "]:checked").val();
     },
     
     showSelectedFields = function() {
-        updateForm(getSelectedCourtType());
+        refreshForm(getSelectedCourtType());
     },
     
     assignChangeCourtTypeButtons = function() {
         
-        $("[name=" + options.FIELD_NAME + "]").each(function() {
+        $("[name=" + FIELD_NAME + "]").each(function() {
             var $item = $(this);
             
             //closure for storing courtType value
@@ -34,7 +32,7 @@ var CourtTypeFields = (function() {
                 var courtType = $item.val();
                 
                 $item.click(function() {
-                    updateForm(courtType); 
+                    refreshForm(courtType); 
                 });
                 
             })();
@@ -49,39 +47,32 @@ var CourtTypeFields = (function() {
      * 
      * @param courtType - type of court
      */
-    updateForm = function(courtType) {
+    refreshForm = function(courtType) {
         
-        $("[" + options.ATTR_COURT_TYPE + "]").each(function() {
+        $("[" + ATTR_COURT_TYPE + "]").each(function() {
             var $this = $(this)
-                attr = $this.attr(options.ATTR_COURT_TYPE);
+                attr = $this.attr(ATTR_COURT_TYPE);
             
             if (attr === "" || attr === courtType) {
                 $this.show();
+                
+                //Reset width of the common court keywords field
+                $("#input-search-keywords-cc").suggesterRefresh();
             } else {
                 $this.hide();
+                clearNotRelatedFields();
             }
         });
         
-    },
-    
-    /* 
-     * Clears fields that are not related to selected court type.   
-     * On submit clear fields that not associated with selected court type. 
-     * */
-    assignSubmitEvent = function() {
-        $(options.formId)
-        .on("submit", function(event) {
-            clearNotRelatedFields(event);
-        })
-        .on("clearCourtType", function(event) {
-            clearNotRelatedFields(event);
-        });
         
-        function clearNotRelatedFields(event) {
-            $("[" + options.ATTR_COURT_TYPE + "]").each(function() {
+        /*
+         * Clears fields that are not related to selected court type.
+         */
+        function clearNotRelatedFields() {
+            $("[" + ATTR_COURT_TYPE + "]").each(function() {
                 
                 var $this = $(this),
-                    attr = $this.attr(options.ATTR_COURT_TYPE);
+                    attr = $this.attr(ATTR_COURT_TYPE);
                 
                 if (attr != getSelectedCourtType()) {
                     clearField($this);
@@ -90,27 +81,30 @@ var CourtTypeFields = (function() {
             });
         }
     },
+    
 
     /*
      * Clears field in container
      */
     clearField = function($fieldsContainer) {
         $fieldsContainer.find("input, select").each(function() {
-            $(this)
+            var $field = $(this);
+            
+            $field
                 .val('')
                 .removeAttr('checked')
                 .removeAttr('selected')
                 .trigger("change");
+            
+            //Remove suggestion boxes (cc-keywords)
+            $(".suggestion").remove();
         });
     };
     
     
-    scope.init = function(userOptions) {
-        
-        options = userOptions || defaultOptions;
+    scope.init = function() {
         
         showSelectedFields();
-        assignSubmitEvent();
         assignChangeCourtTypeButtons();
     };
     

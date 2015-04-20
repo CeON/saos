@@ -107,6 +107,7 @@ var Suggester = (function() {
         	});
         });
         
+
     },
     
     /* Create container for suggestions. 

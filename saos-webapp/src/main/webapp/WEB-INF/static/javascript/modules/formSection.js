@@ -3,14 +3,22 @@
  * 
  * @author Łukasz Pawełczak
  * 
+ * 
+ * @param userOptions - object with structure
+ * 
+ *  {
+ *      formSectionId - id of form section 
+ *      infoSectionId - id of info section
+ *  }
+ * 
  */
 function FormSection(userOptions) {
+   
+    
     
     var defaultOptions = {
         formSectionId: "",
-        infoSectionId: "",
-        processBeforePublishing: function() {},
-        separator: ""
+        infoSectionId: ""
     };
     
     var options = userOptions || defaultOptions;
@@ -22,15 +30,15 @@ function FormSection(userOptions) {
     
     function init() {
         showPublishedValues();
-        assignOpenSection();
-        assignCloseSection();
+        initOpenFormSection();
+        initCloseFormSection();
     }
     
     
     /* 
      * Assigns buttons to open form section on event click.
      */ 
-     function assignOpenSection() {
+     function initOpenFormSection() {
     
         var $formSection = $(options.formSectionId);
         
@@ -46,7 +54,7 @@ function FormSection(userOptions) {
      /* 
       * Assigns buttons to close form section on event click.
       */ 
-     function assignCloseSection() {
+     function initCloseFormSection() {
          
          var $formSection = $(options.formSectionId),
              $setSection = $(options.infoSectionId);
@@ -56,7 +64,7 @@ function FormSection(userOptions) {
              if (!$formSection.is(e.target) && !$setSection.is(e.target) // if the target of the click isn't the container...
                      && $formSection.has(e.target).length === 0 && $setSection.has(e.target).length === 0) // ... nor a descendant of the container
              {
-                 closeSection();
+                 closeFormSection();
              }
              
          });
@@ -65,7 +73,7 @@ function FormSection(userOptions) {
      /*
       * Closes form section
       */
-     function closeSection() {
+     function closeFormSection() {
          var $formSection = $(options.formSectionId);
 
          $formSection.find(".form-group").each(function() {
@@ -85,12 +93,7 @@ function FormSection(userOptions) {
              }
              
          });
-        
          
-         //Runs process that should be executed before publishing data
-         if (options.processBeforePublishing && typeof options.processBeforePublishing === "function") {
-             options.processBeforePublishing();
-         }
          
          //Hide form section
          $formSection.slideUp(400, function() {
@@ -159,7 +162,7 @@ function FormSection(userOptions) {
              if (text !== "") {
 
                  if (separator) {
-                     html += options.separator;
+                     html += ", ";
                  }
                  html += fieldDescription;
                  html += boldPhrase(text);
@@ -184,6 +187,10 @@ function FormSection(userOptions) {
      }
 }
 
+
+function formSection(options) {
+    return new FormSection(options);
+}
 
 
 
