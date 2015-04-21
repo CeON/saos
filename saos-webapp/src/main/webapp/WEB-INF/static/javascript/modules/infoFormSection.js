@@ -1,5 +1,5 @@
 /*
- * Form section
+ * Info Form section
  * 
  * @author Łukasz Pawełczak
  * 
@@ -12,16 +12,9 @@
  *  }
  * 
  */
-function FormSection(userOptions) {
+function InfoFormSection(options) {
    
     
-    
-    var defaultOptions = {
-        formSectionId: "",
-        infoSectionId: ""
-    };
-    
-    var options = userOptions || defaultOptions;
     
     init();
     
@@ -29,7 +22,7 @@ function FormSection(userOptions) {
     //------------------------ FUNCTIONS --------------------------
     
     function init() {
-        showPublishedValues();
+        updateInfoSection();
         initOpenFormSection();
         initCloseFormSection();
     }
@@ -71,47 +64,24 @@ function FormSection(userOptions) {
      }
      
      /*
-      * Closes form section
+      * Closes form section.
+      * 
       */
      function closeFormSection() {
-         var $formSection = $(options.formSectionId);
 
-         $formSection.find(".form-group").each(function() {
-             var $this = $(this);
-             
-             if ($this.css("display") === "none") {
-                 //Remove values from text inputs
-                 $this
-                     .find('input:text, input:hidden, input:password, input:file, select, textarea')
-                     .val('')
-                     .trigger('clear');
-                 
-                 //Select first element on select list
-                 $this
-                     .find('select')
-                     .selectedIndex=0;
-             }
-             
-         });
-         
-         
          //Hide form section
-         $formSection.slideUp(400, function() {
-             var html = publishInfoFromFormSection(); 
-             
-             if (html !== "") {
-                 $(options.infoSectionId).html(html);
-             }
+         $(options.formSectionId).slideUp(400, function() {
+             $(options.infoSectionId).html(extractInfoFromFormSection());
          });
          
      }
      
      /* 
-      * Publishes form information
+      * Extracts and formats info from inputs & selects inside form section.
       *      
       * @return string with inputs & selects values   
       */
-     function publishInfoFromFormSection() {
+     function extractInfoFromFormSection() {
          
          var $formSection = $(options.formSectionId),
              html = "";
@@ -176,20 +146,15 @@ function FormSection(userOptions) {
          }
      }
      
-     function showPublishedValues() {
-         var valuesToPublish = publishInfoFromFormSection(); 
-         
-         if (valuesToPublish !== "") {
-             
-             $(options.infoSectionId).html(valuesToPublish);
-         }
-         
+     function updateInfoSection() {
+                 
+         $(options.infoSectionId).html(extractInfoFromFormSection());
      }
 }
 
 
-function formSection(options) {
-    return new FormSection(options);
+function infoFormSection(options) {
+    return new InfoFormSection(options);
 }
 
 

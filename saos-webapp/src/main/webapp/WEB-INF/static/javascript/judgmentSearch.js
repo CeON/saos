@@ -151,7 +151,7 @@ var jsInitInJudgmentSearch = function() {
 	
 	
     /* Search form section: court type */
-    formSection({
+    infoFormSection({
         formSectionId: "#court-form-section",
         infoSectionId: "#court-info"
     });

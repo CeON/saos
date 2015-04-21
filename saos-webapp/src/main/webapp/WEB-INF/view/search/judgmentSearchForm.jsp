@@ -24,69 +24,10 @@
 
 		  <saos:hint content="${searchFormHintContent}" title="${searchFormHintTitle}" placement="left" ></saos:hint>
 		</div>
+
+        <%-- Courts & Chambers info form selection --%>		
+		<%@ include file="../common/courtsInfoFormSection.jsp" %>
 		
-		
-		<div class="form-section-container" >
-		
-		    <a id="court-info" class="form-section-open" href="" >
-		        <spring:message code="judgmentSearch.formField.courtType" />: <b><spring:message code="judgmentSearch.formField.courtTypeAny" /></b>
-		    </a>
-	        
-	        <div id="court-form-section" class="row form-section">
-		        
-		        <div class="form-group" >
-		        
-		            <label class="col-lg-2 col-sm-3 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>    
-		            <div class="col-xs-10 radio-group" >
-	                    <div class="col-sm-5" >
-	                        <input type="radio" id="radio-all" name="courtType"  value="" checked="checked" data-field-desc="<spring:message code="judgmentSearch.formField.courtType" />: " />
-	                        <label for="radio-all" ><spring:message code="judgmentSearch.formField.courtTypeAny" /></label>
-	                    </div>
-	                    
-	                    <spring:eval expression="T(pl.edu.icm.saos.persistence.model.CourtType).values()" var="enumItemsToShow" scope="page"/>
-	                    <c:set var="path" value="courtType" />
-	                    
-	                    <c:forEach var="enumValue" items="${enumItemsToShow}" >
-	                        <c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
-	                        <c:set var="idLabel" value="radio-court-${lowerCaseEnumValue}" />
-	                    
-	                        <c:choose>
-	                            <c:when test="${enumValue == 'ADMINISTRATIVE'}">        
-	                                <div class="col-sm-6" >
-	                                    <form:radiobutton path="${path}" value="${enumValue}" id="${idLabel}" disabled="true" />
-	                                    <label for="${idLabel}" >
-	                                        <saos:enum value="${enumValue}" />
-	                                    </label>
-	                                    
-	                                    <!-- Hint for administrative court -->
-	                                    <spring:message code="judgmentSearch.hint.administrativeCourt.title" var="hintAdministrativeCourtTitle" />
-	                                    <spring:message code="judgmentSearch.hint.administrativeCourt.content" var="hintAdministrativeCourtContent" />
-	                                    <saos:hint title="${hintAdministrativeCourtTitle}" content="${hintAdministrativeCourtContent}" />
-	                                </div>
-	                            </c:when>
-	                            <c:otherwise>
-	                                <div class="col-sm-5" >
-	                                    <form:radiobutton path="${path}" value="${enumValue}" id="${idLabel}" />
-	                                    <label for="${idLabel}" >
-	                                        <saos:enum value="${enumValue}" />
-	                                    </label>
-	                                </div>
-	                            </c:otherwise>
-	                        </c:choose>
-	                    </c:forEach>
-		            </div>
-		        </div>
-		        
-				<%-- Common Courts & Common Court Divisions --%>
-				<%@ include file="ccJudgment/ccJudgmentCourtSelect.jsp" %>
-				
-				<%-- Supreme CourtChamber & ChamberDivisions --%>
-			    <%@ include file="scJudgment/scJudgmentChamberSelect.jsp" %>
-		        
-	        </div>
-	        
-	        
-		</div>
 			
 	    <div class="form-group">
 	       <spring:message code="judgmentSearch.formField.all" var="searchAllPlaceholder" />
@@ -97,9 +38,7 @@
 		       <button type="submit" class="btn btn-primary button button-blue"><spring:message code="button.judgmentSearch" /></button>
 		    </div>
 		</div>
-
-
-                   
+           
     
 	    <div >
     		<a id="search-more-fields" class="button-advance" href="#search-form" ><spring:message code="judgmentSearch.form.moreFields" /></a>

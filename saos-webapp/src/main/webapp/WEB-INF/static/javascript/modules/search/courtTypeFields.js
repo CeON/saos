@@ -43,7 +43,7 @@ var CourtTypeFields = (function() {
     
     /*
      * Show fields that have attribute @{ATTR_COURT_TYPE} value equal to @param courtType.
-     * Hide fields that don't have attribute equal to courtType.
+     * Hide fields that don't have this attribute equal to courtType.
      * 
      * @param courtType - type of court
      */
@@ -60,26 +60,10 @@ var CourtTypeFields = (function() {
                 $("#input-search-keywords-cc").suggesterRefresh();
             } else {
                 $this.hide();
-                clearNotRelatedFields();
+                clearField($this);
             }
         });
         
-        
-        /*
-         * Clears fields that are not related to selected court type.
-         */
-        function clearNotRelatedFields() {
-            $("[" + ATTR_COURT_TYPE + "]").each(function() {
-                
-                var $this = $(this),
-                    attr = $this.attr(ATTR_COURT_TYPE);
-                
-                if (attr != getSelectedCourtType()) {
-                    clearField($this);
-                }
-
-            });
-        }
     },
     
 
