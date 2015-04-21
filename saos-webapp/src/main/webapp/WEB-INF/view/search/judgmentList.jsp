@@ -9,19 +9,26 @@
 
 
 		<%-- Top line --%>
-		<div class="top-line" >
-			<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
+		<div class="top-line">
+			<div class="top-line-main">
+				<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
 				
-				<a href="" class="judgment-type" data-filter-value="${judgment.judgmentType}" >
-					<saos:enum value="${judgment.judgmentType}" ></saos:enum>
-				</a>
+					<a href="" class="judgment-type" data-filter-value="${judgment.judgmentType}" >
+						<saos:enum value="${judgment.judgmentType}" ></saos:enum>
+					</a>
 
-			</c:if>
+				</c:if>
 			
-			<c:if test="${!empty judgment.courtType && judgment.courtType != null}" >
-				<span>-</span>
-				<a href="" class="court-type" data-filter-value="${judgment.courtType}" ><spring:message code="judgmentSearch.results.courtType.${judgment.courtType}" /></a>
-			</c:if>
+				<c:if test="${!empty judgment.courtType && judgment.courtType != null}" >
+					<span>-</span>
+					<a href="" class="court-type" data-filter-value="${judgment.courtType}" ><spring:message code="judgmentSearch.results.courtType.${judgment.courtType}" /></a>
+				</c:if>
+			
+			</div>
+			
+			<span class="top-line-right">
+				<spring:message code="judgmentSearch.results.referencingCount" />: <c:out value="${judgment.referencingCount}" />
+			</span>
 		</div>
 	
 		<div class="case-number">

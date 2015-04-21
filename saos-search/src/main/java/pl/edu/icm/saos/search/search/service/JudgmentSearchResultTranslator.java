@@ -53,6 +53,11 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
         LocalDate judgmentDate = fieldFetcher.fetchDateValue(document, JudgmentIndexField.JUDGMENT_DATE);
         result.setJudgmentDate(judgmentDate);
         
+        Long referencingCount = fieldFetcher.fetchLongValue(document, JudgmentIndexField.REFERENCING_JUDGMENTS_COUNT);
+        if (referencingCount != null) {
+            result.setReferencingCount(referencingCount);
+        }
+        
         String courtTypeString = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_TYPE);
         
         if (courtTypeString != null) {

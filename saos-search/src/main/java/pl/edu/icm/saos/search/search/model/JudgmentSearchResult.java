@@ -18,6 +18,7 @@ public class JudgmentSearchResult extends Searchable {
     private List<String> caseNumbers;
     private JudgmentType judgmentType;
     private LocalDate judgmentDate;
+    private long referencingCount;
     
     private CourtType courtType;
     
@@ -51,6 +52,9 @@ public class JudgmentSearchResult extends Searchable {
     }
     public LocalDate getJudgmentDate() {
         return judgmentDate;
+    }
+    public long getReferencingCount() {
+        return referencingCount;
     }
     public CourtType getCourtType() {
     	return courtType;
@@ -115,6 +119,9 @@ public class JudgmentSearchResult extends Searchable {
     }
     public void setJudgmentDate(LocalDate judgmentDate) {
         this.judgmentDate = judgmentDate;
+    }
+    public void setReferencingCount(long referencingCount) {
+        this.referencingCount = referencingCount;
     }
     public void setCourtType(CourtType courtType) {
     	this.courtType = courtType;
