@@ -19,10 +19,8 @@ var CourtDivisionSelect = (function() {
 	}, 
 	
 	assignChangeEvent = function() {
-		var i = 0,
-			length = fields.length;
 		
-		for(i = 0; i < length; i += 1) {
+		for(var i = 0, length = fields.length; i < length; i += 1) {
 			$(fields[i].court).each(function() {
 				var $court = $(this),
 					$divisionId = $(fields[i].divisionId),
@@ -36,11 +34,9 @@ var CourtDivisionSelect = (function() {
 						if (selectedCourtId !== "") {
 							$.ajax(getDivisionUrl(selectedCourtId))
 							 .done(function(data) {
-								 var options = prepareOption("", ""),
-								 	 j = 0,
-								 	 dataLength = data.length;
+								 var options = prepareOption("", "");
 								 
-								 for(j; j < dataLength; j += 1) {
+								 for(var j = 0, dataLength = data.length; j < dataLength; j += 1) {
 									 options += prepareOption(data[j].id, data[j].name);
 								 }
 								 

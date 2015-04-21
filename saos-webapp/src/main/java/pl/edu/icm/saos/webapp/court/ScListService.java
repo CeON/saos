@@ -29,7 +29,7 @@ public class ScListService {
 	
 	private ScChamberDivisionRepository scChamberDivisionRepository;
 	
-	private SimpleDivisionConverter simpleDivisionConverter;
+	private SimpleEntityConverter simpleEntityConverter;
 	
 	
 	//------------------------ LOGIC --------------------------
@@ -37,15 +37,15 @@ public class ScListService {
 	/**
 	 * Find all supreme court chambers. Returned list is sorted by {@link ScChamberComparator}.
 	 * 
-	 * @return list of {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamber}
+	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
-	public List<SupremeCourtChamber> findScChambers() {
+	public List<SimpleEntity> findScChambers() {
 		
 		List<SupremeCourtChamber> chambers = scChamberRepository.findAll();
 		
 		Collections.sort(chambers, new ScChamberComparator());
 		
-		return chambers;
+		return simpleEntityConverter.convertScChambers(chambers);
 	}
 	
 	/**
@@ -53,15 +53,15 @@ public class ScListService {
 	 * Returned list is sorted by {@link ScChamberDivisionComparator}.
 	 * 
 	 * @param chamberId - chamber division id
-	 * @return list of {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision}
+	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
-	public List<SimpleDivision> findScChamberDivisions(long chamberId) {
+	public List<SimpleEntity> findScChamberDivisions(long chamberId) {
 	
 		List<SupremeCourtChamberDivision> chamberDivisions = scChamberDivisionRepository.findAllByScChamberId(chamberId);
 		
 		Collections.sort(chamberDivisions, new ScChamberDivisionComparator());
 		
-		return simpleDivisionConverter.convertScChamberDivisions(chamberDivisions);
+		return simpleEntityConverter.convertScChamberDivisions(chamberDivisions);
 	}
 	
 	
@@ -88,8 +88,8 @@ public class ScListService {
 	}
 	
 	@Autowired
-	public void setSimpleDivisionConverter(SimpleDivisionConverter simpleDivisionConverter) {
-		this.simpleDivisionConverter = simpleDivisionConverter;
+	public void setSimpleDivisionConverter(SimpleEntityConverter simpleDivisionConverter) {
+		this.simpleEntityConverter = simpleDivisionConverter;
 	}
 
 }

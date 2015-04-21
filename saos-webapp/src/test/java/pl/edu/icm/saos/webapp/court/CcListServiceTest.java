@@ -1,6 +1,6 @@
 package pl.edu.icm.saos.webapp.court;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public class CcListServiceTest {
 
 	private CcListService ccListService = new CcListService();
 	
-	private SimpleDivisionConverter simpleDivisionConverter = new SimpleDivisionConverter();
+	private SimpleEntityConverter simpleDivisionConverter = new SimpleEntityConverter();
 	
 	@Mock
 	private CommonCourtRepository commonCourtRepository;
@@ -54,7 +54,7 @@ public class CcListServiceTest {
 		
 		
 		//when
-		List<CommonCourt> courts = ccListService.findCommonCourts();
+		List<SimpleEntity> courts = ccListService.findCommonCourts();
 		
 		
 		//then
@@ -82,7 +82,7 @@ public class CcListServiceTest {
 		
 		
 		//when
-		List<SimpleDivision> divisions = ccListService.findCcDivisions(1);
+		List<SimpleEntity> divisions = ccListService.findCcDivisions(1);
 		
 		
 		//then
@@ -110,7 +110,7 @@ public class CcListServiceTest {
 		
 		
 		//when
-		List<SimpleDivision> divisions = ccListService.findCcDivisions(1);
+		List<SimpleEntity> divisions = ccListService.findCcDivisions(1);
 		
 		
 		//then

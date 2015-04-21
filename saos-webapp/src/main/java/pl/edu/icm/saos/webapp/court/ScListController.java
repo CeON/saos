@@ -10,23 +10,30 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Provides view of supreme court chamber divisions in json format.
+ * 
  * @author Łukasz Pawełczak
  *
  */
 @Controller
 public class ScListController {
 
-		
-	@Autowired
-	private ScListService scListService;
-	
-	
-	//------------------------ LOGIC --------------------------    
-	
-	@RequestMapping("sc/chambers/{supremeChamberId}/chamberDivisions/list")
-	@ResponseBody
-	public List<SimpleDivision> listChamberDivisions(@PathVariable("supremeChamberId") long supremeChamberId) {
-		return scListService.findScChamberDivisions(supremeChamberId);
-	}
+    		
+    @Autowired
+    private ScListService scListService;
+    	
+    	
+    //------------------------ LOGIC --------------------------    
+    	
+    @RequestMapping("sc/chambers/list")
+    @ResponseBody
+    public List<SimpleEntity> listScChambers() {
+	return scListService.findScChambers();
+    }
+    	
+    @RequestMapping("sc/chambers/{supremeChamberId}/chamberDivisions/list")
+    @ResponseBody
+    public List<SimpleEntity> listScChamberDivisions(@PathVariable("supremeChamberId") long supremeChamberId) {
+	return scListService.findScChamberDivisions(supremeChamberId);
+    }
 
 }

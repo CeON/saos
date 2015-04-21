@@ -27,7 +27,7 @@ public class CcListService {
 	
 	private CcDivisionRepository ccDivisionRepository;
 	
-	private SimpleDivisionConverter simpleDivisionConverter;
+	private SimpleEntityConverter simpleEntityConverter;
 	    
 		
 	//------------------------ LOGIC --------------------------
@@ -35,15 +35,15 @@ public class CcListService {
 	/**
 	 * Finds and returns all common courts.
 	 * 
-	 * @return list of {@link pl.edu.icm.saos.persistence.model.CommonCourt}
+	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
-	public List<CommonCourt> findCommonCourts() {
+	public List<SimpleEntity> findCommonCourts() {
 		
-		List<CommonCourt> courts = commonCourtRepository.findAll();
+		List<CommonCourt> commonCourts = commonCourtRepository.findAll();
 		
-		Collections.sort(courts, new CommonCourtComparator());
+		Collections.sort(commonCourts, new CommonCourtComparator());
 		
-		return courts;
+		return simpleEntityConverter.convertCommonCourts(commonCourts);
 	}
 	
 	/**
@@ -51,15 +51,15 @@ public class CcListService {
 	 * Returned list is sorted with {@link CcDivisionComparator}.
 	 * 
 	 * @param courtId - common court id
-	 * @return list of {@link pl.edu.icm.saos.persistence.model.CommonCourtDivision}
+	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
-	public List<SimpleDivision> findCcDivisions(long courtId) {
+	public List<SimpleEntity> findCcDivisions(long courtId) {
 		
 		List<CommonCourtDivision> courtDivisions = ccDivisionRepository.findAllByCourtId(courtId);
 		
 		Collections.sort(courtDivisions, new CcDivisionComparator());
 		
-		return simpleDivisionConverter.convertCcDivisions(courtDivisions);
+		return simpleEntityConverter.convertCcDivisions(courtDivisions);
 	}
 	
 	
@@ -86,8 +86,8 @@ public class CcListService {
 	}
 	
 	@Autowired
-	public void setSimpleDivisionConverter(SimpleDivisionConverter simpleDivisionConverter) {
-		this.simpleDivisionConverter = simpleDivisionConverter;
+	public void setSimpleDivisionConverter(SimpleEntityConverter simpleDivisionConverter) {
+		this.simpleEntityConverter = simpleDivisionConverter;
 	}
 
 }

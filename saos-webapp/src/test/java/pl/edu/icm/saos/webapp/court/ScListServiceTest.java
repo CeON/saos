@@ -1,6 +1,6 @@
 package pl.edu.icm.saos.webapp.court;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -26,7 +26,7 @@ public class ScListServiceTest {
 	
 	private ScListService scListService = new ScListService();
 	
-	private SimpleDivisionConverter simpleDivisionConverter = new SimpleDivisionConverter();
+	private SimpleEntityConverter simpleDivisionConverter = new SimpleEntityConverter();
 	
 	@Mock
 	private ScChamberRepository scChamberRepository;
@@ -53,7 +53,7 @@ public class ScListServiceTest {
 		
 		
 		//when
-		List<SupremeCourtChamber> chambers = scListService.findScChambers();
+		List<SimpleEntity> chambers = scListService.findScChambers();
 		
 		
 		//then
@@ -80,7 +80,7 @@ public class ScListServiceTest {
 		
 		
 		//when
-		List<SimpleDivision> chamberDivisions = scListService.findScChamberDivisions(1);
+		List<SimpleEntity> chamberDivisions = scListService.findScChamberDivisions(1);
 		
 		
 		//then

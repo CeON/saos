@@ -25,7 +25,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,10 +36,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
-import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
@@ -50,7 +47,7 @@ import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
 import pl.edu.icm.saos.webapp.court.CcListService;
 import pl.edu.icm.saos.webapp.court.ScListService;
-import pl.edu.icm.saos.webapp.court.SimpleDivision;
+import pl.edu.icm.saos.webapp.court.SimpleEntity;
 import pl.edu.icm.saos.webapp.court.TestCourtsFactory;
 import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaForm;
 
@@ -98,11 +95,11 @@ public class JudgmentSearchControllerTest {
 	@Autowired
 	private TestCourtsFactory testCourtsFactory;
 	
-	private List<SimpleDivision> simpleDivisions;
+	private List<SimpleEntity> simpleEntities;
 	
-	private List<CommonCourt> commonCourts = getTestCommonCourts();
+	private List<SimpleEntity> commonCourts = getTestCommonCourts();
 	
-	private List<SupremeCourtChamber> scChambers = getTestScChamber();
+	private List<SimpleEntity> scChambers = getTestScChamber();
 	
 	private List<SupremeCourtJudgmentForm> scJudgmentForms = getTestScJudgmentForm();
 	
@@ -114,7 +111,7 @@ public class JudgmentSearchControllerTest {
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		
-		simpleDivisions = testCourtsFactory.getSimpleDivisions();
+		simpleEntities = testCourtsFactory.getSimpleEntities();
 		
 		results = new SearchResults<JudgmentSearchResult>();
 		results.addResult(new JudgmentSearchResult());
@@ -141,73 +138,37 @@ public class JudgmentSearchControllerTest {
 			.andExpect(view().name("judgmentSearch"))
 			.andExpect(model().attribute("pageable", instanceOf(Pageable.class)))
 			.andExpect(model().attribute("searchResults", results))
-			.andExpect(model().attribute("commonCourts", commonCourts))
-			.andExpect(model().attribute("commonCourts", hasSize(2)))
-			.andExpect(model().attribute("commonCourts", hasItem(
-                        allOf(
-                        		hasProperty("id", is(commonCourts.get(0).getId())),
-                                hasProperty("name", is(commonCourts.get(0).getName()))
-                        )
-                )))
-            .andExpect(model().attribute("commonCourts", hasItem(
-                        allOf(
-                        		hasProperty("id", is(commonCourts.get(1).getId())),
-                                hasProperty("name", is(commonCourts.get(1).getName()))
-                        )
-                )))
-			.andExpect(model().attribute("supremeChambers", scChambers))
-			.andExpect(model().attribute("supremeChambers", hasSize(2)))
-			.andExpect(model().attribute("supremeChambers", hasItem(
-                        allOf(
-                        		hasProperty("id", is(scChambers.get(0).getId())),
-                                hasProperty("name", is(scChambers.get(0).getName()))
-                        )
-                )))
-            .andExpect(model().attribute("supremeChambers", hasItem(
-                        allOf(
-                        		hasProperty("id", is(scChambers.get(1).getId())),
-                                hasProperty("name", is(scChambers.get(1).getName()))
-                        )
-                )))
-			.andExpect(model().attribute("scJudgmentForms", scJudgmentForms))
-			.andExpect(model().attribute("scJudgmentForms", hasSize(2)))
-			.andExpect(model().attribute("scJudgmentForms", hasItem(
-                            hasProperty("name", is(scJudgmentForms.get(0).getName()))
-                )))
-            .andExpect(model().attribute("scJudgmentForms", hasItem(
-                            hasProperty("name", is(scJudgmentForms.get(1).getName()))
-                )))
 			;
 		
 
-        verify(ccListService, times(1)).findCommonCourts();
-        verify(scListService, times(1)).findScChambers();
-        verify(scJudgmentFormRepository, times(1)).findAll();
+            verify(ccListService, times(0)).findCommonCourts();
+            verify(scListService, times(0)).findScChambers();
+            verify(scJudgmentFormRepository, times(0)).findAll();
 	}
 	
 	@Test
 	public void judgmentSearchResults_search_form_contains_commonCourtId() throws Exception {
 
 		Integer commonCourtId = 1;
-		when(ccListService.findCcDivisions(commonCourtId)).thenReturn(simpleDivisions);
+		when(ccListService.findCcDivisions(commonCourtId)).thenReturn(simpleEntities);
 		
-		mockMvc.perform(get("/search").param("commonCourtId", commonCourtId.toString()))
+		mockMvc.perform(get("/search").param("commonCourtId", commonCourtId.toString()).param("courtType", "COMMON"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentSearch"))
-			.andExpect(model().attribute("commonCourtDivisions", simpleDivisions))
+			.andExpect(model().attribute("commonCourtDivisions", simpleEntities))
 			.andExpect(model().attribute("commonCourtDivisions", hasSize(2)))
 			.andExpect(model().attribute("commonCourtDivisions", hasItem(
-                        allOf(
-                        		hasProperty("id", is(simpleDivisions.get(0).getId())),
-                                hasProperty("name", is(simpleDivisions.get(0).getName()))
-                        )
-                )))
-            .andExpect(model().attribute("commonCourtDivisions", hasItem(
-                        allOf(
-                        		hasProperty("id", is(simpleDivisions.get(1).getId())),
-                                hasProperty("name", is(simpleDivisions.get(1).getName()))
-                        )
-                )))
+                            allOf(
+                    		hasProperty("id", is(simpleEntities.get(0).getId())),
+                                hasProperty("name", is(simpleEntities.get(0).getName()))
+                            )
+			)))
+			.andExpect(model().attribute("commonCourtDivisions", hasItem(
+                            allOf(
+                    		hasProperty("id", is(simpleEntities.get(1).getId())),
+                                hasProperty("name", is(simpleEntities.get(1).getName()))
+                            )
+			)))
 			;
 		
 		verify(ccListService, times(1)).findCcDivisions(commonCourtId);
@@ -217,28 +178,53 @@ public class JudgmentSearchControllerTest {
 	public void judgmentSearchResults_search_form_contains_supremeChamberId() throws Exception {
 		
 		Integer supremeChamberId = 1;
-		when(scListService.findScChamberDivisions(supremeChamberId)).thenReturn(simpleDivisions);
+		when(scListService.findScChamberDivisions(supremeChamberId)).thenReturn(simpleEntities);
 		
-		mockMvc.perform(get("/search").param("supremeChamberId", supremeChamberId.toString()))
+		mockMvc.perform(get("/search").param("supremeChamberId", supremeChamberId.toString()).param("courtType", "SUPREME"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentSearch"))
-			.andExpect(model().attribute("supremeChamberDivisions", simpleDivisions))
+			.andExpect(model().attribute("supremeChamberDivisions", simpleEntities))
 			.andExpect(model().attribute("supremeChamberDivisions", hasSize(2)))
 			.andExpect(model().attribute("supremeChamberDivisions", hasItem(
-                        allOf(
-                        		hasProperty("id", is(simpleDivisions.get(0).getId())),
-                                hasProperty("name", is(simpleDivisions.get(0).getName()))
-                        )
-                )))
-            .andExpect(model().attribute("supremeChamberDivisions", hasItem(
-                        allOf(
-                        		hasProperty("id", is(simpleDivisions.get(1).getId())),
-                                hasProperty("name", is(simpleDivisions.get(1).getName()))
-                        )
-                )))
+                            allOf(
+                        	hasProperty("id", is(simpleEntities.get(0).getId())),
+                                hasProperty("name", is(simpleEntities.get(0).getName()))
+                            )
+			)))
+                	.andExpect(model().attribute("supremeChamberDivisions", hasItem(
+                            allOf(
+                        	hasProperty("id", is(simpleEntities.get(1).getId())),
+                                hasProperty("name", is(simpleEntities.get(1).getName()))
+                            )
+                	)))
 			;
 		
 		verify(scListService, times(1)).findScChamberDivisions(supremeChamberId);
+	}
+	
+	@Test
+	public void judgmentSearchResults_search_form_scJudgmentForm() throws Exception {
+		
+
+		
+		mockMvc.perform(get("/search").param("courtType", "SUPREME"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("judgmentSearch"))
+			.andExpect(model().attribute("scJudgmentForms", scJudgmentForms))
+			.andExpect(model().attribute("scJudgmentForms", hasSize(2)))
+			.andExpect(model().attribute("scJudgmentForms", hasItem(
+                            allOf(
+                                hasProperty("name", is(scJudgmentForms.get(0).getName()))
+                            )
+			)))
+                	.andExpect(model().attribute("scJudgmentForms", hasItem(
+                            allOf(
+                                hasProperty("name", is(scJudgmentForms.get(1).getName()))
+                            )
+                	)))
+			;
+		
+		verify(scJudgmentFormRepository, times(1)).findAll();
 	}
 	
 	
@@ -274,28 +260,27 @@ public class JudgmentSearchControllerTest {
 	
 	//------------------------ PRIVATE --------------------------
 	
-	private List<CommonCourt> getTestCommonCourts() {
-		CommonCourt commonCourtOne = new CommonCourt();
-		CommonCourt commonCourtTwo = new CommonCourt();
+	private List<SimpleEntity> getTestCommonCourts() {
+	    	SimpleEntity commonCourtOne = new SimpleEntity();
+	    	SimpleEntity commonCourtTwo = new SimpleEntity();
 		
-		Whitebox.setInternalState(commonCourtOne, "id", 13);
+		commonCourtOne.setId(13);
 		commonCourtOne.setName("Sąd Rejonowy w Radomiu");
-		commonCourtOne.setCode("AEG");
 		
-		Whitebox.setInternalState(commonCourtOne, "id", 14);
+		commonCourtOne.setId(14);
 		commonCourtTwo.setName("Sąd Okręgowy w Toruniu");
-		commonCourtTwo.setCode("BWG");
 		
 		return Lists.newArrayList(commonCourtOne, commonCourtTwo);
 	}
 	
-	private List<SupremeCourtChamber> getTestScChamber() {
-		SupremeCourtChamber scChamberOne = new SupremeCourtChamber();
-		SupremeCourtChamber scChamberTwo = new SupremeCourtChamber();
+	private List<SimpleEntity> getTestScChamber() {
+	    	SimpleEntity scChamberOne = new SimpleEntity();
+	    	SimpleEntity scChamberTwo = new SimpleEntity();
 		
-		Whitebox.setInternalState(scChamberOne, "id", 8);
+	    	scChamberOne.setId(8);
 		scChamberOne.setName("Izba Cywilna");
-		Whitebox.setInternalState(scChamberTwo, "id", 43);
+		
+		scChamberTwo.setId(43);
 		scChamberTwo.setName("Izba Karna");
 		
 		return Lists.newArrayList(scChamberOne, scChamberTwo);
