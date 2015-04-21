@@ -42,10 +42,11 @@ public class JudgmentSearchResultTranslatorTest {
     }
     
     
-    //------------------------ LOGIC --------------------------
+    //------------------------ TESTS --------------------------
     
     @Test
     public void translateSingle() {
+        // given
         SolrDocument doc = new SolrDocument();
         
         doc.addField("id", "ID");
@@ -59,6 +60,7 @@ public class JudgmentSearchResultTranslatorTest {
         doc.addField("legalBases", "art. 1234 kc");
         doc.addField("referencedRegulations", "Ustawa 1");
         doc.addField("referencedRegulations", "Ustawa 2");
+        doc.addField("referencingJudgmentsCount", 23L);
         
         doc.addField("courtType", "COMMON");
         
@@ -70,9 +72,11 @@ public class JudgmentSearchResultTranslatorTest {
         doc.addField("judge", "Adam Nowak");
         
         
+        // execute
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         
         
+        // assert
         assertEquals(1, result.getId());
         assertEquals(1, result.getCaseNumbers().size());
         assertTrue(result.getCaseNumbers().contains("AAAB1A"));
@@ -80,6 +84,8 @@ public class JudgmentSearchResultTranslatorTest {
         assertEquals(new LocalDate(2014, 10, 7), result.getJudgmentDate());
         assertEquals(JudgmentType.SENTENCE, result.getJudgmentType());
         assertEquals(CourtType.COMMON, result.getCourtType());
+        
+        assertEquals(23L, result.getReferencingCount());
         
         assertEquals(2, result.getKeywords().size());
         assertTrue(result.getKeywords().contains("some keyword"));
@@ -93,6 +99,7 @@ public class JudgmentSearchResultTranslatorTest {
     
     @Test
     public void translateSingle_COMMON_COURT() {
+        // given
         SolrDocument doc = new SolrDocument();
         doc.addField("databaseId", 1l);
         
@@ -103,8 +110,12 @@ public class JudgmentSearchResultTranslatorTest {
         doc.addField("ccCourtDivisionCode", "0000503");
         doc.addField("ccCourtDivisionName", "I Wydział Cywilny");
         
+        
+        // execute
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         
+        
+        // assert
         assertEquals(123l, result.getCcCourtId().longValue());
         assertEquals("15200000", result.getCcCourtCode());
         assertEquals("Sąd Apelacyjny w Krakowie", result.getCcCourtName());
@@ -116,6 +127,7 @@ public class JudgmentSearchResultTranslatorTest {
     
     @Test
     public void translateSingle_SUPREME_COURT() {
+        // given
         SolrDocument doc = new SolrDocument();
         doc.addField("databaseId", 1l);
         
@@ -128,8 +140,12 @@ public class JudgmentSearchResultTranslatorTest {
         doc.addField("scCourtDivisionsChamberId", 11l);
         doc.addField("scCourtDivisionsChamberName", "Izba Cywilna");
         
+        
+        // execute
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
         
+        
+        // assert
         assertEquals("wyrok SN", result.getScJudgmentForm());
         assertEquals(PersonnelType.JOINED_CHAMBERS, result.getScPersonnelType());
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
@@ -143,25 +159,31 @@ public class JudgmentSearchResultTranslatorTest {
     
     @Test
     public void translateSingle_SUPREME_COURT_defective_court_chamber() {
+        // given
     	SolrDocument doc = new SolrDocument();
     	
     	doc.addField("databaseId", 1l);
         doc.addField("scCourtChamber", "11");
-    	
+        
+        // execute
         JudgmentSearchResult result = resultsTranslator.translateSingle(doc);
 
+        // assert
         assertEquals(0, result.getScCourtChambers().size());
     }
     
     @Test
     public void applyHighlighting() {
+        // given
         Map<String, List<String>> docHighlighting = StringListMap.of(new String[][] {
                 { "content", "first fragment", "second fragment" }
         });
-        
         JudgmentSearchResult result = new JudgmentSearchResult();
+
+        // execute
         resultsTranslator.applyHighlighting(docHighlighting, result);
         
+        // assert
         assertEquals("first fragment ... second fragment", result.getContent());
     }
     

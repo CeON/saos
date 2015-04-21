@@ -734,11 +734,10 @@ form.search {
 			font-size: 0.8em;
 			margin-top: 15px;
 			
-			> div {
-				background: $white;
-				@include filter-underline();
-				border-color: #888;
-				display: inline-block;
+			.top-line-right {
+				float: right;
+				color: #666;
+				font-style: italic;
 			}
 		}
 		
