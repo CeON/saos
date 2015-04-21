@@ -25,7 +25,8 @@
 		  <saos:hint content="${searchFormHintContent}" title="${searchFormHintTitle}" placement="left" ></saos:hint>
 		</div>
 
-        <%-- Courts & Chambers info form selection --%>		
+
+		<%-- Courts & Chambers info form selection --%>		
 		<%@ include file="../common/courtsInfoFormSection.jsp" %>
 		
 			
