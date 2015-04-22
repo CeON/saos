@@ -5,7 +5,7 @@ import com.google.common.base.Objects;
 /**
  * @author madryk
  */
-public class JudgmentIndexingAdditionalInfo {
+public class JudgmentIndexingItem {
 
     private long judgmentId;
     
@@ -14,7 +14,7 @@ public class JudgmentIndexingAdditionalInfo {
     
     //------------------------ CONSTRUCTORS --------------------------
     
-    public JudgmentIndexingAdditionalInfo(long judgmentId, long referencingCount) {
+    public JudgmentIndexingItem(long judgmentId, long referencingCount) {
         this.judgmentId = judgmentId;
         this.referencingCount = referencingCount;
     }
@@ -58,7 +58,7 @@ public class JudgmentIndexingAdditionalInfo {
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
-        final JudgmentIndexingAdditionalInfo other = (JudgmentIndexingAdditionalInfo) obj;
+        final JudgmentIndexingItem other = (JudgmentIndexingItem) obj;
         return Objects.equal(this.judgmentId, other.judgmentId) &&
                 Objects.equal(this.referencingCount, other.referencingCount);
     }

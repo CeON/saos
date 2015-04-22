@@ -26,10 +26,10 @@ public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexing
     
     private JudgmentEnrichmentService judgmentEnrichmentService;
     
-    private NotIndexedJudgmentAdditionalInfoFetcher notIndexedJudgmentAdditionalInfoFetcher;
+    private JudgmentIndexingItemFetcher judgmentIndexingItemFetcher;
     
     
-    private volatile Queue<JudgmentIndexingAdditionalInfo> judgmentsInfo = Lists.newLinkedList();
+    private volatile Queue<JudgmentIndexingItem> judgmentsInfo = Lists.newLinkedList();
     
     
     //------------------------ LOGIC --------------------------
@@ -37,15 +37,15 @@ public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexing
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
         
-        judgmentsInfo = new ConcurrentLinkedQueue<JudgmentIndexingAdditionalInfo>(
-                notIndexedJudgmentAdditionalInfoFetcher.fetchNotIndexedJudgmentsAdditionalInfo());
+        judgmentsInfo = new ConcurrentLinkedQueue<JudgmentIndexingItem>(
+                judgmentIndexingItemFetcher.fetchJudgmentIndexingItems());
         
     }
 
     @Override
     public JudgmentIndexingData read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         
-        JudgmentIndexingAdditionalInfo judgmentInfo = judgmentsInfo.poll();
+        JudgmentIndexingItem judgmentInfo = judgmentsInfo.poll();
         
         if (judgmentInfo == null) {
             return null;
@@ -82,9 +82,8 @@ public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexing
     }
 
     @Autowired
-    public void setNotIndexedJudgmentAdditionalInfoFetcher(
-            NotIndexedJudgmentAdditionalInfoFetcher notIndexedJudgmentAdditionalInfoFetcher) {
-        this.notIndexedJudgmentAdditionalInfoFetcher = notIndexedJudgmentAdditionalInfoFetcher;
+    public void setJudgmentIndexingItemFetcher(JudgmentIndexingItemFetcher judgmentIndexingItemFetcher) {
+        this.judgmentIndexingItemFetcher = judgmentIndexingItemFetcher;
     }
 
 }

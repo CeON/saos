@@ -18,12 +18,12 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * Fetcher of not indexed judgments additional info
+ * Fetcher of {@link JudgmentIndexingItem}s
  * 
  * @author madryk
  */
 @Service
-public class NotIndexedJudgmentAdditionalInfoFetcher {
+public class JudgmentIndexingItemFetcher {
     
     @Autowired
     private EntityManager entityManager;
@@ -35,23 +35,23 @@ public class NotIndexedJudgmentAdditionalInfoFetcher {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Returns list with not indexed judgments additional info needed for indexing purposes
+     * Returns list of {@link JudgmentIndexingItem} for judgments that need to be indexed
      */
     @Transactional
-    public List<JudgmentIndexingAdditionalInfo> fetchNotIndexedJudgmentsAdditionalInfo() {
+    public List<JudgmentIndexingItem> fetchJudgmentIndexingItems() {
         
         List<Long> notIndexedIds = judgmentRepository.findAllNotIndexedIds();
         
         Map<Long, Long> referencingJudgmentsCountInfo = countReferencingJudgmentsForNotIndexed();
         
-        List<JudgmentIndexingAdditionalInfo> judgmentsAdditionalInfo = Lists.newLinkedList();
+        List<JudgmentIndexingItem> judgmentsIndexingItems = Lists.newLinkedList();
         for (Long notIndexedId : notIndexedIds) {
             long referencingCount = (referencingJudgmentsCountInfo.containsKey(notIndexedId)) ? referencingJudgmentsCountInfo.get(notIndexedId) : 0;
             
-            judgmentsAdditionalInfo.add(new JudgmentIndexingAdditionalInfo(notIndexedId, referencingCount));
+            judgmentsIndexingItems.add(new JudgmentIndexingItem(notIndexedId, referencingCount));
         }
         
-        return judgmentsAdditionalInfo;
+        return judgmentsIndexingItems;
     }
     
     

@@ -40,13 +40,13 @@ public class JudgmentIndexingReaderTest {
     
     private JudgmentEnrichmentService judgmentEnrichmentService = mock(JudgmentEnrichmentService.class);
     
-    private NotIndexedJudgmentAdditionalInfoFetcher notIndexedJudgmentAdditionalInfoFetcher = mock(NotIndexedJudgmentAdditionalInfoFetcher.class);
+    private JudgmentIndexingItemFetcher judgmentIndexingItemFetcher = mock(JudgmentIndexingItemFetcher.class);
     
     
     @Before
     public void setUp() {
          judgmentIndexingReader.setJudgmentEnrichmentService(judgmentEnrichmentService);
-         judgmentIndexingReader.setNotIndexedJudgmentAdditionalInfoFetcher(notIndexedJudgmentAdditionalInfoFetcher);
+         judgmentIndexingReader.setJudgmentIndexingItemFetcher(judgmentIndexingItemFetcher);
     }
     
     
@@ -54,7 +54,7 @@ public class JudgmentIndexingReaderTest {
     
     @Test
     public void read_NOT_FOUND() throws UnexpectedInputException, ParseException, NonTransientResourceException, Exception {
-        when(notIndexedJudgmentAdditionalInfoFetcher.fetchNotIndexedJudgmentsAdditionalInfo()).thenReturn(Lists.newLinkedList());
+        when(judgmentIndexingItemFetcher.fetchJudgmentIndexingItems()).thenReturn(Lists.newLinkedList());
         judgmentIndexingReader.open(new ExecutionContext());
         
         JudgmentIndexingData judgmentIndexingData = judgmentIndexingReader.read();
@@ -68,12 +68,12 @@ public class JudgmentIndexingReaderTest {
         Judgment secondJudgment = createCcJudgment(2);
         Judgment thirdJudgment = createCcJudgment(3);
         
-        JudgmentIndexingAdditionalInfo firstJudgmentAdditionalInfo = new JudgmentIndexingAdditionalInfo(1L, 31L);
-        JudgmentIndexingAdditionalInfo secondJudgmentAdditionalInfo = new JudgmentIndexingAdditionalInfo(2L, 0L);
-        JudgmentIndexingAdditionalInfo thirdJudgmentAdditionalInfo = new JudgmentIndexingAdditionalInfo(3L, 53L);
+        JudgmentIndexingItem firstJudgmentIndexingItem = new JudgmentIndexingItem(1L, 31L);
+        JudgmentIndexingItem secondJudgmentIndexingItem = new JudgmentIndexingItem(2L, 0L);
+        JudgmentIndexingItem thirdJudgmentIndexingItem = new JudgmentIndexingItem(3L, 53L);
         
-        when(notIndexedJudgmentAdditionalInfoFetcher.fetchNotIndexedJudgmentsAdditionalInfo())
-            .thenReturn(Lists.newArrayList(firstJudgmentAdditionalInfo, secondJudgmentAdditionalInfo, thirdJudgmentAdditionalInfo));
+        when(judgmentIndexingItemFetcher.fetchJudgmentIndexingItems())
+            .thenReturn(Lists.newArrayList(firstJudgmentIndexingItem, secondJudgmentIndexingItem, thirdJudgmentIndexingItem));
         when(judgmentEnrichmentService.findOneAndEnrich(1l)).thenReturn(firstJudgment);
         when(judgmentEnrichmentService.findOneAndEnrich(2l)).thenReturn(secondJudgment);
         when(judgmentEnrichmentService.findOneAndEnrich(3l)).thenReturn(thirdJudgment);
@@ -109,13 +109,13 @@ public class JudgmentIndexingReaderTest {
                 .rangeClosed(1, judgmentsCount)
                 .mapToObj(x -> Long.valueOf(x))
                 .collect(Collectors.toList());
-        List<JudgmentIndexingAdditionalInfo> additionalInfo = IntStream
+        List<JudgmentIndexingItem> additionalInfo = IntStream
                 .rangeClosed(1, judgmentsCount)
-                .mapToObj(x -> new JudgmentIndexingAdditionalInfo(Long.valueOf(x), 0L))
+                .mapToObj(x -> new JudgmentIndexingItem(Long.valueOf(x), 0L))
                 .collect(Collectors.toList());
         
         
-        when(notIndexedJudgmentAdditionalInfoFetcher.fetchNotIndexedJudgmentsAdditionalInfo()).thenReturn(additionalInfo);
+        when(judgmentIndexingItemFetcher.fetchJudgmentIndexingItems()).thenReturn(additionalInfo);
         when(judgmentEnrichmentService.findOneAndEnrich(Mockito.anyLong())).thenAnswer(new Answer<Judgment>( ) {
             @Override
             public Judgment answer(InvocationOnMock invocation) throws Throwable {

@@ -1,8 +1,7 @@
 package pl.edu.icm.saos.search.indexing;
 
-import static org.junit.Assert.assertEquals;
-import static org.hamcrest.MatcherAssert.*;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
 
 import java.util.List;
 
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
@@ -31,10 +29,10 @@ import com.google.common.collect.Lists;
  * @author madryk
  */
 @Category(SlowTest.class)
-public class NotIndexedJudgmentAdditionalInfoFetcherTest extends SearchTestSupport {
+public class JudgmentIndexingItemFetcherTest extends SearchTestSupport {
 
     @Autowired
-    private NotIndexedJudgmentAdditionalInfoFetcher notIndexedJudgmentAdditionalInfoFetcher;
+    private JudgmentIndexingItemFetcher judgmentIndexingItemFetcher;
     
     @Autowired
     private JudgmentRepository judgmentRepository;
@@ -46,7 +44,7 @@ public class NotIndexedJudgmentAdditionalInfoFetcherTest extends SearchTestSuppo
     //------------------------ TESTS --------------------------
     
     @Test
-    public void fetchNotIndexedWithReferencingCount() {
+    public void fetchJudgmentIndexingItems() {
         // given
         Judgment judgment1 = createCcJudgment(SourceCode.COMMON_COURT, "AA1", "ABC1");
         Judgment judgment2 = createCcJudgment(SourceCode.COMMON_COURT, "AA2", "ABC");
@@ -70,15 +68,15 @@ public class NotIndexedJudgmentAdditionalInfoFetcherTest extends SearchTestSuppo
         enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2));
         
         // execute
-        List<JudgmentIndexingAdditionalInfo> notIndexedJudgmentAdditionalInfo = 
-                notIndexedJudgmentAdditionalInfoFetcher.fetchNotIndexedJudgmentsAdditionalInfo();
+        List<JudgmentIndexingItem> notIndexedJudgmentAdditionalInfo = 
+                judgmentIndexingItemFetcher.fetchJudgmentIndexingItems();
         
         
         // assert
-        JudgmentIndexingAdditionalInfo expectedAdditionalInfo1 = new JudgmentIndexingAdditionalInfo(judgment1.getId(), 0L);
-        JudgmentIndexingAdditionalInfo expectedAdditionalInfo2 = new JudgmentIndexingAdditionalInfo(judgment2.getId(), 1L);
-        JudgmentIndexingAdditionalInfo expectedAdditionalInfo4 = new JudgmentIndexingAdditionalInfo(judgment4.getId(), 2L);
-        JudgmentIndexingAdditionalInfo expectedAdditionalInfo5 = new JudgmentIndexingAdditionalInfo(judgment5.getId(), 0L);
+        JudgmentIndexingItem expectedAdditionalInfo1 = new JudgmentIndexingItem(judgment1.getId(), 0L);
+        JudgmentIndexingItem expectedAdditionalInfo2 = new JudgmentIndexingItem(judgment2.getId(), 1L);
+        JudgmentIndexingItem expectedAdditionalInfo4 = new JudgmentIndexingItem(judgment4.getId(), 2L);
+        JudgmentIndexingItem expectedAdditionalInfo5 = new JudgmentIndexingItem(judgment5.getId(), 0L);
         
         assertThat(notIndexedJudgmentAdditionalInfo, containsInAnyOrder(
                 expectedAdditionalInfo1, expectedAdditionalInfo2, expectedAdditionalInfo4, expectedAdditionalInfo5));
