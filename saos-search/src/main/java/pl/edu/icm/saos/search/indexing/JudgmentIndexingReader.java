@@ -29,7 +29,7 @@ public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexing
     private JudgmentIndexingItemFetcher judgmentIndexingItemFetcher;
     
     
-    private volatile Queue<JudgmentIndexingItem> judgmentsInfo = Lists.newLinkedList();
+    private volatile Queue<JudgmentIndexingItem> judgmentIndexingItems = Lists.newLinkedList();
     
     
     //------------------------ LOGIC --------------------------
@@ -37,7 +37,7 @@ public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexing
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
         
-        judgmentsInfo = new ConcurrentLinkedQueue<JudgmentIndexingItem>(
+        judgmentIndexingItems = new ConcurrentLinkedQueue<JudgmentIndexingItem>(
                 judgmentIndexingItemFetcher.fetchJudgmentIndexingItems());
         
     }
@@ -45,13 +45,13 @@ public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexing
     @Override
     public JudgmentIndexingData read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         
-        JudgmentIndexingItem judgmentInfo = judgmentsInfo.poll();
+        JudgmentIndexingItem judgmentIndexingItem = judgmentIndexingItems.poll();
         
-        if (judgmentInfo == null) {
+        if (judgmentIndexingItem == null) {
             return null;
         }
         
-        Judgment judgment = judgmentEnrichmentService.findOneAndEnrich(judgmentInfo.getJudgmentId());
+        Judgment judgment = judgmentEnrichmentService.findOneAndEnrich(judgmentIndexingItem.getJudgmentId());
         if (judgment == null) {
             return null;
         }
@@ -59,7 +59,7 @@ public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexing
         JudgmentIndexingData judgmentIndexingData = new JudgmentIndexingData();
         
         judgmentIndexingData.setJudgment(judgment);
-        judgmentIndexingData.setReferencingCount(judgmentInfo.getReferencingCount());
+        judgmentIndexingData.setReferencingCount(judgmentIndexingItem.getReferencingCount());
         
         return judgmentIndexingData;
     }

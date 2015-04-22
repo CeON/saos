@@ -109,13 +109,13 @@ public class JudgmentIndexingReaderTest {
                 .rangeClosed(1, judgmentsCount)
                 .mapToObj(x -> Long.valueOf(x))
                 .collect(Collectors.toList());
-        List<JudgmentIndexingItem> additionalInfo = IntStream
+        List<JudgmentIndexingItem> judgmentIndexingItems = IntStream
                 .rangeClosed(1, judgmentsCount)
                 .mapToObj(x -> new JudgmentIndexingItem(Long.valueOf(x), 0L))
                 .collect(Collectors.toList());
         
         
-        when(judgmentIndexingItemFetcher.fetchJudgmentIndexingItems()).thenReturn(additionalInfo);
+        when(judgmentIndexingItemFetcher.fetchJudgmentIndexingItems()).thenReturn(judgmentIndexingItems);
         when(judgmentEnrichmentService.findOneAndEnrich(Mockito.anyLong())).thenAnswer(new Answer<Judgment>( ) {
             @Override
             public Judgment answer(InvocationOnMock invocation) throws Throwable {

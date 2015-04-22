@@ -68,18 +68,18 @@ public class JudgmentIndexingItemFetcherTest extends SearchTestSupport {
         enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2));
         
         // execute
-        List<JudgmentIndexingItem> notIndexedJudgmentAdditionalInfo = 
+        List<JudgmentIndexingItem> retJudgmentIndexingItems = 
                 judgmentIndexingItemFetcher.fetchJudgmentIndexingItems();
         
         
         // assert
-        JudgmentIndexingItem expectedAdditionalInfo1 = new JudgmentIndexingItem(judgment1.getId(), 0L);
-        JudgmentIndexingItem expectedAdditionalInfo2 = new JudgmentIndexingItem(judgment2.getId(), 1L);
-        JudgmentIndexingItem expectedAdditionalInfo4 = new JudgmentIndexingItem(judgment4.getId(), 2L);
-        JudgmentIndexingItem expectedAdditionalInfo5 = new JudgmentIndexingItem(judgment5.getId(), 0L);
+        JudgmentIndexingItem expectedIndexingItem1 = new JudgmentIndexingItem(judgment1.getId(), 0L);
+        JudgmentIndexingItem expectedIndexingItem2 = new JudgmentIndexingItem(judgment2.getId(), 1L);
+        JudgmentIndexingItem expectedIndexingItem4 = new JudgmentIndexingItem(judgment4.getId(), 2L);
+        JudgmentIndexingItem expectedIndexingItem5 = new JudgmentIndexingItem(judgment5.getId(), 0L);
         
-        assertThat(notIndexedJudgmentAdditionalInfo, containsInAnyOrder(
-                expectedAdditionalInfo1, expectedAdditionalInfo2, expectedAdditionalInfo4, expectedAdditionalInfo5));
+        assertThat(retJudgmentIndexingItems, containsInAnyOrder(
+                expectedIndexingItem1, expectedIndexingItem2, expectedIndexingItem4, expectedIndexingItem5));
         
     }
     
