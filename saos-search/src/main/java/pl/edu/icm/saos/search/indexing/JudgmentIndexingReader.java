@@ -1,7 +1,5 @@
 package pl.edu.icm.saos.search.indexing;
 
-import java.util.Collections;
-import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -16,10 +14,8 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * Spring batch reader of judgments for indexing
@@ -27,14 +23,13 @@ import com.google.common.collect.Maps;
  */
 @Service
 public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexingData> {
-
-    private JudgmentRepository judgmentRepository;
     
     private JudgmentEnrichmentService judgmentEnrichmentService;
     
+    private NotIndexedJudgmentAdditionalInfoFetcher notIndexedJudgmentAdditionalInfoFetcher;
     
-    private volatile Queue<Long> judgmentIds = Lists.newLinkedList();
-    private volatile Map<Long, Long> idsWithReferencingCount = Maps.newHashMap();
+    
+    private volatile Queue<JudgmentIndexingAdditionalInfo> judgmentsInfo = Lists.newLinkedList();
     
     
     //------------------------ LOGIC --------------------------
@@ -42,31 +37,29 @@ public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexing
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
         
-        judgmentIds = new ConcurrentLinkedQueue<Long>(judgmentRepository.findAllNotIndexedIds());
-        idsWithReferencingCount = Collections.synchronizedMap(judgmentRepository.countReferencingJudgmentsForNotIndexed());
+        judgmentsInfo = new ConcurrentLinkedQueue<JudgmentIndexingAdditionalInfo>(
+                notIndexedJudgmentAdditionalInfoFetcher.fetchNotIndexedJudgmentsAdditionalInfo());
         
     }
 
     @Override
     public JudgmentIndexingData read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         
-        Long id = judgmentIds.poll();
+        JudgmentIndexingAdditionalInfo judgmentInfo = judgmentsInfo.poll();
         
-        if (id == null) {
+        if (judgmentInfo == null) {
             return null;
         }
         
-        Judgment judgment = judgmentEnrichmentService.findOneAndEnrich(id);
+        Judgment judgment = judgmentEnrichmentService.findOneAndEnrich(judgmentInfo.getJudgmentId());
         if (judgment == null) {
             return null;
         }
         
-        long referencesCount = (idsWithReferencingCount.containsKey(id)) ? idsWithReferencingCount.get(id) : 0;
-        
         JudgmentIndexingData judgmentIndexingData = new JudgmentIndexingData();
         
         judgmentIndexingData.setJudgment(judgment);
-        judgmentIndexingData.setReferencingCount(referencesCount);
+        judgmentIndexingData.setReferencingCount(judgmentInfo.getReferencingCount());
         
         return judgmentIndexingData;
     }
@@ -82,15 +75,16 @@ public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexing
 
     
     //------------------------ SETTERS --------------------------
-    
-    @Autowired
-    public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
-        this.judgmentRepository = judgmentRepository;
-    }
 
     @Autowired
     public void setJudgmentEnrichmentService(JudgmentEnrichmentService judgmentEnrichmentService) {
         this.judgmentEnrichmentService = judgmentEnrichmentService;
+    }
+
+    @Autowired
+    public void setNotIndexedJudgmentAdditionalInfoFetcher(
+            NotIndexedJudgmentAdditionalInfoFetcher notIndexedJudgmentAdditionalInfoFetcher) {
+        this.notIndexedJudgmentAdditionalInfoFetcher = notIndexedJudgmentAdditionalInfoFetcher;
     }
 
 }

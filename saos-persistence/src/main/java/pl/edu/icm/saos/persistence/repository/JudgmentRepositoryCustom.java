@@ -1,7 +1,6 @@
 package pl.edu.icm.saos.persistence.repository;
 
 import java.util.List;
-import java.util.Map;
 
 import pl.edu.icm.saos.persistence.common.Generatable;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
@@ -25,14 +24,6 @@ public interface JudgmentRepositoryCustom {
      * the saos-enrichment module.
      */
     public <T extends Judgment> T findOneAndInitialize(long id);
-    
-    /**
-     * Counts number of referencing judgments for not indexed judgments.
-     * 
-     * @return map containing pairs of judgmentId and number of
-     *     judgments referencing to judgment with that id
-     */
-    public Map<Long, Long> countReferencingJudgmentsForNotIndexed();
 
     /**
      * Deletes {@link Judgment}s with the given judgmentIds. 

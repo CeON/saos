@@ -1,8 +1,6 @@
 package pl.edu.icm.saos.persistence.repository;
 
-import java.math.BigInteger;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -17,7 +15,6 @@ import org.springframework.util.Assert;
 import pl.edu.icm.saos.persistence.common.InitializingVisitor;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
@@ -26,7 +23,6 @@ import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 /**
  * @author Łukasz Dumiszewski
@@ -59,29 +55,6 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
         T retJudgment = (T)judgment;
         return retJudgment;
         
-    }
-    
-    @Override
-    @Transactional
-    public Map<Long, Long> countReferencingJudgmentsForNotIndexed() {
-        Query query = entityManager.createNativeQuery("SELECT j.id, count(*) "
-                + " FROM enrichment_tag tag "
-                + " JOIN json_array_elements(tag.value) tagValue ON true "
-                + " JOIN json_array_elements(tagValue->'judgmentIds') refId ON true "
-                + " LEFT JOIN judgment j ON refId\\:\\:text = j.id\\:\\:text "
-                + " WHERE tag.tag_type = '" + EnrichmentTagTypes.REFERENCED_COURT_CASES + "' "
-                + " AND j.indexed = false "
-                + " GROUP BY j.id;");
-        
-        @SuppressWarnings("unchecked")
-        List<Object[]> results = query.getResultList();
-        
-        Map<Long, Long> idsWithReferencingCount = Maps.newHashMap();
-        for (Object[] result : results) {
-            idsWithReferencingCount.put(((BigInteger)result[0]).longValue(), ((BigInteger)result[1]).longValue());
-        }
-        
-        return idsWithReferencingCount;
     }
 
     @Override

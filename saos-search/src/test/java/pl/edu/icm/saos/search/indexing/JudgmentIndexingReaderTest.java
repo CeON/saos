@@ -28,9 +28,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 
 /**
@@ -40,20 +38,23 @@ public class JudgmentIndexingReaderTest {
 
     private JudgmentIndexingReader judgmentIndexingReader = new JudgmentIndexingReader();
     
-    private JudgmentRepository judgmentRepository = mock(JudgmentRepository.class);
-    
     private JudgmentEnrichmentService judgmentEnrichmentService = mock(JudgmentEnrichmentService.class);
+    
+    private NotIndexedJudgmentAdditionalInfoFetcher notIndexedJudgmentAdditionalInfoFetcher = mock(NotIndexedJudgmentAdditionalInfoFetcher.class);
     
     
     @Before
     public void setUp() {
-         judgmentIndexingReader.setJudgmentRepository(judgmentRepository);
          judgmentIndexingReader.setJudgmentEnrichmentService(judgmentEnrichmentService);
+         judgmentIndexingReader.setNotIndexedJudgmentAdditionalInfoFetcher(notIndexedJudgmentAdditionalInfoFetcher);
     }
+    
+    
+    //------------------------ TESTS --------------------------
     
     @Test
     public void read_NOT_FOUND() throws UnexpectedInputException, ParseException, NonTransientResourceException, Exception {
-        when(judgmentRepository.findAllNotIndexedIds()).thenReturn(Lists.newLinkedList());
+        when(notIndexedJudgmentAdditionalInfoFetcher.fetchNotIndexedJudgmentsAdditionalInfo()).thenReturn(Lists.newLinkedList());
         judgmentIndexingReader.open(new ExecutionContext());
         
         JudgmentIndexingData judgmentIndexingData = judgmentIndexingReader.read();
@@ -67,8 +68,12 @@ public class JudgmentIndexingReaderTest {
         Judgment secondJudgment = createCcJudgment(2);
         Judgment thirdJudgment = createCcJudgment(3);
         
-        when(judgmentRepository.findAllNotIndexedIds()).thenReturn(Lists.newArrayList(1l, 2l, 3l));
-        when(judgmentRepository.countReferencingJudgmentsForNotIndexed()).thenReturn(ImmutableMap.of(1l, 31l, 3l, 53l));
+        JudgmentIndexingAdditionalInfo firstJudgmentAdditionalInfo = new JudgmentIndexingAdditionalInfo(1L, 31L);
+        JudgmentIndexingAdditionalInfo secondJudgmentAdditionalInfo = new JudgmentIndexingAdditionalInfo(2L, 0L);
+        JudgmentIndexingAdditionalInfo thirdJudgmentAdditionalInfo = new JudgmentIndexingAdditionalInfo(3L, 53L);
+        
+        when(notIndexedJudgmentAdditionalInfoFetcher.fetchNotIndexedJudgmentsAdditionalInfo())
+            .thenReturn(Lists.newArrayList(firstJudgmentAdditionalInfo, secondJudgmentAdditionalInfo, thirdJudgmentAdditionalInfo));
         when(judgmentEnrichmentService.findOneAndEnrich(1l)).thenReturn(firstJudgment);
         when(judgmentEnrichmentService.findOneAndEnrich(2l)).thenReturn(secondJudgment);
         when(judgmentEnrichmentService.findOneAndEnrich(3l)).thenReturn(thirdJudgment);
@@ -104,8 +109,13 @@ public class JudgmentIndexingReaderTest {
                 .rangeClosed(1, judgmentsCount)
                 .mapToObj(x -> Long.valueOf(x))
                 .collect(Collectors.toList());
+        List<JudgmentIndexingAdditionalInfo> additionalInfo = IntStream
+                .rangeClosed(1, judgmentsCount)
+                .mapToObj(x -> new JudgmentIndexingAdditionalInfo(Long.valueOf(x), 0L))
+                .collect(Collectors.toList());
         
-        when(judgmentRepository.findAllNotIndexedIds()).thenReturn(ids);
+        
+        when(notIndexedJudgmentAdditionalInfoFetcher.fetchNotIndexedJudgmentsAdditionalInfo()).thenReturn(additionalInfo);
         when(judgmentEnrichmentService.findOneAndEnrich(Mockito.anyLong())).thenAnswer(new Answer<Judgment>( ) {
             @Override
             public Judgment answer(InvocationOnMock invocation) throws Throwable {
