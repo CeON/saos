@@ -46,7 +46,7 @@ public class SimpleEntityConverter {
         	.collect(Collectors.toList());
     }
     
-    public List<SimpleEntity> convertScJudgmentForm(List<SupremeCourtJudgmentForm> scJudgmentForms) {
+    public List<SimpleEntity> convertScJudgmentForms(List<SupremeCourtJudgmentForm> scJudgmentForms) {
 	return scJudgmentForms.stream()
 		.map(scJudgmentForm -> convertFromScJudgmentForm(scJudgmentForm))
 		.collect(Collectors.toList());

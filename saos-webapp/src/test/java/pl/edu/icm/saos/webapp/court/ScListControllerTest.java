@@ -11,6 +11,7 @@ import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
 
 import java.util.List;
 
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -29,6 +30,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
+import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
 
 /**
@@ -55,37 +58,87 @@ public class ScListControllerTest {
     @Mock
     private ScListService scListService;
     
+    @Mock
+    private ScJudgmentFormRepository scJudgmentFormRepository;
+    
+    @Mock
+    private SimpleEntityConverter simpleEntityConverter;
+    
     private long chamberId = 1;
     
     private TestCourtsFactory testCourtsFactory = new TestCourtsFactory();
     
     private List<SimpleEntity> simpleEntities = testCourtsFactory.getSimpleEntities();
     
+    private List<SupremeCourtJudgmentForm> scJudgmentForms = Lists.newArrayList();
     
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
+    
+    @Before
+    public void setUp() {
+	MockitoAnnotations.initMocks(this);
 		
-		when(scListService.findScChambers()).thenReturn(simpleEntities);
+	when(scListService.findScChambers()).thenReturn(simpleEntities);
+	when(scListService.findScChamberDivisions(chamberId)).thenReturn(simpleEntities);
+	when(scJudgmentFormRepository.findAll()).thenReturn(scJudgmentForms);
+	when(simpleEntityConverter.convertScJudgmentForms(scJudgmentForms)).thenReturn(simpleEntities);
 		
-		when(scListService.findScChamberDivisions(chamberId)).thenReturn(simpleEntities);
 		
-		mockMvc = webAppContextSetup(webApplicationCtx)
-					.build();
-	}
+	mockMvc = webAppContextSetup(webApplicationCtx)
+			.build();
+    }
 	
 	
-	//------------------------ TESTS --------------------------
+    //------------------------ TESTS --------------------------
 	
-	@Test
-	public void listScChambers() throws Exception {
-	    //when
-	    ResultActions actions = mockMvc.perform(get("/sc/chambers/list")
-		    .accept(MediaType.APPLICATION_JSON));
+    @Test
+    public void listScChambers() throws Exception {
+	//when
+	ResultActions actions = mockMvc.perform(get("/sc/chambers/list")
+		.accept(MediaType.APPLICATION_JSON));
+                
+        
+	//then
+	actions
+		.andExpect(status().isOk())
+            	.andExpect(jsonPath("$.[0].id").value(equalsLong(simpleEntities.get(0).getId())))
+        	.andExpect(jsonPath("$.[0].name").value(simpleEntities.get(0).getName()))
+        	.andExpect(jsonPath("$.[1].id").value(equalsLong(simpleEntities.get(1).getId())))
+        	.andExpect(jsonPath("$.[1].name").value(simpleEntities.get(1).getName()));
+     
+        
+	verify(scListService, times(1)).findScChambers();
+    }
+    
+    
+    @Test
+    public void listScChamberDivisions() throws Exception {
+	//when
+	ResultActions actions = mockMvc.perform(get("/sc/chambers/" + chamberId + "/chamberDivisions/list")
+			.accept(MediaType.APPLICATION_JSON));
+                    
+            
+	//then
+	actions
+		.andExpect(status().isOk())
+    		.andExpect(jsonPath("$.[0].id").value(equalsLong(simpleEntities.get(0).getId())))
+    		.andExpect(jsonPath("$.[0].name").value(simpleEntities.get(0).getName()))
+    		.andExpect(jsonPath("$.[1].id").value(equalsLong(simpleEntities.get(1).getId())))
+    		.andExpect(jsonPath("$.[1].name").value(simpleEntities.get(1).getName()));
+     
+        
+	verify(scListService, times(1)).findScChamberDivisions(chamberId);
+    }
+	
+    
+    @Test
+    public void listScJudgmentForms() throws Exception {
+	//when
+	ResultActions actions = mockMvc.perform(get("/sc/judgmentForms/list")
+		.accept(MediaType.APPLICATION_JSON));
             
     
-            //then
-        actions
+	//then
+	actions
         	.andExpect(status().isOk())
         	.andExpect(jsonPath("$.[0].id").value(equalsLong(simpleEntities.get(0).getId())))
         	.andExpect(jsonPath("$.[0].name").value(simpleEntities.get(0).getName()))
@@ -93,26 +146,8 @@ public class ScListControllerTest {
         	.andExpect(jsonPath("$.[1].name").value(simpleEntities.get(1).getName()));
  
     
-            verify(scListService, times(1)).findScChambers();
-	}
-	
-	@Test
-	public void listScChamberDivisions() throws Exception {
-	    //when
-	    ResultActions actions = mockMvc.perform(get("/sc/chambers/" + chamberId + "/chamberDivisions/list")
-	    		.accept(MediaType.APPLICATION_JSON));
-                
-        
-	    //then
-	    actions
-		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.[0].id").value(equalsLong(simpleEntities.get(0).getId())))
-		.andExpect(jsonPath("$.[0].name").value(simpleEntities.get(0).getName()))
-		.andExpect(jsonPath("$.[1].id").value(equalsLong(simpleEntities.get(1).getId())))
-		.andExpect(jsonPath("$.[1].name").value(simpleEntities.get(1).getName()));
- 
-    
-            verify(scListService, times(1)).findScChamberDivisions(chamberId);
-	}
+	verify(scJudgmentFormRepository, times(1)).findAll();
+	verify(simpleEntityConverter, times(1)).convertScJudgmentForms(scJudgmentForms);
+    }
 
 }

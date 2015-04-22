@@ -34,13 +34,13 @@ var CourtDivisionSelect = (function() {
 						if (selectedCourtId !== "") {
 							$.ajax(getDivisionUrl(selectedCourtId))
 							 .done(function(data) {
-								 var options = prepareOption("", "");
+								 var options = "";
 								 
 								 for(var j = 0, dataLength = data.length; j < dataLength; j += 1) {
 									 options += prepareOption(data[j].id, data[j].name);
 								 }
 								 
-								 $divisionId.empty().removeAttr("disabled").prepend(options);
+								 $divisionId.removeAttr("disabled").append(options);
 							 })
 							 .fail(function() {});
 						} else {

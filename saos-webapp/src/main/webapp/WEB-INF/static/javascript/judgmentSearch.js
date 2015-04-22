@@ -124,7 +124,7 @@ var jsInitInJudgmentSearch = function() {
         //init sc judgment form select with options
         addOptionsToSelect({
             selectId: "#select-search-judgment-form",
-            url: contextPath + "/sc/judgmentForm/list",
+            url: contextPath + "/sc/judgmentForms/list",
             createOption: function(element) {
                 return "<option value='" + element.name + "' >" + element.name + "</option>";
             }
