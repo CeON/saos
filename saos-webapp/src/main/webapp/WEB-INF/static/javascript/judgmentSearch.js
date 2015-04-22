@@ -156,6 +156,20 @@ var jsInitInJudgmentSearch = function() {
         formSectionId: "#court-form-section",
         infoSectionId: "#court-info"
     });
+    
+    
+    /* Search form section: judgment extra fields */
+    infoFormSection({
+        formSectionId: "#judgment-form-section",
+        infoSectionId: "#judgment-info",
+        defaultInfoSectionText: springMessage.judgmentSearchJudgmentSectionDefaultText
+    });
+    
+    
+    //refresh keywords suggester width when form section opens
+    $("#judgment-info").one("click", function() {
+        setTimeout(function() {$("#input-search-keywords-cc").suggesterRefresh()}, 500);
+    });
 	
 	
 	$("#filter-box").filterBox({
