@@ -626,27 +626,38 @@ input.search-all {
     position: relative;
 }
 
-.form-section-open {
-    @include background-image("icons/arrow-down.png");
-    @include transition(all, 0.2s);
-    background-position: right 10px center;
-    background-repeat: no-repeat;
-    background-color: #f5f5f5;
-    border: 1px solid #e3e3e3;
-    border-radius: 4px;
-    color: #666;
-    cursor: pointer;
-    display: inline-block;
-    padding: 10px 30px 10px 10px;
-    position: relative;
-    text-decoration: none;
+.context-bar {
+    background-color: #ddd;
+    padding: 0;
     
     
-    &:hover, &:focus {
-        background-color: #e7e7e7;
-        border-color: #bbb;
+    a {
+        margin-right: 15px;
+    
+        &:last-child {
+            margin-right: 0;
+        }
+    }
+    
+    .form-section-open {
+        @include background-image("icons/arrow-down.png");
+        @include transition(all, 0.2s);
+        background-position: right 10px center;
+        background-repeat: no-repeat;
+        background-color: inherit;
         color: #666;
+        cursor: pointer;
+        display: inline-block;
+        padding: 12px 30px 12px 12px;
+        position: relative;
         text-decoration: none;
+        
+        &:hover, &:focus {
+            background-color: inherit;
+            color: #666;
+            text-decoration: none;
+        }
+        
     }
     
 }
@@ -1837,3 +1848,5 @@ label.error {
 .error-group {
     margin-bottom: 0;
 }
+
+
