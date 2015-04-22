@@ -71,7 +71,7 @@ function InfoFormSection(options) {
 
          //Hide form section
          $(options.formSectionId).slideUp(400, function() {
-             $(options.infoSectionId).html(extractInfoFromFormSection());
+             updateInfoSection();
          });
          
      }
@@ -147,7 +147,6 @@ function InfoFormSection(options) {
      }
      
      function updateInfoSection() {
-                 
          $(options.infoSectionId).html(extractInfoFromFormSection());
      }
 }
