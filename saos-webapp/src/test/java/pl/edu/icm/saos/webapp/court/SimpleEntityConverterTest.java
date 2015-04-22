@@ -106,7 +106,7 @@ public class SimpleEntityConverterTest {
 	List<SimpleEntity> convertedSimpleEntities = simpleEntityConverter.convertCcDivisions(ccDivisions);
 	
 	//then
-	assertEquals(ccDivisionNames.length, convertedSimpleEntities.size());
+	assertEquals(ccDivisions.size(), convertedSimpleEntities.size());
 	assertEquals(idOne, convertedSimpleEntities.get(0).getId());
 	assertEquals(idTwo, convertedSimpleEntities.get(1).getId());
 	assertEquals(ccDivisionNames[0], convertedSimpleEntities.get(0).getName());
@@ -184,7 +184,7 @@ public class SimpleEntityConverterTest {
 	List<SimpleEntity> convertedSimpleEntities = simpleEntityConverter.convertScChamberDivisions(scChamberDivisions);
 	
 	//then
-	assertEquals(scDivisionChamberNames.length, convertedSimpleEntities.size());
+	assertEquals(scChamberDivisions.size(), convertedSimpleEntities.size());
 	assertEquals(idOne, convertedSimpleEntities.get(0).getId());
 	assertEquals(idTwo, convertedSimpleEntities.get(1).getId());
 	assertEquals(scDivisionChamberNames[0], convertedSimpleEntities.get(0).getName());
@@ -224,7 +224,7 @@ public class SimpleEntityConverterTest {
 	List<SimpleEntity> convertedSimpleEntities = simpleEntityConverter.convertScJudgmentForms(scJudgmentForms);
 		
 	//then
-	assertEquals(scJudgmentFormNames.length, convertedSimpleEntities.size());
+	assertEquals(scJudgmentForms.size(), convertedSimpleEntities.size());
 	assertEquals(idOne, convertedSimpleEntities.get(0).getId());
 	assertEquals(idTwo, convertedSimpleEntities.get(1).getId());
 	assertEquals(scJudgmentFormNames[0], convertedSimpleEntities.get(0).getName());

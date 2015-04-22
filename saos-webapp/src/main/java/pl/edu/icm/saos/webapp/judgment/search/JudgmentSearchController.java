@@ -76,7 +76,7 @@ public class JudgmentSearchController {
 	//------------------------ PRIVATE --------------------------
 	
 	private void addCommonCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
-	    if(judgmentCriteriaForm.getCourtType() != null && CourtType.COMMON.equals(judgmentCriteriaForm.getCourtType())) {
+	    if(CourtType.COMMON.equals(judgmentCriteriaForm.getCourtType())) {
 		model.addAttribute("commonCourts", ccListService.findCommonCourts());
 		
 		if (judgmentCriteriaForm.getCommonCourtId() != null) {
@@ -86,7 +86,7 @@ public class JudgmentSearchController {
 	}
 	
 	private void addSupremeCourtChambersToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
-	    if(judgmentCriteriaForm.getCourtType() != null && CourtType.SUPREME.equals(judgmentCriteriaForm.getCourtType())) {
+	    if(CourtType.SUPREME.equals(judgmentCriteriaForm.getCourtType())) {
 		model.addAttribute("supremeChambers", scListService.findScChambers());
 		
 		if (judgmentCriteriaForm.getSupremeChamberId() != null) {
@@ -96,7 +96,7 @@ public class JudgmentSearchController {
 	}
 	
 	private void addSupremeCourtJudgmentForm(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
-	    if(judgmentCriteriaForm.getCourtType() != null && CourtType.SUPREME.equals(judgmentCriteriaForm.getCourtType())) {
+	    if(CourtType.SUPREME.equals(judgmentCriteriaForm.getCourtType())) {
 		model.addAttribute("scJudgmentForms", scListService.findScJudgmentForms());
 	    }
 	}
