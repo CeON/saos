@@ -4,9 +4,15 @@
 
 <div class="form-section-container" >
 
-    <a id="court-info" class="form-section-open" href="" >
-        <spring:message code="judgmentSearch.formField.courtType" />: <b><spring:message code="judgmentSearch.formField.courtTypeAny" /></b>
-    </a>
+    <div class="context-bar" >
+	    <a id="court-info" class="form-section-open" href="" >
+	       <spring:message code="context.court.fieldDescription" />: <b><spring:message code="context.court.anyValue" /></b>
+	    </a>
+	    
+	    <a id="date-info" class="form-section-open" href="" >
+	       <spring:message code="context.date.fieldDescription" />: <b><spring:message code="context.date.anyValue" /></b>
+	    </a>
+    </div>
     
     <div id="court-form-section" class="row form-section">
         
@@ -15,7 +21,7 @@
             <label class="col-lg-2 col-sm-3 control-label"><spring:message code="judgmentSearch.formField.courtType" />:</label>    
             <div class="col-xs-10 radio-group" >
                 <div class="col-sm-5" >
-                    <input type="radio" id="radio-all" name="courtType"  value="" checked="checked" data-field-desc="<spring:message code="judgmentSearch.formField.courtType" />: " />
+                    <input type="radio" id="radio-all" name="courtType"  value="" checked="checked" data-field-desc="<spring:message code="context.court.fieldDescription" />: " />
                     <label for="radio-all" ><spring:message code="judgmentSearch.formField.courtTypeAny" /></label>
                 </div>
                 
