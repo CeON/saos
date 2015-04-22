@@ -11,7 +11,7 @@
 	<spring:message code="${placeHolder}" var="placeHolder" />
 </c:if>
 
-<div class="form-group">
+<div class="form-group" >
 	<label for="${labelName}" class="col-lg-2 col-sm-3 col-xs-12 control-label"><c:out value="${label}" />:</label>
    	<div class="col-lg-7 col-sm-8 col-xs-11">
     	<form:input path="${path}" class="form-control" id="${labelName}" placeholder="${placeHolder}" />

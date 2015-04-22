@@ -147,17 +147,15 @@ var jsInitInJudgmentSearch = function() {
 	});
 	
 	
-	ChangeCourtType.run({
-		fieldsContainer: ".fields-container",
-		radioName: "courtType",
-		parentContainer: "#search-form",
-		defaultFieldsContainer: "#all-fields",
-		
-		fields: [{fields: "#all-fields", button: "#radio-all", onChangeCallback: function() {}},
-		          {fields: "#common-court-fields", button: "#radio-court-common", onChangeCallback: function() {$("#input-search-keywords-cc").suggesterRefresh();}},
-		          {fields: "#supreme-court-fields", button: "#radio-court-supreme", onChangeCallback: function() {}},
-		          {fields: "#constitutional-tribunal-fields", button: "#radio-court-constitutional_tribunal", onChangeCallback: function() {}}]
-	});
+	
+    CourtTypeFields.init();
+	
+	
+    /* Search form section: court type */
+    infoFormSection({
+        formSectionId: "#court-form-section",
+        infoSectionId: "#court-info"
+    });
 	
 	
 	$("#filter-box").filterBox({

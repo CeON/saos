@@ -444,7 +444,7 @@ form.search {
     border: 1px solid $grey-border;
     border-radius: 2px;
     margin-top: 30px;
-    padding: 0 30px;
+    padding: 0 30px 50px;
     position: relative;
 	
 	input {
@@ -496,7 +496,7 @@ form.search {
 	    	weight: 300;
     		size: 24px;
     	}
-	    margin-bottom: 30px;
+	    margin-bottom: 15px;
 	    padding-bottom: 6px;
 	    padding-top: 20px;
 	}
@@ -571,6 +571,7 @@ form.search {
 	}
 	
 	.radio-group {
+	    padding-top: 7px;
 	
 		div label {
 		    cursor: pointer;
@@ -578,7 +579,7 @@ form.search {
 		}
 		
 		label[for="radio-court-administrative"] {
-		    background-color: $white;
+		    background-color: #f5f5f5;
 		    color: #666;
 		    cursor: default;
 		}
@@ -600,6 +601,56 @@ form.search {
 	   margin-right: 15px;
 	}
 }
+
+input.search-all {
+    background: #f5f5f5;
+    border-radius: 4px;
+    height: 40px;
+    padding: 10px;
+}
+
+.form-section-container {
+    margin-bottom: 20px;
+}
+
+.form-section {
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    display: none;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 20px;
+    padding: 10px;
+    position: relative;
+}
+
+.form-section-open {
+    @include background-image("icons/arrow-down.png");
+    @include transition(all, 0.2s);
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    color: #666;
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px 30px 10px 10px;
+    position: relative;
+    text-decoration: none;
+    
+    
+    &:hover, &:focus {
+        background-color: #e7e7e7;
+        border-color: #bbb;
+        color: #666;
+        text-decoration: none;
+    }
+    
+}
+
 
 .button {
 	border-radius: 2px;
