@@ -1,12 +1,12 @@
 package pl.edu.icm.saos.webapp.court;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
 
 import java.util.List;
@@ -39,59 +39,79 @@ import pl.edu.icm.saos.webapp.WebappTestConfiguration;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextHierarchy({ 
-	@ContextConfiguration(classes = WebappTestConfiguration.class) })
+@ContextConfiguration(classes = WebappTestConfiguration.class) })
 @Category(SlowTest.class)
 public class CcListControllerTest {
 
 
-	
-	@Autowired
+    	
+    @Autowired
     private WebApplicationContext webApplicationCtx;
-	
-	private MockMvc mockMvc;
-	
+    	
+    private MockMvc mockMvc;
+    	
     @Autowired
     @InjectMocks
     private CcListController ccListController;
-	
+    	
     @Mock
     private CcListService ccListService;
-    
-	
+        
+    	
     private long commonCourtId = 1;
     private TestCourtsFactory testCourtsFactory = new TestCourtsFactory();
-    private List<SimpleDivision> simpleDivisions = testCourtsFactory.getSimpleDivisions();
-    
-    
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-		
-		when(ccListService.findCcDivisions(commonCourtId)).thenReturn(simpleDivisions);
-		
-		mockMvc = webAppContextSetup(webApplicationCtx)
-					.build();
-	}
-	
-	
-	//------------------------ TESTS --------------------------
-	
-	@Test
-	public void listCourtDivisions() throws Exception {
-		//when
-        ResultActions actions = mockMvc.perform(get("/cc/courts/" + commonCourtId + "/courtDivisions/list")
-                .accept(MediaType.APPLICATION_JSON));
-                
+    private List<SimpleEntity> simpleEntities = testCourtsFactory.getSimpleEntities();
         
+        
+    @Before
+    public void setUp() {
+	MockitoAnnotations.initMocks(this);
+    	
+	when(ccListService.findCommonCourts()).thenReturn(simpleEntities);
+    	when(ccListService.findCcDivisions(commonCourtId)).thenReturn(simpleEntities);
+    		
+    	mockMvc = webAppContextSetup(webApplicationCtx)
+	    .build();
+    }
+    	
+    	
+    //------------------------ TESTS --------------------------
+    	
+    @Test
+    public void listCcCourts() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get("/cc/courts/list")
+        	.accept(MediaType.APPLICATION_JSON));
+                        
+                
         //then
         actions
-		        .andExpect(status().isOk())
-		        .andExpect(jsonPath("$.[0].id").value(equalsLong(simpleDivisions.get(0).getId())))
-				.andExpect(jsonPath("$.[0].name").value(simpleDivisions.get(0).getName()))
-		        .andExpect(jsonPath("$.[1].id").value(equalsLong(simpleDivisions.get(1).getId())))
-				.andExpect(jsonPath("$.[1].name").value(simpleDivisions.get(1).getName()));
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.[0].id").value(equalsLong(simpleEntities.get(0).getId())))
+            .andExpect(jsonPath("$.[0].name").value(simpleEntities.get(0).getName()))
+            .andExpect(jsonPath("$.[1].id").value(equalsLong(simpleEntities.get(1).getId())))
+            .andExpect(jsonPath("$.[1].name").value(simpleEntities.get(1).getName()));
+                        
+        verify(ccListService, times(1)).findCommonCourts();
+    }
+    
+    
+    @Test
+    public void listCcCourtDivisions() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get("/cc/courts/" + commonCourtId + "/courtDivisions/list")
+        	.accept(MediaType.APPLICATION_JSON));
+                        
                 
+        //then
+        actions
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.[0].id").value(equalsLong(simpleEntities.get(0).getId())))
+            .andExpect(jsonPath("$.[0].name").value(simpleEntities.get(0).getName()))
+            .andExpect(jsonPath("$.[1].id").value(equalsLong(simpleEntities.get(1).getId())))
+            .andExpect(jsonPath("$.[1].name").value(simpleEntities.get(1).getName()));
+                        
         verify(ccListService, times(1)).findCcDivisions(commonCourtId);
-	}
+    }
 
 }

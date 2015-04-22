@@ -17,9 +17,9 @@ public class TestCourtsFactory {
 	
 	//------------------------ LOGIC --------------------------
 	
-	public List<SimpleDivision> getSimpleDivisions() {
-		SimpleDivision divisionOne = new SimpleDivision();
-		SimpleDivision divisionTwo = new SimpleDivision();
+	public List<SimpleEntity> getSimpleEntities() {
+		SimpleEntity divisionOne = new SimpleEntity();
+		SimpleEntity divisionTwo = new SimpleEntity();
 		divisionOne.setId(1);
 		divisionOne.setName("Wydzial 1");
 		divisionTwo.setId(23);

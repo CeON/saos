@@ -12,12 +12,14 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
+import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.webapp.common.WebappConst;
 
 
 /**
- * Service that provides methods for finding lists of supreme courts
- * and supreme court division chambers.   
+ * Service that provides methods for finding lists of supreme courts,
+ * supreme court division chambers and supreme court judgment forms.   
+ * 
  * @author Łukasz Pawełczak
  *
  */
@@ -29,39 +31,50 @@ public class ScListService {
 	
 	private ScChamberDivisionRepository scChamberDivisionRepository;
 	
-	private SimpleDivisionConverter simpleDivisionConverter;
+	private ScJudgmentFormRepository scJudgmentFormRepository;
+	
+	private SimpleEntityConverter simpleEntityConverter;
 	
 	
 	//------------------------ LOGIC --------------------------
 	
 	/**
-	 * Find all supreme court chambers. Returned list is sorted by {@link ScChamberComparator}.
+	 * Finds all supreme court chambers. Returned list is sorted by {@link ScChamberComparator}.
 	 * 
-	 * @return list of {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamber}
+	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
-	public List<SupremeCourtChamber> findScChambers() {
+	public List<SimpleEntity> findScChambers() {
 		
 		List<SupremeCourtChamber> chambers = scChamberRepository.findAll();
 		
 		Collections.sort(chambers, new ScChamberComparator());
 		
-		return chambers;
+		return simpleEntityConverter.convertScChambers(chambers);
 	}
 	
 	/**
-	 * Find all supreme court chamber divisions by supreme court chamber id.
+	 * Finds all supreme court chamber divisions by supreme court chamber id.
 	 * Returned list is sorted by {@link ScChamberDivisionComparator}.
 	 * 
 	 * @param chamberId - chamber division id
-	 * @return list of {@link pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision}
+	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
-	public List<SimpleDivision> findScChamberDivisions(long chamberId) {
+	public List<SimpleEntity> findScChamberDivisions(long chamberId) {
 	
 		List<SupremeCourtChamberDivision> chamberDivisions = scChamberDivisionRepository.findAllByScChamberId(chamberId);
 		
 		Collections.sort(chamberDivisions, new ScChamberDivisionComparator());
 		
-		return simpleDivisionConverter.convertScChamberDivisions(chamberDivisions);
+		return simpleEntityConverter.convertScChamberDivisions(chamberDivisions);
+	}
+	
+	/**
+	 * Finds all supreme court judgment forms.
+	 * 
+	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
+	 */
+	public List<SimpleEntity> findScJudgmentForms() {
+	    	return simpleEntityConverter.convertScJudgmentForms(scJudgmentFormRepository.findAll());
 	}
 	
 	
@@ -88,8 +101,13 @@ public class ScListService {
 	}
 	
 	@Autowired
-	public void setSimpleDivisionConverter(SimpleDivisionConverter simpleDivisionConverter) {
-		this.simpleDivisionConverter = simpleDivisionConverter;
+	public void setScJudgmentFormRepository(ScJudgmentFormRepository scJudgmentFormRepository) {
+	    	this.scJudgmentFormRepository = scJudgmentFormRepository;
+	}
+	
+	@Autowired
+	public void setSimpleEntityConverter(SimpleEntityConverter simpleEntityConverter) {
+		this.simpleEntityConverter = simpleEntityConverter;
 	}
 
 }

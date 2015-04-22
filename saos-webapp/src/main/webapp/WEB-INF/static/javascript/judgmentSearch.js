@@ -102,6 +102,35 @@ var jsInitInJudgmentSearch = function() {
 	SearchCriteria.init();
 	SearchContext.init();
 	
+    $("#radio-court-common").one("click", function() {
+    
+        //inits common court select with options
+        addOptionsToSelect({
+            selectId: "#select-common-court",
+            url: contextPath + "/cc/courts/list"
+        });
+        
+    });
+        
+    $("#radio-court-supreme").one("click", function() {
+    
+        //inits supreme chamber select with options
+        addOptionsToSelect({
+            selectId: "#select-supreme-chamber",
+            url: contextPath + "/sc/chambers/list"
+        });
+    
+    
+        //init sc judgment form select with options
+        addOptionsToSelect({
+            selectId: "#select-search-judgment-form",
+            url: contextPath + "/sc/judgmentForms/list",
+            createOption: function(element) {
+                return "<option value='" + element.name + "' >" + element.name + "</option>";
+            }
+        });
+    });
+	
 	//Search form - init select court & division
 	CourtDivisionSelect.run({
 		fields: [{	court: "#select-common-court",
