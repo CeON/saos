@@ -12,7 +12,7 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 
 /**
- * Service for converting list of CommonCourtDivision into SimpleDivision list.  
+ * Service for converting list of different Objects to SimpleEntity list.  
  * 
  * @author Łukasz Pawełczak
  */

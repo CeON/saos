@@ -16,6 +16,7 @@ import pl.edu.icm.saos.webapp.common.WebappConst;
 
 /**
  * Service that finds and provides lists of common courts and common court divisions.   
+ * 
  * @author Łukasz Pawełczak
  *
  */
@@ -86,8 +87,8 @@ public class CcListService {
 	}
 	
 	@Autowired
-	public void setSimpleDivisionConverter(SimpleEntityConverter simpleDivisionConverter) {
-		this.simpleEntityConverter = simpleDivisionConverter;
+	public void setSimpleEntityConverter(SimpleEntityConverter simpleEntityConverter) {
+		this.simpleEntityConverter = simpleEntityConverter;
 	}
 
 }

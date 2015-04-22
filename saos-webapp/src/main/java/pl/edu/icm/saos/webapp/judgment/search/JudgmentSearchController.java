@@ -16,7 +16,6 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
-import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.webapp.court.CcListService;
@@ -42,9 +41,6 @@ public class JudgmentSearchController {
 	
 	@Autowired
 	private ScListService scListService;
-	
-	@Autowired
-	private ScJudgmentFormRepository scJudgmentFormRepository;
 	
 	@Autowired
 	private LawJournalEntryRepository lawJournalEntryRepository;
@@ -101,7 +97,7 @@ public class JudgmentSearchController {
 	
 	private void addSupremeCourtJudgmentForm(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
 	    if(judgmentCriteriaForm.getCourtType() != null && CourtType.SUPREME.equals(judgmentCriteriaForm.getCourtType())) {
-		model.addAttribute("scJudgmentForms", scJudgmentFormRepository.findAll());
+		model.addAttribute("scJudgmentForms", scListService.findScJudgmentForms());
 	    }
 	}
 	

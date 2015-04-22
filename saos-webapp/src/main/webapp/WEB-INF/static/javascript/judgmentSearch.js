@@ -102,25 +102,25 @@ var jsInitInJudgmentSearch = function() {
 	SearchCriteria.init();
 	SearchContext.init();
 	
-	$("#radio-court-common").one("click", function() {
-	    
-	    //inits common court select with options
-	    addOptionsToSelect({
-	        selectId: "#select-common-court",
+    $("#radio-court-common").one("click", function() {
+    
+        //inits common court select with options
+        addOptionsToSelect({
+            selectId: "#select-common-court",
             url: contextPath + "/cc/courts/list"
         });
         
     });
-    
-    $("#radio-court-supreme").one("click", function() {
         
+    $("#radio-court-supreme").one("click", function() {
+    
         //inits supreme chamber select with options
         addOptionsToSelect({
             selectId: "#select-supreme-chamber",
             url: contextPath + "/sc/chambers/list"
         });
-        
-
+    
+    
         //init sc judgment form select with options
         addOptionsToSelect({
             selectId: "#select-search-judgment-form",

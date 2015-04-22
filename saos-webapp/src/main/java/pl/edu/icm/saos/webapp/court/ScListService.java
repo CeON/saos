@@ -12,12 +12,14 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
+import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.webapp.common.WebappConst;
 
 
 /**
- * Service that provides methods for finding lists of supreme courts
- * and supreme court division chambers.   
+ * Service that provides methods for finding lists of supreme courts,
+ * supreme court division chambers and supreme court judgment forms.   
+ * 
  * @author Łukasz Pawełczak
  *
  */
@@ -29,13 +31,15 @@ public class ScListService {
 	
 	private ScChamberDivisionRepository scChamberDivisionRepository;
 	
+	private ScJudgmentFormRepository scJudgmentFormRepository;
+	
 	private SimpleEntityConverter simpleEntityConverter;
 	
 	
 	//------------------------ LOGIC --------------------------
 	
 	/**
-	 * Find all supreme court chambers. Returned list is sorted by {@link ScChamberComparator}.
+	 * Finds all supreme court chambers. Returned list is sorted by {@link ScChamberComparator}.
 	 * 
 	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
@@ -49,7 +53,7 @@ public class ScListService {
 	}
 	
 	/**
-	 * Find all supreme court chamber divisions by supreme court chamber id.
+	 * Finds all supreme court chamber divisions by supreme court chamber id.
 	 * Returned list is sorted by {@link ScChamberDivisionComparator}.
 	 * 
 	 * @param chamberId - chamber division id
@@ -62,6 +66,15 @@ public class ScListService {
 		Collections.sort(chamberDivisions, new ScChamberDivisionComparator());
 		
 		return simpleEntityConverter.convertScChamberDivisions(chamberDivisions);
+	}
+	
+	/**
+	 * Finds all supreme court judgment forms.
+	 * 
+	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
+	 */
+	public List<SimpleEntity> findScJudgmentForms() {
+	    	return simpleEntityConverter.convertScJudgmentForms(scJudgmentFormRepository.findAll());
 	}
 	
 	
@@ -88,8 +101,13 @@ public class ScListService {
 	}
 	
 	@Autowired
-	public void setSimpleDivisionConverter(SimpleEntityConverter simpleDivisionConverter) {
-		this.simpleEntityConverter = simpleDivisionConverter;
+	public void setScJudgmentFormRepository(ScJudgmentFormRepository scJudgmentFormRepository) {
+	    	this.scJudgmentFormRepository = scJudgmentFormRepository;
+	}
+	
+	@Autowired
+	public void setSimpleEntityConverter(SimpleEntityConverter simpleEntityConverter) {
+		this.simpleEntityConverter = simpleEntityConverter;
 	}
 
 }

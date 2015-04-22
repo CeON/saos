@@ -25,7 +25,7 @@ public class CcListServiceTest {
 
 	private CcListService ccListService = new CcListService();
 	
-	private SimpleEntityConverter simpleDivisionConverter = new SimpleEntityConverter();
+	private SimpleEntityConverter simpleEntityConverter = new SimpleEntityConverter();
 	
 	@Mock
 	private CommonCourtRepository commonCourtRepository;
@@ -50,7 +50,7 @@ public class CcListServiceTest {
 		
 		when(commonCourtRepository.findAll()).thenReturn(courtsWrongOrder);
 		ccListService.setCommonCourtRepository(commonCourtRepository);
-		ccListService.setSimpleDivisionConverter(simpleDivisionConverter);
+		ccListService.setSimpleEntityConverter(simpleEntityConverter);
 		
 		
 		//when
@@ -78,7 +78,7 @@ public class CcListServiceTest {
 		
 		when(ccDivisionRepository.findAllByCourtId(1)).thenReturn(divisionsWrongOrder);
 		ccListService.setCcDivisionRepository(ccDivisionRepository);
-		ccListService.setSimpleDivisionConverter(simpleDivisionConverter);
+		ccListService.setSimpleEntityConverter(simpleEntityConverter);
 		
 		
 		//when
@@ -106,7 +106,7 @@ public class CcListServiceTest {
 		
 		when(ccDivisionRepository.findAllByCourtId(1)).thenReturn(divisionsWrongOrder);
 		ccListService.setCcDivisionRepository(ccDivisionRepository);
-		ccListService.setSimpleDivisionConverter(simpleDivisionConverter);
+		ccListService.setSimpleEntityConverter(simpleEntityConverter);
 		
 		
 		//when

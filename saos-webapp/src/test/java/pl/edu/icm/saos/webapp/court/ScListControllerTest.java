@@ -11,7 +11,6 @@ import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
 
 import java.util.List;
 
-import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -30,8 +29,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
-import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
 
 /**
@@ -58,19 +55,12 @@ public class ScListControllerTest {
     @Mock
     private ScListService scListService;
     
-    @Mock
-    private ScJudgmentFormRepository scJudgmentFormRepository;
-    
-    @Mock
-    private SimpleEntityConverter simpleEntityConverter;
-    
     private long chamberId = 1;
     
     private TestCourtsFactory testCourtsFactory = new TestCourtsFactory();
     
     private List<SimpleEntity> simpleEntities = testCourtsFactory.getSimpleEntities();
     
-    private List<SupremeCourtJudgmentForm> scJudgmentForms = Lists.newArrayList();
     
     
     @Before
@@ -79,9 +69,7 @@ public class ScListControllerTest {
 		
 	when(scListService.findScChambers()).thenReturn(simpleEntities);
 	when(scListService.findScChamberDivisions(chamberId)).thenReturn(simpleEntities);
-	when(scJudgmentFormRepository.findAll()).thenReturn(scJudgmentForms);
-	when(simpleEntityConverter.convertScJudgmentForms(scJudgmentForms)).thenReturn(simpleEntities);
-		
+	when(scListService.findScJudgmentForms()).thenReturn(simpleEntities);
 		
 	mockMvc = webAppContextSetup(webApplicationCtx)
 			.build();
@@ -146,8 +134,7 @@ public class ScListControllerTest {
         	.andExpect(jsonPath("$.[1].name").value(simpleEntities.get(1).getName()));
  
     
-	verify(scJudgmentFormRepository, times(1)).findAll();
-	verify(simpleEntityConverter, times(1)).convertScJudgmentForms(scJudgmentForms);
+	verify(scListService, times(1)).findScJudgmentForms();
     }
 
 }

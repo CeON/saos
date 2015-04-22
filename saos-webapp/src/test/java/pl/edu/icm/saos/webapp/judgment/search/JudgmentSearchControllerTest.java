@@ -38,10 +38,8 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
-import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
@@ -75,9 +73,6 @@ public class JudgmentSearchControllerTest {
 	private JudgmentSearchController judgmentSearchController;
 	
 	@Mock
-	private ScJudgmentFormRepository scJudgmentFormRepository;
-	
-	@Mock
 	private CcListService ccListService;
 	
 	@Mock
@@ -101,7 +96,7 @@ public class JudgmentSearchControllerTest {
 	
 	private List<SimpleEntity> scChambers = getTestScChamber();
 	
-	private List<SupremeCourtJudgmentForm> scJudgmentForms = getTestScJudgmentForm();
+	private List<SimpleEntity> scJudgmentForms = getTestScJudgmentForm();
 	
 	private SearchResults<JudgmentSearchResult> results;
 	
@@ -120,7 +115,7 @@ public class JudgmentSearchControllerTest {
 		
 		when(ccListService.findCommonCourts()).thenReturn(commonCourts);
 		when(scListService.findScChambers()).thenReturn(scChambers);
-		when(scJudgmentFormRepository.findAll()).thenReturn(scJudgmentForms);
+		when(scListService.findScJudgmentForms()).thenReturn(scJudgmentForms);
 		
 		mockMvc = webAppContextSetup(webApplicationCtx)
 					.build();
@@ -143,7 +138,7 @@ public class JudgmentSearchControllerTest {
 
             verify(ccListService, times(0)).findCommonCourts();
             verify(scListService, times(0)).findScChambers();
-            verify(scJudgmentFormRepository, times(0)).findAll();
+            verify(scListService, times(0)).findScJudgmentForms();
 	}
 	
 	@Test
@@ -214,17 +209,19 @@ public class JudgmentSearchControllerTest {
 			.andExpect(model().attribute("scJudgmentForms", hasSize(2)))
 			.andExpect(model().attribute("scJudgmentForms", hasItem(
                             allOf(
+                        	hasProperty("id", is(scJudgmentForms.get(0).getId())),
                                 hasProperty("name", is(scJudgmentForms.get(0).getName()))
                             )
 			)))
                 	.andExpect(model().attribute("scJudgmentForms", hasItem(
                             allOf(
+                        	hasProperty("id", is(scJudgmentForms.get(1).getId())),
                                 hasProperty("name", is(scJudgmentForms.get(1).getName()))
                             )
                 	)))
 			;
 		
-		verify(scJudgmentFormRepository, times(1)).findAll();
+		verify(scListService, times(1)).findScJudgmentForms();
 	}
 	
 	
@@ -286,12 +283,14 @@ public class JudgmentSearchControllerTest {
 		return Lists.newArrayList(scChamberOne, scChamberTwo);
 	}
 
-	private List<SupremeCourtJudgmentForm> getTestScJudgmentForm() {
+	private List<SimpleEntity> getTestScJudgmentForm() {
 		
-		SupremeCourtJudgmentForm scJudgmentFormOne = new SupremeCourtJudgmentForm();
-		SupremeCourtJudgmentForm scJudgmentFormTwo = new SupremeCourtJudgmentForm();
+	    	SimpleEntity scJudgmentFormOne = new SimpleEntity();
+	    	SimpleEntity scJudgmentFormTwo = new SimpleEntity();
 		
+	    	scJudgmentFormOne.setId(24);
 		scJudgmentFormOne.setName("wyrok SN");
+		scJudgmentFormTwo.setId(34);
 		scJudgmentFormTwo.setName("uchwała SN");
 		
 		return Lists.newArrayList(scJudgmentFormOne, scJudgmentFormTwo);
