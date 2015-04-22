@@ -19,10 +19,8 @@
    	
 		<form:select path="${path}" id="${id}" class="form-control" disabled="${fn:length(items)==0}" >
 		
-			<c:if test="${fn:length(items)>1}">
-				<c:set var="emptyOption"><spring:message code="choose"/></c:set>
-				<option value=""><spring:message code="${labelEmptyOption}" text="${emptyOption}" /></option>
-			</c:if>
+			<c:set var="emptyOption"><spring:message code="choose"/></c:set>
+			<option value=""><spring:message code="${labelEmptyOption}" text="${emptyOption}" /></option>
 		
 			<c:forEach items="${items}" var="item" >
 				<option value="${item.id}" <c:if test="${selectedItem == item.id}" >selected="selected"</c:if> >

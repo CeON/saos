@@ -9,6 +9,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgmentForm;
 
 /**
  * Service for converting list of CommonCourtDivision into SimpleDivision list.  
@@ -44,6 +45,12 @@ public class SimpleEntityConverter {
         	.map(scChamberDivision -> convertFromScChamberDivision(scChamberDivision))
         	.collect(Collectors.toList());
     }
+    
+    public List<SimpleEntity> convertScJudgmentForm(List<SupremeCourtJudgmentForm> scJudgmentForms) {
+	return scJudgmentForms.stream()
+		.map(scJudgmentForm -> convertFromScJudgmentForm(scJudgmentForm))
+		.collect(Collectors.toList());
+    }
     	
     	
     //------------------------ PRIVATE --------------------------
@@ -74,5 +81,12 @@ public class SimpleEntityConverter {
         simpleEntity.setId(supremeCourtChamberDivision.getId());
         simpleEntity.setName(supremeCourtChamberDivision.getName());
         return simpleEntity;
-    }	
+    }
+    
+    private SimpleEntity convertFromScJudgmentForm(SupremeCourtJudgmentForm supremeCourtJudgmentForm) {
+        SimpleEntity simpleEntity = new SimpleEntity();
+        simpleEntity.setId(supremeCourtJudgmentForm.getId());
+        simpleEntity.setName(supremeCourtJudgmentForm.getName());
+        return simpleEntity;
+    }
 }

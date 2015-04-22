@@ -105,10 +105,9 @@ var jsInitInJudgmentSearch = function() {
 	$("#radio-court-common").one("click", function() {
 	    
 	    //inits common court select with options
-	    loadSelect({
+	    addOptionsToSelect({
 	        selectId: "#select-common-court",
-            url: contextPath + "/cc/courts/list",
-            firstOptionText: "Dowolony Sąd"
+            url: contextPath + "/cc/courts/list"
         });
         
     });
@@ -116,14 +115,20 @@ var jsInitInJudgmentSearch = function() {
     $("#radio-court-supreme").one("click", function() {
         
         //inits supreme chamber select with options
-        loadSelect({
+        addOptionsToSelect({
             selectId: "#select-supreme-chamber",
-            url: contextPath + "/sc/chambers/list",
-            firstOptionText: "Dowolony Sąd Najwyższy"
+            url: contextPath + "/sc/chambers/list"
         });
         
-        //TODO
+
         //init sc judgment form select with options
+        addOptionsToSelect({
+            selectId: "#select-search-judgment-form",
+            url: contextPath + "/sc/judgmentForm/list",
+            createOption: function(element) {
+                return "<option value='" + element.name + "' >" + element.name + "</option>";
+            }
+        });
     });
 	
 	//Search form - init select court & division
