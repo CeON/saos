@@ -1,11 +1,14 @@
 package pl.edu.icm.saos.webapp.court;
 
+import static pl.edu.icm.saos.webapp.common.CacheNames.DICTIONARIES;
+
 import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CommonCourt;
@@ -38,8 +41,9 @@ public class CcListService {
 	 * 
 	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
-	public List<SimpleEntity> findCommonCourts() {
-		
+	@Cacheable(DICTIONARIES)
+    public List<SimpleEntity> findCommonCourts() {
+	    
 		List<CommonCourt> commonCourts = commonCourtRepository.findAll();
 		
 		Collections.sort(commonCourts, new CommonCourtComparator());
@@ -54,7 +58,9 @@ public class CcListService {
 	 * @param courtId - common court id
 	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
-	public List<SimpleEntity> findCcDivisions(long courtId) {
+
+	@Cacheable(DICTIONARIES)
+    public List<SimpleEntity> findCcDivisions(long courtId) {
 		
 		List<CommonCourtDivision> courtDivisions = ccDivisionRepository.findAllByCourtId(courtId);
 		

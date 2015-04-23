@@ -16,6 +16,6 @@ import pl.edu.icm.saos.webapp.analysis.UiAnalysisConfiguration;
  *
  */
 @Configuration
-@Import({WebappConfiguration.class, GeneralConfiguration.class, SecurityConfiguration.class, SearchTestConfiguration.class, EnrichmentTestConfiguration.class, ApiTestConfiguration.class, UiAnalysisConfiguration.class})
+@Import({WebappConfiguration.class, GeneralConfiguration.class, CacheConfiguration.class, SecurityConfiguration.class, SearchTestConfiguration.class, EnrichmentTestConfiguration.class, ApiTestConfiguration.class, UiAnalysisConfiguration.class})
 public class WebappTestConfiguration extends TestConfigurationBase { 
 }
