@@ -66,11 +66,9 @@
 		    <div class="col-lg-7 col-sm-8 col-xs-11">
 		        
 		        <form:select path="commonCourtId" id="select-common-court" class="form-control" disabled="${fn:length(commonCourts)==0}" >
-		            <c:if test="${fn:length(commonCourts)>1}">
-		                <c:set var="emptyOption"><spring:message code="choose"/></c:set>
-		                <option value=""><spring:message code="judgmentSearch.formField.chooseCommonCourt" text="${emptyOption}" /></option>
-		            </c:if>
-		        
+		            
+	                <option value=""><spring:message code="judgmentSearch.formField.chooseCommonCourt" /></option>
+		            
 		            <c:forEach items="${commonCourts}" var="item" >
 		                <option value="${item.id}" <c:if test="${judgmentCriteriaForm.commonCourtId == item.id}" >selected="selected"</c:if> >
 		                    <c:out value="${item.name}" />
@@ -86,10 +84,8 @@
 		    <div class="col-lg-7 col-sm-8 col-xs-11">
 		        
 		        <form:select path="commonCourtDivisionId" id="select-common-division" class="form-control" disabled="${fn:length(commonCourtDivisions)==0}" >
-		            <c:if test="${fn:length(commonCourtDivisions)>1}">
-		                <c:set var="emptyOption"><spring:message code="choose"/></c:set>
-		                <option value=""><spring:message code="judgmentSearch.formField.chooseCcDivision" text="${emptyOption}" /></option>
-		            </c:if>
+		            
+	                <option value=""><spring:message code="judgmentSearch.formField.chooseCcDivision" /></option>
 		        
 		            <c:forEach items="${commonCourtDivisions}" var="item" >
 		                <option value="${item.id}" <c:if test="${selectedItem == item.id}" >selected="selected"</c:if> >
@@ -107,10 +103,8 @@
 		    <div class="col-lg-7 col-sm-8 col-xs-11">
 		        
 		        <form:select path="supremeChamberId" id="select-supreme-chamber" class="form-control" disabled="${fn:length(supremeChambers)==0}" >
-		            <c:if test="${fn:length(supremeChambers)>1}">
-		                <c:set var="emptyOption"><spring:message code="choose"/></c:set>
-		                <option value=""><spring:message code="judgmentSearch.formField.chooseSupremeChamber" text="${emptyOption}" /></option>
-		            </c:if>
+		            
+	                <option value=""><spring:message code="judgmentSearch.formField.chooseSupremeChamber" /></option>
 		        
 		            <c:forEach items="${supremeChambers}" var="item" >
 		                <option value="${item.id}" <c:if test="${judgmentCriteriaForm.supremeChamberId == item.id}" >selected="selected"</c:if> >
@@ -127,10 +121,8 @@
 		    <div class="col-lg-7 col-sm-8 col-xs-11">
 		        
 		        <form:select path="supremeChamberDivisionId" id="select-supreme-chamber-division" class="form-control" disabled="${fn:length(supremeChamberDivisions)==0}" >
-		            <c:if test="${fn:length(supremeChamberDivisions)>1}">
-		                <c:set var="emptyOption"><spring:message code="choose"/></c:set>
-		                <option value=""><spring:message code="judgmentSearch.formField.chooseScDivision" text="${emptyOption}" /></option>
-		            </c:if>
+		            
+	                <option value=""><spring:message code="judgmentSearch.formField.chooseScDivision" /></option>
 		        
 		            <c:forEach items="${supremeChamberDivisions}" var="item" >
 		                <option value="${item.id}" <c:if test="${judgmentCriteriaForm.supremeChamberDivisionId == item.id}" >selected="selected"</c:if> >
