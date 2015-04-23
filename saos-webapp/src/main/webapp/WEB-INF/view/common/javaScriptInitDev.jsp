@@ -42,6 +42,9 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/dateFormat.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/cookiePolicy.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/infoFormSection.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/addOptionsToSelect.js"></script>
+
+
 
 <script type="text/javascript" src="${contextPath}/static/javascript/judgmentDetails.js"></script> 
 <script type="text/javascript" src="${contextPath}/static/javascript/judgmentSearch.js"></script> 
