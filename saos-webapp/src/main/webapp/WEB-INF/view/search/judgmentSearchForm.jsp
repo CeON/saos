@@ -295,6 +295,7 @@
 				<select id="searchSorting" name="sort">
 					<option value="RELEVANCE${sortDirectionValue}" <c:if test="${sortProperty=='RELEVANCE'}"> selected="selected"</c:if> ><spring:message code="sort.accuracy" /></option>
 					<option value="JUDGMENT_DATE${sortDirectionValue}" <c:if test="${sortProperty == 'JUDGMENT_DATE'}"> selected="selected"</c:if> ><spring:message code="sort.date" /></option>
+					<option value="REFERENCING_JUDGMENTS_COUNT${sortDirectionValue}" <c:if test="${sortProperty=='REFERENCING_JUDGMENTS_COUNT'}"> selected="selected"</c:if> ><spring:message code="sort.referencingCount" /></option>
 				</select>
 				
 				<label for="searchSortingDirection" ><spring:message code="sort.direction" />:</label>

@@ -205,7 +205,7 @@ public class JudgmentSearchServiceTest {
     }
     
     
-    //------------------------ LOGIC --------------------------
+    //------------------------ TESTS --------------------------
     
     @Test
     @UseDataProvider("searchResultsListData")
