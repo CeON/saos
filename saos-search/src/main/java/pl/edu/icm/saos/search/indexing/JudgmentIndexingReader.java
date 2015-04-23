@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 import com.google.common.collect.Lists;
 
@@ -23,14 +22,14 @@ import com.google.common.collect.Lists;
  * @author madryk
  */
 @Service
-public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
-
-    private JudgmentRepository judgmentRepository;
+public class JudgmentIndexingReader implements ItemStreamReader<JudgmentIndexingData> {
     
     private JudgmentEnrichmentService judgmentEnrichmentService;
     
+    private JudgmentIndexingItemFetcher judgmentIndexingItemFetcher;
     
-    private volatile Queue<Long> judgmentIds = Lists.newLinkedList();
+    
+    private volatile Queue<JudgmentIndexingItem> judgmentIndexingItems = Lists.newLinkedList();
     
     
     //------------------------ LOGIC --------------------------
@@ -38,20 +37,31 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
         
-        judgmentIds = new ConcurrentLinkedQueue<Long>(judgmentRepository.findAllNotIndexedIds());
-    
+        judgmentIndexingItems = new ConcurrentLinkedQueue<JudgmentIndexingItem>(
+                judgmentIndexingItemFetcher.fetchJudgmentIndexingItems());
+        
     }
 
     @Override
-    public Judgment read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+    public JudgmentIndexingData read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         
-        Long id = judgmentIds.poll();
+        JudgmentIndexingItem judgmentIndexingItem = judgmentIndexingItems.poll();
         
-        if (id == null) {
+        if (judgmentIndexingItem == null) {
             return null;
         }
         
-        return judgmentEnrichmentService.findOneAndEnrich(id);
+        Judgment judgment = judgmentEnrichmentService.findOneAndEnrich(judgmentIndexingItem.getJudgmentId());
+        if (judgment == null) {
+            return null;
+        }
+        
+        JudgmentIndexingData judgmentIndexingData = new JudgmentIndexingData();
+        
+        judgmentIndexingData.setJudgment(judgment);
+        judgmentIndexingData.setReferencingCount(judgmentIndexingItem.getReferencingCount());
+        
+        return judgmentIndexingData;
     }
     
     @Override
@@ -65,15 +75,15 @@ public class JudgmentIndexingReader implements ItemStreamReader<Judgment> {
 
     
     //------------------------ SETTERS --------------------------
-    
-    @Autowired
-    public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
-        this.judgmentRepository = judgmentRepository;
-    }
 
     @Autowired
     public void setJudgmentEnrichmentService(JudgmentEnrichmentService judgmentEnrichmentService) {
         this.judgmentEnrichmentService = judgmentEnrichmentService;
+    }
+
+    @Autowired
+    public void setJudgmentIndexingItemFetcher(JudgmentIndexingItemFetcher judgmentIndexingItemFetcher) {
+        this.judgmentIndexingItemFetcher = judgmentIndexingItemFetcher;
     }
 
 }

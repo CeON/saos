@@ -38,6 +38,9 @@ import org.springframework.data.domain.Sort.Direction;
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory;
+import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
@@ -55,6 +58,7 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -71,6 +75,9 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
     
     @Autowired
     private JudgmentRepository judgmentRepository;
+    
+    @Autowired
+    private EnrichmentTagRepository enrichmentTagRepository;
     
     @Autowired
     private TestJudgmentsGenerator testJudgmentsGenerator;
@@ -105,6 +112,10 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         scJudgments = testJudgmentsGenerator.generateScJudgments(SUPREME_COURT_JUDGMENTS_COUNT);
         ctJudgments = testJudgmentsGenerator.generateCtJudgments(CONSTITUTIONAL_TRIBUNAL_JUDGMENTS_COUNT);
         nacJudgments = testJudgmentsGenerator.generateNacJudgments(APPEAL_CHAMBER_JUDGMENTS_COUNT);
+        
+        EnrichmentTag tag1 = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(ccJudgments.get(0).getId(), ccJudgments.get(1), scJudgments.get(0));
+        EnrichmentTag tag2 = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(ccJudgments.get(2).getId(), ccJudgments.get(1), ctJudgments.get(3));
+        enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2));
 
     }
     
@@ -130,10 +141,10 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         assertAllMarkedAsIndexed();
         assertIndexCount(ALL_JUDGMENTS_COUNT);
         
-        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), ccJudgments.get(1));
-        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), scJudgments.get(0));
-        assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(3).getId()), ctJudgments.get(3));
-        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), nacJudgments.get(5));
+        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), ccJudgments.get(1), 2L);
+        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), scJudgments.get(0), 1L);
+        assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(3).getId()), ctJudgments.get(3), 1L);
+        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), nacJudgments.get(5), 0L);
 
     }
     
@@ -147,6 +158,9 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         applyScChanges(scJudgments.get(0).getId());
         applyCtChanges(ctJudgments.get(3).getId());
         applyNacChanges(nacJudgments.get(5).getId());
+        
+        EnrichmentTag tag = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(ccJudgments.get(3).getId(), ccJudgments.get(1));
+        enrichmentTagRepository.save(tag);
         
         long notExistingJudgmentId = findMaxJudgmentId() + 1;
         indexSimpleJudgment(notExistingJudgmentId, SourceCode.CONSTITUTIONAL_TRIBUNAL); // this judgment will be in index but not in database
@@ -163,10 +177,10 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         assertAllMarkedAsIndexed();
         assertIndexCount(ALL_JUDGMENTS_COUNT);
         
-        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), judgmentRepository.findOneAndInitialize(ccJudgments.get(1).getId()));
-        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), judgmentRepository.findOneAndInitialize(scJudgments.get(0).getId()));
-        assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(3).getId()), judgmentRepository.findOneAndInitialize(ctJudgments.get(3).getId()));
-        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), judgmentRepository.findOneAndInitialize(nacJudgments.get(5).getId()));
+        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(1).getId()), judgmentRepository.findOneAndInitialize(ccJudgments.get(1).getId()), 3L);
+        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), judgmentRepository.findOneAndInitialize(scJudgments.get(0).getId()), 1L);
+        assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(3).getId()), judgmentRepository.findOneAndInitialize(ctJudgments.get(3).getId()), 1L);
+        assertNacJudgment(fetchJudgmentDoc(nacJudgments.get(5).getId()), judgmentRepository.findOneAndInitialize(nacJudgments.get(5).getId()), 0L);
         
         assertNotInIndex(notExistingJudgmentId);
     }
@@ -198,7 +212,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         assertIndexCount(SUPREME_COURT_JUDGMENTS_COUNT + 1); // +1 for notExistingCcJudgment
         assertIndexWithSourceCodeCount(SUPREME_COURT_JUDGMENTS_COUNT, SourceCode.SUPREME_COURT);
         
-        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), scJudgments.get(0));
+        assertScJudgment(fetchJudgmentDoc(scJudgments.get(0).getId()), scJudgments.get(0), 1L);
         
         assertNotInIndex(notExistingScJudgmentId);
         assertInIndex(notExistingCcJudgmentId); // shouldn't do anything with this judgment

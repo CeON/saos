@@ -35,27 +35,27 @@ class JudgmentIndexAssertUtils {
     
     //------------------------ LOGIC --------------------------
     
-    public static void assertCcJudgment(SolrDocument doc, CommonCourtJudgment ccJudgment) {
+    public static void assertCcJudgment(SolrDocument doc, CommonCourtJudgment ccJudgment, long referencingCount) {
         
-        assertJudgmentCommonFields(doc, ccJudgment);
+        assertJudgmentCommonFields(doc, ccJudgment, referencingCount);
         assertCcJudgmentSpecificFields(doc, ccJudgment);
     }
     
-    public static void assertScJudgment(SolrDocument doc, SupremeCourtJudgment scJudgment) {
+    public static void assertScJudgment(SolrDocument doc, SupremeCourtJudgment scJudgment, long referencingCount) {
         
-        assertJudgmentCommonFields(doc, scJudgment);
+        assertJudgmentCommonFields(doc, scJudgment, referencingCount);
         assertScJudgmentSpecificFields(doc, scJudgment);
     }
     
-    public static void assertCtJudgment(SolrDocument doc, ConstitutionalTribunalJudgment ctJudgment) {
+    public static void assertCtJudgment(SolrDocument doc, ConstitutionalTribunalJudgment ctJudgment, long referencingCount) {
         
-        assertJudgmentCommonFields(doc, ctJudgment);
+        assertJudgmentCommonFields(doc, ctJudgment, referencingCount);
         assertCtJudgmentSpecificFields(doc, ctJudgment);
     }
     
-    public static void assertNacJudgment(SolrDocument doc, NationalAppealChamberJudgment nacJudgment) {
+    public static void assertNacJudgment(SolrDocument doc, NationalAppealChamberJudgment nacJudgment, long referencingCount) {
         
-        assertJudgmentCommonFields(doc, nacJudgment);
+        assertJudgmentCommonFields(doc, nacJudgment, referencingCount);
     }
     
     
@@ -110,7 +110,7 @@ class JudgmentIndexAssertUtils {
         assertSolrDocumentValues(doc, JudgmentIndexField.CT_DISSENTING_OPINION_AUTHOR, expectedDissentingOpinionsAuthors);
     }
     
-    private static void assertJudgmentCommonFields(SolrDocument doc, Judgment judgment) {
+    private static void assertJudgmentCommonFields(SolrDocument doc, Judgment judgment, long referencingCount) {
         
         assertSolrDocumentValues(doc, JudgmentIndexField.COURT_TYPE, judgment.getCourtType().name());
         
@@ -118,6 +118,8 @@ class JudgmentIndexAssertUtils {
         assertSolrDocumentValues(doc, JudgmentIndexField.CONTENT, judgment.getRawTextContent());
         assertSolrDocumentValues(doc, JudgmentIndexField.JUDGMENT_TYPE, judgment.getJudgmentType().name());
         assertSolrDocumentValues(doc, JudgmentIndexField.CASE_NUMBER, judgment.getCaseNumbers());
+        
+        assertSolrDocumentLongValues(doc, JudgmentIndexField.REFERENCING_JUDGMENTS_COUNT, referencingCount);
         
         assertJudges(doc, judgment);
         assertReferencedRegulations(doc, judgment);

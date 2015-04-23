@@ -85,9 +85,11 @@ public class CtJudgmentIndexFieldsFillerTest {
         
         // given
         SolrInputDocument doc = new SolrInputDocument();
+        JudgmentIndexingData indexingData = new JudgmentIndexingData();
+        indexingData.setJudgment(givenJudgment);
         
         // execute
-        ccJudgmentIndexingFiller.fillFields(doc, givenJudgment);
+        ccJudgmentIndexingFiller.fillFields(doc, indexingData);
         
         // assert
         expectedFields.forEach(expectedField -> assertFieldValues(doc, expectedField)); 

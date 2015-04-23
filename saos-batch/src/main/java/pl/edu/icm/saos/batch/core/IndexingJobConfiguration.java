@@ -13,12 +13,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 
-import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.search.indexing.IndexingJobStepExecutionListener;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingReader;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingWriter;
+import pl.edu.icm.saos.search.indexing.JudgmentIndexingData;
 import pl.edu.icm.saos.search.indexing.ReindexJobStepExecutionListener;
 
 @Configuration
@@ -94,7 +94,7 @@ public class IndexingJobConfiguration {
     @Bean
     @Autowired
     protected Step judgmentIndexingProcessStep(TaskExecutor judgmentIndexingTaskExecutor) {
-        return steps.get("judgmentIndexingStep").<Judgment, SolrInputDocument> chunk(INDEXING_CHUNK_SIZE)
+        return steps.get("judgmentIndexingStep").<JudgmentIndexingData, SolrInputDocument> chunk(INDEXING_CHUNK_SIZE)
                 .reader(judgmentIndexingReader)
                 .processor(judgmentIndexingProcessor)
                 .writer(judgmentIndexingWriter)
@@ -105,7 +105,7 @@ public class IndexingJobConfiguration {
     
     @Bean
     protected Step judgmentReindexingProcessStep(TaskExecutor judgmentIndexingTaskExecutor) {
-        return steps.get("judgmentReindexingProcessStep").<Judgment, SolrInputDocument> chunk(INDEXING_CHUNK_SIZE)
+        return steps.get("judgmentReindexingProcessStep").<JudgmentIndexingData, SolrInputDocument> chunk(INDEXING_CHUNK_SIZE)
                 .reader(judgmentIndexingReader)
                 .processor(judgmentIndexingProcessor)
                 .writer(judgmentIndexingWriter)
