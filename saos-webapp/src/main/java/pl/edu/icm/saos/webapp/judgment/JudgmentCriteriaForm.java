@@ -223,5 +223,22 @@ public class JudgmentCriteriaForm {
         this.referencedCourtCaseId = referencedCourtCaseId;
     }
 
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "JudgmentCriteriaForm [all=" + all + ", signature=" + signature + ", dateFrom="
+                + dateFrom + ", dateTo=" + dateTo + ", judgeName=" + judgeName + ", keywords="
+                + keywords + ", courtType=" + courtType + ", commonCourtId=" + commonCourtId
+                + ", commonCourtDivisionId=" + commonCourtDivisionId + ", scPersonnelType="
+                + scPersonnelType + ", scJudgmentForm=" + scJudgmentForm + ", supremeChamberId="
+                + supremeChamberId + ", supremeChamberDivisionId=" + supremeChamberDivisionId
+                + ", ctDissentingOpinion=" + ctDissentingOpinion + ", judgmentTypes="
+                + judgmentTypes + ", legalBase=" + legalBase + ", referencedRegulation="
+                + referencedRegulation + ", lawJournalEntryId=" + lawJournalEntryId
+                + ", referencedCourtCaseId=" + referencedCourtCaseId + "]";
+    }
+
 }
 

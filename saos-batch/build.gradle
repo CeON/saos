@@ -21,10 +21,12 @@ dependencies {
         exclude group: 'net.sf.ehcache', module: 'ehcache-core'
         exclude group: 'org.slf4j', module: 'slf4j-log4j12'
         exclude group: 'org.springframework', module:'spring-webmvc'
+        exclude group: 'org.springframework', module: 'spring-context-support'
     }
 
     compile(lib.'org.springframework.batch:spring-batch-admin-resources') {
         exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'org.springframework', module: 'spring-context-support'
     }
     
 }

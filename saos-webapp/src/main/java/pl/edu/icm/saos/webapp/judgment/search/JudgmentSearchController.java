@@ -41,7 +41,7 @@ public class JudgmentSearchController {
 	
 	@Autowired
 	private ScListService scListService;
-	
+
 	@Autowired
 	private LawJournalEntryRepository lawJournalEntryRepository;
 	
@@ -76,38 +76,43 @@ public class JudgmentSearchController {
 	//------------------------ PRIVATE --------------------------
 	
 	private void addCommonCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
+	    
 	    if(CourtType.COMMON.equals(judgmentCriteriaForm.getCourtType())) {
-		model.addAttribute("commonCourts", ccListService.findCommonCourts());
-		
-		if (judgmentCriteriaForm.getCommonCourtId() != null) {
-			model.addAttribute("commonCourtDivisions", ccListService.findCcDivisions(judgmentCriteriaForm.getCommonCourtId()));
-		}
+    		model.addAttribute("commonCourts", ccListService.findCommonCourts());
+    		
+    		if (judgmentCriteriaForm.getCommonCourtId() != null) {
+    			model.addAttribute("commonCourtDivisions", ccListService.findCcDivisions(judgmentCriteriaForm.getCommonCourtId()));
+    		}
 	    }
 	}
 	
 	private void addSupremeCourtChambersToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
+	    
 	    if(CourtType.SUPREME.equals(judgmentCriteriaForm.getCourtType())) {
-		model.addAttribute("supremeChambers", scListService.findScChambers());
-		
-		if (judgmentCriteriaForm.getSupremeChamberId() != null) {
-			model.addAttribute("supremeChamberDivisions", scListService.findScChamberDivisions(judgmentCriteriaForm.getSupremeChamberId()));
-		}
+    		model.addAttribute("supremeChambers", scListService.findScChambers());
+    		
+    		if (judgmentCriteriaForm.getSupremeChamberId() != null) {
+    			model.addAttribute("supremeChamberDivisions", scListService.findScChamberDivisions(judgmentCriteriaForm.getSupremeChamberId()));
+    		}
 	    }
 	}
 	
 	private void addSupremeCourtJudgmentForm(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
+	    
 	    if(CourtType.SUPREME.equals(judgmentCriteriaForm.getCourtType())) {
-		model.addAttribute("scJudgmentForms", scListService.findScJudgmentForms());
+	        model.addAttribute("scJudgmentForms", scListService.findScJudgmentForms());
 	    }
 	}
 	
 	private void addLawJournalEntryToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
+	    
 	    if (judgmentCriteriaForm.getLawJournalEntryId() != null) {
-		model.addAttribute("lawJournalEntry", lawJournalEntryRepository.findOne(judgmentCriteriaForm.getLawJournalEntryId()));
+	        model.addAttribute("lawJournalEntry", lawJournalEntryRepository.findOne(judgmentCriteriaForm.getLawJournalEntryId()));
 	    }
 	}
 	
 	private void addReferencedJudgmentToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
+	    
 	    if (judgmentCriteriaForm.getReferencedCourtCaseId() != null) {
 	        Judgment judgment = judgmentRepository.findOneAndInitialize(judgmentCriteriaForm.getReferencedCourtCaseId());
 	        model.addAttribute("referencedJudgment", judgment);

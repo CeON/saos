@@ -1,11 +1,14 @@
 package pl.edu.icm.saos.webapp.court;
 
+import static pl.edu.icm.saos.webapp.common.CacheNames.DICTIONARIES;
+
 import java.text.Collator;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
@@ -43,6 +46,7 @@ public class ScListService {
 	 * 
 	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
+	@Cacheable(DICTIONARIES)
 	public List<SimpleEntity> findScChambers() {
 		
 		List<SupremeCourtChamber> chambers = scChamberRepository.findAll();
@@ -59,8 +63,9 @@ public class ScListService {
 	 * @param chamberId - chamber division id
 	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
-	public List<SimpleEntity> findScChamberDivisions(long chamberId) {
-	
+	@Cacheable(DICTIONARIES)
+    public List<SimpleEntity> findScChamberDivisions(long chamberId) {
+	    
 		List<SupremeCourtChamberDivision> chamberDivisions = scChamberDivisionRepository.findAllByScChamberId(chamberId);
 		
 		Collections.sort(chamberDivisions, new ScChamberDivisionComparator());
@@ -73,9 +78,12 @@ public class ScListService {
 	 * 
 	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
-	public List<SimpleEntity> findScJudgmentForms() {
+	@Cacheable(DICTIONARIES)
+    public List<SimpleEntity> findScJudgmentForms() {
 	    	return simpleEntityConverter.convertScJudgmentForms(scJudgmentFormRepository.findAll());
 	}
+	
+	
 	
 	
 	//------------------------ PRIVATE --------------------------
@@ -110,4 +118,5 @@ public class ScListService {
 		this.simpleEntityConverter = simpleEntityConverter;
 	}
 
+   
 }

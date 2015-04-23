@@ -1,0 +1,31 @@
+<ehcache>
+
+    <defaultCache
+        maxElementsInMemory="10000"
+        eternal="false"
+        timeToIdleSeconds="600" 
+        timeToLiveSeconds="600"
+        overflowToDisk="false"
+        diskSpoolBufferSizeMB="0"
+        maxElementsOnDisk="0"
+        diskPersistent="false"
+        diskExpiryThreadIntervalSeconds="0"
+        memoryStoreEvictionPolicy="LRU"
+        statistics="true" />
+        
+    <cache name="dictionaries"
+        maxElementsInMemory="1000"
+        eternal="false"
+        timeToIdleSeconds="1" 
+        timeToLiveSeconds="1"
+        overflowToDisk="false"
+        diskSpoolBufferSizeMB="0"
+        maxElementsOnDisk="0"
+        diskPersistent="false"
+        diskExpiryThreadIntervalSeconds="0"
+        memoryStoreEvictionPolicy="LRU"
+        statistics="true" 
+    />
+    
+    
+</ehcache>
