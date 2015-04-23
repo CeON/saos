@@ -28,8 +28,8 @@ import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.webapp.WebappTestSupport;
 import pl.edu.icm.saos.webapp.court.ScListService;
-import pl.edu.icm.saos.webapp.court.SimpleDivision;
-import pl.edu.icm.saos.webapp.court.SimpleDivisionConverter;
+import pl.edu.icm.saos.webapp.court.SimpleEntity;
+import pl.edu.icm.saos.webapp.court.SimpleEntityConverter;
 
 import com.google.common.collect.Lists;
 
@@ -56,14 +56,14 @@ public class CachingTest extends WebappTestSupport {
     private ScChamberDivisionRepository scChamberDivisionRepository;
     
     @Autowired
-    private SimpleDivisionConverter simpleDivisionConverter;
+    private SimpleEntityConverter simpleEntityConverter;
     
     
     private ScJudgmentFormRepository mockedScJudgmentFormRepository = mock(ScJudgmentFormRepository.class);
     
     private ScChamberDivisionRepository mockedScChamberDivisionRepository = mock(ScChamberDivisionRepository.class);
     
-    private SimpleDivisionConverter mockedSimpleDivisionConverter = mock(SimpleDivisionConverter.class);
+    private SimpleEntityConverter mockedSimpleEntityConverter = mock(SimpleEntityConverter.class);
     
     
     
@@ -72,7 +72,7 @@ public class CachingTest extends WebappTestSupport {
     
         scListService.setScJudgmentFormRepository(mockedScJudgmentFormRepository);
         scListService.setScChamberDivisionRepository(mockedScChamberDivisionRepository);
-        scListService.setSimpleDivisionConverter(mockedSimpleDivisionConverter);
+        scListService.setSimpleEntityConverter(mockedSimpleEntityConverter);
     }
     
     @After
@@ -80,7 +80,7 @@ public class CachingTest extends WebappTestSupport {
     
         scListService.setScJudgmentFormRepository(scJudgmentFormRepository);
         scListService.setScChamberDivisionRepository(scChamberDivisionRepository);
-        scListService.setSimpleDivisionConverter(simpleDivisionConverter);
+        scListService.setSimpleEntityConverter(simpleEntityConverter);
     
     }
     
@@ -97,22 +97,29 @@ public class CachingTest extends WebappTestSupport {
         List<SupremeCourtJudgmentForm> scJudgmentForms = Lists.newArrayList(scJudgmentForm1, scJudgmentForm2);
         when(mockedScJudgmentFormRepository.findAll()).thenReturn(scJudgmentForms);
         
+        SimpleEntity simpleEntity1 = mock(SimpleEntity.class);
+        SimpleEntity simpleEntity2 = mock(SimpleEntity.class);
+        
+        List<SimpleEntity> simpleEntities = Lists.newArrayList(simpleEntity1, simpleEntity2);
+        when(mockedSimpleEntityConverter.convertScJudgmentForms(scJudgmentForms)).thenReturn(simpleEntities);
+        
+        
         // execute & assert
         
         // should fetch from db
-        List<SupremeCourtJudgmentForm> retScJudgmentForms = scListService.findScJudgmentForms();
-        assertTrue(scJudgmentForms == retScJudgmentForms);
+        List<SimpleEntity> retScJudgmentForms = scListService.findScJudgmentForms();
+        assertTrue(simpleEntities == retScJudgmentForms);
         verify(mockedScJudgmentFormRepository).findAll();
         
         // should use cache
         retScJudgmentForms = scListService.findScJudgmentForms();
-        assertTrue(scJudgmentForms == retScJudgmentForms);
+        assertTrue(simpleEntities == retScJudgmentForms);
         verifyNoMoreInteractions(mockedScJudgmentFormRepository);
         
         // should fetch from db (cache invalidated after some time)
         Thread.sleep(1200);
         retScJudgmentForms = scListService.findScJudgmentForms();
-        assertTrue(scJudgmentForms == retScJudgmentForms);
+        assertTrue(simpleEntities == retScJudgmentForms);
         verify(mockedScJudgmentFormRepository, Mockito.times(2)).findAll();
         
         
@@ -138,20 +145,20 @@ public class CachingTest extends WebappTestSupport {
         when(mockedScChamberDivisionRepository.findAllByScChamberId(1)).thenReturn(scDivisions_1_2);
         when(mockedScChamberDivisionRepository.findAllByScChamberId(2)).thenReturn(scDivisions_3);
         
-        SimpleDivision simpleDivision1 = mock(SimpleDivision.class);
-        SimpleDivision simpleDivision2 = mock(SimpleDivision.class);
-        SimpleDivision simpleDivision3 = mock(SimpleDivision.class);
+        SimpleEntity simpleDivision1 = mock(SimpleEntity.class);
+        SimpleEntity simpleDivision2 = mock(SimpleEntity.class);
+        SimpleEntity simpleDivision3 = mock(SimpleEntity.class);
         
-        List<SimpleDivision> simpleDivisions_1_2 = Lists.newArrayList(simpleDivision1, simpleDivision2);
-        List<SimpleDivision> simpleDivisions_3 = Lists.newArrayList(simpleDivision3);
-        when(mockedSimpleDivisionConverter.convertScChamberDivisions(scDivisions_1_2)).thenReturn(simpleDivisions_1_2);
-        when(mockedSimpleDivisionConverter.convertScChamberDivisions(scDivisions_3)).thenReturn(simpleDivisions_3);
+        List<SimpleEntity> simpleDivisions_1_2 = Lists.newArrayList(simpleDivision1, simpleDivision2);
+        List<SimpleEntity> simpleDivisions_3 = Lists.newArrayList(simpleDivision3);
+        when(mockedSimpleEntityConverter.convertScChamberDivisions(scDivisions_1_2)).thenReturn(simpleDivisions_1_2);
+        when(mockedSimpleEntityConverter.convertScChamberDivisions(scDivisions_3)).thenReturn(simpleDivisions_3);
         
         
         // execute & assert
         
         // for id = 1 should fetch from db
-        List<SimpleDivision> retScDivisions = scListService.findScChamberDivisions(1);
+        List<SimpleEntity> retScDivisions = scListService.findScChamberDivisions(1);
         assertTrue(simpleDivisions_1_2 == retScDivisions);
         verify(mockedScChamberDivisionRepository).findAllByScChamberId(1);
         
