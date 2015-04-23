@@ -633,6 +633,8 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         assertEquals("raw content", actualJudgment.getTextContent().getRawTextContent());
     }
     
+
+    
     
     
     //------------------------ PRIVATE --------------------------

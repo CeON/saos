@@ -65,9 +65,11 @@ public class NacJudgmentIndexFieldsFillerTest {
         
         // given
         SolrInputDocument doc = new SolrInputDocument();
+        JudgmentIndexingData indexingData = new JudgmentIndexingData();
+        indexingData.setJudgment(givenJudgment);
         
         // execute
-        nacJudgmentIndexingFiller.fillFields(doc, givenJudgment);
+        nacJudgmentIndexingFiller.fillFields(doc, indexingData);
         
         // assert
         expectedFields.forEach(expectedField -> assertFieldValues(doc, expectedField)); 

@@ -52,4 +52,5 @@ public interface JudgmentCommonRepository<T extends Judgment> extends IndexableO
     @Query("select j.id from #{#entityName} j where j.id in(:ids)")
     List<Long> filterIdsToExisting(@Param("ids") List<Long> ids);
     
+    
 }

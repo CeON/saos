@@ -53,30 +53,38 @@ public class JudgmentIndexingProcessorTest {
     
     @Test
     public void process_SUPREME_COURT_JUDGMENT() throws Exception {
+        // given
         SupremeCourtJudgment judgment = new SupremeCourtJudgment();
         ReflectionTestUtils.setField(judgment, "id", 5);
+        JudgmentIndexingData indexingData = new JudgmentIndexingData();
+        indexingData.setJudgment(judgment);
         
+        // execute
+        judgmentIndexingProcessor.process(indexingData);
         
-        judgmentIndexingProcessor.process(judgment);
-        
-        ArgumentCaptor<Judgment> argCaptureForFill = ArgumentCaptor.forClass(Judgment.class);
+        // assert
+        ArgumentCaptor<JudgmentIndexingData> argCaptureForFill = ArgumentCaptor.forClass(JudgmentIndexingData.class);
         verify(scJudgmentIndexFieldsFiller, times(1)).fillFields(any(SolrInputDocument.class), argCaptureForFill.capture());
-        assertEquals(5, argCaptureForFill.getValue().getId());
+        assertEquals(5, argCaptureForFill.getValue().getJudgment().getId());
         
         assertSaveJudgmentInRepository(5);
     }
     
     @Test
     public void process_COMMON_COURT_JUDGMENT() throws Exception {
+        // given
         CommonCourtJudgment judgment = new CommonCourtJudgment();
         ReflectionTestUtils.setField(judgment, "id", 6);
+        JudgmentIndexingData indexingData = new JudgmentIndexingData();
+        indexingData.setJudgment(judgment);
         
+        // execute
+        judgmentIndexingProcessor.process(indexingData);
         
-        judgmentIndexingProcessor.process(judgment);
-        
-        ArgumentCaptor<CommonCourtJudgment> argCaptureForFill = ArgumentCaptor.forClass(CommonCourtJudgment.class);
+        // assert
+        ArgumentCaptor<JudgmentIndexingData> argCaptureForFill = ArgumentCaptor.forClass(JudgmentIndexingData.class);
         verify(ccJudgmentIndexFieldsFiller, times(1)).fillFields(any(SolrInputDocument.class), argCaptureForFill.capture());
-        assertEquals(6, argCaptureForFill.getValue().getId());
+        assertEquals(6, argCaptureForFill.getValue().getJudgment().getId());
         
         assertSaveJudgmentInRepository(6);
     }

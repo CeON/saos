@@ -4,7 +4,6 @@ import org.apache.solr.common.SolrInputDocument;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.CourtType;
-import pl.edu.icm.saos.persistence.model.Judgment;
 
 /**
  * Fills {@link SolrInputDocument} with fields from
@@ -24,8 +23,8 @@ public class NacJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
     }
 
     @Override
-    public void fillFields(SolrInputDocument doc, Judgment judgment) {
-        super.fillFields(doc, judgment);
+    public void fillFields(SolrInputDocument doc, JudgmentIndexingData judgmentData) {
+        super.fillFields(doc, judgmentData);
     }
     
 }

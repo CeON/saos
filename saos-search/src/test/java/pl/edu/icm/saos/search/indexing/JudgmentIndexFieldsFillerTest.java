@@ -237,19 +237,38 @@ public class JudgmentIndexFieldsFillerTest {
     }
     
     
-    //------------------------ LOGIC --------------------------
+    //------------------------ TESTS --------------------------
     
     @Test
     @UseDataProvider("judgmentsFieldsData")
     public void fillFields(Judgment givenJudgment, List<SolrInputField> expectedFields) {
         // given
         SolrInputDocument doc = new SolrInputDocument();
+        JudgmentIndexingData indexingData = new JudgmentIndexingData();
+        indexingData.setJudgment(givenJudgment);
         
         // execute
-        judgmentIndexFieldsFiller.fillFields(doc, givenJudgment);
+        judgmentIndexFieldsFiller.fillFields(doc, indexingData);
         
         // assert
         expectedFields.forEach(expectedField -> assertFieldValues(doc, expectedField));
+    }
+    
+    @Test
+    public void fillFields_REFERENCING_COUNT() {
+        // given
+        SolrInputFieldFactory fieldFactory = new SolrInputFieldFactory();
+        SolrInputDocument doc = new SolrInputDocument();
+        JudgmentIndexingData indexingData = new JudgmentIndexingData();
+        indexingData.setJudgment(new CommonCourtJudgment());
+        indexingData.setReferencingCount(4);
+        
+        
+        // execute
+        judgmentIndexFieldsFiller.fillFields(doc, indexingData);
+        
+        // assert
+        assertFieldValues(doc, fieldFactory.create("referencingJudgmentsCount", 4L));
     }
 
 }

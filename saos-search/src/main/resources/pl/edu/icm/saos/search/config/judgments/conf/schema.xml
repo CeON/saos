@@ -69,6 +69,7 @@
    <field name="referencedRegulations" type="text_general" indexed="true" stored="true" multiValued="true" />
    <field name="lawJournalEntryId" type="long" indexed="true" stored="true" multiValued="true" />
    <field name="referencedCourtCasesIds" type="long" indexed="true" stored="true" multiValued="true" />
+   <field name="referencingJudgmentsCount" type="long" indexed="true" stored="true" multiValued="false" />
    
    <field name="sourceCode" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtType" type="string" indexed="true" stored="true" multiValued="false" />

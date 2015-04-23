@@ -17,7 +17,7 @@ import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
  * @author madryk
  */
 @Service
-public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrInputDocument> {
+public class JudgmentIndexingProcessor implements ItemProcessor<JudgmentIndexingData, SolrInputDocument> {
     
     private JudgmentRepository judgmentRepository;
     
@@ -27,13 +27,14 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     //------------------------ LOGIC --------------------------
     
     @Override
-    public SolrInputDocument process(Judgment item) throws Exception {
+    public SolrInputDocument process(JudgmentIndexingData item) throws Exception {
         SolrInputDocument doc = new SolrInputDocument();
         
         fillJudgmentFields(doc, item);
         
-        item.markAsIndexed();
-        judgmentRepository.save(item);
+        Judgment judgment = item.getJudgment();
+        judgment.markAsIndexed();
+        judgmentRepository.save(judgment);
         
         return doc;
     }
@@ -41,9 +42,11 @@ public class JudgmentIndexingProcessor implements ItemProcessor<Judgment, SolrIn
     
     //------------------------ PRIVATE --------------------------
     
-    private void fillJudgmentFields(SolrInputDocument doc, Judgment item) {
+    private void fillJudgmentFields(SolrInputDocument doc, JudgmentIndexingData item) {
+        Judgment judgment = item.getJudgment();
+        
         for (JudgmentIndexFieldsFiller indexFieldsFiller : judgmentIndexFieldsFillers) {
-            if (indexFieldsFiller.isApplicable(item.getCourtType())) {
+            if (indexFieldsFiller.isApplicable(judgment.getCourtType())) {
                 indexFieldsFiller.fillFields(doc, item);
                 return;
             }

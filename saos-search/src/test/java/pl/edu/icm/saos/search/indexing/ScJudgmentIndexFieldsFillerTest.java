@@ -109,9 +109,16 @@ public class ScJudgmentIndexFieldsFillerTest {
     @Test
     @UseDataProvider("scJudgmentsFieldData")
     public void fillFields(SupremeCourtJudgment givenJudgment, List<SolrInputField> expectedFields) {
-        SolrInputDocument doc = new SolrInputDocument();
-        scJudgmentIndexFieldsFiller.fillFields(doc, givenJudgment);
         
+        // given
+        SolrInputDocument doc = new SolrInputDocument();
+        JudgmentIndexingData indexingData = new JudgmentIndexingData();
+        indexingData.setJudgment(givenJudgment);
+        
+        // execute
+        scJudgmentIndexFieldsFiller.fillFields(doc, indexingData);
+        
+        // assert
         expectedFields.forEach(expectedField -> assertFieldValues(doc, expectedField));
     }
 }
