@@ -44,7 +44,7 @@ public class TestRawCcJudgmentsGenerator {
         
         ScriptUtils.executeSqlScript(dataSource.getConnection(), new EncodedResource(resource, "UTF-8"));
         assertTrue(rawSourceCcJudgmentRepository.count()>10);
-        entityManager.createQuery("update " + RawSourceCcJudgment.class.getName() + " set processingDate = null, processed = false, processingStatus = null, processingSkipReason = null").executeUpdate();
+        entityManager.createQuery("update " + RawSourceCcJudgment.class.getName() + " set processingDate = null, processed = false, processingSkipReason = null").executeUpdate();
         entityManager.flush();
         
     }

@@ -24,7 +24,6 @@ public class RawSourceCcJudgment extends RawSourceJudgment {
     
     private String caseNumber;
     private DateTime publicationDate;
-    private ImportProcessingStatus processingStatus;
     private ImportProcessingSkipReason processingSkipReason;
     private String textMetadata;
     private String textContent;
@@ -74,12 +73,6 @@ public class RawSourceCcJudgment extends RawSourceJudgment {
 
     
     @Enumerated(EnumType.STRING)
-    public ImportProcessingStatus getProcessingStatus() {
-        return processingStatus;
-    }
-
-    
-    @Enumerated(EnumType.STRING)
     public ImportProcessingSkipReason getProcessingSkipReason() {
         return processingSkipReason;
     }
@@ -90,21 +83,14 @@ public class RawSourceCcJudgment extends RawSourceJudgment {
    
     //------------------------ LOGIC --------------------------
     
-    public void markProcessingOk() {
+    @Override
+    public void markProcessed() {
+        super.markProcessed();
         setProcessingSkipReason(null);
-        updateProcessingStatus(ImportProcessingStatus.OK);
     }
     
     public void markProcessingSkipped(ImportProcessingSkipReason skipReason) {
         setProcessingSkipReason(skipReason);
-        updateProcessingStatus(ImportProcessingStatus.SKIPPED);
-    }
-    
-    
-    //------------------------ PRIVATE --------------------------
-    
-    private void updateProcessingStatus(ImportProcessingStatus processingStatus) {
-        setProcessingStatus(processingStatus);
         setProcessingDate(new DateTime());
     }
     
@@ -136,10 +122,6 @@ public class RawSourceCcJudgment extends RawSourceJudgment {
 
     public void setDataMd5(String dataMd5) {
         this.dataMd5 = dataMd5;
-    }
-
-    private void setProcessingStatus(ImportProcessingStatus processingStatus) {
-        this.processingStatus = processingStatus;
     }
     
    
@@ -188,7 +170,7 @@ public class RawSourceCcJudgment extends RawSourceJudgment {
         return "RawSourceCcJudgment [id=" + getId() + ", ver=" + getVer() + ", sourceId=" + getSourceId() + ", caseNumber="
                 + caseNumber + ", publicationDate=" + publicationDate
                 + ", processingDate=" + getProcessingDate() + ", processed="
-                + isProcessed() + ", processingStatus=" + processingStatus
+                + isProcessed()
                 + ", processingSkipReason=" + processingSkipReason + " , sourceUrl=" + sourceUrl
                 + ", contentSourceUrl=" + contentSourceUrl + ", dataMd5="
                 + dataMd5 

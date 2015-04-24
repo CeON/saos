@@ -20,7 +20,7 @@ public class CcjImportProcessSkipListener implements SkipListener<RawSourceCcJud
 
     private RawSourceCcJudgmentRepository rawJudgmentRepository;
     
-    private static Logger log = LoggerFactory.getLogger(CcjImportProcessStepExecutionListener.class);
+    private static Logger log = LoggerFactory.getLogger(CcjImportProcessSkipListener.class);
     
     
     @Override
