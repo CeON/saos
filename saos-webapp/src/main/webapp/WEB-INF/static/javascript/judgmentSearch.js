@@ -33,6 +33,7 @@ var jsInitInJudgmentSearch = function() {
     $('#search-form').validate({
         onkeyup: false,
         onclick: false,
+        ignore: "",
         rules: {
             dateFrom: {
                 dateFormat: true
@@ -43,6 +44,7 @@ var jsInitInJudgmentSearch = function() {
         },
         errorPlacement: function(error, element) {},
         highlight: function(element, errorClass, validClass) {
+            console.log("err");
             var id = "#" + $(element).attr("id") + "-error",
             $parent = $(element).parent(); 
             
@@ -54,6 +56,7 @@ var jsInitInJudgmentSearch = function() {
             $parent.parent().css({marginTop: "35px"});
         },
         unhighlight: function(element, errorClass, validClass) {
+            console.log("rmv-err");
             var id = "#" + $(element).attr("id") + "-error",
             $parent = $(element).parent(); 
             
@@ -76,6 +79,9 @@ var jsInitInJudgmentSearch = function() {
     			text = $this.val();
     		
     		$this.val(DateFormat.convert(text));
+    	})
+    	.change(function() {
+    	    $(this).valid();
     	});
     
     
@@ -184,6 +190,12 @@ var jsInitInJudgmentSearch = function() {
     infoFormSection({
         formSectionId: "#court-form-section",
         infoSectionId: "#court-info"
+    });
+    
+    infoFormSection({
+        formSectionId: "#date-form-section",
+        infoSectionId: "#date-info",
+        defaultInfoSectionText: "Data orzeczenia: <b>dowolna</b>"
     });
 	
 	
