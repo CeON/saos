@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.webapp.analysis.request;
 
+import pl.edu.icm.saos.webapp.common.search.CourtCriteria;
+
 
 /**
  * Judgment analysis chart global criteria
@@ -11,6 +13,8 @@ public class JudgmentGlobalFilter {
     
     private MonthYearRange judgmentDateRange;
     
+    private CourtCriteria courtCriteria = new CourtCriteria();
+
     
     //------------------------ GETTERS --------------------------
     
@@ -18,11 +22,21 @@ public class JudgmentGlobalFilter {
         return judgmentDateRange;
     }
 
+    public CourtCriteria getCourtCriteria() {
+        return courtCriteria;
+    }
+    
+
     
     //------------------------ SETTERS --------------------------
     
     public void setJudgmentDateRange(MonthYearRange judgmentDateRange) {
         this.judgmentDateRange = judgmentDateRange;
+    }
+
+
+    public void setCourtCriteria(CourtCriteria courtCriteria) {
+        this.courtCriteria = courtCriteria;
     }
     
     

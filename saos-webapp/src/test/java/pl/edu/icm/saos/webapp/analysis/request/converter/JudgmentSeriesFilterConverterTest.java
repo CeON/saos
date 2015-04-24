@@ -17,10 +17,12 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentGlobalFilter;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
 import pl.edu.icm.saos.webapp.analysis.request.MonthYearRange;
+import pl.edu.icm.saos.webapp.common.search.CourtCriteria;
 
 import com.google.common.collect.Lists;
 
@@ -124,7 +126,13 @@ public class JudgmentSeriesFilterConverterTest {
         assertEquals(filter.getPhrase(), criteria.getPhrase());
         assertEquals(startJudgmentDate, criteria.getStartJudgmentDate());
         assertEquals(endJudgmentDate, criteria.getEndJudgmentDate());
-
+        
+        CourtCriteria courtCriteria = globalFilter.getCourtCriteria();
+        assertEquals(courtCriteria.getCourtType(), criteria.getCourtType());
+        assertEquals(courtCriteria.getCcCourtId(), criteria.getCcCourtId());
+        assertEquals(courtCriteria.getCcCourtDivisionId(), criteria.getCcCourtDivisionId());
+        assertEquals(courtCriteria.getScCourtChamberId(), criteria.getScCourtChamberId());
+        assertEquals(courtCriteria.getScCourtChamberDivisionId(), criteria.getScCourtChamberDivisionId());
     }
 
     
@@ -142,6 +150,14 @@ public class JudgmentSeriesFilterConverterTest {
         monthYearRange.setEndYear(monthYearRange.getEndYear() + RandomUtils.nextInt(1, 20));
         monthYearRange.setEndMonth(RandomUtils.nextInt(1, 12));
         filter.setJudgmentDateRange(monthYearRange);
+        
+        CourtCriteria courtCriteria = filter.getCourtCriteria();
+        courtCriteria.setCourtType(CourtType.COMMON);
+        courtCriteria.setCcCourtId(10L);
+        courtCriteria.setCcCourtDivisionId(100L);
+        courtCriteria.setScCourtChamberId(1090L);
+        courtCriteria.setScCourtChamberDivisionId(109L);
+        
         return filter;
     }
 
