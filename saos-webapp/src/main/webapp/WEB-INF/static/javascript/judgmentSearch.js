@@ -33,6 +33,7 @@ var jsInitInJudgmentSearch = function() {
     $('#search-form').validate({
         onkeyup: false,
         onclick: false,
+        ignore: "",
         rules: {
             dateFrom: {
                 dateFormat: true
@@ -76,6 +77,9 @@ var jsInitInJudgmentSearch = function() {
     			text = $this.val();
     		
     		$this.val(DateFormat.convert(text));
+    	})
+    	.change(function() {
+    	    $(this).valid();
     	});
     
     
@@ -184,6 +188,12 @@ var jsInitInJudgmentSearch = function() {
     infoFormSection({
         formSectionId: "#court-form-section",
         infoSectionId: "#court-info"
+    });
+    
+    infoFormSection({
+        formSectionId: "#date-form-section",
+        infoSectionId: "#date-info",
+        defaultInfoSectionText: springMessage.contextDateAnyValue
     });
 	
 	

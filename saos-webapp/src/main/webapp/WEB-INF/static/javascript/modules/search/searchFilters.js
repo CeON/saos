@@ -117,9 +117,13 @@ var SearchFilters = (function(){
 									}
 									
 									selectFormType($selectFormType);
-									$searchFormField.find("option[value='" + filterValue + "']").attr('selected', 'selected');
+									
+									selectCourt($searchFormField, filterValue);
+									
 									$searchFormField.trigger("change");
-									submitForm();
+									
+									//send form after 500ms
+									setTimeout(submitForm, 500);
 								};
 							}
 						}())
@@ -151,6 +155,27 @@ var SearchFilters = (function(){
 		}
 	},
 	
+	
+	/*
+	 * Finds(by value) and selects options in <select>. If there is no select with
+	 * that value, add selected option with chosen value. 
+	 * 
+	 * @param $select - jquery object with <select> 
+	 * @param value
+	 */
+	selectCourt = function($select, value) {
+	    /* Search for option in the select
+         * If there is no option with that value, add one.
+         */
+        var $searchOption = $select.find("option[value='" + value + "']");
+        if ($searchOption.length !== 0) {
+            $searchOption.attr('selected', 'selected');
+        } else {
+            $select.prepend($("<option selected='selected' value='" + value + "' ></option>"));
+        }
+	    
+	},
+	
 	/* Division select. Selecting division as filter start the process of first selecting corresponding court and then selecting division.
 	 * Selecting divisions consist of getting list of all divisions that are under target court, finds selected division by name,
 	 * and acquire selected division id. After that clear division select tag from all options and add one option with selected division. 
@@ -172,14 +197,11 @@ var SearchFilters = (function(){
 				$thisButton.click(
 					(function() {
 						return function() {
-							var selectedCourt = $thisButton.parent().find(parentButton).attr(dataFilterValue).trim(),
-								selectedCourtId = "";
+							var selectedCourtId = $thisButton.parent().find(parentButton).attr(dataFilterValue).trim();
 								
 							selectFormType($selectFormType, false);
-							selectedCourtId = $(parentSearchField)
-												.find("option[value='" + selectedCourt + "']")
-												.attr('selected', 'selected')
-												.val();
+							
+							selectCourt($(parentSearchField), selectedCourtId);
 							
 							$(searchField)
 								.removeAttr("disabled")
@@ -202,7 +224,8 @@ var SearchFilters = (function(){
 									 $(searchField).prepend($("<option selected='selected' value='" + id + "' ></option>"));
 								 }
 								 
-								 submitForm();
+                                 //send form after 500ms
+                                 setTimeout(submitForm, 500);
 							 })
 							 .fail(function() {});
 						}
