@@ -180,11 +180,11 @@ function InfoFormSection(options) {
          var html = extractInfoFromFormSection();
          
          if (html !== "") {
-             $(options.infoSectionId).html((html));
+             $(options.infoSectionId).html(html);
          } else {
              
              if (options.defaultInfoSectionText !== undefined) {
-                 $(options.infoSectionId).html((options.defaultInfoSectionText));
+                 $(options.infoSectionId).html(options.defaultInfoSectionText);
              }
              
          }
