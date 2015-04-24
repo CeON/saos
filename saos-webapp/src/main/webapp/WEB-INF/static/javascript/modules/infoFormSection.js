@@ -9,6 +9,7 @@
  *  {
  *      formSectionId - id of form section 
  *      infoSectionId - id of info section
+ *      defaultInfoSectionText - not required - text displayed in info section when there is no selected fields
  *  }
  * 
  */
@@ -84,14 +85,25 @@ function InfoFormSection(options) {
      function extractInfoFromFormSection() {
          
          var $formSection = $(options.formSectionId),
-             html = "";
+             html = "",
+             comma = false;
+         
          
          $formSection.find("input:text, input:hidden, select").each(function() {
              var $this = $(this),
                  fieldDescription = $this.attr("data-field-desc") || "";
              
              
-             if ($this.is("input:radio")) {
+             /*
+              * Doeasn't check hidden input's that name starts with '_'.
+              */
+             if ($this.is("input:hidden") && $this.attr("name") !== undefined
+                 && $this.attr("name")[0] === "_") {
+                 return;
+             }
+             
+             
+             if ($this.is("input:radio") || $this.is("input:checkbox")) {
                  
                  var value = "",
                      id = $this.attr("id");
@@ -104,11 +116,27 @@ function InfoFormSection(options) {
                      value += $("label[for=" + id + "]").text();
                  }
                  
-                 html += addPhrase(value, fieldDescription, false);
+                 html += addPhrase(value, fieldDescription, comma);
+                 comma = true;
                  
+                   
              } else if ($this.is("input")) {
+                 var value = $this.val();
                  
-                 html += addPhrase($this.val(), fieldDescription, true);
+                 if (value === "" || $this.attr("name") === undefined) {
+                     return;
+                 }
+                 
+                 if ($this.attr("id") === "lawJournalEntryId") {
+             
+                     html += addPhrase($("#law-journal-navigation").find("> div > span").text(), fieldDescription, comma);
+                     comma = true;
+                 } else {
+                     html += addPhrase($this.val(), fieldDescription, comma);
+                     comma = true;
+                 }
+                 
+                 
                      
              } else if ($this.is("select")) {
                  
@@ -116,7 +144,9 @@ function InfoFormSection(options) {
                  
                  if ($optionSelected.index() > 0) {
                      
-                     html += addPhrase($optionSelected.text(), fieldDescription, true);
+                     html += addPhrase($optionSelected.text(), fieldDescription, comma);
+                     comma = true;
+                     
                  }
              }
              
@@ -130,7 +160,7 @@ function InfoFormSection(options) {
              var html = ""
              
              if (text !== "") {
-
+                 
                  if (separator) {
                      html += ", ";
                  }
@@ -147,7 +177,17 @@ function InfoFormSection(options) {
      }
      
      function updateInfoSection() {
-         $(options.infoSectionId).html(extractInfoFromFormSection());
+         var html = extractInfoFromFormSection();
+         
+         if (html !== "") {
+             $(options.infoSectionId).html(html);
+         } else {
+             
+             if (options.defaultInfoSectionText !== undefined) {
+                 $(options.infoSectionId).html(options.defaultInfoSectionText);
+             }
+             
+         }
      }
 }
 
