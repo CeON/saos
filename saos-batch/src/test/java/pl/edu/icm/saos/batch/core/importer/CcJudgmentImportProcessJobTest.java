@@ -436,7 +436,6 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     
     private void assertSkipped(long rJudgmentId, ImportProcessingSkipReason skipReason) {
         RawSourceCcJudgment rJudgment = rawCcJudgmentRepository.findOne(rJudgmentId);
-//        assertEquals(ImportProcessingStatus.SKIPPED, rJudgment.getProcessingStatus());
         assertEquals(skipReason, rJudgment.getProcessingSkipReason());
         assertEquals(false, rJudgment.isProcessed());
         assertNull(judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment.getSourceId()));
@@ -445,7 +444,6 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
     
     private void assertProcessedOk(long rJudgmentId) {
         RawSourceCcJudgment rJudgment = rawCcJudgmentRepository.findOne(rJudgmentId);
-//        assertEquals(ImportProcessingStatus.OK, rJudgment.getProcessingStatus());
         assertNull(rJudgment.getProcessingSkipReason());
         assertEquals(true, rJudgment.isProcessed());
         assertNotNull(judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment.getSourceId()));
