@@ -44,7 +44,6 @@ var jsInitInJudgmentSearch = function() {
         },
         errorPlacement: function(error, element) {},
         highlight: function(element, errorClass, validClass) {
-            console.log("err");
             var id = "#" + $(element).attr("id") + "-error",
             $parent = $(element).parent(); 
             
@@ -56,7 +55,6 @@ var jsInitInJudgmentSearch = function() {
             $parent.parent().css({marginTop: "35px"});
         },
         unhighlight: function(element, errorClass, validClass) {
-            console.log("rmv-err");
             var id = "#" + $(element).attr("id") + "-error",
             $parent = $(element).parent(); 
             
