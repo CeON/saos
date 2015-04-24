@@ -51,12 +51,21 @@ function InfoFormSection(options) {
      function initCloseFormSection() {
          
          var $formSection = $(options.formSectionId),
-             $setSection = $(options.infoSectionId);
+             $setSection = $(options.infoSectionId),
+             $datepicker = $("#ui-datepicker-div");
          
          $(document).mouseup(function(e) {
              
+             /*
+              * Doesn't close form section, when date field has not valid date format
+              */
+             if ($("#datepicker_from-error").css("display") === "block" || $("#datepicker_to-error").css("display") === "block") {
+                 return;
+             }
+             
              if (!$formSection.is(e.target) && !$setSection.is(e.target) // if the target of the click isn't the container...
-                     && $formSection.has(e.target).length === 0 && $setSection.has(e.target).length === 0) // ... nor a descendant of the container
+                     && $formSection.has(e.target).length === 0 && $setSection.has(e.target).length === 0 && // ... nor a descendant of the container
+                     !$datepicker.is(e.target) && $datepicker.has(e.target).length === 0) // ... nor a datepicker
              {
                  closeFormSection();
              }
@@ -123,10 +132,36 @@ function InfoFormSection(options) {
              } else if ($this.is("input")) {
                  var value = $this.val();
                  
+       
+                 /*
+                  * Date fields should be handled differently.
+                  */
+                 if ($this.attr("id") === "datepicker_to") {
+                     var dateFrom = $("#datepicker_from").val(),
+                         dateTo = $("#datepicker_to").val();
+                     
+                     
+                     if (dateFrom !== "" && dateTo !== "") {
+                         html += "<b>" + parseDate(dateFrom) + "</b> - <b>" + parseDate(dateTo) + "</b>";
+                     } else if (dateFrom !== "" && dateTo === "") { 
+                         html += springMessage.from + ": <b>" + parseDate(dateFrom) + "</b>";
+                     } else if (dateFrom === "" && dateTo !== "") { 
+                         html += springMessage.to + ": <b>" + parseDate(dateTo) + "</b>";
+                     }
+                     
+                     return;
+                     
+                     
+                 } else if ($this.attr("id") === "datepicker_from") {
+                     return;
+                 }
+                 
+                 
                  if (value === "" || $this.attr("name") === undefined) {
                      return;
                  }
                  
+
                  if ($this.attr("id") === "lawJournalEntryId") {
              
                      html += addPhrase($("#law-journal-navigation").find("> div > span").text(), fieldDescription, comma);
@@ -172,7 +207,11 @@ function InfoFormSection(options) {
          }
          
          function boldPhrase(phrase) {
-             return "<b>" + phrase + "</b>";
+             return "<b>" + phrase.trim() + "</b>";
+         }
+         
+         function parseDate(date) {
+             return moment(date, 'DD-MM-YYYY', true).locale('pl').format("LL");
          }
      }
      

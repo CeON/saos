@@ -42,11 +42,13 @@
            
     
 	    
+
 	    <div class="form-section-container" >
 	    
 	       <a id="judgment-info" class="form-section-open" href="" >
 	           <spring:message code="judgmentSearch.judgmentSection.defaultText" />
 		   </a>
+
 		    
 		    <div id="judgment-form-section" class="row form-section">
 		        

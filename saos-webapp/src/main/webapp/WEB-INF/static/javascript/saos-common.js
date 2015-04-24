@@ -195,6 +195,15 @@ function addSpacesEvery3Digits(nStr) {
 
 $(document).ready(function() {
 	
+    //configure locale language for moment
+    moment.locale(springMessage.lang, {
+        months : springMessage.months,
+        longDateFormat : {
+            LL : "D MMMM YYYY"
+        },
+    });
+    
+    
 	clearSubmitMade();
 	
 	$.blockUI.defaults.css = { border: 'none', 
