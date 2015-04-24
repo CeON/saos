@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentGlobalFilter;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
+import pl.edu.icm.saos.webapp.common.search.CourtCriteria;
 
 import com.google.common.base.Preconditions;
 
@@ -57,8 +58,29 @@ public class JudgmentSeriesFilterConverter {
 
         judgmentSeriesCriteria.setEndJudgmentDate(monthYearEndDateCalculator.calculateEndDate(globalFilter.getJudgmentDateRange().getEndYear(), globalFilter.getJudgmentDateRange().getEndMonth()));
         
+        convertCourtCriteria(globalFilter, judgmentSeriesCriteria);
+
         return judgmentSeriesCriteria;
         
+    }
+
+    
+    //------------------------ PRIVATE --------------------------
+
+    
+    private void convertCourtCriteria(JudgmentGlobalFilter globalFilter, JudgmentSeriesCriteria judgmentSeriesCriteria) {
+        
+        CourtCriteria courtCriteria = globalFilter.getCourtCriteria();
+        
+        judgmentSeriesCriteria.setCourtType(courtCriteria.getCourtType());
+        
+        judgmentSeriesCriteria.setCcCourtId(courtCriteria.getCcCourtId());
+        
+        judgmentSeriesCriteria.setCcCourtDivisionId(courtCriteria.getCcCourtDivisionId());
+
+        judgmentSeriesCriteria.setScCourtChamberId(courtCriteria.getScCourtChamberId());
+
+        judgmentSeriesCriteria.setScCourtChamberDivisionId(courtCriteria.getScCourtChamberDivisionId());
     }
 
     

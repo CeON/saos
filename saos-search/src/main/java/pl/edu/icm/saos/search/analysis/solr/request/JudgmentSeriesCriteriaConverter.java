@@ -26,8 +26,29 @@ public class JudgmentSeriesCriteriaConverter {
         
         judgmentCriteria.setJudgmentDateTo(judgmentSeriesCriteria.getEndJudgmentDate());
         
+        convertCourtCriteria(judgmentSeriesCriteria, judgmentCriteria);
+        
         return judgmentCriteria;
         
     }
     
+    
+    
+    
+    //------------------------ PRIVATE --------------------------
+
+    
+    private void convertCourtCriteria(JudgmentSeriesCriteria judgmentSeriesCriteria, JudgmentCriteria judgmentCriteria) {
+        
+        judgmentCriteria.setCourtType(judgmentSeriesCriteria.getCourtType());
+        
+        judgmentCriteria.setCcCourtId(judgmentSeriesCriteria.getCcCourtId());
+        
+        judgmentCriteria.setCcCourtDivisionId(judgmentSeriesCriteria.getCcCourtDivisionId());
+        
+        judgmentCriteria.setScCourtChamberId(judgmentSeriesCriteria.getScCourtChamberId());
+        
+        judgmentCriteria.setScCourtChamberDivisionId(judgmentSeriesCriteria.getScCourtChamberDivisionId());
+    }
+        
 }

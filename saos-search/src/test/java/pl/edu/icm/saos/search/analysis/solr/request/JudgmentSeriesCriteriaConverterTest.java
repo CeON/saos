@@ -37,6 +37,12 @@ public class JudgmentSeriesCriteriaConverterTest {
         assertEquals(judgmentSeriesCriteria.getPhrase(), judgmentCriteria.getAll());
         assertEquals(judgmentSeriesCriteria.getStartJudgmentDate(), judgmentCriteria.getJudgmentDateFrom());
         assertEquals(judgmentSeriesCriteria.getEndJudgmentDate(), judgmentCriteria.getJudgmentDateTo());
+        assertEquals(judgmentSeriesCriteria.getCourtType(), judgmentCriteria.getCourtType());
+        assertEquals(judgmentSeriesCriteria.getCcCourtId(), judgmentCriteria.getCcCourtId());
+        assertEquals(judgmentSeriesCriteria.getCcCourtDivisionId(), judgmentCriteria.getCcCourtDivisionId());
+        assertEquals(judgmentSeriesCriteria.getScCourtChamberId(), judgmentCriteria.getScCourtChamberId());
+        assertEquals(judgmentSeriesCriteria.getScCourtChamberDivisionId(), judgmentCriteria.getScCourtChamberDivisionId());
+        
     }
     
 }
