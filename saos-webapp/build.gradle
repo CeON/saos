@@ -22,6 +22,7 @@ dependencies {
     compile lib.'org.springframework.security:spring-security-web'
     compile lib.'org.springframework.security:spring-security-config'
     compile lib.'org.springframework.security:spring-security-taglibs'
+    compile lib.'org.springframework:spring-context-support'
     compile lib.'joda-time:joda-time-jsptags'
     compile lib.'org.springframework:spring-webmvc'
     compile lib.'org.springframework.hateoas'
