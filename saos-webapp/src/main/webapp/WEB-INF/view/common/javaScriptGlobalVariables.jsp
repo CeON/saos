@@ -10,6 +10,9 @@ var contextPath = '${pageContext.request.contextPath}',
 			judgmentSearchFormFieldKeywordsPlaceholder: '<spring:message code="judgmentSearch.formField.keywordsPlaceholder" />',
 			judgmentSearchFormFieldLawJournalChoseItem: '<spring:message code="judgmentSearch.formField.lawJournal.choseItem" />',
 			judgmentSearchFormFieldLawJournalNoItems: '<spring:message code="judgmentSearch.formField.lawJournal.noItems" />',
+			
+			contextDateAnyValue: '<spring:message code="context.date.fieldDescription" />: <b><spring:message code="context.date.anyValue" /></b>',
+			
 			to: '<spring:message code="to" />',
 			from: '<spring:message code="from" />',
 			

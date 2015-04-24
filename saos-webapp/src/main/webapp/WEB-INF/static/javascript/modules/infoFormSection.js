@@ -209,7 +209,7 @@ function InfoFormSection(options) {
          }
          
          function boldPhrase(phrase) {
-             return "<b>" + phrase + "</b>";
+             return "<b>" + phrase.trim() + "</b>";
          }
          
          function parseDate(date) {

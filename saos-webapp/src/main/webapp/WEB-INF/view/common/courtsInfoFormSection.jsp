@@ -88,7 +88,7 @@
 	                <option value=""><spring:message code="judgmentSearch.formField.chooseCcDivision" /></option>
 		        
 		            <c:forEach items="${commonCourtDivisions}" var="item" >
-		                <option value="${item.id}" <c:if test="${selectedItem == item.id}" >selected="selected"</c:if> >
+		                <option value="${item.id}" <c:if test="${judgmentCriteriaForm.commonCourtDivisionId == item.id}" >selected="selected"</c:if> >
 		                    <c:out value="${item.name}" />
 		                </option>
 		            </c:forEach>
@@ -135,6 +135,7 @@
         
     </div>
     
+    <%-- DATA FORM SECTION --%>
     <div id="date-form-section" class="row form-section">
         
         <spring:message code="judgmentSearch.formField.datePlaceholder" var="datePlaceholder" />

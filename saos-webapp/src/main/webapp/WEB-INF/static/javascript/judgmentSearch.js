@@ -195,7 +195,7 @@ var jsInitInJudgmentSearch = function() {
     infoFormSection({
         formSectionId: "#date-form-section",
         infoSectionId: "#date-info",
-        defaultInfoSectionText: "Data orzeczenia: <b>dowolna</b>"
+        defaultInfoSectionText: springMessage.contextDateAnyValue
     });
 	
 	
