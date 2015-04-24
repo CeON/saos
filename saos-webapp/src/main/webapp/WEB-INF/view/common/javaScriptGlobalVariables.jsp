@@ -10,7 +10,7 @@ var contextPath = '${pageContext.request.contextPath}',
 			judgmentSearchFormFieldKeywordsPlaceholder: '<spring:message code="judgmentSearch.formField.keywordsPlaceholder" />',
 			judgmentSearchFormFieldLawJournalChoseItem: '<spring:message code="judgmentSearch.formField.lawJournal.choseItem" />',
 			judgmentSearchFormFieldLawJournalNoItems: '<spring:message code="judgmentSearch.formField.lawJournal.noItems" />',
-			
+			judgmentSearchJudgmentSectionDefaultText: '<spring:message code="judgmentSearch.judgmentSection.defaultText" />',
 	};
 
 </script>
