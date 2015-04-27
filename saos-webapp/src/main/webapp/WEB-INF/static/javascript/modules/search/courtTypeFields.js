@@ -56,8 +56,6 @@ var CourtTypeFields = (function() {
             if (attr === "" || attr === courtType) {
                 $this.show();
                 
-                //Reset width of the common court keywords field
-                $("#input-search-keywords-cc").suggesterRefresh();
             } else {
                 $this.hide();
                 clearField($this);
