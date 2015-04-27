@@ -19,7 +19,6 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.batch.core.scope.context.ChunkContext;
 
 import pl.edu.icm.saos.common.json.JsonStringParser;
-import pl.edu.icm.saos.enrichment.reference.JudgmentReferenceRemover;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
@@ -58,8 +57,6 @@ public class JsonJudgmentImportProcessProcessorTest {
     
     @Mock private EnrichmentTagRepository enrichmentTagRepository;
     
-    @Mock private JudgmentReferenceRemover enrichmentTagReferenceRemover;
-    
     @Mock private JudgmentContentFileProcessor judgmentContentFileProcessor;
     
     
@@ -89,7 +86,6 @@ public class JsonJudgmentImportProcessProcessorTest {
         scjImportProcessProcessor.setJudgmentOverwriter(judgmentOverwriter);
         scjImportProcessProcessor.setRawSourceJudgmentRepository(rawSourceJudgmentRepository);
         scjImportProcessProcessor.setEnrichmentTagRepository(enrichmentTagRepository);
-        scjImportProcessProcessor.setEnrichmentTagReferenceRemover(enrichmentTagReferenceRemover);
         scjImportProcessProcessor.setJudgmentContentFileProcessor(judgmentContentFileProcessor);
         
         ChunkContext chunkContext = Mockito.mock(ChunkContext.class);
@@ -196,7 +192,6 @@ public class JsonJudgmentImportProcessProcessorTest {
         verify(judgmentOverwriter).overwriteJudgment(oldScJudgment, scJudgment, correctionList);
         
         verify(enrichmentTagRepository).deleteAllByJudgmentId(oldScJudgmentId);
-        verify(enrichmentTagReferenceRemover).removeReference(oldScJudgmentId);
         
         verify(judgmentContentFileProcessor).processJudgmentContentFile(contentFileTransactionContext, "contentFilename.zip", oldScJudgment, "/old/judgment/content/path.pdf");
         

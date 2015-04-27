@@ -6,7 +6,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static pl.edu.icm.saos.common.json.JsonNormalizer.normalizeJson;
 import static pl.edu.icm.saos.persistence.correction.model.ChangeOperation.UPDATE;
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.JUDGMENT_TYPE;
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
@@ -38,20 +37,17 @@ import pl.edu.icm.saos.importer.notapi.common.JsonImportDownloadReader;
 import pl.edu.icm.saos.importer.notapi.common.content.ContentDownloadStepExecutionListener;
 import pl.edu.icm.saos.importer.notapi.common.content.JudgmentContentFileProcessor;
 import pl.edu.icm.saos.importer.notapi.common.content.transaction.ContentFileTransactionContextFactory;
-import pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.content.JudgmentContentFileDeleter;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
-import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
@@ -259,11 +255,6 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         long scJudgmentb082Id = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "b082922617256d5b4092cf23864c8894").getId();
         
         testPersistenceObjectFactory.createEnrichmentTagsForJudgment(scJudgmentb082Id);
-        
-        long notExistingJudgmentId = Long.MAX_VALUE;
-        EnrichmentTag enrichmentTag = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(notExistingJudgmentId, EnrichmentTagTypes.REFERENCED_COURT_CASES,
-                normalizeJson("[{'caseNumber':'AAA','judgmentIds':[" + scJudgmentb082Id + "]}]")); // enrichment tag referencing scJudgmentb082
-        enrichmentTagRepository.save(enrichmentTag);
                 
         setImportDirs("import/supremeCourt/judgments/version2", "import/supremeCourt/judgments/content/version2");
         
@@ -306,8 +297,6 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         
         // enrichment tags for changed judgment should be removed
         assertEquals(0, enrichmentTagRepository.findAllByJudgmentId(scJudgmentb082Id).size());
-        // enrichment tags referencing changed judgment should be modified
-        assertEnrichmentTag(enrichmentTagRepository.findOne(enrichmentTag.getId()), normalizeJson("[{'caseNumber':'AAA','judgmentIds':[]}]"));
         
         
         
@@ -507,11 +496,6 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         List<SupremeCourtChamberDivision> scChamberDivisions = scChamberDivisionRepository.findAllByScChamberId(scChamber.getId());
         List<String> scChamber1DivisionNames = scChamberDivisions.stream().map(d->d.getName()).collect(Collectors.toList());
         assertThat(scChamber1DivisionNames, containsInAnyOrder(divisionNames));
-    }
-    
-    private void assertEnrichmentTag(EnrichmentTag enrichmentTag, String jsonValue) {
-        assertNotNull(enrichmentTag);
-        assertEquals(jsonValue, enrichmentTag.getValue());
     }
     
     private void setImportDirs(String importMetadataDir, String importContentDir) {
