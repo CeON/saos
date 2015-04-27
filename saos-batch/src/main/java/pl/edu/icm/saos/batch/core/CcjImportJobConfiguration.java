@@ -27,10 +27,9 @@ import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDownloadP
 import pl.edu.icm.saos.importer.commoncourt.judgment.download.CcjImportDownloadReader;
 import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentTextData;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessProcessor;
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessReader;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessSkipListener;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessSkipPolicy;
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.CcjImportProcessStepExecutionListener;
+import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
@@ -71,7 +70,7 @@ public class CcjImportJobConfiguration {
     // import process beans
     
     @Autowired
-    private CcjImportProcessReader ccjImportProcessReader;
+    private JudgmentImportProcessReader<RawSourceCcJudgment> ccjImportProcessReader;
     
     @Autowired
     private CcjImportProcessProcessor ccjImportProcessProcessor;
@@ -80,9 +79,6 @@ public class CcjImportJobConfiguration {
     public JudgmentImportProcessWriter<CommonCourtJudgment> ccjImportProcessWriter() {
         return new JudgmentImportProcessWriter<>();
     }
-    
-    @Autowired
-    private CcjImportProcessStepExecutionListener ccjImportProcessStepExecutionListener;
     
     @Autowired
     private CcjImportProcessSkipListener ccjImportProcessSkipListener;
@@ -130,7 +126,6 @@ public class CcjImportJobConfiguration {
                .reader(ccjImportProcessReader)
                .processor(ccjImportProcessProcessor)
                .writer(ccjImportProcessWriter())
-               .listener(ccjImportProcessStepExecutionListener)
                .transactionAttribute(new DefaultTransactionAttribute())
                .build();
            step.setTransactionAttribute(new DefaultTransactionAttribute());
