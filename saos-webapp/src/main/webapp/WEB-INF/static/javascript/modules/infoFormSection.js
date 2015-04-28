@@ -163,8 +163,13 @@ function InfoFormSection(options) {
                  
 
                  if ($this.attr("id") === "lawJournalEntryId") {
-             
-                     html += addPhrase($("#law-journal-navigation").find("> div > span").text(), fieldDescription, comma);
+                     var lawJournalText = $("#law-journal-navigation").find("> div > span").text();
+                     
+                     if (lawJournalText.length > 60) {
+                         lawJournalText = lawJournalText.substr(0, 60) + " ...";
+                     }
+                     
+                     html += addPhrase(lawJournalText, fieldDescription, comma);
                      comma = true;
                  } else {
                      html += addPhrase($this.val(), fieldDescription, comma);
