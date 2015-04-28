@@ -1,30 +1,29 @@
 /*
- * Module for showing/hiding form fields depending on court type.
+ * Module with operations on courtCriteriaForm, see: courtCriteriaFormSection.jsp
  * 
  * @author Łukasz Pawełczak
  * 
  */
-var CourtTypeFields = (function() {
+var CourtCriteriaForm = (function() {
     
     var scope = {},
     
-    FIELD_NAME = "courtType",
     ATTR_COURT_TYPE = "data-court-type",
     
     
     //------------------------ FUNCTIONS --------------------------
     
     getSelectedCourtType = function() {
-        return $("[name=" + FIELD_NAME + "]:checked").val();
+        return $("[id^=courtType_]:checked").val();
     },
     
     showSelectedFields = function() {
         refreshForm(getSelectedCourtType());
     },
     
-    assignChangeCourtTypeButtons = function() {
+    assignCourtTypeChangeButtons = function() {
         
-        $("[name=" + FIELD_NAME + "]").each(function() {
+        $("[id^=courtType_]").each(function() {
             var $item = $(this);
             
             //closure for storing courtType value
@@ -56,8 +55,6 @@ var CourtTypeFields = (function() {
             if (attr === "" || attr === courtType) {
                 $this.show();
                 
-                //Reset width of the common court keywords field
-                $("#input-search-keywords-cc").suggesterRefresh();
             } else {
                 $this.hide();
                 clearField($this);
@@ -86,10 +83,50 @@ var CourtTypeFields = (function() {
     };
     
     
+    function initCourtSelects() {
+        
+        $("#courtType_COMMON").one("click", function() {
+            
+            //inits common court select with options
+            addOptionsToSelect({
+                selectId: "#select-common-court",
+                url: contextPath + "/cc/courts/list"
+            });
+            
+        });
+            
+        $("#courtType_SUPREME").one("click", function() {
+        
+            //inits supreme chamber select with options
+            addOptionsToSelect({
+                selectId: "#select-supreme-chamber",
+                url: contextPath + "/sc/chambers/list"
+            });
+        
+        
+        });
+        
+        //Search form - init select court & division
+        CourtDivisionSelect.run({
+            fields: [{  court: "#select-common-court",
+                        divisionId: "#select-common-division",
+                        getDivisionUrl: function(id) {return contextPath + "/cc/courts/{id}/courtDivisions/list".replace("{id}", id); }
+                     },
+                     {  court: "#select-supreme-chamber",
+                        divisionId: "#select-supreme-chamber-division",
+                        getDivisionUrl: function(id) {return contextPath + "/sc/chambers/{id}/chamberDivisions/list".replace("{id}", id); }
+                    }]
+        });
+
+    }
+    
+    
+    
     scope.init = function() {
         
         showSelectedFields();
-        assignChangeCourtTypeButtons();
+        assignCourtTypeChangeButtons();
+        initCourtSelects();
     };
     
     return scope;

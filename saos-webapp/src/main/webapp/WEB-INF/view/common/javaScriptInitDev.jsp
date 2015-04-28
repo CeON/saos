@@ -34,7 +34,7 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/searchFilters.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/cleanUrlForm.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/selectLawJournalEntry.js"></script>
-<script type="text/javascript" src="${contextPath}/static/javascript/modules/search/courtTypeFields.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/modules/search/courtCriteriaForm.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/details/infoBox.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/suggester.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/dateFormat.js"></script>

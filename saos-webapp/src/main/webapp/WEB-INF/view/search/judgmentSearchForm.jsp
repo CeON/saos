@@ -26,8 +26,8 @@
 		</div>
 
 
-		<%-- Courts & Chambers info form selection --%>		
-		<%@ include file="../common/courtsInfoFormSection.jsp" %>
+		<%-- Global search criteria --%>		
+		<%@ include file="judgmentSearchGlobalContext.jsp" %>
 		
 			
 	    <div class="form-group">
@@ -43,7 +43,7 @@
 
 	    <div class="form-section-container" >
 	    
-	       <a id="judgment-info" class="form-section-open" href="" >
+	       <a id="judgment-info" class="info-section" href="" >
 	           <spring:message code="judgmentSearch.judgmentSection.defaultText" />
 		   </a>
 

@@ -83,8 +83,22 @@ var initAnalysisJs = function() {
         
         
         
-        initInfoFormSections('judgmentDateRangeInfoDiv', 'judgmentDateRangeSelectDiv', updateJudgmentDateRangeInfo);
-         
+        CourtCriteriaForm.init();
+        
+        infoFormSection({
+            formSectionId: "#court-form-section",
+            infoSectionId: "#court-info-section"
+        });
+
+        infoFormSection({
+            formSectionId: "#date-range-form-section",
+            infoSectionId: "#date-range-info-section",
+            defaultInfoSectionText: null,
+            extractInfoFromFormCustom: function() {return extractJudgmentDateRangeInfo();}
+            
+        });
+        
+        
         tieMonthYearRangeSelects("judgmentDateStartMonth", "judgmentDateStartYear", "judgmentDateEndMonth", "judgmentDateEndYear");
 
         initInputs();
@@ -141,16 +155,14 @@ var initAnalysisJs = function() {
     
     
     /**
-     * Updates the html content of the judgmentDateRangeInfoDiv with information from
-     * judgmentDateRangeSelectDiv inputs.
+     * Extracts information from judgmentDateRangeSelectDiv inputs.
      */
-    function updateJudgmentDateRangeInfo() {
-        var dateRangeHtml = '<b>' + $('#judgmentDateStartMonth option:selected').text() + ' ' +
+    function extractJudgmentDateRangeInfo() {
+        return '<b>' + $('#judgmentDateStartMonth option:selected').text() + ' ' +
                        $('#judgmentDateStartYear').val() + ' - ' +
                        $('#judgmentDateEndMonth option:selected').text() + ' ' +
                        $('#judgmentDateEndYear').val() + '</b>';
         
-        $('#judgmentDateRangeInfoDiv').html(dateRangeHtml);
     }
     
     /****************** REMOVAL OF PHRASE DIV **/
@@ -218,7 +230,7 @@ var initAnalysisJs = function() {
      */
     function initInputs() {
         
-        $("[id^=seriesSearchPhraseInput], #judgmentDateStartMonth, #judgmentDateStartYear, #judgmentDateEndMonth, #judgmentDateEndYear, #yaxisValueType").change(function() {
+        $(":text, radio, select").change(function() {
             generateCharts(true);
         });
         

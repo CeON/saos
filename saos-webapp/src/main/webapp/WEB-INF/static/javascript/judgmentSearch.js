@@ -106,24 +106,8 @@ var jsInitInJudgmentSearch = function() {
 	SearchCriteria.init();
 	SearchContext.init();
 	
-    $("#radio-court-common").one("click", function() {
-    
-        //inits common court select with options
-        addOptionsToSelect({
-            selectId: "#select-common-court",
-            url: contextPath + "/cc/courts/list"
-        });
-        
-    });
-        
-    $("#radio-court-supreme").one("click", function() {
-    
-        //inits supreme chamber select with options
-        addOptionsToSelect({
-            selectId: "#select-supreme-chamber",
-            url: contextPath + "/sc/chambers/list"
-        });
-    
+
+	$("#courtType_SUPREME").one("click", function() {
     
         //init sc judgment form select with options
         addOptionsToSelect({
@@ -134,18 +118,6 @@ var jsInitInJudgmentSearch = function() {
             }
         });
     });
-	
-	//Search form - init select court & division
-	CourtDivisionSelect.run({
-		fields: [{	court: "#select-common-court",
-					divisionId: "#select-common-division",
-					getDivisionUrl: function(id) {return contextPath + "/cc/courts/{id}/courtDivisions/list".replace("{id}", id); }
-				 },
-		         {	court: "#select-supreme-chamber",
-					divisionId: "#select-supreme-chamber-division",
-					getDivisionUrl: function(id) {return contextPath + "/sc/chambers/{id}/chamberDivisions/list".replace("{id}", id); }
-				}]
-	});
 	
 	
 	$("#search-settings").searchSettingsToolTip({
@@ -180,19 +152,17 @@ var jsInitInJudgmentSearch = function() {
 	});
 	
 	
-	
-    CourtTypeFields.init();
-	
-	
+	CourtCriteriaForm.init();
+    	
     /* Search form section: court type */
     infoFormSection({
         formSectionId: "#court-form-section",
-        infoSectionId: "#court-info"
+        infoSectionId: "#court-info-section"
     });
 
     infoFormSection({
         formSectionId: "#date-form-section",
-        infoSectionId: "#date-info",
+        infoSectionId: "#date-info-section",
         defaultInfoSectionText: springMessage.contextDateAnyValue
     });
     

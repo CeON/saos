@@ -10,6 +10,7 @@
  *      formSectionId - id of form section 
  *      infoSectionId - id of info section
  *      defaultInfoSectionText - not required - text displayed in info section when there is no selected fields
+ *      extractInfoFromFormCustom - function - if set then it is used for extracting info from form section
  *  }
  * 
  */
@@ -50,27 +51,33 @@ function InfoFormSection(options) {
       */ 
      function initCloseFormSection() {
          
-         var $formSection = $(options.formSectionId),
-             $setSection = $(options.infoSectionId),
-             $datepicker = $("#ui-datepicker-div");
+         $(document).on('mouseup', null, [options], closeFormSectionIfClickedOutside);
+
+     }
+     
+     /**
+      * Closes form section if the user clicked outside it
+      * e.data[0].formSectionId = the id of the form section prefixed with #
+      * e.data[1].infoSectionId = the id of the info section prefixed with #
+      */
+     function closeFormSectionIfClickedOutside(e) {
+
+         var $formSection = $(e.data[0].formSectionId),
+         $setSection = $(e.data[0].infoSectionId),
+         $datepicker = $("#ui-datepicker-div");
+     
+     
+         if ($("#datepicker_from-error").css("display") === "block" || $("#datepicker_to-error").css("display") === "block") {
+             return;
+         }
+                  
+         if (!$formSection.is(e.target) && !$setSection.is(e.target) // if the target of the click isn't the container...
+                 && $formSection.has(e.target).length === 0 && $setSection.has(e.target).length === 0 && // ... nor a descendant of the container
+                 !$datepicker.is(e.target) && $datepicker.has(e.target).length === 0) // ... nor a datepicker
+         {
+             closeFormSection();
+         }
          
-         $(document).mouseup(function(e) {
-             
-             /*
-              * Doesn't close form section, when date field has not valid date format
-              */
-             if ($("#datepicker_from-error").css("display") === "block" || $("#datepicker_to-error").css("display") === "block") {
-                 return;
-             }
-             
-             if (!$formSection.is(e.target) && !$setSection.is(e.target) // if the target of the click isn't the container...
-                     && $formSection.has(e.target).length === 0 && $setSection.has(e.target).length === 0 && // ... nor a descendant of the container
-                     !$datepicker.is(e.target) && $datepicker.has(e.target).length === 0) // ... nor a datepicker
-             {
-                 closeFormSection();
-             }
-             
-         });
      }
      
      /*
@@ -216,7 +223,13 @@ function InfoFormSection(options) {
      }
      
      function updateInfoSection() {
-         var html = extractInfoFromFormSection();
+         var html = "";
+         
+         if (options.extractInfoFromFormCustom !== undefined) {
+             html = options.extractInfoFromFormCustom();
+         } else {
+             html = extractInfoFromFormSection();
+         }
          
          if (html !== "") {
              $(options.infoSectionId).html(html);

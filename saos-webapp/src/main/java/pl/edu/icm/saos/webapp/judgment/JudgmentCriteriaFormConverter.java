@@ -4,6 +4,7 @@ package pl.edu.icm.saos.webapp.judgment;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.webapp.common.search.CourtCriteria;
 
 import com.google.common.collect.Lists;
 
@@ -26,18 +27,21 @@ public class JudgmentCriteriaFormConverter {
 		judgmentCriteria.setJudgmentDateTo(judgmentCriteriaForm.getDateTo());
 				
 		judgmentCriteria.setJudgeName(judgmentCriteriaForm.getJudgeName());
-		judgmentCriteria.setCourtType(judgmentCriteriaForm.getCourtType());
+		
+		CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
+		
+		judgmentCriteria.setCourtType(courtCriteria.getCourtType());
 
-	    judgmentCriteria.setCcCourtId(judgmentCriteriaForm.getCommonCourtId());
-	    judgmentCriteria.setCcCourtDivisionId(judgmentCriteriaForm.getCommonCourtDivisionId());
+	    judgmentCriteria.setCcCourtId(courtCriteria.getCcCourtId());
+	    judgmentCriteria.setCcCourtDivisionId(courtCriteria.getCcCourtDivisionId());
 		
 		judgmentCriteria.setScJudgmentForm(judgmentCriteriaForm.getScJudgmentForm());
 
     	judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
 	    
 	    judgmentCriteria.setScPersonnelType(judgmentCriteriaForm.getScPersonnelType());
-	    judgmentCriteria.setScCourtChamberId(judgmentCriteriaForm.getSupremeChamberId());
-	    judgmentCriteria.setScCourtChamberDivisionId(judgmentCriteriaForm.getSupremeChamberDivisionId());
+	    judgmentCriteria.setScCourtChamberId(courtCriteria.getScCourtChamberId());
+	    judgmentCriteria.setScCourtChamberDivisionId(courtCriteria.getScCourtChamberDivisionId());
 	    
 	    judgmentCriteria.setCtDissentingOpinion(judgmentCriteriaForm.getCtDissentingOpinion());
 	    
