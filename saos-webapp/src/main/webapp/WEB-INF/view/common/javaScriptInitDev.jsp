@@ -6,7 +6,6 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.blockUI.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.clipboard/jquery.clipboard.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.pseudo.js"></script>
-<script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.sticky.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.validate.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.visible.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.wrapInTag.js"></script>
@@ -37,7 +36,6 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/selectLawJournalEntry.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/search/courtTypeFields.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/details/infoBox.js"></script>
-<script type="text/javascript" src="${contextPath}/static/javascript/modules/filterBox.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/suggester.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/dateFormat.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/cookiePolicy.js"></script>

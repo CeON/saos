@@ -212,17 +212,6 @@ var jsInitInJudgmentSearch = function() {
     });
 	
 	
-	$("#filter-box").filterBox({
-		removeAllButton: "#clearAllFilters",
-		noFiltersMessage: "#no-filters",
-		filterField: ".filter-item",
-		resultList: "#judgment-list",
-		buttonHide: "#filter-hide",
-		stickyOptions: {enabled: true, topSpacing: 10},
-		settingsButton: {className: "filter-box-button"},
-	});
-	
-	
 	/* Search form view.
 	 * Autocompletion added to search field CommonCourtKeywords.
 	 */
