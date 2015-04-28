@@ -7,7 +7,7 @@ SET client_min_messages = warning;
 SET search_path = importer, pg_catalog;
 
 
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (12420, '2014-07-14 08:14:42.218', 22, 'II Ca 2026/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152010000001003_II_Ca_002026_2013_Uz_2014-02-27_002', 'b51fa0dbffa3bac0feef28fe947c2964', false, '2014-08-12 11:00:02.836', '2014-05-01 16:15:08', '152010000001003_II_Ca_002026_2013_Uz_2014-02-27_002', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152010000001003_II_Ca_002026_2013_Uz_2014-02-27_002', '<p>Sygnatura akt II Ca 2026/13</p>
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (12420, '2014-07-14 08:14:42.218', 22, 'II Ca 2026/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152010000001003_II_Ca_002026_2013_Uz_2014-02-27_002', 'b51fa0dbffa3bac0feef28fe947c2964', false, '2014-08-12 11:00:02.836', '2014-05-01 16:15:08', '152010000001003_II_Ca_002026_2013_Uz_2014-02-27_002', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152010000001003_II_Ca_002026_2013_Uz_2014-02-27_002', '<p>Sygnatura akt II Ca 2026/13</p>
     
     <div>
       <h2>WYROK</h2>
@@ -149,9 +149,9 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Paulina Florkowska</reviser>
    <publisher>Gabriela Wolak</publisher>
    <dateOfPublication>2014-05-01 18:15:08.0 CEST</dateOfPublication>
-</judgement>', null, null);
+</judgement>', null);
 
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (12906, '2014-07-14 08:17:27.729', 10, 'II Cz 517/14', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=155515000001003_II_Cz_000517_2014_Uz_2014-04-25_001', 'a192a64d19a72ca31fb4dbf40e8c8cc5', false, '2014-08-12 10:57:02.706', '2014-05-08 16:15:06', '155515000001003_II_Cz_000517_2014_Uz_2014-04-25_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=155515000001003_II_Cz_000517_2014_Uz_2014-04-25_001', '<p> 
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (12906, '2014-07-14 08:17:27.729', 10, 'II Cz 517/14', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=155515000001003_II_Cz_000517_2014_Uz_2014-04-25_001', 'a192a64d19a72ca31fb4dbf40e8c8cc5', false, '2014-08-12 10:57:02.706', '2014-05-08 16:15:06', '155515000001003_II_Cz_000517_2014_Uz_2014-04-25_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=155515000001003_II_Cz_000517_2014_Uz_2014-04-25_001', '<p> 
         <strong>
 <!-- -->Sygn. akt II Cz 517/14 </strong>
 </p>
@@ -242,8 +242,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Mariola Baran</reviser>
    <publisher>Grażyna Magryta-Gołaszewska</publisher>
    <dateOfPublication>2014-05-08 18:15:06.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (17602, '2014-07-14 09:26:17.254', 10, 'X GC 842/12', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152510000005027_X_GC_000842_2012_Uz_2014-04-29_001', '8b5a6e4ccef3465fc9c723f086f7e874', false, '2014-08-12 10:57:03.58', '2014-05-09 16:15:16', '152510000005027_X_GC_000842_2012_Uz_2014-04-29_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152510000005027_X_GC_000842_2012_Uz_2014-04-29_001', '<p>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (17602, '2014-07-14 09:26:17.254', 10, 'X GC 842/12', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152510000005027_X_GC_000842_2012_Uz_2014-04-29_001', '8b5a6e4ccef3465fc9c723f086f7e874', false, '2014-08-12 10:57:03.58', '2014-05-09 16:15:16', '152510000005027_X_GC_000842_2012_Uz_2014-04-29_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152510000005027_X_GC_000842_2012_Uz_2014-04-29_001', '<p>
 <strong>
 <!-- -->Sygn. akt X GC 842/12</strong>
 </p>
@@ -365,8 +365,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Anna Parteka</reviser>
    <publisher>Anna Parteka</publisher>
    <dateOfPublication>2014-05-09 18:15:16.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (12361, '2014-07-14 08:14:13.609', 10, 'II Ca 166/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000001003_II_Ca_000166_2013_Uz_2013-11-12_001', 'd0405e96c908f95fc07724b91c433796', false, '2014-08-12 10:57:03.598', '2014-05-09 16:15:17', '151005000001003_II_Ca_000166_2013_Uz_2013-11-12_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000001003_II_Ca_000166_2013_Uz_2013-11-12_001', '<p>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (12361, '2014-07-14 08:14:13.609', 10, 'II Ca 166/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000001003_II_Ca_000166_2013_Uz_2013-11-12_001', 'd0405e96c908f95fc07724b91c433796', false, '2014-08-12 10:57:03.598', '2014-05-09 16:15:17', '151005000001003_II_Ca_000166_2013_Uz_2013-11-12_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000001003_II_Ca_000166_2013_Uz_2013-11-12_001', '<p>
 <strong>
 <!-- -->Sygn. akt II Ca 166/13</strong>
 </p>
@@ -595,8 +595,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Urszula Wiśniak</reviser>
    <publisher>Wanda Ślużyńska</publisher>
    <dateOfPublication>2014-05-09 18:15:17.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (12374, '2014-07-14 08:14:18.658', 10, 'II Ca 174/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000001003_II_Ca_000174_2013_Uz_2013-10-10_001', 'd69da7584d2d5488aded305c90f678dc', false, '2014-08-12 10:57:03.605', '2014-05-09 16:15:17', '151005000001003_II_Ca_000174_2013_Uz_2013-10-10_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000001003_II_Ca_000174_2013_Uz_2013-10-10_001', '<p>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (12374, '2014-07-14 08:14:18.658', 10, 'II Ca 174/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000001003_II_Ca_000174_2013_Uz_2013-10-10_001', 'd69da7584d2d5488aded305c90f678dc', false, '2014-08-12 10:57:03.605', '2014-05-09 16:15:17', '151005000001003_II_Ca_000174_2013_Uz_2013-10-10_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000001003_II_Ca_000174_2013_Uz_2013-10-10_001', '<p>
 <strong>
 <!-- -->Sygn. akt II Ca 174/13</strong>
 </p>
@@ -806,8 +806,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Tomasz Rapacewicz</reviser>
    <publisher>Wanda Ślużyńska</publisher>
    <dateOfPublication>2014-05-09 18:15:17.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (12552, '2014-07-14 08:15:30.132', 10, 'II Ca 380/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000001003_II_Ca_000380_2013_Uz_2013-12-19_001', 'c190861615e5873a186e9a4a39dd7860', false, '2014-08-12 10:57:03.612', '2014-05-09 16:15:17', '151005000001003_II_Ca_000380_2013_Uz_2013-12-19_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000001003_II_Ca_000380_2013_Uz_2013-12-19_001', '<p>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (12552, '2014-07-14 08:15:30.132', 10, 'II Ca 380/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000001003_II_Ca_000380_2013_Uz_2013-12-19_001', 'c190861615e5873a186e9a4a39dd7860', false, '2014-08-12 10:57:03.612', '2014-05-09 16:15:17', '151005000001003_II_Ca_000380_2013_Uz_2013-12-19_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000001003_II_Ca_000380_2013_Uz_2013-12-19_001', '<p>
 <strong>
 <!-- -->Sygn. akt II Ca 380/13</strong>
 </p>
@@ -1044,8 +1044,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Urszula Wiśniak</reviser>
    <publisher>Wanda Ślużyńska</publisher>
    <dateOfPublication>2014-05-09 18:15:17.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (12630, '2014-07-14 08:15:58.68', 10, 'II Ca 707/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000001003_II_Ca_000707_2013_Uz_2014-01-31_002', 'f6bcc70cb5a43501a1108b889af9f688', false, '2014-08-12 10:57:03.643', '2014-05-09 16:15:17', '151005000001003_II_Ca_000707_2013_Uz_2014-01-31_002', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000001003_II_Ca_000707_2013_Uz_2014-01-31_002', '<p>Sygn. akt II Ca 707/13</p>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (12630, '2014-07-14 08:15:58.68', 10, 'II Ca 707/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000001003_II_Ca_000707_2013_Uz_2014-01-31_002', 'f6bcc70cb5a43501a1108b889af9f688', false, '2014-08-12 10:57:03.643', '2014-05-09 16:15:17', '151005000001003_II_Ca_000707_2013_Uz_2014-01-31_002', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000001003_II_Ca_000707_2013_Uz_2014-01-31_002', '<p>Sygn. akt II Ca 707/13</p>
     
     <table>
       <colgroup>
@@ -1252,8 +1252,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Urszula Wiśniak</reviser>
    <publisher>Wanda Ślużyńska</publisher>
    <dateOfPublication>2014-05-09 18:15:17.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (12632, '2014-07-14 08:15:58.687', 10, 'II Ca 72/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000001003_II_Ca_000072_2013_Uz_2013-11-13_001', '2b2494f8f132c7ad47f72d9e207c5870', false, '2014-08-12 10:57:03.656', '2014-05-09 16:15:17', '151005000001003_II_Ca_000072_2013_Uz_2013-11-13_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000001003_II_Ca_000072_2013_Uz_2013-11-13_001', '<p>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (12632, '2014-07-14 08:15:58.687', 10, 'II Ca 72/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000001003_II_Ca_000072_2013_Uz_2013-11-13_001', '2b2494f8f132c7ad47f72d9e207c5870', false, '2014-08-12 10:57:03.656', '2014-05-09 16:15:17', '151005000001003_II_Ca_000072_2013_Uz_2013-11-13_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000001003_II_Ca_000072_2013_Uz_2013-11-13_001', '<p>
 <strong>
 <!-- -->Sygn. akt II Ca 72/13</strong>
 </p>
@@ -1502,8 +1502,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Urszula Wiśniak</reviser>
    <publisher>Wanda Ślużyńska</publisher>
    <dateOfPublication>2014-05-09 18:15:17.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (15979, '2014-07-14 09:16:30.889', 10, 'V RC 99/14', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=154510250002512_V_RC_000099_2014_Uz_2014-04-01_001', '4f169717834788f89b44d0c57acf71d6', false, '2014-08-12 10:57:03.698', '2014-05-12 16:15:05', '154510250002512_V_RC_000099_2014_Uz_2014-04-01_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=154510250002512_V_RC_000099_2014_Uz_2014-04-01_001', '<p>Sygn. akt. V RC 99/14</p>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (15979, '2014-07-14 09:16:30.889', 10, 'V RC 99/14', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=154510250002512_V_RC_000099_2014_Uz_2014-04-01_001', '4f169717834788f89b44d0c57acf71d6', false, '2014-08-12 10:57:03.698', '2014-05-12 16:15:05', '154510250002512_V_RC_000099_2014_Uz_2014-04-01_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=154510250002512_V_RC_000099_2014_Uz_2014-04-01_001', '<p>Sygn. akt. V RC 99/14</p>
     
     <p>
       <strong>
@@ -1571,8 +1571,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Katarzyna Głodkiewicz</reviser>
    <publisher>Katarzyna Głodkiewicz</publisher>
    <dateOfPublication>2014-05-12 18:15:05.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (14430, '2014-07-14 08:26:34.213', 23, 'III K 198/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=150505000001506_III_K_000198_2013_Uz_2014-04-15_002', '15957c937768517e99dee9f90b7e31a9', false, '2014-08-12 11:00:13.728', '2014-05-05 16:15:14', '150505000001506_III_K_000198_2013_Uz_2014-04-15_002', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=150505000001506_III_K_000198_2013_Uz_2014-04-15_002', '<p>Sygn. akt III K 198/13</p>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (14430, '2014-07-14 08:26:34.213', 23, 'III K 198/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=150505000001506_III_K_000198_2013_Uz_2014-04-15_002', '15957c937768517e99dee9f90b7e31a9', false, '2014-08-12 11:00:13.728', '2014-05-05 16:15:14', '150505000001506_III_K_000198_2013_Uz_2014-04-15_002', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=150505000001506_III_K_000198_2013_Uz_2014-04-15_002', '<p>Sygn. akt III K 198/13</p>
     
     <div>
       <h2>WYROK ŁĄCZNY</h2>
@@ -1739,9 +1739,9 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Justyna Szmurło</reviser>
    <publisher>Andrzej Wiszowaty</publisher>
    <dateOfPublication>2014-05-05 18:15:14.0 CEST</dateOfPublication>
-</judgement>', null, null);
+</judgement>', null);
 
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (10657, '2014-07-14 08:03:03.058', 18, 'I ACa 499/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151000000000503_I_ACa_000499_2013_Uz_2013-11-07_001', '009428320952f4eef935bc19ee7db735', false, '2014-08-12 11:00:13.937', '2014-05-06 16:15:04', '151000000000503_I_ACa_000499_2013_Uz_2013-11-07_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151000000000503_I_ACa_000499_2013_Uz_2013-11-07_001', '<p>Sygn. akt I ACa 499/13</p>
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (10657, '2014-07-14 08:03:03.058', 18, 'I ACa 499/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151000000000503_I_ACa_000499_2013_Uz_2013-11-07_001', '009428320952f4eef935bc19ee7db735', false, '2014-08-12 11:00:13.937', '2014-05-06 16:15:04', '151000000000503_I_ACa_000499_2013_Uz_2013-11-07_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151000000000503_I_ACa_000499_2013_Uz_2013-11-07_001', '<p>Sygn. akt I ACa 499/13</p>
     
     <div>
       <h2>POSTANOWIENIE</h2>
@@ -1858,13 +1858,13 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Karolina Najda</reviser>
    <publisher>Karolina Najda</publisher>
    <dateOfPublication>2014-05-06 18:15:04.0 CEST</dateOfPublication>
-</judgement>', null, null);
+</judgement>', null);
 
 
 
 
 
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (17206, '2014-07-14 09:23:46.369', 11, 'VIII Ga 223/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000004027_VIII_Ga_000223_2013_Uz_2014-03-31_001', 'e6e4b718936ea791660cb683f176b5d3', false, '2014-08-12 10:57:05.421', '2014-05-14 16:15:05', '151005000004027_VIII_Ga_000223_2013_Uz_2014-03-31_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000004027_VIII_Ga_000223_2013_Uz_2014-03-31_001', '<table>
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (17206, '2014-07-14 09:23:46.369', 11, 'VIII Ga 223/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000004027_VIII_Ga_000223_2013_Uz_2014-03-31_001', 'e6e4b718936ea791660cb683f176b5d3', false, '2014-08-12 10:57:05.421', '2014-05-14 16:15:05', '151005000004027_VIII_Ga_000223_2013_Uz_2014-03-31_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000004027_VIII_Ga_000223_2013_Uz_2014-03-31_001', '<table>
       <colgroup>
         <col width="361"/>
       </colgroup>
@@ -2067,8 +2067,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Bożena Przewoźniak</reviser>
    <publisher>Bożena Przewoźniak</publisher>
    <dateOfPublication>2014-05-14 18:15:05.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (12197, '2014-07-14 08:13:00.129', 7, 'II C 1798/11', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152510000001003_II_C_001798_2011_Uz_2014-03-25_001', 'a210355eb71e12f462b7abcff4407995', false, '2014-08-12 10:57:08.802', '2014-06-10 18:05:53', '152510000001003_II_C_001798_2011_Uz_2014-03-25_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152510000001003_II_C_001798_2011_Uz_2014-03-25_001', '<p> 
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (12197, '2014-07-14 08:13:00.129', 7, 'II C 1798/11', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152510000001003_II_C_001798_2011_Uz_2014-03-25_001', 'a210355eb71e12f462b7abcff4407995', false, '2014-08-12 10:57:08.802', '2014-06-10 18:05:53', '152510000001003_II_C_001798_2011_Uz_2014-03-25_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152510000001003_II_C_001798_2011_Uz_2014-03-25_001', '<p> 
         Sygn. akt II C 1798/11</p>
       
         <p/>
@@ -2209,8 +2209,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Sylwia Nowakowska</reviser>
    <publisher>Sylwia Nowakowska</publisher>
    <dateOfPublication>2014-06-10 20:05:53.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (15973, '2014-07-14 09:16:30.877', 8, 'V RC 731/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=154510250002512_V_RC_000731_2013_Uz_2014-03-27_001', '22faab594ddf3a037e924eb92f7823cd', false, '2014-08-12 10:57:06.289', '2014-05-15 16:15:07', '154510250002512_V_RC_000731_2013_Uz_2014-03-27_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=154510250002512_V_RC_000731_2013_Uz_2014-03-27_001', '<p>Sygn. akt. V RC 731/13</p>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (15973, '2014-07-14 09:16:30.877', 8, 'V RC 731/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=154510250002512_V_RC_000731_2013_Uz_2014-03-27_001', '22faab594ddf3a037e924eb92f7823cd', false, '2014-08-12 10:57:06.289', '2014-05-15 16:15:07', '154510250002512_V_RC_000731_2013_Uz_2014-03-27_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=154510250002512_V_RC_000731_2013_Uz_2014-03-27_001', '<p>Sygn. akt. V RC 731/13</p>
     
     <p>
       <strong>
@@ -2258,8 +2258,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Katarzyna Głodkiewicz</reviser>
    <publisher>Katarzyna Głodkiewicz</publisher>
    <dateOfPublication>2014-05-15 18:15:07.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (13588, '2014-07-14 08:21:37.471', 8, 'III AUa 1508/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=154000000001521_III_AUa_001508_2013_Uz_2014-04-24_002', '406d42f134a070955f026153433d6c3d', false, '2014-08-12 10:57:06.322', '2014-05-19 16:15:07', '154000000001521_III_AUa_001508_2013_Uz_2014-04-24_002', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=154000000001521_III_AUa_001508_2013_Uz_2014-04-24_002', '<p>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (13588, '2014-07-14 08:21:37.471', 8, 'III AUa 1508/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=154000000001521_III_AUa_001508_2013_Uz_2014-04-24_002', '406d42f134a070955f026153433d6c3d', false, '2014-08-12 10:57:06.322', '2014-05-19 16:15:07', '154000000001521_III_AUa_001508_2013_Uz_2014-04-24_002', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=154000000001521_III_AUa_001508_2013_Uz_2014-04-24_002', '<p>
 <strong>
 <!-- -->Sygn. akt III AUa 1508/13 </strong>
 </p>
@@ -2321,8 +2321,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Maria Domaradzka</reviser>
    <publisher>Maria Domaradzka</publisher>
    <dateOfPublication>2014-05-19 18:15:07.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (17184, '2014-07-14 09:23:41.047', 8, 'VIII Ga 163/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000004027_VIII_Ga_000163_2013_Uz_2014-03-21_001', '681434115596da11121401302a808e3f', false, '2014-08-12 10:57:06.33', '2014-05-19 16:15:07', '151005000004027_VIII_Ga_000163_2013_Uz_2014-03-21_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000004027_VIII_Ga_000163_2013_Uz_2014-03-21_001', '<table>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (17184, '2014-07-14 09:23:41.047', 8, 'VIII Ga 163/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000004027_VIII_Ga_000163_2013_Uz_2014-03-21_001', '681434115596da11121401302a808e3f', false, '2014-08-12 10:57:06.33', '2014-05-19 16:15:07', '151005000004027_VIII_Ga_000163_2013_Uz_2014-03-21_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000004027_VIII_Ga_000163_2013_Uz_2014-03-21_001', '<table>
       <colgroup>
         <col width="111"/>
         <col width="250"/>
@@ -2571,8 +2571,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Bożena Przewoźniak</reviser>
    <publisher>Bożena Przewoźniak</publisher>
    <dateOfPublication>2014-05-19 18:15:07.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (17259, '2014-07-14 09:24:02.977', 8, 'VIII GC 244/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000004027_VIII_GC_000244_2013_Uz_2014-03-10_001', '878094865d78fc45ac3392a753780356', false, '2014-08-12 10:57:06.348', '2014-05-20 16:15:07', '151005000004027_VIII_GC_000244_2013_Uz_2014-03-10_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000004027_VIII_GC_000244_2013_Uz_2014-03-10_001', '<table>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (17259, '2014-07-14 09:24:02.977', 8, 'VIII GC 244/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151005000004027_VIII_GC_000244_2013_Uz_2014-03-10_001', '878094865d78fc45ac3392a753780356', false, '2014-08-12 10:57:06.348', '2014-05-20 16:15:07', '151005000004027_VIII_GC_000244_2013_Uz_2014-03-10_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151005000004027_VIII_GC_000244_2013_Uz_2014-03-10_001', '<table>
       <colgroup>
         <col width="361"/>
       </colgroup>
@@ -2736,8 +2736,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Grażyna Drzycimska</reviser>
    <publisher>Grażyna Drzycimska</publisher>
    <dateOfPublication>2014-05-20 18:15:07.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (14161, '2014-07-14 08:24:54.92', 9, 'III Ca 1461/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152510000001503_III_Ca_001461_2013_Uz_2014-04-07_001', 'c0aa47cfdcdd7d341a0d36606d06ab5f', false, '2014-08-12 10:57:07.12', '2014-05-21 16:15:06', '152510000001503_III_Ca_001461_2013_Uz_2014-04-07_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152510000001503_III_Ca_001461_2013_Uz_2014-04-07_001', '<p>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (14161, '2014-07-14 08:24:54.92', 9, 'III Ca 1461/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152510000001503_III_Ca_001461_2013_Uz_2014-04-07_001', 'c0aa47cfdcdd7d341a0d36606d06ab5f', false, '2014-08-12 10:57:07.12', '2014-05-21 16:15:06', '152510000001503_III_Ca_001461_2013_Uz_2014-04-07_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152510000001503_III_Ca_001461_2013_Uz_2014-04-07_001', '<p>
 <strong>
 <!-- -->Sygn. akt III Ca 1461/13 </strong>
 </p>
@@ -2800,8 +2800,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Sabina Szwed</reviser>
    <publisher>Sabina Szwed</publisher>
    <dateOfPublication>2014-05-21 18:15:06.0 CEST</dateOfPublication>
-</judgement>', null, null);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (9435, '2014-06-30 12:27:11.934', 14, 'X GC 1034/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152510000005027_X_GC_001034_2013_Uz_2014-06-12_001', '88569d2d22386950fc292da0ec1d91f4', false, '2014-08-12 09:55:28.894', '2014-06-24 16:15:06', '152510000005027_X_GC_001034_2013_Uz_2014-06-12_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152510000005027_X_GC_001034_2013_Uz_2014-06-12_001', '<div>
+</judgement>', null);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (9435, '2014-06-30 12:27:11.934', 14, 'X GC 1034/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152510000005027_X_GC_001034_2013_Uz_2014-06-12_001', '88569d2d22386950fc292da0ec1d91f4', false, '2014-08-12 09:55:28.894', '2014-06-24 16:15:06', '152510000005027_X_GC_001034_2013_Uz_2014-06-12_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152510000005027_X_GC_001034_2013_Uz_2014-06-12_001', '<div>
       <h2>UZASADNIENIE</h2>
       <p>W pozwie złożonym 5 września 2013 roku <span class="anon-block"> Spółka Jawna (...) spółka jawna</span> w Kotlinie żądała zasądzenia w postępowaniu upominawczym od pozwanej <span class="anon-block">M. M. (1)</span> kwoty 260.019,91 zł, wraz z ustawowymi odset­kami od poszczególnych kwot składających się na należność główną oraz kosztami procesu.</p>
       <p>W uzasadnieniu pozwu podniesiono, iż strony zawarły w dniu 10.09.2006 r. stałą umowę sprzedaży paliw płynnych, w której pozwana zobowiązała się do zapłaty ceny za dostawę objętych umową paliw. W wykonaniu owej umowy pozwana naby­wała od powoda paliwa płynne określone następnie co do rodzaju, ilości i ceny na fakturach wystawianych przez powoda. Pozwana, wbrew umowie, nie dokonywała jednak zapłaty na rzecz powoda uzgodnionej ceny sprzedaży paliw, zaś w dniu 4.06.2013 r. strony zawarły porozumienie dotyczące kwoty zadłużenia pozwanej, które pozwana zobo­wiązała się regulować poprzez cotygodniowe wpłaty kwot pieniężnych. Pozwana jednak nie wywiązywała się z uzgodnionego w porozumieniu obowiązku zapłaty, wskutek czego – według wyliczeń powoda – jej zadłużenie wynio­sło łącznie 295.739,62 zł. Powód wywodził dalej, iż pozwana z kwoty tej uregulowała łącznie jedynie 43.174,10 zł, nie wywiązała się natomiast z obowiązku zapłaty pozo­stałej należności, na którą składa się suma należności głównych 257.508,92 zł oraz skapita­lizowane odsetki za opóźnienie w łącznej wysokości 2510,99 zł. Strona powo­dowa wskazała, iż dochodzona pozwem należność główna stanowi sumę należności określo­nych w następujących fakturach VAT, wystawionych pozwanej w związku z zawartą umową i dokonaną sprzedażą paliw:</p>
@@ -3142,8 +3142,8 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Anna Parteka</reviser>
    <publisher>Anna Parteka</publisher>
    <dateOfPublication>2014-06-24 18:15:06.0 CEST</dateOfPublication>
-</judgement>', 'OK', NULL);
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (10869, '2014-07-14 08:04:51.413', 14, 'I ACa 927/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151500000000503_I_ACa_000927_2013_Uz_2014-02-19_002', 'fba6388fec2b5425d7ae9160ac0bc70d', false, '2014-08-12 11:01:23.353', '2014-05-15 16:15:07', '151500000000503_I_ACa_000927_2013_Uz_2014-02-19_002', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151500000000503_I_ACa_000927_2013_Uz_2014-02-19_002', '<p>Sygn. akt I ACa 927/13</p>
+</judgement>', NULL);
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (10869, '2014-07-14 08:04:51.413', 14, 'I ACa 927/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=151500000000503_I_ACa_000927_2013_Uz_2014-02-19_002', 'fba6388fec2b5425d7ae9160ac0bc70d', false, '2014-08-12 11:01:23.353', '2014-05-15 16:15:07', '151500000000503_I_ACa_000927_2013_Uz_2014-02-19_002', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=151500000000503_I_ACa_000927_2013_Uz_2014-02-19_002', '<p>Sygn. akt I ACa 927/13</p>
     
     <div>
       <h2>WYROK</h2>
@@ -3288,11 +3288,11 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Magdalena Bezak</reviser>
    <publisher>Barbara Panek</publisher>
    <dateOfPublication>2014-05-15 18:15:07.0 CEST</dateOfPublication>
-</judgement>', 'OK', 'COURT_DIVISION_NOT_FOUND');
+</judgement>', 'COURT_DIVISION_NOT_FOUND');
 
 
 
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (9436, '2014-06-30 12:27:11.938', 9, 'X GC 1034/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152510000005027_X_GC_001034_2013_Uz_2014-05-30_001', '77e8d1f26fcb1a5c39dd123fa9894f97', false, '2014-08-12 07:53:55.547', '2014-06-24 16:15:06', '152510000005027_X_GC_001034_2013_Uz_2014-05-30_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152510000005027_X_GC_001034_2013_Uz_2014-05-30_001', '<p>sygn. akt  X GC 1034/13</p>
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (9436, '2014-06-30 12:27:11.938', 9, 'X GC 1034/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=152510000005027_X_GC_001034_2013_Uz_2014-05-30_001', '77e8d1f26fcb1a5c39dd123fa9894f97', false, '2014-08-12 07:53:55.547', '2014-06-24 16:15:06', '152510000005027_X_GC_001034_2013_Uz_2014-05-30_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=152510000005027_X_GC_001034_2013_Uz_2014-05-30_001', '<p>sygn. akt  X GC 1034/13</p>
     <p>
       <strong>
 <!-- -->WYROK KOŃCOWY</strong>
@@ -3486,9 +3486,9 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Anna Parteka</reviser>
    <publisher>Anna Parteka</publisher>
    <dateOfPublication>2014-06-24 18:15:06.0 CEST</dateOfPublication>
-</judgement>', 'OK', NULL);
+</judgement>', NULL);
 
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) VALUES (17929, '2014-07-14 09:27:57.701', 12, 'XVI GC 235/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=154505250008027_XVI_GC_000235_2013_Uz_2013-08-29_001', 'f5e8bcefe68977bce0fd8f11baa3a3c6', false, '2014-08-12 11:03:32.579', '2014-06-09 16:15:04', '154505250008027_XVI_GC_000235_2013_Uz_2013-08-29_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=154505250008027_XVI_GC_000235_2013_Uz_2013-08-29_001', '<p>Sygn. akt XVI GC 235/13</p>
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) VALUES (17929, '2014-07-14 09:27:57.701', 12, 'XVI GC 235/13', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=154505250008027_XVI_GC_000235_2013_Uz_2013-08-29_001', 'f5e8bcefe68977bce0fd8f11baa3a3c6', false, '2014-08-12 11:03:32.579', '2014-06-09 16:15:04', '154505250008027_XVI_GC_000235_2013_Uz_2013-08-29_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=154505250008027_XVI_GC_000235_2013_Uz_2013-08-29_001', '<p>Sygn. akt XVI GC 235/13</p>
     
     <div>
       <h2>WYROK</h2>
@@ -3539,9 +3539,9 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Danuta Bieńkowska</reviser>
    <publisher>Danuta Bieńkowska</publisher>
    <dateOfPublication>2014-06-09 18:15:04.0 CEST</dateOfPublication>
-</judgement>', 'OK', null);
+</judgement>', null);
 
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason)
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason)
 	VALUES (52, '2015-01-20 22:32:36.25', 2, 'II Ca 773/14', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', '10e9a3ec84cdcb9dff265c5e56b41ca2', false, null, '2015-01-19 17:15:04', '155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001',
 '<p>Sygn. akt II Ca 773/14</p>
     <div>
@@ -3611,9 +3611,9 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Grażyna Zawilska</reviser>
    <publisher>Dorota Pospiszyl</publisher>
    <dateOfPublication>2015-01-19 18:15:04.0 CET</dateOfPublication>
-</judgement>', null, null);
+</judgement>', null);
 
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) 
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) 
 	VALUES (53, '2015-01-21 22:32:36.25', 2, 'II Ca 773/14', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', '10e9a3ec84cdcb9dff265c5e56b41ca3', false, null, '2015-01-20 18:15:04', '155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001',
 '<p>Sygn. akt II Ca 773/14</p>
     <div>
@@ -3685,10 +3685,10 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Grażyna Zawilska</reviser>
    <publisher>Dorota Pospiszyl</publisher>
    <dateOfPublication>2015-01-20 19:15:04.0 CET</dateOfPublication>
-</judgement>', null, null
+</judgement>', null
 );
 
-INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_status, processing_skip_reason) 
+INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content_source_url, data_md5, processed, processing_date, publication_date, source_id, source_url, text_content, text_metadata, processing_skip_reason) 
 	VALUES (54, '2015-01-22 22:32:36.25', 2, 'II Ca 773/14', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/content?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', '10e9a3ec84cdcb9dff265c5e56b41ca4', false, null, '2015-01-21 19:15:04', '155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001', 'http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=155020000001003_II_Ca_000773_2014_Uz_2014-11-27_001',
 '<p>Sygn. akt II Ca 773/14</p>
     <div>
@@ -3759,5 +3759,5 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <reviser>Grażyna Zawilska</reviser>
    <publisher>Dorota Pospiszyl</publisher>
    <dateOfPublication>2015-01-21 20:15:04.0 CET</dateOfPublication>
-</judgement>', null, null
+</judgement>', null
 );

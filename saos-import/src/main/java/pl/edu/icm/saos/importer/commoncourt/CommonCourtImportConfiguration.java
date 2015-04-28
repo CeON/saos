@@ -28,7 +28,9 @@ import pl.edu.icm.saos.importer.commoncourt.court.XmlCommonCourt;
 import pl.edu.icm.saos.importer.commoncourt.judgment.process.SourceCcJudgmentExtractor;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.CcJaxbJodaDateTimeAdapter;
 import pl.edu.icm.saos.importer.commoncourt.judgment.xml.SourceCcJudgment;
+import pl.edu.icm.saos.importer.notapi.common.JudgmentImportProcessReader;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.importer.RawSourceCcJudgment;
 
 import com.google.common.collect.Lists;
 
@@ -109,6 +111,12 @@ public class CommonCourtImportConfiguration {
         DelegatingJudgmentOverwriter<CommonCourtJudgment> ccJudgmentOverwriter = new DelegatingJudgmentOverwriter<>();
         ccJudgmentOverwriter.setSpecificJudgmentOverwriter(ccSpecificJudgmentOverwriter);
         return ccJudgmentOverwriter;
+    }
+    
+    @Bean
+    public JudgmentImportProcessReader<RawSourceCcJudgment> ccjImportProcessReader() {
+        JudgmentImportProcessReader<RawSourceCcJudgment> importProcessReader = new JudgmentImportProcessReader<RawSourceCcJudgment>(RawSourceCcJudgment.class);
+        return importProcessReader;
     }
     
     

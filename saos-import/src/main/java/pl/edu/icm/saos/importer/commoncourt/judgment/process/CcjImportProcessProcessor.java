@@ -43,7 +43,7 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
         
         JudgmentWithCorrectionList<CommonCourtJudgment> judgmentWithCorrectionList = ccjProcessingService.processJudgment(sourceCcJudgment);
         
-        markProcessingOk(rawJudgment);
+        markProcessed(rawJudgment);
         
         return judgmentWithCorrectionList;
         
@@ -55,8 +55,8 @@ public class CcjImportProcessProcessor implements ItemProcessor<RawSourceCcJudgm
     //------------------------ PRIVATE --------------------------
    
     
-    private void markProcessingOk(RawSourceCcJudgment rawJudgment) {
-        rawJudgment.markProcessingOk();
+    private void markProcessed(RawSourceCcJudgment rawJudgment) {
+        rawJudgment.markProcessed();
         rawSourceCcJudgmentRepository.save(rawJudgment);
     }
     

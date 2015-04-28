@@ -100,7 +100,7 @@ public class CcjImportProcessProcessorTest {
         assertTrue(argSourceJudgment.getValue() == sourceCcJudgment); 
         
         
-        verify(rJudgment).markProcessingOk();
+        verify(rJudgment).markProcessed();
         verify(rJudgment).getId();
         
         argRJudgment = ArgumentCaptor.forClass(RawSourceCcJudgment.class);
