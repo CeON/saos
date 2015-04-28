@@ -24,6 +24,8 @@ var DateFormat = function() {
 	/* Converts string to match format aa-aa-aaaa. 
 	 * Argument text can't have more than 8 letters,
 	 * rest is subtracted.
+	 * If text has less that 8 letters or has inside
+	 * character '-', function returns unchanged text.
 	 * 
 	 * @param text - string to convert
 	 * @returns - converted string
@@ -31,7 +33,10 @@ var DateFormat = function() {
 	space.convert = function(text) {
 		var length = 0;
 		
-		text = text.replace(/-/g, '');
+		if (text.length < 8 || text.indexOf("-") !== -1) {
+		    return text;
+		}
+		
 		length = text.length;
 		
 		if (length > 2) {
