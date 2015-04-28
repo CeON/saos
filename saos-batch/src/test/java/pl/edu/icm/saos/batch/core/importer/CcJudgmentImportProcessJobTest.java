@@ -5,7 +5,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static pl.edu.icm.saos.batch.core.importer.JudgmentCorrectionAssertUtils.assertJudgmentCorrections;
-import static pl.edu.icm.saos.common.json.JsonNormalizer.normalizeJson;
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.JUDGMENT_TYPE;
 import static pl.edu.icm.saos.persistence.correction.model.CorrectedProperty.NAME;
 import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder.createFor;
@@ -27,7 +26,6 @@ import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.ChangeOperation;
@@ -35,8 +33,6 @@ import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBuilder;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
@@ -235,11 +231,6 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         long judgment12420Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment_12420.getSourceId()).getId();
         testPersistenceObjectFactory.createEnrichmentTagsForJudgment(judgment12420Id);
         
-        long notExistingJudgmentId = Long.MAX_VALUE;
-        EnrichmentTag enrichmentTag = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(notExistingJudgmentId, EnrichmentTagTypes.REFERENCED_COURT_CASES,
-                normalizeJson("[{'caseNumber':'AAA','judgmentIds':[" + judgment12420Id + "]}]")); // enrichment tag referencing scJudgmentb082
-        enrichmentTagRepository.save(enrichmentTag);
-        
         // and second execution
         
         execution = jobExecutor.forceStartNewJob(ccJudgmentImportProcessJob);
@@ -287,8 +278,6 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         
         // --- assert no enrichment tags 12420
         assertEquals(0, enrichmentTagRepository.findAllByJudgmentId(judgment_12420.getId()).size());
-        // --- assert no reference to 12420 in enrichment tag
-        assertEnrichmentTag(enrichmentTagRepository.findOne(enrichmentTag.getId()), normalizeJson("[{'caseNumber':'AAA','judgmentIds':[]}]"));
         
                 
         // corrections of judgment_12420
@@ -426,13 +415,6 @@ public class CcJudgmentImportProcessJobTest extends BatchTestSupport {
         assertEquals(lawEntryNo, regulation.getLawJournalEntry().getJournalNo());
         assertEquals(lawEntryEntry, regulation.getLawJournalEntry().getEntry());
     }
-    
-    private void assertEnrichmentTag(EnrichmentTag enrichmentTag, String jsonValue) {
-        assertNotNull(enrichmentTag);
-        assertEquals(jsonValue, enrichmentTag.getValue());
-    }
-
-    
     
     
     private void assertSkipped(long rJudgmentId, ImportProcessingSkipReason skipReason) {

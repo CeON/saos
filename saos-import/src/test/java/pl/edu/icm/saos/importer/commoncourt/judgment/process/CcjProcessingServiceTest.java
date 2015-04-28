@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.powermock.reflect.Whitebox;
 
-import pl.edu.icm.saos.enrichment.reference.JudgmentReferenceRemover;
 import pl.edu.icm.saos.importer.common.JudgmentWithCorrectionList;
 import pl.edu.icm.saos.importer.common.converter.JudgmentConverter;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
@@ -42,9 +41,6 @@ public class CcjProcessingServiceTest {
     @Mock
     private EnrichmentTagRepository enrichmentTagRepository;
     
-    @Mock
-    private JudgmentReferenceRemover enrichmentTagReferenceRemover;
-    
     
     
     private SourceCcJudgment sourceCcJudgment = new SourceCcJudgment();
@@ -63,7 +59,6 @@ public class CcjProcessingServiceTest {
         ccjProcessingService.setJudgmentOverwriter(judgmentOverwriter);
         ccjProcessingService.setSourceCcJudgmentConverter(sourceCcJudgmentConverter);
         ccjProcessingService.setEnrichmentTagRepository(enrichmentTagRepository);
-        ccjProcessingService.setEnrichmentTagReferenceRemover(enrichmentTagReferenceRemover);
         
     }
     
@@ -142,7 +137,6 @@ public class CcjProcessingServiceTest {
         assertTrue(correctionList == argCorrectionList.getValue());
         
         verify(enrichmentTagRepository).deleteAllByJudgmentId(5L);
-        verify(enrichmentTagReferenceRemover).removeReference(5L);
     }
     
     
