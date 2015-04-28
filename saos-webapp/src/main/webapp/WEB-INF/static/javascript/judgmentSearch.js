@@ -22,7 +22,7 @@ var jsInitInJudgmentSearch = function() {
 		"dateFormat",
 		function(value, element) {
 			if (value !== '') {
-				return moment(value, 'DD-MM-YYYY', true).isValid();
+				return moment(value, 'D-M-YYYY', true).isValid();
 			} else {
 				return true;
 			}
