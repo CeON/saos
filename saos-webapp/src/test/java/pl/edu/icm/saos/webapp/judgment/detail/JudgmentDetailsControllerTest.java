@@ -47,93 +47,92 @@ import com.google.common.collect.Lists;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextHierarchy({ 
-	@ContextConfiguration(classes = WebappTestConfiguration.class) })
+@ContextConfiguration(classes = WebappTestConfiguration.class) })
 @Category(SlowTest.class)
 public class JudgmentDetailsControllerTest {
 
-	@Autowired
+    @Autowired
     private WebApplicationContext webApplicationCtx;
-	
-	private MockMvc mockMvc;
-	
+    
+    private MockMvc mockMvc;
+    
     @Autowired
     @InjectMocks
     private JudgmentDetailsController judgmentDetailController;
-	
-	@Mock
-	private JudgmentEnrichmentService judgmentEnrichmentService;
-	
-	@Mock
-	private JudgmentCorrectionService judgmentCorrectionService;
-	
-	@Mock
-	private JudgmentDetailsSortService judgmentDetailsSortService;
     
-	private CommonCourtJudgment judgment = getCcJudgment();
-	private List<JudgmentCorrection> judgmentCorrections = getJudgmentCorrections();
-	
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-		
-		when(judgmentEnrichmentService.findOneAndEnrich(judgment.getId())).thenReturn(judgment);
-		when(judgmentDetailsSortService.sortJudges(judgment)).thenReturn(judgment);
-		when(judgmentCorrectionService.findAllByJudgmentIdSorted(judgment.getId())).thenReturn(judgmentCorrections);
-		
-		mockMvc = webAppContextSetup(webApplicationCtx)
-					.build();
-	}
-	
-	
-	//------------------------ TESTS --------------------------	
-	
-	@Test
-	public void showJudgmentDetails() throws Exception {
-	
-		//execute
-		ResultActions actions = mockMvc.perform(get("/judgments/" + judgment.getId()));
-		
-		
-		//assert
-		actions
-			.andExpect(status().isOk())
-			.andExpect(view().name("judgmentDetails"))
-			.andExpect(model().attribute("judgment", judgment))
-			.andExpect(model().attribute("formattedTextContent", "aaa<br />bbb")) 
-			.andExpect(model().attribute("corrections", judgmentCorrections));
-		
-		verify(judgmentEnrichmentService).findOneAndEnrich(judgment.getId());
-		verify(judgmentDetailsSortService).sortJudges(judgment);
-		verify(judgmentCorrectionService).findAllByJudgmentIdSorted(judgment.getId());
-	}
+    @Mock
+    private JudgmentEnrichmentService judgmentEnrichmentService;
+    
+    @Mock
+    private JudgmentCorrectionService judgmentCorrectionService;
+    
+    @Mock
+    private JudgeSortService judgeSortService;
+    
+    private CommonCourtJudgment judgment = getCcJudgment();
+    private List<JudgmentCorrection> judgmentCorrections = getJudgmentCorrections();
+    
+    @Before
+    public void setUp() {
+        MockitoAnnotations.initMocks(this);
+        
+        when(judgmentEnrichmentService.findOneAndEnrich(judgment.getId())).thenReturn(judgment);
+        when(judgmentCorrectionService.findAllByJudgmentIdSorted(judgment.getId())).thenReturn(judgmentCorrections);
+        
+        mockMvc = webAppContextSetup(webApplicationCtx)
+                    .build();
+    }
+    
+    
+    //------------------------ TESTS --------------------------	
+    
+    @Test
+    public void showJudgmentDetails() throws Exception {
+    
+        //execute
+        ResultActions actions = mockMvc.perform(get("/judgments/" + judgment.getId()));
+        
+        
+        //assert
+        actions
+            .andExpect(status().isOk())
+            .andExpect(view().name("judgmentDetails"))
+            .andExpect(model().attribute("judgment", judgment))
+            .andExpect(model().attribute("formattedTextContent", "aaa<br />bbb")) 
+            .andExpect(model().attribute("corrections", judgmentCorrections));
+        
+        verify(judgmentEnrichmentService).findOneAndEnrich(judgment.getId());
+        verify(judgeSortService).sortJudges(judgment.getJudges());
+        verify(judgmentCorrectionService).findAllByJudgmentIdSorted(judgment.getId());
+    }
 
-	
-	//------------------------ PRIVATE --------------------------
-	
-	private CommonCourtJudgment getCcJudgment() {
-		
-		CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
-		
-		Whitebox.setInternalState(ccJudgment, "id", 28);
-		
-		ccJudgment.getTextContent().setFilePath("/file/path.pdf");
-		ccJudgment.getTextContent().setType(ContentType.PDF);
-		ccJudgment.getTextContent().setRawTextContent("aaa\nbbb");
-		
-		return ccJudgment;
-	}
-	
-	private List<JudgmentCorrection> getJudgmentCorrections() {
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private CommonCourtJudgment getCcJudgment() {
+        
+        CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
+        
+        Whitebox.setInternalState(ccJudgment, "id", 28);
+        
+        ccJudgment.getTextContent().setFilePath("/file/path.pdf");
+        ccJudgment.getTextContent().setType(ContentType.PDF);
+        ccJudgment.getTextContent().setRawTextContent("aaa\nbbb");
+        
+        return ccJudgment;
+    }
+    
+    private List<JudgmentCorrection> getJudgmentCorrections() {
 
-		JudgmentCorrectionBuilder judgmentCorrectionBuilder = JudgmentCorrectionBuilder.createFor(judgment);
-		
-		JudgmentCorrection jc = judgmentCorrectionBuilder.update(judgment)
-															.property(CorrectedProperty.JUDGMENT_TYPE)
-															.newValue("SENTENCE")
-															.oldValue("SENTENCE, REASON")
-															.build();
-		
-		return Lists.newArrayList(jc);
-	}
+        JudgmentCorrectionBuilder judgmentCorrectionBuilder = JudgmentCorrectionBuilder.createFor(judgment);
+        
+        JudgmentCorrection jc = judgmentCorrectionBuilder.update(judgment)
+                                                            .property(CorrectedProperty.JUDGMENT_TYPE)
+                                                            .newValue("SENTENCE")
+                                                            .oldValue("SENTENCE, REASON")
+                                                            .build();
+        
+        return Lists.newArrayList(jc);
+    }
 
 }
