@@ -37,7 +37,6 @@ var DateFormat = function() {
 		    return text;
 		}
 		
-		text = text.replace(/-/g, '');
 		length = text.length;
 		
 		if (length > 2) {
