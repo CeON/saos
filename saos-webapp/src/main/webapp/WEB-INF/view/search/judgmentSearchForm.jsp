@@ -32,10 +32,10 @@
 			
 	    <div class="form-group">
 	       <spring:message code="judgmentSearch.formField.all" var="searchAllPlaceholder" />
-		   <div class="col-lg-7 col-sm-8 col-xs-11">
-		       <form:input path="all" class="form-control search-all"  id="input-search-all" placeholder="${searchAllPlaceholder}" />
+		   <div class="col-lg-7 col-sm-8 col-xs-10">
+		       <form:input path="all" class="form-control search-all"  id="input-search-all" placeholder="${searchAllPlaceholder}"  />
 	       </div>
-	       <div class="col-lg-2" >
+	       <div class="col-xs-2" >
 		       <button type="submit" class="btn btn-primary button button-blue"><spring:message code="button.judgmentSearch" /></button>
 		    </div>
 		</div>
@@ -50,9 +50,16 @@
 		    
 		    <div id="judgment-form-section" class="row form-section">
 		        
-		            <saos:formFieldText path="signature" labelName="input-search-casenumber" labelText="judgmentSearch.formField.caseNumber" />
 
-		            
+                    <%-- Case number --%>
+					<spring:message code="judgmentSearch.formField.caseNumber" var="caseNumberLabel" />
+					<div class="form-group" >
+					    <label for="input-search-casenumber" class="col-lg-2 col-sm-3 col-xs-12 control-label"><c:out value="${caseNumberLabel}" />:</label>
+					    <div class="col-lg-7 col-sm-8 col-xs-11">
+					        <form:input path="signature" class="form-control" id="input-search-casenumber" data-field-desc="${caseNumberLabel}: " />
+					    </div>
+					</div>
+							            
 		            <%-- JudgmentType --%>
 		            <div class="form-group">
 		                <label class="col-lg-2 col-sm-3 control-label"><spring:message code="judgmentSearch.formField.judgmentType" />:</label>
@@ -88,28 +95,36 @@
 		            
 		            
 		            <%-- Superme JugmentForm --%>
+		            <spring:message code="judgmentSearch.formField.scJudgmentForm" var="scJudgmentFormLabel" />
 		            <div class="form-group" data-court-type="SUPREME" >
-		                <label for="select-search-judgment-form" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.scJudgmentForm" />:</label>
+		                <label for="select-search-judgment-form" class="col-lg-2 col-sm-3 col-xs-12 control-label"><c:out value="${scJudgmentFormLabel}"/>:</label>
 		                <div class="col-lg-7 col-sm-8 col-xs-11">
-		                    <form:select path="scJudgmentForm" id="select-search-judgment-form" class="form-control" >
+		                    <select name="scJudgmentForm" id="select-search-judgment-form" class="form-control" data-field-desc="${scJudgmentFormLabel}: " >
 		                        <option value=""><spring:message code="judgmentSearch.formField.chooseScJudgmentForm" /></option>
 		                        <c:forEach items="${scJudgmentForms}" var="judgmentForm" >
 		                            <option value="${judgmentForm.name}" <c:if test="${judgmentCriteriaForm.scJudgmentForm == judgmentForm.name}" >selected="selected"</c:if> >
 		                                <c:out value="${judgmentForm.name}" />
 		                            </option>
 		                        </c:forEach>
-		                    </form:select>
+		                    </select>
 		                </div>
 		            </div>
-		
-		            
-		            <saos:formFieldText path="judgeName" labelName="input-search-judge" labelText="judgmentSearch.formField.judge" />
+                    
+                    <%-- Judge name --%>
+                    <spring:message code="judgmentSearch.formField.judge" var="judgeNameLabel" />
+                    <div class="form-group" >
+                        <label for="input-search-judge" class="col-lg-2 col-sm-3 col-xs-12 control-label"><c:out value="${judgeNameLabel}" />:</label>
+                        <div class="col-lg-7 col-sm-8 col-xs-11">
+                            <form:input path="judgeName" id="input-search-judge" class="form-control" data-field-desc="${judgeNameLabel}: " />
+                        </div>
+                    </div>
 		
 		            <%-- Legal bases --%>
 		            <div class="form-group">
+		                <spring:message code="judgmentSearch.formField.legalBases" var="legalBasesLabel" />
 		                <label for="input-search-legalbases" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.legalBases" />:</label>
 		                <div class="col-lg-7 col-sm-8 col-xs-11">
-		                    <form:input path="legalBase" class="form-control" id="input-search-legalbases" />
+		                    <form:input path="legalBase" class="form-control" id="input-search-legalbases" data-field-desc="${legalBasesLabel}: " />
 		                </div>
 		                <spring:message code="judgmentSearch.hint.legalBases.title" var="hintLegalBasesTitle" />
 		                <spring:message code="judgmentSearch.hint.legalBases.content" var="hintLegalBasesContent" />
@@ -182,7 +197,8 @@
 		                    </div>
 		                    
 		                </div>
-		                <form:hidden path="lawJournalEntryId" id="lawJournalEntryId" />
+		                <spring:message code="judgmentSearch.formField.lawJournal.desc" var="lawJournalLabel" />
+		                <form:hidden path="lawJournalEntryId" id="lawJournalEntryId" data-field-desc="${lawJournalLabel}: " />
 		            </div>
 		            
 		
@@ -194,10 +210,12 @@
 		            <div id="common-court-fields" class="fields-container" >
 		            
 		              <%-- COMMON Keywords --%>
+	                  <spring:message code="judgmentSearch.formField.keywords" var="keywordsLabel" />
+	                  
 		                <div class="form-group" data-court-type="COMMON">
-		                    <label for="input-search-keywords-cc" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.keywords" />:</label>
+		                    <label for="input-search-keywords-cc" class="col-lg-2 col-sm-3 col-xs-12 control-label"><c:out value="${keywordsLabel}" />:</label>
 		                    <div class="col-lg-7 col-sm-8 col-xs-11">
-		                        <form:input path="keywords" class="form-control" id="input-search-keywords-cc" />
+		                        <form:input path="keywords" class="form-control" id="input-search-keywords-cc" data-field-desc="${keywordsLabel}: " />
 		                    </div>
 		                    <spring:message code="judgmentSearch.hint.ccKeywords.title" var="hintCcKeywordsTitle" />
 		                    <spring:message code="judgmentSearch.hint.ccKeywords.content" var="hintCcKeywordsContent" />
@@ -209,23 +227,30 @@
 		             
 		            <div id="supreme-court-fields" class="fields-container" >
 		                
-		                <%-- SUPREME PersonnelType --%>
-		                <div class="form-group" data-court-type="SUPREME" >
-		                    <label for="select-search-personnel-type" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.personnelType" />:</label>
-		                    <div class="col-lg-7 col-sm-8 col-xs-11">
-		                        <form:select path="scPersonnelType" class="form-control" id="select-search-personnel-type" >
-		                            <option value=""><spring:message code="judgmentSearch.formField.chooseScPersonnelType" /></option>
-		                            <saos:enumOptions enumType="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType" selected="${judgmentCriteriaForm.scPersonnelType}" />
-		                        </form:select>
-		                    </div>
-		                </div>
-		                
+	                <%-- SUPREME PersonnelType --%>
+	                <spring:message code="judgmentSearch.formField.personnelType" var="personnelTypeLabel" />
+	                <div class="form-group" data-court-type="SUPREME" >
+	                    <label for="select-search-personnel-type" class="col-lg-2 col-sm-3 col-xs-12 control-label"><c:out value="${personnelTypeLabel}" />:</label>
+	                    <div class="col-lg-7 col-sm-8 col-xs-11">
+	                        <select name="scPersonnelType" class="form-control" id="select-search-personnel-type" data-field-desc="${personnelTypeLabel}: " >
+	                            <option value=""><spring:message code="judgmentSearch.formField.chooseScPersonnelType" /></option>
+	                            <saos:enumOptions enumType="pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType" selected="${judgmentCriteriaForm.scPersonnelType}" />
+	                        </select>
+	                    </div>
+	                </div>
+	                
 		            </div>
 		            
 		            <div data-court-type="CONSTITUTIONAL_TRIBUNAL" >
 		                
 		                <%-- CT Dissenting Opinion --%>
-		                <saos:formFieldText path="ctDissentingOpinion" labelName="input-constitutional-tribunal-dissenting-opinion" labelText="judgmentSearch.formField.ctDissentingOpinion" />
+		                <spring:message code="judgmentSearch.formField.ctDissentingOpinion" var="ctDissentingOpinionLabel" />
+	                    <div class="form-group" >
+	                        <label for="input-constitutional-tribunal-dissenting-opinion" class="col-lg-2 col-sm-3 col-xs-12 control-label"><c:out value="${ctDissentingOpinionLabel}" />:</label>
+	                        <div class="col-lg-7 col-sm-8 col-xs-11">
+	                            <form:input path="ctDissentingOpinion" id="input-constitutional-tribunal-dissenting-opinion" class="form-control" data-field-desc="${ctDissentingOpinionLabel}: " />
+	                        </div>
+	                    </div>
 		                
 		            </div>
 		            
