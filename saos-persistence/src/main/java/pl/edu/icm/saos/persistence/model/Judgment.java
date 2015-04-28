@@ -109,6 +109,8 @@ public abstract class Judgment extends IndexableObject {
     
     private List<String> lowerCourtJudgments = Lists.newArrayList(); 
     
+    private MoneyAmount maxMoneyAmount;
+    
     
     
     //------------------------ GETTERS --------------------------
@@ -299,12 +301,19 @@ public abstract class Judgment extends IndexableObject {
         return ImmutableList.copyOf(lowerCourtJudgments);
     }
     
+    /**
+     * Maximal amount of money referenced in judgment content
+     */
+    @Transient
+    public MoneyAmount getMaxMoneyAmount() {
+        return maxMoneyAmount;
+    }
     
     //------------------------ LOGIC --------------------------
     
     
     //--- court cases ---
-    
+
     @Transient
     public boolean isSingleCourtCase() {
         return getCourtCases_().size() == 1;
@@ -649,6 +658,10 @@ public abstract class Judgment extends IndexableObject {
 
     public void setJudgmentResult(JudgmentResult judgmentResult) {
         this.judgmentResult = judgmentResult;
+    }
+
+    public void setMaxMoneyAmount(MoneyAmount maxMoneyAmount) {
+        this.maxMoneyAmount = maxMoneyAmount;
     }
 
   
