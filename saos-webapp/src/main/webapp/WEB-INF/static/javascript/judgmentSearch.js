@@ -229,6 +229,11 @@ var jsInitInJudgmentSearch = function() {
     		}
     	});
     
+    //Reset width of the common court keywords field
+    $("#judgment-info").click(function() {
+        $("#input-search-keywords-cc").suggesterRefresh();    
+    });
+    
     
     /* Judgment results list, extract text. 
      * Remove single letter words from end of the lines.
