@@ -102,7 +102,6 @@ public class JudgmentDetailsControllerTest {
             .andExpect(model().attribute("corrections", judgmentCorrections));
         
         verify(judgmentEnrichmentService).findOneAndEnrich(judgment.getId());
-        verify(judgeSortService).sortJudges(judgment.getJudges());
         verify(judgmentCorrectionService).findAllByJudgmentIdSorted(judgment.getId());
     }
 

@@ -41,7 +41,6 @@ public class JudgmentDetailsController {
 		
 	    Judgment judgment = judgmentEnrichmentService.findOneAndEnrich(judgmentId);
 	    
-	    judgeSortService.sortJudges(judgment.getJudges());
 	    
 	    String formattedTextContent = judgment.getRawTextContent();
 	    if (judgment.getTextContent().getType() != ContentType.HTML) {
