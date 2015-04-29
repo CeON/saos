@@ -343,7 +343,15 @@ var SearchFilters = (function(){
 	
 	submitForm = function() {
 		changeMouseCursorToLoading();
-		$(form + "").submit();
+		
+		var $messageBox = $("<div class='message-box'><div >" + springMessage.judgmentSearchFilterMessageBoxSet + "</div></div>");
+		
+		$("body").prepend($messageBox);
+		
+		setTimeout(function () {
+		    $(form + "").submit();
+		}, 1000);
+		
 	};
 	
 	//------------------------ PUBLIC --------------------------

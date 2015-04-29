@@ -209,9 +209,8 @@
 		            
 		            <div id="common-court-fields" class="fields-container" >
 		            
-		              <%-- COMMON Keywords --%>
-	                  <spring:message code="judgmentSearch.formField.keywords" var="keywordsLabel" />
-	                  
+		                <%-- COMMON Keywords --%>
+	                    <spring:message code="judgmentSearch.formField.keywords" var="keywordsLabel" />
 		                <div class="form-group" data-court-type="COMMON">
 		                    <label for="input-search-keywords-cc" class="col-lg-2 col-sm-3 col-xs-12 control-label"><c:out value="${keywordsLabel}" />:</label>
 		                    <div class="col-lg-7 col-sm-8 col-xs-11">

@@ -11,7 +11,11 @@ var contextPath = '${pageContext.request.contextPath}',
 			judgmentSearchFormFieldLawJournalChoseItem: '<spring:message code="judgmentSearch.formField.lawJournal.choseItem" />',
 			judgmentSearchFormFieldLawJournalNoItems: '<spring:message code="judgmentSearch.formField.lawJournal.noItems" />',
 			judgmentSearchJudgmentSectionDefaultText: '<spring:message code="judgmentSearch.judgmentSection.defaultText" />',
-
+		    judgmentSearchFilterAdd: '<spring:message code="judgmentSearch.filter.add" />',
+		    judgmentSearchFilterSet: '<spring:message code="judgmentSearch.filter.set" />',
+		    judgmentSearchFilterMessageBoxSet: '<spring:message code="judgmentSearch.filter.messageBox.set" />',
+		 
+			
 			contextDateAnyValue: '<spring:message code="context.date.fieldDescription" />: <b><spring:message code="context.date.anyValue" /></b>',
 			
 			to: '<spring:message code="to" />',
