@@ -33,19 +33,14 @@ import pl.edu.icm.saos.webapp.judgment.PageLinkGenerator;
 public class JudgmentSearchController {
 
 	
-	@Autowired
 	private JudgmentWebSearchService judgmentsWebSearchService;
 	
-	@Autowired
 	private CourtDataModelCreator courtDataModelCreator;
 	
-	@Autowired
 	private ScListService scListService;
 	
-	@Autowired
 	private LawJournalEntryRepository lawJournalEntryRepository;
 	
-	@Autowired
 	private JudgmentRepository judgmentRepository;
 	
 	
@@ -96,5 +91,39 @@ public class JudgmentSearchController {
 	        model.addAttribute("referencedJudgment", judgment);
 	    }
 	}
+	
+	
+	
+	//------------------------ SETTERS --------------------------
+
+	
+	@Autowired
+    public void setJudgmentsWebSearchService(JudgmentWebSearchService judgmentsWebSearchService) {
+        this.judgmentsWebSearchService = judgmentsWebSearchService;
+    }
+
+
+    @Autowired
+    public void setCourtDataModelCreator(CourtDataModelCreator courtDataModelCreator) {
+        this.courtDataModelCreator = courtDataModelCreator;
+    }
+
+
+    @Autowired
+    public void setScListService(ScListService scListService) {
+        this.scListService = scListService;
+    }
+
+
+    @Autowired
+    public void setLawJournalEntryRepository(LawJournalEntryRepository lawJournalEntryRepository) {
+        this.lawJournalEntryRepository = lawJournalEntryRepository;
+    }
+
+
+    @Autowired
+    public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
+        this.judgmentRepository = judgmentRepository;
+    }
 
 }
