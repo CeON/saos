@@ -27,9 +27,6 @@ public class JudgmentDetailsController {
 	@Autowired
 	private JudgmentCorrectionService judgmentCorrectionService;
 	
-	@Autowired 
-	private JudgeSortService judgeSortService;
-	
 	@Autowired
 	private ReferencingJudgmentsService referencingJudgmentsService;
 	

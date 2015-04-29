@@ -230,16 +230,29 @@ $(document).ready(function() {
 					<div class="" >
 						<div class="label-title" ><spring:message code="judgment.judges" />:</div>
 						<div class="desc" >
-							<c:forEach items="${judgment.judges}" var="judge" >
-								<span>
-									<c:out value="${judge.name}" />
-									<c:if test="${judge.presidingJudge}" >
-										<span class="presiding-judge"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >
-											<img src="${contextPath}/static/image/icons/judge.png" alt="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE.iconAlt" />" />
-										</span>
-									</c:if>
-								</span>
+						
+						  <%-- Presiding Judges --%>
+						  <spring:eval expression="judgment.getJudges(T(pl.edu.icm.saos.persistence.model.Judge.JudgeRole).PRESIDING_JUDGE)" var="presidingJudges" />
+						  
+						  <c:forEach items="${presidingJudges}" var="judge" >
+	                          <span>
+	                              <c:out value="${judge.name}" />
+	                               <span class="presiding-judge"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >
+	                                   <img src="${contextPath}/static/image/icons/judge.png" alt="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE.iconAlt" />" />
+	                               </span>
+	                          </span>
+                          </c:forEach>
+                            
+						  <%-- Not Presiding Judges --%>
+					       <c:forEach items="${judgment.judges}" var="judge" >
+					            <c:if test="${!judge.presidingJudge}" >
+									<span>									    
+									   <c:out value="${judge.name}" />
+									</span>
+                                </c:if>
 							</c:forEach>
+							
+							
 						</div>
 					</div>
 				</li>
