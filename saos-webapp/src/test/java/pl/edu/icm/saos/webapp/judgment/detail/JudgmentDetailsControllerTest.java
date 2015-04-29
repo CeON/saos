@@ -69,8 +69,8 @@ public class JudgmentDetailsControllerTest {
     @Mock
     private JudgeSortService judgeSortService;
     
-    private CommonCourtJudgment judgment = getCcJudgment();
-    private List<JudgmentCorrection> judgmentCorrections = getJudgmentCorrections();
+    private CommonCourtJudgment judgment = createCcJudgment();
+    private List<JudgmentCorrection> judgmentCorrections = createJudgmentCorrections();
     
     @Before
     public void setUp() {
@@ -109,7 +109,7 @@ public class JudgmentDetailsControllerTest {
     
     //------------------------ PRIVATE --------------------------
     
-    private CommonCourtJudgment getCcJudgment() {
+    private CommonCourtJudgment createCcJudgment() {
         
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
         
@@ -122,7 +122,7 @@ public class JudgmentDetailsControllerTest {
         return ccJudgment;
     }
     
-    private List<JudgmentCorrection> getJudgmentCorrections() {
+    private List<JudgmentCorrection> createJudgmentCorrections() {
 
         JudgmentCorrectionBuilder judgmentCorrectionBuilder = JudgmentCorrectionBuilder.createFor(judgment);
         
