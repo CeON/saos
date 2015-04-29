@@ -18,10 +18,14 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.enrichment.apply.DefaultEnrichmentTagApplier;
+import pl.edu.icm.saos.enrichment.apply.moneyamount.MaxMoneyAmountJudgmentUpdater;
+import pl.edu.icm.saos.enrichment.apply.moneyamount.MoneyAmountTagValueConverter;
+import pl.edu.icm.saos.enrichment.apply.moneyamount.MoneyAmountTagValue;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesJudgmentUpdater;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueConverter;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueItem;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
+import pl.edu.icm.saos.persistence.model.MoneyAmount;
 import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
 
 import com.fasterxml.jackson.core.JsonFactory;
@@ -73,6 +77,33 @@ public class EnrichmentConfiguration {
         tagApplier.setEnrichmentTagValueConverter(referencedCourtCasesTagValueConverter);
         tagApplier.setJudgmentUpdater(referencedCourtCasesJudgmentUpdater);
 
+        return tagApplier;
+    }
+    
+    
+    //---- MAX_REFERENCED_MONEY TAG ----
+    
+    
+    @Autowired
+    private MoneyAmountTagValueConverter moneyAmountTagValueConverter;
+    
+    @Autowired
+    private MaxMoneyAmountJudgmentUpdater maxMoneyAmountJudgmentUpdater;
+    
+    @Bean
+    public JsonStringParser<MoneyAmountTagValue> moneyAmountJsonParser() {
+        return new JsonStringParser<>(MoneyAmountTagValue.class);
+    }
+    
+    @Bean
+    public DefaultEnrichmentTagApplier<MoneyAmountTagValue, MoneyAmount> maxAmountTagApplier() {
+        
+        DefaultEnrichmentTagApplier<MoneyAmountTagValue, MoneyAmount> tagApplier = new DefaultEnrichmentTagApplier<MoneyAmountTagValue, MoneyAmount>(EnrichmentTagTypes.MAX_REFERENCED_AMOUNT);
+        
+        tagApplier.setEnrichmentTagValueConverter(moneyAmountTagValueConverter);
+        tagApplier.setJsonStringParser(moneyAmountJsonParser());
+        tagApplier.setJudgmentUpdater(maxMoneyAmountJudgmentUpdater);
+        
         return tagApplier;
     }
     

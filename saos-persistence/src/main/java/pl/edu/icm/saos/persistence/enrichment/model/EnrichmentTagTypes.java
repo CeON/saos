@@ -26,4 +26,7 @@ public final class EnrichmentTagTypes {
     
     /** referenced regulations referenced in a text content of a judgment and not provided by a judgment source system */
     public static final String REFERENCED_REGULATIONS = "REFERENCED_REGULATIONS";
+    
+    /** maximal amount of money referenced in judgment text content */
+    public static final String MAX_REFERENCED_AMOUNT = "MAX_REFERENCED_AMOUNT";
 }

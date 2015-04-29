@@ -2,7 +2,10 @@ package pl.edu.icm.saos.enrichment.apply;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory.createEnrichmentTag;
+
+import java.math.BigDecimal;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -64,6 +67,9 @@ public class JudgmentEnrichmentServiceIntTest extends EnrichmentTestSupport {
         assertThat(getReferencedCourtCase(enrichedJudgment, "1234/12").getJudgmentIds(), Matchers.containsInAnyOrder(1234l, 12l));
         assertEquals(0, getReferencedCourtCase(enrichedJudgment, "AAA").getJudgmentIds().size());
         
+        assertNotNull(enrichedJudgment.getMaxMoneyAmount());
+        assertEquals(new BigDecimal("123000.27"), enrichedJudgment.getMaxMoneyAmount().getAmount());
+        assertEquals("123 tys zł 27 gr", enrichedJudgment.getMaxMoneyAmount().getText());
     }
     
 
@@ -71,9 +77,13 @@ public class JudgmentEnrichmentServiceIntTest extends EnrichmentTestSupport {
     
     private void createAndSaveEnrichmentTags(Judgment judgment) {
         long nonExistentJudgmentId = judgment.getId() + 1;
+        
         EnrichmentTag enrichmentTag1 = createEnrichmentTag(judgment.getId(), EnrichmentTagTypes.REFERENCED_COURT_CASES, "[{caseNumber:' 1234/12', judgmentIds:[1234, 12]}, {caseNumber: 'AAA', judgmentIds:[]}]");
         EnrichmentTag enrichmentTag2 = createEnrichmentTag(nonExistentJudgmentId, EnrichmentTagTypes.REFERENCED_COURT_CASES, "[{caseNumber:'1234/12', judgmentIds:[]}]");
-        enrichmentTagRepository.save(Lists.newArrayList(enrichmentTag1, enrichmentTag2));
+        
+        EnrichmentTag enrichmentTag3 = createEnrichmentTag(judgment.getId(), EnrichmentTagTypes.MAX_REFERENCED_AMOUNT, "{amount: 123000.27, text: '123 tys zł 27 gr'}");
+        
+        enrichmentTagRepository.save(Lists.newArrayList(enrichmentTag1, enrichmentTag2, enrichmentTag3));
     }
     
     private ReferencedCourtCase getReferencedCourtCase(Judgment judgment, String caseNumber) {
