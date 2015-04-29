@@ -189,6 +189,10 @@ public class JudgmentCriteriaForm {
         this.courtCriteria = courtCriteria;
     }
 
+    
+    //------------------------ toString --------------------------
+
+    
     @Override
     public String toString() {
         return "JudgmentCriteriaForm [all=" + all + ", signature=" + signature + ", dateFrom="
@@ -203,7 +207,6 @@ public class JudgmentCriteriaForm {
 
 
     
-    //------------------------ toString --------------------------
     
 }
 
