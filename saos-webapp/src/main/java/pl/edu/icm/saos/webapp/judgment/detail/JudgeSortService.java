@@ -7,38 +7,27 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.Judgment;
-
-import com.google.common.collect.Lists;
 
 /**
- * Service for sorting judges in judgment. 
+ * Service for sorting judges. 
  * 
  * @author Łukasz Pawełczak
  *
  */
 @Service
-public class JudgmentDetailsSortService {
+public class JudgeSortService {
 
 	
 	//------------------------ LOGIC --------------------------
 	
 	/**
-	 * Sort judges {@link pl.edu.icm.saos.persistence.model.Judge} in judgment {@link pl.edu.icm.saos.persistence.model.Judgment}.
+	 * Sort list of judges {@link pl.edu.icm.saos.persistence.model.Judge}.
 	 * 
-	 * @param Judgment
-	 * @return Judgment with sorted Judges 
+	 * @param  List Judge
 	 */
-	public Judgment sortJudges(Judgment judgment) {
-		
-		List<Judge> judges = Lists.newArrayList(judgment.getJudges());
+	public void sortJudges(List<Judge> judges) {
 		
 		Collections.sort(judges, new JudgeComparator());
-		
-		judgment.removeAllJudges();
-		judges.forEach(p -> judgment.addJudge(p));
-		
-		return judgment;
 	}
 	
 	//------------------------ PRIVATE --------------------------
