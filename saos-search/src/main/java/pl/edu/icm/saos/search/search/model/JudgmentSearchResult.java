@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.search.search.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -19,6 +20,7 @@ public class JudgmentSearchResult extends Searchable {
     private JudgmentType judgmentType;
     private LocalDate judgmentDate;
     private long referencingCount;
+    private BigDecimal maxMoneyAmount;
     
     private CourtType courtType;
     
@@ -55,6 +57,9 @@ public class JudgmentSearchResult extends Searchable {
     }
     public long getReferencingCount() {
         return referencingCount;
+    }
+    public BigDecimal getMaxMoneyAmount() {
+        return maxMoneyAmount;
     }
     public CourtType getCourtType() {
     	return courtType;
@@ -122,6 +127,9 @@ public class JudgmentSearchResult extends Searchable {
     }
     public void setReferencingCount(long referencingCount) {
         this.referencingCount = referencingCount;
+    }
+    public void setMaxMoneyAmount(BigDecimal maxMoneyAmount) {
+        this.maxMoneyAmount = maxMoneyAmount;
     }
     public void setCourtType(CourtType courtType) {
     	this.courtType = courtType;

@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -70,6 +71,9 @@ public class JudgmentSearchServiceSortingTest {
                 { Lists.newArrayList(1L, 6L, 3L, 5L, 2L, 7L, 4L), new Sorting(JudgmentIndexField.JUDGMENT_DATE.getFieldName(), Direction.ASC), judgmentDateDocsData() },
                 { Lists.newArrayList(4L, 7L, 2L, 5L, 3L, 1L, 6L), new Sorting(JudgmentIndexField.JUDGMENT_DATE.getFieldName(), Direction.DESC), judgmentDateDocsData() },
                 
+                { Lists.newArrayList(6L, 4L, 5L, 2L, 1L, 3L), new Sorting(JudgmentIndexField.MAXIMUM_MONEY_AMOUNT.getFieldName(), Direction.ASC), maximumMoneyAmountDocsData() },
+                { Lists.newArrayList(3L, 1L, 2L, 5L, 4L, 6L), new Sorting(JudgmentIndexField.MAXIMUM_MONEY_AMOUNT.getFieldName(), Direction.DESC), maximumMoneyAmountDocsData() },
+                
         };
     }
     
@@ -116,26 +120,13 @@ public class JudgmentSearchServiceSortingTest {
     //------------------------ PRIVATE --------------------------
     
     private static List<SolrInputDocument> referencingCountDocsData() {
-        List<SolrInputDocument> docs = Lists.newArrayList();
         
         List<Long> refCounts = Lists.newArrayList(23L, 0L, 12L, 15L, 89L, 68L, 0L, 0L);
         
-        int i = 1;
-        for (Long refCount : refCounts) {
-            SolrInputDocument doc = new SolrInputDocument();
-            
-            doc.addField("databaseId", i);
-            doc.addField("referencingJudgmentsCount", refCount);
-            docs.add(doc);
-            
-            ++i;
-        }
-        
-        return docs;
+        return createSimpleDocsData("referencingJudgmentsCount", refCounts);
     }
     
     private static List<SolrInputDocument> judgmentDateDocsData() {
-        List<SolrInputDocument> docs = Lists.newArrayList();
         
         List<String> dateStrings = Lists.newArrayList(
                 "1990-04-15T00:00:00Z",
@@ -146,12 +137,31 @@ public class JudgmentSearchServiceSortingTest {
                 "1990-04-15T00:00:00Z",
                 "1991-05-15T00:00:00Z");
         
+        return createSimpleDocsData("judgmentDate", dateStrings);
+    }
+    
+    private static List<SolrInputDocument> maximumMoneyAmountDocsData() {
+        
+        List<BigDecimal> maxMoneyAmounts = Lists.newArrayList(
+                new BigDecimal("12300000.27"),
+                new BigDecimal("12300000.26"),
+                new BigDecimal("12300000.28"),
+                new BigDecimal("12300000"),
+                new BigDecimal("12300000.01"),
+                new BigDecimal("12299999.99"));
+        
+        return createSimpleDocsData("maximumMoneyAmount", maxMoneyAmounts);
+    }
+    
+    private static List<SolrInputDocument> createSimpleDocsData(String fieldName, List<?> fieldData) {
+        List<SolrInputDocument> docs = Lists.newArrayList();
+        
         int i = 1;
-        for (String refCount : dateStrings) {
+        for (Object fieldValue : fieldData) {
             SolrInputDocument doc = new SolrInputDocument();
             
             doc.addField("databaseId", i);
-            doc.addField("judgmentDate", refCount);
+            doc.addField(fieldName, fieldValue);
             docs.add(doc);
             
             ++i;

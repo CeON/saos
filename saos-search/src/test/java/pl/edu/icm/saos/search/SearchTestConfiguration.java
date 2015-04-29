@@ -91,6 +91,7 @@ public class SearchTestConfiguration extends TestConfigurationBase {
         judgmentsIndex.addConfigurationFile(new ClassPathResource(judgmentsConfFilesClassPath + "solrconfig.xml"));
         judgmentsIndex.addConfigurationFile(new ClassPathResource(judgmentsConfFilesClassPath + "stopwords.txt"));
         judgmentsIndex.addConfigurationFile(new ClassPathResource(judgmentsConfFilesClassPath + "synonyms.txt"));
+        judgmentsIndex.addConfigurationFile(new ClassPathResource(judgmentsConfFilesClassPath + "currency.xml"));
 
         return judgmentsIndex;
     }

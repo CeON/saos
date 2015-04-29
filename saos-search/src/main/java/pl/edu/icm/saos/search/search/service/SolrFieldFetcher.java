@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.search.search.service;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -47,6 +48,17 @@ public class SolrFieldFetcher<F extends IndexField> {
             throw new RuntimeException(value + " is not Long (field: " + field.getFieldName() + ")");
         }
         return (Long) value;
+    }
+    
+    public BigDecimal fetchCurrencyValue(SolrDocument doc, F field) {
+        Object value = doc.getFirstValue(field.getFieldName());
+        if (value == null) {
+            return null;
+        }
+        String currencyValueString = (String) value;
+        String valueWithoutCurrency = currencyValueString.split(",")[0];
+        
+        return new BigDecimal(valueWithoutCurrency);
     }
 
     public LocalDate fetchDateValue(SolrDocument doc, F field) {

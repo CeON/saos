@@ -10,6 +10,7 @@ import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -235,6 +236,8 @@ public class JudgmentSearchServiceTest {
         assertEquals("III AUa 271/12", result.getCaseNumbers().get(0));
         assertEquals(JudgmentType.SENTENCE, result.getJudgmentType());
         
+        assertEquals(new BigDecimal("12300.23"), result.getMaxMoneyAmount());
+        
         LocalDate expectedDate = new LocalDate(2012, 5, 15);
         assertEquals(expectedDate, result.getJudgmentDate());
         
@@ -436,6 +439,8 @@ public class JudgmentSearchServiceTest {
         
         doc.addField("judgmentDate", "2012-05-15T00:00:00Z");
         doc.addField("judgmentType", "SENTENCE");
+        
+        doc.addField("maximumMoneyAmount", new BigDecimal("12300.23"));
 
         doc.addField("judge", "Jacek Witkowski|PRESIDING_JUDGE");
         doc.addField("judge", "Elżbieta Kunecka");
