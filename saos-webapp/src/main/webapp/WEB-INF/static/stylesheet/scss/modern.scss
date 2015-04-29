@@ -625,9 +625,19 @@ input.search-all {
     margin-top: 20px;
     padding: 10px;
     position: relative;
+    
+    label {
+        font-weight: 400;
+        
+        &.col-sm-2 {
+            width: 18%;     
+        }
+        
+    }
+    
 }
 
-.form-section-open {
+.info-section {
     @include background-image("icons/arrow-down.png");
     @include transition(all, 0.2s);
     background-position: right 10px center;
@@ -663,7 +673,7 @@ input.search-all {
         }
     }
     
-    .form-section-open {
+    .info-section {
         background-color: inherit;
         border: 0;
         padding: 12px 30px 12px 12px;

@@ -8,9 +8,9 @@ import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import pl.edu.icm.saos.persistence.common.FormatConst;
-import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+import pl.edu.icm.saos.webapp.common.search.CourtCriteria;
 import pl.edu.icm.saos.webapp.format.MultiWordFormat;
 
 import com.google.common.collect.Lists;
@@ -38,15 +38,12 @@ public class JudgmentCriteriaForm {
     @MultiWordFormat
     private List<String> keywords = Lists.newArrayList();
     
-    private CourtType courtType;
     
-    private Long commonCourtId;
-    private Long commonCourtDivisionId;
+    private CourtCriteria courtCriteria = new CourtCriteria();
+    
     
     private PersonnelType scPersonnelType;
     private String scJudgmentForm;
-    private Long supremeChamberId;
-    private Long supremeChamberDivisionId;
     
     private String ctDissentingOpinion;
     
@@ -89,32 +86,12 @@ public class JudgmentCriteriaForm {
 		}
 	}
 	
-	public CourtType getCourtType() {
-		return courtType;
-	}
-	
-	public Long getCommonCourtId() {
-		return commonCourtId;
-	}
-	
-	public Long getCommonCourtDivisionId() {
-		return commonCourtDivisionId;
-	}
-	
 	public PersonnelType getScPersonnelType() {
 		return scPersonnelType;
 	}
 	
 	public String getScJudgmentForm() {
 		return scJudgmentForm;
-	}
-	
-	public Long getSupremeChamberId() {
-		return supremeChamberId;
-	}
-	
-	public Long getSupremeChamberDivisionId() {
-		return supremeChamberDivisionId;
 	}
 	
     public String getCtDissentingOpinion() {
@@ -145,6 +122,11 @@ public class JudgmentCriteriaForm {
         return referencedCourtCaseId;
     }
 	
+    public CourtCriteria getCourtCriteria() {
+        return courtCriteria;
+    }
+
+
 	//------------------------ SETTERS --------------------------
 	
 	public void setAll(String all) {
@@ -171,32 +153,12 @@ public class JudgmentCriteriaForm {
 		this.keywords = keywords;
 	}
 
-	public void setCourtType(CourtType courtType) {
-		this.courtType = courtType;
-	}
-	
-	public void setCommonCourtId(Long commonCourtId) {
-		this.commonCourtId = commonCourtId;
-	}
-	
-	public void setCommonCourtDivisionId(Long commonCourtDivisionId) {
-		this.commonCourtDivisionId = commonCourtDivisionId;
-	}
-	
 	public void setScPersonnelType(PersonnelType scPersonnelType) {
 		this.scPersonnelType = scPersonnelType;
 	}
 
 	public void setScJudgmentForm(String scJudgmentForm) {
 		this.scJudgmentForm = scJudgmentForm;
-	}
-	
-	public void setSupremeChamberId(Long supremeChamberId) {
-		this.supremeChamberId = supremeChamberId;
-	}
-
-	public void setSupremeChamberDivisionId(Long supremeChamberDivisionId) {
-		this.supremeChamberDivisionId = supremeChamberDivisionId;
 	}
 	
     public void setCtDissentingOpinion(String ctDissentingOpinion) {
@@ -223,22 +185,28 @@ public class JudgmentCriteriaForm {
         this.referencedCourtCaseId = referencedCourtCaseId;
     }
 
+    public void setCourtCriteria(CourtCriteria courtCriteria) {
+        this.courtCriteria = courtCriteria;
+    }
+
     
     //------------------------ toString --------------------------
+
     
     @Override
     public String toString() {
         return "JudgmentCriteriaForm [all=" + all + ", signature=" + signature + ", dateFrom="
                 + dateFrom + ", dateTo=" + dateTo + ", judgeName=" + judgeName + ", keywords="
-                + keywords + ", courtType=" + courtType + ", commonCourtId=" + commonCourtId
-                + ", commonCourtDivisionId=" + commonCourtDivisionId + ", scPersonnelType="
-                + scPersonnelType + ", scJudgmentForm=" + scJudgmentForm + ", supremeChamberId="
-                + supremeChamberId + ", supremeChamberDivisionId=" + supremeChamberDivisionId
-                + ", ctDissentingOpinion=" + ctDissentingOpinion + ", judgmentTypes="
-                + judgmentTypes + ", legalBase=" + legalBase + ", referencedRegulation="
-                + referencedRegulation + ", lawJournalEntryId=" + lawJournalEntryId
-                + ", referencedCourtCaseId=" + referencedCourtCaseId + "]";
+                + keywords + ", courtCriteria=" + courtCriteria + ", scPersonnelType="
+                + scPersonnelType + ", scJudgmentForm=" + scJudgmentForm + ", ctDissentingOpinion="
+                + ctDissentingOpinion + ", judgmentTypes=" + judgmentTypes + ", legalBase="
+                + legalBase + ", referencedRegulation=" + referencedRegulation
+                + ", lawJournalEntryId=" + lawJournalEntryId + ", referencedCourtCaseId="
+                + referencedCourtCaseId + "]";
     }
 
+
+    
+    
 }
 

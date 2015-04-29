@@ -43,6 +43,7 @@ import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
+import pl.edu.icm.saos.webapp.common.search.CourtDataModelCreator;
 import pl.edu.icm.saos.webapp.court.CcListService;
 import pl.edu.icm.saos.webapp.court.ScListService;
 import pl.edu.icm.saos.webapp.court.SimpleEntity;
@@ -87,6 +88,10 @@ public class JudgmentSearchControllerTest {
 	@Mock
 	private JudgmentRepository judgmentRepository;
 	
+	@InjectMocks
+    private CourtDataModelCreator courtDataModelCreator;
+    
+	
 	@Autowired
 	private TestCourtsFactory testCourtsFactory;
 	
@@ -101,10 +106,14 @@ public class JudgmentSearchControllerTest {
 	private SearchResults<JudgmentSearchResult> results;
 	
 	private LawJournalEntry lawJournalEntry = getTestLawJournalEntry();
+	
+	
     
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
+		
+		judgmentSearchController.setCourtDataModelCreator(courtDataModelCreator);
 		
 		simpleEntities = testCourtsFactory.getSimpleEntities();
 		
@@ -147,7 +156,7 @@ public class JudgmentSearchControllerTest {
 		Integer commonCourtId = 1;
 		when(ccListService.findCcDivisions(commonCourtId)).thenReturn(simpleEntities);
 		
-		mockMvc.perform(get("/search").param("commonCourtId", commonCourtId.toString()).param("courtType", "COMMON"))
+		mockMvc.perform(get("/search").param("courtCriteria.ccCourtId", commonCourtId.toString()).param("courtCriteria.courtType", "COMMON"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentSearch"))
 			.andExpect(model().attribute("commonCourtDivisions", simpleEntities))
@@ -175,7 +184,7 @@ public class JudgmentSearchControllerTest {
 		Integer supremeChamberId = 1;
 		when(scListService.findScChamberDivisions(supremeChamberId)).thenReturn(simpleEntities);
 		
-		mockMvc.perform(get("/search").param("supremeChamberId", supremeChamberId.toString()).param("courtType", "SUPREME"))
+		mockMvc.perform(get("/search").param("courtCriteria.scCourtChamberId", supremeChamberId.toString()).param("courtCriteria.courtType", "SUPREME"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentSearch"))
 			.andExpect(model().attribute("supremeChamberDivisions", simpleEntities))
@@ -202,7 +211,7 @@ public class JudgmentSearchControllerTest {
 		
 
 		
-		mockMvc.perform(get("/search").param("courtType", "SUPREME"))
+		mockMvc.perform(get("/search").param("courtCriteria.courtType", "SUPREME"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentSearch"))
 			.andExpect(model().attribute("scJudgmentForms", scJudgmentForms))

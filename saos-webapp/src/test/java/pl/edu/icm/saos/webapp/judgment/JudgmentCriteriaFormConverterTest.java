@@ -11,6 +11,7 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.search.model.JudgmentCriteria;
+import pl.edu.icm.saos.webapp.common.search.CourtCriteria;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -45,15 +46,18 @@ public class JudgmentCriteriaFormConverterTest {
 		assertEquals(judgmentCriteriaForm.getDateFrom(), judgmentCriteria.getJudgmentDateFrom());
 		assertEquals(judgmentCriteriaForm.getDateTo(), judgmentCriteria.getJudgmentDateTo());
 		
-		assertEquals(judgmentCriteriaForm.getCourtType(), judgmentCriteria.getCourtType());
+		CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
+        
+		assertEquals(courtCriteria.getCourtType(), judgmentCriteria.getCourtType());
 		
-		assertEquals(judgmentCriteriaForm.getCommonCourtId(), judgmentCriteria.getCcCourtId());
-		assertEquals(judgmentCriteriaForm.getCommonCourtDivisionId(), judgmentCriteria.getCcCourtDivisionId());
+		assertEquals(courtCriteria.getCcCourtId(), judgmentCriteria.getCcCourtId());
+		assertEquals(courtCriteria.getCcCourtDivisionId(), judgmentCriteria.getCcCourtDivisionId());
+
+		assertEquals(courtCriteria.getScCourtChamberId(), judgmentCriteria.getScCourtChamberId());
+        assertEquals(courtCriteria.getScCourtChamberDivisionId(), judgmentCriteria.getScCourtChamberDivisionId());
 		
 		assertEquals(judgmentCriteriaForm.getScPersonnelType(), judgmentCriteria.getScPersonnelType());
 		assertEquals(judgmentCriteriaForm.getScJudgmentForm(), judgmentCriteria.getScJudgmentForm());
-		assertEquals(judgmentCriteriaForm.getSupremeChamberId(), judgmentCriteria.getScCourtChamberId());
-		assertEquals(judgmentCriteriaForm.getSupremeChamberDivisionId(), judgmentCriteria.getScCourtChamberDivisionId());
 		
 		assertEquals(judgmentCriteriaForm.getCtDissentingOpinion(), judgmentCriteria.getCtDissentingOpinion());
 		
@@ -84,15 +88,18 @@ public class JudgmentCriteriaFormConverterTest {
 		judgmentCriteriaForm.setDateFrom(localDate[0]);
 		judgmentCriteriaForm.setDateTo(localDate[1]);
 		
-		judgmentCriteriaForm.setCourtType(CourtType.COMMON);
+		CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
+		courtCriteria.setCourtType(CourtType.COMMON);
 
-		judgmentCriteriaForm.setCommonCourtId(12l);
-		judgmentCriteriaForm.setCommonCourtDivisionId(15l);
+		courtCriteria.setCcCourtId(12l);
+		courtCriteria.setCcCourtDivisionId(15l);
+		
+		courtCriteria.setScCourtChamberId(13l);
+        courtCriteria.setScCourtChamberDivisionId(14l);
+        
 		
 		judgmentCriteriaForm.setScPersonnelType(PersonnelType.FIVE_PERSON);
 		judgmentCriteriaForm.setScJudgmentForm("wyrok SN");
-		judgmentCriteriaForm.setSupremeChamberId(13l);
-		judgmentCriteriaForm.setSupremeChamberDivisionId(14l);
 		
 		judgmentCriteriaForm.setCtDissentingOpinion("opinion");
 		

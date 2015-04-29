@@ -26,6 +26,7 @@ import pl.edu.icm.saos.webapp.analysis.request.DefaultJudgmentGlobalFilterFactor
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
 import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
 import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
+import pl.edu.icm.saos.webapp.common.search.CourtDataModelCreator;
 
 /**
  * @author Łukasz Dumiszewski
@@ -33,13 +34,13 @@ import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
 @Controller
 public class AnalysisController {
 
-    
-    
     private FlotChartService flotChartService;
     
     private ChartCsvService chartCsvService;
     
     private DefaultJudgmentGlobalFilterFactory judgmentDateRangeFactory;
+    
+    private CourtDataModelCreator courtDataModelCreator;
     
     private int maxNumberOfSearchPhrases;
     
@@ -71,18 +72,23 @@ public class AnalysisController {
     
     @RequestMapping(value="/analysis", method=RequestMethod.GET)
     public String showAnalysis(@ModelAttribute("analysisForm") AnalysisForm analysisForm, ModelMap model, HttpServletRequest request) {
+
+        courtDataModelCreator.addCourtDataToModel(analysisForm.getGlobalFilter().getCourtCriteria(), model);
+        
         return "analysis";
     }
     
     @RequestMapping(value="/analysis/removePhrase", method=RequestMethod.POST)
     public String removeSeriesSearchCriteria(@ModelAttribute("analysisForm") AnalysisForm analysisForm, @RequestParam("filterIndexToRemove") int filterIndexToRemove, ModelMap model, HttpServletRequest request) {
         analysisForm.getSeriesFilters().remove(filterIndexToRemove);
+        courtDataModelCreator.addCourtDataToModel(analysisForm.getGlobalFilter().getCourtCriteria(), model);
         return "analysisForm";
     }
     
     @RequestMapping(value="/analysis/addNewPhrase", method=RequestMethod.POST)
     public String addNewSeriesSearchCriteria(@ModelAttribute("analysisForm") AnalysisForm analysisForm, ModelMap model, HttpServletRequest request) {
         analysisForm.addSeriesFilter(new JudgmentSeriesFilter());
+        courtDataModelCreator.addCourtDataToModel(analysisForm.getGlobalFilter().getCourtCriteria(), model);
         return "analysisForm";
     }
     
@@ -117,11 +123,19 @@ public class AnalysisController {
     public void setJudgmentDateRangeFactory(DefaultJudgmentGlobalFilterFactory judgmentDateRangeFactory) {
         this.judgmentDateRangeFactory = judgmentDateRangeFactory;
     }
+
+
+    @Autowired
+    public void setCourtDataModelCreator(CourtDataModelCreator courtDataModelCreator) {
+        this.courtDataModelCreator = courtDataModelCreator;
+    }
+
     
     @Value("${analysis.maxNumberOfSearchPhrases}")
     public void setMaxNumberOfSearchPhrases(int maxNumberOfSearchPhrases) {
         this.maxNumberOfSearchPhrases = maxNumberOfSearchPhrases;
     }
+
 
 
     

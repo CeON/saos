@@ -4,7 +4,6 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 
 /**
  * Search criteria corresponding to court data
- * TODO: use it on the judgment search page
  * 
  * @author Łukasz Dumiszewski
  */
@@ -55,6 +54,16 @@ public class CourtCriteria {
     }
     public void setScCourtChamberDivisionId(Long scCourtChamberDivisionId) {
         this.scCourtChamberDivisionId = scCourtChamberDivisionId;
+    }
+    
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "CourtCriteria [courtType=" + courtType + ", ccCourtId=" + ccCourtId
+                + ", ccCourtDivisionId=" + ccCourtDivisionId + ", scCourtChamberId="
+                + scCourtChamberId + ", scCourtChamberDivisionId=" + scCourtChamberDivisionId + "]";
     }
 
 }

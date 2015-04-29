@@ -18,7 +18,7 @@ import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
-import pl.edu.icm.saos.webapp.court.CcListService;
+import pl.edu.icm.saos.webapp.common.search.CourtDataModelCreator;
 import pl.edu.icm.saos.webapp.court.ScListService;
 import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaForm;
 import pl.edu.icm.saos.webapp.judgment.PageLinkGenerator;
@@ -33,19 +33,14 @@ import pl.edu.icm.saos.webapp.judgment.PageLinkGenerator;
 public class JudgmentSearchController {
 
 	
-	@Autowired
 	private JudgmentWebSearchService judgmentsWebSearchService;
 	
-	@Autowired
-	private CcListService ccListService;
+	private CourtDataModelCreator courtDataModelCreator;
 	
-	@Autowired
 	private ScListService scListService;
-
-	@Autowired
+	
 	private LawJournalEntryRepository lawJournalEntryRepository;
 	
-	@Autowired
 	private JudgmentRepository judgmentRepository;
 	
 	
@@ -62,8 +57,7 @@ public class JudgmentSearchController {
 		model.addAttribute("searchResults", searchResults);
 		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
 		
-		addCommonCourtsToModel(judgmentCriteriaForm, model);
-		addSupremeCourtChambersToModel(judgmentCriteriaForm, model);
+		courtDataModelCreator.addCourtDataToModel(judgmentCriteriaForm.getCourtCriteria(), model);
 		addSupremeCourtJudgmentForm(judgmentCriteriaForm, model);
 		addLawJournalEntryToModel(judgmentCriteriaForm, model);
 		addReferencedJudgmentToModel(judgmentCriteriaForm, model);
@@ -75,31 +69,10 @@ public class JudgmentSearchController {
 	
 	//------------------------ PRIVATE --------------------------
 	
-	private void addCommonCourtsToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
-	    
-	    if(CourtType.COMMON.equals(judgmentCriteriaForm.getCourtType())) {
-    		model.addAttribute("commonCourts", ccListService.findCommonCourts());
-    		
-    		if (judgmentCriteriaForm.getCommonCourtId() != null) {
-    			model.addAttribute("commonCourtDivisions", ccListService.findCcDivisions(judgmentCriteriaForm.getCommonCourtId()));
-    		}
-	    }
-	}
-	
-	private void addSupremeCourtChambersToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
-	    
-	    if(CourtType.SUPREME.equals(judgmentCriteriaForm.getCourtType())) {
-    		model.addAttribute("supremeChambers", scListService.findScChambers());
-    		
-    		if (judgmentCriteriaForm.getSupremeChamberId() != null) {
-    			model.addAttribute("supremeChamberDivisions", scListService.findScChamberDivisions(judgmentCriteriaForm.getSupremeChamberId()));
-    		}
-	    }
-	}
-	
+
 	private void addSupremeCourtJudgmentForm(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
 	    
-	    if(CourtType.SUPREME.equals(judgmentCriteriaForm.getCourtType())) {
+	    if(CourtType.SUPREME.equals(judgmentCriteriaForm.getCourtCriteria().getCourtType())) {
 	        model.addAttribute("scJudgmentForms", scListService.findScJudgmentForms());
 	    }
 	}
@@ -118,5 +91,39 @@ public class JudgmentSearchController {
 	        model.addAttribute("referencedJudgment", judgment);
 	    }
 	}
+	
+	
+	
+	//------------------------ SETTERS --------------------------
+
+	
+	@Autowired
+    public void setJudgmentsWebSearchService(JudgmentWebSearchService judgmentsWebSearchService) {
+        this.judgmentsWebSearchService = judgmentsWebSearchService;
+    }
+
+
+    @Autowired
+    public void setCourtDataModelCreator(CourtDataModelCreator courtDataModelCreator) {
+        this.courtDataModelCreator = courtDataModelCreator;
+    }
+
+
+    @Autowired
+    public void setScListService(ScListService scListService) {
+        this.scListService = scListService;
+    }
+
+
+    @Autowired
+    public void setLawJournalEntryRepository(LawJournalEntryRepository lawJournalEntryRepository) {
+        this.lawJournalEntryRepository = lawJournalEntryRepository;
+    }
+
+
+    @Autowired
+    public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
+        this.judgmentRepository = judgmentRepository;
+    }
 
 }
