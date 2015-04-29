@@ -23,7 +23,7 @@ public class SolrDocumentAssert {
         assertTrue(fieldNames.isEmpty());
     }
     
-    public static void assertSingleField(SolrInputDocument doc, String fieldName, String fieldValue) {
+    public static void assertSingleField(SolrInputDocument doc, String fieldName, Object fieldValue) {
         List<String> fieldNames = new ArrayList<String>(doc.getFieldNames());
         
         assertEquals(1, fieldNames.size());

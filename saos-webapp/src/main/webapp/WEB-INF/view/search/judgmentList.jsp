@@ -26,9 +26,10 @@
 			
 			</div>
 			
-			<span class="top-line-right">
-				<spring:message code="judgmentSearch.results.referencingCount" />: <c:out value="${judgment.referencingCount}" />
-			</span>
+			<div class="top-line-right">
+				<div><spring:message code="judgmentSearch.results.referencingCount" />: <c:out value="${judgment.referencingCount}" /></div>
+				<c:if test="${!empty judgment.maxMoneyAmount}"><div><spring:message code="judgmentSearch.results.maxMoneyAmount" />: <fmt:formatNumber value="${judgment.maxMoneyAmount}" maxFractionDigits="2" /> zł</div></c:if>
+			</div>
 		</div>
 	
 		<div class="case-number">

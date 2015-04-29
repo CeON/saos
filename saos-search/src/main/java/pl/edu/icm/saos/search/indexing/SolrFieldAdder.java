@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.search.indexing;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,6 +88,19 @@ public class SolrFieldAdder<F extends IndexField> {
         if (date != null) {
             String dateString = SearchDateTimeUtils.convertDateToISOString(date);
             doc.addField(field.getFieldName(), dateString);
+        }
+    }
+    
+    /**
+     * Adds {@link BigDecimal} value as PLN currency into {@link SolrInputDocument}
+     * 
+     * @param doc
+     * @param field
+     * @param value
+     */
+    public void addCurrencyField(SolrInputDocument doc, F field, BigDecimal value) {
+        if (value != null) {
+            doc.addField(field.getFieldName(), value);
         }
     }
 }

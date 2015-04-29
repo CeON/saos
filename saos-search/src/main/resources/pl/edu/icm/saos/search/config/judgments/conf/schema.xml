@@ -70,6 +70,7 @@
    <field name="lawJournalEntryId" type="long" indexed="true" stored="true" multiValued="true" />
    <field name="referencedCourtCasesIds" type="long" indexed="true" stored="true" multiValued="true" />
    <field name="referencingJudgmentsCount" type="long" indexed="true" stored="true" multiValued="false" />
+   <field name="maximumMoneyAmount" type="currency" indexed="true" stored="true" multiValued="false" />
    
    <field name="sourceCode" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="courtType" type="string" indexed="true" stored="true" multiValued="false" />
@@ -134,6 +135,7 @@
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
     <fieldType name="int" class="solr.TrieIntField" precisionStep="0" positionIncrementGap="0"/>
     <fieldType name="long" class="solr.TrieLongField" precisionStep="0" positionIncrementGap="0"/>
+    <fieldType name="double" class="solr.TrieDoubleField" precisionStep="6" positionIncrementGap="0"/>
     <fieldType name="tdate" class="solr.TrieDateField" precisionStep="6" positionIncrementGap="0"/>
 
 
@@ -163,6 +165,8 @@
         <filter class="solr.LowerCaseFilterFactory"/>
       </analyzer>
     </fieldtype>
+    
+    <fieldType name="currency" class="solr.CurrencyField" precisionStep="8" currencyConfig="currency.xml" defaultCurrency="PLN" />
     
 
 

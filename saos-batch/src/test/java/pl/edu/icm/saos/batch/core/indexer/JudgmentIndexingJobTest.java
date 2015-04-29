@@ -29,10 +29,13 @@ import org.springframework.jdbc.datasource.init.ScriptException;
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
+import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -55,6 +58,9 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
     
     @Autowired
     private JudgmentRepository judgmentRepository;
+    
+    @Autowired
+    private JudgmentEnrichmentService judgmentEnrichmentService;
     
     @Autowired
     private TestJudgmentsGenerator testJudgmentsGenerator;
@@ -89,7 +95,10 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         
         EnrichmentTag tag1 = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(ccJudgments.get(0).getId(), ccJudgments.get(3), scJudgments.get(9));
         EnrichmentTag tag2 = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(ccJudgments.get(2).getId(), ccJudgments.get(3), ctJudgments.get(0));
-        enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2));
+        EnrichmentTag tag3 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(ccJudgments.get(3).getId(), EnrichmentTagTypes.MAX_REFERENCED_AMOUNT,
+                JsonNormalizer.normalizeJson("{amount:12300.45, text:'123 tys zł 45 gr'}"));
+        
+        enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2, tag3));
     }
     
     @After
@@ -123,11 +132,11 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         assertAllMarkedAsIndexed();
         assertAllInIndex(ALL_JUDGMENTS_COUNT - alreadyIndexedCount);
         
-        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(3).getId()), ccJudgments.get(3), 2L);
-        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(6).getId()), ccJudgments.get(6), 0L);
-        assertScJudgment(fetchJudgmentDoc(scJudgments.get(3).getId()), scJudgments.get(3), 0L);
-        assertScJudgment(fetchJudgmentDoc(scJudgments.get(9).getId()), scJudgments.get(9), 1L);
-        assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(0).getId()), ctJudgments.get(0), 1L);
+        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(3).getId()), fetchEnrichedJudgment(ccJudgments.get(3).getId()), 2L);
+        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(6).getId()), fetchEnrichedJudgment(ccJudgments.get(6).getId()), 0L);
+        assertScJudgment(fetchJudgmentDoc(scJudgments.get(3).getId()), fetchEnrichedJudgment(scJudgments.get(3).getId()), 0L);
+        assertScJudgment(fetchJudgmentDoc(scJudgments.get(9).getId()), fetchEnrichedJudgment(scJudgments.get(9).getId()), 1L);
+        assertCtJudgment(fetchJudgmentDoc(ctJudgments.get(0).getId()), fetchEnrichedJudgment(ctJudgments.get(0).getId()), 1L);
         
     }
     
@@ -161,6 +170,10 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
     
     
     //------------------------ PRIVATE --------------------------
+    
+    private <T extends Judgment> T fetchEnrichedJudgment(long judgmentId) {
+        return judgmentEnrichmentService.findOneAndEnrich(judgmentId);
+    }
     
     private SolrDocument fetchJudgmentDoc(long judgmentId) throws SolrServerException {
         SolrQuery query = new SolrQuery("databaseId:" + String.valueOf(judgmentId));

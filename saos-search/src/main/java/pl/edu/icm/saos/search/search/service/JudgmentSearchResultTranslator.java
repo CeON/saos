@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.search.search.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -56,6 +57,11 @@ public class JudgmentSearchResultTranslator implements SearchResultTranslator<Ju
         Long referencingCount = fieldFetcher.fetchLongValue(document, JudgmentIndexField.REFERENCING_JUDGMENTS_COUNT);
         if (referencingCount != null) {
             result.setReferencingCount(referencingCount);
+        }
+        
+        BigDecimal maxMoneyAmount = fieldFetcher.fetchCurrencyValue(document, JudgmentIndexField.MAXIMUM_MONEY_AMOUNT);
+        if (maxMoneyAmount != null) {
+            result.setMaxMoneyAmount(maxMoneyAmount);
         }
         
         String courtTypeString = fieldFetcher.fetchValue(document, JudgmentIndexField.COURT_TYPE);

@@ -58,6 +58,7 @@ public abstract class JudgmentIndexFieldsFiller {
         fillMeansOfAppeal(doc, judgment);
         fillJudgmentResult(doc, judgment);
         fillContent(doc, judgment);
+        fillMaxMoneyAmount(doc, judgment);
         
         fillReferencingCount(doc, judgmentData);
     }
@@ -151,6 +152,12 @@ public abstract class JudgmentIndexFieldsFiller {
     
     private void fillContent(SolrInputDocument doc, Judgment judgment) {
         fieldAdder.addField(doc, JudgmentIndexField.CONTENT, judgment.getRawTextContent());
+    }
+    
+    private void fillMaxMoneyAmount(SolrInputDocument doc, Judgment judgment) {
+        if (judgment.getMaxMoneyAmount() != null) {
+            fieldAdder.addCurrencyField(doc, JudgmentIndexField.MAXIMUM_MONEY_AMOUNT, judgment.getMaxMoneyAmount().getAmount());
+        }
     }
     
     private void fillReferencingCount(SolrInputDocument doc, JudgmentIndexingData judgmentData) {

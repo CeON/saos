@@ -3,6 +3,7 @@ package pl.edu.icm.saos.search.search.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +63,8 @@ public class JudgmentSearchResultTranslatorTest {
         doc.addField("referencedRegulations", "Ustawa 2");
         doc.addField("referencingJudgmentsCount", 23L);
         
+        doc.addField("maximumMoneyAmount", "12300.45,PLN");
+        
         doc.addField("courtType", "COMMON");
         
         doc.addField("keyword", "some keyword");
@@ -86,6 +89,8 @@ public class JudgmentSearchResultTranslatorTest {
         assertEquals(CourtType.COMMON, result.getCourtType());
         
         assertEquals(23L, result.getReferencingCount());
+        
+        assertEquals(new BigDecimal("12300.45"), result.getMaxMoneyAmount());
         
         assertEquals(2, result.getKeywords().size());
         assertTrue(result.getKeywords().contains("some keyword"));
