@@ -13,7 +13,7 @@
 			<div class="top-line-main">
 				<c:if test="${!empty judgment.judgmentType && judgment.judgmentType != null}" >
 				
-					<a href="" class="judgment-type" data-filter-value="${judgment.judgmentType}" >
+					<a href="" class="judgment-type" data-filter-value="${judgment.judgmentType}" data-toggle="tooltip" title="<spring:message code="judgmentSearch.filter.add"/>" >
 						<saos:enum value="${judgment.judgmentType}" ></saos:enum>
 					</a>
 
@@ -21,7 +21,7 @@
 			
 				<c:if test="${!empty judgment.courtType && judgment.courtType != null}" >
 					<span>-</span>
-					<a href="" class="court-type" data-filter-value="${judgment.courtType}" ><spring:message code="judgmentSearch.results.courtType.${judgment.courtType}" /></a>
+					<a href="" class="court-type" data-filter-value="${judgment.courtType}" data-toggle="tooltip" title="<spring:message code="judgmentSearch.filter.add"/>"><spring:message code="judgmentSearch.results.courtType.${judgment.courtType}" /></a>
 				</c:if>
 			
 			</div>
@@ -39,7 +39,12 @@
 			</h3>
 		</div>
 		
-		<div class=""><span><spring:message code="judgment.date" />:</span><a href="" class="date"><joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}" /></a></div>
+		<div class="">
+		  <span><spring:message code="judgment.date" />:</span>
+		  <a href="" class="date" data-toggle="tooltip" title="<spring:message code="judgmentSearch.filter.add"/>">
+		      <joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}" />
+		  </a>
+		</div>
 		
 		<%-- CommonCourt & CommonCourtDivision  --%>
 		<c:if test="${!empty judgment.ccCourtName || !empty judgment.ccCourtDivisionName}" >
@@ -72,7 +77,7 @@
 					<c:forEach items="${judgment.judges}" var="judge" >
 				
 						<li >
-							<a href="" class="judge"><c:out value="${judge.name}" /></a>
+							<a href="" class="judge" data-toggle="tooltip" title="<spring:message code="judgmentSearch.filter.add"/>" ><c:out value="${judge.name}" /></a>
 							
 							<c:if test="${judge.presidingJudge}" >
 								<span class="presiding-judge"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >
@@ -91,7 +96,7 @@
 				<span>
 					<spring:message code="judgment.scJudgmentForm" />:
 				</span>
-				<a href="" class="judgment-form">
+				<a href="" class="judgment-form" data-toggle="tooltip" title="<spring:message code="judgmentSearch.filter.add"/>">
 					<c:out value="${judgment.scJudgmentForm}" />
 				</a>	
 			</div>
@@ -104,7 +109,7 @@
 				</span>
 				<ul>
 					<c:forEach items="${judgment.keywords}" var="keyword" >
-						<li ><a href="" class="keyword"><c:out value="${keyword}" /></a></li>
+						<li ><a href="" class="keyword" data-toggle="tooltip" title="<spring:message code="judgmentSearch.filter.add"/>" ><c:out value="${keyword}" /></a></li>
 					</c:forEach>
 				</ul>
 			</div>

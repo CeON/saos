@@ -12,5 +12,5 @@
 	<c:set var="filterValueToShow" value="${value}" scope="page"/>
 </c:if>
 
-<a href="" class="${cssClass}" data-filter-value="${filterValueToShow}" ><c:out value="${value}" /></a>
+<a href="" class="${cssClass}" data-filter-value="${filterValueToShow}" data-toggle="tooltip" title="<spring:message code="judgmentSearch.filter.add" />" ><c:out value="${value}" /></a>
 
