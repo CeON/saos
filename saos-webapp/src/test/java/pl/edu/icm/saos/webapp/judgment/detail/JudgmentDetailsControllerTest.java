@@ -65,9 +65,7 @@ public class JudgmentDetailsControllerTest {
     
     @Mock
     private JudgmentCorrectionService judgmentCorrectionService;
-    
-    @Mock
-    private JudgeSortService judgeSortService;
+
     
     private CommonCourtJudgment judgment = createCcJudgment();
     private List<JudgmentCorrection> judgmentCorrections = createJudgmentCorrections();
