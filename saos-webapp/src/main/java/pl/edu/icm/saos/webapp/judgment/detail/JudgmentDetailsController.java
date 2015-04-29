@@ -14,6 +14,7 @@ import pl.edu.icm.saos.webapp.judgment.detail.refcourtcases.ReferencingJudgments
 
 /**
  * Provides view of single judgment.
+ * 
  * @author Łukasz Pawełczak
  *
  */
@@ -27,7 +28,7 @@ public class JudgmentDetailsController {
 	private JudgmentCorrectionService judgmentCorrectionService;
 	
 	@Autowired 
-	private JudgmentDetailsSortService judgmentDetailsSortService;
+	private JudgeSortService judgeSortService;
 	
 	@Autowired
 	private ReferencingJudgmentsService referencingJudgmentsService;
@@ -38,7 +39,9 @@ public class JudgmentDetailsController {
 	@RequestMapping("/judgments/{judgmentId}")
 	public String showJudgmentDetails(ModelMap model, @PathVariable("judgmentId") long judgmentId) {		
 		
-	    Judgment judgment = judgmentDetailsSortService.sortJudges(judgmentEnrichmentService.findOneAndEnrich(judgmentId));
+	    Judgment judgment = judgmentEnrichmentService.findOneAndEnrich(judgmentId);
+	    
+	    judgeSortService.sortJudges(judgment.getJudges());
 	    
 	    String formattedTextContent = judgment.getRawTextContent();
 	    if (judgment.getTextContent().getType() != ContentType.HTML) {
