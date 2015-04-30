@@ -40,4 +40,5 @@ public class MoneyAmount extends GeneratableObject {
         this.text = text;
     }
     
+
 }

@@ -121,6 +121,10 @@ class JudgmentIndexAssertUtils {
         
         assertSolrDocumentLongValues(doc, JudgmentIndexField.REFERENCING_JUDGMENTS_COUNT, referencingCount);
         
+        if (judgment.getMaxMoneyAmount() != null) {
+            assertSolrDocumentValues(doc, JudgmentIndexField.MAXIMUM_MONEY_AMOUNT, judgment.getMaxMoneyAmount().getAmount().toString() + ",PLN");
+        }
+        
         assertJudges(doc, judgment);
         assertReferencedRegulations(doc, judgment);
         assertLawJournalEntries(doc, judgment);

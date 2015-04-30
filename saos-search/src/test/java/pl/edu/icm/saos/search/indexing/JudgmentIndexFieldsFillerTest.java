@@ -5,6 +5,7 @@ import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.mock;
 import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.JudgmentResult;
 import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
+import pl.edu.icm.saos.persistence.model.MoneyAmount;
 import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
@@ -183,6 +185,16 @@ public class JudgmentIndexFieldsFillerTest {
 
         List<SolrInputField> contentFields = Collections.singletonList(
                 fieldFactory.create("content", "some content"));
+        
+        
+        // max money amount
+        Judgment maxMoneyJudgment = new CommonCourtJudgment();
+        MoneyAmount moneyAmount = new MoneyAmount();
+        moneyAmount.setAmount(new BigDecimal("12300.23"));
+        maxMoneyJudgment.setMaxMoneyAmount(moneyAmount);
+        
+        List<SolrInputField> maxMoneyFields = Collections.singletonList(
+                fieldFactory.create("maximumMoneyAmount", new BigDecimal("12300.23")));
 
         //general
         Judgment generalJudgment = TestInMemoryObjectFactory.createSimpleScJudgment();
@@ -194,6 +206,7 @@ public class JudgmentIndexFieldsFillerTest {
         generalJudgment.setMeansOfAppeal(new MeansOfAppeal(CourtType.SUPREME, "kasacja z urzędu"));
         generalJudgment.setJudgmentResult(new JudgmentResult(CourtType.SUPREME, "pozostawiono bez rozpoznania"));
         generalJudgment.getTextContent().setRawTextContent("some content");
+        generalJudgment.setMaxMoneyAmount(moneyAmount);
 
         List<SolrInputField> generalFields =
             Lists.newArrayList(
@@ -208,6 +221,7 @@ public class JudgmentIndexFieldsFillerTest {
                     fieldFactory.create("judgmentDate", "2014-09-04T00:00:00Z"),
                     fieldFactory.create("judgmentType", "SENTENCE"),
                     fieldFactory.create("content", "some content"),
+                    fieldFactory.create("maximumMoneyAmount", new BigDecimal("12300.23")),
                     fieldFactory.create("all", "kasacja z urzędu", "pozostawiono bez rozpoznania")
             );
 
@@ -225,6 +239,7 @@ public class JudgmentIndexFieldsFillerTest {
             { contentJudgment, contentFields },
             { meansOfAppealJudgment, meansOfAppealFields },
             { judgmentResultJudgment, judgmentResultFields },
+            { maxMoneyJudgment, maxMoneyFields },
             { generalJudgment, generalFields}
         };
     }

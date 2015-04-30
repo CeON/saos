@@ -309,6 +309,7 @@ public abstract class Judgment extends IndexableObject {
         return maxMoneyAmount;
     }
     
+    
     //------------------------ LOGIC --------------------------
     
     
