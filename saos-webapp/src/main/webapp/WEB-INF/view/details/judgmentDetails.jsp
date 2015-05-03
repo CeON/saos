@@ -107,8 +107,11 @@ $(document).ready(function() {
 
 
 	<c:if test="${!empty judgment.judgmentType}" >
+	    <spring:message code="judgmentDetails.linkTooltip.judgmentType" var="judgmentTypeLinkTooltip" />
 		<div class="judgment-type">
-			<spring:message code="judgment.${fn:toLowerCase(judgment.judgmentType)}" />
+		    <a href="${contextPath}/search?judgmentTypes=${judgment.judgmentType}" data-toggle="tooltip" title="${judgmentTypeLinkTooltip}" >
+			    <spring:message code="judgment.${fn:toLowerCase(judgment.judgmentType)}" />
+			</a>
 		</div>
 	</c:if> 
 	
@@ -123,10 +126,18 @@ $(document).ready(function() {
 		<ul class="judgment-data">
 		
 			<c:if test="${!empty judgment.judgmentDate}" >
+			    <spring:message code="judgmentDetails.linkTooltip.date" var="dateLinkTooltip" />
+			    <c:set var="judgmentDate">
+			        <joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}"/>
+			    </c:set>
 				<li>
 					<div class="" >
 						<div class="label-title" ><spring:message code="judgment.date" />:</div>
-						<div class="desc" ><joda:format value="${judgment.judgmentDate}" pattern="${DATE_PATTERN}"/></div>
+						<div class="desc" >
+							<a href="${contextPath}/search?dateFrom=${judgmentDate}&dateTo=${judgmentDate}" data-toggle="tooltip" title="${dateLinkTooltip}" >
+							  ${judgmentDate}
+							</a>
+						</div>
 					</div>
 				</li>
 			</c:if>
@@ -134,11 +145,14 @@ $(document).ready(function() {
 		
 			<%-- CourtType --%>	
 			<c:if test="${!empty judgment.courtType }">
+			    <spring:message code="judgmentDetails.linkTooltip.courtType" var="courtTypeLinkTooltip" />
 				<li>
 					<div >
 						<div class="label-title" ><spring:message code="judgment.courtType" />:</div>
 						<div class="desc" >
-							<saos:enum value="${judgment.courtType}" />
+						    <a href="${contextPath}/search?courtCriteria.courtType=${judgment.courtType}" data-toggle="tooltip" title="${courtTypeLinkTooltip}" >
+							    <saos:enum value="${judgment.courtType}" />
+							</a>
 						</div>
 					</div>
 				</li>
@@ -149,22 +163,28 @@ $(document).ready(function() {
 			<c:if test="${judgment.courtType == 'COMMON'}" >
 			
 				<c:if test="${!empty judgment.courtDivision.court.name}" >
+				    <spring:message code="judgmentDetails.linkTooltip.commonCourt" var="commonCourtLinkTooltip" />
 					<li>
 						<div class="" >
 							<div class="label-title" ><spring:message code="judgment.commonCourt" />:</div>
 							<div class="desc" >
-								<c:out value="${judgment.courtDivision.court.name}" />
+								<a href="${contextPath}/search?courtCriteria.courtType=COMMON&courtCriteria.ccCourtId=${judgment.courtDivision.court.id}" data-toggle="tooltip" title="${commonCourtLinkTooltip}" >
+									<c:out value="${judgment.courtDivision.court.name}" />
+								</a>
 							</div>
 						</div>
 					</li>
 				</c:if>
 				
 				<c:if test="${!empty judgment.courtDivision.name}" >
+				    <spring:message code="judgmentDetails.linkTooltip.commonCourtDivision" var="commonCourtDivisionLinkTooltip" />
 					<li>
 						<div class="" >
 							<div class="label-title" ><spring:message code="judgment.commonDivision" />:</div>
 							<div class="desc" >
-								<c:out value="${judgment.courtDivision.name}" />
+								<a href="${contextPath}/search?courtCriteria.courtType=COMMON&courtCriteria.ccCourtId=${judgment.courtDivision.court.id}&&courtCriteria.ccCourtDivisionId=${judgment.courtDivision.id}" data-toggle="tooltip" title="${commonCourtDivisionLinkTooltip}" >
+									<c:out value="${judgment.courtDivision.name}" />
+								</a>
 							</div>
 						</div>
 					</li>
@@ -177,12 +197,15 @@ $(document).ready(function() {
 			<c:if test="${judgment.courtType == 'SUPREME'}" >
 			
 				<c:if test="${!empty judgment.scChambers}" >
+				    <spring:message code="judgmentDetails.linkTooltip.scCourtChamber" var="scCourtChamberLinkTooltip" />
 					<li>
 						<div class="" >
 							<div class="label-title" ><spring:message code="judgment.supremeChambers" />:</div>
 							<div class="desc" >
 								<c:forEach items="${judgment.scChambers}" var="chamber">
-									<c:out value="${chamber.name}" />
+								    <a href="${contextPath}/search?courtCriteria.courtType=SUPREME&courtCriteria.scCourtChamberId=${chamber.id}" data-toggle="tooltip" title="${scCourtChamberLinkTooltip}" >
+									   <c:out value="${chamber.name}" />
+									</a>
 								</c:forEach>	
 							</div>
 						</div>
@@ -190,34 +213,43 @@ $(document).ready(function() {
 				</c:if>
 				
 				<c:if test="${!empty judgment.scChamberDivision.name}" >
+				    <spring:message code="judgmentDetails.linkTooltip.scCourtChamberDivision" var="scCourtChamberDivisionLinkTooltip" />
 					<li>
 						<div class="" >
 							<div class="label-title" ><spring:message code="judgment.supremeChamberDivisionFullName" />:</div>
 							<div class="desc" >
-								<c:out value="${judgment.scChamberDivision.scChamber.name}" /> 
-								<c:out value="${judgment.scChamberDivision.name}" />
+							    <a href="${contextPath}/search?courtCriteria.courtType=SUPREME&courtCriteria.scCourtChamberId=${judgment.scChamberDivision.scChamber.id}&courtCriteria.scCourtChamberDivisionId=${judgment.scChamberDivision.id}" data-toggle="tooltip" title="${scCourtChamberDivisionLinkTooltip}" >
+									<c:out value="${judgment.scChamberDivision.scChamber.name}" /> 
+									<c:out value="${judgment.scChamberDivision.name}" />
+								</a>
 							</div>
 						</div>
 					</li>
 				</c:if>
 				
 				<c:if test="${!empty judgment.scJudgmentForm}" >
+				    <spring:message code="judgmentDetails.linkTooltip.scJudgmentForm" var="scJudgmentFormLinkTooltip" />
 					<li>
 						<div class="" >
 							<div class="label-title" ><spring:message code="judgment.scJudgmentForm" />:</div>
 							<div class="desc" >
-								<c:out value="${judgment.scJudgmentForm.name}" />
+							    <a href="${contextPath}/search?courtCriteria.courtType=SUPREME&scJudgmentForm=${judgment.scJudgmentForm.name}" data-toggle="tooltip" title="${scJudgmentFormLinkTooltip}" >
+								    <c:out value="${judgment.scJudgmentForm.name}" />
+								</a>
 							</div>
 						</div>
 					</li>
 				</c:if>
 				
 				<c:if test="${!empty judgment.personnelType}" >
+				    <spring:message code="judgmentDetails.linkTooltip.scPersonnelType" var="scPersonnelTypeLinkTooltip" />
 					<li>
 						<div class="" >
 							<div class="label-title" ><spring:message code="judgment.personnelType" />:</div>
 							<div class="desc" >
-								<saos:enum value="${judgment.personnelType}" />
+							    <a href="${contextPath}/search?courtCriteria.courtType=SUPREME&scPersonnelType=${judgment.personnelType}" data-toggle="tooltip" title="${scPersonnelTypeLinkTooltip}" >
+								    <saos:enum value="${judgment.personnelType}" />
+								</a>
 							</div>
 						</div>
 					</li>
@@ -226,13 +258,16 @@ $(document).ready(function() {
 			</c:if>
 			
 			<c:if test="${!empty judgment.judges}" >
+			<spring:message code="judgmentDetails.linkTooltip.judge" var="judgeLinkTooltip" />
 				<li>
 					<div class="" >
 						<div class="label-title" ><spring:message code="judgment.judges" />:</div>
 						<div class="desc" >
 							<c:forEach items="${judgment.judges}" var="judge" >
 								<span>
-									<c:out value="${judge.name}" />
+								    <a href="${contextPath}/search?judgeName=${judge.name}" data-toggle="tooltip" title="${judgeLinkTooltip}" >
+									   <c:out value="${judge.name}" />
+									</a>
 									<c:if test="${judge.presidingJudge}" >
 										<span class="presiding-judge"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >
 											<img src="${contextPath}/static/image/icons/judge.png" alt="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE.iconAlt" />" />
@@ -259,12 +294,16 @@ $(document).ready(function() {
 			</c:if>
 			
 			<c:if test="${!empty judgment.keywords}" >
+			    <spring:message code="judgmentDetails.linkTooltip.keywords" var="keywordsLinkTooltip" />
 				<li>
 					<div class="" >
 						<div class="label-title" ><spring:message code="judgment.keywords" />:</div>
 						<div class="desc" >
 							<c:forEach items="${judgment.keywords}" var="keyword" varStatus="status">
-								<c:out value="${keyword.phrase}" /><c:if test="${!status.last}">,</c:if>
+							<a href="${contextPath}/search?courtCriteria.courtType=COMMON&keywords=${keyword.phrase}" data-toggle="tooltip" title="${keywordsLinkTooltip}" >
+								<c:out value="${keyword.phrase}" />
+							</a>
+							<c:if test="${!status.last}">,</c:if>
 							</c:forEach>
 						</div>
 					</div>
@@ -322,10 +361,15 @@ $(document).ready(function() {
 				
 			
 		<c:if test="${!empty judgment.legalBases}" >
+		    <spring:message code="judgmentDetails.linkTooltip.legalBases" var="legalBasesLinkTooltip" />
 			<h3><spring:message code="judgment.legalBases" />:</h3>
 			<div class="legalBases">	
 				<c:forEach items="${judgment.legalBases}" var="legalBase" >
-					<div class="legalBase"><c:out value="${legalBase}" /></div>
+					<div class="legalBase">
+						<a href="${contextPath}/search?legalBase=${legalBase}" data-toggle="tooltip" title="${legalBasesLinkTooltip}" >
+						   <c:out value="${legalBase}" />
+						</a>
+					</div>
 				</c:forEach>
 			</div>
 		</c:if>
