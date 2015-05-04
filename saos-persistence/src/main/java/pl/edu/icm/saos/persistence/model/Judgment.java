@@ -207,6 +207,7 @@ public abstract class Judgment extends IndexableObject {
     
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "assigned_judgment_keyword",
+            indexes = {@Index(name = "assigned_keyword_fk_judgment_index", columnList = "fk_judgment")},
             joinColumns = {@JoinColumn(name = "fk_judgment", nullable = false, updatable = false) }, 
             inverseJoinColumns = {@JoinColumn(name = "fk_keyword", nullable = false, updatable = false) })
     private List<JudgmentKeyword> getKeywords_() {

@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
@@ -34,7 +35,8 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(name="judgment_name_unique", columnNames={"fk_judgment", "name"})})
+@Table(indexes=@Index(name="judge_fk_judgment_index", columnList="fk_judgment"),
+        uniqueConstraints={@UniqueConstraint(name="judgment_name_unique", columnNames={"fk_judgment", "name"})})
 @Cacheable(true)
 @SequenceGenerator(name = "seq_judge", allocationSize = 1, sequenceName = "seq_judge")
 public class Judge extends DataObject {
@@ -99,7 +101,8 @@ public class Judge extends DataObject {
     
     @Enumerated(EnumType.STRING)
     @ElementCollection
-    @CollectionTable(name="judge_role", joinColumns = @JoinColumn(name = "fk_judge"))
+    @CollectionTable(name="judge_role", joinColumns = @JoinColumn(name = "fk_judge"),
+        indexes = @Index(name = "judge_role_fk_judge_index", columnList = "fk_judge"))
     @Column(name="role")
     public List<JudgeRole> getSpecialRoles() {
         return specialRoles;

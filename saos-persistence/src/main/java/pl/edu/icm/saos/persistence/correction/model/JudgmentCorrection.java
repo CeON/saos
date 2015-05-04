@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -30,7 +31,7 @@ import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 */
 
 @Entity
-@Table
+@Table(indexes=@Index(name = "judgment_correction_fk_judgment_index", columnList = "fk_judgment"))
 @Cacheable(true)
 @SequenceGenerator(name = "seq_judgment_correction", allocationSize = 1, sequenceName = "seq_judgment_correction")
 public class JudgmentCorrection extends DataObject {

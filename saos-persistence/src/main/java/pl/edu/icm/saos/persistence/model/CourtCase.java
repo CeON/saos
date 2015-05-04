@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -23,7 +24,8 @@ import com.google.common.base.Preconditions;
  * @author Łukasz Dumiszewski
  */
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(name="judgment_id_case_number_unique", columnNames={"caseNumber", "fk_judgment"})})
+@Table(indexes={@Index(name="case_number_fk_judgment_index", columnList="fk_judgment")},
+        uniqueConstraints={@UniqueConstraint(name="judgment_id_case_number_unique", columnNames={"caseNumber", "fk_judgment"})})
 @Cacheable(true)
 @SequenceGenerator(name = "seq_court_case", allocationSize = 1, sequenceName = "seq_court_case")
 public class CourtCase extends DataObject {
