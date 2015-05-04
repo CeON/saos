@@ -33,7 +33,7 @@
 	    <div class="form-group">
 	       <spring:message code="judgmentSearch.formField.all" var="searchAllPlaceholder" />
 		   <div class="col-lg-7 col-sm-8 col-xs-10">
-		       <form:input path="all" class="form-control search-all"  id="input-search-all" placeholder="${searchAllPlaceholder}"  />
+		       <form:input path="all" class="form-control search-all" id="input-search-all" placeholder="${searchAllPlaceholder}"  />
 	       </div>
 	       <div class="col-xs-2" >
 		       <button type="submit" class="btn btn-primary button button-blue"><spring:message code="button.judgmentSearch" /></button>
@@ -158,7 +158,7 @@
 		                    <div id="law-journal-fields" class="well col-sm-12" >
 		                        
 		                        <spring:message code="judgmentSearch.formField.lawJournal.close" var="lawJournalClose" />
-		                        <a class="remove law-close" href="" id="law-journal-close" title="${lawJournalClose}" data-placement="top" data-toggle="tooltip"  ></a>
+		                        <a class="remove law-close" href="" id="law-journal-close" title="${lawJournalClose}" data-placement="top" data-toggle="tooltip" ></a>
 		                        
 		                    <div class="row">
 		                    
