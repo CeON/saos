@@ -34,17 +34,23 @@ var CourtDivisionSelect = (function() {
 						if (selectedCourtId !== "") {
 							$.ajax(getDivisionUrl(selectedCourtId))
 							 .done(function(data) {
-								 var options = prepareOption("", "");
+								 var options = "";
 								 
 								 for(var j = 0, dataLength = data.length; j < dataLength; j += 1) {
 									 options += prepareOption(data[j].id, data[j].name);
 								 }
 								 
-								 $divisionId.empty().removeAttr("disabled").append(options);
+								 $divisionId.find("option:gt(0)").remove();
+								 
+								 $divisionId
+                                     .removeAttr("disabled")
+                                     .append(options);
 							 })
 							 .fail(function() {});
 						} else {
-							$divisionId.empty().attr("disabled", "disabled");
+							$divisionId
+							    .attr("disabled", "disabled")
+							    .find("option:gt(0)").remove();
 						}
 					};
 					
