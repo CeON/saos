@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -71,6 +72,7 @@ public class SupremeCourtJudgment extends Judgment {
     
     @ManyToMany(fetch = FetchType.LAZY, cascade={CascadeType.REFRESH})
     @JoinTable(name = "supreme_court_judgment_chamber",
+            indexes = { @Index(name = "sc_chamber_fk_judgment_index", columnList = "fk_judgment") },
             joinColumns = {@JoinColumn(name = "fk_judgment", nullable = false, updatable = true) }, 
             inverseJoinColumns = {@JoinColumn(name = "fk_chamber", nullable = false, updatable = true) })
     private List<SupremeCourtChamber> getScChambers_() {
