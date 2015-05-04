@@ -25,34 +25,59 @@ function InfoFormSection(options) {
     
     function init() {
         updateInfoSection();
-        initOpenFormSection();
-        initCloseFormSection();
+        bindOpenFormSection();
     }
     
     
     /* 
      * Assigns buttons to open form section on event click.
      */ 
-     function initOpenFormSection() {
+     function bindOpenFormSection() {
     
         var $formSection = $(options.formSectionId);
         
-        $(options.infoSectionId).click(function(event) {    
-            
+        $(options.infoSectionId).on(createCustomEventName("click"), function(event) {    
+                
             event.preventDefault();
+            
+            unBindOpenFormSection();
+            bindCloseFormSectionEventHandler();
+            
+            $(options.infoSectionId).addClass("info-section-opened");
             
             $formSection.slideDown(400, function() {});
         });
         
-    }
+     }
+     
+     function unBindOpenFormSection() {
+         
+         $(options.infoSectionId).off(createCustomEventName("click"));
+         
+     }
      
      /* 
       * Assigns buttons to close form section on event click.
       */ 
-     function initCloseFormSection() {
+     function bindCloseFormSectionEventHandler() {
          
-         $(document).on('mouseup', null, [options], closeFormSectionIfClickedOutside);
+         $(document).on(createCustomEventName("mouseup"), null, [options], closeFormSectionIfClickedOutside);
 
+     }
+     
+     function unBindCloseFormSectionEventHandler() {
+         
+         $(document).off(createCustomEventName("mouseup"));
+         
+     }
+     
+     /* Creates custom event name
+      * 
+      * @param eventName
+      * @return string event name + optionsInfoSectionId
+      */
+     function createCustomEventName(eventName) {
+         return eventName + "." + (options.infoSectionId).substr(1, options.infoSectionId.length);
      }
      
      /**
@@ -70,12 +95,16 @@ function InfoFormSection(options) {
          if ($("#datepicker_from-error").css("display") === "block" || $("#datepicker_to-error").css("display") === "block") {
              return;
          }
-                  
-         if (!$formSection.is(e.target) && !$setSection.is(e.target) // if the target of the click isn't the container...
+
+         if (!$formSection.is(e.target)  // if the target of the click isn't the container...
                  && $formSection.has(e.target).length === 0 && $setSection.has(e.target).length === 0 && // ... nor a descendant of the container
                  !$datepicker.is(e.target) && $datepicker.has(e.target).length === 0) // ... nor a datepicker
          {
              closeFormSection();
+             unBindCloseFormSectionEventHandler();
+             
+             //binds open form section handler after 200ms
+             setTimeout(bindOpenFormSection, 200);
          }
          
      }
@@ -86,6 +115,8 @@ function InfoFormSection(options) {
       */
      function closeFormSection() {
 
+         $(options.infoSectionId).removeClass("info-section-opened");
+         
          //Hide form section
          $(options.formSectionId).slideUp(400, function() {
              updateInfoSection();
