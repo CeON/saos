@@ -1,21 +1,101 @@
 package pl.edu.icm.saos.persistence.common;
 
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_CASE_NUMBER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_DAY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_MONTH;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DECISION;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_APPEAL_DIVISION_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_APPEAL_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_COURT_REPORTER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DISTRICT_DIVISION_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DISTRICT_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_TYPE_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_TYPE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_FUNCTION;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_ROLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_KEYWORD;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_LEGAL_BASE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_LOWER_COURT_JUDGMENT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_ENTRY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_JOURNAL_NO;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_TITLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REFERENCED_REGULATION_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REGIONAL_DIVISION_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_REGIONAL_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_JUDGMENT_RESULT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_JUDGMENT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_MEANS_OF_APPEAL;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_RECEIPT_DATE_DAY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_RECEIPT_DATE_MONTH;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_RECEIPT_DATE_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_APPEAL_DIVISION_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_APPEAL_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_COURT_REPORTER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_DISTRICT_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_DIVISION_TYPE_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_DIVISION_TYPE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_KEYWORD;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_LEGAL_BASE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_LOWER_COURT_JUDGMENT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_ENTRY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_JOURNAL_NO;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_TITLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REFERENCED_REGULATION_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REGIONAL_DIVISION_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_REGIONAL_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_CODE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_JUDGMENT_ID;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_JUDGMENT_URL;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_PUBLISHER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SOURCE_REVISER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SUMMARY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_TEXT_CONTENT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_TEXT_CONTENT_PATH;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_TEXT_CONTENT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_ENTRY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_JOURNAL_NO;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_TEXT;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_TITLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_REFERENCED_REGULATION_YEAR;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang3.RandomStringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 
-import pl.edu.icm.saos.persistence.model.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.*;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
+import pl.edu.icm.saos.persistence.model.CommonCourtDivisionType;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
+import pl.edu.icm.saos.persistence.model.SourceCode;
 
 /**
  * @author pavtel
  */
 final class TestInMemoryCcObjectFactory {
+    
     private TestInMemoryCcObjectFactory() {
     }
     //------------------------ LOGIC --------------------------
@@ -26,7 +106,7 @@ final class TestInMemoryCcObjectFactory {
     static CommonCourtJudgment createCcJudgment(){
         CommonCourtJudgment ccJudgment = new CommonCourtJudgment();
 
-        CommonCourt commonCourt = createCcCourt(true);
+        CommonCourt commonCourt = createCcCourt(CC_COURT_TYPE);
         ccJudgment.setCourtDivision(commonCourt.getDivisions().get(0));
 
         CourtCase courtCase = new CourtCase(CC_CASE_NUMBER);
@@ -129,36 +209,46 @@ final class TestInMemoryCcObjectFactory {
      * @return CommonCourt
      */
 
-    static CommonCourt createCcCourt(boolean withParent){
-        CommonCourt commonCourt = new CommonCourt();
+    static CommonCourt createCcCourt(CommonCourtType courtType){
+        
+        CommonCourtDivisionType ccDivisionType1 = commonCourtDivisionType(CC_FIRST_DIVISION_TYPE_NAME, CC_FIRST_DIVISION_TYPE_CODE);
+        CommonCourtDivisionType ccDivisionType2 = commonCourtDivisionType(CC_SECOND_DIVISION_TYPE_NAME, CC_SECOND_DIVISION_TYPE_CODE);
+        
+        
+        CommonCourt commonCourt = null;
 
-        commonCourt.setName(CC_COURT_NAME);
-        commonCourt.setCode(CC_COURT_CODE);
-        commonCourt.setType(CC_COURT_TYPE);
+        
+        if(courtType == CommonCourtType.DISTRICT) {
+            commonCourt = new CommonCourt();
+            commonCourt.setType(courtType);
+            commonCourt.setName(TextObjectDefaultData.CC_DISTRICT_COURT_NAME);
+            commonCourt.setCode(TextObjectDefaultData.CC_DISTRICT_COURT_CODE);
+            
+            CommonCourtDivision firstCcDivision = createCcDivision(CC_FIRST_DISTRICT_DIVISION_CODE, CC_FIRST_DISTRICT_DIVISION_NAME, ccDivisionType1);
+            commonCourt.addDivision(firstCcDivision);
 
-        if(withParent) {
-            CommonCourt parent = new CommonCourt();
-            parent.setName(CC_COURT_PARENT_NAME);
-            parent.setType(CC_COURT_PARENT_TYPE);
-            parent.setCode(CC_COURT_PARENT_CODE);
-            commonCourt.setParentCourt(parent);
+            CommonCourtDivision secondCcDivision = createCcDivision(TextObjectDefaultData.CC_SECOND_DISTRICT_DIVISION_CODE, CC_SECOND_DISTRICT_DIVISION_NAME, ccDivisionType2);
+            commonCourt.addDivision(secondCcDivision);
+            
+            CommonCourt regional = createRegionalCourt(ccDivisionType1, ccDivisionType2);
+            commonCourt.setParentCourt(regional);
+            
+            CommonCourt appeal = createAppealCourt(ccDivisionType1, ccDivisionType2);
+            regional.setParentCourt(appeal);
+        }
+        
+        if(courtType == CommonCourtType.REGIONAL) {
+            commonCourt = createRegionalCourt(ccDivisionType1, ccDivisionType2);
+            
+            CommonCourt appeal = createAppealCourt(ccDivisionType1, ccDivisionType2);
+            commonCourt.setParentCourt(appeal);
         }
 
-        CommonCourtDivision firstCcDivision = new CommonCourtDivision();
-        firstCcDivision.setCode(CC_FIRST_DIVISION_CODE);
-        firstCcDivision.setName(CC_FIRST_DIVISION_NAME);
-        CommonCourtDivisionType firstCcDivisionType = commonCourtDivisionType(CC_FIRST_DIVISION_TYPE_NAME, CC_FIRST_DIVISION_TYPE_CODE);
-        firstCcDivision.setType(firstCcDivisionType);
-        commonCourt.addDivision(firstCcDivision);
+        if(courtType == CommonCourtType.APPEAL) {
+            commonCourt = createAppealCourt(ccDivisionType1, ccDivisionType2);
+        }
 
-        CommonCourtDivision secondCcDivision = new CommonCourtDivision();
-        secondCcDivision.setCode(CC_SECOND_DIVISION_CODE);
-        secondCcDivision.setName(CC_SECOND_DIVISION_NAME);
-        CommonCourtDivisionType secondCcDivisionType = commonCourtDivisionType(CC_SECOND_DIVISION_TYPE_NAME, CC_SECOND_DIVISION_TYPE_CODE);
-        secondCcDivision.setType(secondCcDivisionType);
-        commonCourt.addDivision(secondCcDivision);
-
-
+        
         return commonCourt;
     }
 
@@ -264,6 +354,47 @@ final class TestInMemoryCcObjectFactory {
         return CommonCourt.CommonCourtType.REGIONAL;
     }
 
+    private static CommonCourt createAppealCourt(CommonCourtDivisionType ccDivisionType1, CommonCourtDivisionType ccDivisionType2) {
+
+        CommonCourt appeal = new CommonCourt();
+        appeal.setName(TextObjectDefaultData.CC_APPEAL_COURT_NAME);
+        appeal.setCode(TextObjectDefaultData.CC_APPEAL_COURT_CODE);
+        appeal.setType(CommonCourtType.APPEAL);
+        
+        
+        CommonCourtDivision firstCcDivision = createCcDivision(CC_FIRST_APPEAL_DIVISION_CODE, CC_FIRST_APPEAL_DIVISION_NAME, ccDivisionType1);
+        appeal.addDivision(firstCcDivision);
+
+        CommonCourtDivision secondCcDivision = createCcDivision(CC_SECOND_APPEAL_DIVISION_CODE, CC_SECOND_APPEAL_DIVISION_NAME, ccDivisionType2);
+        appeal.addDivision(secondCcDivision);
+        
+        return appeal;
+    }
+    
+    private static CommonCourt createRegionalCourt(CommonCourtDivisionType ccDivisionType1, CommonCourtDivisionType ccDivisionType2) {
+        
+        CommonCourt regional = new CommonCourt();
+        regional.setName(TextObjectDefaultData.CC_REGIONAL_COURT_NAME);
+        regional.setCode(TextObjectDefaultData.CC_REGIONAL_COURT_CODE);
+        regional.setType(CommonCourtType.REGIONAL);
+        
+        CommonCourtDivision firstCcDivision = createCcDivision(CC_FIRST_REGIONAL_DIVISION_CODE, CC_FIRST_REGIONAL_DIVISION_NAME, ccDivisionType1);
+        regional.addDivision(firstCcDivision);
+
+        CommonCourtDivision secondCcDivision = createCcDivision(CC_SECOND_REGIONAL_DIVISION_CODE, CC_SECOND_REGIONAL_DIVISION_NAME, ccDivisionType2);
+        regional.addDivision(secondCcDivision);
+
+        
+        return regional;
+    }
+
+    private static CommonCourtDivision createCcDivision(String code, String name, CommonCourtDivisionType ccDivisionType) {
+        CommonCourtDivision ccDivision = new CommonCourtDivision();
+        ccDivision.setCode(code);
+        ccDivision.setName(name);
+        ccDivision.setType(ccDivisionType);
+        return ccDivision;
+    }
 
 
 }

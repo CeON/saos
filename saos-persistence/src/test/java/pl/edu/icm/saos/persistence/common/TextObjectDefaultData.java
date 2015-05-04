@@ -216,32 +216,85 @@ public final class TextObjectDefaultData {
     public static final long NAC_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS = 12849384939944L;
     public static final long SOURCE_PUBLICATION_DATE_IN_MILLISECONDS = CC_SOURCE_PUBLICATION_DATE_IN_MILLISECONDS;
 
-    public static final String CC_DIVISION_NAME = "I Wydzial Cywilny";
-    public static final String CC_DIVISION_CODE = "0000503";
-
+    
+    
     public static final String CC_DIVISION_TYPE_NAME = "Cywilny";
     public static final String CC_DIVISION_TYPE_CODE = "03";
-
-    public static final String CC_FIRST_DIVISION_NAME = CC_DIVISION_NAME;
-    public static final String CC_FIRST_DIVISION_CODE = CC_DIVISION_CODE;
 
     public static final String CC_FIRST_DIVISION_TYPE_NAME = CC_DIVISION_TYPE_NAME;
     public static final String CC_FIRST_DIVISION_TYPE_CODE = CC_DIVISION_TYPE_CODE;
 
-    public static final String CC_SECOND_DIVISION_NAME = "II Wydzial Karny";
-    public static final String CC_SECOND_DIVISION_CODE = "0000604";
-
     public static final String CC_SECOND_DIVISION_TYPE_NAME = "Karny";
     public static final String CC_SECOND_DIVISION_TYPE_CODE = "04";
 
-    public static final String CC_COURT_NAME = "Sad Rejonowy we Wroclawiu";
-    public static final String CC_COURT_CODE = "15500000";
-    public static final CommonCourt.CommonCourtType CC_COURT_TYPE = CommonCourt.CommonCourtType.REGIONAL;
+    
+    
+    
+    public static final String CC_DISTRICT_COURT_NAME = "Sad Rejonowy we Wroclawiu";
+    public static final String CC_DISTRICT_COURT_CODE = "15500002";
+    public static final CommonCourt.CommonCourtType CC_DISTRICT_COURT_TYPE = CommonCourt.CommonCourtType.DISTRICT;
 
-    public static final String CC_COURT_PARENT_NAME = "Sad Apelacyjny we Wroclawiu";
-    public static final CommonCourt.CommonCourtType CC_COURT_PARENT_TYPE = CommonCourt.CommonCourtType.APPEAL;
-    public static final String CC_COURT_PARENT_CODE = "16660000";
+    public static final String CC_FIRST_DISTRICT_DIVISION_NAME = "I Wydzial Cywilny";
+    public static final String CC_FIRST_DISTRICT_DIVISION_CODE = "0000503";
 
+    public static final String CC_SECOND_DISTRICT_DIVISION_NAME = "II Wydzial Karny";
+    public static final String CC_SECOND_DISTRICT_DIVISION_CODE = "0000504";
+
+    
+    public static final String CC_REGIONAL_COURT_NAME = "Sad Okręgowy we Wroclawiu";
+    public static final String CC_REGIONAL_COURT_CODE = "15500000";
+    public static final CommonCourt.CommonCourtType CC_REGIONAL_COURT_TYPE = CommonCourt.CommonCourtType.REGIONAL;
+
+    
+    public static final String CC_FIRST_REGIONAL_DIVISION_NAME = "I Wydzial Cywilny";
+    public static final String CC_FIRST_REGIONAL_DIVISION_CODE = "0000505";
+
+    public static final String CC_SECOND_REGIONAL_DIVISION_NAME = "II Wydzial Karny";
+    public static final String CC_SECOND_REGIONAL_DIVISION_CODE = "0000506";
+
+    
+    
+    public static final String CC_APPEAL_COURT_NAME = "Sad Apelacyjny we Wroclawiu";
+    public static final String CC_APPEAL_COURT_CODE = "16660000";
+    public static final CommonCourt.CommonCourtType CC_APPEAL_COURT_TYPE = CommonCourt.CommonCourtType.APPEAL;
+
+    public static final String CC_FIRST_APPEAL_DIVISION_NAME = "I Wydzial Cywilny";
+    public static final String CC_FIRST_APPEAL_DIVISION_CODE = "0000507";
+
+    public static final String CC_SECOND_APPEAL_DIVISION_NAME = "II Wydzial Karny";
+    public static final String CC_SECOND_APPEAL_DIVISION_CODE = "0000508";
+    
+    
+    
+    
+    
+    public static final String CC_COURT_NAME = CC_REGIONAL_COURT_NAME;
+    public static final String CC_COURT_CODE = CC_REGIONAL_COURT_CODE;
+    public static final CommonCourt.CommonCourtType CC_COURT_TYPE = CC_REGIONAL_COURT_TYPE;
+
+
+    public static final String CC_DIVISION_NAME = CC_FIRST_REGIONAL_DIVISION_NAME;
+    public static final String CC_DIVISION_CODE = CC_FIRST_REGIONAL_DIVISION_CODE;
+
+    public static final String CC_FIRST_DIVISION_NAME = CC_FIRST_REGIONAL_DIVISION_NAME;
+    public static final String CC_FIRST_DIVISION_CODE = CC_FIRST_REGIONAL_DIVISION_CODE;
+    
+    public static final String CC_SECOND_DIVISION_NAME = CC_SECOND_REGIONAL_DIVISION_NAME;
+    public static final String CC_SECOND_DIVISION_CODE = CC_SECOND_REGIONAL_DIVISION_CODE;
+
+    
+    
+    public static final String CC_COURT_PARENT_NAME = CC_APPEAL_COURT_NAME;
+    public static final String CC_COURT_PARENT_CODE = CC_APPEAL_COURT_CODE;
+    public static final CommonCourt.CommonCourtType CC_COURT_PARENT_TYPE = CC_APPEAL_COURT_TYPE;
+
+    public static final String CC_PARENT_FIRST_DIVISION_NAME = CC_FIRST_APPEAL_DIVISION_NAME;
+    public static final String CC_PARENT_FIRST_DIVISION_CODE = CC_FIRST_APPEAL_DIVISION_CODE;
+    
+    public static final String CC_PARENT_SECOND_DIVISION_NAME = CC_SECOND_APPEAL_DIVISION_NAME;
+    public static final String CC_PARENT_SECOND_DIVISION_CODE = CC_SECOND_APPEAL_DIVISION_CODE;
+    
+    
     public static final String CC_FIRST_KEYWORD = "konsument";
     public static final String CC_SECOND_KEYWORD = "klauzule niedozwolone";
 

@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
@@ -85,6 +85,7 @@ public class JudgmentCriteriaTransformerTest {
                 { "+ctDissentingOpinion:\"some opinion\"", JudgmentCriteriaBuilder.create().withCtDissentingOpinion("\"some opinion\"").build() },
                 { "+ctDissentingOpinionAuthor:someAuthor", JudgmentCriteriaBuilder.create().withCtDissentingOpinionAuthor("someAuthor").build() },
                 { "+(ctDissentingOpinionAuthor:author1 ctDissentingOpinionAuthor:author2)", JudgmentCriteriaBuilder.create().withCtDissentingOpinionAuthor("author1 or author2").build() },
+                { "+(ccAppealCourtId:12 ccRegionalCourtId:12 ccDistrictCourtId:12)", JudgmentCriteriaBuilder.create().withCcDirectOrSuperiorCourtId(12L).build() },
         };
     }
     

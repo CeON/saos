@@ -15,6 +15,7 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 
@@ -45,7 +46,7 @@ public class SecondLevelCacheTest extends PersistenceTestSupport {
         Statistics statistics = ((Session)(entityManager.getDelegate())).getSessionFactory().getStatistics();
         statistics.clear();
         
-        CommonCourt commonCourt = testPersistenceObjectFactory.createCcCourt(false);
+        CommonCourt commonCourt = testPersistenceObjectFactory.createCcCourt(CommonCourtType.APPEAL);
         
         commonCourtRepository.findOne(commonCourt.getId());
         commonCourtRepository.findOne(commonCourt.getId());

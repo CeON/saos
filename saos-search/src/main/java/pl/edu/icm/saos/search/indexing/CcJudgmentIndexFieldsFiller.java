@@ -60,6 +60,20 @@ public class CcJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
         fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_DIVISION_ID, division.getId());
         fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_DIVISION_CODE, division.getCode());
         fieldAdder.addField(doc, JudgmentIndexField.CC_COURT_DIVISION_NAME, division.getName());
+
+        fieldAdder.addField(doc, JudgmentIndexField.CC_APPEAL_COURT_ID, court.getAppealCourt().getId());
+        fieldAdder.addField(doc, JudgmentIndexField.CC_APPEAL_COURT_NAME, court.getAppealCourt().getName());
+        
+        if (court.isRegionalCourt() || court.isDistrictCourt()) {
+            fieldAdder.addField(doc, JudgmentIndexField.CC_REGIONAL_COURT_ID, court.getRegionalCourt().getId());
+            fieldAdder.addField(doc, JudgmentIndexField.CC_REGIONAL_COURT_NAME, court.getRegionalCourt().getName());
+        }
+        
+        if (court.isDistrictCourt()) {
+            fieldAdder.addField(doc, JudgmentIndexField.CC_DISTRICT_COURT_ID, court.getId());
+            fieldAdder.addField(doc, JudgmentIndexField.CC_DISTRICT_COURT_NAME, court.getName());
+        }
+
     }
 
 }

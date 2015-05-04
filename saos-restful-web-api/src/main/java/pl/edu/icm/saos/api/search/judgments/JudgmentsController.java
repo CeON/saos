@@ -1,5 +1,9 @@
 package pl.edu.icm.saos.api.search.judgments;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.search.judgments.parameters.Sort;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
@@ -20,10 +29,6 @@ import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsNames;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
-import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
 
 
 /**
@@ -50,7 +55,7 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
 
     //------------------------ LOGIC --------------------------
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE+";charset=UTF-8"})
     @RestrictParamsNames
     @ResponseBody
     public ResponseEntity<Object> showJudgments(@ModelAttribute JudgmentsParameters judgmentsParameters,

@@ -68,6 +68,10 @@ class SolrDocumentAssertUtils {
         }
     }
     
+    public static void assertFieldNotExists(SolrDocument doc, JudgmentIndexField field) {
+        assertTrue(!doc.getFieldNames().contains(field.getFieldName()));
+    }
+    
     
     //------------------------ PRIVATE --------------------------
     

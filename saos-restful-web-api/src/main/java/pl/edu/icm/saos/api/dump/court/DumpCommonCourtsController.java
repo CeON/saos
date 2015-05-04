@@ -1,5 +1,9 @@
 package pl.edu.icm.saos.api.dump.court;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
@@ -20,10 +25,6 @@ import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.CommonCourtSearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
-import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
 
 /**
  * Represents page of list of common courts in dump service
@@ -46,7 +47,7 @@ public class DumpCommonCourtsController extends ControllersEntityExceptionHandle
 
     //------------------------ LOGIC --------------------------
     
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE+";charset=utf-8"})
     @RestrictParamsNames
     @ResponseBody
     public ResponseEntity<Object> showCourts(

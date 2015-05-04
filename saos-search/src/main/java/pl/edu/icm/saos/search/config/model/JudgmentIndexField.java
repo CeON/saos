@@ -29,6 +29,15 @@ public enum JudgmentIndexField implements IndexField {
     CC_COURT_DIVISION_ID("ccCourtDivisionId"),
     CC_COURT_DIVISION_CODE("ccCourtDivisionCode"),
     CC_COURT_DIVISION_NAME("ccCourtDivisionName"),
+
+    CC_APPEAL_COURT_ID("ccAppealCourtId"),
+    CC_APPEAL_COURT_NAME("ccAppealCourtName"),
+    
+    CC_REGIONAL_COURT_ID("ccRegionalCourtId"),
+    CC_REGIONAL_COURT_NAME("ccRegionalCourtName"),
+    
+    CC_DISTRICT_COURT_ID("ccDistrictCourtId"),
+    CC_DISTRICT_COURT_NAME("ccDistrictCourtName"),
     
     /* supreme court */
     SC_JUDGMENT_FORM("scJudgmentForm"),

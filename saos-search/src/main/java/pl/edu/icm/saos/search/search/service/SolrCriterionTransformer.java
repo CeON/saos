@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.util.ClientUtils;
 import org.joda.time.LocalDate;
@@ -51,7 +52,7 @@ public class SolrCriterionTransformer<F extends IndexField> {
      * that will be produced. Parsing supports:
      * <ul>
      * <li>
-     * change method of joining words - When multiple words will be passed then
+     * change method of joining words - When multiple words are passed then
      * created query will search for document which contains all of this words.
      * To search for documents which contains only one of this words we can
      * place operator <code>OR</code> between them (e.g. <code>word1 OR word2</code>)
@@ -102,15 +103,8 @@ public class SolrCriterionTransformer<F extends IndexField> {
     }
     
     /**
-     * Transforms field and {@literal String} value into single Solr equals criterion.<br/>
-     * Returned criterion will be marked as required (<code>+</code> sign). So if this
-     * criterion will be joined with others it will work like 'and' operator<br/>
-     * 
-     * For example: when we pass 'value' on field 'all' this method will return <code>+all:value</code>
-     * 
-     * @param field
-     * @param value
-     * @return equals criterion {@literal String}
+     * Invokes {@link #transformToEqualsCriterion(IndexField, String, Operator)} with the
+     * operator argument set to {@link Operator#AND}
      */
     public String transformToEqualsCriterion(F field, String value) {
         if (StringUtils.isBlank(value)) {
@@ -118,6 +112,27 @@ public class SolrCriterionTransformer<F extends IndexField> {
         }
         return buildEqualsCriterion(field.getFieldName(), value, Operator.AND);
     }
+
+    /**
+     * Transforms the passed field and {@literal String} value into a single Solr equals criterion.<br/><br/>
+     * In case of the operator being equal to {@link Operator#AND} the returned criterion will be marked as required (<code>+</code> sign). So if this
+     * criterion is joined with others, it will work like an 'and' operator.<br/>
+     * In case of the operator being equal to {@link Operator#OR} the returned criterion will be marked as not required. So if this
+     * criterion is joined with others, it will work like an 'or' operator.<br/>
+     * 
+     * For example: when we pass 'value' for the 'all' field with an {@link Operator#AND} this method will return <code>+all:value</code>
+     * 
+     * @param field
+     * @param value
+     * @return equals criterion {@literal String}
+    */
+    public String transformToEqualsCriterion(F field, String value, Operator operator) {
+        if (StringUtils.isBlank(value)) {
+            return StringUtils.EMPTY;
+        }
+        return buildEqualsCriterion(field.getFieldName(), value, operator);
+    }
+
     
     /**
      * Transforms field and {@literal Integer} value into single Solr equals criterion.<br/>
@@ -245,7 +260,7 @@ public class SolrCriterionTransformer<F extends IndexField> {
     /**
      * Transforms field and two {@literal String}s defining range into single Solr range criterion.<br/>
      * Returned criterion will be marked as required (<code>+</code> sign). So if this
-     * criterion will be joined with others it will work like 'and' operator.<br/>
+     * criterion is joined with others it will work like 'and' operator.<br/>
      * 
      * For example: when we pass 'a' and 'z' on field 'someField'
      * this method will return <code>+someField:[a TO z]</code>
@@ -264,6 +279,32 @@ public class SolrCriterionTransformer<F extends IndexField> {
         return "+" + field.getFieldName() + ":[" + parsedFrom + " TO " + parsedTo + "]";
     }
     
+    
+    /**
+     * Marks the given criterion as required. If the criterion is joined
+     * with others, then it will work as 'and'. <br/> <br/>
+     * 
+     * all:value judge:smith -> +(all:value judge:smith) 
+     * 
+     */
+    public String and(String criterion) {
+        if (StringUtils.isEmpty(criterion)) {
+            return StringUtils.EMPTY;
+        }
+        return "+(" + criterion + ")";
+    }
+    
+    /**
+     * Joins the given criteria into one. <br/> <br/>
+     * 
+     * +all:value, judge:smith -> +all:value judge:smith 
+     */
+    public String join(List<String> criteria) {
+        if (CollectionUtils.isEmpty(criteria)) {
+            return StringUtils.EMPTY;
+        }
+        return criteria.stream().collect(Collectors.joining(" "));
+    }
     
     //------------------------ PRIVATE --------------------------
     

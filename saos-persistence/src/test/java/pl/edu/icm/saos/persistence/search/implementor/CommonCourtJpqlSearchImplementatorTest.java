@@ -16,6 +16,7 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
@@ -75,7 +76,7 @@ public class CommonCourtJpqlSearchImplementatorTest extends PersistenceTestSuppo
     @Test
     public void search__it_should_find_all_CommonCourt_Basic_Fields_With_Its_All_Divisions_Fields(){
         //given
-        CommonCourt commonCourt = testPersistenceObjectFactory.createCcCourt(false);
+        CommonCourt commonCourt = testPersistenceObjectFactory.createCcCourt(CommonCourtType.APPEAL);
 
         CommonCourtSearchFilter searchFilter = CommonCourtSearchFilter.builder()
                 .filter();

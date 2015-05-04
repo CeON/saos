@@ -60,7 +60,14 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
         List<String> list = Lists.newLinkedList();
         
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_TYPE, criteria.getCcCourtType()));
-        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_ID, criteria.getCcCourtId()));
+        if (criteria.getCcDirectOrSuperiorCourtId() != null) {
+            String appealCourtIdCriterion = criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_APPEAL_COURT_ID, ""+criteria.getCcDirectOrSuperiorCourtId(), Operator.OR);
+            String regionalCourtIdCriterion = criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_REGIONAL_COURT_ID, ""+criteria.getCcDirectOrSuperiorCourtId(), Operator.OR);
+            String districtCourtIdCriterion = criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_DISTRICT_COURT_ID, ""+criteria.getCcDirectOrSuperiorCourtId(), Operator.OR);
+            list.add(criterionTransformer.and(criterionTransformer.join(Lists.newArrayList(appealCourtIdCriterion, regionalCourtIdCriterion, districtCourtIdCriterion))));
+        } else {
+            list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_ID, criteria.getCcCourtId()));
+        }
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_CODE, criteria.getCcCourtCode()));
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_NAME, criteria.getCcCourtName()));
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CC_COURT_DIVISION_ID, criteria.getCcCourtDivisionId()));

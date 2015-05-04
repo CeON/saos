@@ -94,6 +94,13 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
+    
+    public JudgmentCriteriaBuilder withCcDirectOrSuperiorCourtId(long directOrSuperiorCourtId) {
+        criteria.setCcDirectOrSuperiorCourtId(directOrSuperiorCourtId);
+        return this;
+    }
+    
+    
     public JudgmentCriteriaBuilder withCcDivisionId(long divisionId) {
         criteria.setCcCourtDivisionId(divisionId);
         return this;
@@ -184,4 +191,5 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
+   
 }
