@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
@@ -113,8 +114,8 @@ public class TestPersistenceObjectFactory {
      * @return CommonCourt
      */
     @Transactional
-    public CommonCourt createCcCourt(boolean withParent){
-        CommonCourt ccCourt = TestInMemoryObjectFactory.createCcCourt(withParent);
+    public CommonCourt createCcCourt(CommonCourtType courtType){
+        CommonCourt ccCourt = TestInMemoryObjectFactory.createCcCourt(courtType);
         saveCcCourt(ccCourt, true);
         return ccCourt;
     }
@@ -264,17 +265,24 @@ public class TestPersistenceObjectFactory {
 
     @Transactional
     private void saveCcCourt(CommonCourt ccCourt, boolean flush){
+        
+        
+        for (CommonCourtDivision ccDivision : ccCourt.getDivisions()) {
+            entityManager.persist(ccDivision.getType());
+        }
+
+        
         entityManager.persist(ccCourt);
 
         CommonCourt parentCourt = ccCourt.getParentCourt();
         if(parentCourt != null){
             entityManager.persist(parentCourt);
+        
+            if(parentCourt.getParentCourt() != null){
+                entityManager.persist(parentCourt.getParentCourt());
+            }
         }
-
-        for (CommonCourtDivision ccDivision : ccCourt.getDivisions()) {
-            entityManager.persist(ccDivision.getType());
-        }
-
+        
         if(flush){
             entityManager.flush();
         }

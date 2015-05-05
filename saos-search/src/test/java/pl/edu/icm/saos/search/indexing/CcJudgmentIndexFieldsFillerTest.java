@@ -67,23 +67,61 @@ public class CcJudgmentIndexFieldsFillerTest {
         
         
         // common court
-        CommonCourt commonCourt = new CommonCourt();
-        Whitebox.setInternalState(commonCourt, "id", 123);
-        commonCourt.setCode("15200000");
-        commonCourt.setName("Sąd Apelacyjny w Krakowie");
-        commonCourt.setType(CommonCourtType.APPEAL);
+        
+        CommonCourt appealCourt = new CommonCourt();
+        Whitebox.setInternalState(appealCourt, "id", 123);
+        appealCourt.setCode("15200000");
+        appealCourt.setName("Sąd Apelacyjny w Krakowie");
+        appealCourt.setType(CommonCourtType.APPEAL);
 
-        CommonCourtDivision commonCourtDivision = new CommonCourtDivision();
-        Whitebox.setInternalState(commonCourtDivision, "id", 816);
-        commonCourtDivision.setCode("0000503");
-        commonCourtDivision.setName("I Wydział Cywilny");
-        commonCourtDivision.setCourt(commonCourt);
+        CommonCourtDivision appealCourtDivision = new CommonCourtDivision();
+        Whitebox.setInternalState(appealCourtDivision, "id", 816);
+        appealCourtDivision.setCode("0000503");
+        appealCourtDivision.setName("I Wydział Cywilny");
+        appealCourtDivision.setCourt(appealCourt);
 
-        CommonCourtJudgment commonCourtJudgment = new CommonCourtJudgment();
-        Whitebox.setInternalState(commonCourtJudgment, "id", idValue);
-        commonCourtJudgment.setCourtDivision(commonCourtDivision);
+        
+        CommonCourt regionalCourt = new CommonCourt();
+        Whitebox.setInternalState(regionalCourt, "id", 124);
+        regionalCourt.setCode("15200001");
+        regionalCourt.setName("Sąd Okręgowy w Krakowie");
+        regionalCourt.setType(CommonCourtType.REGIONAL);
+        regionalCourt.setParentCourt(appealCourt);
+        
+        CommonCourtDivision regionalCourtDivision = new CommonCourtDivision();
+        Whitebox.setInternalState(regionalCourtDivision, "id", 817);
+        regionalCourtDivision.setCode("0000504");
+        regionalCourtDivision.setName("I Wydział Cywilny");
+        regionalCourtDivision.setCourt(regionalCourt);
 
-        List<SolrInputField> commonCourtFields = Lists.newArrayList(
+
+        CommonCourt districtCourt = new CommonCourt();
+        Whitebox.setInternalState(districtCourt, "id", 125);
+        districtCourt.setCode("15200002");
+        districtCourt.setName("Sąd Rejonowy w Częstochowie");
+        districtCourt.setType(CommonCourtType.DISTRICT);
+        districtCourt.setParentCourt(regionalCourt);
+
+        CommonCourtDivision districtCourtDivision = new CommonCourtDivision();
+        Whitebox.setInternalState(districtCourtDivision, "id", 818);
+        districtCourtDivision.setCode("0000505");
+        districtCourtDivision.setName("I Wydział Cywilny");
+        districtCourtDivision.setCourt(districtCourt);
+
+        CommonCourtJudgment appealCourtJudgment = new CommonCourtJudgment();
+        Whitebox.setInternalState(appealCourtJudgment, "id", idValue);
+        appealCourtJudgment.setCourtDivision(appealCourtDivision);
+
+        CommonCourtJudgment regionalCourtJudgment = new CommonCourtJudgment();
+        Whitebox.setInternalState(regionalCourtJudgment, "id", idValue+1);
+        regionalCourtJudgment.setCourtDivision(regionalCourtDivision);
+
+        CommonCourtJudgment districtCourtJudgment = new CommonCourtJudgment();
+        Whitebox.setInternalState(districtCourtJudgment, "id", idValue+2);
+        districtCourtJudgment.setCourtDivision(districtCourtDivision);
+
+        
+        List<SolrInputField> appealCourtFields = Lists.newArrayList(
                 fieldFactory.create("courtType", "COMMON"),
                 fieldFactory.create("ccCourtType", "APPEAL"),
                 fieldFactory.create("ccCourtId", 123l),
@@ -91,13 +129,49 @@ public class CcJudgmentIndexFieldsFillerTest {
                 fieldFactory.create("ccCourtName", "Sąd Apelacyjny w Krakowie"),
                 fieldFactory.create("ccCourtDivisionId", 816l),
                 fieldFactory.create("ccCourtDivisionCode", "0000503"),
-                fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"));
+                fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"),
+                fieldFactory.create("ccAppealCourtId", 123l),
+                fieldFactory.create("ccAppealCourtName", "Sąd Apelacyjny w Krakowie"));
         
+                        
+         List<SolrInputField> regionalCourtFields = Lists.newArrayList(
+                fieldFactory.create("courtType", "COMMON"),
+                fieldFactory.create("ccCourtType", "REGIONAL"),
+                fieldFactory.create("ccCourtId", 124l),
+                fieldFactory.create("ccCourtCode", "15200001"),
+                fieldFactory.create("ccCourtName", "Sąd Okręgowy w Krakowie"),
+                fieldFactory.create("ccCourtDivisionId", 817l),
+                fieldFactory.create("ccCourtDivisionCode", "0000504"),
+                fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"),
+                fieldFactory.create("ccAppealCourtId", 123l),
+                fieldFactory.create("ccAppealCourtName", "Sąd Apelacyjny w Krakowie"),
+                fieldFactory.create("ccRegionalCourtId", 124l),
+                fieldFactory.create("ccRegionalCourtName", "Sąd Okręgowy w Krakowie"));
+
+                
+          List<SolrInputField> districtCourtFields = Lists.newArrayList(
+                fieldFactory.create("courtType", "COMMON"),
+                fieldFactory.create("ccCourtType", "DISTRICT"),
+                fieldFactory.create("ccCourtId", 125l),
+                fieldFactory.create("ccCourtCode", "15200002"),
+                fieldFactory.create("ccCourtName", "Sąd Rejonowy w Częstochowie"),
+                fieldFactory.create("ccCourtDivisionId", 818l),
+                fieldFactory.create("ccCourtDivisionCode", "0000505"),
+                fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"),
+                fieldFactory.create("ccAppealCourtId", 123l),
+                fieldFactory.create("ccAppealCourtName", "Sąd Apelacyjny w Krakowie"),
+                fieldFactory.create("ccRegionalCourtId", 124l),
+                fieldFactory.create("ccRegionalCourtName", "Sąd Okręgowy w Krakowie"),
+                fieldFactory.create("ccDistrictCourtId", 125l),
+                fieldFactory.create("ccDistrictCourtName", "Sąd Rejonowy w Częstochowie"));
         
+                
         return new Object[][] {
                 { basicJudgment, basicFields },
                 { keywordsJudgment, keywordsFields },
-                { commonCourtJudgment, commonCourtFields },
+                { appealCourtJudgment, appealCourtFields },
+                { regionalCourtJudgment, regionalCourtFields },
+                { districtCourtJudgment, districtCourtFields },
         };
     }
     

@@ -45,12 +45,18 @@ public class TestJudgmentsGenerator {
     //------------------------ LOGIC --------------------------
     
     public List<CommonCourtJudgment> generateCcJudgments(int count) {
-        CommonCourt commonCourt = testPersistenceObjectFactory.createCcCourt(false);
+        CommonCourt commonCourt = testPersistenceObjectFactory.createCcCourt(CommonCourtType.DISTRICT);
         
-        List<CommonCourtJudgment> ccJudgments = testPersistenceObjectFactory
-                .createCcJudgmentListWithRandomData(count);
+        CommonCourt[] commonCourts = new CommonCourt[] {commonCourt, commonCourt.getRegionalCourt(), commonCourt.getAppealCourt()};
         
-        ccJudgments.forEach(x -> x.setCourtDivision(commonCourt.getDivisions().get(0)));
+        List<CommonCourtJudgment> ccJudgments = testPersistenceObjectFactory.createCcJudgmentListWithRandomData(count);
+        
+        int i = 0;
+        for (CommonCourtJudgment ccJudgment : ccJudgments) {
+            ccJudgment.setCourtDivision(commonCourts[i % 3].getDivisions().get(0));
+            i++;
+        }
+        
         judgmentRepository.save(ccJudgments);
         judgmentRepository.flush();
         

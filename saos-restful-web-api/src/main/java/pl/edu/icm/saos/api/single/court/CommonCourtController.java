@@ -30,7 +30,7 @@ public class CommonCourtController extends ControllersEntityExceptionHandler {
 
     //------------------------ LOGIC --------------------------
 
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE + ";charset=UTF-8"})
     @ResponseBody
     public ResponseEntity<Object> showCourt(@PathVariable("courtId") long courtId) throws ElementDoesNotExistException {
 
