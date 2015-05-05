@@ -53,7 +53,7 @@ public class TestJudgmentsGenerator {
         
         int i = 0;
         for (CommonCourtJudgment ccJudgment : ccJudgments) {
-            ccJudgment.setCourtDivision(commonCourts[i % 2].getDivisions().get(0));
+            ccJudgment.setCourtDivision(commonCourts[i % 3].getDivisions().get(0));
             i++;
         }
         
