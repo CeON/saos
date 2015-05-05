@@ -50,6 +50,9 @@ function InfoFormSection(options) {
         
      }
      
+     /*
+      * Removes "open form section" event handler from button.
+      */
      function unBindOpenFormSection() {
          
          $(options.infoSectionId).off(createCustomEventName("click"));
@@ -65,6 +68,9 @@ function InfoFormSection(options) {
 
      }
      
+     /*
+      * Removes "close form section" event handler.
+      */
      function unBindCloseFormSectionEventHandler() {
          
          $(document).off(createCustomEventName("mouseup"));
@@ -168,53 +174,15 @@ function InfoFormSection(options) {
                  
                    
              } else if ($this.is("input")) {
-                 var value = $this.val();
-                 
-       
-                 /*
-                  * Date fields should be handled differently.
-                  */
-                 if ($this.attr("id") === "datepicker_to") {
-                     var dateFrom = $("#datepicker_from").val(),
-                         dateTo = $("#datepicker_to").val();
-                     
-                     
-                     if (dateFrom !== "" && dateTo !== "") {
-                         html += "<b>" + parseDate(dateFrom) + "</b> - <b>" + parseDate(dateTo) + "</b>";
-                     } else if (dateFrom !== "" && dateTo === "") { 
-                         html += springMessage.from + ": <b>" + parseDate(dateFrom) + "</b>";
-                     } else if (dateFrom === "" && dateTo !== "") { 
-                         html += springMessage.to + ": <b>" + parseDate(dateTo) + "</b>";
-                     }
-                     
-                     return;
-                     
-                     
-                 } else if ($this.attr("id") === "datepicker_from") {
-                     return;
-                 }
-                 
+                 var value = $this.val(); 
                  
                  if (value === "" || $this.attr("name") === undefined) {
                      return;
                  }
                  
+                 html += addPhrase($this.val(), fieldDescription, comma);
+                 comma = true;
 
-                 if ($this.attr("id") === "lawJournalEntryId") {
-                     var lawJournalText = $("#law-journal-navigation").find("> div > span").text();
-                     
-                     if (lawJournalText.length > 60) {
-                         lawJournalText = lawJournalText.substr(0, 60) + " ...";
-                     }
-                     
-                     html += addPhrase(lawJournalText, fieldDescription, comma);
-                     comma = true;
-                 } else {
-                     html += addPhrase($this.val(), fieldDescription, comma);
-                     comma = true;
-                 }
-                 
-                 
                      
              } else if ($this.is("select")) {
                  
@@ -262,7 +230,7 @@ function InfoFormSection(options) {
          var html = "";
          
          if (options.extractInfoFromFormCustom !== undefined) {
-             html = options.extractInfoFromFormCustom();
+             html = options.extractInfoFromFormCustom(options);
          } else {
              html = extractInfoFromFormSection();
          }

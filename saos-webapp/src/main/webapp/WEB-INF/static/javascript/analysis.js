@@ -87,14 +87,15 @@ var initAnalysisJs = function() {
         
         infoFormSection({
             formSectionId: "#court-form-section",
-            infoSectionId: "#court-info-section"
+            infoSectionId: "#court-info-section",
+            extractInfoFromFormCustom: extractInfoFromCourtSection
         });
 
         infoFormSection({
             formSectionId: "#date-range-form-section",
             infoSectionId: "#date-range-info-section",
             defaultInfoSectionText: null,
-            extractInfoFromFormCustom: function() {return extractJudgmentDateRangeInfo();}
+            extractInfoFromFormCustom: extractJudgmentDateRangeFromAnalysisFormSection
             
         });
         
@@ -150,20 +151,7 @@ var initAnalysisJs = function() {
         
     }
     
-    
-    /****************** CONTEXT DIV **************/
-    
-    
-    /**
-     * Extracts information from judgmentDateRangeSelectDiv inputs.
-     */
-    function extractJudgmentDateRangeInfo() {
-        return '<b>' + $('#judgmentDateStartMonth option:selected').text() + ' ' +
-                       $('#judgmentDateStartYear').val() + ' - ' +
-                       $('#judgmentDateEndMonth option:selected').text() + ' ' +
-                       $('#judgmentDateEndYear').val() + '</b>';
-        
-    }
+
     
     /****************** REMOVAL OF PHRASE DIV **/
     
