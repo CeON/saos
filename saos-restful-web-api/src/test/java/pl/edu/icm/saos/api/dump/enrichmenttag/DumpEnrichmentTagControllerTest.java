@@ -83,6 +83,7 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
         testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
         enrichmentTags = testPersistenceObjectFactory.createEnrichmentTagsForJudgment(testObjectContext.getCcJudgmentId());
         
+        parametersExtractor.setMinPageSize(1);
         
         DumpEnrichmentTagController dumpEnrichmentTagController = new DumpEnrichmentTagController();
         

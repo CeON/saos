@@ -1,10 +1,44 @@
 package pl.edu.icm.saos.api.search.judgments;
 
+import static pl.edu.icm.saos.api.ApiConstants.ALL;
+import static pl.edu.icm.saos.api.ApiConstants.CASE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.CC_COURT_CODE;
+import static pl.edu.icm.saos.api.ApiConstants.CC_COURT_ID;
+import static pl.edu.icm.saos.api.ApiConstants.CC_COURT_NAME;
+import static pl.edu.icm.saos.api.ApiConstants.CC_COURT_TYPE;
+import static pl.edu.icm.saos.api.ApiConstants.CC_DIVISION_CODE;
+import static pl.edu.icm.saos.api.ApiConstants.CC_DIVISION_ID;
+import static pl.edu.icm.saos.api.ApiConstants.CC_DIVISION_NAME;
+import static pl.edu.icm.saos.api.ApiConstants.COURT_TYPE;
+import static pl.edu.icm.saos.api.ApiConstants.JUDGE_NAME;
+import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_DATE_FROM;
+import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_DATE_TO;
+import static pl.edu.icm.saos.api.ApiConstants.JUDGMENT_TYPES;
+import static pl.edu.icm.saos.api.ApiConstants.KEYWORDS;
+import static pl.edu.icm.saos.api.ApiConstants.LEGAL_BASE;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+import static pl.edu.icm.saos.api.ApiConstants.REFERENCED_REGULATION;
+import static pl.edu.icm.saos.api.ApiConstants.SC_CHAMBER_ID;
+import static pl.edu.icm.saos.api.ApiConstants.SC_CHAMBER_NAME;
+import static pl.edu.icm.saos.api.ApiConstants.SC_DIVISION_ID;
+import static pl.edu.icm.saos.api.ApiConstants.SC_DIVISION_NAME;
+import static pl.edu.icm.saos.api.ApiConstants.SC_PERSONNEL_TYPE;
+import static pl.edu.icm.saos.api.ApiConstants.SELF;
+import static pl.edu.icm.saos.api.ApiConstants.SORTING_DIRECTION;
+import static pl.edu.icm.saos.api.ApiConstants.SORTING_FIELD;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import pl.edu.icm.saos.api.search.judgments.item.representation.CommonCourtJudgmentItem;
 import pl.edu.icm.saos.api.search.judgments.item.representation.SearchJudgmentItem;
 import pl.edu.icm.saos.api.search.judgments.item.representation.SupremeCourtJudgmentItem;
@@ -15,8 +49,16 @@ import pl.edu.icm.saos.api.search.judgments.mapping.SearchSupremeCourtJudgmentIt
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.search.judgments.parameters.Sort;
 import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView;
-import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.*;
+import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.CommonCourtTypeTemplate;
+import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.CourtTypeTemplate;
+import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.Info;
+import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.JudgmentTypesTemplate;
+import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.PersonnelTypeTemplate;
+import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.QueryTemplate;
+import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.SortingDirectionTemplate;
+import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.SortingFieldTemplate;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
+import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
 import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateFromTemplate;
 import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateToTemplate;
@@ -24,13 +66,6 @@ import pl.edu.icm.saos.api.services.representations.success.template.PageNumberT
 import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
-
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static pl.edu.icm.saos.api.ApiConstants.*;
 
 /**
  * Provides functionality for building success object view for list of judgments.
@@ -53,6 +88,9 @@ public class JudgmentsListSuccessRepresentationBuilder {
 
     @Autowired
     private SearchJudgmentItemMapper judgmentItemMapper;
+    
+    @Autowired
+    private ParametersExtractor parametersExtractor;
 
 
 
@@ -276,7 +314,7 @@ public class JudgmentsListSuccessRepresentationBuilder {
         Pagination pagination = params.getPagination();
 
         queryTemplate.setPageNumber(new PageNumberTemplate(pagination.getPageNumber()));
-        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize()));
+        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize(), parametersExtractor.getMinPageSize(), parametersExtractor.getMaxPageSize()));
 
         Sort sort = params.getSort();
         queryTemplate.setSortingField(new SortingFieldTemplate(sort.getSortingField()));

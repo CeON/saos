@@ -4,10 +4,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.hateoas.Link;
@@ -18,6 +20,7 @@ import pl.edu.icm.saos.api.dump.enrichmenttag.mapping.DumpEnrichmentTagItemMappe
 import pl.edu.icm.saos.api.dump.enrichmenttag.views.DumpEnrichmentTagsView;
 import pl.edu.icm.saos.api.dump.enrichmenttag.views.DumpEnrichmentTagsView.DumpEnrichmentTagItem;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
+import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
@@ -32,6 +35,8 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
             new DumpEnrichmentTagsListSuccessRepresentationBuilder();
     
     private DumpEnrichmentTagItemMapper enrichmentTagItemMapper = mock(DumpEnrichmentTagItemMapper.class);
+    
+    private ParametersExtractor parametersExtractor = mock(ParametersExtractor.class);
     
     
     private UriComponentsBuilder uriComponentsBuilder;
@@ -48,6 +53,7 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
     @Before
     public void setUp() {
         enrichmentTagsListSuccessRepresentationBuilder.setDumpEnrichmentTagItemMapper(enrichmentTagItemMapper);
+        enrichmentTagsListSuccessRepresentationBuilder.setParametersExtractor(parametersExtractor);
         uriComponentsBuilder = UriComponentsBuilder.fromUriString(path);
         
         firstEnrichmentTagItem.setTagType("TAG_TYPE_1");
@@ -55,6 +61,8 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         
         when(enrichmentTagItemMapper.mapEnrichmentTagFieldsToItemRepresentation(same(firstEnrichmentTag))).thenReturn(firstEnrichmentTagItem);
         when(enrichmentTagItemMapper.mapEnrichmentTagFieldsToItemRepresentation(same(secondEnrichmentTag))).thenReturn(secondEnrichmentTagItem);
+        when(parametersExtractor.getMinPageSize()).thenReturn(1);
+        when(parametersExtractor.getMaxPageSize()).thenReturn(99);
     }
     
     
@@ -86,6 +94,8 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         
         assertEquals(Integer.valueOf(5), view.getQueryTemplate().getPageNumber().getValue());
         assertEquals(Integer.valueOf(2), view.getQueryTemplate().getPageSize().getValue());
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "1"));
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "99"));
         
         assertNull(view.getInfo());
         
@@ -116,6 +126,8 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         
         assertEquals(Integer.valueOf(0), view.getQueryTemplate().getPageNumber().getValue());
         assertEquals(Integer.valueOf(2), view.getQueryTemplate().getPageSize().getValue());
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "1"));
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "99"));
         
         assertNull(view.getInfo());
         
@@ -146,6 +158,8 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         
         assertEquals(Integer.valueOf(5), view.getQueryTemplate().getPageNumber().getValue());
         assertEquals(Integer.valueOf(3), view.getQueryTemplate().getPageSize().getValue());
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "1"));
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "99"));
         
         assertNull(view.getInfo());
         

@@ -39,6 +39,9 @@ public class ParametersExtractor {
 
     @Value("${restful.api.max.page.size}")
     private int maxPageSize=100;
+    
+    @Value("${restful.api.min.page.size}")
+    private int minPageSize=10;
 
 
     //------------------------ LOGIC --------------------------
@@ -124,6 +127,7 @@ public class ParametersExtractor {
 
         validate(currentPageSize, (n) -> n<=0, PAGE_SIZE, "should be positive");
         validate(currentPageSize, (n) -> n>maxPageSize, PAGE_SIZE, "can't be bigger than "+maxPageSize);
+        validate(currentPageSize, (n) -> n<minPageSize, PAGE_SIZE, "can't be less than "+minPageSize);
 
         return currentPageSize;
     }
@@ -137,6 +141,17 @@ public class ParametersExtractor {
     private int normalizePageSize(int pageSize){
         return pageSize != 0 ? pageSize : defaultPageSize;
     }
+    
+    
+    //------------------------ GETTERS --------------------------
+    
+    public int getMaxPageSize() {
+        return maxPageSize;
+    }
+
+    public int getMinPageSize() {
+        return minPageSize;
+    }
 
 
     //------------------------ SETTERS --------------------------
@@ -148,4 +163,9 @@ public class ParametersExtractor {
     public void setMaxPageSize(int maxPageSize) {
         this.maxPageSize = maxPageSize;
     }
+
+    public void setMinPageSize(int minPageSize) {
+        this.minPageSize = minPageSize;
+    }
+
 }

@@ -20,6 +20,7 @@ import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView;
 import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.DumpCourtItem;
 import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.QueryTemplate;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
+import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
 import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
@@ -36,6 +37,10 @@ public class DumpCourtsListSuccessRepresentationBuilder {
 
     @Autowired
     private DumpCourtItemMapper dumpCourtItemMapper;
+    
+    @Autowired
+    private ParametersExtractor parametersExtractor;
+    
 
     //------------------------ LOGIC --------------------------
     /**
@@ -107,7 +112,7 @@ public class DumpCourtsListSuccessRepresentationBuilder {
         QueryTemplate queryTemplate = new QueryTemplate();
 
         queryTemplate.setPageNumber(new PageNumberTemplate(pagination.getPageNumber()));
-        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize()));
+        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize(), parametersExtractor.getMinPageSize(), parametersExtractor.getMaxPageSize()));
 
         return queryTemplate;
     }

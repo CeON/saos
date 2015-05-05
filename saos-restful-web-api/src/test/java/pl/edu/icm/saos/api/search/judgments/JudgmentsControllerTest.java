@@ -105,6 +105,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
         clearAndIndexJudgmentsInSolr(testObjectContext);
 
+        parametersExtractor.setMinPageSize(1);
 
         JudgmentsController judgmentsController = new JudgmentsController();
         judgmentsController.setApiSearchService(apiSearchService);
@@ -519,4 +520,6 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         //then
         actions.andExpect(status().isBadRequest());
     }
+    
+    
 }
