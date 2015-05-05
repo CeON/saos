@@ -98,7 +98,7 @@ public class EnrichmentConfiguration {
     @Bean
     public DefaultEnrichmentTagApplier<MoneyAmountTagValue, MoneyAmount> maxAmountTagApplier() {
         
-        DefaultEnrichmentTagApplier<MoneyAmountTagValue, MoneyAmount> tagApplier = new DefaultEnrichmentTagApplier<MoneyAmountTagValue, MoneyAmount>(EnrichmentTagTypes.MAX_REFERENCED_AMOUNT);
+        DefaultEnrichmentTagApplier<MoneyAmountTagValue, MoneyAmount> tagApplier = new DefaultEnrichmentTagApplier<MoneyAmountTagValue, MoneyAmount>(EnrichmentTagTypes.MAX_REFERENCED_MONEY);
         
         tagApplier.setEnrichmentTagValueConverter(moneyAmountTagValueConverter);
         tagApplier.setJsonStringParser(moneyAmountJsonParser());

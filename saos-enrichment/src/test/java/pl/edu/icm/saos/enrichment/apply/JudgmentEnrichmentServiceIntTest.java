@@ -81,7 +81,7 @@ public class JudgmentEnrichmentServiceIntTest extends EnrichmentTestSupport {
         EnrichmentTag enrichmentTag1 = createEnrichmentTag(judgment.getId(), EnrichmentTagTypes.REFERENCED_COURT_CASES, "[{caseNumber:' 1234/12', judgmentIds:[1234, 12]}, {caseNumber: 'AAA', judgmentIds:[]}]");
         EnrichmentTag enrichmentTag2 = createEnrichmentTag(nonExistentJudgmentId, EnrichmentTagTypes.REFERENCED_COURT_CASES, "[{caseNumber:'1234/12', judgmentIds:[]}]");
         
-        EnrichmentTag enrichmentTag3 = createEnrichmentTag(judgment.getId(), EnrichmentTagTypes.MAX_REFERENCED_AMOUNT, "{amount: 123000.27, text: '123 tys zł 27 gr'}");
+        EnrichmentTag enrichmentTag3 = createEnrichmentTag(judgment.getId(), EnrichmentTagTypes.MAX_REFERENCED_MONEY, "{amount: 123000.27, text: '123 tys zł 27 gr'}");
         
         enrichmentTagRepository.save(Lists.newArrayList(enrichmentTag1, enrichmentTag2, enrichmentTag3));
     }

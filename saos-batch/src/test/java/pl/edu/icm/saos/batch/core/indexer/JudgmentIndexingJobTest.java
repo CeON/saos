@@ -95,7 +95,7 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         
         EnrichmentTag tag1 = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(ccJudgments.get(0).getId(), ccJudgments.get(3), scJudgments.get(9));
         EnrichmentTag tag2 = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(ccJudgments.get(2).getId(), ccJudgments.get(3), ctJudgments.get(0));
-        EnrichmentTag tag3 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(ccJudgments.get(3).getId(), EnrichmentTagTypes.MAX_REFERENCED_AMOUNT,
+        EnrichmentTag tag3 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(ccJudgments.get(3).getId(), EnrichmentTagTypes.MAX_REFERENCED_MONEY,
                 JsonNormalizer.normalizeJson("{amount:12300.45, text:'123 tys zł 45 gr'}"));
         
         enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2, tag3));

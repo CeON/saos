@@ -166,7 +166,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
         applyNacChanges(nacJudgments.get(5).getId());
         
         EnrichmentTag tag1 = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(ccJudgments.get(3).getId(), ccJudgments.get(1));
-        EnrichmentTag tag2 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(ccJudgments.get(1).getId(), EnrichmentTagTypes.MAX_REFERENCED_AMOUNT,
+        EnrichmentTag tag2 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(ccJudgments.get(1).getId(), EnrichmentTagTypes.MAX_REFERENCED_MONEY,
                 JsonNormalizer.normalizeJson("{amount:12300.45, text:'123 tys zł 45 gr'}"));
         enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2));
         
