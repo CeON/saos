@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,5 +27,11 @@ public class ApiConfiguration {
         messageSource.setCacheSeconds(3600);
         return messageSource;
 
+    }
+    
+    
+    @Bean
+    public HttpMessageConverter<?> mappingJackson2HttpMessageConverter() {
+        return new MappingJackson2HttpMessageConverter();
     }
 }

@@ -132,7 +132,9 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         assertAllMarkedAsIndexed();
         assertAllInIndex(ALL_JUDGMENTS_COUNT - alreadyIndexedCount);
         
+        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(2).getId()), fetchEnrichedJudgment(ccJudgments.get(2).getId()), 0L);
         assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(3).getId()), fetchEnrichedJudgment(ccJudgments.get(3).getId()), 2L);
+        assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(4).getId()), fetchEnrichedJudgment(ccJudgments.get(4).getId()), 0L);
         assertCcJudgment(fetchJudgmentDoc(ccJudgments.get(6).getId()), fetchEnrichedJudgment(ccJudgments.get(6).getId()), 0L);
         assertScJudgment(fetchJudgmentDoc(scJudgments.get(3).getId()), fetchEnrichedJudgment(scJudgments.get(3).getId()), 0L);
         assertScJudgment(fetchJudgmentDoc(scJudgments.get(9).getId()), fetchEnrichedJudgment(scJudgments.get(9).getId()), 1L);

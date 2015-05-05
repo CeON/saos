@@ -128,6 +128,84 @@ public class CommonCourt extends DataObject {
         divisions.add(division);
     }
     
+    /**
+     * Returns true if the passed type equals {@link #getType()}
+     */
+    @Transient
+    public boolean isCommonCourtType(CommonCourtType type) {
+        if (type.equals(getType())) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Invokes {@link #isCommonCourtType(CommonCourtType)} with {@link CommonCourtType#APPEAL}
+     */
+    @Transient
+    public boolean isAppealCourt() {
+        return isCommonCourtType(CommonCourtType.APPEAL);
+    }
+
+    /**
+     * Invokes {@link #isCommonCourtType(CommonCourtType)} with {@link CommonCourtType#REGIONAL}
+     */
+    @Transient
+    public boolean isRegionalCourt() {
+        return isCommonCourtType(CommonCourtType.REGIONAL);
+    }
+
+    /**
+     * Invokes {@link #isCommonCourtType(CommonCourtType)} with {@link CommonCourtType#DISTRICT}
+     */
+    @Transient
+    public boolean isDistrictCourt() {
+        return isCommonCourtType(CommonCourtType.DISTRICT);
+    }
+
+    
+    /**
+     * Returns the appeal court for which this court belongs. If this court {@link #isAppealCourt()} then
+     * the returned value == this. 
+     */
+    @Transient
+    public CommonCourt getAppealCourt() {
+
+        if (isAppealCourt()) {
+            return this;
+        }
+        
+        if (isRegionalCourt()) {
+            return this.getParentCourt();
+            
+        } 
+        
+        return this.getParentCourt().getParentCourt();
+        
+    }
+    
+    /**
+     * Returns the regional court for which this court belongs. If this court {@link #isAppealCourt()} then
+     * returns null, if this court {@link #isRegionalCourt()} then 'this' is returned.
+     */
+    @Transient
+    public CommonCourt getRegionalCourt() {
+        
+        if (isAppealCourt()) {
+            return null;
+        }
+        
+        if (isRegionalCourt()) {
+            return this;
+        } 
+        
+        return this.getParentCourt();
+        
+    }
+
+  
+    
+    
     @Override
     public void passVisitorDown(Visitor visitor) {
         getDivisions_().stream().forEach(d->d.accept(visitor));

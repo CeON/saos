@@ -32,6 +32,7 @@ public class JudgmentCriteria extends Criteria {
     
     private CommonCourtType ccCourtType;
     private Long ccCourtId;
+    private Long ccDirectOrSuperiorCourtId;
     private String ccCourtCode;
     private String ccCourtName;
     
@@ -59,6 +60,9 @@ public class JudgmentCriteria extends Criteria {
     private Long lawJournalEntryId;
     private Long referencedCourtCaseId;
 
+    
+    
+    
     public JudgmentCriteria() { }
     
     public JudgmentCriteria(String allCriteria) {
@@ -160,7 +164,15 @@ public class JudgmentCriteria extends Criteria {
     public Long getReferencedCourtCaseId() {
         return referencedCourtCaseId;
     }
+    /**
+     * The id of the cc court (or one of its superior courts) that a judgment is assigned to or the id of
+     */
+    public Long getCcDirectOrSuperiorCourtId() {
+        return ccDirectOrSuperiorCourtId;
+    }
+
     
+
     
     //------------------------ SETTERS --------------------------
     
@@ -246,13 +258,18 @@ public class JudgmentCriteria extends Criteria {
     public void setReferencedCourtCaseId(Long referencedCourtCaseId) {
         this.referencedCourtCaseId = referencedCourtCaseId;
     }
+    public void setCcDirectOrSuperiorCourtId(Long ccDirectOrSuperiorCourtId) {
+        this.ccDirectOrSuperiorCourtId = ccDirectOrSuperiorCourtId;
+    }
+
+
 
     //------------------------ HashCode & Equals --------------------------
 
     @Override
     public int hashCode() {
         return Objects.hashCode(all, caseNumber, judgmentDateFrom, judgmentDateTo,
-                courtType, ccCourtId, ccCourtCode, ccCourtName,
+                courtType, ccCourtId, ccDirectOrSuperiorCourtId, ccCourtCode, ccCourtName,
                 ccCourtDivisionId, ccCourtDivisionCode, ccCourtDivisionName,
 				scJudgmentForm, scPersonnelType, scCourtChamberId, scCourtChamberName, scCourtChamberDivisionId,
                 scCourtChamberDivisionName, ctDissentingOpinion, ctDissentingOpinionAuthor,
@@ -275,6 +292,7 @@ public class JudgmentCriteria extends Criteria {
                 Objects.equal(this.judgmentDateTo, other.judgmentDateTo) &&
                 Objects.equal(this.courtType, other.courtType) &&
                 Objects.equal(this.ccCourtId, other.ccCourtId) &&
+                Objects.equal(this.ccDirectOrSuperiorCourtId, other.ccDirectOrSuperiorCourtId) &&
                 Objects.equal(this.ccCourtCode, other.ccCourtCode) &&
                 Objects.equal(this.ccCourtName, other.ccCourtName) &&
                 Objects.equal(this.ccCourtDivisionId, other.ccCourtDivisionId) &&
@@ -304,5 +322,6 @@ public class JudgmentCriteria extends Criteria {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
+
 
 }

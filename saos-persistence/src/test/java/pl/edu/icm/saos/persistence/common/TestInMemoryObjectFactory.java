@@ -1,9 +1,15 @@
 package pl.edu.icm.saos.persistence.common;
 
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
-import pl.edu.icm.saos.persistence.model.*;
-
 import java.util.List;
+
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 
 /**
  * Provides factory methods for model object creation.
@@ -83,8 +89,8 @@ public final class TestInMemoryObjectFactory {
      * Creates {@link pl.edu.icm.saos.persistence.model.CommonCourt} hierarchy with default field data.
      * @return CommonCourt
      */
-    public static CommonCourt createCcCourt(boolean withParent){
-        return TestInMemoryCcObjectFactory.createCcCourt(withParent);
+    public static CommonCourt createCcCourt(CommonCourtType courtType){
+        return TestInMemoryCcObjectFactory.createCcCourt(courtType);
     }
 
     /**

@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.batch.core.indexer;
 
+import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertFieldNotExists;
 import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertSolrDocumentLongValues;
 import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertSolrDocumentPostfixedFieldValues;
 import static pl.edu.icm.saos.batch.core.indexer.SolrDocumentAssertUtils.assertSolrDocumentValues;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 import org.apache.solr.common.SolrDocument;
 
+import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
@@ -72,6 +74,34 @@ class JudgmentIndexAssertUtils {
         assertSolrDocumentLongValues(doc, JudgmentIndexField.CC_COURT_DIVISION_ID, ccJudgment.getCourtDivision().getId());
         assertSolrDocumentValues(doc, JudgmentIndexField.CC_COURT_DIVISION_CODE, ccJudgment.getCourtDivision().getCode());
         assertSolrDocumentValues(doc, JudgmentIndexField.CC_COURT_DIVISION_NAME, ccJudgment.getCourtDivision().getName());
+
+        assertSolrDocumentLongValues(doc, JudgmentIndexField.CC_APPEAL_COURT_ID, ccJudgment.getCourtDivision().getCourt().getAppealCourt().getId());
+        assertSolrDocumentValues(doc, JudgmentIndexField.CC_APPEAL_COURT_NAME, ccJudgment.getCourtDivision().getCourt().getAppealCourt().getName());
+
+        CommonCourt court = ccJudgment.getCourtDivision().getCourt();
+        
+        if (court.isDistrictCourt() || court.isRegionalCourt()) { 
+            assertSolrDocumentLongValues(doc, JudgmentIndexField.CC_REGIONAL_COURT_ID, ccJudgment.getCourtDivision().getCourt().getRegionalCourt().getId());
+            assertSolrDocumentValues(doc, JudgmentIndexField.CC_REGIONAL_COURT_NAME, ccJudgment.getCourtDivision().getCourt().getRegionalCourt().getName());
+        }
+        
+        if (court.isDistrictCourt()) {
+            assertSolrDocumentLongValues(doc, JudgmentIndexField.CC_DISTRICT_COURT_ID, ccJudgment.getCourtDivision().getCourt().getId());
+            assertSolrDocumentValues(doc, JudgmentIndexField.CC_DISTRICT_COURT_NAME, ccJudgment.getCourtDivision().getCourt().getName());
+        }
+        
+        if (court.isAppealCourt()) {
+            assertFieldNotExists(doc, JudgmentIndexField.CC_REGIONAL_COURT_ID);
+            assertFieldNotExists(doc, JudgmentIndexField.CC_REGIONAL_COURT_NAME);
+            assertFieldNotExists(doc, JudgmentIndexField.CC_DISTRICT_COURT_ID);
+            assertFieldNotExists(doc, JudgmentIndexField.CC_DISTRICT_COURT_NAME);
+        }
+        
+        if (court.isRegionalCourt()) {
+            assertFieldNotExists(doc, JudgmentIndexField.CC_DISTRICT_COURT_ID);
+            assertFieldNotExists(doc, JudgmentIndexField.CC_DISTRICT_COURT_NAME);
+        }
+        
     }
     
     private static void assertScJudgmentSpecificFields(SolrDocument doc, SupremeCourtJudgment scJudgment) {

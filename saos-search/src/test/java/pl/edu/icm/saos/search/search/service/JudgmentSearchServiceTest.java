@@ -158,6 +158,11 @@ public class JudgmentSearchServiceTest {
             
             { Lists.newArrayList(1961l), JudgmentCriteriaBuilder.create().withCcCourtName("Sąd Apelacyjny we Wrocławiu").build() },
             
+            { Lists.newArrayList(41808l), JudgmentCriteriaBuilder.create().withCcDirectOrSuperiorCourtId(36).build() },
+            { Lists.newArrayList(41808l), JudgmentCriteriaBuilder.create().withCcDirectOrSuperiorCourtId(37).build() },
+            { Lists.newArrayList(41808l), JudgmentCriteriaBuilder.create().withCcDirectOrSuperiorCourtId(38).build() },
+            
+            
             { Lists.newArrayList(1961l), JudgmentCriteriaBuilder.create().withCcDivisionId(3).build() },
             { Lists.newArrayList(), JudgmentCriteriaBuilder.create().withCcDivisionId(4).build() },
             
@@ -416,6 +421,16 @@ public class JudgmentSearchServiceTest {
         doc.addField("ccCourtDivisionId", "213");
         doc.addField("ccCourtDivisionCode", "0007506");
         doc.addField("ccCourtDivisionName", "XV Wydział Karny");
+
+        doc.addField("ccAppealCourtId", "37");
+        doc.addField("ccAppealCourtName", "Sąd Apelacyjny w Warszawie");
+
+        doc.addField("ccRegionalCourtId", "38");
+        doc.addField("ccRegionalCourtName", "Sąd Okręgowy w Białymstoku");
+
+        doc.addField("ccDistrictCourtId", "36");
+        doc.addField("ccDistrictCourtName", "Sąd Rejonowy w Białymstoku");
+
         
         doc.addField("judge", "Marcin Kęska|PRESIDING_JUDGE");
         doc.addField("judgeName", "Marcin Kęska");
@@ -474,6 +489,10 @@ public class JudgmentSearchServiceTest {
         doc.addField("ccCourtDivisionId", "3");
         doc.addField("ccCourtDivisionCode", "0001521");
         doc.addField("ccCourtDivisionName", "III Wydział Pracy i Ubezpieczeń Społecznych");
+        
+        doc.addField("ccAppealCourtId", "1");
+        doc.addField("ccAppealCourtName", "Sąd Apelacyjny we Wrocławiu");
+
         
         doc.addField("keyword", "zwrot nienależnie pobranych świadczeń z ubezpieczenia");
         doc.addField("keyword", "słowo kluczowe");

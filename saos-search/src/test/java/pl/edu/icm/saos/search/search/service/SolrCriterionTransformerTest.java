@@ -109,6 +109,22 @@ public class SolrCriterionTransformerTest {
     }
     
     @Test
+    public void transformToEqualsCriterion_OPERATOR_OR() {
+        // execute
+        String actual = criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.KEYWORD, "word", Operator.OR);
+        // assert
+        assertEquals("keyword:word", actual);
+    }
+    
+    @Test
+    public void transformToEqualsCriterion_OPERATOR_AND() {
+        // execute
+        String actual = criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.KEYWORD, "word", Operator.AND);
+        // assert
+        assertEquals("+keyword:word", actual);
+    }
+    
+    @Test
     public void transformToEqualsCriterion_ESCAPING() {
         // execute & assert
         assertEquals("+keyword:\\AND", criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.KEYWORD, " AND "));
@@ -182,6 +198,28 @@ public class SolrCriterionTransformerTest {
         String actual = criterionTransformer.transformToRangeCriterion(JudgmentIndexField.KEYWORD, "aa", "ba");
         // assert
         assertEquals("+keyword:[aa TO ba]", actual);
+    }
+    
+    
+    @Test
+    public void join() {
+        
+        // execute
+        String actual = criterionTransformer.join(Lists.newArrayList("aa:bb","+cc:dd"));
+        
+        // assert
+        assertEquals("aa:bb +cc:dd", actual);
+    }
+    
+    
+    @Test
+    public void and() {
+        
+        // execute
+        String actual = criterionTransformer.and("aa:bb");
+        
+        // assert
+        assertEquals("+(aa:bb)", actual);
     }
     
 }
