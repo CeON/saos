@@ -157,21 +157,24 @@ var jsInitInJudgmentSearch = function() {
     /* Search form section: court type */
     infoFormSection({
         formSectionId: "#court-form-section",
-        infoSectionId: "#court-info-section"
+        infoSectionId: "#court-info-section",
+        extractInfoFromFormCustom: extractInfoFromCourtSection
     });
 
+    /* Search form section: date */
     infoFormSection({
         formSectionId: "#date-form-section",
         infoSectionId: "#date-info-section",
+        extractInfoFromFormCustom: extractInfoFromDateSectionInSearch,
         defaultInfoSectionText: springMessage.contextDateAnyValue
     });
     
-
     
     /* Search form section: judgment extra fields */
     infoFormSection({
         formSectionId: "#judgment-form-section",
         infoSectionId: "#judgment-info",
+        extractInfoFromFormCustom: extractInfoFromJudgmentFormSectionInSearch,
         defaultInfoSectionText: springMessage.judgmentSearchJudgmentSectionDefaultText
     });
     
