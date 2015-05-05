@@ -20,7 +20,9 @@ import pl.edu.icm.saos.api.dump.enrichmenttag.mapping.DumpEnrichmentTagItemMappe
 import pl.edu.icm.saos.api.dump.enrichmenttag.views.DumpEnrichmentTagsView;
 import pl.edu.icm.saos.api.dump.enrichmenttag.views.DumpEnrichmentTagsView.DumpEnrichmentTagItem;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
+import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PaginationTemplateFactory;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
@@ -36,7 +38,7 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
     
     private DumpEnrichmentTagItemMapper enrichmentTagItemMapper = mock(DumpEnrichmentTagItemMapper.class);
     
-    private ParametersExtractor parametersExtractor = mock(ParametersExtractor.class);
+    private PaginationTemplateFactory paginationTemplateFactory = mock(PaginationTemplateFactory.class);
     
     
     private UriComponentsBuilder uriComponentsBuilder;
@@ -53,7 +55,7 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
     @Before
     public void setUp() {
         enrichmentTagsListSuccessRepresentationBuilder.setDumpEnrichmentTagItemMapper(enrichmentTagItemMapper);
-        enrichmentTagsListSuccessRepresentationBuilder.setParametersExtractor(parametersExtractor);
+        enrichmentTagsListSuccessRepresentationBuilder.setPaginationTemplateFactory(paginationTemplateFactory);
         uriComponentsBuilder = UriComponentsBuilder.fromUriString(path);
         
         firstEnrichmentTagItem.setTagType("TAG_TYPE_1");
@@ -61,8 +63,6 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         
         when(enrichmentTagItemMapper.mapEnrichmentTagFieldsToItemRepresentation(same(firstEnrichmentTag))).thenReturn(firstEnrichmentTagItem);
         when(enrichmentTagItemMapper.mapEnrichmentTagFieldsToItemRepresentation(same(secondEnrichmentTag))).thenReturn(secondEnrichmentTagItem);
-        when(parametersExtractor.getMinPageSize()).thenReturn(1);
-        when(parametersExtractor.getMaxPageSize()).thenReturn(99);
     }
     
     
@@ -75,6 +75,9 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         SearchResult<EnrichmentTag> searchResult = new SearchResult<EnrichmentTag>(
                 Lists.newArrayList(firstEnrichmentTag, secondEnrichmentTag), 16L, 5*2, 2);
         Pagination pagination = new Pagination(2, 5);
+        
+        when(paginationTemplateFactory.createPageNumberTemplate(pagination)).thenReturn(new PageNumberTemplate(5));
+        when(paginationTemplateFactory.createPageSizeTemplate(pagination)).thenReturn(new PageSizeTemplate(2, 1, 99));
         
         
         // execute
@@ -109,6 +112,9 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
                 Lists.newArrayList(firstEnrichmentTag, secondEnrichmentTag), 16L, 0, 2);
         Pagination pagination = new Pagination(2, 0);
         
+        when(paginationTemplateFactory.createPageNumberTemplate(pagination)).thenReturn(new PageNumberTemplate(0));
+        when(paginationTemplateFactory.createPageSizeTemplate(pagination)).thenReturn(new PageSizeTemplate(2, 1, 99));
+        
         
         // execute
         
@@ -140,6 +146,9 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         SearchResult<EnrichmentTag> searchResult = new SearchResult<EnrichmentTag>(
                 Lists.newArrayList(firstEnrichmentTag), null, 15, 3);
         Pagination pagination = new Pagination(3, 5);
+        
+        when(paginationTemplateFactory.createPageNumberTemplate(pagination)).thenReturn(new PageNumberTemplate(5));
+        when(paginationTemplateFactory.createPageSizeTemplate(pagination)).thenReturn(new PageSizeTemplate(3, 1, 99));
         
         
         // execute

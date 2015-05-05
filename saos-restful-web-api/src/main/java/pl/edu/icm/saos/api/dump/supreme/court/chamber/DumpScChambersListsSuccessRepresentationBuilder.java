@@ -21,9 +21,7 @@ import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView.D
 import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView.Item;
 import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView.QueryTemplate;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
-import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PaginationTemplateFactory;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
@@ -37,7 +35,7 @@ public class DumpScChambersListsSuccessRepresentationBuilder {
 
 
     @Autowired
-    private ParametersExtractor parametersExtractor;
+    private PaginationTemplateFactory paginationTemplateFactory;
     
 
     //------------------------ LOGIC --------------------------
@@ -126,8 +124,8 @@ public class DumpScChambersListsSuccessRepresentationBuilder {
     private QueryTemplate toQueryTemplate(Pagination pagination) {
         QueryTemplate queryTemplate = new QueryTemplate();
 
-        queryTemplate.setPageNumber(new PageNumberTemplate(pagination.getPageNumber()));
-        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize(), parametersExtractor.getMinPageSize(), parametersExtractor.getMaxPageSize()));
+        queryTemplate.setPageNumber(paginationTemplateFactory.createPageNumberTemplate(pagination));
+        queryTemplate.setPageSize(paginationTemplateFactory.createPageSizeTemplate(pagination));
 
         return queryTemplate;
     }

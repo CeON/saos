@@ -20,9 +20,7 @@ import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView;
 import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.DumpCourtItem;
 import pl.edu.icm.saos.api.dump.court.views.DumpCourtsView.QueryTemplate;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
-import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PaginationTemplateFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
@@ -39,7 +37,7 @@ public class DumpCourtsListSuccessRepresentationBuilder {
     private DumpCourtItemMapper dumpCourtItemMapper;
     
     @Autowired
-    private ParametersExtractor parametersExtractor;
+    private PaginationTemplateFactory paginationTemplateFactory;
     
 
     //------------------------ LOGIC --------------------------
@@ -111,8 +109,8 @@ public class DumpCourtsListSuccessRepresentationBuilder {
     private QueryTemplate toQueryTemplate(Pagination pagination) {
         QueryTemplate queryTemplate = new QueryTemplate();
 
-        queryTemplate.setPageNumber(new PageNumberTemplate(pagination.getPageNumber()));
-        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize(), parametersExtractor.getMinPageSize(), parametersExtractor.getMaxPageSize()));
+        queryTemplate.setPageNumber(paginationTemplateFactory.createPageNumberTemplate(pagination));
+        queryTemplate.setPageSize(paginationTemplateFactory.createPageSizeTemplate(pagination));
 
         return queryTemplate;
     }

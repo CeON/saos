@@ -31,12 +31,10 @@ import pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView;
 import pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.QueryTemplate;
 import pl.edu.icm.saos.api.dump.judgment.views.DumpJudgmentsView.SinceModificationDateTemplate;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
 import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateFromTemplate;
 import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateToTemplate;
-import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
-import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PaginationTemplateFactory;
 import pl.edu.icm.saos.api.services.representations.success.template.WithGeneratedTemplate;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
@@ -67,7 +65,7 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
     private DateMapping dateMapping;
     
     @Autowired
-    private ParametersExtractor parametersExtractor;
+    private PaginationTemplateFactory paginationTemplateFactory;
 
 
 
@@ -183,8 +181,8 @@ public class DumpJudgmentsListSuccessRepresentationBuilder {
     private QueryTemplate toQueryTemplate(Pagination pagination, String startDate, String endDate, String modificationDate, Boolean withGenerated) {
 
         QueryTemplate queryTemplate = new QueryTemplate();
-        queryTemplate.setPageNumber(new PageNumberTemplate(pagination.getPageNumber()));
-        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize(), parametersExtractor.getMinPageSize(), parametersExtractor.getMaxPageSize()));
+        queryTemplate.setPageNumber(paginationTemplateFactory.createPageNumberTemplate(pagination));
+        queryTemplate.setPageSize(paginationTemplateFactory.createPageSizeTemplate(pagination));
         queryTemplate.setJudgmentStartDate(new JudgmentDateFromTemplate(StringUtils.trimToEmpty(startDate)));
         queryTemplate.setJudgmentEndDate(new JudgmentDateToTemplate(StringUtils.trimToEmpty(endDate)));
         queryTemplate.setSinceModificationDate(new SinceModificationDateTemplate(StringUtils.trimToEmpty(modificationDate)));

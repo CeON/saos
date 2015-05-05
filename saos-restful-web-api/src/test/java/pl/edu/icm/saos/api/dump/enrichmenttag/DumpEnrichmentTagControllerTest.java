@@ -83,8 +83,6 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
         testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
         enrichmentTags = testPersistenceObjectFactory.createEnrichmentTagsForJudgment(testObjectContext.getCcJudgmentId());
         
-        parametersExtractor.setMinPageSize(1);
-        
         DumpEnrichmentTagController dumpEnrichmentTagController = new DumpEnrichmentTagController();
         
         dumpEnrichmentTagController.setParametersExtractor(parametersExtractor);
@@ -190,6 +188,44 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
             .andExpect(jsonPath("$.error.httpStatus").value(String.valueOf(HttpStatus.BAD_REQUEST.value())))
             .andExpect(jsonPath("$.error.reason").value(ErrorReason.WRONG_REQUEST_PARAMETER_ERROR.errorReason()))
             .andExpect(jsonPath("$.error.propertyName").value("some_incorrect_parameter_name"));
+    }
+    
+    @Test
+    public void showEnrichmentTags_TOO_SMALL_PAGE_SIZE() throws Exception {
+        
+        // execute
+        
+        ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
+                .param(PAGE_SIZE, String.valueOf(1))
+                .accept(MediaType.APPLICATION_JSON));
+        
+        
+        // assert
+        
+        actions
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.httpStatus").value(String.valueOf(HttpStatus.BAD_REQUEST.value())))
+            .andExpect(jsonPath("$.error.reason").value(ErrorReason.WRONG_REQUEST_PARAMETER_ERROR.errorReason()))
+            .andExpect(jsonPath("$.error.propertyName").value(PAGE_SIZE));
+    }
+    
+    @Test
+    public void showEnrichmentTags_TOO_BIG_PAGE_SIZE() throws Exception {
+
+        // execute
+        
+        ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
+                .param(PAGE_SIZE, String.valueOf(101))
+                .accept(MediaType.APPLICATION_JSON));
+        
+        
+        // assert
+        
+        actions
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.error.httpStatus").value(String.valueOf(HttpStatus.BAD_REQUEST.value())))
+            .andExpect(jsonPath("$.error.reason").value(ErrorReason.WRONG_REQUEST_PARAMETER_ERROR.errorReason()))
+            .andExpect(jsonPath("$.error.propertyName").value(PAGE_SIZE));
     }
     
 }

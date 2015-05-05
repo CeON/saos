@@ -125,9 +125,9 @@ public class ParametersExtractor {
     private int normalizeAndValidatePageSize(int pageSize) throws WrongRequestParameterException {
         int currentPageSize = normalizePageSize(pageSize);
 
-        validate(currentPageSize, (n) -> n<=0, PAGE_SIZE, "should be positive");
-        validate(currentPageSize, (n) -> n>maxPageSize, PAGE_SIZE, "can't be bigger than "+maxPageSize);
-        validate(currentPageSize, (n) -> n<minPageSize, PAGE_SIZE, "can't be less than "+minPageSize);
+        validate(currentPageSize, (n) -> n<=0, PAGE_SIZE, "may not be negative");
+        validate(currentPageSize, (n) -> n>maxPageSize, PAGE_SIZE, "may not be greater than "+maxPageSize);
+        validate(currentPageSize, (n) -> n<minPageSize, PAGE_SIZE, "may not be less than "+minPageSize);
 
         return currentPageSize;
     }

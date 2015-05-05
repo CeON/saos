@@ -30,19 +30,16 @@ import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_JUDGME
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_JUDGE_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_TEXT_CONTENT;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_JUDGE_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_DATE_DAY;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_DATE_MONTH;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_DATE_YEAR;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_CHAMBER_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_DIVISION_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_PERSONNEL_TYPE;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.common.SolrInputDocument;
-import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -54,6 +51,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
@@ -66,6 +64,7 @@ import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CourtType;
+import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
@@ -73,12 +72,14 @@ import pl.edu.icm.saos.search.indexing.JudgmentIndexingData;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
 import pl.edu.icm.saos.search.search.model.Sorting;
 
+import com.google.common.collect.Lists;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes =  {ApiTestConfiguration.class})
 @Category(SlowTest.class)
 public class JudgmentsControllerTest extends PersistenceTestSupport {
 
-    private static final int NR_OF_JUDGMENTS_STORED_IN_SOLR_INDEX = 2;
+    private static final int NR_OF_JUDGMENTS_STORED_IN_SOLR_INDEX = 4;
 
 
     private MockMvc mockMvc;
@@ -104,8 +105,6 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
 
         clearAndIndexJudgmentsInSolr(testObjectContext);
-
-        parametersExtractor.setMinPageSize(1);
 
         JudgmentsController judgmentsController = new JudgmentsController();
         judgmentsController.setApiSearchService(apiSearchService);
@@ -135,10 +134,18 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         JudgmentIndexingData scJudgmentIndexingData = new JudgmentIndexingData();
         scJudgmentIndexingData.setJudgment(testObjectContext.getScJudgment());
         
+        JudgmentIndexingData ctJudgmentIndexingData = new JudgmentIndexingData();
+        ctJudgmentIndexingData.setJudgment(testObjectContext.getCtJudgment());
+        
+        JudgmentIndexingData nacJudgmentIndexingData = new JudgmentIndexingData();
+        nacJudgmentIndexingData.setJudgment(testObjectContext.getNacJudgment());
+        
         SolrInputDocument ccJudgmentDoc = judgmentIndexingProcessor.process(ccJudgmentIndexingData);
         SolrInputDocument scJudgmentDoc = judgmentIndexingProcessor.process(scJudgmentIndexingData);
+        SolrInputDocument ctJudgmentDoc = judgmentIndexingProcessor.process(ctJudgmentIndexingData);
+        SolrInputDocument nacJudgmentDoc = judgmentIndexingProcessor.process(nacJudgmentIndexingData);
         judgmentsServer.add(
-                Arrays.asList(ccJudgmentDoc, scJudgmentDoc)
+                Arrays.asList(ccJudgmentDoc, scJudgmentDoc, ctJudgmentDoc, nacJudgmentDoc)
         );
 
         judgmentsServer.commit();
@@ -226,23 +233,22 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     public void showJudgments__it_should_sort_by_judgment_date_descending() throws Exception{
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, "1")
                 .param(ApiConstants.PAGE_NUMBER, "0")
                 .param("sortingField", JudgmentIndexField.JUDGMENT_DATE.name())
                 .param("sortingDirection", Sorting.Direction.DESC.name())
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
-        LocalDate ccJudgmentDate = new LocalDate(CC_DATE_YEAR, CC_DATE_MONTH, CC_DATE_DAY);
-        LocalDate scJudgmentDate = new LocalDate(SC_DATE_YEAR, SC_DATE_MONTH, SC_DATE_DAY);
-
-        if(ccJudgmentDate.isAfter(scJudgmentDate)){
-            actions
-                    .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId())));
-        } else {
-            actions
-                    .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getScJudgmentId())));
-        }
+        List<Judgment> judgments = Lists.newArrayList(testObjectContext.getCcJudgment(), testObjectContext.getScJudgment(),
+                testObjectContext.getNacJudgment(), testObjectContext.getCtJudgment());
+        Collections.sort(judgments, (j1, j2) -> j2.getJudgmentDate().compareTo(j1.getJudgmentDate()));
+        
+        actions
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(0).getId())))
+            .andExpect(jsonPath("$.items.[1].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(1).getId())))
+            .andExpect(jsonPath("$.items.[2].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(2).getId())))
+            .andExpect(jsonPath("$.items.[3].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(3).getId())));
 
     }
 
@@ -250,23 +256,22 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     public void showJudgments__it_should_sort_by_judgment_date_ascending() throws Exception{
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, "1")
                 .param(ApiConstants.PAGE_NUMBER, "0")
                 .param("sortingField", JudgmentIndexField.JUDGMENT_DATE.name())
                 .param("sortingDirection", Sorting.Direction.ASC.name())
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
-        LocalDate ccJudgmentDate = new LocalDate(CC_DATE_YEAR, CC_DATE_MONTH, CC_DATE_DAY);
-        LocalDate scJudgmentDate = new LocalDate(SC_DATE_YEAR, SC_DATE_MONTH, SC_DATE_DAY);
-
-        if(ccJudgmentDate.isAfter(scJudgmentDate)){
-            actions
-                    .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getScJudgmentId())));
-        } else {
-            actions
-                    .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId())));
-        }
+        List<Judgment> judgments = Lists.newArrayList(testObjectContext.getCcJudgment(), testObjectContext.getScJudgment(),
+                testObjectContext.getNacJudgment(), testObjectContext.getCtJudgment());
+        Collections.sort(judgments, (j1, j2) -> j1.getJudgmentDate().compareTo(j2.getJudgmentDate()));
+        
+        actions
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(0).getId())))
+            .andExpect(jsonPath("$.items.[1].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(1).getId())))
+            .andExpect(jsonPath("$.items.[2].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(2).getId())))
+            .andExpect(jsonPath("$.items.[3].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(3).getId())));
 
     }
 
@@ -488,7 +493,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     @Test
     public void showJudgments__it_should_show_next_link() throws Exception {
         //given
-        int pageSize = 1;
+        int pageSize = 3;
         int nrOfElementsOnTheNextPage = 1;
         int pageNumber = (NR_OF_JUDGMENTS_STORED_IN_SOLR_INDEX - nrOfElementsOnTheNextPage) / pageSize - 1; // minus one as page numbers starts from 0
 
@@ -500,6 +505,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         );
 
         //then
+        actions.andDo(MockMvcResultHandlers.print());
         actions.andExpect(status().isOk());
 
         String prefix = "$.links";

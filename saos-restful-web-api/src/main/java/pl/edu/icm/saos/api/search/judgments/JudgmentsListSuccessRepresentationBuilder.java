@@ -58,12 +58,10 @@ import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.QueryTempl
 import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.SortingDirectionTemplate;
 import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.SortingFieldTemplate;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.dates.DateMapping;
 import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateFromTemplate;
 import pl.edu.icm.saos.api.services.representations.success.template.JudgmentDateToTemplate;
-import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
-import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PaginationTemplateFactory;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 
@@ -90,7 +88,7 @@ public class JudgmentsListSuccessRepresentationBuilder {
     private SearchJudgmentItemMapper judgmentItemMapper;
     
     @Autowired
-    private ParametersExtractor parametersExtractor;
+    private PaginationTemplateFactory paginationTemplateFactory;
 
 
 
@@ -312,9 +310,9 @@ public class JudgmentsListSuccessRepresentationBuilder {
         queryTemplate.setKeywords(params.getKeywords());
 
         Pagination pagination = params.getPagination();
-
-        queryTemplate.setPageNumber(new PageNumberTemplate(pagination.getPageNumber()));
-        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize(), parametersExtractor.getMinPageSize(), parametersExtractor.getMaxPageSize()));
+        
+        queryTemplate.setPageNumber(paginationTemplateFactory.createPageNumberTemplate(pagination));
+        queryTemplate.setPageSize(paginationTemplateFactory.createPageSizeTemplate(pagination));
 
         Sort sort = params.getSort();
         queryTemplate.setSortingField(new SortingFieldTemplate(sort.getSortingField()));

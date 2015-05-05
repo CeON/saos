@@ -13,6 +13,6 @@ public class PageSizeTemplate extends QueryParameterRepresentation<Integer, Stri
     public PageSizeTemplate(Integer value, Integer minPageSize, Integer maxPageSize) {
         super(value);
         setDescription("Represents maximum number of items on the page");
-        setAllowedValues("Any integer greater or equals to " + minPageSize + " and less or equals to " + maxPageSize);
+        setAllowedValues("Any integer greater or equal to " + minPageSize + " and less or equal to " + maxPageSize);
     }
 }

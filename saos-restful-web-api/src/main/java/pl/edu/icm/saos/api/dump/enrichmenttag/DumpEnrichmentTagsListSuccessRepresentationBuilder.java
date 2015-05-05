@@ -20,9 +20,7 @@ import pl.edu.icm.saos.api.dump.enrichmenttag.views.DumpEnrichmentTagsView;
 import pl.edu.icm.saos.api.dump.enrichmenttag.views.DumpEnrichmentTagsView.DumpEnrichmentTagItem;
 import pl.edu.icm.saos.api.dump.enrichmenttag.views.DumpEnrichmentTagsView.QueryTemplate;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
-import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PaginationTemplateFactory;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
@@ -36,7 +34,7 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilder {
 
     private DumpEnrichmentTagItemMapper dumpEnrichmentTagItemMapper;
     
-    private ParametersExtractor parametersExtractor;
+    private PaginationTemplateFactory paginationTemplateFactory;
     
     
     //------------------------ LOGIC --------------------------
@@ -97,9 +95,9 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilder {
 
     private QueryTemplate toQueryTemplate(Pagination pagination) {
         QueryTemplate queryTemplate = new QueryTemplate();
-
-        queryTemplate.setPageNumber(new PageNumberTemplate(pagination.getPageNumber()));
-        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize(), parametersExtractor.getMinPageSize(), parametersExtractor.getMaxPageSize()));
+        
+        queryTemplate.setPageNumber(paginationTemplateFactory.createPageNumberTemplate(pagination));
+        queryTemplate.setPageSize(paginationTemplateFactory.createPageSizeTemplate(pagination));
 
         return queryTemplate;
     }
@@ -114,7 +112,7 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilder {
     }
 
     @Autowired
-    public void setParametersExtractor(ParametersExtractor parametersExtractor) {
-        this.parametersExtractor = parametersExtractor;
+    public void setPaginationTemplateFactory(PaginationTemplateFactory paginationTemplateFactory) {
+        this.paginationTemplateFactory = paginationTemplateFactory;
     }
 }
