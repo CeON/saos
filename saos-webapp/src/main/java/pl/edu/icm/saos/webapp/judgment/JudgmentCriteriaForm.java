@@ -127,11 +127,6 @@ public class JudgmentCriteriaForm {
         return courtCriteria;
     }
     
-    /** true - take into account also judgments from dependent courts (of the specified court),
-     * false - fetch only judgments judged by the specified court (see {@link #getCcCourtId()})*/
-    public boolean isIncludeDependentCourtJudgments() {
-        return includeDependentCourtJudgments;
-    }
 
 
 	//------------------------ SETTERS --------------------------
@@ -196,11 +191,6 @@ public class JudgmentCriteriaForm {
         this.courtCriteria = courtCriteria;
     }
 
-    public void setIncludeDependentCourtJudgments(boolean includeDependentCourtJudgments) {
-        this.includeDependentCourtJudgments = includeDependentCourtJudgments;
-    }
-
-  
     //------------------------ toString --------------------------
 
     @Override
@@ -216,11 +206,6 @@ public class JudgmentCriteriaForm {
                 + includeDependentCourtJudgments + "]";
     }
 
-      
-   
-
-
-    
     
 }
 

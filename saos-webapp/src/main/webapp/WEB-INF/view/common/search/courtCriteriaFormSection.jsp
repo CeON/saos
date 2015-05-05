@@ -68,6 +68,18 @@
 		    </div>
 		</div>
 		
+		<div class="form-group" data-court-type="COMMON" >
+		    <div class="col-lg-2 col-sm-3 col-xs-12 "></div>
+            <div class="col-lg-7 col-sm-8 col-xs-11">
+            <form:checkbox path="ccIncludeDependentCourtJudgments" id="ccIncludeDependentCourtJudgments" disabled="${fn:length(commonCourts)==0}"/>
+            <label for="ccIncludeDependentCourtJudgments">
+                <spring:message code="courtCriteriaFormSection.formField.ccIncludeDependentCourtJudgments"/>
+            </label>
+            </div>
+        </div>
+        
+		
+		
 		<%-- Common Court Divisions --%>
 		<div class="form-group" data-court-type="COMMON" >
 		    <label for="select-common-division" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.commonDivision" />:</label>
