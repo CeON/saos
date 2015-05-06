@@ -4,10 +4,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.hateoas.Link;
@@ -18,6 +20,9 @@ import pl.edu.icm.saos.api.dump.enrichmenttag.mapping.DumpEnrichmentTagItemMappe
 import pl.edu.icm.saos.api.dump.enrichmenttag.views.DumpEnrichmentTagsView;
 import pl.edu.icm.saos.api.dump.enrichmenttag.views.DumpEnrichmentTagsView.DumpEnrichmentTagItem;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
+import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
+import pl.edu.icm.saos.api.services.representations.success.template.PaginationTemplateFactory;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
@@ -32,6 +37,8 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
             new DumpEnrichmentTagsListSuccessRepresentationBuilder();
     
     private DumpEnrichmentTagItemMapper enrichmentTagItemMapper = mock(DumpEnrichmentTagItemMapper.class);
+    
+    private PaginationTemplateFactory paginationTemplateFactory = mock(PaginationTemplateFactory.class);
     
     
     private UriComponentsBuilder uriComponentsBuilder;
@@ -48,6 +55,7 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
     @Before
     public void setUp() {
         enrichmentTagsListSuccessRepresentationBuilder.setDumpEnrichmentTagItemMapper(enrichmentTagItemMapper);
+        enrichmentTagsListSuccessRepresentationBuilder.setPaginationTemplateFactory(paginationTemplateFactory);
         uriComponentsBuilder = UriComponentsBuilder.fromUriString(path);
         
         firstEnrichmentTagItem.setTagType("TAG_TYPE_1");
@@ -68,6 +76,9 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
                 Lists.newArrayList(firstEnrichmentTag, secondEnrichmentTag), 16L, 5*2, 2);
         Pagination pagination = new Pagination(2, 5);
         
+        when(paginationTemplateFactory.createPageNumberTemplate(pagination)).thenReturn(new PageNumberTemplate(5));
+        when(paginationTemplateFactory.createPageSizeTemplate(pagination)).thenReturn(new PageSizeTemplate(2, 1, 99));
+        
         
         // execute
         
@@ -86,6 +97,8 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         
         assertEquals(Integer.valueOf(5), view.getQueryTemplate().getPageNumber().getValue());
         assertEquals(Integer.valueOf(2), view.getQueryTemplate().getPageSize().getValue());
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "1"));
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "99"));
         
         assertNull(view.getInfo());
         
@@ -98,6 +111,9 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         SearchResult<EnrichmentTag> searchResult = new SearchResult<EnrichmentTag>(
                 Lists.newArrayList(firstEnrichmentTag, secondEnrichmentTag), 16L, 0, 2);
         Pagination pagination = new Pagination(2, 0);
+        
+        when(paginationTemplateFactory.createPageNumberTemplate(pagination)).thenReturn(new PageNumberTemplate(0));
+        when(paginationTemplateFactory.createPageSizeTemplate(pagination)).thenReturn(new PageSizeTemplate(2, 1, 99));
         
         
         // execute
@@ -116,6 +132,8 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         
         assertEquals(Integer.valueOf(0), view.getQueryTemplate().getPageNumber().getValue());
         assertEquals(Integer.valueOf(2), view.getQueryTemplate().getPageSize().getValue());
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "1"));
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "99"));
         
         assertNull(view.getInfo());
         
@@ -128,6 +146,9 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         SearchResult<EnrichmentTag> searchResult = new SearchResult<EnrichmentTag>(
                 Lists.newArrayList(firstEnrichmentTag), null, 15, 3);
         Pagination pagination = new Pagination(3, 5);
+        
+        when(paginationTemplateFactory.createPageNumberTemplate(pagination)).thenReturn(new PageNumberTemplate(5));
+        when(paginationTemplateFactory.createPageSizeTemplate(pagination)).thenReturn(new PageSizeTemplate(3, 1, 99));
         
         
         // execute
@@ -146,6 +167,8 @@ public class DumpEnrichmentTagsListSuccessRepresentationBuilderTest {
         
         assertEquals(Integer.valueOf(5), view.getQueryTemplate().getPageNumber().getValue());
         assertEquals(Integer.valueOf(3), view.getQueryTemplate().getPageSize().getValue());
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "1"));
+        assertTrue(StringUtils.contains(view.getQueryTemplate().getPageSize().getAllowedValues(), "99"));
         
         assertNull(view.getInfo());
         

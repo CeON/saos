@@ -1,23 +1,30 @@
 package pl.edu.icm.saos.api.dump.supreme.court.chamber;
 
-import org.springframework.hateoas.Link;
-import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponentsBuilder;
-import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView;
-import pl.edu.icm.saos.api.search.parameters.Pagination;
-import pl.edu.icm.saos.api.services.representations.success.template.PageNumberTemplate;
-import pl.edu.icm.saos.api.services.representations.success.template.PageSizeTemplate;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
-import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
-import pl.edu.icm.saos.persistence.search.result.SearchResult;
+import static pl.edu.icm.saos.api.ApiConstants.NEXT;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
+import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+import static pl.edu.icm.saos.api.ApiConstants.PREV;
+import static pl.edu.icm.saos.api.ApiConstants.SELF;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static pl.edu.icm.saos.api.ApiConstants.*;
-import static pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
+import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView;
+import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView.Division;
+import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView.Item;
+import pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChambersView.QueryTemplate;
+import pl.edu.icm.saos.api.search.parameters.Pagination;
+import pl.edu.icm.saos.api.services.representations.success.template.PaginationTemplateFactory;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
+import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
+import pl.edu.icm.saos.persistence.search.result.SearchResult;
 
 /**
  * Provides functionality for building success object view for dump list of supreme court chambers.
@@ -26,6 +33,10 @@ import static pl.edu.icm.saos.api.dump.supreme.court.chamber.views.DumpScChamber
 @Service
 public class DumpScChambersListsSuccessRepresentationBuilder {
 
+
+    @Autowired
+    private PaginationTemplateFactory paginationTemplateFactory;
+    
 
     //------------------------ LOGIC --------------------------
 
@@ -113,8 +124,8 @@ public class DumpScChambersListsSuccessRepresentationBuilder {
     private QueryTemplate toQueryTemplate(Pagination pagination) {
         QueryTemplate queryTemplate = new QueryTemplate();
 
-        queryTemplate.setPageNumber(new PageNumberTemplate(pagination.getPageNumber()));
-        queryTemplate.setPageSize(new PageSizeTemplate(pagination.getPageSize()));
+        queryTemplate.setPageNumber(paginationTemplateFactory.createPageNumberTemplate(pagination));
+        queryTemplate.setPageSize(paginationTemplateFactory.createPageSizeTemplate(pagination));
 
         return queryTemplate;
     }
