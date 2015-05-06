@@ -25,34 +25,65 @@ function InfoFormSection(options) {
     
     function init() {
         updateInfoSection();
-        initOpenFormSection();
-        initCloseFormSection();
+        bindOpenFormSection();
     }
     
     
     /* 
      * Assigns buttons to open form section on event click.
      */ 
-     function initOpenFormSection() {
+     function bindOpenFormSection() {
     
         var $formSection = $(options.formSectionId);
         
-        $(options.infoSectionId).click(function(event) {    
-            
+        $(options.infoSectionId).on(createCustomEventName("click"), function(event) {    
+                
             event.preventDefault();
+            
+            unBindOpenFormSection();
+            bindCloseFormSectionEventHandler();
+            
+            $(options.infoSectionId).addClass("info-section-opened");
             
             $formSection.slideDown(400, function() {});
         });
         
-    }
+     }
+     
+     /*
+      * Removes "open form section" event handler from button.
+      */
+     function unBindOpenFormSection() {
+         
+         $(options.infoSectionId).off(createCustomEventName("click"));
+         
+     }
      
      /* 
       * Assigns buttons to close form section on event click.
       */ 
-     function initCloseFormSection() {
+     function bindCloseFormSectionEventHandler() {
          
-         $(document).on('mouseup', null, [options], closeFormSectionIfClickedOutside);
+         $(document).on(createCustomEventName("mouseup"), null, [options], closeFormSectionIfClickedOutside);
 
+     }
+     
+     /*
+      * Removes "close form section" event handler.
+      */
+     function unBindCloseFormSectionEventHandler() {
+         
+         $(document).off(createCustomEventName("mouseup"));
+         
+     }
+     
+     /* Creates custom event name
+      * 
+      * @param eventName
+      * @return string event name + optionsInfoSectionId
+      */
+     function createCustomEventName(eventName) {
+         return eventName + "." + (options.infoSectionId).substr(1, options.infoSectionId.length);
      }
      
      /**
@@ -70,12 +101,16 @@ function InfoFormSection(options) {
          if ($("#datepicker_from-error").css("display") === "block" || $("#datepicker_to-error").css("display") === "block") {
              return;
          }
-                  
-         if (!$formSection.is(e.target) && !$setSection.is(e.target) // if the target of the click isn't the container...
+
+         if (!$formSection.is(e.target)  // if the target of the click isn't the container...
                  && $formSection.has(e.target).length === 0 && $setSection.has(e.target).length === 0 && // ... nor a descendant of the container
                  !$datepicker.is(e.target) && $datepicker.has(e.target).length === 0) // ... nor a datepicker
          {
              closeFormSection();
+             unBindCloseFormSectionEventHandler();
+             
+             //binds open form section handler after 200ms
+             setTimeout(bindOpenFormSection, 200);
          }
          
      }
@@ -86,6 +121,8 @@ function InfoFormSection(options) {
       */
      function closeFormSection() {
 
+         $(options.infoSectionId).removeClass("info-section-opened");
+         
          //Hide form section
          $(options.formSectionId).slideUp(400, function() {
              updateInfoSection();
@@ -137,53 +174,15 @@ function InfoFormSection(options) {
                  
                    
              } else if ($this.is("input")) {
-                 var value = $this.val();
-                 
-       
-                 /*
-                  * Date fields should be handled differently.
-                  */
-                 if ($this.attr("id") === "datepicker_to") {
-                     var dateFrom = $("#datepicker_from").val(),
-                         dateTo = $("#datepicker_to").val();
-                     
-                     
-                     if (dateFrom !== "" && dateTo !== "") {
-                         html += "<b>" + parseDate(dateFrom) + "</b> - <b>" + parseDate(dateTo) + "</b>";
-                     } else if (dateFrom !== "" && dateTo === "") { 
-                         html += springMessage.from + ": <b>" + parseDate(dateFrom) + "</b>";
-                     } else if (dateFrom === "" && dateTo !== "") { 
-                         html += springMessage.to + ": <b>" + parseDate(dateTo) + "</b>";
-                     }
-                     
-                     return;
-                     
-                     
-                 } else if ($this.attr("id") === "datepicker_from") {
-                     return;
-                 }
-                 
+                 var value = $this.val(); 
                  
                  if (value === "" || $this.attr("name") === undefined) {
                      return;
                  }
                  
+                 html += addPhrase($this.val(), fieldDescription, comma);
+                 comma = true;
 
-                 if ($this.attr("id") === "lawJournalEntryId") {
-                     var lawJournalText = $("#law-journal-navigation").find("> div > span").text();
-                     
-                     if (lawJournalText.length > 60) {
-                         lawJournalText = lawJournalText.substr(0, 60) + " ...";
-                     }
-                     
-                     html += addPhrase(lawJournalText, fieldDescription, comma);
-                     comma = true;
-                 } else {
-                     html += addPhrase($this.val(), fieldDescription, comma);
-                     comma = true;
-                 }
-                 
-                 
                      
              } else if ($this.is("select")) {
                  
@@ -231,7 +230,7 @@ function InfoFormSection(options) {
          var html = "";
          
          if (options.extractInfoFromFormCustom !== undefined) {
-             html = options.extractInfoFromFormCustom();
+             html = options.extractInfoFromFormCustom(options);
          } else {
              html = extractInfoFromFormSection();
          }
