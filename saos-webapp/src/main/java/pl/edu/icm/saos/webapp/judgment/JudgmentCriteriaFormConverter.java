@@ -19,33 +19,33 @@ public class JudgmentCriteriaFormConverter {
 	//------------------------ LOGIC --------------------------
 	
 	public JudgmentCriteria convert(JudgmentCriteriaForm judgmentCriteriaForm) {
-		JudgmentCriteria judgmentCriteria = new JudgmentCriteria();
+	    JudgmentCriteria judgmentCriteria = new JudgmentCriteria();
 		
-		judgmentCriteria.setAll(judgmentCriteriaForm.getAll());
-		judgmentCriteria.setCaseNumber(judgmentCriteriaForm.getSignature());
-		judgmentCriteria.setJudgmentDateFrom(judgmentCriteriaForm.getDateFrom());
-		judgmentCriteria.setJudgmentDateTo(judgmentCriteriaForm.getDateTo());
+	    judgmentCriteria.setAll(judgmentCriteriaForm.getAll());
+	    judgmentCriteria.setCaseNumber(judgmentCriteriaForm.getSignature());
+	    judgmentCriteria.setJudgmentDateFrom(judgmentCriteriaForm.getDateFrom());
+	    judgmentCriteria.setJudgmentDateTo(judgmentCriteriaForm.getDateTo());
 				
-		judgmentCriteria.setJudgeName(judgmentCriteriaForm.getJudgeName());
+	    judgmentCriteria.setJudgeName(judgmentCriteriaForm.getJudgeName());
 		
-		convertCourtCriteria(judgmentCriteriaForm, judgmentCriteria);
+	    convertCourtCriteria(judgmentCriteriaForm, judgmentCriteria);
 		
 	    judgmentCriteria.setScJudgmentForm(judgmentCriteriaForm.getScJudgmentForm());
 
-    	judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
+	    judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
 	    
 	    judgmentCriteria.setScPersonnelType(judgmentCriteriaForm.getScPersonnelType());
 	    
 	    judgmentCriteria.setCtDissentingOpinion(judgmentCriteriaForm.getCtDissentingOpinion());
 	    
-    	judgmentCriteria.setJudgmentTypes(Lists.newArrayList(judgmentCriteriaForm.getJudgmentTypes()));
+	    judgmentCriteria.setJudgmentTypes(Lists.newArrayList(judgmentCriteriaForm.getJudgmentTypes()));
 	    
 	    judgmentCriteria.setLegalBase(judgmentCriteriaForm.getLegalBase());
-		judgmentCriteria.setReferencedRegulation(judgmentCriteriaForm.getReferencedRegulation());
-		judgmentCriteria.setLawJournalEntryId(judgmentCriteriaForm.getLawJournalEntryId());
-		judgmentCriteria.setReferencedCourtCaseId(judgmentCriteriaForm.getReferencedCourtCaseId());
+	    judgmentCriteria.setReferencedRegulation(judgmentCriteriaForm.getReferencedRegulation());
+	    judgmentCriteria.setLawJournalEntryId(judgmentCriteriaForm.getLawJournalEntryId());
+	    judgmentCriteria.setReferencedCourtCaseId(judgmentCriteriaForm.getReferencedCourtCaseId());
 	    
-		return judgmentCriteria;
+	    return judgmentCriteria;
 	}
 
 	
@@ -55,15 +55,15 @@ public class JudgmentCriteriaFormConverter {
         
         CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
 		
-		judgmentCriteria.setCourtType(courtCriteria.getCourtType());
+        judgmentCriteria.setCourtType(courtCriteria.getCourtType());
 		
-		if (courtCriteria.isCcIncludeDependentCourtJudgments()) {
-		    judgmentCriteria.setCcDirectOrSuperiorCourtId(courtCriteria.getCcCourtId());
-		} else {
+        if (courtCriteria.isCcIncludeDependentCourtJudgments()) {
+            judgmentCriteria.setCcDirectOrSuperiorCourtId(courtCriteria.getCcCourtId());
+        } else {
             judgmentCriteria.setCcCourtId(courtCriteria.getCcCourtId());
-		}
+        }
 		
-		judgmentCriteria.setScCourtChamberId(courtCriteria.getScCourtChamberId());
+        judgmentCriteria.setScCourtChamberId(courtCriteria.getScCourtChamberId());
         judgmentCriteria.setScCourtChamberDivisionId(courtCriteria.getScCourtChamberDivisionId());
         judgmentCriteria.setCcCourtDivisionId(courtCriteria.getCcCourtDivisionId());
         
