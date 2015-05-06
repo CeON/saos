@@ -91,7 +91,7 @@ var CourtCriteriaForm = (function() {
             addOptionsToSelect({
                 selectId: "#select-common-court",
                 url: contextPath + "/cc/courts/list",
-                createOption: function(court) {return createCcCourtOption(court);}
+                createOption: createCcCourtOption
             });
             
         });
@@ -166,7 +166,7 @@ var CourtCriteriaForm = (function() {
             });
             
         
-        createDivisionOption = function(id, name) { 
+        var createDivisionOption = function(id, name) { 
             return "<option data-content='" + name + "' value='" + id + "' >" + name + "</option>";
         };
         

@@ -19,24 +19,24 @@ public class TestCourtsFactory {
 	
 	public List<SimpleEntity> createSimpleEntities() {
 		SimpleEntity entityOne = new SimpleEntity();
-		SimpleEntity divisionTwo = new SimpleEntity();
+		SimpleEntity entityTwo = new SimpleEntity();
 		entityOne.setId(1);
 		entityOne.setName("Wydzial 1");
-		divisionTwo.setId(23);
-		divisionTwo.setName("Wydział 23 Karny");
+		entityTwo.setId(23);
+		entityTwo.setName("Wydział 23 Karny");
 		
-		return Lists.newArrayList(entityOne, divisionTwo);
+		return Lists.newArrayList(entityOne, entityTwo);
 	}
 
 	
 	public List<SimpleCommonCourt> createSimpleCommonCourts() {
-        SimpleCommonCourt entityOne = new SimpleCommonCourt();
-        SimpleCommonCourt divisionTwo = new SimpleCommonCourt();
-        entityOne.setId(1);
-        entityOne.setName("Court 1");
-        divisionTwo.setId(23);
-        divisionTwo.setName("Court 23");
+        SimpleCommonCourt courtOne = new SimpleCommonCourt();
+        SimpleCommonCourt courtTwo = new SimpleCommonCourt();
+        courtOne.setId(1);
+        courtOne.setName("Court 1");
+        courtTwo.setId(23);
+        courtTwo.setName("Court 23");
         
-        return Lists.newArrayList(entityOne, divisionTwo);
+        return Lists.newArrayList(courtOne, courtTwo);
     }
 }
