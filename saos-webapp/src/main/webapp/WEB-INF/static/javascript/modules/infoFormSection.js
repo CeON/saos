@@ -198,7 +198,7 @@ function InfoFormSection(options) {
                      
                      if ($this.attr("id") === "select-common-court") {
                          if ($("#ccIncludeDependentCourtJudgments").is(":checked")) {
-                             optionSelectedText = optionSelectedText + $("#ccIncludeDependentCourtJudgments").attr("data-info-section-custom-text");
+                             optionSelectedText = optionSelectedText + " " + $("#ccIncludeDependentCourtJudgments").attr("data-info-section-custom-text");
                          }
                      }
                      
