@@ -9,7 +9,6 @@ import java.util.List;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 
-import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
@@ -24,8 +23,7 @@ public class SimpleEntityConverterTest {
 
     private SimpleEntityConverter simpleEntityConverter = new SimpleEntityConverter();
 	
-    private String[] commonCourtNames = {"Sąd Okręgowy Warszawa-Praga w Warszawie", "Sąd Apelacyjny w Rzeszowie"};
-		
+    	
     private String[] ccDivisionNames = {"Wydział prawa I", "Wydział karny II"};
 	
     private String[] scChamberNames = {"Izba Cywilna", "Izba Karna"};
@@ -37,43 +35,7 @@ public class SimpleEntityConverterTest {
     
     //------------------------ TESTS --------------------------
 	
-    @Test
-    public void convertCommonCourts_emptyList() {
-	//given
-	List<CommonCourt> commonCourts = Lists.newArrayList();
-	
-	//when
-	List<SimpleEntity> convertedSimpleEntities = simpleEntityConverter.convertCommonCourts(commonCourts);
-	
-	//then
-	assertNotNull(convertedSimpleEntities);
-	assertEquals(0, convertedSimpleEntities.size());
-    }
-	
-    @Test
-    public void convertCommonCourts_Same() {
-	//given
-	long idOne = 83;
-	long idTwo = 257;
-	CommonCourt commonCourtOne = new CommonCourt();
-	commonCourtOne.setName(commonCourtNames[0]);
-	Whitebox.setInternalState(commonCourtOne, "id", idOne);
-	CommonCourt commonCourtTwo = new CommonCourt();
-	commonCourtTwo.setName(commonCourtNames[1]);
-	Whitebox.setInternalState(commonCourtTwo, "id", idTwo);
-	
-	List<CommonCourt> commonCourts = Lists.newArrayList(commonCourtOne, commonCourtTwo);
-	
-	//when
-	List<SimpleEntity> convertedSimpleEntities = simpleEntityConverter.convertCommonCourts(commonCourts);
-	
-	//then
-	assertEquals(commonCourts.size(), convertedSimpleEntities.size());
-	assertEquals(idOne, convertedSimpleEntities.get(0).getId());
-	assertEquals(idTwo, convertedSimpleEntities.get(1).getId());
-	assertEquals(commonCourtNames[0], convertedSimpleEntities.get(0).getName());
-	assertEquals(commonCourtNames[1], convertedSimpleEntities.get(1).getName());
-    }
+ 
 	
     @Test
     public void convertCcDivisions_emptyList() {

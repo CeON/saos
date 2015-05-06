@@ -60,15 +60,16 @@ public class CcListControllerTest {
     	
     private long commonCourtId = 1;
     private TestCourtsFactory testCourtsFactory = new TestCourtsFactory();
-    private List<SimpleEntity> simpleEntities = testCourtsFactory.getSimpleEntities();
+    private List<SimpleEntity> simpleCcDivisions = testCourtsFactory.createSimpleEntities();
+    private List<SimpleCommonCourt> simpleCcCourts = testCourtsFactory.createSimpleCommonCourts();
         
         
     @Before
     public void setUp() {
 	MockitoAnnotations.initMocks(this);
     	
-	when(ccListService.findCommonCourts()).thenReturn(simpleEntities);
-    	when(ccListService.findCcDivisions(commonCourtId)).thenReturn(simpleEntities);
+	    when(ccListService.findCommonCourts()).thenReturn(simpleCcCourts);
+    	when(ccListService.findCcDivisions(commonCourtId)).thenReturn(simpleCcDivisions);
     		
     	mockMvc = webAppContextSetup(webApplicationCtx)
 	    .build();
@@ -87,10 +88,10 @@ public class CcListControllerTest {
         //then
         actions
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.[0].id").value(equalsLong(simpleEntities.get(0).getId())))
-            .andExpect(jsonPath("$.[0].name").value(simpleEntities.get(0).getName()))
-            .andExpect(jsonPath("$.[1].id").value(equalsLong(simpleEntities.get(1).getId())))
-            .andExpect(jsonPath("$.[1].name").value(simpleEntities.get(1).getName()));
+            .andExpect(jsonPath("$.[0].id").value(equalsLong(simpleCcCourts.get(0).getId())))
+            .andExpect(jsonPath("$.[0].name").value(simpleCcCourts.get(0).getName()))
+            .andExpect(jsonPath("$.[1].id").value(equalsLong(simpleCcCourts.get(1).getId())))
+            .andExpect(jsonPath("$.[1].name").value(simpleCcCourts.get(1).getName()));
                         
         verify(ccListService, times(1)).findCommonCourts();
     }
@@ -106,10 +107,10 @@ public class CcListControllerTest {
         //then
         actions
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.[0].id").value(equalsLong(simpleEntities.get(0).getId())))
-            .andExpect(jsonPath("$.[0].name").value(simpleEntities.get(0).getName()))
-            .andExpect(jsonPath("$.[1].id").value(equalsLong(simpleEntities.get(1).getId())))
-            .andExpect(jsonPath("$.[1].name").value(simpleEntities.get(1).getName()));
+            .andExpect(jsonPath("$.[0].id").value(equalsLong(simpleCcDivisions.get(0).getId())))
+            .andExpect(jsonPath("$.[0].name").value(simpleCcDivisions.get(0).getName()))
+            .andExpect(jsonPath("$.[1].id").value(equalsLong(simpleCcDivisions.get(1).getId())))
+            .andExpect(jsonPath("$.[1].name").value(simpleCcDivisions.get(1).getName()));
                         
         verify(ccListService, times(1)).findCcDivisions(commonCourtId);
     }

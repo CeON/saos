@@ -25,14 +25,14 @@ public class CcListController {
     	
     @RequestMapping("cc/courts/list")
     @ResponseBody
-    public List<SimpleEntity> listCcCourts() {
-	return ccListService.findCommonCourts();
+    public List<SimpleCommonCourt> listCcCourts() {
+        return ccListService.findCommonCourts();
     }
     	
     @RequestMapping("cc/courts/{commonCourtId}/courtDivisions/list")
     @ResponseBody
     public List<SimpleEntity> listCcCourtDivisions(@PathVariable("commonCourtId") long commonCourtId) {
-	return ccListService.findCcDivisions(commonCourtId);
+        return ccListService.findCcDivisions(commonCourtId);
     }
 
 }
