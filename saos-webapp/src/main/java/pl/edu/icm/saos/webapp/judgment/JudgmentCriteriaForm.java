@@ -54,8 +54,6 @@ public class JudgmentCriteriaForm {
     private Long lawJournalEntryId;
     private Long referencedCourtCaseId;
     
-    private boolean includeDependentCourtJudgments;
-    
     
     //------------------------ GETTERS --------------------------
     
@@ -202,8 +200,7 @@ public class JudgmentCriteriaForm {
                 + ctDissentingOpinion + ", judgmentTypes=" + judgmentTypes + ", legalBase="
                 + legalBase + ", referencedRegulation=" + referencedRegulation
                 + ", lawJournalEntryId=" + lawJournalEntryId + ", referencedCourtCaseId="
-                + referencedCourtCaseId + ", includeDependentCourtJudgments="
-                + includeDependentCourtJudgments + "]";
+                + referencedCourtCaseId + "]";
     }
 
     

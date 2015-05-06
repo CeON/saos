@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
@@ -22,12 +21,7 @@ public class SimpleEntityConverter {
     	
     //------------------------ LOGIC --------------------------
     
-    public List<SimpleEntity> convertCommonCourts(List<CommonCourt> commonCourts) {
-        return commonCourts.stream()
-        	.map(commonCourt -> convertFromCommonCourt(commonCourt))
-        	.collect(Collectors.toList());
-    }
-        
+       
     public List<SimpleEntity> convertCcDivisions(List<CommonCourtDivision> ccDivisions) {
         return ccDivisions.stream()
         	.map(ccDivision -> convertFromCcDivision(ccDivision))
@@ -53,14 +47,7 @@ public class SimpleEntityConverter {
     }
     	
     	
-    //------------------------ PRIVATE --------------------------
-    	
-    private SimpleEntity convertFromCommonCourt(CommonCourt commonCourt) {
-        SimpleEntity simpleEntity = new SimpleEntity();
-        simpleEntity.setId(commonCourt.getId());
-        simpleEntity.setName(commonCourt.getName());
-        return simpleEntity;
-    }
+   
     	
     private SimpleEntity convertFromCcDivision(CommonCourtDivision commonCourtDivision) {
         SimpleEntity simpleEntity = new SimpleEntity();

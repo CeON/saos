@@ -28,20 +28,13 @@ public class JudgmentCriteriaFormConverter {
 				
 		judgmentCriteria.setJudgeName(judgmentCriteriaForm.getJudgeName());
 		
-		CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
+		convertCourtCriteria(judgmentCriteriaForm, judgmentCriteria);
 		
-		judgmentCriteria.setCourtType(courtCriteria.getCourtType());
-
-	    judgmentCriteria.setCcCourtId(courtCriteria.getCcCourtId());
-	    judgmentCriteria.setCcCourtDivisionId(courtCriteria.getCcCourtDivisionId());
-		
-		judgmentCriteria.setScJudgmentForm(judgmentCriteriaForm.getScJudgmentForm());
+	    judgmentCriteria.setScJudgmentForm(judgmentCriteriaForm.getScJudgmentForm());
 
     	judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
 	    
 	    judgmentCriteria.setScPersonnelType(judgmentCriteriaForm.getScPersonnelType());
-	    judgmentCriteria.setScCourtChamberId(courtCriteria.getScCourtChamberId());
-	    judgmentCriteria.setScCourtChamberDivisionId(courtCriteria.getScCourtChamberDivisionId());
 	    
 	    judgmentCriteria.setCtDissentingOpinion(judgmentCriteriaForm.getCtDissentingOpinion());
 	    
@@ -54,6 +47,27 @@ public class JudgmentCriteriaFormConverter {
 	    
 		return judgmentCriteria;
 	}
+
+	
+	//------------------------ PRIVATE --------------------------
+	
+    private void convertCourtCriteria(JudgmentCriteriaForm judgmentCriteriaForm, JudgmentCriteria judgmentCriteria) {
+        
+        CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
+		
+		judgmentCriteria.setCourtType(courtCriteria.getCourtType());
+		
+		if (courtCriteria.isCcIncludeDependentCourtJudgments()) {
+		    judgmentCriteria.setCcDirectOrSuperiorCourtId(courtCriteria.getCcCourtId());
+		} else {
+            judgmentCriteria.setCcCourtId(courtCriteria.getCcCourtId());
+		}
+		
+		judgmentCriteria.setScCourtChamberId(courtCriteria.getScCourtChamberId());
+        judgmentCriteria.setScCourtChamberDivisionId(courtCriteria.getScCourtChamberDivisionId());
+        judgmentCriteria.setCcCourtDivisionId(courtCriteria.getCcCourtDivisionId());
+        
+    }
 	
 }
 

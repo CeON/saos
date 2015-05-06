@@ -18,6 +18,7 @@ import org.springframework.ui.ModelMap;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.webapp.court.CcListService;
 import pl.edu.icm.saos.webapp.court.ScListService;
+import pl.edu.icm.saos.webapp.court.SimpleCommonCourt;
 import pl.edu.icm.saos.webapp.court.SimpleEntity;
 
 import com.google.common.collect.Lists;
@@ -90,7 +91,7 @@ public class CourtDataModelCreatorTest {
         
         // given
         courtCriteria.setCourtType(CourtType.COMMON);
-        List<SimpleEntity> commonCourts = createSimpleEntities();
+        List<SimpleCommonCourt> commonCourts = createSimpleCommonCourts();
         when(ccListService.findCommonCourts()).thenReturn(commonCourts);
         
         // execute
@@ -112,7 +113,7 @@ public class CourtDataModelCreatorTest {
         courtCriteria.setCourtType(CourtType.COMMON);
         courtCriteria.setCcCourtId(12L);
         
-        List<SimpleEntity> commonCourts = createSimpleEntities();
+        List<SimpleCommonCourt> commonCourts = createSimpleCommonCourts();
         when(ccListService.findCommonCourts()).thenReturn(commonCourts);
         
         List<SimpleEntity> commonCourtDivisions = createSimpleEntities();
@@ -188,5 +189,9 @@ public class CourtDataModelCreatorTest {
         return simpleEntities;
     }
     
-
+    private List<SimpleCommonCourt> createSimpleCommonCourts() {
+        List<SimpleCommonCourt> simpleEntities = Lists.newArrayList(mock(SimpleCommonCourt.class), mock(SimpleCommonCourt.class));
+        return simpleEntities;
+    }
+    
 }

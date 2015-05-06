@@ -59,9 +59,10 @@
 		            
 	                <option value=""><spring:message code="judgmentSearch.formField.chooseCommonCourt" /></option>
 		            
-		            <c:forEach items="${commonCourts}" var="item" >
-		                <option value="${item.id}" <c:if test="${courtCriteria.ccCourtId == item.id}" >selected="selected"</c:if> >
-		                    <c:out value="${item.name}" />
+		            <c:forEach items="${commonCourts}" var="court" >
+		                <option value="${court.id}" data-cc-court-type="${court.type}" 
+		                      <c:if test="${courtCriteria.ccCourtId == court.id}" >selected="selected"<c:set var="selectedCourtType" value="${court.type}"/></c:if> >
+		                    <c:out value="${court.name}" />
 		                </option>
 		            </c:forEach>
 		        </form:select>
@@ -71,7 +72,8 @@
 		<div class="form-group" data-court-type="COMMON" >
 		    <div class="col-lg-2 col-sm-3 col-xs-12 "></div>
             <div class="col-lg-7 col-sm-8 col-xs-11">
-            <form:checkbox path="ccIncludeDependentCourtJudgments" id="ccIncludeDependentCourtJudgments" disabled="${fn:length(commonCourts)==0}"/>
+            <spring:message code='courtCriteriaFormSection.formField.ccIncludeDependentCourtJudgments.infoSectionCustomText' var="infoSectionText"/>
+            <form:checkbox path="ccIncludeDependentCourtJudgments" id="ccIncludeDependentCourtJudgments" data-info-section-custom-text="${infoSectionText}" disabled="${fn:length(commonCourts)==0 || selectedCourtType == 'DISTRICT'}"/>
             <label for="ccIncludeDependentCourtJudgments">
                 <spring:message code="courtCriteriaFormSection.formField.ccIncludeDependentCourtJudgments"/>
             </label>
@@ -85,7 +87,7 @@
 		    <label for="select-common-division" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.commonDivision" />:</label>
 		    <div class="col-lg-7 col-sm-8 col-xs-11">
 		        
-		        <form:select path="ccCourtDivisionId" id="select-common-division" class="form-control" disabled="${fn:length(commonCourtDivisions)==0}" >
+		        <form:select path="ccCourtDivisionId" id="select-common-division" class="form-control" disabled="${fn:length(commonCourtDivisions)==0 || courtCriteria.ccIncludeDependentCourtJudgments==true}" >
 		            
 	                <option value=""><spring:message code="judgmentSearch.formField.chooseCcDivision" /></option>
 		        

@@ -27,6 +27,8 @@ public class CcListServiceTest {
 	
 	private SimpleEntityConverter simpleEntityConverter = new SimpleEntityConverter();
 	
+	private SimpleCommonCourtConverter simpleCommonCourtConverter = new SimpleCommonCourtConverter();
+	
 	@Mock
 	private CommonCourtRepository commonCourtRepository;
 	
@@ -50,11 +52,11 @@ public class CcListServiceTest {
 		
 		when(commonCourtRepository.findAll()).thenReturn(courtsWrongOrder);
 		ccListService.setCommonCourtRepository(commonCourtRepository);
-		ccListService.setSimpleEntityConverter(simpleEntityConverter);
+		ccListService.setSimpleCommonCourtConverter(simpleCommonCourtConverter);
 		
 		
 		//when
-		List<SimpleEntity> courts = ccListService.findCommonCourts();
+		List<SimpleCommonCourt> courts = ccListService.findCommonCourts();
 		
 		
 		//then

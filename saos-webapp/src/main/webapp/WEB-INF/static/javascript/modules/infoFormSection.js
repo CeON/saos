@@ -111,13 +111,16 @@ function InfoFormSection(options) {
              
              
              /*
-              * Doeasn't check hidden input's that name starts with '_'.
+              * Doesn't check hidden input's that name starts with '_'.
               */
              if ($this.is("input:hidden") && $this.attr("name") !== undefined
                  && $this.attr("name")[0] === "_") {
                  return;
              }
              
+             if ($(this).attr("id") === "ccIncludeDependentCourtJudgments") {
+                 return;
+             }
              
              if ($this.is("input:radio") || $this.is("input:checkbox")) {
                  
@@ -191,7 +194,16 @@ function InfoFormSection(options) {
                  
                  if ($optionSelected.index() > 0) {
                      
-                     html += addPhrase($optionSelected.text(), fieldDescription, comma);
+                     var optionSelectedText = $optionSelected.text();
+                     
+                     if ($this.attr("id") === "select-common-court") {
+                         if ($("#ccIncludeDependentCourtJudgments").is(":checked")) {
+                             optionSelectedText = optionSelectedText + $("#ccIncludeDependentCourtJudgments").attr("data-info-section-custom-text");
+                         }
+                     }
+                     
+                     
+                     html += addPhrase(optionSelectedText, fieldDescription, comma);
                      comma = true;
                      
                  }

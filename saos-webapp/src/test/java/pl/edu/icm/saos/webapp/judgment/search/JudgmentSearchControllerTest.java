@@ -36,6 +36,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
+import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -46,6 +47,7 @@ import pl.edu.icm.saos.webapp.WebappTestConfiguration;
 import pl.edu.icm.saos.webapp.common.search.CourtDataModelCreator;
 import pl.edu.icm.saos.webapp.court.CcListService;
 import pl.edu.icm.saos.webapp.court.ScListService;
+import pl.edu.icm.saos.webapp.court.SimpleCommonCourt;
 import pl.edu.icm.saos.webapp.court.SimpleEntity;
 import pl.edu.icm.saos.webapp.court.TestCourtsFactory;
 import pl.edu.icm.saos.webapp.judgment.JudgmentCriteriaForm;
@@ -97,7 +99,7 @@ public class JudgmentSearchControllerTest {
 	
 	private List<SimpleEntity> simpleEntities;
 	
-	private List<SimpleEntity> commonCourts = getTestCommonCourts();
+	private List<SimpleCommonCourt> commonCourts = createTestCommonCourts();
 	
 	private List<SimpleEntity> scChambers = getTestScChamber();
 	
@@ -115,7 +117,7 @@ public class JudgmentSearchControllerTest {
 		
 		judgmentSearchController.setCourtDataModelCreator(courtDataModelCreator);
 		
-		simpleEntities = testCourtsFactory.getSimpleEntities();
+		simpleEntities = testCourtsFactory.createSimpleEntities();
 		
 		results = new SearchResults<JudgmentSearchResult>();
 		results.addResult(new JudgmentSearchResult());
@@ -266,16 +268,18 @@ public class JudgmentSearchControllerTest {
 	
 	//------------------------ PRIVATE --------------------------
 	
-	private List<SimpleEntity> getTestCommonCourts() {
-	    	SimpleEntity commonCourtOne = new SimpleEntity();
-	    	SimpleEntity commonCourtTwo = new SimpleEntity();
+	private List<SimpleCommonCourt> createTestCommonCourts() {
+	    	SimpleCommonCourt commonCourtOne = new SimpleCommonCourt();
+	    	SimpleCommonCourt commonCourtTwo = new SimpleCommonCourt();
 		
 		commonCourtOne.setId(13);
 		commonCourtOne.setName("Sąd Rejonowy w Radomiu");
+		commonCourtOne.setType(CommonCourtType.DISTRICT);
 		
 		commonCourtOne.setId(14);
 		commonCourtTwo.setName("Sąd Okręgowy w Toruniu");
-		
+		commonCourtTwo.setType(CommonCourtType.REGIONAL);
+        
 		return Lists.newArrayList(commonCourtOne, commonCourtTwo);
 	}
 	

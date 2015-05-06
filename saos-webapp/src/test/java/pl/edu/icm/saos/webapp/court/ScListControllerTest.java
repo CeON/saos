@@ -59,7 +59,7 @@ public class ScListControllerTest {
     
     private TestCourtsFactory testCourtsFactory = new TestCourtsFactory();
     
-    private List<SimpleEntity> simpleEntities = testCourtsFactory.getSimpleEntities();
+    private List<SimpleEntity> simpleEntities = testCourtsFactory.createSimpleEntities();
     
     
     

@@ -33,7 +33,8 @@ public class CourtCriteria {
         return ccCourtId;
     }
     /**
-     * Should the judgments from dependent courts (of the court specified by {@link #getCcCourtDivisionId()}) should be included
+     * true - the judgments from dependent courts (of the court specified by {@link #getCcCourtDivisionId()}) should be included <br/>
+     * false - only judgments from the court specified by {@link #getCcCourtDivisionId() should be fetched
      */
     public boolean isCcIncludeDependentCourtJudgments() {
         return ccIncludeDependentCourtJudgments;

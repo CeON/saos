@@ -17,15 +17,26 @@ public class TestCourtsFactory {
 	
 	//------------------------ LOGIC --------------------------
 	
-	public List<SimpleEntity> getSimpleEntities() {
-		SimpleEntity divisionOne = new SimpleEntity();
+	public List<SimpleEntity> createSimpleEntities() {
+		SimpleEntity entityOne = new SimpleEntity();
 		SimpleEntity divisionTwo = new SimpleEntity();
-		divisionOne.setId(1);
-		divisionOne.setName("Wydzial 1");
+		entityOne.setId(1);
+		entityOne.setName("Wydzial 1");
 		divisionTwo.setId(23);
 		divisionTwo.setName("Wydział 23 Karny");
 		
-		return Lists.newArrayList(divisionOne, divisionTwo);
+		return Lists.newArrayList(entityOne, divisionTwo);
 	}
 
+	
+	public List<SimpleCommonCourt> createSimpleCommonCourts() {
+        SimpleCommonCourt entityOne = new SimpleCommonCourt();
+        SimpleCommonCourt divisionTwo = new SimpleCommonCourt();
+        entityOne.setId(1);
+        entityOne.setName("Court 1");
+        divisionTwo.setId(23);
+        divisionTwo.setName("Court 23");
+        
+        return Lists.newArrayList(entityOne, divisionTwo);
+    }
 }

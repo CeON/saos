@@ -90,7 +90,8 @@ var CourtCriteriaForm = (function() {
             //inits common court select with options
             addOptionsToSelect({
                 selectId: "#select-common-court",
-                url: contextPath + "/cc/courts/list"
+                url: contextPath + "/cc/courts/list",
+                createOption: function(court) {return createCcCourtOption(court);}
             });
             
         });
@@ -106,16 +107,77 @@ var CourtCriteriaForm = (function() {
         
         });
         
-        //Search form - init select court & division
-        CourtDivisionSelect.run({
-            fields: [{  court: "#select-common-court",
-                        divisionId: "#select-common-division",
-                        getDivisionUrl: function(id) {return contextPath + "/cc/courts/{id}/courtDivisions/list".replace("{id}", id); }
-                     },
-                     {  court: "#select-supreme-chamber",
-                        divisionId: "#select-supreme-chamber-division",
-                        getDivisionUrl: function(id) {return contextPath + "/sc/chambers/{id}/chamberDivisions/list".replace("{id}", id); }
-                    }]
+        var createCcCourtOption = function(court) {
+            return $('<option/>').attr("value", court.id).attr("data-cc-court-type", court.type).text(court.name).prop('outerHTML');
+            
+        }
+        
+        $('#ccIncludeDependentCourtJudgments').change(function() {
+            var $commonCourtDivisionSelect = $("#select-common-division");
+            
+            if ($(this).is(":checked")) {
+                $commonCourtDivisionSelect.find(":selected").removeAttr("selected");
+                $commonCourtDivisionSelect.attr("disabled", "disabled");
+            } else {
+                $commonCourtDivisionSelect.removeAttr("disabled");
+            }
+        });
+        
+        
+        $("#select-common-court").change(function() {
+            
+            var $selectedCourt = $(this).find("option:selected");
+            var selectedCourtId = $selectedCourt.attr("value");
+            var $commonCourtDivisionSelect = $("#select-common-division");
+            var $ccIncludeDependentCourtJudgmentsCheckbox = $('#ccIncludeDependentCourtJudgments');
+
+            if (selectedCourtId !== "") {
+                $.ajax(contextPath + "/cc/courts/"+selectedCourtId+"/courtDivisions/list")
+                     .done(function(data) {
+                         
+                         var options = "";
+                         
+                         for(var j = 0, dataLength = data.length; j < dataLength; j += 1) {
+                             options += createDivisionOption(data[j].id, data[j].name);
+                         }
+                         
+                         $commonCourtDivisionSelect.find("option:gt(0)").remove();
+                         $commonCourtDivisionSelect.append(options);
+                         
+                         if ($selectedCourt.attr("data-cc-court-type") === 'DISTRICT') {
+                             $commonCourtDivisionSelect.removeAttr("disabled");
+                             $ccIncludeDependentCourtJudgmentsCheckbox.prop("checked", false);
+                             $ccIncludeDependentCourtJudgmentsCheckbox.attr("disabled", "disabled");
+                         } else {
+                             $ccIncludeDependentCourtJudgmentsCheckbox.removeAttr("disabled");
+                             if (!$ccIncludeDependentCourtJudgmentsCheckbox.is(":checked")) {
+                                 $commonCourtDivisionSelect.removeAttr("disabled");
+                             }
+                         }
+                         
+                     
+                     })
+                     .fail(function() {});
+                } else {
+                    $commonCourtDivisionSelect.prop("disabled", "disabled").find("option:gt(0)").remove();
+                    $ccIncludeDependentCourtJudgmentsCheckbox.prop("checked", false);
+                    $ccIncludeDependentCourtJudgmentsCheckbox.attr("disabled", "disabled");
+                }
+            });
+            
+        
+        createDivisionOption = function(id, name) { 
+            return "<option data-content='" + name + "' value='" + id + "' >" + name + "</option>";
+        };
+        
+    
+    //Search form - init select court & division
+    CourtDivisionSelect.run({
+        fields: [
+                 {  court: "#select-supreme-chamber",
+                    divisionId: "#select-supreme-chamber-division",
+                    getDivisionUrl: function(id) {return contextPath + "/sc/chambers/{id}/chamberDivisions/list".replace("{id}", id); }
+                 }]
         });
 
     }
