@@ -292,6 +292,7 @@ public class JudgmentSearchServiceTest {
         assertEquals(21, result.getId());
         
         assertEquals(12l, result.getScJudgmentFormId().longValue());
+        assertEquals("Postanowienie SN", result.getScJudgmentFormName());
         assertEquals(PersonnelType.JOINED_CHAMBERS,result.getScPersonnelType());
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(11, "Izba Cywilna")));
         assertTrue(result.getScCourtChambers().contains(new SupremeCourtChamberResult(12, "Izba Pracy")));
@@ -494,6 +495,7 @@ public class JudgmentSearchServiceTest {
         doc.addField("judgmentType", "RESOLUTION");
         
         doc.addField("scJudgmentFormId", 12l);
+        doc.addField("scJudgmentFormName", "Postanowienie SN");
         doc.addField("scPersonnelType", "JOINED_CHAMBERS");
         doc.addField("courtType", "SUPREME");
         doc.addField("scCourtChamber", "11|Izba Cywilna");

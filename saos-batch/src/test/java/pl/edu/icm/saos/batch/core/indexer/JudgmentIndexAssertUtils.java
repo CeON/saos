@@ -76,6 +76,8 @@ class JudgmentIndexAssertUtils {
     
     private static void assertScJudgmentSpecificFields(SolrDocument doc, SupremeCourtJudgment scJudgment) {
         
+	assertSolrDocumentLongValues(doc, JudgmentIndexField.SC_JUDGMENT_FORM_ID, scJudgment.getScJudgmentForm().getId());
+	
         assertSolrDocumentValues(doc, JudgmentIndexField.SC_PERSONNEL_TYPE, scJudgment.getPersonnelType().name());
         
         List<String> expectedIndexScChamber = Lists.newArrayList();
