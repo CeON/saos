@@ -92,13 +92,13 @@
 		</c:if>
 		
 		<%-- SupremeCourtJudgmentForm --%>
-		<c:if test="${!empty judgment.scJudgmentForm}" >
+		<c:if test="${!empty judgment.scJudgmentFormId && !empty judgment.scJudgmentFormName}" >
 			<div class="" >
 				<span>
 					<spring:message code="judgment.scJudgmentForm" />:
 				</span>
-				<a href="" class="judgment-form" data-toggle="tooltip" title="<spring:message code="judgmentSearch.filter.set"/>">
-					<c:out value="${judgment.scJudgmentForm}" />
+				<a href="" class="judgment-form" data-toggle="tooltip" title="<spring:message code="judgmentSearch.filter.set"/>" data-filter-value="${judgment.scJudgmentFormId}" >
+					<c:out value="${judgment.scJudgmentFormName}" />
 				</a>	
 			</div>
 		</c:if>

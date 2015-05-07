@@ -94,15 +94,15 @@
 		            </div>
 		            
 		            
-		            <%-- Superme JugmentForm --%>
+		            <%-- Supreme JugmentForm --%>
 		            <spring:message code="judgmentSearch.formField.scJudgmentForm" var="scJudgmentFormLabel" />
 		            <div class="form-group" data-court-type="SUPREME" >
 		                <label for="select-search-judgment-form" class="col-lg-2 col-sm-3 col-xs-12 control-label"><c:out value="${scJudgmentFormLabel}"/>:</label>
 		                <div class="col-lg-7 col-sm-8 col-xs-11">
-		                    <select name="scJudgmentForm" id="select-search-judgment-form" class="form-control" data-field-desc="${scJudgmentFormLabel}: " >
+		                    <select name="scJudgmentFormId" id="select-search-judgment-form" class="form-control" data-field-desc="${scJudgmentFormLabel}: " >
 		                        <option value=""><spring:message code="judgmentSearch.formField.chooseScJudgmentForm" /></option>
 		                        <c:forEach items="${scJudgmentForms}" var="judgmentForm" >
-		                            <option value="${judgmentForm.name}" <c:if test="${judgmentCriteriaForm.scJudgmentForm == judgmentForm.name}" >selected="selected"</c:if> >
+		                            <option value="${judgmentForm.id}" <c:if test="${judgmentCriteriaForm.scJudgmentFormId == judgmentForm.id}" >selected="selected"</c:if> >
 		                                <c:out value="${judgmentForm.name}" />
 		                            </option>
 		                        </c:forEach>

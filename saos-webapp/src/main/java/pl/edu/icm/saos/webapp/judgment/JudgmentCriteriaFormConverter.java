@@ -15,45 +15,45 @@ import com.google.common.collect.Lists;
 @Service
 public class JudgmentCriteriaFormConverter {
 
-	
-	//------------------------ LOGIC --------------------------
-	
-	public JudgmentCriteria convert(JudgmentCriteriaForm judgmentCriteriaForm) {
-		JudgmentCriteria judgmentCriteria = new JudgmentCriteria();
-		
-		judgmentCriteria.setAll(judgmentCriteriaForm.getAll());
-		judgmentCriteria.setCaseNumber(judgmentCriteriaForm.getSignature());
-		judgmentCriteria.setJudgmentDateFrom(judgmentCriteriaForm.getDateFrom());
-		judgmentCriteria.setJudgmentDateTo(judgmentCriteriaForm.getDateTo());
-				
-		judgmentCriteria.setJudgeName(judgmentCriteriaForm.getJudgeName());
-		
-		CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
-		
-		judgmentCriteria.setCourtType(courtCriteria.getCourtType());
+    
+    //------------------------ LOGIC --------------------------
+    
+    public JudgmentCriteria convert(JudgmentCriteriaForm judgmentCriteriaForm) {
+        JudgmentCriteria judgmentCriteria = new JudgmentCriteria();
+        
+        judgmentCriteria.setAll(judgmentCriteriaForm.getAll());
+        judgmentCriteria.setCaseNumber(judgmentCriteriaForm.getSignature());
+        judgmentCriteria.setJudgmentDateFrom(judgmentCriteriaForm.getDateFrom());
+        judgmentCriteria.setJudgmentDateTo(judgmentCriteriaForm.getDateTo());
+                
+        judgmentCriteria.setJudgeName(judgmentCriteriaForm.getJudgeName());
+        
+        CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
+        
+        judgmentCriteria.setCourtType(courtCriteria.getCourtType());
 
-	    judgmentCriteria.setCcCourtId(courtCriteria.getCcCourtId());
-	    judgmentCriteria.setCcCourtDivisionId(courtCriteria.getCcCourtDivisionId());
-		
-		judgmentCriteria.setScJudgmentForm(judgmentCriteriaForm.getScJudgmentForm());
+        judgmentCriteria.setCcCourtId(courtCriteria.getCcCourtId());
+        judgmentCriteria.setCcCourtDivisionId(courtCriteria.getCcCourtDivisionId());
+        
+        judgmentCriteria.setScJudgmentFormId(judgmentCriteriaForm.getScJudgmentFormId());
 
-    	judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
-	    
-	    judgmentCriteria.setScPersonnelType(judgmentCriteriaForm.getScPersonnelType());
-	    judgmentCriteria.setScCourtChamberId(courtCriteria.getScCourtChamberId());
-	    judgmentCriteria.setScCourtChamberDivisionId(courtCriteria.getScCourtChamberDivisionId());
-	    
-	    judgmentCriteria.setCtDissentingOpinion(judgmentCriteriaForm.getCtDissentingOpinion());
-	    
-    	judgmentCriteria.setJudgmentTypes(Lists.newArrayList(judgmentCriteriaForm.getJudgmentTypes()));
-	    
-	    judgmentCriteria.setLegalBase(judgmentCriteriaForm.getLegalBase());
-		judgmentCriteria.setReferencedRegulation(judgmentCriteriaForm.getReferencedRegulation());
-		judgmentCriteria.setLawJournalEntryId(judgmentCriteriaForm.getLawJournalEntryId());
-		judgmentCriteria.setReferencedCourtCaseId(judgmentCriteriaForm.getReferencedCourtCaseId());
-	    
-		return judgmentCriteria;
-	}
-	
+        judgmentCriteria.setKeywords(judgmentCriteriaForm.getKeywords());
+        
+        judgmentCriteria.setScPersonnelType(judgmentCriteriaForm.getScPersonnelType());
+        judgmentCriteria.setScCourtChamberId(courtCriteria.getScCourtChamberId());
+        judgmentCriteria.setScCourtChamberDivisionId(courtCriteria.getScCourtChamberDivisionId());
+        
+        judgmentCriteria.setCtDissentingOpinion(judgmentCriteriaForm.getCtDissentingOpinion());
+        
+        judgmentCriteria.setJudgmentTypes(Lists.newArrayList(judgmentCriteriaForm.getJudgmentTypes()));
+        
+        judgmentCriteria.setLegalBase(judgmentCriteriaForm.getLegalBase());
+        judgmentCriteria.setReferencedRegulation(judgmentCriteriaForm.getReferencedRegulation());
+        judgmentCriteria.setLawJournalEntryId(judgmentCriteriaForm.getLawJournalEntryId());
+        judgmentCriteria.setReferencedCourtCaseId(judgmentCriteriaForm.getReferencedCourtCaseId());
+        
+        return judgmentCriteria;
+    }
+    
 }
 

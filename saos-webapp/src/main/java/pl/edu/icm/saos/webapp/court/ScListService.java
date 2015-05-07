@@ -64,7 +64,7 @@ public class ScListService {
 	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
 	@Cacheable(DICTIONARIES)
-    public List<SimpleEntity> findScChamberDivisions(long chamberId) {
+	public List<SimpleEntity> findScChamberDivisions(long chamberId) {
 	    
 		List<SupremeCourtChamberDivision> chamberDivisions = scChamberDivisionRepository.findAllByScChamberId(chamberId);
 		
@@ -79,7 +79,7 @@ public class ScListService {
 	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
 	@Cacheable(DICTIONARIES)
-    public List<SimpleEntity> findScJudgmentForms() {
+	public List<SimpleEntity> findScJudgmentForms() {
 	    	return simpleEntityConverter.convertScJudgmentForms(scJudgmentFormRepository.findAll());
 	}
 	

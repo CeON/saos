@@ -109,8 +109,8 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
-    public JudgmentCriteriaBuilder withScJudgmentForm(String judgmentForm) {
-        criteria.setScJudgmentForm(judgmentForm);
+    public JudgmentCriteriaBuilder withScJudgmentFormId(Long judgmentFormId) {
+        criteria.setScJudgmentFormId(judgmentFormId);
         return this;
     }
     

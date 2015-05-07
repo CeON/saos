@@ -43,7 +43,8 @@ public class ScJudgmentIndexFieldsFiller extends JudgmentIndexFieldsFiller {
     
     private void fillScJudmentForm(SolrInputDocument doc, SupremeCourtJudgment judgment) {
     	if (judgment.getScJudgmentForm() != null) {
-            fieldAdder.addField(doc, JudgmentIndexField.SC_JUDGMENT_FORM, judgment.getScJudgmentForm().getName());
+            fieldAdder.addField(doc, JudgmentIndexField.SC_JUDGMENT_FORM_ID, judgment.getScJudgmentForm().getId());
+            fieldAdder.addField(doc, JudgmentIndexField.SC_JUDGMENT_FORM_NAME, judgment.getScJudgmentForm().getName());
         }
     }
     

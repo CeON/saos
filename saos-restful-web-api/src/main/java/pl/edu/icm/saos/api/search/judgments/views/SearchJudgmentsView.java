@@ -386,7 +386,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
                     JudgmentIndexField.CC_COURT_DIVISION_ID,
                     JudgmentIndexField.CC_COURT_DIVISION_CODE,
                     JudgmentIndexField.CC_COURT_DIVISION_NAME,
-                    JudgmentIndexField.SC_JUDGMENT_FORM,
+                    JudgmentIndexField.SC_JUDGMENT_FORM_ID,
                     JudgmentIndexField.SC_PERSONNEL_TYPE,
                     JudgmentIndexField.SC_COURT_DIVISION_ID,
                     JudgmentIndexField.SC_COURT_DIVISION_NAME,

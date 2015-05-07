@@ -114,7 +114,7 @@ var jsInitInJudgmentSearch = function() {
             selectId: "#select-search-judgment-form",
             url: contextPath + "/sc/judgmentForms/list",
             createOption: function(element) {
-                return "<option value='" + element.name + "' >" + element.name + "</option>";
+                return "<option value='" + element.id + "' >" + element.name + "</option>";
             }
         });
     });
