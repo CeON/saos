@@ -148,7 +148,7 @@ function InfoFormSection(options) {
              
              
              /*
-              * Doeasn't check hidden input's that name starts with '_'.
+              * Doesn't check hidden input's that name starts with '_'.
               */
              if ($this.is("input:hidden") && $this.attr("name") !== undefined
                  && $this.attr("name")[0] === "_") {

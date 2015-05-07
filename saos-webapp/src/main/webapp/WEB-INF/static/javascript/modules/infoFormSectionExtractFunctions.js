@@ -35,6 +35,12 @@ function extractInfoFromCourtSection(options) {
         var $this = $(this),
             fieldDescription = $this.attr("data-field-desc") || "";
     
+
+        if ($this.attr("id") === "ccIncludeDependentCourtJudgments") {
+            return;
+        }
+        
+
         if ($this.is("input:radio")) {
             
             var value = "",
@@ -58,7 +64,16 @@ function extractInfoFromCourtSection(options) {
             
             if ($optionSelected.index() > 0) {
                 
-                html += addPhrase($optionSelected.text(), fieldDescription, comma);
+                var optionSelectedText = $optionSelected.text();
+                
+                if ($this.attr("id") === "select-common-court") {
+                    if ($("#ccIncludeDependentCourtJudgments").is(":checked")) {
+                        optionSelectedText = optionSelectedText + " " + $("#ccIncludeDependentCourtJudgments").attr("data-info-section-custom-text");
+                    }
+                }
+                
+                
+                html += addPhrase(optionSelectedText, fieldDescription, comma);
                 comma = true;
                 
             }
@@ -117,7 +132,6 @@ function extractInfoFromDateSectionInSearch() {
              && $this.attr("name")[0] === "_") {
              return;
          }
-         
          
          if ($this.is("input:radio") || $this.is("input:checkbox")) {
              

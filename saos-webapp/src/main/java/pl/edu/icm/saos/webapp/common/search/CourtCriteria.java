@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.webapp.common.search;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import pl.edu.icm.saos.persistence.model.CourtType;
 
 /**
@@ -13,10 +15,12 @@ public class CourtCriteria {
     private CourtType courtType;
     
     private Long ccCourtId;
+    private boolean ccIncludeDependentCourtJudgments;
     private Long ccCourtDivisionId;
     
     private Long scCourtChamberId;
     private Long scCourtChamberDivisionId;
+    
     
     
     //------------------------ GETTERS --------------------------
@@ -24,19 +28,29 @@ public class CourtCriteria {
     public CourtType getCourtType() {
         return courtType;
     }
+    
     public Long getCcCourtId() {
         return ccCourtId;
     }
+    /**
+     * true - the judgments from dependent courts (of the court specified by {@link #getCcCourtDivisionId()}) should be included <br/>
+     * false - only judgments from the court specified by {@link #getCcCourtDivisionId() should be fetched
+     */
+    public boolean isCcIncludeDependentCourtJudgments() {
+        return ccIncludeDependentCourtJudgments;
+    }
+
     public Long getCcCourtDivisionId() {
         return ccCourtDivisionId;
     }
+    
     public Long getScCourtChamberId() {
         return scCourtChamberId;
     }
+    
     public Long getScCourtChamberDivisionId() {
         return scCourtChamberDivisionId;
     }
-    
     
     //------------------------ SETTERS --------------------------
     
@@ -55,15 +69,17 @@ public class CourtCriteria {
     public void setScCourtChamberDivisionId(Long scCourtChamberDivisionId) {
         this.scCourtChamberDivisionId = scCourtChamberDivisionId;
     }
+    public void setCcIncludeDependentCourtJudgments(boolean ccIncludeDependentCourtJudgments) {
+        this.ccIncludeDependentCourtJudgments = ccIncludeDependentCourtJudgments;
+    }
+
     
     
     //------------------------ toString --------------------------
     
     @Override
     public String toString() {
-        return "CourtCriteria [courtType=" + courtType + ", ccCourtId=" + ccCourtId
-                + ", ccCourtDivisionId=" + ccCourtDivisionId + ", scCourtChamberId="
-                + scCourtChamberId + ", scCourtChamberDivisionId=" + scCourtChamberDivisionId + "]";
+        return ToStringBuilder.reflectionToString(this);
     }
 
 }

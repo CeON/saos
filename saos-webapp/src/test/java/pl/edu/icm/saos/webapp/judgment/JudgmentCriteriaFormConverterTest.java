@@ -2,6 +2,7 @@ package pl.edu.icm.saos.webapp.judgment;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
@@ -30,53 +31,83 @@ public class JudgmentCriteriaFormConverterTest {
 	//------------------------ TESTS --------------------------
 	
 	@Test
-	public void convert() {
-		//given
+	public void convert_ccIncludeDependentCourtJudgments_FALSE() {
+		
+	    // given
 		JudgmentCriteriaForm judgmentCriteriaForm = createCriteriaForm();
 		
 		
-		//execute
+		// execute
 		JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
 		
 		
-		//assert
-		assertEquals(judgmentCriteriaForm.getAll(), judgmentCriteria.getAll());
-		assertEquals(judgmentCriteriaForm.getSignature(), judgmentCriteria.getCaseNumber());
+		// assert
+        assertEquals(judgmentCriteriaForm.getCourtCriteria().getCcCourtId(), judgmentCriteria.getCcCourtId());
+        assertNull(judgmentCriteria.getCcDirectOrSuperiorCourtId());
 
-		assertEquals(judgmentCriteriaForm.getDateFrom(), judgmentCriteria.getJudgmentDateFrom());
-		assertEquals(judgmentCriteriaForm.getDateTo(), judgmentCriteria.getJudgmentDateTo());
-		
-		CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
+		assertJudgmentCriteria(judgmentCriteriaForm, judgmentCriteria);
+	}
+
+
+	@Test
+	public void convert_ccIncludeDependentCourtJudgments_TRUE() {
+	    
+	    // given
+        JudgmentCriteriaForm judgmentCriteriaForm = createCriteriaForm();
+        judgmentCriteriaForm.getCourtCriteria().setCcIncludeDependentCourtJudgments(true);
         
-		assertEquals(courtCriteria.getCourtType(), judgmentCriteria.getCourtType());
-		
-		assertEquals(courtCriteria.getCcCourtId(), judgmentCriteria.getCcCourtId());
-		assertEquals(courtCriteria.getCcCourtDivisionId(), judgmentCriteria.getCcCourtDivisionId());
+        // execute
+        JudgmentCriteria judgmentCriteria = judgmentCriteriaFormConverter.convert(judgmentCriteriaForm);
+        
+        // assert
+        assertEquals(judgmentCriteriaForm.getCourtCriteria().getCcCourtId(), judgmentCriteria.getCcDirectOrSuperiorCourtId());
+        assertNull(judgmentCriteria.getCcCourtId());
 
-		assertEquals(courtCriteria.getScCourtChamberId(), judgmentCriteria.getScCourtChamberId());
-        assertEquals(courtCriteria.getScCourtChamberDivisionId(), judgmentCriteria.getScCourtChamberDivisionId());
-		
-		assertEquals(judgmentCriteriaForm.getScPersonnelType(), judgmentCriteria.getScPersonnelType());
-		assertEquals(judgmentCriteriaForm.getScJudgmentForm(), judgmentCriteria.getScJudgmentForm());
-		
-		assertEquals(judgmentCriteriaForm.getCtDissentingOpinion(), judgmentCriteria.getCtDissentingOpinion());
-		
-		assertEquals(judgmentCriteriaForm.getJudgeName(), judgmentCriteria.getJudgeName());
-		
-		assertEquals(1, judgmentCriteria.getKeywords().size());
-		assertEquals(judgmentCriteriaForm.getKeywords(), judgmentCriteria.getKeywords());
-		
-		assertEquals(2, judgmentCriteria.getJudgmentTypes().size());
-		assertThat(judgmentCriteria.getJudgmentTypes(), Matchers.containsInAnyOrder(JudgmentType.SENTENCE, JudgmentType.DECISION));
-		
-		assertEquals(judgmentCriteriaForm.getLegalBase(), judgmentCriteria.getLegalBase());
-		assertEquals(judgmentCriteriaForm.getReferencedRegulation(), judgmentCriteria.getReferencedRegulation());
-		assertEquals(judgmentCriteriaForm.getLawJournalEntryId(), judgmentCriteria.getLawJournalEntryId());
-		assertEquals(judgmentCriteriaForm.getReferencedCourtCaseId(), judgmentCriteria.getReferencedCourtCaseId());
+        assertJudgmentCriteria(judgmentCriteriaForm, judgmentCriteria);
+        
+        
 	}
 	
-	
 	//------------------------ PRIVATE --------------------------
+	
+	
+    private void assertJudgmentCriteria(JudgmentCriteriaForm judgmentCriteriaForm, JudgmentCriteria judgmentCriteria) {
+        assertEquals(judgmentCriteriaForm.getAll(), judgmentCriteria.getAll());
+        assertEquals(judgmentCriteriaForm.getSignature(), judgmentCriteria.getCaseNumber());
+
+        assertEquals(judgmentCriteriaForm.getDateFrom(), judgmentCriteria.getJudgmentDateFrom());
+        assertEquals(judgmentCriteriaForm.getDateTo(), judgmentCriteria.getJudgmentDateTo());
+        
+        CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
+        
+        assertEquals(courtCriteria.getCourtType(), judgmentCriteria.getCourtType());
+        
+        assertEquals(courtCriteria.getCcCourtDivisionId(), judgmentCriteria.getCcCourtDivisionId());
+
+        assertEquals(courtCriteria.getScCourtChamberId(), judgmentCriteria.getScCourtChamberId());
+        assertEquals(courtCriteria.getScCourtChamberDivisionId(), judgmentCriteria.getScCourtChamberDivisionId());
+        
+        assertEquals(judgmentCriteriaForm.getScPersonnelType(), judgmentCriteria.getScPersonnelType());
+        assertEquals(judgmentCriteriaForm.getScJudgmentForm(), judgmentCriteria.getScJudgmentForm());
+        
+        assertEquals(judgmentCriteriaForm.getCtDissentingOpinion(), judgmentCriteria.getCtDissentingOpinion());
+        
+        assertEquals(judgmentCriteriaForm.getJudgeName(), judgmentCriteria.getJudgeName());
+        
+        assertEquals(1, judgmentCriteria.getKeywords().size());
+        assertEquals(judgmentCriteriaForm.getKeywords(), judgmentCriteria.getKeywords());
+        
+        assertEquals(2, judgmentCriteria.getJudgmentTypes().size());
+        assertThat(judgmentCriteria.getJudgmentTypes(), Matchers.containsInAnyOrder(JudgmentType.SENTENCE, JudgmentType.DECISION));
+        
+        assertEquals(judgmentCriteriaForm.getLegalBase(), judgmentCriteria.getLegalBase());
+        assertEquals(judgmentCriteriaForm.getReferencedRegulation(), judgmentCriteria.getReferencedRegulation());
+        assertEquals(judgmentCriteriaForm.getLawJournalEntryId(), judgmentCriteria.getLawJournalEntryId());
+        assertEquals(judgmentCriteriaForm.getReferencedCourtCaseId(), judgmentCriteria.getReferencedCourtCaseId());
+    }
+    
+    
+
 	
 	private JudgmentCriteriaForm createCriteriaForm() {
 		

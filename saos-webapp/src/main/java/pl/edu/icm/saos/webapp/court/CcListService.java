@@ -32,7 +32,9 @@ public class CcListService {
 	private CcDivisionRepository ccDivisionRepository;
 	
 	private SimpleEntityConverter simpleEntityConverter;
-	    
+	
+	private SimpleCommonCourtConverter simpleCommonCourtConverter;
+	
 		
 	//------------------------ LOGIC --------------------------
 	
@@ -42,13 +44,13 @@ public class CcListService {
 	 * @return list of {@link pl.edu.icm.saos.webapp.court.SimpleEntity}
 	 */
 	@Cacheable(DICTIONARIES)
-    public List<SimpleEntity> findCommonCourts() {
+    public List<SimpleCommonCourt> findCommonCourts() {
 	    
 		List<CommonCourt> commonCourts = commonCourtRepository.findAll();
 		
 		Collections.sort(commonCourts, new CommonCourtComparator());
 		
-		return simpleEntityConverter.convertCommonCourts(commonCourts);
+		return simpleCommonCourtConverter.convertCommonCourts(commonCourts);
 	}
 	
 	/**
@@ -96,5 +98,10 @@ public class CcListService {
 	public void setSimpleEntityConverter(SimpleEntityConverter simpleEntityConverter) {
 		this.simpleEntityConverter = simpleEntityConverter;
 	}
+
+	@Autowired
+    public void setSimpleCommonCourtConverter(SimpleCommonCourtConverter simpleCommonCourtConverter) {
+        this.simpleCommonCourtConverter = simpleCommonCourtConverter;
+    }
 
 }

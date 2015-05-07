@@ -54,8 +54,6 @@ public class JudgmentCriteriaForm {
     private Long lawJournalEntryId;
     private Long referencedCourtCaseId;
     
-    private boolean includeDependentCourtJudgments;
-    
     
     //------------------------ GETTERS --------------------------
     
@@ -127,11 +125,6 @@ public class JudgmentCriteriaForm {
         return courtCriteria;
     }
     
-    /** true - take into account also judgments from dependent courts (of the specified court),
-     * false - fetch only judgments judged by the specified court (see {@link #getCcCourtId()})*/
-    public boolean isIncludeDependentCourtJudgments() {
-        return includeDependentCourtJudgments;
-    }
 
 
 	//------------------------ SETTERS --------------------------
@@ -196,11 +189,6 @@ public class JudgmentCriteriaForm {
         this.courtCriteria = courtCriteria;
     }
 
-    public void setIncludeDependentCourtJudgments(boolean includeDependentCourtJudgments) {
-        this.includeDependentCourtJudgments = includeDependentCourtJudgments;
-    }
-
-  
     //------------------------ toString --------------------------
 
     @Override
@@ -212,15 +200,9 @@ public class JudgmentCriteriaForm {
                 + ctDissentingOpinion + ", judgmentTypes=" + judgmentTypes + ", legalBase="
                 + legalBase + ", referencedRegulation=" + referencedRegulation
                 + ", lawJournalEntryId=" + lawJournalEntryId + ", referencedCourtCaseId="
-                + referencedCourtCaseId + ", includeDependentCourtJudgments="
-                + includeDependentCourtJudgments + "]";
+                + referencedCourtCaseId + "]";
     }
 
-      
-   
-
-
-    
     
 }
 
