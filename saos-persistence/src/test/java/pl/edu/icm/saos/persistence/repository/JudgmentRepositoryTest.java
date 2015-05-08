@@ -607,7 +607,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
-    public void markAsNotindexed() {
+    public void markAsNotIndexed() {
         // given
         Judgment judgment1 = createCcJudgment(SourceCode.COMMON_COURT, "1", "AA1");
         Judgment judgment2 = createCcJudgment(SourceCode.COMMON_COURT, "2", "AA2");
@@ -619,7 +619,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         
         // execute
-        judgmentRepository.markAsNotindexed(Lists.newArrayList(judgment1.getId(), judgment2.getId()));
+        judgmentRepository.markAsNotIndexed(Lists.newArrayList(judgment1.getId(), judgment2.getId()));
         
         // assert
         assertFalse(judgmentRepository.findOne(judgment1.getId()).isIndexed());

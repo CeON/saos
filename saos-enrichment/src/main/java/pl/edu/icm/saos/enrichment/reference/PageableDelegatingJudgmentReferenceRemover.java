@@ -3,29 +3,29 @@ package pl.edu.icm.saos.enrichment.reference;
 import java.util.List;
 
 /**
- * Implementation of {@link JudgmentReferenceRemover} adding ability
+ * Implementation of {@link TagJudgmentReferenceRemover} adding ability
  * to divide removing of judgment references into pages. 
  * 
  * @author madryk
  */
-public class PageableJudgmentReferenceRemover implements JudgmentReferenceRemover {
+public class PageableDelegatingJudgmentReferenceRemover implements TagJudgmentReferenceRemover {
     
-    private JudgmentReferenceRemover judgmentReferenceRemover;
+    private TagJudgmentReferenceRemover delegatedJudgmentReferenceRemover;
 
     private int pageSize = 1000; 
     
     
     //------------------------ CONSTRUCTORS --------------------------
     
-    public PageableJudgmentReferenceRemover(JudgmentReferenceRemover judgmentReferenceRemover) {
-        this.judgmentReferenceRemover = judgmentReferenceRemover;
+    public PageableDelegatingJudgmentReferenceRemover(TagJudgmentReferenceRemover delegatedJudgmentReferenceRemover) {
+        this.delegatedJudgmentReferenceRemover = delegatedJudgmentReferenceRemover;
     }
 
     
     //------------------------ LOGIC --------------------------
 
     @Override
-    public void removeReference(List<Long> judgmentIds) {
+    public void removeReferences(List<Long> judgmentIds) {
 
         int pageNr = 0;
         
@@ -40,7 +40,7 @@ public class PageableJudgmentReferenceRemover implements JudgmentReferenceRemove
                 toIndex = judgmentIds.size();
             }
             
-            judgmentReferenceRemover.removeReference(judgmentIds.subList(fromIndex, toIndex));
+            delegatedJudgmentReferenceRemover.removeReferences(judgmentIds.subList(fromIndex, toIndex));
             
             pageNr++;
         }

@@ -71,7 +71,7 @@ public class RefCourtCasesJudgmentReferenceRemoverTest extends EnrichmentTestSup
                 enrichmentTag7, enrichmentTag8, enrichmentTag9));
         
         // execute
-        refCourtCasesJudgmentReferenceRemover.removeReference(Lists.newArrayList(12L));
+        refCourtCasesJudgmentReferenceRemover.removeReferences(Lists.newArrayList(12L));
         
         // assert
         assertEnrichmentTagValue(enrichmentTag1.getId(),
@@ -109,7 +109,7 @@ public class RefCourtCasesJudgmentReferenceRemoverTest extends EnrichmentTestSup
         enrichmentTagRepository.save(Lists.newArrayList(enrichmentTag1, enrichmentTag2, enrichmentTag3));
         
         // execute
-        refCourtCasesJudgmentReferenceRemover.removeReference(Lists.newArrayList(11L, 13L, 15L));
+        refCourtCasesJudgmentReferenceRemover.removeReferences(Lists.newArrayList(11L, 13L, 15L));
         
         // assert
         assertEnrichmentTagValue(enrichmentTag1.getId(),
@@ -129,7 +129,7 @@ public class RefCourtCasesJudgmentReferenceRemoverTest extends EnrichmentTestSup
         enrichmentTagRepository.save(enrichmentTag1);
         
         // execute
-        refCourtCasesJudgmentReferenceRemover.removeReference(Lists.newArrayList(10L, 12L));
+        refCourtCasesJudgmentReferenceRemover.removeReferences(Lists.newArrayList(10L, 12L));
         
         // assert
         assertEnrichmentTagValue(enrichmentTag1.getId(),
@@ -151,7 +151,7 @@ public class RefCourtCasesJudgmentReferenceRemoverTest extends EnrichmentTestSup
         enrichmentTagRepository.save(enrichmentTag1);
         
         // execute
-        refCourtCasesJudgmentReferenceRemover.removeReference(Lists.newArrayList(judgment2.getId()));
+        refCourtCasesJudgmentReferenceRemover.removeReferences(Lists.newArrayList(judgment2.getId()));
         
         // assert
         List<Long> notIndexed = judgmentRepository.findAllNotIndexedIds();

@@ -9,60 +9,58 @@ import javax.persistence.Query;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.json.JsonStringParser;
-import pl.edu.icm.saos.common.json.JsonStringWriter;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
- * Class for removing reference to judgment from {@link EnrichmentTag}.
- * It supports tags where reference removing is based on modifying {@link EnrichmentTag#getValue()}.
+ * Abstract class for services that remove references to judgments from {@link EnrichmentTag}s.
+ * Removing of judgment references involves modifying of tag value, see: {@link EnrichmentTag#getValue()}
  * 
  * @author madryk
  * @param <TAG_TYPE> - type of enrichment tag value type
  */
-public abstract class TagModifyingJudgmentReferenceRemover<TAG_TYPE> implements JudgmentReferenceRemover {
+public abstract class TagModifyingJudgmentReferenceRemover<TAG_TYPE> implements TagJudgmentReferenceRemover {
     
     protected final static String JUDGMENT_IDS_QUERY_PARAM_NAME = "judgmentIds";
     
-    @Autowired
+    
     private EntityManager entityManager;
     
-    @Autowired
     private EnrichmentTagRepository enrichmentTagRepository;
     
-    @Autowired
     private JudgmentRepository judgmentRepository;
     
-    @Autowired
     private JsonStringParser<TAG_TYPE> jsonStringParser;
     
-    @Autowired
-    private JsonStringWriter<TAG_TYPE> jsonStringWriter;
+    private JsonFormatter jsonFormatter;
 
     
     //------------------------ LOGIC --------------------------
     
     @Override
-    public void removeReference(List<Long> judgmentIds) {
+    public void removeReferences(List<Long> judgmentIds) {
         
-        List<EnrichmentTag> results = findTagsWithReferences(judgmentIds);
+        List<EnrichmentTag> enrichmentTags = findTagsWithReferences(judgmentIds);
         
-        if (!results.isEmpty()) {
-            removeReferencesFromTags(results, judgmentIds);
-            
-            enrichmentTagRepository.save(results);
-            
-            List<Long> judgmentsToReindex = results.stream().map(t -> t.getJudgmentId()).collect(Collectors.toList());
-            judgmentRepository.markAsNotindexed(judgmentsToReindex);
-            
+        if (enrichmentTags.isEmpty()) {
+            return;
         }
+
+        removeReferencesFromTags(enrichmentTags, judgmentIds);
+        
+        enrichmentTagRepository.save(enrichmentTags);
+        
+        List<Long> judgmentsToReindex = enrichmentTags.stream().map(t -> t.getJudgmentId()).collect(Collectors.toList());
+        judgmentRepository.markAsNotIndexed(judgmentsToReindex);
+        
         
     }
     
     /**
-     * Builds query for selecting enrichment tags which reference to judgment need to be removed
+     * Builds query for selecting enrichment tags that refer to judgments that are subject to deletion
      */
     protected abstract String buildSelectQuery();
     
@@ -93,7 +91,7 @@ public abstract class TagModifyingJudgmentReferenceRemover<TAG_TYPE> implements 
 
                 removeReference(tagValue, judgmentIds);
 
-                String value = jsonStringWriter.write(tagValue);
+                String value = jsonFormatter.formatObject(tagValue);
                 tag.setValue(value);
                 
             } catch (IOException e) {
@@ -105,24 +103,29 @@ public abstract class TagModifyingJudgmentReferenceRemover<TAG_TYPE> implements 
     
     //------------------------ SETTERS --------------------------
 
+    @Autowired
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
+    @Autowired
     public void setEnrichmentTagRepository(EnrichmentTagRepository enrichmentTagRepository) {
         this.enrichmentTagRepository = enrichmentTagRepository;
     }
 
+    @Autowired
     public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
         this.judgmentRepository = judgmentRepository;
     }
 
+    @Autowired
     public void setJsonStringParser(JsonStringParser<TAG_TYPE> jsonStringParser) {
         this.jsonStringParser = jsonStringParser;
     }
 
-    public void setJsonStringWriter(JsonStringWriter<TAG_TYPE> jsonStringWriter) {
-        this.jsonStringWriter = jsonStringWriter;
+    @Autowired
+    public void setJsonFormatter(JsonFormatter jsonFormatter) {
+        this.jsonFormatter = jsonFormatter;
     }
 
 }

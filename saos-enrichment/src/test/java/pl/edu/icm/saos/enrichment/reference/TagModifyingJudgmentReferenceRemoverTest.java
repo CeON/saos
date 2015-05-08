@@ -18,8 +18,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.json.JsonStringParser;
-import pl.edu.icm.saos.common.json.JsonStringWriter;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -42,7 +42,7 @@ public class TagModifyingJudgmentReferenceRemoverTest {
     private JsonStringParser<Object> jsonStringParser;
     
     @Mock
-    private JsonStringWriter<Object> jsonStringWriter;
+    private JsonFormatter jsonFormatter;
     
     @Mock
     private EntityManager entityManager;
@@ -57,14 +57,14 @@ public class TagModifyingJudgmentReferenceRemoverTest {
         doCallRealMethod().when(tagModifyingJudgmentReferenceRemover).setJudgmentRepository(any());
         doCallRealMethod().when(tagModifyingJudgmentReferenceRemover).setEntityManager(any());
         doCallRealMethod().when(tagModifyingJudgmentReferenceRemover).setJsonStringParser(any());
-        doCallRealMethod().when(tagModifyingJudgmentReferenceRemover).setJsonStringWriter(any());
-        doCallRealMethod().when(tagModifyingJudgmentReferenceRemover).removeReference(any());
+        doCallRealMethod().when(tagModifyingJudgmentReferenceRemover).setJsonFormatter(any());
+        doCallRealMethod().when(tagModifyingJudgmentReferenceRemover).removeReferences(any());
         
         tagModifyingJudgmentReferenceRemover.setEnrichmentTagRepository(enrichmentTagRepository);
         tagModifyingJudgmentReferenceRemover.setJudgmentRepository(judgmentRepository);
         tagModifyingJudgmentReferenceRemover.setEntityManager(entityManager);
         tagModifyingJudgmentReferenceRemover.setJsonStringParser(jsonStringParser);
-        tagModifyingJudgmentReferenceRemover.setJsonStringWriter(jsonStringWriter);
+        tagModifyingJudgmentReferenceRemover.setJsonFormatter(jsonFormatter);
     }
     
     
@@ -92,11 +92,11 @@ public class TagModifyingJudgmentReferenceRemoverTest {
         when(entityManager.createNativeQuery("query", EnrichmentTag.class)).thenReturn(query);
         when(jsonStringParser.parseAndValidate("et1value")).thenReturn(value1);
         when(jsonStringParser.parseAndValidate("et2value")).thenReturn(value2);
-        when(jsonStringWriter.write(value1)).thenReturn("et1value_changed");
-        when(jsonStringWriter.write(value2)).thenReturn("et2value_changed");
+        when(jsonFormatter.formatObject(value1)).thenReturn("et1value_changed");
+        when(jsonFormatter.formatObject(value2)).thenReturn("et2value_changed");
         
         // execute
-        tagModifyingJudgmentReferenceRemover.removeReference(Lists.newArrayList(2L, 3L));
+        tagModifyingJudgmentReferenceRemover.removeReferences(Lists.newArrayList(2L, 3L));
         
         // assert
         verify(entityManager).createNativeQuery("query", EnrichmentTag.class);
@@ -105,7 +105,7 @@ public class TagModifyingJudgmentReferenceRemoverTest {
         verify(tagModifyingJudgmentReferenceRemover).removeReference(value1, Lists.newArrayList(2L, 3L));
         verify(tagModifyingJudgmentReferenceRemover).removeReference(value2, Lists.newArrayList(2L, 3L));
         
-        verify(judgmentRepository).markAsNotindexed(Lists.newArrayList(7L, 8L));
+        verify(judgmentRepository).markAsNotIndexed(Lists.newArrayList(7L, 8L));
         
         assertEquals("et1value_changed", tag1.getValue());
         assertEquals("et2value_changed", tag2.getValue());

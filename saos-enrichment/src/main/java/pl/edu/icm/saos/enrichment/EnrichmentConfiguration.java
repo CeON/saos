@@ -25,9 +25,9 @@ import pl.edu.icm.saos.enrichment.apply.moneyamount.MoneyAmountTagValueConverter
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesJudgmentUpdater;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueConverter;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueItem;
-import pl.edu.icm.saos.enrichment.reference.CompositeJudgmentReferenceRemover;
-import pl.edu.icm.saos.enrichment.reference.JudgmentReferenceRemover;
-import pl.edu.icm.saos.enrichment.reference.PageableJudgmentReferenceRemover;
+import pl.edu.icm.saos.enrichment.reference.CompositeTagJudgmentReferenceRemover;
+import pl.edu.icm.saos.enrichment.reference.TagJudgmentReferenceRemover;
+import pl.edu.icm.saos.enrichment.reference.PageableDelegatingJudgmentReferenceRemover;
 import pl.edu.icm.saos.enrichment.reference.refcases.RefCourtCasesJudgmentReferenceRemover;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.MoneyAmount;
@@ -122,11 +122,11 @@ public class EnrichmentConfiguration {
     
     
     @Bean
-    public JudgmentReferenceRemover judgmentReferenceRemover() {
-        CompositeJudgmentReferenceRemover judgmentReferenceRemover = new CompositeJudgmentReferenceRemover();
+    public TagJudgmentReferenceRemover tagJudgmentReferenceRemover() {
+        CompositeTagJudgmentReferenceRemover judgmentReferenceRemover = new CompositeTagJudgmentReferenceRemover();
         
-        judgmentReferenceRemover.setJudgmentReferenceRemovers(Lists.newArrayList(
-                new PageableJudgmentReferenceRemover(refCourtCasesJudgmentReferenceRemover)));
+        judgmentReferenceRemover.setTagJudgmentReferenceRemovers(Lists.newArrayList(
+                new PageableDelegatingJudgmentReferenceRemover(refCourtCasesJudgmentReferenceRemover)));
         
         return judgmentReferenceRemover;
     }

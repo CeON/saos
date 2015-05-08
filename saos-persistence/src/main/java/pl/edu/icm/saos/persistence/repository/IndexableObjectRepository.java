@@ -23,6 +23,6 @@ public interface IndexableObjectRepository<I extends IndexableObject> {
     @Modifying
     @Transactional
     @Query("update #{#entityName} i set i.indexed=false where i.indexed=true and i.id in :ids")
-    void markAsNotindexed(@Param("ids") List<Long> ids);
+    void markAsNotIndexed(@Param("ids") List<Long> ids);
     
 }
