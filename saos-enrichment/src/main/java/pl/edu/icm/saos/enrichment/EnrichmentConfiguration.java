@@ -8,6 +8,7 @@ package pl.edu.icm.saos.enrichment;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -19,16 +20,21 @@ import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.enrichment.apply.DefaultEnrichmentTagApplier;
 import pl.edu.icm.saos.enrichment.apply.moneyamount.MaxMoneyAmountJudgmentUpdater;
-import pl.edu.icm.saos.enrichment.apply.moneyamount.MoneyAmountTagValueConverter;
 import pl.edu.icm.saos.enrichment.apply.moneyamount.MoneyAmountTagValue;
+import pl.edu.icm.saos.enrichment.apply.moneyamount.MoneyAmountTagValueConverter;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesJudgmentUpdater;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueConverter;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueItem;
+import pl.edu.icm.saos.enrichment.reference.CompositeJudgmentReferenceRemover;
+import pl.edu.icm.saos.enrichment.reference.JudgmentReferenceRemover;
+import pl.edu.icm.saos.enrichment.reference.PageableJudgmentReferenceRemover;
+import pl.edu.icm.saos.enrichment.reference.refcases.RefCourtCasesJudgmentReferenceRemover;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.MoneyAmount;
 import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.google.common.collect.Lists;
 
 /**
  * 
@@ -108,8 +114,22 @@ public class EnrichmentConfiguration {
     }
     
     
+    //------------------------ ENRICHMENT TAG JUDGMENT REFERENCE REMOVER --------------------------
     
-  
+    @Autowired
+    @Qualifier("refCourtCasesJudgmentReferenceRemover")
+    private RefCourtCasesJudgmentReferenceRemover refCourtCasesJudgmentReferenceRemover;
+    
+    
+    @Bean
+    public JudgmentReferenceRemover judgmentReferenceRemover() {
+        CompositeJudgmentReferenceRemover judgmentReferenceRemover = new CompositeJudgmentReferenceRemover();
+        
+        judgmentReferenceRemover.setJudgmentReferenceRemovers(Lists.newArrayList(
+                new PageableJudgmentReferenceRemover(refCourtCasesJudgmentReferenceRemover)));
+        
+        return judgmentReferenceRemover;
+    }
 
     
 }

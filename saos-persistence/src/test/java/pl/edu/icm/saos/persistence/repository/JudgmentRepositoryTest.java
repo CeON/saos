@@ -451,10 +451,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         Judgment ctJudgment = testPersistenceObjectFactory.createCtJudgment();
         Judgment nacJudgment = testPersistenceObjectFactory.createNacJudgment();
         
-        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ccJudgment.getId());
-        
         assertEquals(4, judgmentRepository.count());
-        assertEquals(3, enrichmentTagRepository.count());
         
         
         // execute
@@ -462,7 +459,6 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         // assert
         assertEquals(0, judgmentRepository.count());
-        assertEquals(0, enrichmentTagRepository.count());
         
     }
     
@@ -476,11 +472,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         Judgment ctJudgment = testPersistenceObjectFactory.createCtJudgment();
         Judgment nacJudgment = testPersistenceObjectFactory.createNacJudgment();
         
-        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ccJudgment.getId());
-        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ctJudgment.getId());
-        
         assertEquals(4, judgmentRepository.count());
-        assertEquals(6, enrichmentTagRepository.count());
         
         
         // execute
@@ -491,10 +483,6 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         List<Long> judgmentIds = judgmentRepository.findAll().stream().map(j->j.getId()).collect(Collectors.toList());
         assertThat(judgmentIds, containsInAnyOrder(scJudgment.getId(), ccJudgment.getId()));
-        
-        assertEquals(3, enrichmentTagRepository.count());
-        List<Long> enrichmentTagJudgmentIds = enrichmentTagRepository.findAll().stream().map(tag->tag.getJudgmentId()).distinct().collect(Collectors.toList());
-        assertThat(enrichmentTagJudgmentIds, containsInAnyOrder(ccJudgment.getId()));
     }
     
     
@@ -507,11 +495,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         Judgment ctJudgment = testPersistenceObjectFactory.createCtJudgment();
         Judgment nacJudgment = testPersistenceObjectFactory.createNacJudgment();
         
-        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ccJudgment.getId());
-        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ctJudgment.getId());
-        
         assertEquals(4, judgmentRepository.count());
-        assertEquals(6, enrichmentTagRepository.count());
         
         
         // execute
@@ -522,7 +506,6 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         // assert
         assertEquals(0, judgmentRepository.count());
-        assertEquals(0, enrichmentTagRepository.count());
         
     }
     
@@ -536,11 +519,7 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         Judgment ctJudgment = testPersistenceObjectFactory.createCtJudgment();
         Judgment nacJudgment = testPersistenceObjectFactory.createNacJudgment();
         
-        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ccJudgment.getId());
-        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ctJudgment.getId());
-        
         assertEquals(4, judgmentRepository.count());
-        assertEquals(6, enrichmentTagRepository.count());
         
         
         // execute
@@ -551,7 +530,6 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         // assert
         assertEquals(0, judgmentRepository.count());
-        assertEquals(0, enrichmentTagRepository.count());
         
     }
 
@@ -559,16 +537,12 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     public void deleteAll() {
         
         // given
-        Judgment ccJudgment = testPersistenceObjectFactory.createCcJudgment();
+        testPersistenceObjectFactory.createCcJudgment();
         testPersistenceObjectFactory.createScJudgment();
-        Judgment ctJudgment = testPersistenceObjectFactory.createCtJudgment();
+        testPersistenceObjectFactory.createCtJudgment();
         testPersistenceObjectFactory.createNacJudgment();
         
-        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ccJudgment.getId());
-        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ctJudgment.getId());
-        
         assertEquals(4, judgmentRepository.count());
-        assertEquals(6, enrichmentTagRepository.count());
         
         
         // execute
@@ -576,7 +550,6 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         // assert
         assertEquals(0, judgmentRepository.count());
-        assertEquals(0, enrichmentTagRepository.count());
         
     }
     
@@ -631,6 +604,27 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         // assert
         assertNotNull("judgment text content is null", actualJudgment.getTextContent());
         assertEquals("raw content", actualJudgment.getTextContent().getRawTextContent());
+    }
+    
+    @Test
+    public void markAsNotindexed() {
+        // given
+        Judgment judgment1 = createCcJudgment(SourceCode.COMMON_COURT, "1", "AA1");
+        Judgment judgment2 = createCcJudgment(SourceCode.COMMON_COURT, "2", "AA2");
+        Judgment judgment3 = createCcJudgment(SourceCode.COMMON_COURT, "3", "AA3");
+        
+        judgment1.markAsIndexed();
+        judgment3.markAsIndexed();
+        judgmentRepository.save(Lists.newArrayList(judgment1, judgment3));
+        
+        
+        // execute
+        judgmentRepository.markAsNotindexed(Lists.newArrayList(judgment1.getId(), judgment2.getId()));
+        
+        // assert
+        assertFalse(judgmentRepository.findOne(judgment1.getId()).isIndexed());
+        assertFalse(judgmentRepository.findOne(judgment2.getId()).isIndexed());
+        assertTrue(judgmentRepository.findOne(judgment3.getId()).isIndexed());
     }
     
 
