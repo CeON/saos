@@ -92,7 +92,8 @@
    <field name="ccDistrictCourtId" type="long" indexed="true" stored="true" multiValued="false" />
    <field name="ccDistrictCourtName" type="string" indexed="true" stored="true" multiValued="false" />
    
-   <field name="scJudgmentForm" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="scJudgmentFormId" type="long" indexed="true" stored="true" multiValued="false" />
+   <field name="scJudgmentFormName" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="scPersonnelType" type="string" indexed="true" stored="true" multiValued="false" />
    <field name="scCourtChamber" type="string" indexed="false" stored="true" multiValued="true" />
    <field name="scCourtChamberId" type="long" indexed="true" stored="true" multiValued="true" />
@@ -121,7 +122,7 @@
    <copyField source="referencedRegulations" dest="all" />
    <copyField source="ccCourtName" dest="all" />
    <copyField source="ccCourtDivisionName" dest="all" />
-   <copyField source="scJudgmentForm" dest="all" />
+   <copyField source="scJudgmentFormId" dest="all" />
    <copyField source="scCourtChamberName" dest="all" />
    <copyField source="scCourtChamberDivisionName" dest="all" />
    <copyField source="scCourtDivisionsChamberName" dest="all" />

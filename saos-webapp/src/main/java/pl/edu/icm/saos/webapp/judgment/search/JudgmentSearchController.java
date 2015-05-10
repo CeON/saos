@@ -98,32 +98,32 @@ public class JudgmentSearchController {
 
 	
 	@Autowired
-    public void setJudgmentsWebSearchService(JudgmentWebSearchService judgmentsWebSearchService) {
-        this.judgmentsWebSearchService = judgmentsWebSearchService;
-    }
-
-
-    @Autowired
-    public void setCourtDataModelCreator(CourtDataModelCreator courtDataModelCreator) {
-        this.courtDataModelCreator = courtDataModelCreator;
-    }
-
-
-    @Autowired
-    public void setScListService(ScListService scListService) {
-        this.scListService = scListService;
-    }
-
-
-    @Autowired
-    public void setLawJournalEntryRepository(LawJournalEntryRepository lawJournalEntryRepository) {
-        this.lawJournalEntryRepository = lawJournalEntryRepository;
-    }
-
-
-    @Autowired
-    public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
-        this.judgmentRepository = judgmentRepository;
-    }
+        public void setJudgmentsWebSearchService(JudgmentWebSearchService judgmentsWebSearchService) {
+            this.judgmentsWebSearchService = judgmentsWebSearchService;
+        }
+    
+    
+        @Autowired
+        public void setCourtDataModelCreator(CourtDataModelCreator courtDataModelCreator) {
+            this.courtDataModelCreator = courtDataModelCreator;
+        }
+    
+    
+        @Autowired
+        public void setScListService(ScListService scListService) {
+            this.scListService = scListService;
+        }
+    
+    
+        @Autowired
+        public void setLawJournalEntryRepository(LawJournalEntryRepository lawJournalEntryRepository) {
+            this.lawJournalEntryRepository = lawJournalEntryRepository;
+        }
+    
+    
+        @Autowired
+        public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
+            this.judgmentRepository = judgmentRepository;
+        }
 
 }

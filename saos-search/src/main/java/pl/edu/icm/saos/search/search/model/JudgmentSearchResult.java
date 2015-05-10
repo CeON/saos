@@ -31,7 +31,8 @@ public class JudgmentSearchResult extends Searchable {
     private String ccCourtDivisionCode;
     private String ccCourtDivisionName;
     
-    private String scJudgmentForm;
+    private Long scJudgmentFormId;
+    private String scJudgmentFormName;
     private PersonnelType scPersonnelType;
     private List<SupremeCourtChamberResult> scCourtChambers;
     private Long scCourtDivisionId;
@@ -82,8 +83,11 @@ public class JudgmentSearchResult extends Searchable {
     public String getCcCourtDivisionName() {
         return ccCourtDivisionName;
     }
-    public String getScJudgmentForm() {
-    	return scJudgmentForm;
+    public Long getScJudgmentFormId() {
+    	return scJudgmentFormId;
+    }
+    public String getScJudgmentFormName() {
+    	return scJudgmentFormName;
     }
     public PersonnelType getScPersonnelType() {
         return scPersonnelType;
@@ -158,8 +162,11 @@ public class JudgmentSearchResult extends Searchable {
     public void setScCourtChambers(List<SupremeCourtChamberResult> scCourtChambers) {
         this.scCourtChambers = scCourtChambers;
     }
-    public void setScJudgmentForm(String scJudgmentForm) {
-    	this.scJudgmentForm = scJudgmentForm;
+    public void setScJudgmentFormId(Long scJudgmentFormId) {
+    	this.scJudgmentFormId = scJudgmentFormId;
+    }
+    public void setScJudgmentFormName(String scJudgmentFormName) {
+    	this.scJudgmentFormName = scJudgmentFormName;
     }
     public void setScCourtDivisionId(Long scCourtDivisionId) {
         this.scCourtDivisionId = scCourtDivisionId;

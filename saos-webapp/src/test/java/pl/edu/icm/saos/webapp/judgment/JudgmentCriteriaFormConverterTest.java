@@ -88,8 +88,9 @@ public class JudgmentCriteriaFormConverterTest {
         assertEquals(courtCriteria.getScCourtChamberDivisionId(), judgmentCriteria.getScCourtChamberDivisionId());
         
         assertEquals(judgmentCriteriaForm.getScPersonnelType(), judgmentCriteria.getScPersonnelType());
-        assertEquals(judgmentCriteriaForm.getScJudgmentForm(), judgmentCriteria.getScJudgmentForm());
         
+        assertEquals(judgmentCriteriaForm.getScJudgmentFormId(), judgmentCriteria.getScJudgmentFormId());
+
         assertEquals(judgmentCriteriaForm.getCtDissentingOpinion(), judgmentCriteria.getCtDissentingOpinion());
         
         assertEquals(judgmentCriteriaForm.getJudgeName(), judgmentCriteria.getJudgeName());
@@ -107,42 +108,42 @@ public class JudgmentCriteriaFormConverterTest {
     }
     
     
+    //------------------------ PRIVATE --------------------------
+    
+    private JudgmentCriteriaForm createCriteriaForm() {
+        
+        JudgmentCriteriaForm judgmentCriteriaForm = new JudgmentCriteriaForm();
+        
+        judgmentCriteriaForm.setAll("I threw a stone at my neighbor.");
+        judgmentCriteriaForm.setSignature("Sig. 1.4");
+        
+        judgmentCriteriaForm.setDateFrom(localDate[0]);
+        judgmentCriteriaForm.setDateTo(localDate[1]);
+        
+        CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
+        courtCriteria.setCourtType(CourtType.COMMON);
 
-	
-	private JudgmentCriteriaForm createCriteriaForm() {
-		
-		JudgmentCriteriaForm judgmentCriteriaForm = new JudgmentCriteriaForm();
-		
-		judgmentCriteriaForm.setAll("I threw a stone at my neighbor.");
-		judgmentCriteriaForm.setSignature("Sig. 1.4");
-		
-		judgmentCriteriaForm.setDateFrom(localDate[0]);
-		judgmentCriteriaForm.setDateTo(localDate[1]);
-		
-		CourtCriteria courtCriteria = judgmentCriteriaForm.getCourtCriteria();
-		courtCriteria.setCourtType(CourtType.COMMON);
-
-		courtCriteria.setCcCourtId(12l);
-		courtCriteria.setCcCourtDivisionId(15l);
-		
-		courtCriteria.setScCourtChamberId(13l);
+        courtCriteria.setCcCourtId(12l);
+        courtCriteria.setCcCourtDivisionId(15l);
+        
+        courtCriteria.setScCourtChamberId(13l);
         courtCriteria.setScCourtChamberDivisionId(14l);
         
-		
-		judgmentCriteriaForm.setScPersonnelType(PersonnelType.FIVE_PERSON);
-		judgmentCriteriaForm.setScJudgmentForm("wyrok SN");
-		
-		judgmentCriteriaForm.setCtDissentingOpinion("opinion");
-		
-		judgmentCriteriaForm.setJudgeName("Judge Dredd");
-		judgmentCriteriaForm.setKeywords(Lists.newArrayList("very important keyword"));
-		judgmentCriteriaForm.setJudgmentTypes(Sets.newHashSet(JudgmentType.SENTENCE, JudgmentType.DECISION));
-		judgmentCriteriaForm.setLegalBase("12.55");
-		judgmentCriteriaForm.setReferencedRegulation("Art. 4.6");
-		judgmentCriteriaForm.setLawJournalEntryId(16l);
-		judgmentCriteriaForm.setReferencedCourtCaseId(54l);
-		
-		return judgmentCriteriaForm;
-	}
+        
+        judgmentCriteriaForm.setScPersonnelType(PersonnelType.FIVE_PERSON);
+        judgmentCriteriaForm.setScJudgmentFormId(12l);
+        
+        judgmentCriteriaForm.setCtDissentingOpinion("opinion");
+        
+        judgmentCriteriaForm.setJudgeName("Judge Dredd");
+        judgmentCriteriaForm.setKeywords(Lists.newArrayList("very important keyword"));
+        judgmentCriteriaForm.setJudgmentTypes(Sets.newHashSet(JudgmentType.SENTENCE, JudgmentType.DECISION));
+        judgmentCriteriaForm.setLegalBase("12.55");
+        judgmentCriteriaForm.setReferencedRegulation("Art. 4.6");
+        judgmentCriteriaForm.setLawJournalEntryId(16l);
+        judgmentCriteriaForm.setReferencedCourtCaseId(54l);
+        
+        return judgmentCriteriaForm;
+    }
 
 }

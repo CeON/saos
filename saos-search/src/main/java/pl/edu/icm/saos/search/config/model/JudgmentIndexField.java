@@ -40,7 +40,8 @@ public enum JudgmentIndexField implements IndexField {
     CC_DISTRICT_COURT_NAME("ccDistrictCourtName"),
     
     /* supreme court */
-    SC_JUDGMENT_FORM("scJudgmentForm"),
+    SC_JUDGMENT_FORM_ID("scJudgmentFormId"),
+    SC_JUDGMENT_FORM_NAME("scJudgmentFormName"),
     SC_PERSONNEL_TYPE("scPersonnelType"),
     SC_COURT_CHAMBER("scCourtChamber"),
     SC_COURT_CHAMBER_ID("scCourtChamberId"),
