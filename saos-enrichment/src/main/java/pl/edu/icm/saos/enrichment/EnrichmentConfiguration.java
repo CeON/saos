@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.enrichment.apply.DefaultEnrichmentTagApplier;
@@ -116,9 +117,10 @@ public class EnrichmentConfiguration {
     
     //------------------------ ENRICHMENT TAG JUDGMENT REFERENCE REMOVER --------------------------
     
-    @Autowired
-    @Qualifier("refCourtCasesJudgmentReferenceRemover")
-    private RefCourtCasesJudgmentReferenceRemover refCourtCasesJudgmentReferenceRemover;
+    @Bean
+    public JsonFormatter jsonFormatter() {
+        return new JsonFormatter();
+    }
     
     
     @Bean
@@ -126,9 +128,14 @@ public class EnrichmentConfiguration {
         CompositeTagJudgmentReferenceRemover judgmentReferenceRemover = new CompositeTagJudgmentReferenceRemover();
         
         judgmentReferenceRemover.setTagJudgmentReferenceRemovers(Lists.newArrayList(
-                new PageableDelegatingJudgmentReferenceRemover(refCourtCasesJudgmentReferenceRemover)));
+                new PageableDelegatingJudgmentReferenceRemover(refCourtCasesJudgmentReferenceRemover())));
         
         return judgmentReferenceRemover;
+    }
+    
+    @Bean
+    public RefCourtCasesJudgmentReferenceRemover refCourtCasesJudgmentReferenceRemover() {
+        return new RefCourtCasesJudgmentReferenceRemover();
     }
 
     

@@ -29,7 +29,7 @@ public interface JudgmentRepositoryCustom {
      * Deletes {@link Judgment}s with the given judgmentIds.<br/>
      * Note that in order to delete corresponding <code>{@link EnrichmentTag}s</code> and
      * references from <code>{@link EnrichmentTag}s</code> to judgment, you should use
-     * a proper service from the saos-enrichment module. 
+     * a proper service  (JudgmentWithEnrichmentDeleter) from the saos-enrichment module. 
      */
     public void delete(List<Long> judgmentIds);
     
@@ -37,7 +37,7 @@ public interface JudgmentRepositoryCustom {
      * Deletes the given judgment<br/>
      * Note that in order to delete corresponding <code>{@link EnrichmentTag}s</code> and
      * references from <code>{@link EnrichmentTag}s</code> to judgment, you should use
-     * a proper service from the saos-enrichment module.
+     * a proper service (JudgmentWithEnrichmentDeleter) from the saos-enrichment module.
      */
     public void delete(Judgment judgment);
        
@@ -45,7 +45,7 @@ public interface JudgmentRepositoryCustom {
      * Deletes a {@link Judgment} with the given judgmentId<br/>
      * Note that in order to delete corresponding <code>{@link EnrichmentTag}s</code> and
      * references from <code>{@link EnrichmentTag}s</code> to judgment, you should use
-     * a proper service from the saos-enrichment module.
+     * a proper service (JudgmentWithEnrichmentDeleter) from the saos-enrichment module.
      */
     public void delete(Long judgmentId);
     
@@ -53,7 +53,7 @@ public interface JudgmentRepositoryCustom {
      * Deletes all {@link Judgment}s<br/>
      * Note that in order to delete corresponding <code>{@link EnrichmentTag}s</code> and
      * references from <code>{@link EnrichmentTag}s</code> to judgment, you should use
-     * a proper service from the saos-enrichment module.
+     * a proper service (JudgmentWithEnrichmentDeleter) from the saos-enrichment module.
      */
     public void deleteAll();
     

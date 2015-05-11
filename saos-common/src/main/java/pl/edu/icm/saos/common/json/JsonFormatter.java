@@ -4,7 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -17,7 +16,6 @@ import com.fasterxml.jackson.databind.node.NullNode;
 /**
  * @author Łukasz Dumiszewski
  */
-@Service
 public class JsonFormatter {
     
     private JsonFactory jsonFactory;

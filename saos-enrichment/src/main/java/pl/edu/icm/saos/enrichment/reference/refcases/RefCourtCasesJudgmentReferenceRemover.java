@@ -15,7 +15,7 @@ import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
  * 
  * @author madryk
  */
-@Service("refCourtCasesJudgmentReferenceRemover")
+//@Service("refCourtCasesJudgmentReferenceRemover")
 public class RefCourtCasesJudgmentReferenceRemover extends TagModifyingJudgmentReferenceRemover<ReferencedCourtCasesTagValueItem[]> {
 
     
