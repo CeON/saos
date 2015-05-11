@@ -2,8 +2,6 @@ package pl.edu.icm.saos.enrichment.reference.refcases;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueItem;
 import pl.edu.icm.saos.enrichment.reference.TagModifyingJudgmentReferenceRemover;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
@@ -15,7 +13,6 @@ import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
  * 
  * @author madryk
  */
-//@Service("refCourtCasesJudgmentReferenceRemover")
 public class RefCourtCasesJudgmentReferenceRemover extends TagModifyingJudgmentReferenceRemover<ReferencedCourtCasesTagValueItem[]> {
 
     
