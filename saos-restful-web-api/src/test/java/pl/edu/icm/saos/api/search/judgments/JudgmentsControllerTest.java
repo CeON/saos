@@ -168,6 +168,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
 
         actions
+                .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())))
                 .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId())))
                 .andExpect(jsonPath("$.items.[0].courtCases").value(iterableWithSize(1)))
                 .andExpect(jsonPath("$.items.[0].courtCases.[0].caseNumber").value(CASE_NUMBER))
@@ -213,6 +214,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.items.[0].division.court.code").value(CC_COURT_CODE))
 
 
+                .andExpect(jsonPath("$.items.[1].id").value(equalsLong(testObjectContext.getScJudgmentId())))
                 .andExpect(jsonPath("$.items.[1].href").value(endsWith("/api/judgments/" + testObjectContext.getScJudgmentId())))
                 .andExpect(jsonPath("$.items.[1].personnelType").value(SC_PERSONNEL_TYPE.name()))
 
@@ -245,10 +247,10 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         
         actions
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(0).getId())))
-            .andExpect(jsonPath("$.items.[1].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(1).getId())))
-            .andExpect(jsonPath("$.items.[2].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(2).getId())))
-            .andExpect(jsonPath("$.items.[3].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(3).getId())));
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(judgments.get(0).getId())))
+            .andExpect(jsonPath("$.items.[1].id").value(equalsLong(judgments.get(1).getId())))
+            .andExpect(jsonPath("$.items.[2].id").value(equalsLong(judgments.get(2).getId())))
+            .andExpect(jsonPath("$.items.[3].id").value(equalsLong(judgments.get(3).getId())));
 
     }
 
@@ -268,10 +270,10 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         
         actions
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(0).getId())))
-            .andExpect(jsonPath("$.items.[1].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(1).getId())))
-            .andExpect(jsonPath("$.items.[2].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(2).getId())))
-            .andExpect(jsonPath("$.items.[3].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + judgments.get(3).getId())));
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(judgments.get(0).getId())))
+            .andExpect(jsonPath("$.items.[1].id").value(equalsLong(judgments.get(1).getId())))
+            .andExpect(jsonPath("$.items.[2].id").value(equalsLong(judgments.get(2).getId())))
+            .andExpect(jsonPath("$.items.[3].id").value(equalsLong(judgments.get(3).getId())));
 
     }
 

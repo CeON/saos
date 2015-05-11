@@ -18,6 +18,7 @@ public class SearchJudgmentItem implements Serializable{
 
     private static final long serialVersionUID = -4979928756161430538L;
 
+    private Long id;
     private String href;
     private List<CourtCase> courtCases;
     private JudgmentType judgmentType;
@@ -28,6 +29,10 @@ public class SearchJudgmentItem implements Serializable{
 
 
     //------------------------ GETTERS --------------------------
+
+    public Long getId() {
+        return id;
+    }
 
     public String getHref() {
         return href;
@@ -58,6 +63,10 @@ public class SearchJudgmentItem implements Serializable{
     }
 
     //------------------------ SETTERS --------------------------
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setHref(String href) {
         this.href = href;
@@ -103,7 +112,8 @@ public class SearchJudgmentItem implements Serializable{
             return false;
         }
         final SearchJudgmentItem other = (SearchJudgmentItem) obj;
-        return Objects.equal(this.href, other.href) &&
+        return Objects.equal(this.id, other.id) &&
+                Objects.equal(this.href, other.href) &&
                 Objects.equal(this.courtCases, other.courtCases) &&
                 Objects.equal(this.judgmentType, other.judgmentType) &&
                 Objects.equal(this.JudgmentDate, other.JudgmentDate) &&
@@ -117,6 +127,7 @@ public class SearchJudgmentItem implements Serializable{
     @Override
     public String toString() {
         return Objects.toStringHelper(this)
+                .add("id", id)
                 .add("href", href)
                 .add("courtCases", courtCases)
                 .add("judgmentType", judgmentType)
