@@ -36,6 +36,7 @@ public class SearchJudgmentItemMapper {
      * @param judgment to process.
      */
     public void fillJudgmentsFieldsToItemRepresentation(SearchJudgmentItem item, JudgmentSearchResult judgment){
+        item.setId(judgment.getId());
         item.setHref(linksBuilder.urlToJudgment(judgment.getId()));
         item.setJudgmentType(judgment.getJudgmentType());
         item.setTextContent(judgment.getContent());
