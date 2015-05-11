@@ -152,7 +152,7 @@ public class TestPersistenceObjectFactory {
      */
     @Transactional
     public CommonCourtJudgment createSimpleCcJudgment(){
-        CommonCourtJudgment ccJudgment = TestInMemoryObjectFactory.createCcJudgment();
+        CommonCourtJudgment ccJudgment = TestInMemoryObjectFactory.createSimpleCcJudgment();
         saveCcJudgment(ccJudgment);
         return ccJudgment;
     }
@@ -244,6 +244,23 @@ public class TestPersistenceObjectFactory {
         enrichmentTags.forEach(enrichmentTag -> saveEnrichmentTag(enrichmentTag));
         
         return enrichmentTags;
+    }
+    
+    /**
+     * Creates {@link EnrichmentTag} with
+     * {@link pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes#REFERENCED_COURT_CASES} type
+     * referencing judgments provided as argument
+     * 
+     * @param judgmentId
+     * @param referencedJudgments
+     * @return
+     */
+    @Transactional
+    public EnrichmentTag createReferencedCourtCasesTag(long judgmentId, Judgment ... referencedJudgments) {
+        EnrichmentTag enrichmentTag = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(judgmentId, referencedJudgments);
+        saveEnrichmentTag(enrichmentTag);
+        
+        return enrichmentTag;
     }
 
 

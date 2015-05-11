@@ -14,15 +14,12 @@ import org.springframework.util.Assert;
 
 import pl.edu.icm.saos.persistence.common.InitializingVisitor;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
-import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski
@@ -81,8 +78,6 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
         
         deleteJudgmentAttributesSql("judgment_lower_court_judgments", judgmentIds);
         
-        deleteEnrichmentTags(judgmentIds);
-        
         deleteJudgmentAttributes(JudgmentTextContent.class, judgmentIds);
         
         deleteJudgments(judgmentIds);
@@ -92,8 +87,6 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
     @Override
     @Transactional
     public void delete(Judgment judgment) {
-        
-        deleteEnrichmentTags(Lists.newArrayList(judgment.getId()));
         
         entityManager.remove(entityManager.contains(judgment) ? judgment : entityManager.merge(judgment));
         
@@ -146,11 +139,6 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
     
     private void deleteJudgmentAttributesSql(String tableName, List<Long> judgmentIds) {
         Query q = entityManager.createNativeQuery("delete from " + tableName + " where fk_judgment in (:judgmentIds)").setParameter("judgmentIds", judgmentIds);
-        q.executeUpdate();
-    }
-    
-    private void deleteEnrichmentTags(List<Long> judgmentIds) {
-        Query q = entityManager.createQuery("delete from " + EnrichmentTag.class.getName() + " tag where tag.judgmentId in (:judgmentIds)").setParameter("judgmentIds", judgmentIds);
         q.executeUpdate();
     }
     

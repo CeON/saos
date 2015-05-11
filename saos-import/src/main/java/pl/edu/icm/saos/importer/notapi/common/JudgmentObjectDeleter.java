@@ -12,10 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.enrichment.delete.JudgmentWithEnrichmentDeleter;
 import pl.edu.icm.saos.persistence.content.JudgmentContentFileDeleter;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceJudgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
  * @author madryk
@@ -30,7 +30,7 @@ public class JudgmentObjectDeleter {
     private EntityManager entityManager;
     
     @Autowired
-    private JudgmentRepository judgmentRepository;
+    private JudgmentWithEnrichmentDeleter judgmentWithEnrichmentDeleter;
     
     @Autowired
     private JudgmentContentFileDeleter judgmentContentFileDeleter;
@@ -56,7 +56,7 @@ public class JudgmentObjectDeleter {
         List<Object[]> judgmentIdsWithContentPath = entityManager.createQuery(q, Object[].class).getResultList();
 
         if (!judgmentIdsWithContentPath.isEmpty()) {
-            judgmentRepository.delete(judgmentIdsWithContentPath.stream()
+            judgmentWithEnrichmentDeleter.delete(judgmentIdsWithContentPath.stream()
                     .map(x -> (Long)x[0])
                     .collect(Collectors.toList()));
             

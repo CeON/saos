@@ -26,22 +26,34 @@ public interface JudgmentRepositoryCustom {
     public <T extends Judgment> T findOneAndInitialize(long id);
 
     /**
-     * Deletes {@link Judgment}s with the given judgmentIds. 
+     * Deletes {@link Judgment}s with the given judgmentIds.<br/>
+     * Note that in order to delete corresponding <code>{@link EnrichmentTag}s</code> and
+     * references from <code>{@link EnrichmentTag}s</code> to judgment, you should use
+     * a proper service  (JudgmentWithEnrichmentDeleter) from the saos-enrichment module. 
      */
     public void delete(List<Long> judgmentIds);
     
     /**
-     * Deletes the given judgment and corresponding <code>{@link EnrichmentTag}s</code>
+     * Deletes the given judgment<br/>
+     * Note that in order to delete corresponding <code>{@link EnrichmentTag}s</code> and
+     * references from <code>{@link EnrichmentTag}s</code> to judgment, you should use
+     * a proper service (JudgmentWithEnrichmentDeleter) from the saos-enrichment module.
      */
     public void delete(Judgment judgment);
        
     /**
-     * Deletes a {@link Judgment} with the given judgmentId and corresponding <code>{@link EnrichmentTag}s</code>
+     * Deletes a {@link Judgment} with the given judgmentId<br/>
+     * Note that in order to delete corresponding <code>{@link EnrichmentTag}s</code> and
+     * references from <code>{@link EnrichmentTag}s</code> to judgment, you should use
+     * a proper service (JudgmentWithEnrichmentDeleter) from the saos-enrichment module.
      */
     public void delete(Long judgmentId);
     
     /**
-     * Deletes all {@link Judgment}s and corresponding {@link EnrichmentTag}s
+     * Deletes all {@link Judgment}s<br/>
+     * Note that in order to delete corresponding <code>{@link EnrichmentTag}s</code> and
+     * references from <code>{@link EnrichmentTag}s</code> to judgment, you should use
+     * a proper service (JudgmentWithEnrichmentDeleter) from the saos-enrichment module.
      */
     public void deleteAll();
     
