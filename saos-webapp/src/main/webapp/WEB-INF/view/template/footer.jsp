@@ -17,7 +17,7 @@
 		<li><a href="${contextPath}/search"><spring:message code="navigation.search" /></a></li>	
 		<li ><a href="${contextPath}/analysis"><spring:message code="navigation.analysis" /></a></li>
         <li>
-            <a href="<spring:eval expression="@exposedProperties.getProperty('webapp.helpAddress')" />">
+            <a href="${contextPath}/help">
                 <spring:message code="navigation.help" />
             </a>
         </li>
