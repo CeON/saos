@@ -24,8 +24,7 @@
       
       <ul class="nav navbar-nav navbar-right" id="navigation-footer">
         <li>
-            <spring:eval expression="@exposedProperties.getProperty('webapp.helpAddress')" var="helpAddress" />
-            <a href="${helpAddress}">
+            <a href="${contextPath}/help">
                 <spring:message code="navigation.help" />
             </a>
         </li>
