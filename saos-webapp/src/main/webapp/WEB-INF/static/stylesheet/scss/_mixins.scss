@@ -34,8 +34,12 @@
 }
 
 @mixin filter-underline() {
+	@include filter-underline-color(#333);
+}
+
+@mixin filter-underline-color($color) {
 	border: {
-		color: #333;
+		color: $color;
 		style: dotted;
 		width: 0px 0px 1px;
 	}
