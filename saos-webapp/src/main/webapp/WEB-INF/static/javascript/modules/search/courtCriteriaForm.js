@@ -118,10 +118,20 @@ var CourtCriteriaForm = (function() {
             if ($(this).is(":checked")) {
                 $commonCourtDivisionSelect.find(":selected").removeAttr("selected");
                 $commonCourtDivisionSelect.attr("disabled", "disabled");
+                
+                hideCcDivisionSearchCriteriaLink();
             } else {
                 $commonCourtDivisionSelect.removeAttr("disabled");
+                
+                showCcDivisionSearchCriteriaLink();
             }
         });
+        
+        if($("#ccIncludeDependentCourtJudgments").is(":checked")) {
+            hideCcDivisionSearchCriteriaLink();
+        } else {
+            showCcDivisionSearchCriteriaLink();
+        }
         
         
         $("#select-common-court").change(function() {
@@ -146,12 +156,13 @@ var CourtCriteriaForm = (function() {
                          
                          if ($selectedCourt.attr("data-cc-court-type") === 'DISTRICT') {
                              $commonCourtDivisionSelect.removeAttr("disabled");
-                             $ccIncludeDependentCourtJudgmentsCheckbox.prop("checked", false);
+                             $ccIncludeDependentCourtJudgmentsCheckbox.prop("checked", false).trigger("change");
                              $ccIncludeDependentCourtJudgmentsCheckbox.attr("disabled", "disabled");
                          } else {
                              $ccIncludeDependentCourtJudgmentsCheckbox.removeAttr("disabled");
                              if (!$ccIncludeDependentCourtJudgmentsCheckbox.is(":checked")) {
                                  $commonCourtDivisionSelect.removeAttr("disabled");
+                                 showCcDivisionSearchCriteriaLink();
                              }
                          }
                          
@@ -160,7 +171,7 @@ var CourtCriteriaForm = (function() {
                      .fail(function() {});
                 } else {
                     $commonCourtDivisionSelect.prop("disabled", "disabled").find("option:gt(0)").remove();
-                    $ccIncludeDependentCourtJudgmentsCheckbox.prop("checked", false);
+                    $ccIncludeDependentCourtJudgmentsCheckbox.prop("checked", false).trigger("change");
                     $ccIncludeDependentCourtJudgmentsCheckbox.attr("disabled", "disabled");
                 }
             });
@@ -180,6 +191,25 @@ var CourtCriteriaForm = (function() {
                  }]
         });
 
+        function showCcDivisionSearchCriteriaLink() {
+            $(".division").each(function() {
+                $(this).css("display", "inline");
+            });
+            
+            $(".not-link-division").each(function() {
+                $(this).css("display", "none");
+            });
+        }
+    
+        function hideCcDivisionSearchCriteriaLink() {
+            $(".division").each(function() {
+                $(this).css("display", "none");
+            });
+            
+            $(".not-link-division").each(function() {
+                $(this).css("display", "inline");
+            });
+        }
     }
     
     
