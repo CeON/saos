@@ -1473,28 +1473,20 @@ input.search-all {
 	}
 }
 
-
-
-.search-context {
-	padding: 20px 40px;
-
-	.remove-button {
-		@include background-image("icons/close.png");
-		cursor: pointer;
-		display: inline-block;
-		height: 16px;
-		width: 16px;
-		z-index: 10;
-		margin-left: 2px;
-		
-		
-		&:hover {
-			@include background-image("icons/close_light.png");
-		}
-	}
+.remove-button {
+    @include background-image("icons/close.png");
+    cursor: pointer;
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    z-index: 10;
+    margin-left: 2px;
+    
+    
+    &:hover {
+        @include background-image("icons/close_light.png");
+    }
 }
-
-	
 
 .tooltip-inner {
 	background: rgba(0, 0, 0, 0.95);

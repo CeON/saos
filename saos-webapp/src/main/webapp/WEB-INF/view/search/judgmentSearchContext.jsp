@@ -2,9 +2,7 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-<c:if test="${referencedJudgment != null}">
-
-<div class="container search-context block" data-context-form-field="referencedCourtCaseId">
+<legend data-context-form-field="referencedCourtCaseId">
 
 	<spring:message code="judgmentSearch.context.referencedJudgment.text" />
 	
@@ -15,6 +13,4 @@
 	<a href="" class="remove-button remove-search-context" data-toggle="tooltip" data-placement="top" title="<spring:message code='judgmentSearch.context.referencedJudgment.remove' />" >
 	</a>
 	
-</div>
-
-</c:if>
+</legend>
