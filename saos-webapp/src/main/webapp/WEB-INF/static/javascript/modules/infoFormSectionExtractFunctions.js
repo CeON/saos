@@ -158,6 +158,10 @@ function extractInfoFromDateSectionInSearch() {
                  return;
              }
              
+             //omits referencedCourtCaseId field
+             if ($this.attr("id") === "referencedCourtCaseId") {
+                 return;
+             }
 
              if ($this.attr("id") === "lawJournalEntryId") {
                  var lawJournalText = $("#law-journal-navigation").find("> div > span").text();
