@@ -1,5 +1,8 @@
 package pl.edu.icm.saos.common.chart.formatter;
 
+import pl.edu.icm.saos.common.chart.Point;
+import pl.edu.icm.saos.common.order.Orderable;
+
 /**
  * 
  * Formatter of x/y values of {@link Point}.
@@ -7,7 +10,7 @@ package pl.edu.icm.saos.common.chart.formatter;
  * @author Łukasz Dumiszewski
  */
 
-public interface PointValueFormatter {
+public interface PointValueFormatter extends Orderable {
 
     
     /**

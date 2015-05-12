@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.search.indexing;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static pl.edu.icm.saos.search.indexing.SolrDocumentAssert.assertFieldValues;
 
 import java.util.Collections;
@@ -11,6 +13,9 @@ import org.apache.solr.common.SolrInputField;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.powermock.reflect.Whitebox;
 
 import pl.edu.icm.saos.persistence.model.CommonCourt;
@@ -20,6 +25,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+import pl.edu.icm.saos.search.util.FieldValuePrefixAdder;
 
 import com.google.common.collect.Lists;
 import com.tngtech.java.junit.dataprovider.DataProvider;
@@ -35,6 +41,10 @@ public class CcJudgmentIndexFieldsFillerTest {
     private CcJudgmentIndexFieldsFiller ccJudgmentIndexingProcessor = new CcJudgmentIndexFieldsFiller();
     
     private SolrFieldAdder<JudgmentIndexField> fieldAdder = new SolrFieldAdder<JudgmentIndexField>();
+    
+    private FieldValuePrefixAdder fieldValuePrefixAdder = mock(FieldValuePrefixAdder.class); 
+            
+            
     
     @DataProvider
     public static Object[][] ccJudgmentsFieldsData() {
@@ -131,7 +141,8 @@ public class CcJudgmentIndexFieldsFillerTest {
                 fieldFactory.create("ccCourtDivisionCode", "0000503"),
                 fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"),
                 fieldFactory.create("ccAppealCourtId", 123l),
-                fieldFactory.create("ccAppealCourtName", "Sąd Apelacyjny w Krakowie"));
+                fieldFactory.create("ccAppealName", "Sąd Apelacyjny w Krakowie"),
+                fieldFactory.create("ccRegionName", "123#Sąd Apelacyjny w Krakowie"));
         
                         
          List<SolrInputField> regionalCourtFields = Lists.newArrayList(
@@ -144,9 +155,10 @@ public class CcJudgmentIndexFieldsFillerTest {
                 fieldFactory.create("ccCourtDivisionCode", "0000504"),
                 fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"),
                 fieldFactory.create("ccAppealCourtId", 123l),
-                fieldFactory.create("ccAppealCourtName", "Sąd Apelacyjny w Krakowie"),
+                fieldFactory.create("ccAppealName", "Sąd Apelacyjny w Krakowie"),
                 fieldFactory.create("ccRegionalCourtId", 124l),
-                fieldFactory.create("ccRegionalCourtName", "Sąd Okręgowy w Krakowie"));
+                fieldFactory.create("ccRegionName", "123#Sąd Okręgowy w Krakowie"),
+                fieldFactory.create("ccDistrictName", "124#Sąd Okręgowy w Krakowie"));
 
                 
           List<SolrInputField> districtCourtFields = Lists.newArrayList(
@@ -159,13 +171,13 @@ public class CcJudgmentIndexFieldsFillerTest {
                 fieldFactory.create("ccCourtDivisionCode", "0000505"),
                 fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"),
                 fieldFactory.create("ccAppealCourtId", 123l),
-                fieldFactory.create("ccAppealCourtName", "Sąd Apelacyjny w Krakowie"),
+                fieldFactory.create("ccAppealName", "Sąd Apelacyjny w Krakowie"),
                 fieldFactory.create("ccRegionalCourtId", 124l),
-                fieldFactory.create("ccRegionalCourtName", "Sąd Okręgowy w Krakowie"),
+                fieldFactory.create("ccRegionName", "123#Sąd Okręgowy w Krakowie"),
                 fieldFactory.create("ccDistrictCourtId", 125l),
-                fieldFactory.create("ccDistrictCourtName", "Sąd Rejonowy w Częstochowie"));
+                fieldFactory.create("ccDistrictName", "124#Sąd Rejonowy w Częstochowie"));
         
-                
+              
         return new Object[][] {
                 { basicJudgment, basicFields },
                 { keywordsJudgment, keywordsFields },
@@ -178,6 +190,13 @@ public class CcJudgmentIndexFieldsFillerTest {
     @Before
     public void setUp() {
         ccJudgmentIndexingProcessor.setFieldAdder(fieldAdder);
+        ccJudgmentIndexingProcessor.setFieldValuePrefixAdder(fieldValuePrefixAdder);
+        when(fieldValuePrefixAdder.addFieldPrefix(Mockito.anyString(), Mockito.anyString())).thenAnswer(new Answer<String>() {
+            @Override
+            public String answer(InvocationOnMock invocation) throws Throwable {
+                return invocation.getArguments()[1] + "#" + invocation.getArguments()[0];
+            }
+        });
     }
     
     

@@ -42,7 +42,18 @@ public class JudgmentSeriesCriteriaConverter {
         
         judgmentCriteria.setCourtType(judgmentSeriesCriteria.getCourtType());
         
-        judgmentCriteria.setCcCourtId(judgmentSeriesCriteria.getCcCourtId());
+        
+        if (!judgmentSeriesCriteria.isCcIncludeDependentCourtJudgments()) {
+            
+            judgmentCriteria.setCcCourtId(judgmentSeriesCriteria.getCcCourtId());
+            
+        } else {
+            
+            judgmentCriteria.setCcDirectOrSuperiorCourtId(judgmentSeriesCriteria.getCcCourtId());
+            
+        }
+        
+        
         
         judgmentCriteria.setCcCourtDivisionId(judgmentSeriesCriteria.getCcCourtDivisionId());
         

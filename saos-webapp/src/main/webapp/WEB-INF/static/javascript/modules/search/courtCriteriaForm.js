@@ -150,6 +150,7 @@ var CourtCriteriaForm = (function() {
                              $ccIncludeDependentCourtJudgmentsCheckbox.attr("disabled", "disabled");
                          } else {
                              $ccIncludeDependentCourtJudgmentsCheckbox.removeAttr("disabled");
+                             $ccIncludeDependentCourtJudgmentsCheckbox.val("true");
                              if (!$ccIncludeDependentCourtJudgmentsCheckbox.is(":checked")) {
                                  $commonCourtDivisionSelect.removeAttr("disabled");
                              }
