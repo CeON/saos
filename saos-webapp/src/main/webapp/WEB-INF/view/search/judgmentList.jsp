@@ -27,7 +27,18 @@
 			</div>
 			
 			<div class="top-line-right">
-				<div><spring:message code="judgmentSearch.results.referencingCount" />: <c:out value="${judgment.referencingCount}" /></div>
+				<div>
+					<c:choose>
+						<c:when test="${judgment.referencingCount>0}">
+							<a href="${contextPath}/search?referencedCourtCaseId=${judgment.id}" title="<spring:message code="judgmentSearch.results.referencingCount.link" />">
+								<spring:message code="judgmentSearch.results.referencingCount" />: <c:out value="${judgment.referencingCount}" />
+							</a>
+						</c:when>
+						<c:otherwise>
+							<spring:message code="judgmentSearch.results.referencingCount" />: <c:out value="${judgment.referencingCount}" />
+						</c:otherwise>
+					</c:choose>
+				</div>
 				<c:if test="${!empty judgment.maxMoneyAmount}"><div><spring:message code="judgmentSearch.results.maxMoneyAmount" />: <fmt:formatNumber value="${judgment.maxMoneyAmount}" maxFractionDigits="2" /> zł</div></c:if>
 			</div>
 		</div>

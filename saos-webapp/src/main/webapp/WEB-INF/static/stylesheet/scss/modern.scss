@@ -841,6 +841,11 @@ input.search-all {
 				float: right;
 				color: #666;
 				font-style: italic;
+				
+				a {
+					@include filter-underline-color(#666);
+					color: #666;
+				}
 			}
 		}
 		
