@@ -43,6 +43,7 @@ import pl.edu.icm.saos.persistence.correction.JudgmentCorrectionRepository;
 import pl.edu.icm.saos.persistence.correction.model.CorrectedProperty;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
@@ -253,8 +254,12 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         setImportDirs("import/supremeCourt/judgments/version1", "import/supremeCourt/judgments/content/version1");
         JobExecution jobExecution = jobExecutor.forceStartNewJob(scJudgmentImportJob);
         long scJudgmentb082Id = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "b082922617256d5b4092cf23864c8894").getId();
+        long scJudgment23ffId = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "24ffe0d974d5823db702e6436dbb9f0f").getId();
         
         testPersistenceObjectFactory.createEnrichmentTagsForJudgment(scJudgmentb082Id);
+        
+        Judgment ccJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
+        EnrichmentTag referenceTag = testPersistenceObjectFactory.createReferencedCourtCasesTag(ccJudgment.getId(), judgmentRepository.findOneAndInitialize(scJudgment23ffId));
                 
         setImportDirs("import/supremeCourt/judgments/version2", "import/supremeCourt/judgments/content/version2");
         
@@ -287,6 +292,8 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
         
         // should not exist anymore
         assertNull(scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "24ffe0d974d5823db702e6436dbb9f0f"));
+        // and reference to it in enrichment tag should be removed
+        assertEnrichmentTagValue(referenceTag.getId(), "[{'caseNumber':'III CZP 39/02','judgmentIds':[]}]");
         
         
         // changed one
@@ -331,7 +338,11 @@ public class ScJudgmentImportJobTest extends BatchTestSupport {
     
     //------------------------ PRIVATE --------------------------
 
-    
+    private void assertEnrichmentTagValue(long enrichmentTagId, String json) {
+        EnrichmentTag tag = enrichmentTagRepository.findOne(enrichmentTagId);
+        
+        assertEquals(json.replace('\'', '\"'), tag.getValue());
+    }
     
     private void assertJudgment_b082922617256d5b4092cf23864c8894() {
         

@@ -8,6 +8,7 @@ package pl.edu.icm.saos.enrichment;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -15,20 +16,26 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.json.JsonStringParser;
 import pl.edu.icm.saos.common.validation.CommonValidator;
 import pl.edu.icm.saos.enrichment.apply.DefaultEnrichmentTagApplier;
 import pl.edu.icm.saos.enrichment.apply.moneyamount.MaxMoneyAmountJudgmentUpdater;
-import pl.edu.icm.saos.enrichment.apply.moneyamount.MoneyAmountTagValueConverter;
 import pl.edu.icm.saos.enrichment.apply.moneyamount.MoneyAmountTagValue;
+import pl.edu.icm.saos.enrichment.apply.moneyamount.MoneyAmountTagValueConverter;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesJudgmentUpdater;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueConverter;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueItem;
+import pl.edu.icm.saos.enrichment.reference.CompositeTagJudgmentReferenceRemover;
+import pl.edu.icm.saos.enrichment.reference.TagJudgmentReferenceRemover;
+import pl.edu.icm.saos.enrichment.reference.PageableDelegatingJudgmentReferenceRemover;
+import pl.edu.icm.saos.enrichment.reference.refcases.RefCourtCasesJudgmentReferenceRemover;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.MoneyAmount;
 import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
 
 import com.fasterxml.jackson.core.JsonFactory;
+import com.google.common.collect.Lists;
 
 /**
  * 
@@ -108,8 +115,28 @@ public class EnrichmentConfiguration {
     }
     
     
+    //------------------------ ENRICHMENT TAG JUDGMENT REFERENCE REMOVER --------------------------
     
-  
+    @Bean
+    public JsonFormatter jsonFormatter() {
+        return new JsonFormatter();
+    }
+    
+    
+    @Bean
+    public TagJudgmentReferenceRemover tagJudgmentReferenceRemover() {
+        CompositeTagJudgmentReferenceRemover judgmentReferenceRemover = new CompositeTagJudgmentReferenceRemover();
+        
+        judgmentReferenceRemover.setTagJudgmentReferenceRemovers(Lists.newArrayList(
+                new PageableDelegatingJudgmentReferenceRemover(refCourtCasesJudgmentReferenceRemover())));
+        
+        return judgmentReferenceRemover;
+    }
+    
+    @Bean
+    public RefCourtCasesJudgmentReferenceRemover refCourtCasesJudgmentReferenceRemover() {
+        return new RefCourtCasesJudgmentReferenceRemover();
+    }
 
     
 }

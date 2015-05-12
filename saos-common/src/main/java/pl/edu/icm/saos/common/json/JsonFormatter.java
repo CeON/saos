@@ -1,9 +1,13 @@
 package pl.edu.icm.saos.common.json;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.TreeNode;
@@ -12,9 +16,9 @@ import com.fasterxml.jackson.databind.node.NullNode;
 /**
  * @author Łukasz Dumiszewski
  */
-@Service
 public class JsonFormatter {
     
+    private JsonFactory jsonFactory;
     
     /**
      * Formats the current token. Invokes {@link JsonParser#readValueAsTree()}<br/>
@@ -32,5 +36,29 @@ public class JsonFormatter {
         
         return node.toString();
     
-    } 
+    }
+    
+    public String formatObject(Object object) throws JsonGenerationException {
+        
+        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
+            JsonGenerator generator = jsonFactory.createGenerator(outputStream);
+            generator.writeObject(object);
+            
+            return outputStream.toString();
+            
+        } catch (IOException e) {
+            throw new JsonGenerationException(e);
+        }
+        
+    }
+
+    
+    //------------------------ SETTERS --------------------------
+
+    @Autowired
+    public void setJsonFactory(JsonFactory jsonFactory) {
+        this.jsonFactory = jsonFactory;
+    }
+    
 }
