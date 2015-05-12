@@ -19,7 +19,6 @@ import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNegativePageNumbe
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooBigPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooSmallPageSizeError;
-import static pl.edu.icm.saos.api.services.Constants.DUMP_JUDGMENTS_PATH;
 import static pl.edu.icm.saos.api.services.Constants.JUDGMENTS_PATH;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_COURTS_PATH;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_DIVISIONS_PATH;

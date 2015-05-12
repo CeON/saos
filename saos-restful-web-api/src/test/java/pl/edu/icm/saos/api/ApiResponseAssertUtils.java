@@ -18,11 +18,24 @@ import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
 public class ApiResponseAssertUtils {
 
     
+    //------------------------ LOGIC --------------------------
+    
     public static void assertOk(ResultActions result) throws Exception {
         result.andExpect(status().isOk())
                 .andExpect(header().string("content-type", containsString("application/json")));
     }
     
+    
+    public static void assertError(ResultActions result, HttpStatus httpStatus, String reason,
+            String propertyName, Matcher<String> messageMatcher) throws Exception {
+        
+        result.andExpect(status().is(httpStatus.value()))
+                .andExpect(header().string("content-type", containsString("application/json")))
+                .andExpect(jsonPath("$.error.httpStatus").value(String.valueOf(httpStatus.value())))
+                .andExpect(jsonPath("$.error.reason").value(reason))
+                .andExpect(jsonPath("$.error.propertyName").value(propertyName))
+                .andExpect(jsonPath("$.error.message").value(messageMatcher));
+    }
     
     
     public static void assertTooSmallPageSizeError(ResultActions result, int minPageSize) throws Exception {
@@ -68,18 +81,6 @@ public class ApiResponseAssertUtils {
                 null, allOf(containsString(String.valueOf(id)), containsString("does not exists")));
         
     }
-    
-    
-    
-    public static void assertError(ResultActions result, HttpStatus httpStatus, String reason,
-            String propertyName, Matcher<String> messageMatcher) throws Exception {
-        
-        result.andExpect(status().is(httpStatus.value()))
-                .andExpect(header().string("content-type", containsString("application/json")))
-                .andExpect(jsonPath("$.error.httpStatus").value(String.valueOf(httpStatus.value())))
-                .andExpect(jsonPath("$.error.reason").value(reason))
-                .andExpect(jsonPath("$.error.propertyName").value(propertyName))
-                .andExpect(jsonPath("$.error.message").value(messageMatcher));
-    }
+
     
 }

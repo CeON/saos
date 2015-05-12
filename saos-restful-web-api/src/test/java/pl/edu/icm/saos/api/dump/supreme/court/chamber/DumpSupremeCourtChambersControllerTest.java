@@ -30,11 +30,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-
-
-
-
-//import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
