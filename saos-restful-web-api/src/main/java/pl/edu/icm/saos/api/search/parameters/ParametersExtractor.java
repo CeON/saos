@@ -116,7 +116,7 @@ public class ParametersExtractor {
     }
 
     private int normalizeAndValidatePageNumber(int pageNumber) throws WrongRequestParameterException {
-        validate(pageNumber, (n) -> n<0, PAGE_NUMBER, "can't be negative");
+        validate(pageNumber, (n) -> n<0, PAGE_NUMBER, "may not be negative");
 
         return pageNumber;
     }
