@@ -1,12 +1,19 @@
 package pl.edu.icm.saos.api.dump.enrichmenttag;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectParamNameError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNegativePageNumberError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooBigPageSizeError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooSmallPageSizeError;
 import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.FIRST_ENRICHMENT_TAG_TYPE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.FIRST_ENRICHMENT_TAG_VALUE_VALUE;
@@ -32,7 +39,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
@@ -108,7 +114,7 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
         
         
         // assert
-        result.andDo(MockMvcResultHandlers.print());
+        assertOk(result);
         result
             .andExpect(jsonPath("$.items", hasSize(3)))
             
@@ -156,7 +162,7 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
         
         
         // assert
-        
+        assertOk(result);
         result
             .andExpect(jsonPath("$.items", hasSize(1)))
             
@@ -171,61 +177,69 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
             .andExpect(jsonPath("$.queryTemplate.pageNumber.value").value(pageNumber));
     }
     
+    
     @Test
     public void showEnrichmentTags_WRONG_PARAM() throws Exception {
-        
         // execute
-        
         ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
-                .param("some_incorrect_parameter_name", "")
-                .accept(MediaType.APPLICATION_JSON));
+                .param("some_incorrect_parameter_name", ""));
 
-        
         // assert
-        
-        actions
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.error.httpStatus").value(String.valueOf(HttpStatus.BAD_REQUEST.value())))
-            .andExpect(jsonPath("$.error.reason").value(ErrorReason.WRONG_REQUEST_PARAMETER_ERROR.errorReason()))
-            .andExpect(jsonPath("$.error.propertyName").value("some_incorrect_parameter_name"));
+        assertIncorrectParamNameError(actions, "some_incorrect_parameter_name");
     }
+    
     
     @Test
     public void showEnrichmentTags_TOO_SMALL_PAGE_SIZE() throws Exception {
-        
         // execute
-        
         ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
-                .param(PAGE_SIZE, String.valueOf(1))
-                .accept(MediaType.APPLICATION_JSON));
-        
+                .param(PAGE_SIZE, String.valueOf(1)));
         
         // assert
-        
-        actions
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.error.httpStatus").value(String.valueOf(HttpStatus.BAD_REQUEST.value())))
-            .andExpect(jsonPath("$.error.reason").value(ErrorReason.WRONG_REQUEST_PARAMETER_ERROR.errorReason()))
-            .andExpect(jsonPath("$.error.propertyName").value(PAGE_SIZE));
+        assertTooSmallPageSizeError(actions, 2);
     }
     
     @Test
     public void showEnrichmentTags_TOO_BIG_PAGE_SIZE() throws Exception {
-
         // execute
-        
         ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
-                .param(PAGE_SIZE, String.valueOf(101))
-                .accept(MediaType.APPLICATION_JSON));
-        
+                .param(PAGE_SIZE, String.valueOf(101)));
         
         // assert
+        assertTooBigPageSizeError(actions, 100);
+    }
+    
+    @Test
+    public void showEnrichmentTags_INVALID_PAGE_SIZE() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
+                .param(PAGE_SIZE, "invalid"));
         
-        actions
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.error.httpStatus").value(String.valueOf(HttpStatus.BAD_REQUEST.value())))
-            .andExpect(jsonPath("$.error.reason").value(ErrorReason.WRONG_REQUEST_PARAMETER_ERROR.errorReason()))
-            .andExpect(jsonPath("$.error.propertyName").value(PAGE_SIZE));
+        // assert
+        assertError(actions, HttpStatus.INTERNAL_SERVER_ERROR, ErrorReason.GENERAL_INTERNAL_ERROR .errorReason(),
+                null, allOf(containsString("invalid"), containsString("Failed to convert value")));
+    }
+    
+    
+    @Test
+    public void showEnrichmentTags_INVALID_PAGE_NUMBER() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
+                .param(PAGE_NUMBER, "invalid"));
+        
+        // assert
+        assertError(actions, HttpStatus.INTERNAL_SERVER_ERROR, ErrorReason.GENERAL_INTERNAL_ERROR .errorReason(),
+                null, allOf(containsString("invalid"), containsString("Failed to convert value")));
+    }
+    
+    @Test
+    public void showEnrichmentTags_NEGATIVE_PAGE_NUMBER() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
+                .param(PAGE_NUMBER, "-1"));
+        
+        // assert
+        assertNegativePageNumberError(actions);
     }
     
 }

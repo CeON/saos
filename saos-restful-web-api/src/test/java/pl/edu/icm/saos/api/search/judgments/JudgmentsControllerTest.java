@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.api.search.judgments;
 
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
@@ -9,8 +11,14 @@ import static org.hamcrest.Matchers.iterableWithSize;
 import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectParamNameError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectValueError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNegativePageNumberError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooBigPageSizeError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooSmallPageSizeError;
 import static pl.edu.icm.saos.api.services.Constants.JUDGMENTS_PATH;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_COURTS_PATH;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_DIVISIONS_PATH;
@@ -46,6 +54,7 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -57,6 +66,7 @@ import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
+import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -164,7 +174,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         //then
 
 
-        actions.andExpect(status().isOk());
+        assertOk(actions);
 
 
         actions
@@ -245,8 +255,8 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 testObjectContext.getNacJudgment(), testObjectContext.getCtJudgment());
         Collections.sort(judgments, (j1, j2) -> j2.getJudgmentDate().compareTo(j1.getJudgmentDate()));
         
+        assertOk(actions);
         actions
-            .andExpect(status().isOk())
             .andExpect(jsonPath("$.items.[0].id").value(equalsLong(judgments.get(0).getId())))
             .andExpect(jsonPath("$.items.[1].id").value(equalsLong(judgments.get(1).getId())))
             .andExpect(jsonPath("$.items.[2].id").value(equalsLong(judgments.get(2).getId())))
@@ -268,8 +278,8 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 testObjectContext.getNacJudgment(), testObjectContext.getCtJudgment());
         Collections.sort(judgments, (j1, j2) -> j1.getJudgmentDate().compareTo(j2.getJudgmentDate()));
         
+        assertOk(actions);
         actions
-            .andExpect(status().isOk())
             .andExpect(jsonPath("$.items.[0].id").value(equalsLong(judgments.get(0).getId())))
             .andExpect(jsonPath("$.items.[1].id").value(equalsLong(judgments.get(1).getId())))
             .andExpect(jsonPath("$.items.[2].id").value(equalsLong(judgments.get(2).getId())))
@@ -352,7 +362,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
-        actions.andExpect(status().isOk());
+        assertOk(actions);
 
         String prefix = "$.queryTemplate";
 
@@ -408,7 +418,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
-        actions.andExpect(status().isOk());
+        assertOk(actions);
 
         String prefix = "$.queryTemplate";
 
@@ -450,6 +460,88 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         ;
 
     }
+    
+    
+    @Test
+    public void it_should_not_allow_incorrect_date_from_format() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.JUDGMENT_DATE_FROM, "2011-11-10 20:23"));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.JUDGMENT_DATE_FROM, "2011-11-10 20:23");
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_date_to_format() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.JUDGMENT_DATE_TO, "2011-11-10 20:23"));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.JUDGMENT_DATE_TO, "2011-11-10 20:23");
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_sorting_field() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.SORTING_FIELD, "NOT_EXISTING_FIELD"));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.SORTING_FIELD, "NOT_EXISTING_FIELD");
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_sorting_direction() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.SORTING_FIELD, "AASC"));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.SORTING_FIELD, "AASC");
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_personnel_type() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.SC_PERSONNEL_TYPE, "INCORRECT_PERSONNEL_TYPE"));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.SC_PERSONNEL_TYPE, "INCORRECT_PERSONNEL_TYPE");
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_cc_court_type() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.CC_COURT_TYPE, "INCORRECT_COURT_TYPE"));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.CC_COURT_TYPE, "INCORRECT_COURT_TYPE");
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_court_type() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.COURT_TYPE, "INCORRECT_COURT_TYPE"));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.COURT_TYPE, "INCORRECT_COURT_TYPE");
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_judgment_types() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.JUDGMENT_TYPES, new String[] {"DECISION", "RESOLUTION", "INCORRECT"}));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.JUDGMENT_TYPES, "INCORRECT");
+    }
+    
 
     @Test
     public void showJudgments__it_should_show_info() throws Exception {
@@ -460,7 +552,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         );
 
         //then
-        actions.andExpect(status().isOk());
+        assertOk(actions);
 
         String prefix = "$.info";
 
@@ -483,7 +575,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         );
 
         //then
-        actions.andExpect(status().isOk());
+        assertOk(actions);
 
         String prefix = "$.links";
 
@@ -508,7 +600,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
         //then
         actions.andDo(MockMvcResultHandlers.print());
-        actions.andExpect(status().isOk());
+        assertOk(actions);
 
         String prefix = "$.links";
 
@@ -518,16 +610,72 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
     }
 
+    
     @Test
-    public void showJudgments__it_should_not_allow_incorrect_request_parameter_name() throws Exception {
+    public void it_should_not_allow_incorrect_request_parameter_name() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param("some_incorrect_parameter_name", "")
-                .accept(MediaType.APPLICATION_JSON));
+                .param("some_incorrect_parameter_name", ""));
 
         //then
-        actions.andExpect(status().isBadRequest());
+        assertIncorrectParamNameError(actions, "some_incorrect_parameter_name");
     }
+    
+    
+    @Test
+    public void it_should_not_allow_too_small_page_size() throws Exception {
+        // when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(1)));
+        
+        // then
+        assertTooSmallPageSizeError(actions, 2);
+    }
+    
+    @Test
+    public void it_should_not_allow_too_big_page_size() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(101)));
+        
+        // assert
+        assertTooBigPageSizeError(actions, 100);
+    }
+    
+    @Test
+    public void it_should_not_allow_invalid_page_size() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_SIZE, "invalid"));
+        
+        // assert
+        assertError(actions, HttpStatus.INTERNAL_SERVER_ERROR, ErrorReason.GENERAL_INTERNAL_ERROR .errorReason(),
+                null, allOf(containsString("invalid"), containsString("Failed to convert value")));
+    }
+    
+    
+    @Test
+    public void it_should_not_allow_invalid_page_number() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "invalid"));
+        
+        // assert
+        assertError(actions, HttpStatus.INTERNAL_SERVER_ERROR, ErrorReason.GENERAL_INTERNAL_ERROR .errorReason(),
+                null, allOf(containsString("invalid"), containsString("Failed to convert value")));
+    }
+    
+    @Test
+    public void it_should_not_allow_negative_page_number() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "-1"));
+        
+        // assert
+        assertNegativePageNumberError(actions);
+    }
+    
+    
     
     
 }
