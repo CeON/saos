@@ -7,6 +7,8 @@ import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotFoundError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.services.Constants.DATE_FORMAT;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_COURTS_PATH;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_DIVISIONS_PATH;
@@ -123,6 +125,9 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
     private String scJudgmentPath;
     private String ctJudgmentPath;
     private String nacJudgmentPath;
+    
+    private long notExistingJudgmentId;
+    private String notExistingJudgmentPath;
 
     @Before
     public void setUp(){
@@ -131,6 +136,10 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
         scJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getScJudgmentId();
         ctJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCtJudgmentId();
         nacJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getNacJudgmentId();
+        
+        notExistingJudgmentId = testObjectContext.getCcJudgmentId() + testObjectContext.getScJudgmentId()
+                + testObjectContext.getCtJudgmentId() + testObjectContext.getNacJudgmentId();
+        notExistingJudgmentPath = SINGLE_JUDGMENTS_PATH + "/" + notExistingJudgmentId;
 
         JudgmentController judgmentController = new JudgmentController();
 
@@ -155,6 +164,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .accept(MediaType.APPLICATION_JSON));
 
         // then
+        assertOk(actions);
         actions
                 .andExpect(jsonPath("$.data.href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId())))
                 .andExpect(jsonPath("$.data.courtCases").value(iterableWithSize(1)))
@@ -203,7 +213,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .accept(MediaType.APPLICATION_JSON + ";charset=UTF-8"));
 
         //then
-
+        assertOk(actions);
         actions
                 .andExpect(jsonPath("$.data.id").value(equalsLong(testObjectContext.getCcJudgmentId())))
                 .andExpect(jsonPath("$.data.courtType").value(CourtType.COMMON.name()))
@@ -273,6 +283,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
+        assertOk(actions);
         actions
                 .andExpect(jsonPath("$.data.id").value(equalsLong(testObjectContext.getScJudgmentId())))
                 .andExpect(jsonPath("$.data.courtType").value(CourtType.SUPREME.name()))
@@ -303,6 +314,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
+        assertOk(actions);
         actions
                 .andExpect(jsonPath("$.data.id").value(equalsLong(testObjectContext.getCtJudgmentId())))
                 .andExpect(jsonPath("$.data.courtType").value(CourtType.CONSTITUTIONAL_TRIBUNAL.name()))
@@ -330,6 +342,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .accept(MediaType.APPLICATION_JSON));
         
         //then
+        assertOk(actions);
         actions
                 .andExpect(jsonPath("$.data.id").value(equalsLong(testObjectContext.getNacJudgmentId())))
                 .andExpect(jsonPath("$.data.courtType").value(CourtType.NATIONAL_APPEAL_CHAMBER.name()))
@@ -349,10 +362,21 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
+        assertOk(actions);
         actions
                 .andExpect(jsonPath("$.links").isArray())
                 .andExpect(jsonPath("$.links[?(@.rel==self)].href[0]").value(endsWith(ccJudgmentPath)))
                 ;
+    }
+    
+    
+    @Test
+    public void it_should_not_allow_not_existing_judgment_id() throws Exception {
+        // when
+        ResultActions actions = mockMvc.perform(get(notExistingJudgmentPath));
+        
+        // then
+        assertNotFoundError(actions, notExistingJudgmentId);
     }
 
 

@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.api.single.judgment;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -37,10 +39,13 @@ public class JudgmentController extends ControllersEntityExceptionHandler{
     @ResponseBody
     public ResponseEntity<Object> showJudgment(@PathVariable("judgmentId") long judgmentId) throws ElementDoesNotExistException {
 
-        Judgment judgment = judgmentEnrichmentService.findOneAndEnrich(judgmentId);
-        if(judgment == null){
+        Judgment judgment = null;
+        try {
+            judgment = judgmentEnrichmentService.findOneAndEnrich(judgmentId);
+        } catch (EntityNotFoundException e) {
             throw new ElementDoesNotExistException("Judgment", judgmentId);
         }
+        
 
         Object representation = singleJudgmentSuccessRepresentationBuilder.build(judgment);
 

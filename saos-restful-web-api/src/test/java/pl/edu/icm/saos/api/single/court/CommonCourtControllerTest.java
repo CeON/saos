@@ -4,6 +4,8 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotFoundError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_COURTS_PATH;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_DIVISIONS_PATH;
 import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
@@ -18,6 +20,8 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -50,6 +54,9 @@ public class CommonCourtControllerTest extends PersistenceTestSupport {
 
     private String path;
     private String parentPath;
+    
+    private long notExistingCourtId;
+    private String notExistingCourtPath;
 
 
     @Autowired
@@ -61,6 +68,8 @@ public class CommonCourtControllerTest extends PersistenceTestSupport {
         testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
         path = SINGLE_COURTS_PATH+"/"+testObjectContext.getCcCourtId();
         parentPath = SINGLE_COURTS_PATH+"/"+testObjectContext.getCcCourtParentId();
+        notExistingCourtId = courtRepository.findAll(new Sort(Direction.DESC, "id")).get(0).getId() + 1;
+        notExistingCourtPath = SINGLE_COURTS_PATH + "/" + notExistingCourtId;
 
         CommonCourtController courtController = new CommonCourtController();
 
@@ -82,6 +91,7 @@ public class CommonCourtControllerTest extends PersistenceTestSupport {
         //then
         String pathPrefix = "$.data";
 
+        assertOk(actions);
         actions
                 .andExpect(jsonPath(pathPrefix + ".id").value(equalsLong(testObjectContext.getCcCourtId())))
                 .andExpect(jsonPath(pathPrefix + ".href").value(endsWith(path)))
@@ -112,11 +122,22 @@ public class CommonCourtControllerTest extends PersistenceTestSupport {
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
+        assertOk(actions);
         actions
                 .andExpect(jsonPath("$.links").isArray())
                 .andExpect(jsonPath("$.links[?(@.rel==self)].href[0]").value(endsWith(path)))
                 .andExpect(jsonPath("$.links[?(@.rel==parentCourt)].href[0]").value(endsWith(parentPath)))
         ;
+    }
+    
+    
+    @Test
+    public void it_should_not_allow_not_existing_court_id() throws Exception {
+        // when
+        ResultActions actions = mockMvc.perform(get(notExistingCourtPath));
+        
+        // then
+        assertNotFoundError(actions, notExistingCourtId);
     }
 
 }

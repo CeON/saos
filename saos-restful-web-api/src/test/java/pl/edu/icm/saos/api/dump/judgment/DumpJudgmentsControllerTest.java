@@ -1,12 +1,14 @@
 package pl.edu.icm.saos.api.dump.judgment;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.*;
 import static pl.edu.icm.saos.api.services.Constants.DATE_FORMAT;
 import static pl.edu.icm.saos.api.services.Constants.DUMP_JUDGMENTS_PATH;
 import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
@@ -20,6 +22,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -30,6 +33,7 @@ import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
+import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentDbSearchService;
@@ -94,6 +98,7 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH).accept(MediaType.APPLICATION_JSON));
 
         // assert
+        assertOk(actions);
         assertAllJudgmentFields(actions, true);
     }
     
@@ -108,6 +113,7 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH).param(ApiConstants.WITH_GENERATED, ""+false).accept(MediaType.APPLICATION_JSON));
 
         // assert
+        assertOk(actions);
         assertAllJudgmentFields(actions, false);
     }
     
@@ -135,6 +141,7 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
+        assertOk(actions);
         actions
                 .andExpect(jsonPath("$.queryTemplate.pageSize.value").value(pageSize))
                 .andExpect(jsonPath("$.queryTemplate.pageNumber.value").value(pageNumber))
@@ -143,19 +150,111 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath("$.queryTemplate.sinceModificationDate.value").value(sinceModificationDate))
                 .andExpect(jsonPath("$.queryTemplate.withGenerated.value").value(withGenerated))
         ;
-
-        actions.andExpect(status().isOk());
     }
 
+    @Test
+    public void it_should_not_allow_incorrect_start_date_format() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param(ApiConstants.JUDGMENT_START_DATE, "2011-11-10 20:23"));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.JUDGMENT_START_DATE, "2011-11-10 20:23");
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_end_date_format() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param(ApiConstants.JUDGMENT_END_DATE, "2011-11-10 20:23"));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.JUDGMENT_END_DATE, "2011-11-10 20:23");
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_since_modification_date_format() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param(ApiConstants.SINCE_MODIFICATION_DATE, "2015-10-25T13:55:18")); // no miliseconds
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.SINCE_MODIFICATION_DATE, "2015-10-25T13:55:18");
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_with_generated_parameter() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param(ApiConstants.WITH_GENERATED, "no true"));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.WITH_GENERATED, "no true");
+    }
+    
+    
     @Test
     public void it_should_not_allow_incorrect_request_parameter_name() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param("some_incorrect_parameter_name", "")
-                .accept(MediaType.APPLICATION_JSON));
+                .param("some_incorrect_parameter_name", ""));
 
         //then
-        actions.andExpect(status().isBadRequest());
+        assertIncorrectParamNameError(actions, "some_incorrect_parameter_name");
+    }
+    
+    
+    @Test
+    public void it_should_not_allow_too_small_page_size() throws Exception {
+        // when
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(1)));
+        
+        // then
+        assertTooSmallPageSizeError(actions, 2);
+    }
+    
+    @Test
+    public void it_should_not_allow_too_big_page_size() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(101)));
+        
+        // assert
+        assertTooBigPageSizeError(actions, 100);
+    }
+    
+    @Test
+    public void it_should_not_allow_invalid_page_size() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_SIZE, "invalid"));
+        
+        // assert
+        assertError(actions, HttpStatus.INTERNAL_SERVER_ERROR, ErrorReason.GENERAL_INTERNAL_ERROR .errorReason(),
+                null, allOf(containsString("invalid"), containsString("Failed to convert value")));
+    }
+    
+    
+    @Test
+    public void it_should_not_allow_invalid_page_number() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "invalid"));
+        
+        // assert
+        assertError(actions, HttpStatus.INTERNAL_SERVER_ERROR, ErrorReason.GENERAL_INTERNAL_ERROR .errorReason(),
+                null, allOf(containsString("invalid"), containsString("Failed to convert value")));
+    }
+    
+    @Test
+    public void it_should_not_allow_negative_page_number() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "-1"));
+        
+        // assert
+        assertNegativePageNumberError(actions);
     }
 
     
