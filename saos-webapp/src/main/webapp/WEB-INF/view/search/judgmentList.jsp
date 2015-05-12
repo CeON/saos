@@ -53,6 +53,7 @@
 			<div class="court-desc">					
 				<saos:propertyWithFilter value="${judgment.ccCourtName}" filterValue="${judgment.ccCourtId}" cssClass="court" />
 				<span>-</span>
+				<span class="not-link-division">${judgment.ccCourtDivisionName}</span>
 				<saos:propertyWithFilter value="${judgment.ccCourtDivisionName}" filterValue="${judgment.ccCourtDivisionId}" cssClass="division" /> 
 			</div>
 		
