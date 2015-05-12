@@ -8,7 +8,16 @@
 
 
 	<fieldset id="search-fieldset" >
-		<legend><spring:message code="judgmentSearch.form.header" /></legend>
+	
+	   <c:choose>
+	       <c:when test="${referencedJudgment != null}">
+	           <%@ include file="judgmentSearchContext.jsp" %>       
+	       </c:when>
+	       
+	       <c:otherwise>
+	           <legend><spring:message code="judgmentSearch.form.header" /></legend>   
+	       </c:otherwise>
+	   </c:choose>
 		
 		<%-- Search form hint --%>
 		<div class="search-form-hint">
@@ -268,7 +277,6 @@
 	
 </div>
 
-<%@ include file="judgmentSearchContext.jsp" %>
 
 <div class="container judgment-filter block " >
 
