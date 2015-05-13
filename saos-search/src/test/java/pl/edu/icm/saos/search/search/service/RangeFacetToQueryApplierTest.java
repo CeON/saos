@@ -3,16 +3,33 @@ package pl.edu.icm.saos.search.search.service;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.arrayContaining;
 import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.apache.solr.client.solrj.SolrQuery;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+
+import pl.edu.icm.saos.search.util.FieldValuePrefixAdder;
 
 /**
  * @author madryk
  */
 public class RangeFacetToQueryApplierTest {
 
+    @InjectMocks
     private RangeFacetToQueryApplier rangeFacetToQueryApplier = new RangeFacetToQueryApplier();
+    
+    @Mock
+    private FieldValuePrefixAdder fieldValuePrefixAdder;
+    
+    
+    @Before
+    public void before() {
+        initMocks(this);
+    }
     
     
     //------------------------ TEST --------------------------
@@ -21,6 +38,7 @@ public class RangeFacetToQueryApplierTest {
     public void applyRangeFacet() {
         // given
         SolrQuery query = new SolrQuery();
+        when(fieldValuePrefixAdder.prefixWithSeparator("valuePrefix")).thenReturn("valuePrefix#");
         
         // execute
         rangeFacetToQueryApplier.applyRangeFacet(query, "fieldName", "startParam", "endParam", "gapParam");
@@ -37,6 +55,25 @@ public class RangeFacetToQueryApplierTest {
                 "f.fieldName.facet.range.end",
                 "f.fieldName.facet.range.gap"));
     }
+    
+
+    @Test
+    public void applyRangeFacet_fieldValuePrefixBlank() {
+        
+        // given
+        SolrQuery query = new SolrQuery();
+        when(fieldValuePrefixAdder.prefixWithSeparator("valuePrefix")).thenReturn("valuePrefix#");
+        
+        // execute
+        rangeFacetToQueryApplier.applyRangeFacet(query, "fieldName", "startParam", "endParam", "gapParam");
+        
+        // assert
+        assertThat(query.getParameterNames(), containsInAnyOrder("facet", "facet.range",
+                "f.fieldName.facet.range.start",
+                "f.fieldName.facet.range.end",
+                "f.fieldName.facet.range.gap"));
+    }
+
     
     @Test(expected = NullPointerException.class)
     public void applyRangeFacet_NULL_QUERY() {

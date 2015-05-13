@@ -218,7 +218,7 @@ var initAnalysisJs = function() {
      */
     function initInputs() {
         
-        $(":text, radio, select").change(function() {
+        $(":text, :radio, select, :checkbox").change(function() {
             generateCharts(true);
         });
         

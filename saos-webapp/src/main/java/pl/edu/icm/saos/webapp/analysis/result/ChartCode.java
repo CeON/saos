@@ -13,7 +13,11 @@ public enum ChartCode {
     MAIN_CHART(true),
     
     /** Chart with MAIN_CHART series data aggregated */
-    AGGREGATED_MAIN_CHART(false);
+    AGGREGATED_MAIN_CHART(false),
+    
+    /** Chart with common courts on x-axis */
+    CC_COURT_CHART(true);
+    
     
     
     private boolean chartGenerated;

@@ -1,8 +1,9 @@
 package pl.edu.icm.saos.common.chart.formatter;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+
+import pl.edu.icm.saos.common.order.OrderableComparator;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -78,16 +79,7 @@ public class PointValueFormatterManager {
      */
     public void setPointValueFormatters(List<PointValueFormatter> pointValueFormatters) {
         
-        Collections.sort(pointValueFormatters, new Comparator<PointValueFormatter>() {
-
-            @Override
-            public int compare(PointValueFormatter o1, PointValueFormatter o2) {
-                
-                return Integer.compare(o1.getOrder(), o2.getOrder());
-            
-            }
-        });
-        
+        Collections.sort(pointValueFormatters, new OrderableComparator<PointValueFormatter>());        
         this.pointValueFormatters = pointValueFormatters;
         
     }

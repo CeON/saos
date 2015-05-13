@@ -24,6 +24,8 @@ public class JudgmentSeriesCriteria {
     private CourtType courtType;
     
     private Long ccCourtId;
+    private boolean ccIncludeDependentCourtJudgments;
+     
     private Long ccCourtDivisionId;
     
     private Long scCourtChamberId;
@@ -64,8 +66,12 @@ public class JudgmentSeriesCriteria {
     public Long getScCourtChamberDivisionId() {
         return scCourtChamberDivisionId;
     }
-
     
+    public boolean isCcIncludeDependentCourtJudgments() {
+        return ccIncludeDependentCourtJudgments;
+    }
+
+   
         
     //------------------------ SETTERS --------------------------
     
@@ -101,7 +107,11 @@ public class JudgmentSeriesCriteria {
         this.scCourtChamberDivisionId = scCourtChamberDivisionId;
     }
 
- 
+    public void setCcIncludeDependentCourtJudgments(boolean ccIncludeDependentCourtJudgments) {
+        this.ccIncludeDependentCourtJudgments = ccIncludeDependentCourtJudgments;
+    }
+
+
 
 
     //------------------------ HashCode & Equals --------------------------
@@ -109,7 +119,7 @@ public class JudgmentSeriesCriteria {
     @Override
     public int hashCode() {
         return Objects.hash(this.phrase, this.startJudgmentDate, this.endJudgmentDate, this.courtType,
-                            this.ccCourtId, this.ccCourtDivisionId, this.scCourtChamberId, this.scCourtChamberDivisionId);
+                            this.ccCourtId, this.ccIncludeDependentCourtJudgments, this.ccCourtDivisionId, this.scCourtChamberId, this.scCourtChamberDivisionId);
     }
     
     
@@ -131,11 +141,14 @@ public class JudgmentSeriesCriteria {
                Objects.equals(this.endJudgmentDate, other.endJudgmentDate) &&
                Objects.equals(this.courtType, other.courtType) &&
                Objects.equals(this.ccCourtId, other.ccCourtId) &&
+               Objects.equals(this.ccIncludeDependentCourtJudgments, other.ccIncludeDependentCourtJudgments) &&
                Objects.equals(this.ccCourtDivisionId, other.ccCourtDivisionId) &&
                Objects.equals(this.scCourtChamberId, other.scCourtChamberId) &&
                Objects.equals(this.scCourtChamberDivisionId, other.scCourtChamberDivisionId);
 
     }
+
+   
 
 
    

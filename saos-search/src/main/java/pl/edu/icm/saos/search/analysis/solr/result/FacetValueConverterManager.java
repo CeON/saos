@@ -3,9 +3,6 @@ package pl.edu.icm.saos.search.analysis.solr.result;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 
 import com.google.common.base.Preconditions;
@@ -15,7 +12,6 @@ import com.google.common.base.Preconditions;
  * 
  * @author Łukasz Dumiszewski
  */
-@Service("facetValueConverterManager")
 public class FacetValueConverterManager {
 
     
@@ -26,9 +22,9 @@ public class FacetValueConverterManager {
     //------------------------ LOGIC --------------------------
     
     /** 
-     * Returns a {@link FacetValueConverter} handling the given xsettings (from converters set by {@link #setConverters(List)}). 
+     * Returns a {@link FacetValueConverter} handling the given xsettings (from converters set by {@link #setConverters(List)}).
      * 
-     * @throws IllegalArgumentException if the proper converter cannot be found
+     * @throws IllegalArgumentException if no converter handling the given xsettings can be found
      */
     public FacetValueConverter getConverter(XSettings xsettings) {
         
@@ -44,6 +40,8 @@ public class FacetValueConverterManager {
             
         }
         
+        
+        
         throw new IllegalArgumentException("no FacetValueConverter can be found for " + xsettings);
         
         
@@ -53,11 +51,13 @@ public class FacetValueConverterManager {
 
     //------------------------ SETTERS --------------------------
     
-    @Autowired
+    /**
+     * The converters that will be used to convert facet values. The order of the list matters, the first matching
+     * converter will be used (see: {@link FacetValueConverter#handles(XSettings)})
+     */
     public void setConverters(List<? extends FacetValueConverter> converters) {
         this.converters = converters;
     }
+    
 
-    
-    
 }
