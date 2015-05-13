@@ -11,6 +11,7 @@
  *      infoSectionId - id of info section
  *      defaultInfoSectionText - not required - text displayed in info section when there is no selected fields
  *      extractInfoFromFormCustom - function - if set then it is used for extracting info from form section
+ *      onFormSectionCloseAction - function - if set then it is executed just before the form section closes
  *  }
  * 
  */
@@ -120,7 +121,11 @@ function InfoFormSection(options) {
       * 
       */
      function closeFormSection() {
-
+         
+         if (options.onFormSectionCloseAction) {
+             options.onFormSectionCloseAction();
+         }
+         
          $(options.infoSectionId).removeClass("info-section-opened");
          
          //Hide form section
