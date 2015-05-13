@@ -1,7 +1,9 @@
 package pl.edu.icm.saos.webapp.analysis.request.converter;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -90,7 +92,7 @@ public class MainChartXSettingsGeneratorTest {
         JudgmentGlobalFilter globalFilter = new JudgmentGlobalFilter();
         
         // execute
-        xsettingsGenerator.canGenerateXSettings(globalFilter);
+        assertFalse(xsettingsGenerator.canGenerateXSettings(globalFilter));
         
     }
     
@@ -103,7 +105,7 @@ public class MainChartXSettingsGeneratorTest {
         globalFilter.setJudgmentDateRange(new MonthYearRange());
         
         // execute
-        xsettingsGenerator.canGenerateXSettings(globalFilter);
+        assertTrue(xsettingsGenerator.canGenerateXSettings(globalFilter));
         
     }
     
@@ -116,6 +118,14 @@ public class MainChartXSettingsGeneratorTest {
         
     }
     
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void generateXSettings_CannotGenerate() {
+        
+        // execute
+        xsettingsGenerator.generateXSettings(new JudgmentGlobalFilter());
+        
+    }
     
     @Test
     public void generateXSettings() {

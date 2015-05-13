@@ -76,6 +76,8 @@ public class JudgmentSeriesFilterConverter {
         
         judgmentSeriesCriteria.setCcCourtId(courtCriteria.getCcCourtId());
         
+        judgmentSeriesCriteria.setCcIncludeDependentCourtJudgments(courtCriteria.isCcIncludeDependentCourtJudgments());
+        
         judgmentSeriesCriteria.setCcCourtDivisionId(courtCriteria.getCcCourtDivisionId());
 
         judgmentSeriesCriteria.setScCourtChamberId(courtCriteria.getScCourtChamberId());

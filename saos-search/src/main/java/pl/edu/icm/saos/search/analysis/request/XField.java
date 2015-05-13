@@ -8,6 +8,9 @@ package pl.edu.icm.saos.search.analysis.request;
 
 public enum XField {
 
-    JUDGMENT_DATE
+    JUDGMENT_DATE,
+    CC_APPEAL,
+    CC_REGION,
+    CC_DISTRICT
     
 }

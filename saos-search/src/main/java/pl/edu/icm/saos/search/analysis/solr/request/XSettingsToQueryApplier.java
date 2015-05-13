@@ -4,14 +4,14 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.google.common.base.Preconditions;
-
 import pl.edu.icm.saos.search.analysis.request.XField;
 import pl.edu.icm.saos.search.analysis.request.XRange;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.solr.XFieldNameMapper;
 import pl.edu.icm.saos.search.search.service.FieldFacetToQueryApplier;
 import pl.edu.icm.saos.search.search.service.RangeFacetToQueryApplier;
+
+import com.google.common.base.Preconditions;
 
 /**
  * Applier of {@link XSettings} to {@link SolrQuery}
@@ -49,7 +49,7 @@ public class XSettingsToQueryApplier {
         if (xRange != null) {
             applyRangeFacet(query, fieldName, xRange);
         } else {
-            applyFieldFacet(query, fieldName);
+            applyFieldFacet(query, fieldName, xSettings.getFieldValuePrefix());
         }
     }
     
@@ -67,8 +67,8 @@ public class XSettingsToQueryApplier {
         rangeFacetToQueryApplier.applyRangeFacet(query, fieldName, startParam, endParam, gapParam);
     }
     
-    private void applyFieldFacet(SolrQuery query, String fieldName) {
-        fieldFacetToQueryApplier.applyFieldFacet(query, fieldName);
+    private void applyFieldFacet(SolrQuery query, String fieldName, String fieldValuePrefix) {
+        fieldFacetToQueryApplier.applyFieldFacet(query, fieldName, fieldValuePrefix);
     }
 
     

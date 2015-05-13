@@ -165,7 +165,7 @@ public class JudgmentCriteria extends Criteria {
         return referencedCourtCaseId;
     }
     /**
-     * The id of the cc court (or one of its superior courts) that a judgment is assigned to or the id of
+     * The id of the cc court (or one of its superior courts) that a judgment is assigned to
      */
     public Long getCcDirectOrSuperiorCourtId() {
         return ccDirectOrSuperiorCourtId;

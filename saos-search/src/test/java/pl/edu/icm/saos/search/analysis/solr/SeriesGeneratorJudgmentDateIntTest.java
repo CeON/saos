@@ -40,7 +40,7 @@ import com.google.common.collect.Lists;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={ SearchTestConfiguration.class })
 @Category(SlowTest.class)
-public class SeriesGeneratorIntTest {
+public class SeriesGeneratorJudgmentDateIntTest {
 
     @Autowired
     private SeriesGenerator seriesGenerator;
@@ -230,4 +230,5 @@ public class SeriesGeneratorIntTest {
         
         return doc;
     }
+    
 }

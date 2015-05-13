@@ -3,7 +3,10 @@ package pl.edu.icm.saos.search.search.service;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.common.params.FacetParams;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.search.util.FieldValuePrefixAdder;
 
 import com.google.common.base.Preconditions;
 
@@ -15,6 +18,9 @@ import com.google.common.base.Preconditions;
 @Service
 public class RangeFacetToQueryApplier {
 
+    private FieldValuePrefixAdder fieldValuePrefixAdder;
+    
+    
     //------------------------ LOGIC --------------------------
     
     /**
@@ -47,5 +53,13 @@ public class RangeFacetToQueryApplier {
         Preconditions.checkArgument(StringUtils.isNotBlank(end));
         Preconditions.checkNotNull(gap);
         Preconditions.checkArgument(StringUtils.isNotBlank(gap));
+    }
+
+    
+    //------------------------ SETTERS --------------------------
+
+    @Autowired
+    public void setFieldValuePrefixAdder(FieldValuePrefixAdder fieldValuePrefixAdder) {
+        this.fieldValuePrefixAdder = fieldValuePrefixAdder;
     }
 }

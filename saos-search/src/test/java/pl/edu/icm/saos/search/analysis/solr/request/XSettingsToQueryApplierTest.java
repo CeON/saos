@@ -64,6 +64,7 @@ public class XSettingsToQueryApplierTest {
         // given
         XSettings xSettings = new XSettings();
         xSettings.setField(XField.JUDGMENT_DATE);
+        xSettings.setFieldValuePrefix("valuePrefix");
         
         XDateRange xDateRange = new XDateRange(new LocalDate(), new LocalDate(), new Period(1, PeriodUnit.MONTH));
         xSettings.setRange(xDateRange);
@@ -90,6 +91,7 @@ public class XSettingsToQueryApplierTest {
         // given
         XSettings xSettings = new XSettings();
         xSettings.setField(XField.JUDGMENT_DATE);
+        xSettings.setFieldValuePrefix("valuePrefix");
         
         SolrQuery query = new SolrQuery();
         
@@ -98,7 +100,7 @@ public class XSettingsToQueryApplierTest {
         
         // assert
         verify(xFieldNameMapper).mapXField(XField.JUDGMENT_DATE);
-        verify(fieldFacetToQueryApplier).applyFieldFacet(query, "judgmentDate");
+        verify(fieldFacetToQueryApplier).applyFieldFacet(query, "judgmentDate", "valuePrefix");
         
         verifyNoMoreInteractions(xFieldNameMapper, fieldFacetToQueryApplier);
         verifyZeroInteractions(xRangeConverterManager, xRangeConverter, rangeFacetToQueryApplier);

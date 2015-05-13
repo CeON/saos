@@ -130,6 +130,7 @@ public class JudgmentSeriesFilterConverterTest {
         CourtCriteria courtCriteria = globalFilter.getCourtCriteria();
         assertEquals(courtCriteria.getCourtType(), criteria.getCourtType());
         assertEquals(courtCriteria.getCcCourtId(), criteria.getCcCourtId());
+        assertEquals(courtCriteria.isCcIncludeDependentCourtJudgments(), criteria.isCcIncludeDependentCourtJudgments());
         assertEquals(courtCriteria.getCcCourtDivisionId(), criteria.getCcCourtDivisionId());
         assertEquals(courtCriteria.getScCourtChamberId(), criteria.getScCourtChamberId());
         assertEquals(courtCriteria.getScCourtChamberDivisionId(), criteria.getScCourtChamberDivisionId());
@@ -154,6 +155,7 @@ public class JudgmentSeriesFilterConverterTest {
         CourtCriteria courtCriteria = filter.getCourtCriteria();
         courtCriteria.setCourtType(CourtType.COMMON);
         courtCriteria.setCcCourtId(10L);
+        courtCriteria.setCcIncludeDependentCourtJudgments(true);
         courtCriteria.setCcCourtDivisionId(100L);
         courtCriteria.setScCourtChamberId(1090L);
         courtCriteria.setScCourtChamberDivisionId(109L);
