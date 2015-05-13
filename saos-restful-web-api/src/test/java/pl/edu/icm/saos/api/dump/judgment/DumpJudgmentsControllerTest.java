@@ -256,6 +256,16 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
         // assert
         assertNegativePageNumberError(actions);
     }
+    
+    @Test
+    public void should_respond_in_iso8859_1_charset() throws Exception {
+        // when
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .accept(MediaType.APPLICATION_JSON+";charset=ISO-8859-1"));
+        
+        // then
+        assertOk(actions, "ISO-8859-1");
+    }
 
     
     //------------------------ PRIVATE --------------------------

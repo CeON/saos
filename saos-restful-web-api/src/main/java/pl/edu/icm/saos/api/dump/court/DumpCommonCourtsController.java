@@ -47,7 +47,7 @@ public class DumpCommonCourtsController extends ControllersEntityExceptionHandle
 
     //------------------------ LOGIC --------------------------
     
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE+";charset=utf-8"})
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE+";charset=UTF-8"})
     @RestrictParamsNames
     @ResponseBody
     public ResponseEntity<Object> showCourts(

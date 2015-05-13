@@ -35,7 +35,7 @@ public class JudgmentController extends ControllersEntityExceptionHandler{
     
     //------------------------ LOGIC --------------------------
     
-    @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @RequestMapping(value = "", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE+";charset=UTF-8"})
     @ResponseBody
     public ResponseEntity<Object> showJudgment(@PathVariable("judgmentId") long judgmentId) throws ElementDoesNotExistException {
 

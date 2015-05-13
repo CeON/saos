@@ -675,6 +675,16 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         assertNegativePageNumberError(actions);
     }
     
+    @Test
+    public void should_respond_in_iso8859_1_charset() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .accept(MediaType.APPLICATION_JSON+";charset=ISO-8859-1"));
+        
+        // assert
+        assertOk(actions, "ISO-8859-1");
+    }
+    
     
     
     
