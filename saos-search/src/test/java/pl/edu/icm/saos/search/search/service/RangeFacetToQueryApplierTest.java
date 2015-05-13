@@ -41,17 +41,16 @@ public class RangeFacetToQueryApplierTest {
         when(fieldValuePrefixAdder.prefixWithSeparator("valuePrefix")).thenReturn("valuePrefix#");
         
         // execute
-        rangeFacetToQueryApplier.applyRangeFacet(query, "fieldName", "valuePrefix", "startParam", "endParam", "gapParam");
+        rangeFacetToQueryApplier.applyRangeFacet(query, "fieldName", "startParam", "endParam", "gapParam");
         
         // assert
         assertThat(query.getParams("facet"), arrayContaining("true"));
-        assertThat(query.getParams("facet.prefix"), arrayContaining("valuePrefix#"));
         assertThat(query.getParams("facet.range"), arrayContaining("fieldName"));
         assertThat(query.getParams("f.fieldName.facet.range.start"), arrayContaining("startParam"));
         assertThat(query.getParams("f.fieldName.facet.range.end"), arrayContaining("endParam"));
         assertThat(query.getParams("f.fieldName.facet.range.gap"), arrayContaining("gapParam"));
         
-        assertThat(query.getParameterNames(), containsInAnyOrder("facet", "facet.prefix", "facet.range",
+        assertThat(query.getParameterNames(), containsInAnyOrder("facet", "facet.range",
                 "f.fieldName.facet.range.start",
                 "f.fieldName.facet.range.end",
                 "f.fieldName.facet.range.gap"));
@@ -66,7 +65,7 @@ public class RangeFacetToQueryApplierTest {
         when(fieldValuePrefixAdder.prefixWithSeparator("valuePrefix")).thenReturn("valuePrefix#");
         
         // execute
-        rangeFacetToQueryApplier.applyRangeFacet(query, "fieldName", " ", "startParam", "endParam", "gapParam");
+        rangeFacetToQueryApplier.applyRangeFacet(query, "fieldName", "startParam", "endParam", "gapParam");
         
         // assert
         assertThat(query.getParameterNames(), containsInAnyOrder("facet", "facet.range",
@@ -79,59 +78,59 @@ public class RangeFacetToQueryApplierTest {
     @Test(expected = NullPointerException.class)
     public void applyRangeFacet_NULL_QUERY() {
         // execute
-        rangeFacetToQueryApplier.applyRangeFacet(null, "fieldName", "prefix", "startParam", "endParam", "gapParam");
+        rangeFacetToQueryApplier.applyRangeFacet(null, "fieldName", "startParam", "endParam", "gapParam");
     }
     
     
     @Test(expected = NullPointerException.class)
     public void applyRangeFacet_NULL_FIELD_NAME() {
         // execute
-        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), null, "prefix", "startParam", "endParam", "gapParam");
+        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), null, "startParam", "endParam", "gapParam");
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void applyRangeFacet_BLANK_FIELD_NAME() {
         // execute
-        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), " ", "prefix", "startParam", "endParam", "gapParam");
+        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), " ", "startParam", "endParam", "gapParam");
     }
     
     
     @Test(expected = NullPointerException.class)
     public void applyRangeFacet_NULL_START() {
         // execute
-        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", "prefix", null, "endParam", "gapParam");
+        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", null, "endParam", "gapParam");
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void applyRangeFacet_BLANK_START() {
         // execute
-        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", "prefix", "  ", "endParam", "gapParam");
+        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", "  ", "endParam", "gapParam");
     }
     
     
     @Test(expected = NullPointerException.class)
     public void applyRangeFacet_NULL_END() {
         // execute
-        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", "prefix", "startParam", null, "gapParam");
+        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", "startParam", null, "gapParam");
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void applyRangeFacet_BLANK_END() {
         // execute
-        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", "prefix", "startParam", "  ", "gapParam");
+        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", "startParam", "  ", "gapParam");
     }
     
     
     @Test(expected = NullPointerException.class)
     public void applyRangeFacet_NULL_GAP() {
         // execute
-        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", "prefix", "startParam", "endParam", null);
+        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", "startParam", "endParam", null);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void applyRangeFacet_BLANK_GAP() {
         // execute
-        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", "prefix", "startParam", "endParam", "   ");
+        rangeFacetToQueryApplier.applyRangeFacet(new SolrQuery(), "fieldName", "startParam", "endParam", "   ");
     }
     
 }

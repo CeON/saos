@@ -24,7 +24,8 @@ public class FieldFacetToQueryApplier {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Applies field facet request to {@link SolrQuery}
+     * Applies field facet request to {@link SolrQuery} <br/>
+     * Sets {@link FacetParams#FACET_SORT} for the given fieldName to {@link FacetParams#FACET_SORT_INDEX}
      */
     public void applyFieldFacet(SolrQuery query, String fieldName, String fieldValuePrefix) {
         
@@ -32,11 +33,13 @@ public class FieldFacetToQueryApplier {
         Preconditions.checkNotNull(fieldName);
         Preconditions.checkArgument(StringUtils.isNotBlank(fieldName));
         
+        String fieldParamPrefix = "f." + fieldName + ".";
+        
         query.setFacet(true);
-        query.add(FacetParams.FACET_SORT, FacetParams.FACET_SORT_INDEX);
+        query.add(fieldParamPrefix + FacetParams.FACET_SORT, FacetParams.FACET_SORT_INDEX);
         query.add(FacetParams.FACET_FIELD, fieldName);
         if (!StringUtils.isBlank(fieldValuePrefix)) {
-            query.add(FacetParams.FACET_PREFIX, fieldValuePrefixAdder.prefixWithSeparator(fieldValuePrefix));
+            query.add(fieldParamPrefix + FacetParams.FACET_PREFIX, fieldValuePrefixAdder.prefixWithSeparator(fieldValuePrefix));
         }
     }
 

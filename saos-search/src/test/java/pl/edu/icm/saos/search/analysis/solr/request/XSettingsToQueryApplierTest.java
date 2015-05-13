@@ -80,7 +80,7 @@ public class XSettingsToQueryApplierTest {
         verify(xRangeConverter).convertStart(xDateRange);
         verify(xRangeConverter).convertEnd(xDateRange);
         verify(xRangeConverter).convertGap(xDateRange);
-        verify(rangeFacetToQueryApplier).applyRangeFacet(query, "judgmentDate", "valuePrefix", "startParam", "endParam", "gapParam");
+        verify(rangeFacetToQueryApplier).applyRangeFacet(query, "judgmentDate", "startParam", "endParam", "gapParam");
         
         verifyNoMoreInteractions(xFieldNameMapper, xRangeConverterManager, xRangeConverter, rangeFacetToQueryApplier);
         verifyZeroInteractions(fieldFacetToQueryApplier);

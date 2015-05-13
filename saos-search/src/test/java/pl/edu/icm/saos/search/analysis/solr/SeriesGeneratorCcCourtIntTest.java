@@ -191,33 +191,32 @@ public class SeriesGeneratorCcCourtIntTest {
     
     
     private void indexJudgments() throws SolrServerException, IOException {
-        judgmentsServer.add(fetchDocument(1L, "2000-01-01T00:00:00Z", "content", APPEAL_1, prefixValue(APPEAL_1_ID, APPEAL_1), ""));
+        judgmentsServer.add(fetchDocument(1L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, APPEAL_1), ""));
         
-        judgmentsServer.add(fetchDocument(2L, "2000-03-11T00:00:00Z", "content", APPEAL_1, prefixValue(APPEAL_1_ID, APPEAL_1), ""));
-        judgmentsServer.add(fetchDocument(3L, "2000-03-25T00:00:00Z", "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, REGION_1_1)));
-        judgmentsServer.add(fetchDocument(31L, "2000-03-25T00:00:00Z", "other", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, REGION_1_1)));
-        judgmentsServer.add(fetchDocument(4L, "2000-05-01T00:00:00Z", "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_2), prefixValue(REGION_1_2_ID, REGION_1_2)));
-        judgmentsServer.add(fetchDocument(5L, "2000-05-21T00:00:00Z", "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_1)));
-        judgmentsServer.add(fetchDocument(51L, "2000-05-21T00:00:00Z", "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_2)));
-        judgmentsServer.add(fetchDocument(6L, "2000-05-25T00:00:00Z", "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_2)));
-        judgmentsServer.add(fetchDocument(7L, "2000-06-02T00:00:00Z", "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_2)));
+        judgmentsServer.add(fetchDocument(2L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, APPEAL_1), ""));
+        judgmentsServer.add(fetchDocument(3L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, REGION_1_1)));
+        judgmentsServer.add(fetchDocument(31L,"other",   APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, REGION_1_1)));
+        judgmentsServer.add(fetchDocument(4L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_2), prefixValue(REGION_1_2_ID, REGION_1_2)));
+        judgmentsServer.add(fetchDocument(5L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_1)));
+        judgmentsServer.add(fetchDocument(51L,"content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_2)));
+        judgmentsServer.add(fetchDocument(6L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_2)));
+        judgmentsServer.add(fetchDocument(7L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_2)));
         
-        judgmentsServer.add(fetchDocument(71L, "2000-06-02T00:00:00Z", "other", APPEAL_2, prefixValue(APPEAL_2_ID, APPEAL_2), ""));
-        judgmentsServer.add(fetchDocument(8L, "2000-06-03T00:00:00Z", "content", APPEAL_2, prefixValue(APPEAL_2_ID, APPEAL_2), ""));
-        judgmentsServer.add(fetchDocument(9L, "2000-06-12T00:00:00Z", "content", APPEAL_2, prefixValue(APPEAL_2_ID, APPEAL_2), ""));
-        judgmentsServer.add(fetchDocument(91L, "2001-06-12T00:00:00Z", "content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
-        judgmentsServer.add(fetchDocument(92L, "2001-06-12T00:00:00Z", "content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
-        judgmentsServer.add(fetchDocument(93L, "2002-06-12T00:00:00Z", "content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
-        judgmentsServer.add(fetchDocument(10L, "2010-02-04T00:00:00Z", "content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
+        judgmentsServer.add(fetchDocument(71L,"other",   APPEAL_2, prefixValue(APPEAL_2_ID, APPEAL_2), ""));
+        judgmentsServer.add(fetchDocument(8L, "content", APPEAL_2, prefixValue(APPEAL_2_ID, APPEAL_2), ""));
+        judgmentsServer.add(fetchDocument(9L, "content", APPEAL_2, prefixValue(APPEAL_2_ID, APPEAL_2), ""));
+        judgmentsServer.add(fetchDocument(91L,"content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
+        judgmentsServer.add(fetchDocument(92L,"content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
+        judgmentsServer.add(fetchDocument(93L,"content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
+        judgmentsServer.add(fetchDocument(10L,"content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
         
         judgmentsServer.commit();
     }
     
-    private SolrInputDocument fetchDocument(long id, String judgmentDateString, String content, String appealName, String regionName, String districtName) {
+    private SolrInputDocument fetchDocument(long id, String content, String appealName, String regionName, String districtName) {
         SolrInputDocument doc = new SolrInputDocument();
         
         doc.addField("databaseId", id);
-        doc.addField("judgmentDate", judgmentDateString);
         doc.addField("content", content);
         doc.addField("ccAppealName", appealName);
         

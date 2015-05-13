@@ -26,7 +26,7 @@ public class RangeFacetToQueryApplier {
     /**
      * Applies range facet request to {@link SolrQuery}
      */
-    public void applyRangeFacet(SolrQuery query, String fieldName, String fieldValuePrefix, String start, String end, String gap) {
+    public void applyRangeFacet(SolrQuery query, String fieldName, String start, String end, String gap) {
         
         checkArguments(query, fieldName, start, end, gap);
         
@@ -35,9 +35,6 @@ public class RangeFacetToQueryApplier {
         String fieldParamPrefix = "f." + fieldName + ".";
         
         query.add(FacetParams.FACET_RANGE, fieldName);
-        if (!StringUtils.isBlank(fieldValuePrefix)) {
-            query.add(FacetParams.FACET_PREFIX, fieldValuePrefixAdder.prefixWithSeparator(fieldValuePrefix));
-        }
         query.add(fieldParamPrefix + FacetParams.FACET_RANGE_START, start);
         query.add(fieldParamPrefix + FacetParams.FACET_RANGE_END, end);
         query.add(fieldParamPrefix + FacetParams.FACET_RANGE_GAP, gap);

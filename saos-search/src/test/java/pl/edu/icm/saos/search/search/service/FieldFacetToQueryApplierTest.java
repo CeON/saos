@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.common.params.FacetParams;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -47,7 +48,8 @@ public class FieldFacetToQueryApplierTest {
         // assert
         assertThat(query.getParams("facet"), arrayContaining("true"));
         assertThat(query.getParams("facet.field"), arrayContaining("fieldName"));
-        assertThat(query.getParams("facet.prefix"), arrayContaining("fieldPrefix#"));
+        assertThat(query.getParams("f.fieldName.facet.prefix"), arrayContaining("fieldPrefix#"));
+        assertThat(query.getParams("f.fieldName.facet.sort"), arrayContaining(FacetParams.FACET_SORT_INDEX));
     }
     
     
@@ -63,7 +65,8 @@ public class FieldFacetToQueryApplierTest {
         // assert
         assertThat(query.getParams("facet"), arrayContaining("true"));
         assertThat(query.getParams("facet.field"), arrayContaining("fieldName"));
-        assertNull(query.getParams("facet.prefix"));
+        assertThat(query.getParams("f.fieldName.facet.sort"), arrayContaining(FacetParams.FACET_SORT_INDEX));
+        assertNull(query.getParams("f.fieldName.facet.prefix"));
     }
     
 }

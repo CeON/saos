@@ -47,7 +47,7 @@ public class XSettingsToQueryApplier {
         
         
         if (xRange != null) {
-            applyRangeFacet(query, fieldName, xSettings.getFieldValuePrefix(), xRange);
+            applyRangeFacet(query, fieldName, xRange);
         } else {
             applyFieldFacet(query, fieldName, xSettings.getFieldValuePrefix());
         }
@@ -56,7 +56,7 @@ public class XSettingsToQueryApplier {
     
     //------------------------ PRIVATE --------------------------
     
-    private void applyRangeFacet(SolrQuery query, String fieldName, String fieldValuePrefix, XRange xRange) {
+    private void applyRangeFacet(SolrQuery query, String fieldName, XRange xRange) {
         XRangeConverter xRangeConverter = xRangeConverterManager.getXRangeConverter(xRange.getClass());
         
         String startParam = xRangeConverter.convertStart(xRange);
@@ -64,7 +64,7 @@ public class XSettingsToQueryApplier {
         String gapParam = xRangeConverter.convertGap(xRange);
         
         
-        rangeFacetToQueryApplier.applyRangeFacet(query, fieldName, fieldValuePrefix, startParam, endParam, gapParam);
+        rangeFacetToQueryApplier.applyRangeFacet(query, fieldName, startParam, endParam, gapParam);
     }
     
     private void applyFieldFacet(SolrQuery query, String fieldName, String fieldValuePrefix) {

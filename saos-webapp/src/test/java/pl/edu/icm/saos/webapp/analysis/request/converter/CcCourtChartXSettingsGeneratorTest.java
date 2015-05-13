@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -212,7 +213,7 @@ public class CcCourtChartXSettingsGeneratorTest {
         
         assertNotNull(xsettings);
         assertEquals(XField.CC_APPEAL, xsettings.getField());
-        assertEquals("", xsettings.getFieldValuePrefix());
+        assertTrue(StringUtils.isBlank(xsettings.getFieldValuePrefix()));
         
     }
     
