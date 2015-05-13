@@ -16,7 +16,7 @@ public class SupremeCourtJudgmentItem extends JudgmentItem {
     private static final long serialVersionUID = 3511467718051492156L;
 
     private PersonnelType personnelType;
-    private Form form;
+    private JudgmentForm judgmentForm;
     private Division division;
     private List<Chamber> chambers;
 
@@ -27,8 +27,8 @@ public class SupremeCourtJudgmentItem extends JudgmentItem {
         return personnelType;
     }
 
-    public Form getForm() {
-        return form;
+    public JudgmentForm getJudgmentForm() {
+        return judgmentForm;
     }
 
     public Division getDivision() {
@@ -46,8 +46,8 @@ public class SupremeCourtJudgmentItem extends JudgmentItem {
         this.personnelType = personnelType;
     }
 
-    public void setForm(Form form) {
-        this.form = form;
+    public void setJudgmentForm(JudgmentForm judgmentForm) {
+        this.judgmentForm = judgmentForm;
     }
 
     public void setDivision(Division division) {
@@ -63,7 +63,7 @@ public class SupremeCourtJudgmentItem extends JudgmentItem {
 
     @Override
     public int hashCode() {
-        return 31 * super.hashCode() + Objects.hashCode(personnelType, form, division, chambers);
+        return 31 * super.hashCode() + Objects.hashCode(personnelType, judgmentForm, division, chambers);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class SupremeCourtJudgmentItem extends JudgmentItem {
         }
         final SupremeCourtJudgmentItem other = (SupremeCourtJudgmentItem) obj;
         return Objects.equal(this.personnelType, other.personnelType) &&
-                Objects.equal(this.form, other.form) &&
+                Objects.equal(this.judgmentForm, other.judgmentForm) &&
                 Objects.equal(this.division, other.division) &&
                 Objects.equal(this.chambers, other.chambers);
     }
@@ -91,14 +91,14 @@ public class SupremeCourtJudgmentItem extends JudgmentItem {
         return Objects.toStringHelper(this)
                 .add("super", super.toString())
                 .add("personnelType", getPersonnelType())
-                .add("form", getForm())
+                .add("judgmentForm", getJudgmentForm())
                 .add("division", getDivision())
                 .add("chambers", getChambers())
                 .toString();
     }
     
     
-    public static class Form implements Serializable {
+    public static class JudgmentForm implements Serializable {
         private static final long serialVersionUID = -1876029900371851361L;
 
         private String name;
@@ -128,7 +128,7 @@ public class SupremeCourtJudgmentItem extends JudgmentItem {
             if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
-            final Form other = (Form) obj;
+            final JudgmentForm other = (JudgmentForm) obj;
             return Objects.equal(this.name, other.name);
         }
 

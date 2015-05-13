@@ -56,6 +56,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
         private String ccDivisionName;
 
         private PersonnelTypeTemplate scPersonnelType;
+        private String scJudgmentForm;
         private Long scChamberId;
         private String scChamberName;
         private Long scDivisionId;
@@ -140,6 +141,10 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
 
         public PersonnelTypeTemplate getScPersonnelType() {
             return scPersonnelType;
+        }
+
+        public String getScJudgmentForm() {
+            return scJudgmentForm;
         }
 
         public Long getScChamberId() {
@@ -249,6 +254,10 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.scPersonnelType = scPersonnelType;
         }
 
+        public void setScJudgmentForm(String scJudgmentForm) {
+            this.scJudgmentForm = scJudgmentForm;
+        }
+
         public void setScChamberId(Long scChamberId) {
             this.scChamberId = scChamberId;
         }
@@ -283,11 +292,13 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
 
         //------------------------ HashCode & Equals --------------------------
 
+
+
         @Override
         public int hashCode() {
             return Objects.hashCode(pageNumber, pageSize, sortingField, sortingDirection,
                     all, legalBase,
-                    referencedRegulation, judgeName, caseNumber, scPersonnelType,
+                    referencedRegulation, judgeName, caseNumber, scPersonnelType, scJudgmentForm,
                     courtType, ccCourtType, ccCourtId, ccCourtCode,
                     ccCourtName, ccDivisionId, ccDivisionCode, ccDivisionName,
                     scChamberId, scChamberName, scDivisionId, scDivisionName,
@@ -313,6 +324,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
                     Objects.equal(this.judgeName, other.judgeName) &&
                     Objects.equal(this.caseNumber, other.caseNumber) &&
                     Objects.equal(this.scPersonnelType, other.scPersonnelType) &&
+                    Objects.equal(this.scJudgmentForm, other.scJudgmentForm) &&
                     Objects.equal(this.courtType, other.courtType) &&
                     Objects.equal(this.ccCourtType, other.ccCourtType) &&
                     Objects.equal(this.ccCourtId, other.ccCourtId) &&
@@ -348,6 +360,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
                     .add("judgeName", judgeName)
                     .add("caseNumber", caseNumber)
                     .add("scPersonnelType", scPersonnelType)
+                    .add("scJudgmentForm", scJudgmentForm)
                     .add("courtType", courtType)
                     .add("ccCourtType", ccCourtType)
                     .add("ccCourtId", ccCourtId)

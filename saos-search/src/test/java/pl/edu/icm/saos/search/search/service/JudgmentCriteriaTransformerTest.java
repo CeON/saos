@@ -76,6 +76,8 @@ public class JudgmentCriteriaTransformerTest {
                 { "+scCourtChamberDivisionId:13", JudgmentCriteriaBuilder.create().withScChamberDivisionId(13).build() },
                 { "+scCourtChamberDivisionName:someChamberDivisionName", JudgmentCriteriaBuilder.create().withScChamberDivisionName("someChamberDivisionName").build() },
                 { "+scPersonnelType:THREE_PERSON", JudgmentCriteriaBuilder.create().withScPersonnelType(PersonnelType.THREE_PERSON).build() },
+                { "+scJudgmentFormId:56", JudgmentCriteriaBuilder.create().withScJudgmentFormId(56L).build() },
+                { "+scJudgmentFormName:judgmentFormName", JudgmentCriteriaBuilder.create().withScJudgmentFormName("judgmentFormName").build() },
                 
                 { "+ccCourtDivisionId:14", JudgmentCriteriaBuilder.create().withCcDivisionId(14).build() },
                 { "+ccCourtDivisionCode:0100", JudgmentCriteriaBuilder.create().withCcDivisionCode("0100").build() },

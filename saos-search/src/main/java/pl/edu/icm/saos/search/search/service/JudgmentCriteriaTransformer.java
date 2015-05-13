@@ -81,6 +81,7 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
         List<String> list = Lists.newLinkedList();
         
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.SC_JUDGMENT_FORM_ID, criteria.getScJudgmentFormId()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.SC_JUDGMENT_FORM_NAME, criteria.getScJudgmentFormName()));
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.SC_PERSONNEL_TYPE, criteria.getScPersonnelType()));
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.SC_COURT_CHAMBER_ID, criteria.getScCourtChamberId()));
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.SC_COURT_CHAMBER_NAME, criteria.getScCourtChamberName()));

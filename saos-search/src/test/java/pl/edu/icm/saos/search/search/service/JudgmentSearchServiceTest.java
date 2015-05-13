@@ -172,6 +172,7 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(1961l), JudgmentCriteriaBuilder.create().withCcDivisionName("III Wydział Pracy i Ubezpieczeń Społecznych").build() },
             
             { Lists.newArrayList(21l), JudgmentCriteriaBuilder.create().withScJudgmentFormId(12l).build() },
+            { Lists.newArrayList(21l), JudgmentCriteriaBuilder.create().withScJudgmentFormName("Postanowienie SN").build() },
             
             { Lists.newArrayList(), JudgmentCriteriaBuilder.create().withScPersonnelType(PersonnelType.ONE_PERSON).build() },
             { Lists.newArrayList(21l), JudgmentCriteriaBuilder.create().withScPersonnelType(PersonnelType.JOINED_CHAMBERS).build() },

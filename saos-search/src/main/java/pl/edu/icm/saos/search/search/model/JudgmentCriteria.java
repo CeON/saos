@@ -41,6 +41,7 @@ public class JudgmentCriteria extends Criteria {
     private String ccCourtDivisionName;
     
     private Long scJudgmentFormId;
+    private String scJudgmentFormName;
     private PersonnelType scPersonnelType;
     private Long scCourtChamberId;
     private String scCourtChamberName;
@@ -120,6 +121,9 @@ public class JudgmentCriteria extends Criteria {
     }
     public Long getScJudgmentFormId() {
         return scJudgmentFormId;
+    }
+    public String getScJudgmentFormName() {
+        return scJudgmentFormName;
     }
     public PersonnelType getScPersonnelType() {
         return scPersonnelType;
@@ -215,6 +219,9 @@ public class JudgmentCriteria extends Criteria {
     public void setScJudgmentFormId(Long scJudgmentFormId) {
         this.scJudgmentFormId = scJudgmentFormId;
     }
+    public void setScJudgmentFormName(String scJudgmentFormName) {
+        this.scJudgmentFormName = scJudgmentFormName;
+    }
     public void setScPersonnelType(PersonnelType personnelType) {
         this.scPersonnelType = personnelType;
     }
@@ -271,7 +278,7 @@ public class JudgmentCriteria extends Criteria {
         return Objects.hashCode(all, caseNumber, judgmentDateFrom, judgmentDateTo,
                 courtType, ccCourtId, ccDirectOrSuperiorCourtId, ccCourtCode, ccCourtName,
                 ccCourtDivisionId, ccCourtDivisionCode, ccCourtDivisionName,
-				scJudgmentFormId, scPersonnelType, scCourtChamberId, scCourtChamberName, scCourtChamberDivisionId,
+				scJudgmentFormId, scJudgmentFormName, scPersonnelType, scCourtChamberId, scCourtChamberName, scCourtChamberDivisionId,
                 scCourtChamberDivisionName, ctDissentingOpinion, ctDissentingOpinionAuthor,
                 judgmentTypes, judgeName, keywords,
                 legalBase, referencedRegulation, lawJournalEntryId, referencedCourtCaseId);
@@ -299,6 +306,7 @@ public class JudgmentCriteria extends Criteria {
                 Objects.equal(this.ccCourtDivisionCode, other.ccCourtDivisionCode) &&
                 Objects.equal(this.ccCourtDivisionName, other.ccCourtDivisionName) &&
                 Objects.equal(this.scJudgmentFormId, other.scJudgmentFormId) &&
+                Objects.equal(this.scJudgmentFormName, other.scJudgmentFormName) &&
                 Objects.equal(this.scPersonnelType, other.scPersonnelType) &&
                 Objects.equal(this.scCourtChamberId, other.scCourtChamberId) &&
                 Objects.equal(this.scCourtChamberName, other.scCourtChamberName) &&
@@ -322,6 +330,5 @@ public class JudgmentCriteria extends Criteria {
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
-
 
 }

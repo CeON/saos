@@ -69,6 +69,7 @@ class JudgmentParametersToCriteriaConverterTest extends Specification {
             def scChamberName = "some chamber name"
             def scDivisionId = 444
             def scDivisionName = "some sc division name"
+            def scJudgmentForm = "some judgment form"
             def judgmentTypes = [Judgment.JudgmentType.DECISION, Judgment.JudgmentType.REASONS]
             def keywords = ["someFirstKeyword", "someSecondKeyword"]
 
@@ -96,6 +97,7 @@ class JudgmentParametersToCriteriaConverterTest extends Specification {
             params.setScChamberName(scChamberName)
             params.setScDivisionId(scDivisionId)
             params.setScDivisionName(scDivisionName)
+            params.setScJudgmentForm(scJudgmentForm)
             params.setJudgmentTypes(judgmentTypes)
             params.setKeywords(keywords)
 
@@ -129,6 +131,7 @@ class JudgmentParametersToCriteriaConverterTest extends Specification {
             expected.setScCourtChamberName(scChamberName)
             expected.setScCourtChamberDivisionId(scDivisionId)
             expected.setScCourtChamberDivisionName(scDivisionName)
+            expected.setScJudgmentFormName(scJudgmentForm)
             expected.setJudgmentTypes(judgmentTypes)
             expected.setKeywords(keywords)
 
