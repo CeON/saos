@@ -88,14 +88,16 @@ var initAnalysisJs = function() {
         infoFormSection({
             formSectionId: "#court-form-section",
             infoSectionId: "#court-info-section",
-            extractInfoFromFormCustom: extractInfoFromCourtSection
+            extractInfoFromFormCustom: extractInfoFromCourtSection,
+            onFormSectionCloseAction: function() {generateCharts(true);}
         });
 
         infoFormSection({
             formSectionId: "#date-range-form-section",
             infoSectionId: "#date-range-info-section",
             defaultInfoSectionText: null,
-            extractInfoFromFormCustom: extractJudgmentDateRangeFromAnalysisFormSection
+            extractInfoFromFormCustom: extractJudgmentDateRangeFromAnalysisFormSection,
+            onFormSectionCloseAction: function() {generateCharts(true);}
             
         });
         
@@ -218,7 +220,7 @@ var initAnalysisJs = function() {
      */
     function initInputs() {
         
-        $(":text, radio, select").change(function() {
+        $("[id^=seriesSearchPhraseInput], #yaxisValueType").change(function() {
             generateCharts(true);
         });
         
