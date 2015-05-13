@@ -40,6 +40,7 @@ import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_TEXT_C
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_JUDGE_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_CHAMBER_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_DIVISION_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_JUDGMENT_FORM_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_PERSONNEL_TYPE;
 
 import java.util.Arrays;
@@ -227,6 +228,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath("$.items.[1].id").value(equalsLong(testObjectContext.getScJudgmentId())))
                 .andExpect(jsonPath("$.items.[1].href").value(endsWith("/api/judgments/" + testObjectContext.getScJudgmentId())))
                 .andExpect(jsonPath("$.items.[1].personnelType").value(SC_PERSONNEL_TYPE.name()))
+                .andExpect(jsonPath("$.items.[1].judgmentForm").value(SC_JUDGMENT_FORM_NAME))
 
                 .andExpect(jsonPath("$.items.[1].division.href").value(endsWith("/api/scDivisions/" + testObjectContext.getScFirstDivisionId())))
                 .andExpect(jsonPath("$.items.[1].division.id").value(equalsLong(testObjectContext.getScFirstDivisionId())))
@@ -302,6 +304,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         String judgmentDateFrom = "2010-01-21";
         String judgmentDateTo = "2020-10-13";
         String personnelTypeValue = PersonnelType.FIVE_PERSON.name();
+        String judgmentFormValue = "someJudgmentForm";
 
         String legalBaseValue = "someLegalBase";
         String referencedRegulationValue = "someReferencedRegulation";
@@ -339,6 +342,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .param(ApiConstants.SORTING_DIRECTION, sortingDirectionValue)
                 .param(ApiConstants.ALL, allValue)
                 .param(ApiConstants.SC_PERSONNEL_TYPE, personnelTypeValue)
+                .param(ApiConstants.SC_JUDGMENT_FORM, judgmentFormValue)
                 .param(ApiConstants.LEGAL_BASE, legalBaseValue)
                 .param(ApiConstants.REFERENCED_REGULATION, referencedRegulationValue)
                 .param(ApiConstants.JUDGE_NAME, judgeNameValue)
@@ -382,6 +386,9 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".ccDivisionId").value(ccDivisionIdValue))
                 .andExpect(jsonPath(prefix + ".ccDivisionCode").value(ccDivisionCodeValue))
                 .andExpect(jsonPath(prefix + ".ccDivisionName").value(ccDivisionNameValue))
+
+                .andExpect(jsonPath(prefix + ".scPersonnelType.value").value(personnelTypeValue))
+                .andExpect(jsonPath(prefix + ".scJudgmentForm").value(judgmentFormValue))
 
                 .andExpect(jsonPath(prefix + ".scChamberId").value(scChamberIdValue))
                 .andExpect(jsonPath(prefix + ".scChamberName").value(scChamberNameValue))
@@ -442,6 +449,9 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".ccDivisionId").value(nullValue()))
                 .andExpect(jsonPath(prefix + ".ccDivisionCode").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".ccDivisionName").value(isEmptyOrNullString()))
+
+                .andExpect(jsonPath(prefix + ".scPersonnelType.value").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".scJudgmentForm").value(isEmptyOrNullString()))
 
                 .andExpect(jsonPath(prefix + ".scChamberId").value(nullValue()))
                 .andExpect(jsonPath(prefix + ".scChamberName").value(isEmptyOrNullString()))

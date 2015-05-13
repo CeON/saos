@@ -71,6 +71,7 @@ public abstract class ApiConstants {
     public static final String JUDGE_NAME = "judgeName";
     public static final String COURT_TYPE = "courtType";
     public static final String SC_PERSONNEL_TYPE = "scPersonnelType";
+    public static final String SC_JUDGMENT_FORM = "scJudgmentForm";
     public static final String CC_COURT_TYPE = "ccCourtType";
     public static final String CC_COURT_ID = "ccCourtId";
     public static final String CC_COURT_CODE = "ccCourtCode";

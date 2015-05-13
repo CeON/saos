@@ -30,7 +30,7 @@ public class DumpSupremeCourtJudgmentItemMapper {
     public void fillJudgmentsFieldsToItemRepresentation(SupremeCourtJudgmentItem item, SupremeCourtJudgment judgment){
         item.setDivision(toDivision(judgment.getScChamberDivision()));
         item.setPersonnelType(judgment.getPersonnelType());
-        item.setForm(toForm(judgment.getScJudgmentForm()));
+        item.setJudgmentForm(toForm(judgment.getScJudgmentForm()));
         item.setChambers(toChambers(judgment.getScChambers()));
     }
 
@@ -42,8 +42,8 @@ public class DumpSupremeCourtJudgmentItemMapper {
         return view;
     }
 
-    private SupremeCourtJudgmentItem.Form toForm(SupremeCourtJudgmentForm scJudgmentForm) {
-        SupremeCourtJudgmentItem.Form view = new SupremeCourtJudgmentItem.Form();
+    private SupremeCourtJudgmentItem.JudgmentForm toForm(SupremeCourtJudgmentForm scJudgmentForm) {
+        SupremeCourtJudgmentItem.JudgmentForm view = new SupremeCourtJudgmentItem.JudgmentForm();
         view.setName(scJudgmentForm.getName());
         return view;
     }

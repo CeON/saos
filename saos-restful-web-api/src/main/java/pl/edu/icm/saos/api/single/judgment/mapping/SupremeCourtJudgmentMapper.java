@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 import static pl.edu.icm.saos.api.single.judgment.data.representation.SupremeCourtJudgmentData.Division;
 import static pl.edu.icm.saos.api.single.judgment.data.representation.SupremeCourtJudgmentData.Chamber;
-import static pl.edu.icm.saos.api.single.judgment.data.representation.SupremeCourtJudgmentData.Form;
+import static pl.edu.icm.saos.api.single.judgment.data.representation.SupremeCourtJudgmentData.JudgmentForm;
 
 /**
  * Converts {@link pl.edu.icm.saos.persistence.model.SupremeCourtJudgment SupremeCourtJudgment} specific fields.
@@ -70,12 +70,12 @@ public class SupremeCourtJudgmentMapper {
         return view;
     }
 
-    private Form toFormView(SupremeCourtJudgmentForm scForm) {
+    private JudgmentForm toFormView(SupremeCourtJudgmentForm scForm) {
         if(scForm == null){
             return null;
         }
 
-        Form view = new Form();
+        JudgmentForm view = new JudgmentForm();
 
         view.setName(scForm.getName());
 

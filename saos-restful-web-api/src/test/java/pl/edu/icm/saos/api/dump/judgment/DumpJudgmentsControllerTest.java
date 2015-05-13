@@ -367,7 +367,7 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath(pathPrefix + ".courtType").value(CourtType.SUPREME.name()))
                 .andExpect(jsonPath(pathPrefix + ".courtCases.[0].caseNumber").value(SC_CASE_NUMBER))
                 .andExpect(jsonPath(pathPrefix + ".personnelType").value(SC_PERSONNEL_TYPE.name()))
-                .andExpect(jsonPath(pathPrefix + ".form.name").value(SC_JUDGMENT_FORM_NAME))
+                .andExpect(jsonPath(pathPrefix + ".judgmentForm.name").value(SC_JUDGMENT_FORM_NAME))
                 .andExpect(jsonPath(pathPrefix + ".division.id").value(equalsLong(testObjectContext.getScFirstDivisionId())))
                 .andExpect(jsonPath(pathPrefix + ".chambers.[0].id").value(equalsLong(testObjectContext.getScFirstChamberId())))
 
