@@ -21,8 +21,16 @@ public class ApiResponseAssertUtils {
     //------------------------ LOGIC --------------------------
     
     public static void assertOk(ResultActions result) throws Exception {
+        assertOk(result, "UTF-8");
+    }
+    
+    public static void assertOk(ResultActions result, String charset) throws Exception {
         result.andExpect(status().isOk())
-                .andExpect(header().string("content-type", containsString("application/json")));
+                .andExpect(header().string("content-type",
+                        allOf(
+                                containsString("application/json"),
+                                containsString("charset=" + charset)
+                        )));
     }
     
     

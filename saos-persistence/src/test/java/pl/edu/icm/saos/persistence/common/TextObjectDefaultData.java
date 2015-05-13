@@ -22,35 +22,35 @@ public final class TextObjectDefaultData {
     public static final String NAC_CASE_NUMBER = "00445566";
     public static final String CASE_NUMBER = CC_CASE_NUMBER;
     public static final String CC_DECISION = "oddala apelacje";
-    public static final String SC_DECISION = "przyjeto apelacje";
+    public static final String SC_DECISION = "przyjęto apelacje";
     public static final String CT_DECISION = "uznano wszystko";
     public static final String NAC_DECISION = "nie uznaje apelacji";
     public static final String DECISION = CC_DECISION;
 
     public static final String CC_FIRST_LEGAL_BASE ="art. 88 ust. 1 ustawy z dnia 26 stycznia 1982 r. Karta Nauczyciela";
-    public static final String SC_FIRST_LEGAL_BASE ="art. 5 ust. 2 ustawy z dnia 22 listopada 2013 r. o zmianie ustawy o systemie informacji oswiatowej";
+    public static final String SC_FIRST_LEGAL_BASE ="art. 5 ust. 2 ustawy z dnia 22 listopada 2013 r. o zmianie ustawy o systemie informacji oświatowej";
     public static final String CT_FIRST_LEGAL_BASE ="art. 28 i art. 17 ustawy z dn. 16.07.2004r. Prawo telekomunikacyjne";
     public static final String NAC_FIRST_LEGAL_BASE ="art. 28 i art. 17 ustawy z dn. 16.07.2004r. Prawo telekomunikacyjne";
     public static final String FIRST_LEGAL_BASE =CC_FIRST_LEGAL_BASE;
     public static final String CC_SECOND_LEGAL_BASE="art. 30 i art. 17 ustawy z dn. 16.07.2004r. Prawo telekomunikacyjne";
-    public static final String SC_SECOND_LEGAL_BASE="art. 3 i art. 12 ustawa z dnia 18 sierpnia 2011 r. o bezpieczenstwie morskim";
-    public static final String CT_SECOND_LEGAL_BASE="art. 4 i art. 13 ustawa z dnia 18 sierpnia 2011 r. o bezpieczenstwie morskim";
-    public static final String NAC_SECOND_LEGAL_BASE="art. 4 i art. 13 ustawa z dnia 18 sierpnia 2011 r. o bezpieczenstwie morskim";
+    public static final String SC_SECOND_LEGAL_BASE="art. 3 i art. 12 ustawa z dnia 18 sierpnia 2011 r. o bezpieczeństwie morskim";
+    public static final String CT_SECOND_LEGAL_BASE="art. 4 i art. 13 ustawa z dnia 18 sierpnia 2011 r. o bezpieczeństwie morskim";
+    public static final String NAC_SECOND_LEGAL_BASE="art. 4 i art. 13 ustawa z dnia 18 sierpnia 2011 r. o bezpieczeństwie morskim";
     public static final String SECOND_LEGAL_BASE=CC_SECOND_LEGAL_BASE;
 
-    public static final String CC_FIRST_REFERENCED_REGULATION_TITLE="Ustawa z dnia 14 czerwca 1960 r. - Kodeks postepowania administracyjnego (Dz. U. z 1960 r. Nr 30, poz. 168)";
-    public static final String CC_SECOND_REFERENCED_REGULATION_TITLE="Ustawa z dnia 17 listopada 1964 r. - Kodeks postepowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296)";
-    public static final String CC_THIRD_REFERENCED_REGULATION_TITLE="Ustawa z dnia 30 sierpnia 2002 r. - Prawo o postepowaniu przed sadami administracyjnymi (Dz. U. z 2002 r. Nr 153, poz. 1270)";
+    public static final String CC_FIRST_REFERENCED_REGULATION_TITLE="Ustawa z dnia 14 czerwca 1960 r. - Kodeks postępowania administracyjnego (Dz. U. z 1960 r. Nr 30, poz. 168)";
+    public static final String CC_SECOND_REFERENCED_REGULATION_TITLE="Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296)";
+    public static final String CC_THIRD_REFERENCED_REGULATION_TITLE="Ustawa z dnia 30 sierpnia 2002 r. - Prawo o postępowaniu przed sądami administracyjnymi (Dz. U. z 2002 r. Nr 153, poz. 1270)";
 
-    public static final String SC_FIRST_REFERENCED_REGULATION_TITLE="first sc Ustawa z dnia 14 czerwca 1960 r. - Kodeks postepowania administracyjnego (Dz. U. z 1960 r. Nr 30, poz. 168)";
-    public static final String SC_SECOND_REFERENCED_REGULATION_TITLE="second sc Ustawa z dnia 17 listopada 1964 r. - Kodeks postepowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296)";
-    public static final String SC_THIRD_REFERENCED_REGULATION_TITLE="third sc Ustawa z dnia 30 sierpnia 2002 r. - Prawo o postepowaniu przed sadami administracyjnymi (Dz. U. z 2002 r. Nr 153, poz. 1270)";
+    public static final String SC_FIRST_REFERENCED_REGULATION_TITLE="first sc Ustawa z dnia 14 czerwca 1960 r. - Kodeks postępowania administracyjnego (Dz. U. z 1960 r. Nr 30, poz. 168)";
+    public static final String SC_SECOND_REFERENCED_REGULATION_TITLE="second sc Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296)";
+    public static final String SC_THIRD_REFERENCED_REGULATION_TITLE="third sc Ustawa z dnia 30 sierpnia 2002 r. - Prawo o postępowaniu przed sądami administracyjnymi (Dz. U. z 2002 r. Nr 153, poz. 1270)";
 
-    public static final String CT_FIRST_REFERENCED_REGULATION_TITLE="first ct Ustawa z dnia 14 czerwca 1960 r. - Kodeks postepowania administracyjnego (Dz. U. z 1960 r. Nr 30, poz. 168)";
-    public static final String CT_SECOND_REFERENCED_REGULATION_TITLE="second ct Ustawa z dnia 17 listopada 1964 r. - Kodeks postepowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296)";
+    public static final String CT_FIRST_REFERENCED_REGULATION_TITLE="first ct Ustawa z dnia 14 czerwca 1960 r. - Kodeks postępowania administracyjnego (Dz. U. z 1960 r. Nr 30, poz. 168)";
+    public static final String CT_SECOND_REFERENCED_REGULATION_TITLE="second ct Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296)";
     
-    public static final String NAC_FIRST_REFERENCED_REGULATION_TITLE="first nac Ustawa z dnia 14 czerwca 1960 r. - Kodeks postepowania administracyjnego (Dz. U. z 1960 r. Nr 30, poz. 168)";
-    public static final String NAC_SECOND_REFERENCED_REGULATION_TITLE="second nac Ustawa z dnia 17 listopada 1964 r. - Kodeks postepowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296)";
+    public static final String NAC_FIRST_REFERENCED_REGULATION_TITLE="first nac Ustawa z dnia 14 czerwca 1960 r. - Kodeks postępowania administracyjnego (Dz. U. z 1960 r. Nr 30, poz. 168)";
+    public static final String NAC_SECOND_REFERENCED_REGULATION_TITLE="second nac Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296)";
 
     public static final String FIRST_REFERENCED_REGULATION_TITLE=CC_FIRST_REFERENCED_REGULATION_TITLE;
     public static final String SECOND_REFERENCED_REGULATION_TITLE=CC_SECOND_REFERENCED_REGULATION_TITLE;
@@ -110,10 +110,10 @@ public final class TextObjectDefaultData {
     public static final String CC_FIRST_COURT_REPORTER = "Adam Nowak";
     public static final String CC_SECOND_COURT_REPORTER = "Jan Kowalski";
 
-    public static final String SC_FIRST_COURT_REPORTER = "Ewa Wesolowska";
-    public static final String SC_SECOND_COURT_REPORTER = "Dominik Wesolowski";
+    public static final String SC_FIRST_COURT_REPORTER = "Ewa Wesołowska";
+    public static final String SC_SECOND_COURT_REPORTER = "Dominik Wesołowski";
 
-    public static final String CT_FIRST_COURT_REPORTER = "Adam Niewinski";
+    public static final String CT_FIRST_COURT_REPORTER = "Adam Niewiński";
     public static final String CT_SECOND_COURT_REPORTER = "Piotr Przybylski";
     
     public static final String NAC_FIRST_COURT_REPORTER = "Norbert Zawadzki";
@@ -161,7 +161,7 @@ public final class TextObjectDefaultData {
     public static final int NAC_DATE_MONTH = 9;
     public static final int NAC_DATE_DAY = 23;
 
-    public static final String CC_FIRST_JUDGE_NAME = "Ewa Sniegocka";
+    public static final String CC_FIRST_JUDGE_NAME = "Ewa Śniegocka";
     public static final Judge.JudgeRole CC_FIRST_JUDGE_ROLE = Judge.JudgeRole.PRESIDING_JUDGE;
     public static final String CC_FIRST_JUDGE_FUNCTION = "CC first function";
     public static final String CC_SECOND_JUDGE_NAME = "Irena Piotrowska";
@@ -200,8 +200,8 @@ public final class TextObjectDefaultData {
     public static final String CT_SOURCE_JUDGMENT_URL = "http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=155515000001003_II_Cz_000561_2014_Uz_2014-04-29_003";
     public static final String NAC_SOURCE_JUDGMENT_URL = "http://orzeczenia.ms.gov.pl/ncourt-api/judgement/details?id=155515000001003_II_Cz_000561_2014_Uz_2014-04-29_004";
     public static final String SOURCE_JUDGMENT_URL = CC_SOURCE_JUDGMENT_URL;
-    public static final String CC_SOURCE_PUBLISHER = "Grazyna Magryta-Golaszewska";
-    public static final String SC_SOURCE_PUBLISHER = "Anna Wesolowska";
+    public static final String CC_SOURCE_PUBLISHER = "Grażyna Magryta-Gołaszewska";
+    public static final String SC_SOURCE_PUBLISHER = "Anna Wesołowska";
     public static final String CT_SOURCE_PUBLISHER = "Adam Nowak";
     public static final String NAC_SOURCE_PUBLISHER = "Aleksander Kowalczyk";
     public static final String SOURCE_PUBLISHER = CC_SOURCE_PUBLISHER;
@@ -230,14 +230,14 @@ public final class TextObjectDefaultData {
     
     
     
-    public static final String CC_DISTRICT_COURT_NAME = "Sad Rejonowy we Wroclawiu";
+    public static final String CC_DISTRICT_COURT_NAME = "Sąd Rejonowy we Wrocławiu";
     public static final String CC_DISTRICT_COURT_CODE = "15500002";
     public static final CommonCourt.CommonCourtType CC_DISTRICT_COURT_TYPE = CommonCourt.CommonCourtType.DISTRICT;
 
-    public static final String CC_FIRST_DISTRICT_DIVISION_NAME = "I Wydzial Cywilny";
+    public static final String CC_FIRST_DISTRICT_DIVISION_NAME = "I Wydział Cywilny";
     public static final String CC_FIRST_DISTRICT_DIVISION_CODE = "0000503";
 
-    public static final String CC_SECOND_DISTRICT_DIVISION_NAME = "II Wydzial Karny";
+    public static final String CC_SECOND_DISTRICT_DIVISION_NAME = "II Wydział Karny";
     public static final String CC_SECOND_DISTRICT_DIVISION_CODE = "0000504";
 
     
@@ -246,22 +246,22 @@ public final class TextObjectDefaultData {
     public static final CommonCourt.CommonCourtType CC_REGIONAL_COURT_TYPE = CommonCourt.CommonCourtType.REGIONAL;
 
     
-    public static final String CC_FIRST_REGIONAL_DIVISION_NAME = "I Wydzial Cywilny";
+    public static final String CC_FIRST_REGIONAL_DIVISION_NAME = "I Wydział Cywilny";
     public static final String CC_FIRST_REGIONAL_DIVISION_CODE = "0000505";
 
-    public static final String CC_SECOND_REGIONAL_DIVISION_NAME = "II Wydzial Karny";
+    public static final String CC_SECOND_REGIONAL_DIVISION_NAME = "II Wydział Karny";
     public static final String CC_SECOND_REGIONAL_DIVISION_CODE = "0000506";
 
     
     
-    public static final String CC_APPEAL_COURT_NAME = "Sad Apelacyjny we Wroclawiu";
+    public static final String CC_APPEAL_COURT_NAME = "Sąd Apelacyjny we Wrocławiu";
     public static final String CC_APPEAL_COURT_CODE = "16660000";
     public static final CommonCourt.CommonCourtType CC_APPEAL_COURT_TYPE = CommonCourt.CommonCourtType.APPEAL;
 
-    public static final String CC_FIRST_APPEAL_DIVISION_NAME = "I Wydzial Cywilny";
+    public static final String CC_FIRST_APPEAL_DIVISION_NAME = "I Wydział Cywilny";
     public static final String CC_FIRST_APPEAL_DIVISION_CODE = "0000507";
 
-    public static final String CC_SECOND_APPEAL_DIVISION_NAME = "II Wydzial Karny";
+    public static final String CC_SECOND_APPEAL_DIVISION_NAME = "II Wydział Karny";
     public static final String CC_SECOND_APPEAL_DIVISION_CODE = "0000508";
     
     
@@ -307,8 +307,8 @@ public final class TextObjectDefaultData {
     public static final String NAC_FIRST_KEYWORD = "prawo cywilne";
     public static final String NAC_SECOND_KEYWORD = "producent";
 
-    public static final String SC_FIRST_DIVISION_NAME ="Wydzial karny I";
-    public static final String SC_FIRST_DIVISION_FULL_NAME ="Wydzial karny I pelna nazwa";
+    public static final String SC_FIRST_DIVISION_NAME ="Wydział karny I";
+    public static final String SC_FIRST_DIVISION_FULL_NAME ="Wydział karny I pełna nazwa";
     public static final String SC_CHAMBER_NAME="Izba Cywilna";
 
     public static final String SC_JUDGMENT_FORM_NAME = "postanowienie SC SN";
@@ -318,7 +318,7 @@ public final class TextObjectDefaultData {
     public static final String SC_SECOND_CHAMBER_NAME = "Izba karna";
 
     public static final String CT_FIRST_DISSENTING_OPINION_TEXT = "ct first opinion text";
-    public static final String CT_FIRST_DISSENTING_OPINION_FIRST_AUTHOR = "ct Adam Kozlowski";
+    public static final String CT_FIRST_DISSENTING_OPINION_FIRST_AUTHOR = "ct Adam Kozłowski";
     public static final String CT_FIRST_DISSENTING_OPINION_SECOND_AUTHOR = "ct Marek Nowak";
 
     public static final String CT_SECOND_DISSENTING_OPINION_TEXT = "ct second opinion text";
@@ -354,17 +354,17 @@ public final class TextObjectDefaultData {
     public static final String NAC_JUDGMENT_RESULT = "oddalono";
     
     
-    public static final String CC_FIRST_LOWER_COURT_JUDGMENT = "XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sad Okregowy Warszawa";
-    public static final String CC_SECOND_LOWER_COURT_JUDGMENT = "WSD 20/00 - orzeczenie z dnia 30 wrzesnia 2000 r. - Wyzszy Sad Dyscyplinarny Warszawa";
+    public static final String CC_FIRST_LOWER_COURT_JUDGMENT = "XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okręgowy Warszawa";
+    public static final String CC_SECOND_LOWER_COURT_JUDGMENT = "WSD 20/00 - orzeczenie z dnia 30 wrzesnia 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
     
-    public static final String SC_FIRST_LOWER_COURT_JUDGMENT = "SC XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sad Okregowy Warszawa";
-    public static final String SC_SECOND_LOWER_COURT_JUDGMENT = "SC WSD 20/00 - orzeczenie z dnia 30 wrzesnia 2000 r. - Wyzszy Sad Dyscyplinarny Warszawa";
+    public static final String SC_FIRST_LOWER_COURT_JUDGMENT = "SC XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okręgowy Warszawa";
+    public static final String SC_SECOND_LOWER_COURT_JUDGMENT = "SC WSD 20/00 - orzeczenie z dnia 30 września 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
     
-    public static final String CT_FIRST_LOWER_COURT_JUDGMENT = "CT XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sad Okregowy Warszawa";
-    public static final String CT_SECOND_LOWER_COURT_JUDGMENT = "CT WSD 20/00 - orzeczenie z dnia 30 wrzesnia 2000 r. - Wyzszy Sad Dyscyplinarny Warszawa";
+    public static final String CT_FIRST_LOWER_COURT_JUDGMENT = "CT XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okregowy Warszawa";
+    public static final String CT_SECOND_LOWER_COURT_JUDGMENT = "CT WSD 20/00 - orzeczenie z dnia 30 września 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
     
-    public static final String NAC_FIRST_LOWER_COURT_JUDGMENT = "NAC XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sad Okregowy Warszawa";
-    public static final String NAC_SECOND_LOWER_COURT_JUDGMENT = "NAC WSD 20/00 - orzeczenie z dnia 30 wrzesnia 2000 r. - Wyzszy Sad Dyscyplinarny Warszawa";
+    public static final String NAC_FIRST_LOWER_COURT_JUDGMENT = "NAC XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okręgowy Warszawa";
+    public static final String NAC_SECOND_LOWER_COURT_JUDGMENT = "NAC WSD 20/00 - orzeczenie z dnia 30 wrzesńia 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
     
     
     public static final String FIRST_ENRICHMENT_TAG_TYPE = "REFERENCED_REGULATIONS";
