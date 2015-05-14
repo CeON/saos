@@ -1,13 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
+<%-- TODO: REMOVE IT AFTER https://github.com/CeON/saos/issues/800 --%>
 <style>
 <!--
     #ccCourtChart * .flot-x-axis .flot-tick-label {
         font-size: 9px;
     }
 -->
-</style>>
+</style>
 
 <script>
 $(document).ready(function() {
