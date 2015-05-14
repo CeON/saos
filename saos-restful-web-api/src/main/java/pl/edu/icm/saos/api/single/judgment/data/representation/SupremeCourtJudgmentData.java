@@ -15,7 +15,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
     private static final long serialVersionUID = 9192584970769834239L;
 
     private PersonnelType personnelType;
-    private Form judgmentForm;
+    private JudgmentForm judgmentForm;
     private Division division;
     private List<Chamber> chambers;
 
@@ -24,7 +24,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
         return personnelType;
     }
 
-    public Form getJudgmentForm() {
+    public JudgmentForm getJudgmentForm() {
         return judgmentForm;
     }
 
@@ -41,7 +41,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
         this.personnelType = personnelType;
     }
 
-    public void setJudgmentForm(Form judgmentForm) {
+    public void setJudgmentForm(JudgmentForm judgmentForm) {
         this.judgmentForm = judgmentForm;
     }
 
@@ -92,7 +92,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
                 .toString();
     }
 
-    public static class Form implements Serializable {
+    public static class JudgmentForm implements Serializable {
         private static final long serialVersionUID = 7521132117768045711L;
 
         private String name;
@@ -121,7 +121,7 @@ public class SupremeCourtJudgmentData extends JudgmentData {
             if (obj == null || getClass() != obj.getClass()) {
                 return false;
             }
-            final Form other = (Form) obj;
+            final JudgmentForm other = (JudgmentForm) obj;
             return Objects.equal(this.name, other.name);
         }
 

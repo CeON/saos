@@ -43,6 +43,7 @@ public class JudgmentParametersToCriteriaConverter {
         criteria.setCcCourtDivisionCode(params.getCcDivisionCode());
 
         criteria.setScPersonnelType(params.getScPersonnelType());
+        criteria.setScJudgmentFormName(params.getScJudgmentForm());
 
         criteria.setScCourtChamberId(params.getScChamberId());
         criteria.setScCourtChamberName(params.getScChamberName());

@@ -301,6 +301,7 @@ public class JudgmentsListSuccessRepresentationBuilder {
         queryTemplate.setCcDivisionName(params.getCcDivisionName());
 
         queryTemplate.setScPersonnelType(new PersonnelTypeTemplate(params.getScPersonnelType()));
+        queryTemplate.setScJudgmentForm(params.getScJudgmentForm());
         queryTemplate.setScChamberId(params.getScChamberId());
         queryTemplate.setScChamberName(params.getScChamberName());
         queryTemplate.setScDivisionId(params.getScDivisionId());

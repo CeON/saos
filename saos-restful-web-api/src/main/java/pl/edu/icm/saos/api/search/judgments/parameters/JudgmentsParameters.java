@@ -50,6 +50,7 @@ public class JudgmentsParameters {
     private String ccDivisionName;
 
     private PersonnelType scPersonnelType;
+    private String scJudgmentForm;
     private Long scChamberId;
     private String scChamberName;
     private Long scDivisionId;
@@ -98,6 +99,10 @@ public class JudgmentsParameters {
 
     public PersonnelType getScPersonnelType() {
         return scPersonnelType;
+    }
+
+    public String getScJudgmentForm() {
+        return scJudgmentForm;
     }
 
     public CourtType getCourtType() {
@@ -199,6 +204,10 @@ public class JudgmentsParameters {
         this.scPersonnelType = scPersonnelType;
     }
 
+    public void setScJudgmentForm(String scJudgmentForm) {
+        this.scJudgmentForm = scJudgmentForm;
+    }
+
     public void setCourtType(CourtType courtType) {
         this.courtType = courtType;
     }
@@ -263,12 +272,13 @@ public class JudgmentsParameters {
         this.sort = sort;
     }
 
+
     //------------------------ HashCode & Equals --------------------------
 
     @Override
     public int hashCode() {
         return Objects.hashCode(pagination, sort, caseNumber, all, legalBase, referencedRegulation,
-                judgeName, scPersonnelType, judgmentDateFrom, judgmentDateTo, courtType,
+                judgeName, scPersonnelType, scJudgmentForm, judgmentDateFrom, judgmentDateTo, courtType,
                 ccCourtType, ccCourtId, ccCourtCode, ccCourtName,
                 ccDivisionId, ccDivisionCode, ccDivisionName, scChamberId,
                 scChamberName, scDivisionId, scDivisionName, judgmentTypes,
@@ -292,6 +302,7 @@ public class JudgmentsParameters {
                 Objects.equal(this.referencedRegulation, other.referencedRegulation) &&
                 Objects.equal(this.judgeName, other.judgeName) &&
                 Objects.equal(this.scPersonnelType, other.scPersonnelType) &&
+                Objects.equal(this.scJudgmentForm, other.scJudgmentForm) &&
                 Objects.equal(this.judgmentDateFrom, other.judgmentDateFrom) &&
                 Objects.equal(this.judgmentDateTo, other.judgmentDateTo) &&
                 Objects.equal(this.courtType, other.courtType) &&
@@ -325,6 +336,7 @@ public class JudgmentsParameters {
                 .add("referencedRegulation", referencedRegulation)
                 .add("judgeName", judgeName)
                 .add("scPersonnelType", scPersonnelType)
+                .add("scJudgmentForm", scJudgmentForm)
                 .add("judgmentDateFrom", judgmentDateFrom)
                 .add("judgmentDateTo", judgmentDateTo)
                 .add("courtType", courtType)
@@ -343,4 +355,5 @@ public class JudgmentsParameters {
                 .add("keywords", keywords)
                 .toString();
     }
+
 }

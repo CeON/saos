@@ -122,7 +122,7 @@
    <copyField source="referencedRegulations" dest="all" />
    <copyField source="ccCourtName" dest="all" />
    <copyField source="ccCourtDivisionName" dest="all" />
-   <copyField source="scJudgmentFormId" dest="all" />
+   <copyField source="scJudgmentFormName" dest="all" />
    <copyField source="scCourtChamberName" dest="all" />
    <copyField source="scCourtChamberDivisionName" dest="all" />
    <copyField source="scCourtDivisionsChamberName" dest="all" />

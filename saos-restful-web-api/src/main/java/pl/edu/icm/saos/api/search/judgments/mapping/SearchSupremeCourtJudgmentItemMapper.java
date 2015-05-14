@@ -34,6 +34,7 @@ public class SearchSupremeCourtJudgmentItemMapper {
      */
     public void fillJudgmentsFieldsToItemRepresentation(SupremeCourtJudgmentItem item, JudgmentSearchResult judgment){
         item.setPersonnelType(judgment.getScPersonnelType());
+        item.setJudgmentForm(judgment.getScJudgmentFormName());
         item.setDivision(toDivision(judgment));
     }
 

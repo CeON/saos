@@ -17,12 +17,17 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
     private static final long serialVersionUID = -2267420542588216734L;
 
     private PersonnelType personnelType;
+    private String judgmentForm;
     private Division division;
 
     //------------------------ GETTERS --------------------------
 
     public PersonnelType getPersonnelType() {
         return personnelType;
+    }
+
+    public String getJudgmentForm() {
+        return judgmentForm;
     }
 
     public Division getDivision() {
@@ -35,9 +40,14 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
         this.personnelType = personnelType;
     }
 
+    public void setJudgmentForm(String judgmentForm) {
+        this.judgmentForm = judgmentForm;
+    }
+
     public void setDivision(Division division) {
         this.division = division;
     }
+
 
     //------------------------ HashCode & Equals --------------------------
     @Override
@@ -58,6 +68,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
         }
         final SupremeCourtJudgmentItem other = (SupremeCourtJudgmentItem) obj;
         return Objects.equal(this.personnelType, other.personnelType) &&
+                Objects.equal(this.judgmentForm, other.judgmentForm) &&
                 Objects.equal(this.division, other.division);
     }
 
@@ -68,6 +79,7 @@ public class SupremeCourtJudgmentItem extends SearchJudgmentItem {
         return Objects.toStringHelper(this)
                 .addValue(super.toString())
                 .add("personnelType", personnelType)
+                .add("judgmentForm", judgmentForm)
                 .add("division", division)
                 .toString();
     }
