@@ -116,5 +116,15 @@ public class ScChamberControllerTest extends PersistenceTestSupport {
         // then
         assertNotFoundError(actions, notExistingChamberId);
     }
+    
+    @Test
+    public void should_respond_in_iso8859_1_charset() throws Exception {
+        // when
+        ResultActions actions = mockMvc.perform(get(chambersPath)
+                .accept(MediaType.APPLICATION_JSON+";charset=ISO-8859-1"));
+        
+        // then
+        assertOk(actions, "ISO-8859-1");
+    }
 
 }
