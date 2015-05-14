@@ -5,6 +5,8 @@ var initAnalysisJs = function() {
 
     var mainChart = null;
     var aggregatedMainChart = null;
+    var ccCourtChart = null;
+    
     var isZoomed = false;
     var isChartGenerating = false; 
     
@@ -231,6 +233,14 @@ var initAnalysisJs = function() {
             }
         });
         
+        $('#courtType_COMMON').change(function() {
+            if ($(this).is(':checked')) {
+                $('#ccIncludeDependentCourtJudgments').val(true);
+                $('#ccIncludeDependentCourtJudgments').prop('checked', true);
+                $("[name='_globalFilter.courtCriteria.ccIncludeDependentCourtJudgments']").val("true");
+            }
+        });
+        
     }
 
 
@@ -335,6 +345,7 @@ var initAnalysisJs = function() {
             
         showAjaxLoader("mainChart");
         showAjaxLoader("aggregatedMainChart");
+        showAjaxLoader("ccCourtChart");
         
         $('#analysisForm').ajaxSubmit(function(charts) {
             $('#analysisForm').attr('action', analysisFormBaseAction)
@@ -343,7 +354,10 @@ var initAnalysisJs = function() {
              printMainChart(mainChart, null, null);
              
              aggregatedMainChart = charts['AGGREGATED_MAIN_CHART'];
-             printAggregatedMainChart(aggregatedMainChart, null, null);
+             printAggregatedMainChart(aggregatedMainChart);
+             
+             ccCourtChart = charts['CC_COURT_CHART'];
+             printCcCourtChart(ccCourtChart);
              
              if (updateLocationUrl) {
                  updateUrl();   
@@ -357,9 +371,12 @@ var initAnalysisJs = function() {
     
     /** cancel zoom if the user clicks outside the chart */
     $(document).click(function(event) { 
-        if($(event.target).parents().index($('#mainChart')) == -1 && isZoomed) {
+        if($(event.target).parents().index($('#mainChart')) == -1 && $(event.target).parents().index($('#ccCourtChart')) == -1 && isZoomed) {
             $('[id$="mainChartZoomCancelHint"]').html("");
             printMainChart(mainChart, null, null);
+            
+            $('[id$="ccCourtChartZoomCancelHint"]').html("");
+            printCcCourtChart(ccCourtChart, null, null);
             isZoomed = false;
         }        
     });
@@ -383,14 +400,21 @@ var initAnalysisJs = function() {
         var seriesArr = [];
         
         for (var i = 0; i < chart.seriesList.length; i++) {
-            seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points});
+            seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points, points: {fillColor: getColour(i)}});
         }
         
         $.plot($("#mainChart"), seriesArr,    {
                                                      lines: {
                                                          steps:false,
-                                                         align: 'left'
+                                                         align: 'left',
+                                                         show: true
+                                                         
                                                     }, 
+                                                    points: {
+                                                        show:true 
+                                                        
+                                                        
+                                                    },
                                                     xaxis: { 
                                                         min: xmin,
                                                         max: xmax,
@@ -494,7 +518,7 @@ var initAnalysisJs = function() {
     }
     
    
-    /** Show a point tooltip on the main chart */
+    /** Show a point tooltip on the aggregated main chart */
     $("#aggregatedMainChart").on("plothover", function (event, pos, item) {
         if (item) {
             
@@ -508,6 +532,99 @@ var initAnalysisJs = function() {
             $("#tooltip").remove();
         
         }
+    });
+
+    
+    
+    //******************************* CC COURT CHART ***************************************************
+        
+    
+    /**
+     * Prints the court chart (number of judgments for each common court)
+     * @param chart json chart data, see pl.edu.icm.saos.webapp.chart.Chart 
+     * @param xmin min x value that will be shown on the chart, null - the min x value from chart data
+     * @param xmax max x value that will be shown on the chart, null - the max x value from chart data
+     */
+    function printCcCourtChart(chart, xmin, xmax) {
+
+        if (chart == null) {
+            $('#ccCourtChartPanel').hide();
+            return;
+        }
+        $('#ccCourtChartPanel').show();
+        
+        if (xmin == null) {
+            xmin = -1;
+        }
+        
+        if (xmax == null) {
+            xmax = chart.seriesList[0].points.length;
+        }
+        
+        var yMinMax = calculateYAxisRangeForXRange(chart, xmin, xmax);
+        var ymin = 0;
+        var ymax = yMinMax[1]+yMinMax[1]/10;
+        
+        var seriesArr = [];
+        
+        var numberOfSeries = chart.seriesList.length;
+        for (var i = 0; i < numberOfSeries; i++) {
+            seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points, bars: {order:i}});
+        }
+        
+        var numberOfBarsInSeries = chart.seriesList[0].points.length; 
+        
+        var calcBarWidth = numberOfBarsInSeries / (numberOfBarsInSeries*numberOfSeries*2);
+        
+        $.plot($("#ccCourtChart"), seriesArr,    {
+                                                    bars: {
+                                                        show: true,
+                                                        align: 'left',
+                                                        barWidth: calcBarWidth
+                                                       
+                                                    }, 
+                
+                                                    xaxis: { 
+                                                        min: xmin,
+                                                        max: xmax,
+                                                        ticks: chart.xticks,
+                                                        
+                                                        
+                                                        
+                                                    }, 
+                                                    yaxis: {
+                                                        tickDecimals: 0,
+                                                        max: ymax,
+                                                        min: ymin
+                                                    }, 
+                                                    grid: {
+                                                        hoverable: true,
+                                                        borderWidth: 1,
+                                                        borderColor: '#888',
+                                                    },
+                                                    selection: {
+                                                        mode: "x"
+                                                    }
+                                                      
+                                                     
+                                                }
+                                            );
+        
+        
+    }
+    
+   
+    /** Show a point tooltip on the cc court chart chart */
+    $("#ccCourtChart").on("plothover", function (event, pos, item) {
+        showYNumberPointTooltip(event, pos, item, 2);
+    });
+
+    
+    /** zoom the main chart */
+    $("#ccCourtChart").on("plotselected", function (event, ranges) {
+        $('#ccCourtChartZoomCancelHint').text(analysisJsProperties.ZOOM_CANCEL_HINT);
+        printCcCourtChart(ccCourtChart, ranges.xaxis.from, ranges.xaxis.to);
+        isZoomed = true;
     });
 
 }

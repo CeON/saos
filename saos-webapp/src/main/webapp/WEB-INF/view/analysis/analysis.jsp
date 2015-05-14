@@ -1,6 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
+<style>
+<!--
+    #ccCourtChart * .flot-x-axis .flot-tick-label {
+        font-size: 9px;
+    }
+-->
+</style>>
+
 <script>
 $(document).ready(function() {
 	
@@ -47,8 +55,28 @@ $(document).ready(function() {
         </div>
     </div>
 
-     <img id="ajaxChartLoaderImg" src="${contextPath}/static/image/icons/ajax-loader.gif" alt="<spring:message code='analysis.button.ajaxLoader.iconAlt'/>" style="visibility: hidden;"/>
     </div>
 
     </div>
+    
+    
+   
+   
+   
+    <div id="ccCourtChartPanel" class="panel panel-default" style="border-width: 2px; margin-top: 40px; ">
+
+        <div class="panel-body">
+     
+		    <div class="col-xs-12 col-sm-12">
+		        <span class="small" id="ccCourtChartZoomCancelHint"></span>
+		        <div id="ccCourtChart" style="width: 100%; height: 300px;">
+		        </div>
+		    </div>
+    
+        </div>
+    </div>
+
+
 </div>
+
+<img id="ajaxChartLoaderImg" src="${contextPath}/static/image/icons/ajax-loader.gif" alt="<spring:message code='analysis.button.ajaxLoader.iconAlt'/>" style="visibility: hidden;"/>

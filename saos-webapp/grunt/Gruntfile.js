@@ -129,6 +129,7 @@ module.exports = function(grunt) {
 				  '<%= project.js.dir %>/libs/jquery.flot.navigate.min.js',
 				  '<%= project.js.dir %>/libs/jquery.flot.resize.min.js',
 				  '<%= project.js.dir %>/libs/jquery.flot.selection.min.js',
+                  '<%= project.js.dir %>/libs/jquery.flot.orderBars.min.js',
 				  '<%= project.js.dir %>/libs/jquery.flot.stack.min.js',
 				  '<%= project.js.dir %>/libs/jquery.flot.time.min.js',
 				  
