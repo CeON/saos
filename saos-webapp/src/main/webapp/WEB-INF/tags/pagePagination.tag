@@ -11,7 +11,12 @@
 <c:set var="pageBlockNumber" value="8" />
 
 <fmt:formatNumber var="halfBookmarks" value="${pageBlockNumber/2}" maxFractionDigits="0" scope="page"/>
-<fmt:formatNumber var="totalPages" value="${resultsNo/pageSize + 0.5}" maxFractionDigits="0" pattern="#" scope="page" />
+
+<c:set var="totalPagesFloat" value="${resultsNo/pageSize}" />
+<fmt:formatNumber var="totalPages" value="${totalPagesFloat - (totalPagesFloat%1)}" maxFractionDigits="0" pattern="#" scope="page" />
+<c:if test="${totalPagesFloat%1 > 0}">
+	<c:set var="totalPages" value="${totalPages + 1}" />
+</c:if>
 
 <c:set var="begin" value="${pageNo - halfBookmarks }" />
 <c:set var="end" value="${pageNo + halfBookmarks}" />
@@ -29,7 +34,7 @@
 </c:if>
 
 
-<c:if test="${totalPages > 1}">     
+<c:if test="${totalPages > 1 || pageNo > 1}">     
     <div class="pagination"> 
 	
 		<div>
