@@ -18,6 +18,7 @@
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.navigate.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.resize.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.selection.min.js"></script>
+<script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.orderBars.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.stack.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/libs/jquery.flot.time.min.js"></script>
 <script type="text/javascript" src="${contextPath}/static/javascript/modules/flotSupport.js"></script>
