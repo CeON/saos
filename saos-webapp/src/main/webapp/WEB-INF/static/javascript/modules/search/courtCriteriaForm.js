@@ -164,6 +164,8 @@ var CourtCriteriaForm = (function() {
                              if (!$ccIncludeDependentCourtJudgmentsCheckbox.is(":checked")) {
                                  $commonCourtDivisionSelect.removeAttr("disabled");
                                  showCcDivisionSearchCriteriaLink();
+                             } else {
+                                 $commonCourtDivisionSelect.prop("disabled", "disabled");
                              }
                          }
                          
