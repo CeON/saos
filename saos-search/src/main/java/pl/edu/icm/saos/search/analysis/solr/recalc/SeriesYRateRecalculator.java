@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.chart.Point;
 import pl.edu.icm.saos.common.chart.Series;
+import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.RateYValue;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
 import pl.edu.icm.saos.search.analysis.request.YSettings;
@@ -26,13 +27,13 @@ public class SeriesYRateRecalculator implements SeriesYRecalculator {
     //------------------------ LOGIC --------------------------
     
     @Override
-    public Series<Object, ? extends Number> recalculateSeries(Series<Object, Integer> series, XSettings xsettings, YSettings ysettings) {
+    public Series<Object, ? extends Number> recalculateSeries(Series<Object, Integer> series, JudgmentSeriesCriteria criteria, XSettings xsettings, YSettings ysettings) {
         
         RateYValue rateYValue = (RateYValue)ysettings.getValueType();
         
         Preconditions.checkNotNull(rateYValue);
         
-        Series<Object, Integer> baseSeries = rateBaseSeriesGenerator.generateRateBaseSeries(xsettings);
+        Series<Object, Integer> baseSeries = rateBaseSeriesGenerator.generateRateBaseSeries(criteria, xsettings);
         
         return recalculateSeries(series, baseSeries, rateYValue.getRateRatio());
         

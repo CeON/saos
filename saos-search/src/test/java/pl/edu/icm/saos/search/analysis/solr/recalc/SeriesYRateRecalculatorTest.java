@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import pl.edu.icm.saos.common.chart.Point;
 import pl.edu.icm.saos.common.chart.Series;
+import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.NumberYValue;
 import pl.edu.icm.saos.search.analysis.request.RateYValue;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
@@ -65,7 +66,7 @@ public class SeriesYRateRecalculatorTest {
         Series<Object, Integer> series = new Series<>();
         
         // execute
-        recalculator.recalculateSeries(series, new XSettings(), new YSettings());
+        recalculator.recalculateSeries(series, new JudgmentSeriesCriteria(), new XSettings(), new YSettings());
         
         
     }
@@ -83,16 +84,17 @@ public class SeriesYRateRecalculatorTest {
         baseSeries.addPoint("A", 12343);
         baseSeries.addPoint("B", 267);
         
+        JudgmentSeriesCriteria seriesCriteria = mock(JudgmentSeriesCriteria.class);
         XSettings xsettings = mock(XSettings.class);
         
         YSettings ysettings = new YSettings();
         ysettings.setValueType(new RateYValue(1000));
         
-        when(rateBaseSeriesGenerator.generateRateBaseSeries(xsettings)).thenReturn(baseSeries);
+        when(rateBaseSeriesGenerator.generateRateBaseSeries(seriesCriteria, xsettings)).thenReturn(baseSeries);
         
         
         // execute
-        Series<Object, ? extends Number> recalcSeries = recalculator.recalculateSeries(series, xsettings, ysettings);
+        Series<Object, ? extends Number> recalcSeries = recalculator.recalculateSeries(series, seriesCriteria, xsettings, ysettings);
         
         
         // assert

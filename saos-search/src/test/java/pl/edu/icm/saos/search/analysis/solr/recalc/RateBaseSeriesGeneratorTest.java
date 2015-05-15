@@ -2,11 +2,12 @@ package pl.edu.icm.saos.search.analysis.solr.recalc;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.InOrder;
+import org.mockito.Mockito;
 
 import pl.edu.icm.saos.common.chart.Series;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
@@ -24,12 +25,15 @@ public class RateBaseSeriesGeneratorTest {
     
     private SeriesGenerator seriesGenerator = mock(SeriesGenerator.class);
     
+    private JudgmentSeriesCriteriaCloner judgmentSeriesCriteriaCloner = mock(JudgmentSeriesCriteriaCloner.class);
     
     
     @Before
     public void before() {
         
         rateBaseSeriesGenerator.setSeriesGenerator(seriesGenerator);
+        
+        rateBaseSeriesGenerator.setJudgmentSeriesCriteriaCloner(judgmentSeriesCriteriaCloner);
         
     }
     
@@ -40,20 +44,27 @@ public class RateBaseSeriesGeneratorTest {
     public void generateRateBaseSeries() {
         
         // given
+        JudgmentSeriesCriteria seriesCriteria = mock(JudgmentSeriesCriteria.class);
+        
         XSettings xsettings = new XSettings();
         xsettings.setField(XField.JUDGMENT_DATE);
         
         Series<Object, Integer> series = new Series<>();
-        when(seriesGenerator.generateSeries(new JudgmentSeriesCriteria(), xsettings)).thenReturn(series);
+        when(seriesGenerator.generateSeries(seriesCriteria, xsettings)).thenReturn(series);
         
+        when(judgmentSeriesCriteriaCloner.clone(seriesCriteria)).thenReturn(seriesCriteria);
         
         // execute
-        Series<Object, Integer> rateBaseSeries = rateBaseSeriesGenerator.generateRateBaseSeries(xsettings);
+        Series<Object, Integer> rateBaseSeries = rateBaseSeriesGenerator.generateRateBaseSeries(seriesCriteria, xsettings);
         
         
         // assert
         assertTrue(rateBaseSeries == series);
-        verify(seriesGenerator).generateSeries(new JudgmentSeriesCriteria(), xsettings);
         
+        InOrder inOrder = Mockito.inOrder(seriesCriteria, seriesGenerator);
+        inOrder.verify(seriesCriteria).setPhrase(null);
+        inOrder.verify(seriesGenerator).generateSeries(seriesCriteria, xsettings);
+        Mockito.verifyNoMoreInteractions(seriesCriteria);
+        Mockito.verifyNoMoreInteractions(seriesGenerator);
     }
 }
