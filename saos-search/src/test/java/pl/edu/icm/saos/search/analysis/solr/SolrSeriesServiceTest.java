@@ -90,7 +90,7 @@ public class SolrSeriesServiceTest {
         
         Series<Object, Number> recalcSeries = new Series<>();
         @SuppressWarnings("unchecked")
-        Series<Object, Number> recalculateSeries = (Series<Object, Number>)seriesYRecalculator.recalculateSeries(series, xsettings, ysettings);
+        Series<Object, Number> recalculateSeries = (Series<Object, Number>)seriesYRecalculator.recalculateSeries(series, criteria, xsettings, ysettings);
         when(recalculateSeries).thenReturn(recalcSeries);
         
         // execute
@@ -100,7 +100,7 @@ public class SolrSeriesServiceTest {
         assertTrue(recalcSeries == generatedSeries);
         verify(seriesGenerator).generateSeries(criteria, xsettings);
         verify(seriesYRecalculatorManager).getSeriesYRecalculator(ysettings.getValueType());
-        verify(seriesYRecalculator).recalculateSeries(series, xsettings, ysettings);
+        verify(seriesYRecalculator).recalculateSeries(series, criteria, xsettings, ysettings);
         
         
         

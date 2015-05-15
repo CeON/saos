@@ -17,13 +17,30 @@ public class RateBaseSeriesGenerator {
     
     private SeriesGenerator seriesGenerator;
 
+    private JudgmentSeriesCriteriaCloner judgmentSeriesCriteriaCloner;
     
-    // TODO: cache it, see https://github.com/CeON/saos/issues/594
-    public Series<Object, Integer> generateRateBaseSeries(XSettings xsettings) {
+    
+    
+    //------------------------ LOGIC --------------------------
+    
+    
+    public Series<Object, Integer> generateRateBaseSeries(JudgmentSeriesCriteria criteria, XSettings xsettings) {
         
-        return seriesGenerator.generateSeries(new JudgmentSeriesCriteria(), xsettings);
+        JudgmentSeriesCriteria baseSeriesCriteria = prepareBaseSeriesCriteria(criteria);
+        
+        return seriesGenerator.generateSeries(baseSeriesCriteria, xsettings);
         
     }
+    
+   
+    //------------------------ PRIVATE --------------------------
+    
+    private JudgmentSeriesCriteria prepareBaseSeriesCriteria(JudgmentSeriesCriteria criteria) {
+        JudgmentSeriesCriteria baseSeriesCriteria = judgmentSeriesCriteriaCloner.clone(criteria);
+        baseSeriesCriteria.setPhrase(null);
+        return baseSeriesCriteria;
+    }
+
     
     
     //------------------------ SETTERS --------------------------
@@ -31,6 +48,11 @@ public class RateBaseSeriesGenerator {
     @Autowired
     public void setSeriesGenerator(SeriesGenerator seriesGenerator) {
         this.seriesGenerator = seriesGenerator;
+    }
+
+    @Autowired
+    public void setJudgmentSeriesCriteriaCloner(JudgmentSeriesCriteriaCloner judgmentSeriesCriteriaCloner) {
+        this.judgmentSeriesCriteriaCloner = judgmentSeriesCriteriaCloner;
     }
     
 }

@@ -233,13 +233,15 @@ var initAnalysisJs = function() {
             }
         });
         
-        $('#courtType_COMMON').change(function() {
-            if ($(this).is(':checked')) {
+        $('#select-common-court').change(function() {
+            if ($(this).val() != '') {
                 $('#ccIncludeDependentCourtJudgments').val(true);
                 $('#ccIncludeDependentCourtJudgments').prop('checked', true);
                 $("[name='_globalFilter.courtCriteria.ccIncludeDependentCourtJudgments']").val("true");
             }
         });
+        
+        
         
     }
 

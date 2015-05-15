@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import pl.edu.icm.saos.common.chart.Series;
+import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.NumberYValue;
 import pl.edu.icm.saos.search.analysis.request.RateYValue;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
@@ -51,7 +52,7 @@ public class SeriesYNumberRecalculatorTest {
         Series<Object, Integer> series = new Series<>();
         
         // execute
-        Series<Object, ? extends Number> recalcSeries = recalculator.recalculateSeries(series, new XSettings(), new YSettings());
+        Series<Object, ? extends Number> recalcSeries = recalculator.recalculateSeries(series, new JudgmentSeriesCriteria(), new XSettings(), new YSettings());
         
         // assert
         assertTrue(series == recalcSeries);

@@ -33,7 +33,7 @@ public class SolrSeriesService implements SeriesService {
         Series<Object, Integer> series = seriesGenerator.generateSeries(criteria, xsettings);
         
         @SuppressWarnings("unchecked")
-        Series<Object, Number> recalcSeries = (Series<Object, Number>)seriesYRecalculatorManager.getSeriesYRecalculator(ysettings.getValueType()).recalculateSeries(series, xsettings, ysettings);
+        Series<Object, Number> recalcSeries = (Series<Object, Number>)seriesYRecalculatorManager.getSeriesYRecalculator(ysettings.getValueType()).recalculateSeries(series, criteria, xsettings, ysettings);
         
         return recalcSeries;
     }
