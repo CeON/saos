@@ -63,18 +63,28 @@ $(document).ready(function() {
     
    
    
-   
-    <div id="ccCourtChartPanel" class="panel panel-default" style="border-width: 2px; margin-top: 40px; ">
-
-        <div class="panel-body">
-     
-		    <div class="col-xs-12 col-sm-12">
-		        <span class="small" id="ccCourtChartZoomCancelHint"></span>
-		        <div id="ccCourtChart" style="width: 100%; height: 300px;">
-		        </div>
-		    </div>
+    <div id="ccCourtChartDiv" style="margin-top: 40px;">
     
-        </div>
+	    <div>
+	        <a id="exportToCsv-CC_COURT_CHART" style="float:right" href="" data-toggle="tooltip" title="<spring:message code='analysis.button.exportToCsv'/>" >
+	            <img style="cursor: pointer;"  src="${contextPath}/static/image/icons/csv.png" alt="<spring:message code='analysis.button.exportToCsv.iconAlt'/>" />
+	        </a>
+	     </div>
+	     
+	     <div class="clearfix"></div>
+	   
+	     <div id="ccCourtChartPanel" class="panel panel-default" style="border-width: 2px; ">
+	        <div class="panel-body">
+	     
+			    <div class="col-xs-12 col-sm-12">
+			        <span class="small" id="ccCourtChartZoomCancelHint"></span>
+			        <div id="ccCourtChart" style="width: 100%; height: 300px;">
+			        </div>
+			    </div>
+	    
+	        </div>
+	    </div>
+
     </div>
 
 

@@ -550,10 +550,10 @@ var initAnalysisJs = function() {
     function printCcCourtChart(chart, xmin, xmax) {
 
         if (chart == null) {
-            $('#ccCourtChartPanel').hide();
+            $('#ccCourtChartDiv').hide();
             return;
         }
-        $('#ccCourtChartPanel').show();
+        $('#ccCourtChartDiv').show();
         
         if (xmin == null) {
             xmin = -1;
