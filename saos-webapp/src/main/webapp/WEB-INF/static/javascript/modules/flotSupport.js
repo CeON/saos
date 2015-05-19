@@ -8,7 +8,7 @@
  * Formats x ticks labels so they do not overlap each other (hides some labels).
  * <br/>
  * @param minXtickLabelLength min length in px that should be reserved for each x tick label
- * @param if set then only xticks contained by a div with the given containingDivId will be formatted, use it if
+ * @param containingDivId if set then only xticks contained by a div with the given containingDivId will be formatted, use it if
  * you want to e.g. format xticks of a specific chart
  * 
  * Taken from: http://www.willhallonline.co.uk/blog/dynamically-hide-tick-labels-when-using-flot-chart-categories

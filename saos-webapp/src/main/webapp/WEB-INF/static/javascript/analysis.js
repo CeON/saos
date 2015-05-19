@@ -10,7 +10,9 @@ var initAnalysisJs = function() {
     var isZoomed = false;
     var isChartGenerating = false; 
     
-    // based on jquery.colors Colour.names
+    // colours of subsequent series, the order of the colours is very important - 
+    // each next colour has to differ as much as possible from preceding colours in order
+    // for the series to look distinct 
     var colours = [
                    "#0000ff", // blue
                    "#ff0000", // red
