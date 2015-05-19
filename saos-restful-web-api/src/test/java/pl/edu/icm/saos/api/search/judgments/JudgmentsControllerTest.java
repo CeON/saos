@@ -181,6 +181,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         actions
                 .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())))
                 .andExpect(jsonPath("$.items.[0].href").value(endsWith(SINGLE_JUDGMENTS_PATH + "/" + testObjectContext.getCcJudgmentId())))
+                .andExpect(jsonPath("$.items.[0].courtType").value(CourtType.COMMON.name()))
                 .andExpect(jsonPath("$.items.[0].courtCases").value(iterableWithSize(1)))
                 .andExpect(jsonPath("$.items.[0].courtCases.[0].caseNumber").value(CASE_NUMBER))
                 .andExpect(jsonPath("$.items.[0].judgmentType").value(CC_JUDGMENT_TYPE.name()))
@@ -227,6 +228,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
                 .andExpect(jsonPath("$.items.[1].id").value(equalsLong(testObjectContext.getScJudgmentId())))
                 .andExpect(jsonPath("$.items.[1].href").value(endsWith("/api/judgments/" + testObjectContext.getScJudgmentId())))
+                .andExpect(jsonPath("$.items.[1].courtType").value(CourtType.SUPREME.name()))
                 .andExpect(jsonPath("$.items.[1].personnelType").value(SC_PERSONNEL_TYPE.name()))
                 .andExpect(jsonPath("$.items.[1].judgmentForm").value(SC_JUDGMENT_FORM_NAME))
 
