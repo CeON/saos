@@ -58,6 +58,14 @@ var initAnalysisJs = function() {
                	   ];
     
     
+    // replacements of phrases in cc court names 
+    // parts of the court names on the x-axis of the ccCourt chart will be changed with the defined replacements
+    // see: formatXCourtName function somewhere at the bottom
+    var ccCourtNameReplacements = {};
+    var plCcCourtNameReplacements = {"Sąd Apelacyjny":"SA", "Sąd Rejonowy":"SR", "Sąd Okręgowy":"SO", " w ":"<br/>w ", " we ":"<br/>we "}
+    ccCourtNameReplacements['pl'] = plCcCourtNameReplacements;
+    
+    
     var analysisFormBaseAction = $('#analysisForm').attr('action');
     
     
@@ -420,10 +428,7 @@ var initAnalysisJs = function() {
                                                     xaxis: { 
                                                         min: xmin,
                                                         max: xmax,
-                                                        ticks: chart.xticks,
-                                                        tickFormatter: function(val, axis) { // TODO: 
-                                                            return chart.xticks[val];
-                                                        }
+                                                        ticks: chart.xticks
                                                         
                                                     }, 
                                                     yaxis: {
@@ -443,7 +448,7 @@ var initAnalysisJs = function() {
                                                 }
                                             );
         
-        formatXTicks(140);
+        formatXTicks(140, "mainChart");
         
     }
     
@@ -581,7 +586,7 @@ var initAnalysisJs = function() {
         $.plot($("#ccCourtChart"), seriesArr,    {
                                                     bars: {
                                                         show: true,
-                                                        align: 'center',
+                                                        align: 'left',
                                                         barWidth: calcBarWidth
                                                        
                                                     }, 
@@ -589,8 +594,14 @@ var initAnalysisJs = function() {
                                                     xaxis: { 
                                                         min: xmin,
                                                         max: xmax,
-                                                        ticks: chart.xticks,
-                                                        
+                                                        tickSize: 1,
+                                                        tickFormatter: function(val, axis) {  
+                                                            if (val > xmin && val < xmax) {
+                                                                return formatXCourtName(chart.xticks[val][1]);
+                                                            } else {
+                                                                return "";
+                                                            }
+                                                        }
                                                         
                                                         
                                                     }, 
@@ -615,10 +626,27 @@ var initAnalysisJs = function() {
         
     }
     
+    /**
+     * Formats the given court name, replaces each phrase of the name with a replacement from ccCourtNameReplacements
+     * (more precisely: from a set of replacements for the current language of the analysis page)
+     */
+    function formatXCourtName(courtName) {
+        var replacements = ccCourtNameReplacements[analysisJsProperties.PAGE_LANG];
+        for (key in replacements) {
+           courtName = courtName.replace(key, replacements[key]);
+        }
+        return courtName;
+    }
+    
    
     /** Show a point tooltip on the cc court chart chart */
     $("#ccCourtChart").on("plothover", function (event, pos, item) {
-        showYNumberPointTooltip(event, pos, item, 2);
+        if (item) {
+            $("#tooltip").remove();
+            showTooltip(item.pageX, item.pageY, ccCourtChart.xticks[item.dataIndex][1] + ", <b>" + formatNumber(item.datapoint[1], 2) + "</b>");
+        } else {
+            $("#tooltip").remove();
+        }
     });
 
     
