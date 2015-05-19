@@ -67,7 +67,7 @@ var SelectLawJournalEntry = (function() {
 			})
 			.on("removeSelected", function() {
 				
-				$(options.fieldLawJournalId).val("");
+				$(options.fieldLawJournalCode).val("");
 				
 				$(this).find("." + defaults.SELECTED_CLASS).remove();
 				
@@ -88,7 +88,7 @@ var SelectLawJournalEntry = (function() {
 		$(options.form)
 			.on("reset", function() {
 				$(options.buttonsContainer).trigger("removeSelected");
-				$(options.fieldLawJournalId).val("");
+				$(options.fieldLawJournalCode).val("");
 			});
 	}
 	
@@ -259,7 +259,7 @@ var SelectLawJournalEntry = (function() {
 					//Closure for storing law journal entry id & innerText
 					(function () {
 						var $li = $("<li><a></a></li>"),
-							lawJournalEntryId = data[j].id,
+							lawJournalEntryCode = data[j].code,
 							innerText = "";
 						
 						innerText = prepareLawJournalEntryForDisplay(data[j], year, journalNo, entry, text);
@@ -274,7 +274,7 @@ var SelectLawJournalEntry = (function() {
 							
 							event.preventDefault();
 							
-							$(options.fieldLawJournalId).val(lawJournalEntryId);
+							$(options.fieldLawJournalCode).val(lawJournalEntryCode);
 							$(options.fieldsContainer).trigger("hide");									
 							$(options.buttonsContainer).trigger("setSelected", [innerText]);
 						});

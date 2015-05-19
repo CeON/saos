@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +29,7 @@ import com.google.common.base.Preconditions;
 @SequenceGenerator(name = "seq_law_journal_entry", allocationSize = 1, sequenceName = "seq_law_journal_entry")
 public class LawJournalEntry extends DataObject {
 
+    public final static String ENTRY_CODE_PARTS_SEPARATOR = "/";
     
     private int year;
     private int journalNo;
@@ -86,6 +88,14 @@ public class LawJournalEntry extends DataObject {
     @Column(nullable=false)
     public String getTitle() {
         return title;
+    }
+    
+    
+    //------------------------ LOGIC --------------------------
+    
+    @Transient
+    public String getEntryCode() {
+        return getYear() + ENTRY_CODE_PARTS_SEPARATOR + getJournalNo() + ENTRY_CODE_PARTS_SEPARATOR + getEntry();
     }
 
 

@@ -59,6 +59,7 @@ public class JudgmentCriteria extends Criteria {
     private String legalBase;
     private String referencedRegulation;
     private Long lawJournalEntryId;
+    private String lawJournalEntryCode;
     private Long referencedCourtCaseId;
 
     
@@ -164,6 +165,9 @@ public class JudgmentCriteria extends Criteria {
     public Long getLawJournalEntryId() {
         return lawJournalEntryId;
     }
+    public String getLawJournalEntryCode() {
+        return lawJournalEntryCode;
+    }
     
     public Long getReferencedCourtCaseId() {
         return referencedCourtCaseId;
@@ -260,6 +264,9 @@ public class JudgmentCriteria extends Criteria {
     }
     public void setLawJournalEntryId(Long lawJournalEntryId) {
         this.lawJournalEntryId = lawJournalEntryId;
+    }
+    public void setLawJournalEntryCode(String lawJournalEntryCode) {
+        this.lawJournalEntryCode = lawJournalEntryCode;
     }
     
     public void setReferencedCourtCaseId(Long referencedCourtCaseId) {

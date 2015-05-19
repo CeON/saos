@@ -8,6 +8,7 @@ import java.util.Objects;
 public class SimpleLawJournalEntry {
 
     private long id;
+    private String code;
     private int year;
     private int journalNo;
     private int entry;
@@ -18,8 +19,9 @@ public class SimpleLawJournalEntry {
     
     public SimpleLawJournalEntry() { }
     
-    public SimpleLawJournalEntry(long id, int year, int journalNo, int entry, String title) {
+    public SimpleLawJournalEntry(long id, int year, int journalNo, int entry, String title, String code) {
         this.id = id;
+        this.code = code;
         this.year = year;
         this.journalNo = journalNo;
         this.entry = entry;
@@ -49,6 +51,10 @@ public class SimpleLawJournalEntry {
         return title;
     }
     
+    public String getCode() {
+        return code;
+    }
+    
     
     //------------------------ SETTERS --------------------------
     
@@ -72,12 +78,16 @@ public class SimpleLawJournalEntry {
         this.title = title;
     }
     
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     
     //------------------------ hashCode & equals --------------------------
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, year, journalNo, entry, title);
+        return Objects.hash(id, year, journalNo, entry, title, code);
     }
 
     @Override
@@ -97,7 +107,8 @@ public class SimpleLawJournalEntry {
                 && Objects.equals(this.year, other.year)
                 && Objects.equals(this.journalNo, other.journalNo)
                 && Objects.equals(this.entry, other.entry)
-                && Objects.equals(this.title, other.title);
+                && Objects.equals(this.title, other.title)
+                && Objects.equals(this.code, other.code);
     }
     
 
@@ -108,7 +119,7 @@ public class SimpleLawJournalEntry {
     public String toString() {
         return "SimpleLawJournalEntry [id=" + id + ", year=" + year
                 + ", journalNo=" + journalNo + ", entry=" + entry + ", title="
-                + title + "]";
+                + title + ", code=" + code + "]";
     }
     
 }

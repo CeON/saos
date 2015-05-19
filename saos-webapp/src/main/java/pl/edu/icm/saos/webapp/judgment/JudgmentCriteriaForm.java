@@ -51,7 +51,7 @@ public class JudgmentCriteriaForm {
     
     private String legalBase;
     private String referencedRegulation;
-    private Long lawJournalEntryId;
+    private String lawJournalEntryCode;
     private Long referencedCourtCaseId;
     
     
@@ -113,8 +113,8 @@ public class JudgmentCriteriaForm {
         return referencedRegulation;
     }
     
-    public Long getLawJournalEntryId() {
-        return lawJournalEntryId;
+    public String getLawJournalEntryCode() {
+        return lawJournalEntryCode;
     }
     
     public Long getReferencedCourtCaseId() {
@@ -176,9 +176,9 @@ public class JudgmentCriteriaForm {
     public void setReferencedRegulation(String referencedRegulation) {
         this.referencedRegulation = referencedRegulation;
     }
-    
-    public void setLawJournalEntryId(Long lawJournalEntryId) {
-        this.lawJournalEntryId = lawJournalEntryId;
+
+    public void setLawJournalEntryCode(String lawJournalEntryCode) {
+        this.lawJournalEntryCode = lawJournalEntryCode;
     }
 
     public void setReferencedCourtCaseId(Long referencedCourtCaseId) {
@@ -199,8 +199,8 @@ public class JudgmentCriteriaForm {
                 + scPersonnelType + ", scJudgmentForm=" + scJudgmentFormId + ", ctDissentingOpinion="
                 + ctDissentingOpinion + ", judgmentTypes=" + judgmentTypes + ", legalBase="
                 + legalBase + ", referencedRegulation=" + referencedRegulation
-                + ", lawJournalEntryId=" + lawJournalEntryId + ", referencedCourtCaseId="
-                + referencedCourtCaseId + "]";
+                + ", lawJournalEntryCode=" + lawJournalEntryCode
+                + ", referencedCourtCaseId=" + referencedCourtCaseId + "]";
     }
 
     

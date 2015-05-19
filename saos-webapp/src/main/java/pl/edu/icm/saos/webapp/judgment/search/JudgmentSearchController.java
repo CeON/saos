@@ -2,6 +2,7 @@ package pl.edu.icm.saos.webapp.judgment.search;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,6 +17,7 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
+import pl.edu.icm.saos.persistence.service.LawJournalEntryCodeExtractor;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.webapp.common.search.CourtDataModelCreator;
@@ -40,6 +42,8 @@ public class JudgmentSearchController {
 	private ScListService scListService;
 	
 	private LawJournalEntryRepository lawJournalEntryRepository;
+	
+	private LawJournalEntryCodeExtractor lawJournalEntryCodeExtractor;
 	
 	private JudgmentRepository judgmentRepository;
 	
@@ -79,8 +83,12 @@ public class JudgmentSearchController {
 	
 	private void addLawJournalEntryToModel(JudgmentCriteriaForm judgmentCriteriaForm, ModelMap model) {
 	    
-	    if (judgmentCriteriaForm.getLawJournalEntryId() != null) {
-	        model.addAttribute("lawJournalEntry", lawJournalEntryRepository.findOne(judgmentCriteriaForm.getLawJournalEntryId()));
+	    if (StringUtils.isNotBlank(judgmentCriteriaForm.getLawJournalEntryCode())) {
+	        int year = lawJournalEntryCodeExtractor.extractYear(judgmentCriteriaForm.getLawJournalEntryCode());
+	        int journalNo = lawJournalEntryCodeExtractor.extractJournalNo(judgmentCriteriaForm.getLawJournalEntryCode());
+	        int entry = lawJournalEntryCodeExtractor.extractEntry(judgmentCriteriaForm.getLawJournalEntryCode());
+	        
+	        model.addAttribute("lawJournalEntry", lawJournalEntryRepository.findOneByYearAndJournalNoAndEntry(year, journalNo, entry));
 	    }
 	}
 	
@@ -96,34 +104,41 @@ public class JudgmentSearchController {
 	
 	//------------------------ SETTERS --------------------------
 
-	
+
 	@Autowired
-        public void setJudgmentsWebSearchService(JudgmentWebSearchService judgmentsWebSearchService) {
-            this.judgmentsWebSearchService = judgmentsWebSearchService;
-        }
-    
-    
-        @Autowired
-        public void setCourtDataModelCreator(CourtDataModelCreator courtDataModelCreator) {
-            this.courtDataModelCreator = courtDataModelCreator;
-        }
-    
-    
-        @Autowired
-        public void setScListService(ScListService scListService) {
-            this.scListService = scListService;
-        }
-    
-    
-        @Autowired
-        public void setLawJournalEntryRepository(LawJournalEntryRepository lawJournalEntryRepository) {
-            this.lawJournalEntryRepository = lawJournalEntryRepository;
-        }
-    
-    
-        @Autowired
-        public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
-            this.judgmentRepository = judgmentRepository;
-        }
+	public void setJudgmentsWebSearchService(JudgmentWebSearchService judgmentsWebSearchService) {
+	    this.judgmentsWebSearchService = judgmentsWebSearchService;
+	}
+
+
+	@Autowired
+	public void setCourtDataModelCreator(CourtDataModelCreator courtDataModelCreator) {
+	    this.courtDataModelCreator = courtDataModelCreator;
+	}
+
+
+	@Autowired
+	public void setScListService(ScListService scListService) {
+	    this.scListService = scListService;
+	}
+
+
+	@Autowired
+	public void setLawJournalEntryRepository(LawJournalEntryRepository lawJournalEntryRepository) {
+	    this.lawJournalEntryRepository = lawJournalEntryRepository;
+	}
+
+
+	@Autowired
+	public void setLawJournalEntryCodeExtractor(LawJournalEntryCodeExtractor lawJournalEntryCodeExtractor) {
+	    this.lawJournalEntryCodeExtractor = lawJournalEntryCodeExtractor;
+	}
+
+
+	@Autowired
+	public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
+	    this.judgmentRepository = judgmentRepository;
+	}
+
 
 }

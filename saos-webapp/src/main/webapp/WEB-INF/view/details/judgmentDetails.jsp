@@ -390,14 +390,43 @@ $(document).ready(function() {
 		</c:if>
 		
 		<c:if test="${!empty judgment.referencedRegulations}" >
+			<spring:message code="judgmentDetails.linkTooltip.referencedRegulations" var="referencedRegulationLinkTooltip" />
+			
 			<h3><spring:message code="judgment.referencedRegulations" />:</h3>
 			<ul class="referencedRegulations">	
 				<c:forEach items="${judgment.referencedRegulations}" var="referencedRegulation" >
-					<li class="legalBase"> 
-						<saos:lawJournalLink year="${referencedRegulation.lawJournalEntry.year}"
-							 journalNo="${referencedRegulation.lawJournalEntry.journalNo}" entry="${referencedRegulation.lawJournalEntry.entry}" 
-							 text="${referencedRegulation.rawText}" />
+					
+					<li class="referencedRegulation">
+						
+						<c:choose>
+							<c:when test="${referencedRegulation.generated}">
+							
+								<div class="generated">
+									<saos:lawJournalLink lawJournalEntry="${referencedRegulation.lawJournalEntry}" text="${referencedRegulation.rawText}"
+										tooltipText="${referencedRegulationLinkTooltip}" />
+								
+									<div class="generated-hint">	 
+										<spring:message code="judgmentDetails.enrichmentTag.referencedRegulation.hint.title" var="referencedRegulationGeneratedHintTitle" />
+										<spring:message code="judgmentDetails.enrichmentTag.referencedRegulation.hint.text" var="referencedRegulationGeneratedHintText" />
+									
+										<saos:hint title="${referencedRegulationGeneratedHintTitle}" content="${referencedRegulationGeneratedHintText}" />
+									</div>
+								</div>
+					
+							</c:when>
+							<c:otherwise>
+							
+								<div>
+									<saos:lawJournalLink lawJournalEntry="${referencedRegulation.lawJournalEntry}" text="${referencedRegulation.rawText}"
+										tooltipText="${referencedRegulationLinkTooltip}" />
+								</div>
+						
+							</c:otherwise>
+						</c:choose>
+						
 					</li>
+					
+						
 				</c:forEach>
 			</ul>
 		</c:if>

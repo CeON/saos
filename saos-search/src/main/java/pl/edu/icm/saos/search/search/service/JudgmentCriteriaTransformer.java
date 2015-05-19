@@ -43,6 +43,7 @@ public class JudgmentCriteriaTransformer implements CriteriaTransformer<Judgment
         list.add(criterionTransformer.transformToEqualsCriterionWithParsing(JudgmentIndexField.LEGAL_BASE, criteria.getLegalBase()));
         list.add(criterionTransformer.transformToEqualsCriterionWithParsing(JudgmentIndexField.REFERENCED_REGULATION, criteria.getReferencedRegulation()));
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.LAW_JOURNAL_ENTRY_ID, criteria.getLawJournalEntryId()));
+        list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.LAW_JOURNAL_ENTRY_CODE, criteria.getLawJournalEntryCode()));
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.REFERENCED_COURT_CASE_ID, criteria.getReferencedCourtCaseId()));
         list.add(criterionTransformer.transformToEqualsCriterion(JudgmentIndexField.CASE_NUMBER, criteria.getCaseNumber()));
         
