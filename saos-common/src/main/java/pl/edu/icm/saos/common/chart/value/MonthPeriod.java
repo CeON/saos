@@ -2,6 +2,7 @@ package pl.edu.icm.saos.common.chart.value;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 
 /**
@@ -84,6 +85,7 @@ public class MonthPeriod {
     /**
      * Is this period a one month period, i.e. start year-month == end year-month 
      */
+    @JsonIgnore
     public boolean isOneMonthPeriod() {
         return startYear == endYear && startMonth == endMonth;
     }

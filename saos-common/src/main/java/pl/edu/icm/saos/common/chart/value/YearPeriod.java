@@ -2,6 +2,9 @@ package pl.edu.icm.saos.common.chart.value;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.Preconditions;
+nore;
 import com.google.common.base.Preconditions;
 
 /**
@@ -59,7 +62,7 @@ public class YearPeriod {
     /**
      * Is this period a one year period, i.e. {@link #getStartYear()} equals {@link #getEndYear()} 
      */
-    
+    @JsonIgnore
     public boolean isOneYearPeriod() {
         return startYear == endYear;
     }

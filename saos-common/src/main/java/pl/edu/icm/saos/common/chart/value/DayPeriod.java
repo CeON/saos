@@ -2,8 +2,7 @@ package pl.edu.icm.saos.common.chart.value;
 
 import java.util.Objects;
 
-import org.joda.time.LocalDate;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 
 /**
@@ -15,8 +14,8 @@ import com.google.common.base.Preconditions;
 public class DayPeriod {
 
     
-    private LocalDate startDay;
-    private LocalDate endDay;
+    private SimpleLocalDate startDay;
+    private SimpleLocalDate endDay;
     
     
     
@@ -30,7 +29,7 @@ public class DayPeriod {
      * @throws IllegalArgumentException if the end day is before start day
      * @throws NullPointerException if startDay or endDay is null
      */
-    public DayPeriod(LocalDate startDay, LocalDate endDay) {
+    public DayPeriod(SimpleLocalDate startDay, SimpleLocalDate endDay) {
         super();
         Preconditions.checkNotNull(startDay);
         Preconditions.checkNotNull(endDay);
@@ -45,14 +44,14 @@ public class DayPeriod {
     /**
      * Start date of the range period (inclusive)
      */
-    public LocalDate getStartDay() {
+    public SimpleLocalDate getStartDay() {
         return startDay;
     }
     
     /**
      * End date of the range period (inclusive)
      */
-    public LocalDate getEndDay() {
+    public SimpleLocalDate getEndDay() {
         return endDay;
     }
     
@@ -61,6 +60,7 @@ public class DayPeriod {
     /**
      * Is this period a one day period, i.e. {@link #getStartDay()} equals {@link #getEndDay()} 
      */
+    @JsonIgnore
     public boolean isOneDayPeriod() {
         return startDay.equals(endDay);
     }
