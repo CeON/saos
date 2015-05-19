@@ -8,14 +8,22 @@
  * Formats x ticks labels so they do not overlap each other (hides some labels).
  * <br/>
  * @param minXtickLabelLength min length in px that should be reserved for each x tick label
+ * @param containingDivId if set then only xticks contained by a div with the given containingDivId will be formatted, use it if
+ * you want to e.g. format xticks of a specific chart
  * 
  * Taken from: http://www.willhallonline.co.uk/blog/dynamically-hide-tick-labels-when-using-flot-chart-categories
  */
-function formatXTicks(minXtickLabelLength){
+function formatXTicks(minXtickLabelLength, containingDivId){
     
-    var xWidth = $('.flot-x-axis').width();
-    var xTicks = $('.flot-x-axis .flot-tick-label').length;
-    
+    var xWidth, xTicks;
+
+    if (containingDivId == null) {
+        xWidth = $('.flot-x-axis').width();
+        xTicks = $('.flot-x-axis .flot-tick-label').length;
+    } else {
+        xWidth = $('#'+containingDivId).find('.flot-x-axis').width();
+        xTicks = $('#'+containingDivId).find('.flot-x-axis .flot-tick-label').length;
+    }
     var limiter = Math.floor(xWidth/xTicks);
             
     if(limiter < minXtickLabelLength){

@@ -14,7 +14,8 @@
 $(document).ready(function() {
 	
     analysisJsProperties = {
-            ZOOM_CANCEL_HINT: '<spring:message code="chart.zoomCancelHint"/>'
+            ZOOM_CANCEL_HINT: '<spring:message code="chart.zoomCancelHint"/>',
+            PAGE_LANG: '<spring:message code="page.lang"/>'
     }
     
 	initAnalysisJs();
