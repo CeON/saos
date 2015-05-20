@@ -51,6 +51,9 @@ public class SimpleLawJournalEntry {
         return title;
     }
     
+    /**
+     * Returns code of law journal entry (same as {@link pl.edu.icm.saos.persistence.model.LawJournalEntry#getEntryCode()})
+     */
     public String getCode() {
         return code;
     }

@@ -1,5 +1,8 @@
 package pl.edu.icm.saos.enrichment.apply.refregulations;
 
+/**
+ * @author madryk
+ */
 public class ReferencedRegulationsTagValueItem {
 
     private String journalTitle;
@@ -8,6 +11,8 @@ public class ReferencedRegulationsTagValueItem {
     private int journalEntry;
     private String text;
     
+    
+    //------------------------ GETTERS --------------------------
     
     public String getJournalTitle() {
         return journalTitle;
@@ -24,6 +29,10 @@ public class ReferencedRegulationsTagValueItem {
     public String getText() {
         return text;
     }
+    
+    
+    //------------------------ SETTERS --------------------------
+    
     public void setJournalTitle(String journalTitle) {
         this.journalTitle = journalTitle;
     }
