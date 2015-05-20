@@ -145,7 +145,7 @@
 		            
 		            <%-- Law journal entry --%>
 		            <div class="form-group law-journal">
-		                <label for="lawJournalEntryId" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.lawJournalEntry" /></label>
+		                <label for="lawJournalEntryCode" class="col-lg-2 col-sm-3 col-xs-12 control-label"><spring:message code="judgmentSearch.formField.lawJournalEntry" /></label>
 		                <div class="col-lg-7 col-sm-8 col-xs-11">
 		                     
 		                     <div id="law-journal-navigation" >
@@ -207,7 +207,7 @@
 		                    
 		                </div>
 		                <spring:message code="judgmentSearch.formField.lawJournal.desc" var="lawJournalLabel" />
-		                <form:hidden path="lawJournalEntryId" id="lawJournalEntryId" data-field-desc="${lawJournalLabel}: " />
+		                <form:hidden path="lawJournalEntryCode" id="lawJournalEntryCode" data-field-desc="${lawJournalLabel}: " />
 		            </div>
 		            
 		

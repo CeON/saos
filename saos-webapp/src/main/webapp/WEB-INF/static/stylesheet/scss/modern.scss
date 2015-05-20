@@ -1315,9 +1315,25 @@ input.search-all {
 		list-style: decimal outside none;
 		padding-bottom: 10px;
 		
-		li a {
-			display: block;
+		.referencedRegulation {
+			margin-bottom: 4px;
 		}
+		
+		.generated {
+			
+			background-color: $grey-background;
+			
+			.lawJournal-link {
+				display: inline-block;
+				vertical-align: top;
+				width: 95%;
+			}
+			.generated-hint {
+				display: inline-block;
+				width: 26px;
+			}
+		}
+		
 	}
 	
 	.break {

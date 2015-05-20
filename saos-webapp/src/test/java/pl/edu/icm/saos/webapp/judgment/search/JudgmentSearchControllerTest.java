@@ -41,6 +41,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
+import pl.edu.icm.saos.persistence.service.LawJournalEntryCodeExtractor;
 import pl.edu.icm.saos.search.search.model.JudgmentSearchResult;
 import pl.edu.icm.saos.search.search.model.SearchResults;
 import pl.edu.icm.saos.webapp.WebappTestConfiguration;
@@ -86,6 +87,9 @@ public class JudgmentSearchControllerTest {
 	
 	@Mock
 	private LawJournalEntryRepository lawJournalEntryRepository;
+	
+	@Mock
+	private LawJournalEntryCodeExtractor lawJournalEntryCodeExtractor;
 	
 	@Mock
 	private JudgmentRepository judgmentRepository;
@@ -237,19 +241,25 @@ public class JudgmentSearchControllerTest {
 	
 	
 	@Test
-	public void judgmentSearchResults_search_form_contains_lawJournalEntryId() throws Exception {
+	public void judgmentSearchResults_search_form_contains_lawJournalEntryCode() throws Exception {
 		
-		Long lawJournalEntryId = 18l;
+		String lawJournalEntryCode = "2000/1/18";
 		
-		when(lawJournalEntryRepository.findOne(lawJournalEntryId)).thenReturn(lawJournalEntry);
+		when(lawJournalEntryCodeExtractor.extractYear(lawJournalEntryCode)).thenReturn(2000);
+		when(lawJournalEntryCodeExtractor.extractJournalNo(lawJournalEntryCode)).thenReturn(1);
+		when(lawJournalEntryCodeExtractor.extractEntry(lawJournalEntryCode)).thenReturn(18);
+		when(lawJournalEntryRepository.findOneByYearAndJournalNoAndEntry(2000, 1, 18)).thenReturn(lawJournalEntry);
 		
-		mockMvc.perform(get("/search").param("lawJournalEntryId", lawJournalEntryId.toString()))
+		mockMvc.perform(get("/search").param("lawJournalEntryCode", lawJournalEntryCode))
 			.andExpect(status().isOk())
 			.andExpect(view().name("judgmentSearch"))
 			.andExpect(model().attribute("lawJournalEntry", lawJournalEntry))
 			;
 		
-		verify(lawJournalEntryRepository, times(1)).findOne(lawJournalEntryId);
+		verify(lawJournalEntryCodeExtractor, times(1)).extractYear(lawJournalEntryCode);
+		verify(lawJournalEntryCodeExtractor, times(1)).extractJournalNo(lawJournalEntryCode);
+		verify(lawJournalEntryCodeExtractor, times(1)).extractEntry(lawJournalEntryCode);
+		verify(lawJournalEntryRepository, times(1)).findOneByYearAndJournalNoAndEntry(2000, 1, 18);
 	}
 	
 	@Test

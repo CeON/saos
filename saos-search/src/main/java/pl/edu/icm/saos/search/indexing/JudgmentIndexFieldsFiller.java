@@ -116,6 +116,7 @@ public abstract class JudgmentIndexFieldsFiller {
             LawJournalEntry lawJournalEntry = referencedRegulation.getLawJournalEntry();
             if (lawJournalEntry != null) {
                 fieldAdder.addField(doc, JudgmentIndexField.LAW_JOURNAL_ENTRY_ID, lawJournalEntry.getId());
+                fieldAdder.addField(doc, JudgmentIndexField.LAW_JOURNAL_ENTRY_CODE, lawJournalEntry.getEntryCode());
             }
         }
     }

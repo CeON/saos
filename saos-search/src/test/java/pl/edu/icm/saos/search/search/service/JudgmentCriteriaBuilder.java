@@ -191,6 +191,11 @@ public class JudgmentCriteriaBuilder {
         return this;
     }
     
+    public JudgmentCriteriaBuilder withLawJournalEntryCode(String lawJournalEntryCode) {
+        criteria.setLawJournalEntryCode(lawJournalEntryCode);
+        return this;
+    }
+    
     public JudgmentCriteriaBuilder withReferencedCourtCaseId(long referencedCourtCaseId) {
         criteria.setReferencedCourtCaseId(referencedCourtCaseId);
         return this;
