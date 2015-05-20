@@ -5,6 +5,7 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 import java.util.List;
 
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import static pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.CourtCase;
 import static pl.edu.icm.saos.api.single.judgment.data.representation.JudgmentData.Judge;
@@ -20,6 +21,7 @@ public class SearchJudgmentItem implements Serializable{
 
     private Long id;
     private String href;
+    private CourtType courtType;
     private List<CourtCase> courtCases;
     private JudgmentType judgmentType;
     private String JudgmentDate;
@@ -36,6 +38,10 @@ public class SearchJudgmentItem implements Serializable{
 
     public String getHref() {
         return href;
+    }
+
+    public CourtType getCourtType() {
+        return courtType;
     }
 
     public List<CourtCase> getCourtCases() {
@@ -72,6 +78,10 @@ public class SearchJudgmentItem implements Serializable{
         this.href = href;
     }
 
+    public void setCourtType(CourtType courtType) {
+        this.courtType = courtType;
+    }
+
     public void setCourtCases(List<CourtCase> courtCases) {
         this.courtCases = courtCases;
     }
@@ -100,7 +110,7 @@ public class SearchJudgmentItem implements Serializable{
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(href, courtCases, judgmentType, JudgmentDate, judges, textContent, keywords);
+        return Objects.hashCode(id, href, courtType, courtCases, judgmentType, JudgmentDate, judges, textContent, keywords);
     }
 
     @Override
@@ -114,6 +124,7 @@ public class SearchJudgmentItem implements Serializable{
         final SearchJudgmentItem other = (SearchJudgmentItem) obj;
         return Objects.equal(this.id, other.id) &&
                 Objects.equal(this.href, other.href) &&
+                Objects.equal(this.courtType, other.courtType) &&
                 Objects.equal(this.courtCases, other.courtCases) &&
                 Objects.equal(this.judgmentType, other.judgmentType) &&
                 Objects.equal(this.JudgmentDate, other.JudgmentDate) &&
@@ -129,6 +140,7 @@ public class SearchJudgmentItem implements Serializable{
         return Objects.toStringHelper(this)
                 .add("id", id)
                 .add("href", href)
+                .add("courtType", courtType)
                 .add("courtCases", courtCases)
                 .add("judgmentType", judgmentType)
                 .add("JudgmentDate", JudgmentDate)
