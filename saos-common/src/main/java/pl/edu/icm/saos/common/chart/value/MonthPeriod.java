@@ -11,14 +11,14 @@ import com.google.common.base.Preconditions;
  * @author Łukasz Dumiszewski
  */
 
-public class MonthPeriod {
+public class MonthPeriod implements TimePeriod {
 
     
     private int startYear;
-    private int startMonth;
+    private int startMonthOfYear;
     
     private int endYear;
-    private int endMonth;
+    private int endMonthOfYear;
     
     
     
@@ -26,23 +26,23 @@ public class MonthPeriod {
     
     /**
      * @param startYear see {@link #getStartYear()}
-     * @param startMonth see {@link #getStartMonth()}, must be between 1 and 12 (inclusively)
+     * @param startMonthOfYear see {@link #getStartMonthOfYear()}, must be between 1 and 12 (inclusively)
      * @param endYear see {@link #getEndYear()}
-     * @param endMonth see {@link #getEndMonth()}, must be between 1 and 12 (inclusively)
+     * @param endMonthOfYear see {@link #getEndMonthOfYear()}, must be between 1 and 12 (inclusively)
      * 
      * @throws IllegalArgumentException if startMonth or endMonth is not between 1 and 12 or 
      * if the endYear/endMonth is before startYear/startMonth.
      */
-    public MonthPeriod(int startYear, int startMonth, int endYear, int endMonth) {
+    public MonthPeriod(int startYear, int startMonthOfYear, int endYear, int endMonthOfYear) {
         super();
-        Preconditions.checkArgument(startMonth > 0 && startMonth < 13);
-        Preconditions.checkArgument(endMonth > 0 && endMonth < 13);
-        checkEndNotBeforeStart(startYear, startMonth, endYear, endMonth);
+        Preconditions.checkArgument(startMonthOfYear > 0 && startMonthOfYear < 13);
+        Preconditions.checkArgument(endMonthOfYear > 0 && endMonthOfYear < 13);
+        checkEndNotBeforeStart(startYear, startMonthOfYear, endYear, endMonthOfYear);
         
         this.startYear = startYear;
-        this.startMonth = startMonth;
+        this.startMonthOfYear = startMonthOfYear;
         this.endYear = endYear;
-        this.endMonth = endMonth;
+        this.endMonthOfYear = endMonthOfYear;
     }
 
 
@@ -61,8 +61,8 @@ public class MonthPeriod {
     /**
      * Start month a the period
      */
-    public int getStartMonth() {
-        return startMonth;
+    public int getStartMonthOfYear() {
+        return startMonthOfYear;
     }
     
     /**
@@ -75,8 +75,8 @@ public class MonthPeriod {
     /**
      * End month of the period 
      */
-    public int getEndMonth() {
-        return endMonth;
+    public int getEndMonthOfYear() {
+        return endMonthOfYear;
     }
     
     
@@ -87,8 +87,16 @@ public class MonthPeriod {
      */
     @JsonIgnore
     public boolean isOneMonthPeriod() {
-        return startYear == endYear && startMonth == endMonth;
+        return startYear == endYear && startMonthOfYear == endMonthOfYear;
     }
+    
+
+
+    @Override
+    public TimePeriodType getPeriod() {
+        return TimePeriodType.MONTH;
+    }
+    
     
     //------------------------ PRIVATE --------------------------
 
@@ -103,7 +111,7 @@ public class MonthPeriod {
     
     @Override
     public int hashCode() {
-        return Objects.hash(this.startYear, this.startMonth, this.endYear, this.endMonth);
+        return Objects.hash(this.startYear, this.startMonthOfYear, this.endYear, this.endMonthOfYear);
     }
     
     
@@ -121,9 +129,9 @@ public class MonthPeriod {
         final MonthPeriod other = (MonthPeriod) obj;
         
         return Objects.equals(this.startYear, other.startYear)
-                && Objects.equals(this.startMonth, other.startMonth)
+                && Objects.equals(this.startMonthOfYear, other.startMonthOfYear)
                 && Objects.equals(this.endYear, other.endYear)
-                && Objects.equals(this.endMonth, other.endMonth);
+                && Objects.equals(this.endMonthOfYear, other.endMonthOfYear);
 
     }
 
@@ -132,8 +140,10 @@ public class MonthPeriod {
 
     @Override
     public String toString() {
-        return "MonthPeriod [startYear=" + startYear + ", startMonth=" + startMonth + ", endYear="
-                + endYear + ", endMonth=" + endMonth + "]";
+        return "MonthPeriod [startYear=" + startYear + ", startMonthOfYear=" + startMonthOfYear + ", endYear="
+                + endYear + ", endMonthOfYear=" + endMonthOfYear + "]";
     }
-    
+
+
+
 }

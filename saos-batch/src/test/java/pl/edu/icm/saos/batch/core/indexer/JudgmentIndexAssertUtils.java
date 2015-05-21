@@ -23,6 +23,7 @@ import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+import pl.edu.icm.saos.search.util.CcCourtAreaFieldValueCreator;
 
 import com.google.common.collect.Lists;
 
@@ -80,29 +81,29 @@ class JudgmentIndexAssertUtils {
         CommonCourt court = ccJudgment.getCourtDivision().getCourt();
         
         assertSolrDocumentLongValues(doc, JudgmentIndexField.CC_APPEAL_COURT_ID, court.getAppealCourt().getId());
-        assertSolrDocumentValues(doc, JudgmentIndexField.CC_APPEAL_NAME, court.getAppealCourt().getName());
+        assertSolrDocumentValues(doc, JudgmentIndexField.CC_APPEAL_AREA, createCcCourtAreaValue(null, court.getAppealCourt()));
 
         
         if (court.isAppealCourt()) {
-            assertSolrDocumentValues(doc, JudgmentIndexField.CC_REGION_NAME, createPrefixedValue(court.getId(), court.getName()));
+            assertSolrDocumentValues(doc, JudgmentIndexField.CC_REGION_AREA, createCcCourtAreaValue(court.getId(), court));
             assertFieldNotExists(doc, JudgmentIndexField.CC_REGIONAL_COURT_ID);
             assertFieldNotExists(doc, JudgmentIndexField.CC_DISTRICT_COURT_ID);
-            assertFieldNotExists(doc, JudgmentIndexField.CC_DISTRICT_NAME);
+            assertFieldNotExists(doc, JudgmentIndexField.CC_DISTRICT_AREA);
             
         }
 
         if (court.isRegionalCourt()) { 
             assertSolrDocumentLongValues(doc, JudgmentIndexField.CC_REGIONAL_COURT_ID, court.getId());
-            assertSolrDocumentValues(doc, JudgmentIndexField.CC_REGION_NAME, createPrefixedValue(court.getAppealCourt().getId(), court.getName()));
-            assertSolrDocumentValues(doc, JudgmentIndexField.CC_DISTRICT_NAME, createPrefixedValue(court.getId(), court.getName()));
+            assertSolrDocumentValues(doc, JudgmentIndexField.CC_REGION_AREA, createCcCourtAreaValue(court.getAppealCourt().getId(), court));
+            assertSolrDocumentValues(doc, JudgmentIndexField.CC_DISTRICT_AREA, createCcCourtAreaValue(court.getId(), court));
             assertFieldNotExists(doc, JudgmentIndexField.CC_DISTRICT_COURT_ID);
         }
         
         if (court.isDistrictCourt()) {
             assertSolrDocumentLongValues(doc, JudgmentIndexField.CC_REGIONAL_COURT_ID, court.getRegionalCourt().getId());
-            assertSolrDocumentValues(doc, JudgmentIndexField.CC_REGION_NAME, createPrefixedValue(court.getAppealCourt().getId(), court.getRegionalCourt().getName()));
+            assertSolrDocumentValues(doc, JudgmentIndexField.CC_REGION_AREA, createCcCourtAreaValue(court.getAppealCourt().getId(), court.getRegionalCourt()));
             assertSolrDocumentLongValues(doc, JudgmentIndexField.CC_DISTRICT_COURT_ID, court.getId());
-            assertSolrDocumentValues(doc, JudgmentIndexField.CC_DISTRICT_NAME, createPrefixedValue(court.getRegionalCourt().getId(), ccJudgment.getCourtDivision().getCourt().getName()));
+            assertSolrDocumentValues(doc, JudgmentIndexField.CC_DISTRICT_AREA, createCcCourtAreaValue(court.getRegionalCourt().getId(), court));
         }
         
         
@@ -237,7 +238,11 @@ class JudgmentIndexAssertUtils {
     }
     
     
-    private static String createPrefixedValue(long prefix, String value) {
-        return prefix + FIELD_VALUE_PREFIX_SEPARATOR + value;
+    private static String createCcCourtAreaValue(Long parentAreaCourtId, CommonCourt court) {
+        String parentAreaCourtIdStr = CcCourtAreaFieldValueCreator.NULL_PARENT_COURT_ID;
+        if (parentAreaCourtId != null) {
+            parentAreaCourtIdStr = "" + parentAreaCourtId;
+        }
+        return parentAreaCourtIdStr + FIELD_VALUE_PREFIX_SEPARATOR + court.getName() + CcCourtAreaFieldValueCreator.CC_COURT_AREA_VALUE_PART_SEPARATOR + court.getId();
     }
 }

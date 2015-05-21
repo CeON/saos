@@ -4,8 +4,6 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
-nore;
-import com.google.common.base.Preconditions;
 
 /**
  * Period of time limited by start and end year (inclusively)
@@ -13,7 +11,7 @@ import com.google.common.base.Preconditions;
  * @author Łukasz Dumiszewski
  */
 
-public class YearPeriod {
+public class YearPeriod implements TimePeriod {
 
     
     private int startYear;
@@ -67,7 +65,13 @@ public class YearPeriod {
         return startYear == endYear;
     }
     
-    
+
+    @Override
+    public TimePeriodType getPeriod() {
+        return TimePeriodType.YEAR;
+    }
+
+
     //------------------------ HashCode & Equals --------------------------
     
     

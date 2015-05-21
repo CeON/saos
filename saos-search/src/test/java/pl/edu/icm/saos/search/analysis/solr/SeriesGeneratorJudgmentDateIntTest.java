@@ -21,6 +21,7 @@ import pl.edu.icm.saos.common.chart.Point;
 import pl.edu.icm.saos.common.chart.Series;
 import pl.edu.icm.saos.common.chart.value.DayPeriod;
 import pl.edu.icm.saos.common.chart.value.MonthPeriod;
+import pl.edu.icm.saos.common.chart.value.SimpleLocalDate;
 import pl.edu.icm.saos.common.chart.value.YearPeriod;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.search.SearchTestConfiguration;
@@ -140,9 +141,9 @@ public class SeriesGeneratorJudgmentDateIntTest {
         // assert
         
         List<Point<Object, Integer>> expectedPoints = Lists.newArrayList();
-        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new LocalDate(2000, 5, 1), new LocalDate(2000, 5, 14)), 1));
-        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new LocalDate(2000, 5, 15), new LocalDate(2000, 5, 28)), 3));
-        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new LocalDate(2000, 5, 29), new LocalDate(2000, 6, 11)), 2)); 
+        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new SimpleLocalDate(2000, 5, 1), new SimpleLocalDate(2000, 5, 14)), 1));
+        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new SimpleLocalDate(2000, 5, 15), new SimpleLocalDate(2000, 5, 28)), 3));
+        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new SimpleLocalDate(2000, 5, 29), new SimpleLocalDate(2000, 6, 11)), 2)); 
         
         Assert.assertEquals(expectedPoints, series.getPoints());
         
@@ -169,13 +170,13 @@ public class SeriesGeneratorJudgmentDateIntTest {
         // assert
         
         List<Point<Object, Integer>> expectedPoints = Lists.newArrayList();
-        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new LocalDate(2000, 5, 20), new LocalDate(2000, 5, 20)), 0));
-        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new LocalDate(2000, 5, 21), new LocalDate(2000, 5, 21)), 2));
-        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new LocalDate(2000, 5, 22), new LocalDate(2000, 5, 22)), 0));
-        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new LocalDate(2000, 5, 23), new LocalDate(2000, 5, 23)), 0));
-        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new LocalDate(2000, 5, 24), new LocalDate(2000, 5, 24)), 0));
-        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new LocalDate(2000, 5, 25), new LocalDate(2000, 5, 25)), 1));
-        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new LocalDate(2000, 5, 26), new LocalDate(2000, 5, 26)), 0));
+        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new SimpleLocalDate(2000, 5, 20), new SimpleLocalDate(2000, 5, 20)), 0));
+        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new SimpleLocalDate(2000, 5, 21), new SimpleLocalDate(2000, 5, 21)), 2));
+        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new SimpleLocalDate(2000, 5, 22), new SimpleLocalDate(2000, 5, 22)), 0));
+        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new SimpleLocalDate(2000, 5, 23), new SimpleLocalDate(2000, 5, 23)), 0));
+        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new SimpleLocalDate(2000, 5, 24), new SimpleLocalDate(2000, 5, 24)), 0));
+        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new SimpleLocalDate(2000, 5, 25), new SimpleLocalDate(2000, 5, 25)), 1));
+        expectedPoints.add(new Point<Object, Integer>(new DayPeriod(new SimpleLocalDate(2000, 5, 26), new SimpleLocalDate(2000, 5, 26)), 0));
         
         Assert.assertEquals(expectedPoints, series.getPoints());
         

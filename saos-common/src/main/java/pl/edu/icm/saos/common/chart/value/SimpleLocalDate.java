@@ -24,14 +24,20 @@ public class SimpleLocalDate {
         Preconditions.checkNotNull(localDate);
         this.localDate = localDate;
     }
+    
+    public SimpleLocalDate(int year, int monthOfYear, int dayOfMonth) {
+        this.localDate = new LocalDate(year, monthOfYear, dayOfMonth);
+    }
 
     
     //------------------------ GETTERS --------------------------
     
+    /** Day of month */
     public int getDayOfMonth() {
         return localDate.getDayOfMonth();
     }
     
+    /** Month of year */
     public int getMonthOfYear() {
         return localDate.getMonthOfYear();
     }
@@ -64,7 +70,11 @@ public class SimpleLocalDate {
     @Override
     public boolean equals(Object obj) {
         
-        return this.localDate.equals(obj);
+        if (obj instanceof SimpleLocalDate) {
+            return this.localDate.equals(((SimpleLocalDate)obj).localDate);
+        }
+        
+        return false;
 
     }
 

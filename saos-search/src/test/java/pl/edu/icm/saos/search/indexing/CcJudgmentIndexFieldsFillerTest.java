@@ -25,7 +25,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
-import pl.edu.icm.saos.search.util.FieldValuePrefixAdder;
+import pl.edu.icm.saos.search.util.CcCourtAreaFieldValueCreator;
 
 import com.google.common.collect.Lists;
 import com.tngtech.java.junit.dataprovider.DataProvider;
@@ -42,7 +42,7 @@ public class CcJudgmentIndexFieldsFillerTest {
     
     private SolrFieldAdder<JudgmentIndexField> fieldAdder = new SolrFieldAdder<JudgmentIndexField>();
     
-    private FieldValuePrefixAdder fieldValuePrefixAdder = mock(FieldValuePrefixAdder.class); 
+    private CcCourtAreaFieldValueCreator ccCourtAreaFieldValueCreator = mock(CcCourtAreaFieldValueCreator.class); 
             
             
     
@@ -141,8 +141,8 @@ public class CcJudgmentIndexFieldsFillerTest {
                 fieldFactory.create("ccCourtDivisionCode", "0000503"),
                 fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"),
                 fieldFactory.create("ccAppealCourtId", 123l),
-                fieldFactory.create("ccAppealName", "Sąd Apelacyjny w Krakowie"),
-                fieldFactory.create("ccRegionName", "123#Sąd Apelacyjny w Krakowie"));
+                fieldFactory.create("ccAppealArea", "NA_Sąd Apelacyjny w Krakowie#123"),
+                fieldFactory.create("ccRegionArea", "123_Sąd Apelacyjny w Krakowie#123"));
         
                         
          List<SolrInputField> regionalCourtFields = Lists.newArrayList(
@@ -155,10 +155,10 @@ public class CcJudgmentIndexFieldsFillerTest {
                 fieldFactory.create("ccCourtDivisionCode", "0000504"),
                 fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"),
                 fieldFactory.create("ccAppealCourtId", 123l),
-                fieldFactory.create("ccAppealName", "Sąd Apelacyjny w Krakowie"),
+                fieldFactory.create("ccAppealArea", "NA_Sąd Apelacyjny w Krakowie#123"),
                 fieldFactory.create("ccRegionalCourtId", 124l),
-                fieldFactory.create("ccRegionName", "123#Sąd Okręgowy w Krakowie"),
-                fieldFactory.create("ccDistrictName", "124#Sąd Okręgowy w Krakowie"));
+                fieldFactory.create("ccRegionArea", "123_Sąd Okręgowy w Krakowie#124"),
+                fieldFactory.create("ccDistrictArea", "124_Sąd Okręgowy w Krakowie#124"));
 
                 
           List<SolrInputField> districtCourtFields = Lists.newArrayList(
@@ -171,11 +171,11 @@ public class CcJudgmentIndexFieldsFillerTest {
                 fieldFactory.create("ccCourtDivisionCode", "0000505"),
                 fieldFactory.create("ccCourtDivisionName", "I Wydział Cywilny"),
                 fieldFactory.create("ccAppealCourtId", 123l),
-                fieldFactory.create("ccAppealName", "Sąd Apelacyjny w Krakowie"),
+                fieldFactory.create("ccAppealArea", "NA_Sąd Apelacyjny w Krakowie#123"),
                 fieldFactory.create("ccRegionalCourtId", 124l),
-                fieldFactory.create("ccRegionName", "123#Sąd Okręgowy w Krakowie"),
+                fieldFactory.create("ccRegionArea", "123_Sąd Okręgowy w Krakowie#124"),
                 fieldFactory.create("ccDistrictCourtId", 125l),
-                fieldFactory.create("ccDistrictName", "124#Sąd Rejonowy w Częstochowie"));
+                fieldFactory.create("ccDistrictArea", "124_Sąd Rejonowy w Częstochowie#125"));
         
               
         return new Object[][] {
@@ -190,11 +190,16 @@ public class CcJudgmentIndexFieldsFillerTest {
     @Before
     public void setUp() {
         ccJudgmentIndexingProcessor.setFieldAdder(fieldAdder);
-        ccJudgmentIndexingProcessor.setFieldValuePrefixAdder(fieldValuePrefixAdder);
-        when(fieldValuePrefixAdder.addFieldPrefix(Mockito.anyString(), Mockito.anyString())).thenAnswer(new Answer<String>() {
+        ccJudgmentIndexingProcessor.setCcCourtAreaFieldValueCreator(ccCourtAreaFieldValueCreator);
+        when(ccCourtAreaFieldValueCreator.createCcCourtAreaFieldValue(Mockito.anyLong(), Mockito.any(CommonCourt.class))).thenAnswer(new Answer<String>() {
             @Override
             public String answer(InvocationOnMock invocation) throws Throwable {
-                return invocation.getArguments()[1] + "#" + invocation.getArguments()[0];
+                CommonCourt court = (CommonCourt)invocation.getArguments()[1];
+                String parentAreaCourtId = "NA";
+                if (invocation.getArguments()[0] != null) {
+                    parentAreaCourtId = invocation.getArguments()[0].toString();
+                }
+                return parentAreaCourtId + "_" + court.getName() + "#" + court.getId();
             }
         });
     }

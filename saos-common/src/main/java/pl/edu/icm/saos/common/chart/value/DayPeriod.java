@@ -11,7 +11,7 @@ import com.google.common.base.Preconditions;
  * @author Łukasz Dumiszewski
  */
 
-public class DayPeriod {
+public class DayPeriod implements TimePeriod {
 
     
     private SimpleLocalDate startDay;
@@ -65,7 +65,11 @@ public class DayPeriod {
         return startDay.equals(endDay);
     }
    
-    
+    @Override
+    public TimePeriodType getPeriod() {
+        return TimePeriodType.DAY;
+    }
+
     //------------------------ HashCode & Equals --------------------------
     
     
@@ -100,6 +104,8 @@ public class DayPeriod {
     public String toString() {
         return "DayPeriod [startDay=" + startDay + ", endDay=" + endDay + "]";
     }
+
+
 
 
     

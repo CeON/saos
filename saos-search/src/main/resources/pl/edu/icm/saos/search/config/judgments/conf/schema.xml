@@ -84,13 +84,13 @@
    <field name="ccCourtDivisionName" type="string" indexed="true" stored="true" multiValued="false" />
 
    <field name="ccAppealCourtId" type="long" indexed="true" stored="true" multiValued="false" />
-   <field name="ccAppealName" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ccAppealArea" type="string" indexed="true" stored="true" multiValued="false" />
 
    <field name="ccRegionalCourtId" type="long" indexed="true" stored="true" multiValued="false" />
-   <field name="ccRegionName" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ccRegionArea" type="string" indexed="true" stored="true" multiValued="false" />
 
    <field name="ccDistrictCourtId" type="long" indexed="true" stored="true" multiValued="false" />
-   <field name="ccDistrictName" type="string" indexed="true" stored="true" multiValued="false" />
+   <field name="ccDistrictArea" type="string" indexed="true" stored="true" multiValued="false" />
    
    <field name="scJudgmentFormId" type="long" indexed="true" stored="true" multiValued="false" />
    <field name="scJudgmentFormName" type="string" indexed="true" stored="true" multiValued="false" />
