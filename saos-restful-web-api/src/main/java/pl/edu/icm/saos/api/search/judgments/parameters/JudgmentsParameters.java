@@ -48,6 +48,8 @@ public class JudgmentsParameters {
     private Long ccDivisionId;
     private String ccDivisionCode;
     private String ccDivisionName;
+    
+    private Boolean ccIncludeDependentCourtJudgments;
 
     private PersonnelType scPersonnelType;
     private String scJudgmentForm;
@@ -131,6 +133,10 @@ public class JudgmentsParameters {
 
     public String getCcDivisionName() {
         return ccDivisionName;
+    }
+
+    public Boolean getCcIncludeDependentCourtJudgments() {
+        return ccIncludeDependentCourtJudgments;
     }
 
     public Long getScChamberId() {
@@ -236,6 +242,10 @@ public class JudgmentsParameters {
         this.ccDivisionName = StringUtils.trimToNull(ccDivisionName);
     }
 
+    public void setCcIncludeDependentCourtJudgments(Boolean ccIncludeDependentCourtJudgments) {
+        this.ccIncludeDependentCourtJudgments = ccIncludeDependentCourtJudgments;
+    }
+
     public void setScChamberId(Long scChamberId) {
         this.scChamberId = scChamberId;
     }
@@ -280,7 +290,7 @@ public class JudgmentsParameters {
         return Objects.hashCode(pagination, sort, caseNumber, all, legalBase, referencedRegulation,
                 judgeName, scPersonnelType, scJudgmentForm, judgmentDateFrom, judgmentDateTo, courtType,
                 ccCourtType, ccCourtId, ccCourtCode, ccCourtName,
-                ccDivisionId, ccDivisionCode, ccDivisionName, scChamberId,
+                ccDivisionId, ccDivisionCode, ccDivisionName, ccIncludeDependentCourtJudgments, scChamberId,
                 scChamberName, scDivisionId, scDivisionName, judgmentTypes,
                 keywords);
     }
@@ -313,6 +323,7 @@ public class JudgmentsParameters {
                 Objects.equal(this.ccDivisionId, other.ccDivisionId) &&
                 Objects.equal(this.ccDivisionCode, other.ccDivisionCode) &&
                 Objects.equal(this.ccDivisionName, other.ccDivisionName) &&
+                Objects.equal(this.ccIncludeDependentCourtJudgments, other.ccIncludeDependentCourtJudgments) &&
                 Objects.equal(this.scChamberId, other.scChamberId) &&
                 Objects.equal(this.scChamberName, other.scChamberName) &&
                 Objects.equal(this.scDivisionId, other.scDivisionId) &&
@@ -347,6 +358,7 @@ public class JudgmentsParameters {
                 .add("ccDivisionId", ccDivisionId)
                 .add("ccDivisionCode", ccDivisionCode)
                 .add("ccDivisionName", ccDivisionName)
+                .add("ccIncludeDependentCourtJudgments", ccIncludeDependentCourtJudgments)
                 .add("scChamberId", scChamberId)
                 .add("scChamberName", scChamberName)
                 .add("scDivisionId", scDivisionId)

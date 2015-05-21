@@ -312,6 +312,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         String caseNumberValue = "someCaseNumber";
         String courtTypeValue = CourtType.ADMINISTRATIVE.name();
         String ccCourtTypeValue = CommonCourt.CommonCourtType.APPEAL.name();
+        Boolean ccIncludeDependentCourtJudgments = true;
 
         Integer ccCourtIdValue = 33;
         String ccCourtCodeValue = "someCcCode";
@@ -355,6 +356,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .param(ApiConstants.CC_DIVISION_ID, ccDivisionIdValue.toString())
                 .param(ApiConstants.CC_DIVISION_CODE, ccDivisionCodeValue)
                 .param(ApiConstants.CC_DIVISION_NAME, ccDivisionNameValue)
+                .param(ApiConstants.CC_INCLUDE_DEPENDENT_COURT_JUDGMENTS, ccIncludeDependentCourtJudgments.toString())
                 .param(ApiConstants.SC_CHAMBER_ID, scChamberIdValue.toString())
                 .param(ApiConstants.SC_CHAMBER_NAME, scChamberNameValue)
                 .param(ApiConstants.SC_DIVISION_ID, scDivisionIdValue.toString())
@@ -386,6 +388,8 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".ccDivisionId").value(ccDivisionIdValue))
                 .andExpect(jsonPath(prefix + ".ccDivisionCode").value(ccDivisionCodeValue))
                 .andExpect(jsonPath(prefix + ".ccDivisionName").value(ccDivisionNameValue))
+                
+                .andExpect(jsonPath(prefix + ".ccIncludeDependentCourtJudgments").value(ccIncludeDependentCourtJudgments))
 
                 .andExpect(jsonPath(prefix + ".scPersonnelType.value").value(personnelTypeValue))
                 .andExpect(jsonPath(prefix + ".scJudgmentForm").value(judgmentFormValue))
@@ -449,6 +453,8 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".ccDivisionId").value(nullValue()))
                 .andExpect(jsonPath(prefix + ".ccDivisionCode").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".ccDivisionName").value(isEmptyOrNullString()))
+                
+                .andExpect(jsonPath(prefix + ".ccIncludeDependentCourtJudgments").value(nullValue()))
 
                 .andExpect(jsonPath(prefix + ".scPersonnelType.value").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".scJudgmentForm").value(isEmptyOrNullString()))
@@ -510,6 +516,16 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
         //then
         assertIncorrectValueError(actions, ApiConstants.SORTING_FIELD, "AASC");
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_include_dependent_court_judgments() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.CC_INCLUDE_DEPENDENT_COURT_JUDGMENTS, "not boolean"));
+        actions.andDo(MockMvcResultHandlers.print());
+        //then
+        assertIncorrectValueError(actions, ApiConstants.CC_INCLUDE_DEPENDENT_COURT_JUDGMENTS, "not boolean");
     }
     
     @Test

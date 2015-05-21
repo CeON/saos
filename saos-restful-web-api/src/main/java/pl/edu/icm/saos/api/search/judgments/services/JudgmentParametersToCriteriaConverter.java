@@ -33,7 +33,12 @@ public class JudgmentParametersToCriteriaConverter {
         criteria.setLegalBase(params.getLegalBase());
         criteria.setCourtType(params.getCourtType());
 
-        criteria.setCcCourtId(params.getCcCourtId());
+        if (params.getCcIncludeDependentCourtJudgments() != null && params.getCcIncludeDependentCourtJudgments()) {
+            criteria.setCcDirectOrSuperiorCourtId(params.getCcCourtId());
+        } else {
+            criteria.setCcCourtId(params.getCcCourtId());
+        }
+
         criteria.setCcCourtName(params.getCcCourtName());
         criteria.setCcCourtCode(params.getCcCourtCode());
         criteria.setCcCourtType(params.getCcCourtType());
