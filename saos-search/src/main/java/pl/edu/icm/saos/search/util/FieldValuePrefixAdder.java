@@ -24,7 +24,7 @@ public class FieldValuePrefixAdder {
      * Adds the given prefix to value. Prefix and value will be joined with {@link IndexFieldsConstants.FIELD_VALUE_PREFIX_SEPARATOR}
      * 
      */
-    public String addFieldPrefix(String fieldValue, String prefix) {
+    public String addFieldPrefix(String prefix, String fieldValue) {
         Preconditions.checkNotNull(fieldValue);
         Preconditions.checkNotNull(prefix);
         return prefixWithSeparator(prefix) + fieldValue;

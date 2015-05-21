@@ -11,7 +11,7 @@ import pl.edu.icm.saos.search.analysis.request.XSettings;
  * @author Łukasz Dumiszewski
  */
 @Service("simpleFacetValueConverter")
-public class SimpleFacetValueConverter implements FacetValueConverter {
+public class FacetSimpleValueConverter implements FacetValueConverter {
 
     
     

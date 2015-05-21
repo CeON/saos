@@ -15,7 +15,7 @@ import com.google.common.base.Preconditions;
  * @author Łukasz Dumiszewski
  */
 @Service("prefixedFacetValueConverter")
-public class PrefixedFacetValueConverter implements FacetValueConverter {
+public class FacetPrefixedValueConverter implements FacetValueConverter {
 
     private FieldValuePrefixAdder fieldValuePrefixAdder;
     
@@ -26,6 +26,7 @@ public class PrefixedFacetValueConverter implements FacetValueConverter {
     
     @Override
     public Object convert(String value, XSettings xsettings) {
+        Preconditions.checkNotNull(value);
         return fieldValuePrefixAdder.extractFieldValue(value);
     }
 

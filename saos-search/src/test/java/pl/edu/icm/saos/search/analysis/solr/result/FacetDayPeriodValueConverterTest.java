@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import pl.edu.icm.saos.common.chart.value.DayPeriod;
+import pl.edu.icm.saos.common.chart.value.SimpleLocalDate;
 import pl.edu.icm.saos.search.analysis.request.Period;
 import pl.edu.icm.saos.search.analysis.request.Period.PeriodUnit;
 import pl.edu.icm.saos.search.analysis.request.XDateRange;
@@ -165,7 +166,7 @@ public class FacetDayPeriodValueConverterTest {
         when(xDateRangeUtils.generateEndDate(startDate, period)).thenReturn(endDate);
         
         // execute
-        assertEquals(new DayPeriod(new LocalDate(2010, 12, 7), new LocalDate(2011, 1, 6)), converter.convert(value, xsettings));
+        assertEquals(new DayPeriod(new SimpleLocalDate(2010, 12, 7), new SimpleLocalDate(2011, 1, 6)), converter.convert(value, xsettings));
         
     }
 

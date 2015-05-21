@@ -415,6 +415,9 @@ var initAnalysisJs = function() {
             seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points, points: {fillColor: getColour(i)}});
         }
         
+        // point periods for all axticks are the same, so the templating function will also be the same
+        var xtickFormatter = xtickPeriodFormatters[chart.xticks[0][1].period]; 
+        
         $.plot($("#mainChart"), seriesArr,    {
                                                      lines: {
                                                          steps:false,
@@ -430,7 +433,11 @@ var initAnalysisJs = function() {
                                                     xaxis: { 
                                                         min: xmin,
                                                         max: xmax,
-                                                        ticks: chart.xticks
+                                                        tickSize: 1,
+                                                        tickFormatter: function(val, axis) {
+                                                            var xtick = chart.xticks[val][1];
+                                                            return xtickFormatter(xtick);
+                                                        }
                                                         
                                                     }, 
                                                     yaxis: {
@@ -451,6 +458,7 @@ var initAnalysisJs = function() {
                                             );
         
         formatXTicks(140, "mainChart");
+        $('#mainChart').find('.flot-x-axis .flot-tick-label').css("max-width","");
         
     }
     
@@ -467,7 +475,10 @@ var initAnalysisJs = function() {
         isZoomed = true;
     });
     
-   
+    
+    
+    
+    
 
     
     //******************************* AGGREGATED MAIN CHART ***************************************************
@@ -599,7 +610,7 @@ var initAnalysisJs = function() {
                                                         tickSize: 1,
                                                         tickFormatter: function(val, axis) {  
                                                             if (val > xmin && val < xmax) {
-                                                                return formatXCourtName(chart.xticks[val][1]);
+                                                                return formatXCourtName(chart.xticks[val][1].name);
                                                             } else {
                                                                 return "";
                                                             }
@@ -645,7 +656,7 @@ var initAnalysisJs = function() {
     $("#ccCourtChart").on("plothover", function (event, pos, item) {
         if (item) {
             $("#tooltip").remove();
-            showTooltip(item.pageX, item.pageY, ccCourtChart.xticks[item.dataIndex][1] + ", <b>" + formatNumber(item.datapoint[1], 2) + "</b>");
+            showTooltip(item.pageX, item.pageY, ccCourtChart.xticks[item.dataIndex][1].name + ", <b>" + formatNumber(item.datapoint[1], 2) + "</b>");
         } else {
             $("#tooltip").remove();
         }
@@ -659,4 +670,51 @@ var initAnalysisJs = function() {
         isZoomed = true;
     });
 
+    
+   
+    
+    
+    /*****************************  XTICK FORMATTERS **************************/
+    
+    
+    var xtickPeriodFormatters = {};
+        
+    xtickPeriodFormatters['YEAR'] = function(xtick) {
+        if (xtick.startYear === xtick.endYear) {
+            return xtick.startYear;
+        } else {
+            return xtick.startYear + " - " + xtick.endYear;
+        }
+    };
+    
+    xtickPeriodFormatters['MONTH'] = function(xtick) {
+        if (xtick.startYear === xtick.endYear && xtick.startMonthOfYear === xtick.endMonthOfYear) {
+            return formatMonth(xtick.startMonthOfYear + "-" + xtick.startYear);
+        } else {
+            return formatMonth(xtick.startMonthOfYear + "-" + xtick.startYear) + "<br/> - <br/>" + formatMonth(xtick.endMonthOfYear + "-" + xtick.endYear);
+        }
+    };
+    
+    xtickPeriodFormatters['DAY'] = function(xtick) {
+        if (xtick.startDay.dayOfMonth === xtick.endDay.dayOfMonth 
+                && xtick.startDay.monthOfYear === xtick.endDay.monthOfYear
+                && xtick.startDay.year === xtick.endDay.year) {
+            return formatDate(xtick.startDay.dayOfMonth + "-" + xtick.startDay.monthOfYear + "-" + xtick.startDay.year);
+        } else {
+            return formatDate(xtick.startDay.dayOfMonth + "-" + xtick.startDay.monthOfYear + "-" + xtick.startDay.year) + "<br/> - <br/>" +
+                   formatDate(xtick.endDay.dayOfMonth + "-" + xtick.endDay.monthOfYear + "-" + xtick.endDay.year);
+        }
+    };
+   
+    function formatDate(date) {
+        return moment(date, 'D-M-YYYY', true).locale(analysisJsProperties.PAGE_LANG).format("LL").replace(/ /g,"&nbsp;");
+    }
+    
+    function formatMonth(date) {
+        return moment(date, 'M-YYYY', true).locale(analysisJsProperties.PAGE_LANG).format("MMMM YYYY").replace(/ /g,"&nbsp;");
+    }
+ 
+    
+
+    
 }

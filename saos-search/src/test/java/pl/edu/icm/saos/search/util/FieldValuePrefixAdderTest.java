@@ -60,7 +60,7 @@ public class FieldValuePrefixAdderTest {
     public void addFieldPrefix() {
         
         // execute & assert
-        assertEquals("prefix"+FIELD_VALUE_PREFIX_SEPARATOR+"value", fieldValuePrefixAdder.addFieldPrefix("value", "prefix"));
+        assertEquals("prefix"+FIELD_VALUE_PREFIX_SEPARATOR+"value", fieldValuePrefixAdder.addFieldPrefix("prefix","value"));
         
     }
     

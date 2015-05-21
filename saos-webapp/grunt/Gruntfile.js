@@ -124,7 +124,7 @@ module.exports = function(grunt) {
 				  '<%= project.js.dir %>/libs/moment.min.js',
                   '<%= project.js.dir %>/libs/bootstrap.min.js',
 				  '<%= project.js.dir %>/libs/jquery-dateFormat.min.js',
-				  
+                  
 				  '<%= project.js.dir %>/libs/jquery.flot.min.js',
 				  '<%= project.js.dir %>/libs/jquery.flot.navigate.min.js',
 				  '<%= project.js.dir %>/libs/jquery.flot.resize.min.js',

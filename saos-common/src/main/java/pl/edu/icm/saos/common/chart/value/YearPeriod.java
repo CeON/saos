@@ -2,6 +2,7 @@ package pl.edu.icm.saos.common.chart.value;
 
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Preconditions;
 
 /**
@@ -10,7 +11,7 @@ import com.google.common.base.Preconditions;
  * @author Łukasz Dumiszewski
  */
 
-public class YearPeriod {
+public class YearPeriod implements TimePeriod {
 
     
     private int startYear;
@@ -59,12 +60,18 @@ public class YearPeriod {
     /**
      * Is this period a one year period, i.e. {@link #getStartYear()} equals {@link #getEndYear()} 
      */
-    
+    @JsonIgnore
     public boolean isOneYearPeriod() {
         return startYear == endYear;
     }
     
-    
+
+    @Override
+    public TimePeriodType getPeriod() {
+        return TimePeriodType.YEAR;
+    }
+
+
     //------------------------ HashCode & Equals --------------------------
     
     
