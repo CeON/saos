@@ -79,6 +79,7 @@ public abstract class ApiConstants {
     public static final String CC_DIVISION_ID = "ccDivisionId";
     public static final String CC_DIVISION_CODE = "ccDivisionCode";
     public static final String CC_DIVISION_NAME = "ccDivisionName";
+    public static final String CC_INCLUDE_DEPENDENT_COURT_JUDGMENTS = "ccIncludeDependentCourtJudgments";
     public static final String SC_CHAMBER_ID = "scChamberId";
     public static final String SC_CHAMBER_NAME = "scChamberName";
     public static final String SC_DIVISION_ID = "scDivisionId";

@@ -138,5 +138,25 @@ class JudgmentParametersToCriteriaConverterTest extends Specification {
             actual == expected
     }
 
+    def "it should include dependent court judgments in criteria"(){
+        given:
+            def all = "some all value"
+            def commonCourtId = 111
+
+            JudgmentsParameters params = new JudgmentsParameters();
+            params.setAll(all)
+            params.setCcCourtId(commonCourtId)
+            params.setCcIncludeDependentCourtJudgments(true)
+
+        when:
+            JudgmentCriteria actual = converter.toCriteria(params)
+
+        then:
+            JudgmentCriteria expected = new JudgmentCriteria();
+            expected.setAll(all)
+            expected.setCcDirectOrSuperiorCourtId(commonCourtId)
+
+            actual == expected
+    }
 
 }

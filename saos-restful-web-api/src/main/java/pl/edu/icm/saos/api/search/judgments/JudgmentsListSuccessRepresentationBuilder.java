@@ -27,6 +27,7 @@ import static pl.edu.icm.saos.api.ApiConstants.SC_PERSONNEL_TYPE;
 import static pl.edu.icm.saos.api.ApiConstants.SELF;
 import static pl.edu.icm.saos.api.ApiConstants.SORTING_DIRECTION;
 import static pl.edu.icm.saos.api.ApiConstants.SORTING_FIELD;
+import static pl.edu.icm.saos.api.ApiConstants.CC_INCLUDE_DEPENDENT_COURT_JUDGMENTS;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -197,6 +198,10 @@ public class JudgmentsListSuccessRepresentationBuilder {
         if(StringUtils.isNotBlank(params.getCcDivisionName())){
             uriComponentsBuilder.replaceQueryParam(CC_DIVISION_NAME, params.getCcDivisionName());
         }
+        
+        if(params.getCcIncludeDependentCourtJudgments() != null){
+            uriComponentsBuilder.replaceQueryParam(CC_INCLUDE_DEPENDENT_COURT_JUDGMENTS, params.getCcIncludeDependentCourtJudgments());
+        }
 
         if(params.getScChamberId() != null){
             uriComponentsBuilder.replaceQueryParam(SC_CHAMBER_ID, params.getScChamberId());
@@ -299,6 +304,8 @@ public class JudgmentsListSuccessRepresentationBuilder {
         queryTemplate.setCcDivisionId(params.getCcDivisionId());
         queryTemplate.setCcDivisionCode(params.getCcDivisionCode());
         queryTemplate.setCcDivisionName(params.getCcDivisionName());
+        
+        queryTemplate.setCcIncludeDependentCourtJudgments(params.getCcIncludeDependentCourtJudgments());
 
         queryTemplate.setScPersonnelType(new PersonnelTypeTemplate(params.getScPersonnelType()));
         queryTemplate.setScJudgmentForm(params.getScJudgmentForm());
