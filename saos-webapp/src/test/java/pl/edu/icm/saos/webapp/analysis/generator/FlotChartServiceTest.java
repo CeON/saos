@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.webapp.analysis.generator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -17,6 +18,7 @@ import org.mockito.Mock;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.UiySettings;
 import pl.edu.icm.saos.webapp.analysis.request.UiySettings.UiyValueType;
+import pl.edu.icm.saos.webapp.analysis.result.AnalysisResult;
 import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
 import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
 
@@ -78,17 +80,24 @@ public class FlotChartServiceTest {
         
         // execute
         
-        Map<ChartCode, FlotChart> flotCharts = flotChartService.generateCharts(analysisForm);
+        AnalysisResult analysisResult = flotChartService.generateCharts(analysisForm);
         
         
         // assert
+        assertNotNull(analysisResult);
         
+        Map<ChartCode, FlotChart> flotCharts = analysisResult.getCharts();
+        assertNotNull(flotCharts);
         assertEquals(2, flotCharts.size());
         assertTrue(mainChart == flotCharts.get(ChartCode.MAIN_CHART));
         assertTrue(aggregatedMainChart == flotCharts.get(ChartCode.AGGREGATED_MAIN_CHART));
         for (ChartCode chartCode : ChartCode.values()) {
             verify(flotChartGenerator).canGenerateChart(chartCode, analysisForm);
         }
+        
+        AnalysisForm generatedChartAnalysisForm = analysisResult.getAnalysisForm();
+        assertTrue(analysisForm == generatedChartAnalysisForm);
+        
     }
     
     
