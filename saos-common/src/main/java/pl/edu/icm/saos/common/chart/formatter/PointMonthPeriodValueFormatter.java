@@ -31,11 +31,11 @@ public class PointMonthPeriodValueFormatter extends AbstractPointValueFormatter 
             
         if (monthPeriod.isOneMonthPeriod()) {
                 
-            return format(monthPeriod.getStartYear(), monthPeriod.getEndMonth());
+            return format(monthPeriod.getStartYear(), monthPeriod.getEndMonthOfYear());
             
         }
             
-        return format(monthPeriod.getStartYear(), monthPeriod.getStartMonth()) + "-" + format(monthPeriod.getEndYear(), monthPeriod.getEndMonth());
+        return format(monthPeriod.getStartYear(), monthPeriod.getStartMonthOfYear()) + "-" + format(monthPeriod.getEndYear(), monthPeriod.getEndMonthOfYear());
     }
 
 

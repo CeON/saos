@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,18 +22,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import pl.edu.icm.saos.common.chart.Point;
 import pl.edu.icm.saos.common.chart.Series;
+import pl.edu.icm.saos.common.chart.value.CcCourtArea;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
+import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.search.SearchTestConfiguration;
 import pl.edu.icm.saos.search.analysis.request.JudgmentSeriesCriteria;
 import pl.edu.icm.saos.search.analysis.request.XField;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
-import pl.edu.icm.saos.search.util.FieldValuePrefixAdder;
+import pl.edu.icm.saos.search.util.CcCourtAreaFieldValueCreator;
 
 import com.google.common.collect.Lists;
 
 
 /**
- * @author madryk
+ * @author Łukasz Dumiszewski
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={ SearchTestConfiguration.class })
@@ -43,37 +46,36 @@ public class SeriesGeneratorCcCourtIntTest {
     private SeriesGenerator seriesGenerator;
     
     @Autowired
-    private FieldValuePrefixAdder fieldValuePrefixAdder;
+    private CcCourtAreaFieldValueCreator ccCourtAreaFieldValueCreator;
     
     @Autowired
     @Qualifier("solrJudgmentsServer")
     private SolrServer judgmentsServer;
     
     
+    private CommonCourt appealCourt1 = createCourt(1, "Sąd Apelacyjny w Poznaniu");
     
-    private final long APPEAL_1_ID = 1;
-    private final String APPEAL_1 = "Sąd Apelacyjny w Poznaniu";
+    private CommonCourt regionalCourt1_1 = createCourt(11, "Sąd Okręgowy w Poznaniu");
+    private CommonCourt districtCourt1_1_1 = createCourt(111, "Sąd Rejonowy w Gnieźnie");
+    private CommonCourt districtCourt1_1_2 = createCourt(112, "Sąd Rejonowy w Pile");
     
-    private final long REGION_1_1_ID = 11;
-    private final String REGION_1_1 = "Sąd Okręgowy w Poznaniu";
-    private final String DISTRICT_1_1_1 = "Sąd Rejonowy w Gnieźnie";
-    private final String DISTRICT_1_1_2 = "Sąd Rejonowy w Pile";
-    
-    private final long REGION_1_2_ID = 12;
-    private final String REGION_1_2 = "Sąd Okręgowy w Lesznie";
+    private CommonCourt regionalCourt1_2 = createCourt(12, "Sąd Okręgowy w Lesznie");
     
     
-    private final long APPEAL_2_ID = 2;
-    private final String APPEAL_2 = "Sąd Apelacyjny we Wrocławiu";
     
-    private final String REGION_2_1 = "Sąd Okręgowy w Wałbrzychu";
+    private CommonCourt appealCourt2 = createCourt(2, "Sąd Apelacyjny we Wrocławiu");
+    
+    private CommonCourt regionalCourt2_1 = createCourt(21, "Sąd Okręgowy w Wałbrzychu");
+    
     
     
     @Before
-    public void setUp() throws Exception {
+    public void before() throws Exception {
         
         judgmentsServer.deleteByQuery("*:*");
         judgmentsServer.commit();
+        
+        
         
         indexJudgments();
     }
@@ -98,8 +100,8 @@ public class SeriesGeneratorCcCourtIntTest {
         // assert
         
         List<Point<Object, Integer>> expectedPoints = Lists.newArrayList();
-        expectedPoints.add(new Point<Object, Integer>(APPEAL_1, 8));
-        expectedPoints.add(new Point<Object, Integer>(APPEAL_2, 6));
+        expectedPoints.add(new Point<Object, Integer>(createCcCourtArea(appealCourt1), 8));
+        expectedPoints.add(new Point<Object, Integer>(createCcCourtArea(appealCourt2), 6));
         
         Assert.assertEquals(expectedPoints, series.getPoints());
         
@@ -112,7 +114,7 @@ public class SeriesGeneratorCcCourtIntTest {
         JudgmentSeriesCriteria jsc = new JudgmentSeriesCriteria();
         jsc.setPhrase("content");
         
-        XSettings xsettings = createXSettings(XField.CC_REGION, ""+APPEAL_1_ID);
+        XSettings xsettings = createXSettings(XField.CC_REGION, ""+appealCourt1.getId());
         
         
         // execute
@@ -121,9 +123,9 @@ public class SeriesGeneratorCcCourtIntTest {
         // assert
         
         List<Point<Object, Integer>> expectedPoints = Lists.newArrayList();
-        expectedPoints.add(new Point<Object, Integer>(APPEAL_1, 2));
-        expectedPoints.add(new Point<Object, Integer>(REGION_1_2, 1));
-        expectedPoints.add(new Point<Object, Integer>(REGION_1_1, 5));
+        expectedPoints.add(new Point<Object, Integer>(createCcCourtArea(appealCourt1), 2));
+        expectedPoints.add(new Point<Object, Integer>(createCcCourtArea(regionalCourt1_2), 1));
+        expectedPoints.add(new Point<Object, Integer>(createCcCourtArea(regionalCourt1_1), 5));
         
         Assert.assertEquals(expectedPoints, series.getPoints());
         
@@ -136,7 +138,7 @@ public class SeriesGeneratorCcCourtIntTest {
         JudgmentSeriesCriteria jsc = new JudgmentSeriesCriteria();
         jsc.setPhrase("content");
         
-        XSettings xsettings = createXSettings(XField.CC_REGION, ""+APPEAL_2_ID);
+        XSettings xsettings = createXSettings(XField.CC_REGION, ""+appealCourt2.getId());
         
         
         // execute
@@ -145,8 +147,8 @@ public class SeriesGeneratorCcCourtIntTest {
         // assert
         
         List<Point<Object, Integer>> expectedPoints = Lists.newArrayList();
-        expectedPoints.add(new Point<Object, Integer>(APPEAL_2, 2));
-        expectedPoints.add(new Point<Object, Integer>(REGION_2_1, 4));
+        expectedPoints.add(new Point<Object, Integer>(createCcCourtArea(appealCourt2), 2));
+        expectedPoints.add(new Point<Object, Integer>(createCcCourtArea(regionalCourt2_1), 4));
         
         Assert.assertEquals(expectedPoints, series.getPoints());
         
@@ -159,7 +161,7 @@ public class SeriesGeneratorCcCourtIntTest {
         JudgmentSeriesCriteria jsc = new JudgmentSeriesCriteria();
         jsc.setPhrase("content");
         
-        XSettings xsettings = createXSettings(XField.CC_DISTRICT, ""+REGION_1_1_ID);
+        XSettings xsettings = createXSettings(XField.CC_DISTRICT, ""+regionalCourt1_1.getId());
         
         
         // execute
@@ -168,9 +170,9 @@ public class SeriesGeneratorCcCourtIntTest {
         // assert
         
         List<Point<Object, Integer>> expectedPoints = Lists.newArrayList();
-        expectedPoints.add(new Point<Object, Integer>(REGION_1_1, 1));
-        expectedPoints.add(new Point<Object, Integer>(DISTRICT_1_1_1, 1));
-        expectedPoints.add(new Point<Object, Integer>(DISTRICT_1_1_2, 3));
+        expectedPoints.add(new Point<Object, Integer>(createCcCourtArea(regionalCourt1_1), 1));
+        expectedPoints.add(new Point<Object, Integer>(createCcCourtArea(districtCourt1_1_1), 1));
+        expectedPoints.add(new Point<Object, Integer>(createCcCourtArea(districtCourt1_1_2), 3));
         
         Assert.assertEquals(expectedPoints, series.getPoints());
         
@@ -191,47 +193,61 @@ public class SeriesGeneratorCcCourtIntTest {
     
     
     private void indexJudgments() throws SolrServerException, IOException {
-        judgmentsServer.add(fetchDocument(1L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, APPEAL_1), ""));
+        judgmentsServer.add(fetchDocument(1L, "content", createAreaField(null, appealCourt1), createAreaField(appealCourt1.getId(), appealCourt1), ""));
         
-        judgmentsServer.add(fetchDocument(2L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, APPEAL_1), ""));
-        judgmentsServer.add(fetchDocument(3L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, REGION_1_1)));
-        judgmentsServer.add(fetchDocument(31L,"other",   APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, REGION_1_1)));
-        judgmentsServer.add(fetchDocument(4L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_2), prefixValue(REGION_1_2_ID, REGION_1_2)));
-        judgmentsServer.add(fetchDocument(5L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_1)));
-        judgmentsServer.add(fetchDocument(51L,"content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_2)));
-        judgmentsServer.add(fetchDocument(6L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_2)));
-        judgmentsServer.add(fetchDocument(7L, "content", APPEAL_1, prefixValue(APPEAL_1_ID, REGION_1_1), prefixValue(REGION_1_1_ID, DISTRICT_1_1_2)));
+        judgmentsServer.add(fetchDocument(2L, "content", createAreaField(null, appealCourt1), createAreaField(appealCourt1.getId(), appealCourt1), ""));
+        judgmentsServer.add(fetchDocument(3L, "content", createAreaField(null, appealCourt1), createAreaField(appealCourt1.getId(), regionalCourt1_1), createAreaField(regionalCourt1_1.getId(), regionalCourt1_1)));
+        judgmentsServer.add(fetchDocument(31L,"other",   createAreaField(null, appealCourt1), createAreaField(appealCourt1.getId(), regionalCourt1_1), createAreaField(regionalCourt1_1.getId(), regionalCourt1_1)));
+        judgmentsServer.add(fetchDocument(4L, "content", createAreaField(null, appealCourt1), createAreaField(appealCourt1.getId(), regionalCourt1_2), createAreaField(regionalCourt1_2.getId(), regionalCourt1_2)));
+        judgmentsServer.add(fetchDocument(5L, "content", createAreaField(null, appealCourt1), createAreaField(appealCourt1.getId(), regionalCourt1_1), createAreaField(regionalCourt1_1.getId(), districtCourt1_1_1)));
+        judgmentsServer.add(fetchDocument(51L,"content", createAreaField(null, appealCourt1), createAreaField(appealCourt1.getId(), regionalCourt1_1), createAreaField(regionalCourt1_1.getId(), districtCourt1_1_2)));
+        judgmentsServer.add(fetchDocument(6L, "content", createAreaField(null, appealCourt1), createAreaField(appealCourt1.getId(), regionalCourt1_1), createAreaField(regionalCourt1_1.getId(), districtCourt1_1_2)));
+        judgmentsServer.add(fetchDocument(7L, "content", createAreaField(null, appealCourt1), createAreaField(appealCourt1.getId(), regionalCourt1_1), createAreaField(regionalCourt1_1.getId(), districtCourt1_1_2)));
         
-        judgmentsServer.add(fetchDocument(71L,"other",   APPEAL_2, prefixValue(APPEAL_2_ID, APPEAL_2), ""));
-        judgmentsServer.add(fetchDocument(8L, "content", APPEAL_2, prefixValue(APPEAL_2_ID, APPEAL_2), ""));
-        judgmentsServer.add(fetchDocument(9L, "content", APPEAL_2, prefixValue(APPEAL_2_ID, APPEAL_2), ""));
-        judgmentsServer.add(fetchDocument(91L,"content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
-        judgmentsServer.add(fetchDocument(92L,"content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
-        judgmentsServer.add(fetchDocument(93L,"content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
-        judgmentsServer.add(fetchDocument(10L,"content", APPEAL_2, prefixValue(APPEAL_2_ID, REGION_2_1), prefixValue(APPEAL_2_ID, REGION_2_1)));
+        judgmentsServer.add(fetchDocument(71L,"other", createAreaField(null, appealCourt2), createAreaField(appealCourt2.getId(), appealCourt2), ""));
+        judgmentsServer.add(fetchDocument(8L, "content", createAreaField(null, appealCourt2), createAreaField(appealCourt2.getId(), appealCourt2), ""));
+        judgmentsServer.add(fetchDocument(9L, "content", createAreaField(null, appealCourt2), createAreaField(appealCourt2.getId(), appealCourt2), ""));
+        judgmentsServer.add(fetchDocument(91L,"content", createAreaField(null, appealCourt2), createAreaField(appealCourt2.getId(), regionalCourt2_1), createAreaField(regionalCourt2_1.getId(), regionalCourt2_1)));
+        judgmentsServer.add(fetchDocument(92L,"content", createAreaField(null, appealCourt2), createAreaField(appealCourt2.getId(), regionalCourt2_1), createAreaField(regionalCourt2_1.getId(), regionalCourt2_1)));
+        judgmentsServer.add(fetchDocument(93L,"content", createAreaField(null, appealCourt2), createAreaField(appealCourt2.getId(), regionalCourt2_1), createAreaField(regionalCourt2_1.getId(), regionalCourt2_1)));
+        judgmentsServer.add(fetchDocument(10L,"content", createAreaField(null, appealCourt2), createAreaField(appealCourt2.getId(), regionalCourt2_1), createAreaField(regionalCourt2_1.getId(), regionalCourt2_1)));
         
         judgmentsServer.commit();
     }
     
-    private SolrInputDocument fetchDocument(long id, String content, String appealName, String regionName, String districtName) {
+    private SolrInputDocument fetchDocument(long id, String content, String appealArea, String regionArea, String districtArea) {
         SolrInputDocument doc = new SolrInputDocument();
         
         doc.addField("databaseId", id);
         doc.addField("content", content);
-        doc.addField("ccAppealName", appealName);
+        doc.addField("ccAppealArea", appealArea);
         
-        if (!StringUtils.isBlank(regionName)) {
-            doc.addField("ccRegionName", regionName);
+        if (!StringUtils.isBlank(regionArea)) {
+            doc.addField("ccRegionArea", regionArea);
         }
-        if (!StringUtils.isBlank(districtName)) {
-            doc.addField("ccDistrictName", districtName);
+        if (!StringUtils.isBlank(districtArea)) {
+            doc.addField("ccDistrictArea", districtArea);
         }
         
         
         return doc;
     }
     
-    private String prefixValue(long id, String name) {
-        return fieldValuePrefixAdder.addFieldPrefix(name, ""+id);
+    private String createAreaField(Long parentAreaCourtId, CommonCourt court) {
+        return ccCourtAreaFieldValueCreator.createCcCourtAreaFieldValue(parentAreaCourtId, court);
+    }
+    
+    private CcCourtArea createCcCourtArea(CommonCourt ccCourt) {
+        CcCourtArea ccCourtArea = new CcCourtArea();
+        ccCourtArea.setCourtId(ccCourt.getId());
+        ccCourtArea.setName(ccCourt.getName());
+        return ccCourtArea;
+    }
+    
+    private CommonCourt createCourt(long id, String name) {
+        CommonCourt court = new CommonCourt();
+        Whitebox.setInternalState(court, "id", id);
+        court.setName(name);
+        return court;
     }
 }

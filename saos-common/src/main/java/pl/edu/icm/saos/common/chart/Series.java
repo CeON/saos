@@ -41,7 +41,7 @@ public class Series<X, Y> {
         this.points = points;
     }
     
-//------------------------ HashCode & Equals --------------------------
+   //------------------------ HashCode & Equals --------------------------
     
     
     @Override

@@ -1,9 +1,9 @@
 package pl.edu.icm.saos.common.chart.formatter;
 
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Value;
 
 import pl.edu.icm.saos.common.chart.value.DayPeriod;
+import pl.edu.icm.saos.common.chart.value.SimpleLocalDate;
 
 import com.google.common.base.Preconditions;
 
@@ -55,7 +55,7 @@ public class PointDayPeriodValueFormatter extends AbstractPointValueFormatter {
     //------------------------ PRIVATE --------------------------
         
     
-    private String formatDate(LocalDate date) {
+    private String formatDate(SimpleLocalDate date) {
         
         return date.toString("dd/MM/yy");
         

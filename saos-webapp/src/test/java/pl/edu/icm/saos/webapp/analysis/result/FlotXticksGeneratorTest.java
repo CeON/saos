@@ -2,19 +2,13 @@ package pl.edu.icm.saos.webapp.analysis.result;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
 import pl.edu.icm.saos.common.chart.Chart;
 import pl.edu.icm.saos.common.chart.Series;
-import pl.edu.icm.saos.common.chart.formatter.PointValueFormatterManager;
 
 /**
  * @author Łukasz Dumiszewski
@@ -22,20 +16,10 @@ import pl.edu.icm.saos.common.chart.formatter.PointValueFormatterManager;
 
 public class FlotXticksGeneratorTest {
 
-    @InjectMocks
-    private FlotXticksGenerator flotXticksGenerator;
     
-    @Mock
-    private PointValueFormatterManager pointValueFormatterManager;
+    private FlotXticksGenerator flotXticksGenerator = new FlotXticksGenerator();
     
-    
-    @Before
-    public void before() {
-        
-        initMocks(this);
-        
-    }
-    
+   
     
     
     //------------------------ TESTS --------------------------
@@ -87,8 +71,6 @@ public class FlotXticksGeneratorTest {
         series2.addPoint("XYZ", 223);
         chart.addSeries(series2);
         
-        when(pointValueFormatterManager.format("XYZ")).thenReturn("xyz_f");
-        when(pointValueFormatterManager.format("ABC")).thenReturn("abc_f");
         
         
         // execute 
@@ -102,10 +84,10 @@ public class FlotXticksGeneratorTest {
         assertEquals(2, xticks.size());
         
         assertEquals(0, xticks.get(0)[0]);
-        assertEquals("xyz_f", xticks.get(0)[1]);
+        assertEquals("XYZ", xticks.get(0)[1]);
 
         assertEquals(1, xticks.get(1)[0]);
-        assertEquals("abc_f", xticks.get(1)[1]);
+        assertEquals("ABC", xticks.get(1)[1]);
     }
     
     

@@ -3,14 +3,11 @@ package pl.edu.icm.saos.webapp.analysis.result;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.chart.Chart;
 import pl.edu.icm.saos.common.chart.Point;
 import pl.edu.icm.saos.common.chart.Series;
-import pl.edu.icm.saos.common.chart.formatter.PointValueFormatterManager;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
@@ -23,8 +20,6 @@ import com.google.common.collect.Lists;
  */
 @Service("flotXticksGenerator")
 public class FlotXticksGenerator {
-
-    private PointValueFormatterManager pointValueFormatterManager;
     
     
     //------------------------ LOGIC --------------------------
@@ -65,21 +60,13 @@ public class FlotXticksGenerator {
             
             Point<?, Number> point = series.getPoints().get(i);
             
-            xticks.add(new Object[] {i, pointValueFormatterManager.format(point.getX())});
+            xticks.add(new Object[] {i, point.getX()});
             
         }
-        
         
         return xticks;
         
     }
 
-    //------------------------ SETTERS --------------------------
-    
-    @Autowired
-    @Qualifier("flotChartPointValueFormatterManager")
-    public void setPointValueFormatterManager(PointValueFormatterManager pointValueFormatterManager) {
-        this.pointValueFormatterManager = pointValueFormatterManager;
-    }
     
 }

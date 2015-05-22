@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.common.chart.value.DayPeriod;
+import pl.edu.icm.saos.common.chart.value.SimpleLocalDate;
 import pl.edu.icm.saos.search.analysis.request.Period;
 import pl.edu.icm.saos.search.analysis.request.XDateRange;
 import pl.edu.icm.saos.search.analysis.request.XSettings;
@@ -45,7 +46,7 @@ public class FacetDayPeriodValueConverter implements FacetValueConverter {
         
         LocalDate endDate = xdateRangeUtils.generateEndDate(startDate, period);
         
-        return new DayPeriod(startDate, endDate);
+        return new DayPeriod(new SimpleLocalDate(startDate), new SimpleLocalDate(endDate));
         
     
     }

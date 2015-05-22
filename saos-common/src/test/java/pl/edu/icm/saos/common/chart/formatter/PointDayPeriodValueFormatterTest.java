@@ -9,6 +9,7 @@ import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import pl.edu.icm.saos.common.chart.value.DayPeriod;
+import pl.edu.icm.saos.common.chart.value.SimpleLocalDate;
 
 /**
  * @author Łukasz Dumiszewski
@@ -54,7 +55,7 @@ public class PointDayPeriodValueFormatterTest {
     public void format_OneDayPeriod() {
         
         // given
-        DayPeriod value = new DayPeriod(new LocalDate(2011, 12, 13), new LocalDate(2011, 12, 13));
+        DayPeriod value = new DayPeriod(new SimpleLocalDate(new LocalDate(2011, 12, 13)), new SimpleLocalDate(new LocalDate(2011, 12, 13)));
         
         // execute
         assertEquals("13/12/11", formatter.format(value));
@@ -66,7 +67,7 @@ public class PointDayPeriodValueFormatterTest {
     public void format_RangeDayPeriod() {
         
         // given
-        DayPeriod value = new DayPeriod(new LocalDate(2011, 11, 13), new LocalDate(2011, 12, 13));
+        DayPeriod value = new DayPeriod(new SimpleLocalDate(new LocalDate(2011, 11, 13)), new SimpleLocalDate(new LocalDate(2011, 12, 13)));
         
         // execute
         assertEquals("13/11/11-13/12/11", formatter.format(value));

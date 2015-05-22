@@ -425,13 +425,13 @@ public class JudgmentSearchServiceTest {
         doc.addField("ccCourtDivisionName", "XV Wydział Karny");
 
         doc.addField("ccAppealCourtId", "37");
-        doc.addField("ccAppealName", "Sąd Apelacyjny w Warszawie");
+        doc.addField("ccAppealArea", "NA#1#Sąd Apelacyjny w Warszawie");
 
         doc.addField("ccRegionalCourtId", "38");
-        doc.addField("ccRegionName", "37#Sąd Okręgowy w Białymstoku");
+        doc.addField("ccRegionArea", "1#37#Sąd Okręgowy w Białymstoku");
 
         doc.addField("ccDistrictCourtId", "36");
-        doc.addField("ccDistrictName", "36#Sąd Rejonowy w Białymstoku");
+        doc.addField("ccDistrictArea", "37#36#Sąd Rejonowy w Białymstoku");
 
         
         doc.addField("judge", "Marcin Kęska|PRESIDING_JUDGE");
@@ -493,7 +493,7 @@ public class JudgmentSearchServiceTest {
         doc.addField("ccCourtDivisionName", "III Wydział Pracy i Ubezpieczeń Społecznych");
         
         doc.addField("ccAppealCourtId", "1");
-        doc.addField("ccAppealName", "Sąd Apelacyjny we Wrocławiu");
+        doc.addField("ccAppealArea", "NA#1#Sąd Apelacyjny we Wrocławiu");
 
         
         doc.addField("keyword", "zwrot nienależnie pobranych świadczeń z ubezpieczenia");
