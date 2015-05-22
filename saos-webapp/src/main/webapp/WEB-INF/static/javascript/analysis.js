@@ -6,6 +6,7 @@ var initAnalysisJs = function() {
     var mainChart = null;
     var aggregatedMainChart = null;
     var ccCourtChart = null;
+    var generatedChartAnalysisForm = null; // analysis form used to generate charts (see chart variables above)
     
     var isZoomed = false;
     var isChartGenerating = false; 
@@ -359,16 +360,20 @@ var initAnalysisJs = function() {
         showAjaxLoader("aggregatedMainChart");
         showAjaxLoader("ccCourtChart");
         
-        $('#analysisForm').ajaxSubmit(function(charts) {
-            $('#analysisForm').attr('action', analysisFormBaseAction)
+        $('#analysisForm').ajaxSubmit(function(analysisResult) {
+             $('#analysisForm').attr('action', analysisFormBaseAction);
+             
+             
+             generatedChartAnalysisForm = analysisResult.analysisForm;
+             
+             var charts = analysisResult.charts;
              
              mainChart = charts['MAIN_CHART'];
-             printMainChart(mainChart, null, null);
-             
              aggregatedMainChart = charts['AGGREGATED_MAIN_CHART'];
-             printAggregatedMainChart(aggregatedMainChart);
-             
              ccCourtChart = charts['CC_COURT_CHART'];
+             
+             printMainChart(mainChart, null, null);
+             printAggregatedMainChart(aggregatedMainChart);
              printCcCourtChart(ccCourtChart);
              
              if (updateLocationUrl) {
@@ -464,7 +469,7 @@ var initAnalysisJs = function() {
     
     /** Show a point tooltip on the main chart */
     $("#mainChart").on("plothover", function (event, pos, item) {
-        showYNumberPointTooltip(event, pos, item, 2);
+        showYNumberPointTooltip(event, pos, item, 2, getChartYNumberUnit());
     });
     
     
@@ -546,7 +551,7 @@ var initAnalysisJs = function() {
             
             var y = formatNumber(item.datapoint[1], 2);
             
-            showTooltip(item.pageX, item.pageY, "<b>"+y+"</b>");
+            showTooltip(item.pageX, item.pageY, "<b>"+y+ getChartYNumberUnit()+"</b>");
         
         } else {
             $("#tooltip").remove();
@@ -656,7 +661,7 @@ var initAnalysisJs = function() {
     $("#ccCourtChart").on("plothover", function (event, pos, item) {
         if (item) {
             $("#tooltip").remove();
-            showTooltip(item.pageX, item.pageY, ccCourtChart.xticks[item.dataIndex][1].name + ", <b>" + formatNumber(item.datapoint[1], 2) + "</b>");
+            showTooltip(item.pageX, item.pageY, ccCourtChart.xticks[item.dataIndex][1].name + ", <b>" + formatNumber(item.datapoint[1], 2) + getChartYNumberUnit() + "</b>");
         } else {
             $("#tooltip").remove();
         }
@@ -715,6 +720,21 @@ var initAnalysisJs = function() {
     }
  
     
-
+    /******************************************** OTHER **********************************************/
     
+    function isChartYPercent() {
+        return generatedChartAnalysisForm.ysettings.valueType === 'PERCENT';
+    }
+    
+    
+    function getChartYNumberUnit() {
+        
+        var numberUnit = '';
+        
+        if (isChartYPercent()) {
+            numberUnit = '%';
+        }
+        
+        return numberUnit;
+    }
 }

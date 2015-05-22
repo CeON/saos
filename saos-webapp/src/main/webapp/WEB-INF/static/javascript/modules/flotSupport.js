@@ -42,8 +42,9 @@ function formatXTicks(minXtickLabelLength, containingDivId){
  * every 3 digits) 
  * 
  * @param decimalPrecision the precision that will be used for formatting numbers that are not integers
+ * @param yNumberUnit unit of y number, e.g. % or $
  * */
-function showYNumberPointTooltip(event, pos, item, decimalPrecision) {
+function showYNumberPointTooltip(event, pos, item, decimalPrecision, yNumberUnit) {
 	if (item) {
 		
 			$("#tooltip").remove();
@@ -51,6 +52,10 @@ function showYNumberPointTooltip(event, pos, item, decimalPrecision) {
 			x = x.replace(/<br\/>/g, "");
 			
 			var y = formatNumber(item.datapoint[1], decimalPrecision);
+			
+			if (yNumberUnit) {
+			    y = y + yNumberUnit;
+			}
 			
 			showTooltip(item.pageX, item.pageY, x + ",  <b>" + y + "</b>");
 		

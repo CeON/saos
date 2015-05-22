@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
+import pl.edu.icm.saos.webapp.analysis.result.AnalysisResult;
 import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
 import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
 
@@ -33,7 +34,7 @@ public class FlotChartService {
     /**
      * Generates and returns a map of {@link FlotChart}s according to the settings in the passed analysisForm  
      */
-    public Map<ChartCode, FlotChart> generateCharts(AnalysisForm analysisForm) {
+    public AnalysisResult generateCharts(AnalysisForm analysisForm) {
         
         Preconditions.checkNotNull(analysisForm);
         
@@ -45,7 +46,7 @@ public class FlotChartService {
         generateAggregatedMainChart(analysisForm, charts);
         
         
-        return charts;
+        return new AnalysisResult(analysisForm, charts);
         
     }
 
