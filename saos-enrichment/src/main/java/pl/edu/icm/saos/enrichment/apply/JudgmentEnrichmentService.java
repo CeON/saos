@@ -2,10 +2,13 @@ package pl.edu.icm.saos.enrichment.apply;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.common.Generatable;
+import pl.edu.icm.saos.persistence.common.UnenrichingVisitor;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -28,7 +31,7 @@ public class JudgmentEnrichmentService {
     
     private EnrichmentTagApplierManager enrichmentTagApplierManager;
     
-    
+    private EntityManager entityManager;
     
     
     //------------------------ LOGIC --------------------------
@@ -48,10 +51,25 @@ public class JudgmentEnrichmentService {
             return null;
         }
         
+        entityManager.detach(judgment);
+        
         enrich(judgment);
         
         return judgment;
     
+    }
+    
+    /**
+     * Removes enrichment from judgment and then saves it using {@link JudgmentRepository#save(Judgment)}.<br/>
+     * If judgment was fetched by {@link #findOneAndEnrich(long)} then you should use this method for save operation
+     * instead of {@link JudgmentRepository#save(Judgment)}.
+     */
+    public void unenrichAndSave(Judgment judgment) {
+        Preconditions.checkNotNull(judgment);
+        
+        judgment.accept(new UnenrichingVisitor());
+        
+        judgmentRepository.save(judgment);
     }
 
 
@@ -124,5 +142,9 @@ public class JudgmentEnrichmentService {
         this.enrichmentTagApplierManager = enrichmentTagApplierManager;
     }
     
+    @Autowired
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
     
 }

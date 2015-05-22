@@ -83,6 +83,7 @@ public class PersistenceConfiguration {
         properties.setProperty("jadira.usertype.autoRegisterUserTypes", env.getProperty("jadira.usertype.autoRegisterUserTypes"));
         properties.setProperty("jadira.usertype.databaseZone", env.getProperty("jadira.usertype.databaseZone"));
         properties.setProperty("jadira.usertype.javaZone", env.getProperty("jadira.usertype.javaZone"));
+        properties.setProperty("hibernate.ejb.event.merge", "pl.edu.icm.saos.persistence.common.GeneratedMergeEventListener");
         return properties;
     }
     
