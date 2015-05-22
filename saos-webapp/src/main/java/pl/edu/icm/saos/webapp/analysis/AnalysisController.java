@@ -2,7 +2,6 @@ package pl.edu.icm.saos.webapp.analysis;
 
 
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,8 +23,8 @@ import pl.edu.icm.saos.webapp.analysis.generator.FlotChartService;
 import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
 import pl.edu.icm.saos.webapp.analysis.request.DefaultJudgmentGlobalFilterFactory;
 import pl.edu.icm.saos.webapp.analysis.request.JudgmentSeriesFilter;
+import pl.edu.icm.saos.webapp.analysis.result.AnalysisResult;
 import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
-import pl.edu.icm.saos.webapp.analysis.result.FlotChart;
 import pl.edu.icm.saos.webapp.common.search.CourtDataModelCreator;
 
 /**
@@ -94,7 +93,7 @@ public class AnalysisController {
     
     @RequestMapping(value="/analysis/generate", method= RequestMethod.GET)
     @ResponseBody
-    public Map<ChartCode, FlotChart> generate(@ModelAttribute("analysisForm") AnalysisForm analysisForm) {
+    public AnalysisResult generate(@ModelAttribute("analysisForm") AnalysisForm analysisForm) {
         return flotChartService.generateCharts(analysisForm);
         
     }
