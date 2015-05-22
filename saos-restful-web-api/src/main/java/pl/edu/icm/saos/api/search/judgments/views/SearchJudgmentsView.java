@@ -54,6 +54,8 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
         private Long ccDivisionId;
         private String ccDivisionCode;
         private String ccDivisionName;
+        
+        private Boolean ccIncludeDependentCourtJudgments;
 
         private PersonnelTypeTemplate scPersonnelType;
         private String scJudgmentForm;
@@ -137,6 +139,10 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
 
         public String getCcDivisionName() {
             return ccDivisionName;
+        }
+
+        public Boolean getCcIncludeDependentCourtJudgments() {
+            return ccIncludeDependentCourtJudgments;
         }
 
         public PersonnelTypeTemplate getScPersonnelType() {
@@ -250,6 +256,10 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.ccDivisionName = ccDivisionName;
         }
 
+        public void setCcIncludeDependentCourtJudgments(Boolean ccIncludeDependentCourtJudgments) {
+            this.ccIncludeDependentCourtJudgments = ccIncludeDependentCourtJudgments;
+        }
+
         public void setScPersonnelType(PersonnelTypeTemplate scPersonnelType) {
             this.scPersonnelType = scPersonnelType;
         }
@@ -300,7 +310,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
                     all, legalBase,
                     referencedRegulation, judgeName, caseNumber, scPersonnelType, scJudgmentForm,
                     courtType, ccCourtType, ccCourtId, ccCourtCode,
-                    ccCourtName, ccDivisionId, ccDivisionCode, ccDivisionName,
+                    ccCourtName, ccDivisionId, ccDivisionCode, ccDivisionName, ccIncludeDependentCourtJudgments,
                     scChamberId, scChamberName, scDivisionId, scDivisionName,
                     judgmentTypes, keywords, judgmentDateFrom, judgmentDateTo);
         }
@@ -333,6 +343,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
                     Objects.equal(this.ccDivisionId, other.ccDivisionId) &&
                     Objects.equal(this.ccDivisionCode, other.ccDivisionCode) &&
                     Objects.equal(this.ccDivisionName, other.ccDivisionName) &&
+                    Objects.equal(this.ccIncludeDependentCourtJudgments, other.ccIncludeDependentCourtJudgments) &&
                     Objects.equal(this.scChamberId, other.scChamberId) &&
                     Objects.equal(this.scChamberName, other.scChamberName) &&
                     Objects.equal(this.scDivisionId, other.scDivisionId) &&
@@ -369,6 +380,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
                     .add("ccDivisionId", ccDivisionId)
                     .add("ccDivisionCode", ccDivisionCode)
                     .add("ccDivisionName", ccDivisionName)
+                    .add("ccIncludeDependentCourtJudgments", ccIncludeDependentCourtJudgments)
                     .add("scChamberId", scChamberId)
                     .add("scChamberName", scChamberName)
                     .add("scDivisionId", scDivisionId)
