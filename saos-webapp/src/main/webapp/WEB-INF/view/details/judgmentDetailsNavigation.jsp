@@ -293,17 +293,33 @@
         
         <%-- Referenced Regulations --%>
         <c:if test="${!empty judgment.referencedRegulations}" >
+            <spring:message code="judgmentDetails.linkTooltip.referencedRegulations" var="referencedRegulationLinkTooltip" />
+            
             <h3><spring:message code="judgment.referencedRegulations" />:</h3>
-            <ol class="referencedRegulations">  
+            <ol class="referencedRegulations">	
                 <c:forEach items="${judgment.referencedRegulations}" var="referencedRegulation" >
-                    <li class="legalBase"> 
-                        <saos:lawJournalLink year="${referencedRegulation.lawJournalEntry.year}"
-                             journalNo="${referencedRegulation.lawJournalEntry.journalNo}" entry="${referencedRegulation.lawJournalEntry.entry}" 
-                             text="${referencedRegulation.rawText}" />
+                    
+                    <c:set var="generatedClass">${(referencedRegulation.generated) ? "generated" : ""}</c:set>
+                    <li class="referencedRegulation ${generatedClass}">
+                        
+                        <saos:lawJournalLink lawJournalEntry="${referencedRegulation.lawJournalEntry}" text="${referencedRegulation.rawText}"
+                            tooltipText="${referencedRegulationLinkTooltip}" />
+                        
+                        
+                        <c:if test="${referencedRegulation.generated}">
+                            <spring:message code="judgmentDetails.enrichmentTag.referencedRegulation.hint.title" var="referencedRegulationGeneratedHintTitle" />
+                            <spring:message code="judgmentDetails.enrichmentTag.referencedRegulation.hint.text" var="referencedRegulationGeneratedHintText" />
+                            
+                            <saos:hint title="${referencedRegulationGeneratedHintTitle}" content="${referencedRegulationGeneratedHintText}" placement="left" />
+                            
+                        </c:if>
+                        
                     </li>
+                    
                 </c:forEach>
             </ol>
         </c:if>
+        
         
         <%-- Corrections --%>
         <c:if test="${!empty corrections }">

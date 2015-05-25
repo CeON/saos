@@ -38,8 +38,8 @@ public class SimpleLawJournalEntryConverterTest {
         Whitebox.setInternalState(secondLawJournalEntry, "id", 2);
         
         
-        firstSimpleLawJournalEntry = new SimpleLawJournalEntry(1, 1999, 123, 321, "some title");
-        secondSimpleLawJournalEntry = new SimpleLawJournalEntry(2, 2000, 124, 421, "some other title");
+        firstSimpleLawJournalEntry = new SimpleLawJournalEntry(1, 1999, 123, 321, "some title", "1999/123/321");
+        secondSimpleLawJournalEntry = new SimpleLawJournalEntry(2, 2000, 124, 421, "some other title", "2000/124/421");
     }
     
     

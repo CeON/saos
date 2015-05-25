@@ -109,6 +109,9 @@ public class JudgmentIndexFieldsFillerTest {
         LawJournalEntry firstLawJournalEntry = new LawJournalEntry();
         
         Whitebox.setInternalState(firstLawJournalEntry, "id", 55);
+        firstLawJournalEntry.setYear(1964);
+        firstLawJournalEntry.setJournalNo(43);
+        firstLawJournalEntry.setEntry(296);
         firstReferencedRegulation.setRawText("Ustawa 1");
         firstReferencedRegulation.setLawJournalEntry(firstLawJournalEntry);
         
@@ -117,6 +120,9 @@ public class JudgmentIndexFieldsFillerTest {
         LawJournalEntry secondLawJournalEntry = new LawJournalEntry();
         
         Whitebox.setInternalState(secondLawJournalEntry, "id", 56);
+        secondLawJournalEntry.setYear(1999);
+        secondLawJournalEntry.setJournalNo(110);
+        secondLawJournalEntry.setEntry(1257);
         secondReferencedRegulation.setRawText("Ustawa 2");
         secondReferencedRegulation.setLawJournalEntry(secondLawJournalEntry);
 
@@ -126,7 +132,8 @@ public class JudgmentIndexFieldsFillerTest {
         
         List<SolrInputField> referencedRegulationsFields = Lists.newArrayList(
                 fieldFactory.create("referencedRegulations", "Ustawa 1", "Ustawa 2"),
-                fieldFactory.create("lawJournalEntryId", 55l, 56l));
+                fieldFactory.create("lawJournalEntryId", 55l, 56l),
+                fieldFactory.create("lawJournalEntryCode", "1964/43/296", "1999/110/1257"));
         
         
         // referenced court cases
@@ -218,6 +225,8 @@ public class JudgmentIndexFieldsFillerTest {
                     fieldFactory.create("judgeWithRole_#_NO_ROLE", "Adam Nowak"),
                     fieldFactory.create("legalBases", "art 1023 kc"),
                     fieldFactory.create("referencedRegulations", "Ustawa 1"),
+                    fieldFactory.create("lawJournalEntryId", 55L),
+                    fieldFactory.create("lawJournalEntryCode", "1964/43/296"),
                     fieldFactory.create("judgmentDate", "2014-09-04T00:00:00Z"),
                     fieldFactory.create("judgmentType", "SENTENCE"),
                     fieldFactory.create("content", "some content"),

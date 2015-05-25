@@ -367,10 +367,20 @@ public final class TextObjectDefaultData {
     public static final String NAC_SECOND_LOWER_COURT_JUDGMENT = "NAC WSD 20/00 - orzeczenie z dnia 30 wrzesńia 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
     
     
-    public static final String FIRST_ENRICHMENT_TAG_TYPE = "REFERENCED_REGULATIONS";
-    public static final String FIRST_ENRICHMENT_TAG_VALUE_KEY = "ref";
-    public static final String FIRST_ENRICHMENT_TAG_VALUE_VALUE = "AAA1";
-    public static final String FIRST_ENRICHMENT_TAG_VALUE = normalizeJson("{'" + FIRST_ENRICHMENT_TAG_VALUE_KEY + "':'" + FIRST_ENRICHMENT_TAG_VALUE_VALUE + "'}");
+    public static final String REFERENCED_REGULATIONS_TAG_TYPE = "REFERENCED_REGULATIONS";
+    public static final String REFERENCED_REGULATION_TAG_JOURNAL_TITLE = "Ustawa z dnia 17 grudnia 1998 r. o emeryturach i rentach z Funduszu Ubezpieczeń Społecznych";
+    public static final int REFERENCED_REGULATION_TAG_JOURNAL_NO = 162;
+    public static final int REFERENCED_REGULATION_TAG_JOURNAL_YEAR = 1998;
+    public static final int REFERENCED_REGULATION_TAG_JOURNAL_ENTRY = 1118;
+    public static final String REFERENCED_REGULATION_TAG_TEXT = "Ustawa z dnia 17 grudnia 1998 r. o emeryturach i rentach z Funduszu Ubezpieczeń Społecznych (Dz. U. z 1998 r. Nr 162, poz. 1118 - art. 103; art. 2 a)";
+    public static final String REFERENCED_REGULATION_TAG_VALUE = normalizeJson(
+            "[{" + 
+                "journalTitle : '" + REFERENCED_REGULATION_TAG_JOURNAL_TITLE + "'," +
+                "journalNo : " + REFERENCED_REGULATION_TAG_JOURNAL_NO + "," +
+                "journalYear : " + REFERENCED_REGULATION_TAG_JOURNAL_YEAR + "," +
+                "journalEntry : " + REFERENCED_REGULATION_TAG_JOURNAL_ENTRY + "," +
+                "text : '" + REFERENCED_REGULATION_TAG_TEXT + "'" +
+            "}]");
     
     public static final String REFERENCED_COURT_CASES_TAG_FIRST_CASE_NUMBER = "XYZ1/122";
     public static final long[] REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS = new long[]{123, 12};

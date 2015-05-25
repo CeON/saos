@@ -314,25 +314,6 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath(pathPrefix+".legalBases.[0]").value(CC_FIRST_LEGAL_BASE))
                 .andExpect(jsonPath(pathPrefix+".legalBases.[1]").value(CC_SECOND_LEGAL_BASE))
 
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations").value(iterableWithSize(3)))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalTitle").value(CC_FIRST_REFERENCED_REGULATION_TITLE))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalNo").value(CC_FIRST_REFERENCED_REGULATION_JOURNAL_NO))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalEntry").value(CC_FIRST_REFERENCED_REGULATION_ENTRY))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalYear").value(CC_FIRST_REFERENCED_REGULATION_YEAR))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].text").value(CC_FIRST_REFERENCED_REGULATION_TEXT))
-
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalTitle").value(CC_SECOND_REFERENCED_REGULATION_TITLE))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalNo").value(CC_SECOND_REFERENCED_REGULATION_JOURNAL_NO))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalEntry").value(CC_SECOND_REFERENCED_REGULATION_ENTRY))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalYear").value(CC_SECOND_REFERENCED_REGULATION_YEAR))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].text").value(CC_SECOND_REFERENCED_REGULATION_TEXT))
-
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalTitle").value(CC_THIRD_REFERENCED_REGULATION_TITLE))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalNo").value(CC_THIRD_REFERENCED_REGULATION_JOURNAL_NO))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalEntry").value(CC_THIRD_REFERENCED_REGULATION_ENTRY))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalYear").value(CC_THIRD_REFERENCED_REGULATION_YEAR))
-                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].text").value(CC_THIRD_REFERENCED_REGULATION_TEXT))
-
                 .andExpect(jsonPath(pathPrefix+".keywords.[0]").value(CC_FIRST_KEYWORD))
                 .andExpect(jsonPath(pathPrefix + ".keywords.[1]").value(CC_SECOND_KEYWORD))
                 
@@ -359,12 +340,56 @@ public class DumpJudgmentsControllerTest extends PersistenceTestSupport{
                 .andExpect(jsonPath(pathPrefix+".referencedCourtCases.[1].caseNumber").value(REFERENCED_COURT_CASES_TAG_SECOND_CASE_NUMBER))
                 .andExpect(jsonPath(pathPrefix+".referencedCourtCases.[1].judgmentIds", hasSize(0)))
                 .andExpect(jsonPath(pathPrefix+".referencedCourtCases.[1].generated").value(true))
+                
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations").value(iterableWithSize(4)))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalTitle").value(CC_FIRST_REFERENCED_REGULATION_TITLE))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalNo").value(CC_FIRST_REFERENCED_REGULATION_JOURNAL_NO))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalEntry").value(CC_FIRST_REFERENCED_REGULATION_ENTRY))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalYear").value(CC_FIRST_REFERENCED_REGULATION_YEAR))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].text").value(CC_FIRST_REFERENCED_REGULATION_TEXT))
+
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalTitle").value(CC_SECOND_REFERENCED_REGULATION_TITLE))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalNo").value(CC_SECOND_REFERENCED_REGULATION_JOURNAL_NO))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalEntry").value(CC_SECOND_REFERENCED_REGULATION_ENTRY))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalYear").value(CC_SECOND_REFERENCED_REGULATION_YEAR))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].text").value(CC_SECOND_REFERENCED_REGULATION_TEXT))
+
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalTitle").value(CC_THIRD_REFERENCED_REGULATION_TITLE))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalNo").value(CC_THIRD_REFERENCED_REGULATION_JOURNAL_NO))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalEntry").value(CC_THIRD_REFERENCED_REGULATION_ENTRY))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalYear").value(CC_THIRD_REFERENCED_REGULATION_YEAR))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].text").value(CC_THIRD_REFERENCED_REGULATION_TEXT))
+                
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[3].journalTitle").value(REFERENCED_REGULATION_TAG_JOURNAL_TITLE))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[3].journalNo").value(REFERENCED_REGULATION_TAG_JOURNAL_NO))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[3].journalEntry").value(REFERENCED_REGULATION_TAG_JOURNAL_ENTRY))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[3].journalYear").value(REFERENCED_REGULATION_TAG_JOURNAL_YEAR))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[3].text").value(REFERENCED_REGULATION_TAG_TEXT))
             ;
 
         } else {
             
             actions
                 .andExpect(jsonPath(pathPrefix+".referencedCourtCases").doesNotExist())
+                
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations").value(iterableWithSize(3)))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalTitle").value(CC_FIRST_REFERENCED_REGULATION_TITLE))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalNo").value(CC_FIRST_REFERENCED_REGULATION_JOURNAL_NO))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalEntry").value(CC_FIRST_REFERENCED_REGULATION_ENTRY))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].journalYear").value(CC_FIRST_REFERENCED_REGULATION_YEAR))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[0].text").value(CC_FIRST_REFERENCED_REGULATION_TEXT))
+
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalTitle").value(CC_SECOND_REFERENCED_REGULATION_TITLE))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalNo").value(CC_SECOND_REFERENCED_REGULATION_JOURNAL_NO))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalEntry").value(CC_SECOND_REFERENCED_REGULATION_ENTRY))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].journalYear").value(CC_SECOND_REFERENCED_REGULATION_YEAR))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[1].text").value(CC_SECOND_REFERENCED_REGULATION_TEXT))
+
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalTitle").value(CC_THIRD_REFERENCED_REGULATION_TITLE))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalNo").value(CC_THIRD_REFERENCED_REGULATION_JOURNAL_NO))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalEntry").value(CC_THIRD_REFERENCED_REGULATION_ENTRY))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].journalYear").value(CC_THIRD_REFERENCED_REGULATION_YEAR))
+                .andExpect(jsonPath(pathPrefix+".referencedRegulations.[2].text").value(CC_THIRD_REFERENCED_REGULATION_TEXT))
             ;
         }
         

@@ -14,6 +14,7 @@ public enum JudgmentIndexField implements IndexField {
     LEGAL_BASE("legalBases"),
     REFERENCED_REGULATION("referencedRegulations"),
     LAW_JOURNAL_ENTRY_ID("lawJournalEntryId"),
+    LAW_JOURNAL_ENTRY_CODE("lawJournalEntryCode"),
     REFERENCED_COURT_CASE_ID("referencedCourtCasesIds"),
     REFERENCING_JUDGMENTS_COUNT("referencingJudgmentsCount"),
     MAXIMUM_MONEY_AMOUNT("maximumMoneyAmount"),

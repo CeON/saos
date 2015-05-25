@@ -15,11 +15,15 @@ import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooBigPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooSmallPageSizeError;
 import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.FIRST_ENRICHMENT_TAG_TYPE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.FIRST_ENRICHMENT_TAG_VALUE_VALUE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_FIRST_CASE_NUMBER;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_FIRST_JUDGMENT_IDS;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_COURT_CASES_TAG_SECOND_CASE_NUMBER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_REGULATIONS_TAG_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_REGULATION_TAG_JOURNAL_ENTRY;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_REGULATION_TAG_JOURNAL_NO;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_REGULATION_TAG_JOURNAL_TITLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_REGULATION_TAG_JOURNAL_YEAR;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.REFERENCED_REGULATION_TAG_TEXT;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_FIRST_ARRAY_VALUE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_SECOND_ARRAY_VALUE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.THIRD_ENRICHMENT_TAG_THIRD_ARRAY_VALUE;
@@ -120,8 +124,12 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
             
             .andExpect(jsonPath("$.items.[0].id").value(equalsLong(enrichmentTags.get(0).getId())))
             .andExpect(jsonPath("$.items.[0].judgmentId").value(equalsLong(enrichmentTags.get(0).getJudgmentId())))
-            .andExpect(jsonPath("$.items.[0].tagType").value(FIRST_ENRICHMENT_TAG_TYPE))
-            .andExpect(jsonPath("$.items.[0].value.ref").value(FIRST_ENRICHMENT_TAG_VALUE_VALUE))
+            .andExpect(jsonPath("$.items.[0].tagType").value(REFERENCED_REGULATIONS_TAG_TYPE))
+            .andExpect(jsonPath("$.items.[0].value.[0].journalTitle").value(REFERENCED_REGULATION_TAG_JOURNAL_TITLE))
+            .andExpect(jsonPath("$.items.[0].value.[0].journalNo").value(REFERENCED_REGULATION_TAG_JOURNAL_NO))
+            .andExpect(jsonPath("$.items.[0].value.[0].journalYear").value(REFERENCED_REGULATION_TAG_JOURNAL_YEAR))
+            .andExpect(jsonPath("$.items.[0].value.[0].journalEntry").value(REFERENCED_REGULATION_TAG_JOURNAL_ENTRY))
+            .andExpect(jsonPath("$.items.[0].value.[0].text").value(REFERENCED_REGULATION_TAG_TEXT))
         
             .andExpect(jsonPath("$.items.[1].id").value(equalsLong(enrichmentTags.get(1).getId())))
             .andExpect(jsonPath("$.items.[1].judgmentId").value(equalsLong(enrichmentTags.get(1).getJudgmentId())))

@@ -688,6 +688,22 @@ a, .hint {
                     border: 0;
                 }
             }
+            
+
+            
+            .referencedRegulation {
+                margin-bottom: 4px;
+                position: relative;
+                
+                &.generated .lawJournal-link {
+                    background-color: $light-dark;
+                    margin-right: 30px;
+                }
+                
+                .hint {
+                    left: auto;
+                }
+            }
 
             .hint {
                 @include icon-hint;

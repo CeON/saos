@@ -29,7 +29,8 @@ public class SimpleLawJournalEntryConverter {
                 lawJournalEntry.getYear(),
                 lawJournalEntry.getJournalNo(),
                 lawJournalEntry.getEntry(),
-                lawJournalEntry.getTitle());
+                lawJournalEntry.getTitle(),
+                lawJournalEntry.getEntryCode());
     }
 
 }

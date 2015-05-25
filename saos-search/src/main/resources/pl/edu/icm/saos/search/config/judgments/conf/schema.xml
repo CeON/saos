@@ -68,6 +68,7 @@
    <field name="legalBases" type="text_general" indexed="true" stored="true" multiValued="true" />
    <field name="referencedRegulations" type="text_general" indexed="true" stored="true" multiValued="true" />
    <field name="lawJournalEntryId" type="long" indexed="true" stored="true" multiValued="true" />
+   <field name="lawJournalEntryCode" type="string" indexed="true" stored="true" multiValued="true" />
    <field name="referencedCourtCasesIds" type="long" indexed="true" stored="true" multiValued="true" />
    <field name="referencingJudgmentsCount" type="long" indexed="true" stored="true" multiValued="false" />
    <field name="maximumMoneyAmount" type="currency" indexed="true" stored="true" multiValued="false" />

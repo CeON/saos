@@ -8,7 +8,6 @@ package pl.edu.icm.saos.enrichment;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
@@ -26,11 +25,15 @@ import pl.edu.icm.saos.enrichment.apply.moneyamount.MoneyAmountTagValueConverter
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesJudgmentUpdater;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueConverter;
 import pl.edu.icm.saos.enrichment.apply.refcases.ReferencedCourtCasesTagValueItem;
+import pl.edu.icm.saos.enrichment.apply.refregulations.ReferencedRegulationsJudgmentUpdater;
+import pl.edu.icm.saos.enrichment.apply.refregulations.ReferencedRegulationsTagValueConverter;
+import pl.edu.icm.saos.enrichment.apply.refregulations.ReferencedRegulationsTagValueItem;
 import pl.edu.icm.saos.enrichment.reference.CompositeTagJudgmentReferenceRemover;
-import pl.edu.icm.saos.enrichment.reference.TagJudgmentReferenceRemover;
 import pl.edu.icm.saos.enrichment.reference.PageableDelegatingJudgmentReferenceRemover;
+import pl.edu.icm.saos.enrichment.reference.TagJudgmentReferenceRemover;
 import pl.edu.icm.saos.enrichment.reference.refcases.RefCourtCasesJudgmentReferenceRemover;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.MoneyAmount;
 import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
 
@@ -110,6 +113,32 @@ public class EnrichmentConfiguration {
         tagApplier.setEnrichmentTagValueConverter(moneyAmountTagValueConverter);
         tagApplier.setJsonStringParser(moneyAmountJsonParser());
         tagApplier.setJudgmentUpdater(maxMoneyAmountJudgmentUpdater);
+        
+        return tagApplier;
+    }
+    
+    
+    //---- REFERENCED_REGULATIONS TAG ----
+    
+    @Autowired
+    private ReferencedRegulationsTagValueConverter referencedRegulationsTagValueConverter;
+    
+    @Autowired
+    private ReferencedRegulationsJudgmentUpdater referencedRegulationsJudgmentUpdater;
+    
+    @Bean
+    public JsonStringParser<ReferencedRegulationsTagValueItem[]> referencedRegulationsJsonParser() {
+        return new JsonStringParser<>(ReferencedRegulationsTagValueItem[].class);
+    }
+    
+    @Bean
+    public DefaultEnrichmentTagApplier<ReferencedRegulationsTagValueItem[], List<JudgmentReferencedRegulation>> referecedRegulationsTagApplier() {
+        
+        DefaultEnrichmentTagApplier<ReferencedRegulationsTagValueItem[], List<JudgmentReferencedRegulation>> tagApplier = new DefaultEnrichmentTagApplier<>(EnrichmentTagTypes.REFERENCED_REGULATIONS);
+        
+        tagApplier.setEnrichmentTagValueConverter(referencedRegulationsTagValueConverter);
+        tagApplier.setJsonStringParser(referencedRegulationsJsonParser());
+        tagApplier.setJudgmentUpdater(referencedRegulationsJudgmentUpdater);
         
         return tagApplier;
     }

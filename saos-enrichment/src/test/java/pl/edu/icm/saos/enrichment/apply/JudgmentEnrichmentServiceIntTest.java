@@ -20,6 +20,7 @@ import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
 
 import com.google.common.collect.Lists;
@@ -70,6 +71,18 @@ public class JudgmentEnrichmentServiceIntTest extends EnrichmentTestSupport {
         assertNotNull(enrichedJudgment.getMaxMoneyAmount());
         assertEquals(new BigDecimal("123000.27"), enrichedJudgment.getMaxMoneyAmount().getAmount());
         assertEquals("123 tys zł 27 gr", enrichedJudgment.getMaxMoneyAmount().getText());
+        
+        assertEquals(3, judgment.getReferencedRegulations().size());
+        assertEquals(4, enrichedJudgment.getReferencedRegulations().size());
+        assertEquals(1, enrichedJudgment.getReferencedRegulations().stream().filter(rr->rr.isGenerated()).count());
+        
+        JudgmentReferencedRegulation generatedRefRegulation = enrichedJudgment.getReferencedRegulations().stream().filter(rr->rr.isGenerated()).findFirst().get();
+        assertEquals("Ustawa (art.103)", generatedRefRegulation.getRawText());
+        assertEquals(1998, generatedRefRegulation.getLawJournalEntry().getYear());
+        assertEquals(162, generatedRefRegulation.getLawJournalEntry().getJournalNo());
+        assertEquals(1118, generatedRefRegulation.getLawJournalEntry().getEntry());
+        assertEquals("Ustawa", generatedRefRegulation.getLawJournalEntry().getTitle());
+        
     }
     
 
@@ -83,7 +96,10 @@ public class JudgmentEnrichmentServiceIntTest extends EnrichmentTestSupport {
         
         EnrichmentTag enrichmentTag3 = createEnrichmentTag(judgment.getId(), EnrichmentTagTypes.MAX_REFERENCED_MONEY, "{amount: 123000.27, text: '123 tys zł 27 gr'}");
         
-        enrichmentTagRepository.save(Lists.newArrayList(enrichmentTag1, enrichmentTag2, enrichmentTag3));
+        EnrichmentTag enrichmentTag4 = createEnrichmentTag(judgment.getId(), EnrichmentTagTypes.REFERENCED_REGULATIONS,
+                "[{journalTitle:'Ustawa', journalNo:162, journalYear:1998, journalEntry:1118, text:'Ustawa (art.103)'}]");
+        
+        enrichmentTagRepository.save(Lists.newArrayList(enrichmentTag1, enrichmentTag2, enrichmentTag3, enrichmentTag4));
     }
     
     private ReferencedCourtCase getReferencedCourtCase(Judgment judgment, String caseNumber) {
