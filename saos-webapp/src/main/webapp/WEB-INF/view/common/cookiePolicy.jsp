@@ -16,7 +16,7 @@
                 <spring:message code="cookie.policy.message" />
             </div>
             <div class="col-sm-2">
-                <button id="cookie-accept" class="btn btn-primary button-blue btn-sm"><spring:message code="cookie.policy.accept" /></button>
+                <button id="cookie-accept" class="btn btn-primary btn-sm"><spring:message code="cookie.policy.accept" /></button>
             </div>
         </div>
     </div>

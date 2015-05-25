@@ -233,7 +233,21 @@ $(document).ready(function() {
 		event.preventDefault();
 	});
 	
-    
+    //Navigation menu 
+	$("#menu-button").click(function() {
+	    var $menu = $("#nav-menu"),
+	        menuHidePosition = "-" + ($menu.outerWidth()+1) + "px";
+	    
+	    if ($menu.css("left") === "0px") {
+	        $menu.animate({left: menuHidePosition}, 400, function() {
+	            $menu.css("visibility", "hidden");
+	        });
+	    } else if ($menu.css("left") === menuHidePosition) {
+	        $menu.css("visibility", "visible");
+	        $menu.animate({left: "0px"}, 400);
+	    }
+	});
+	
     
     ConvertFakeEmailAddressToReal({
         addressTag: ".dummy-mail",

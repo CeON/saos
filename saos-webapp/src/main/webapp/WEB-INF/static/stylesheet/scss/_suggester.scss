@@ -111,7 +111,7 @@
 		
 		
 		.remove-suggestion {
-			@include background-image("icons/close.png");
+			@include background-image("icons/close-x.png");
 			cursor: pointer;
 			display: inline-block;
 			height: 16px;

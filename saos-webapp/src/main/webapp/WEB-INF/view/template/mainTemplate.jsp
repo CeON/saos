@@ -12,6 +12,8 @@
 	    <meta charset="UTF-8" />
 	    <meta content="noindex, nofollow" name="robots">
 	    
+	    <link rel="shortcut icon" href="${contextPath}/static/image/favicon.ico" />
+	    
 		<saos:cssJsInit></saos:cssJsInit>
 		
 		<%@ include file="/WEB-INF/view/common/pageTitle.jsp" %>
@@ -27,9 +29,7 @@
 	    </style>
 
     </head>
-    
-    	
-    <body>
+    <body>    
         
         <%@ include file="piwik.jsp" %>
     
@@ -37,16 +37,8 @@
 
         <%@ include file="../common/cookiePolicy.jsp" %>
 
-        <header>
-            <tiles:insertAttribute name="header" />
-        </header>
-              
-		<tiles:insertAttribute name="content" flush="false" />
-        
-        <footer class="footer" >
-       		<tiles:insertAttribute name="footer" /> 
-        </footer>
-        
+        <tiles:insertAttribute name="content" />
+    
         <noscript>
 	        <div class="container message-no-js">
 	        	<spring:message code="message.noJavascript" />

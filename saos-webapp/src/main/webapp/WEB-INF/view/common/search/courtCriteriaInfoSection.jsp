@@ -2,7 +2,11 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
  
  
+ <div class="info-section-header" >
+    <spring:message code="context.court.fieldDescription" />:
+ </div>
+  
  <a id="court-info-section" class="info-section" href="" >
-    <spring:message code="context.court.fieldDescription" />: <b><spring:message code="context.court.anyValue" /></b>
+    <b><spring:message code="context.court.anyValue" /></b>
 </a>
         

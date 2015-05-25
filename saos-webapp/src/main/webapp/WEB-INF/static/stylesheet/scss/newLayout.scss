@@ -1,0 +1,1847 @@
+/*** New Layout view styles ***/
+
+@import "_fonts.scss";
+@import "_constans.scss";
+@import "_mixins.scss";
+@import "_screen.scss";
+
+
+
+* {
+    margin: 0;
+}
+
+html, body {
+    background: #fff;
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    height: 100%;
+}
+
+.row {
+    margin: 0;
+}
+
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display:         flex;
+    min-height: 100%;
+    
+    @media (max-width: $screen-xs-min) {
+        display: block;
+    }
+    @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+        display: block;
+    }
+}
+
+a, .hint {
+    color: $dark;
+    @include outline();
+    
+    &:hover {
+        color: $dark;
+    }
+}
+
+
+.nav-menu {
+    background: $green;
+    color: $dark;
+    height: 100%;
+    min-height: 750px;
+    left: -321px;
+    position: absolute;
+    width: 320px;
+    top: 0;
+    visibility: hidden;
+    z-index: 1000;
+    
+    .menu-button {
+        @media (max-width: $screen-xs-min) {
+            background: yellow;
+        }
+        @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+            background: blue;
+        }
+        @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+            background: red;
+        }
+        @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
+            background: pink;
+        }
+        @media (min-width: $screen-xl-min) {
+            background: $green;
+        }
+    
+        background: $green;
+        border: {
+            color: darken($green, 30%);
+            style: solid;
+            width: 0 0 0 1px;
+        };
+        cursor: pointer;
+        display: block;
+        height: 60px;
+        left: 320px;
+        padding: 8px 12px;
+        position: relative;
+        width: 70px;
+        top: 0;
+        visibility: visible;
+        @include transition(background, 0.4s);
+        
+        &:hover, &:focus {
+            background: $orange;
+            
+            .icon-bar {
+                background: $green;
+            }
+        }
+        
+        .icon-bar {
+            background: $orange;
+            border-radius: 1px;
+            display: block;
+            height: 4px;
+            margin-bottom: 7px;
+            margin-top: 7px;
+            width: 44px;
+        }
+    }
+    
+    ul {
+        list-style: none;
+        padding: 40px 0 0;
+    
+        li {
+            font-size: 20px;
+            letter-spacing: 0.1em;
+            padding: 15px 20px;
+            text-transform: uppercase;
+            
+            a {
+                color: $dark;
+                
+                &:hover, &:focus {
+                    color: $dark;
+                }
+            }
+        }
+    }
+}
+
+
+.home, .search, .details, .analysis, .article {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100% !important;
+}
+
+
+.home {
+
+    .navigation {
+        height: 100%;
+        margin: 0;
+        min-height: 750px;
+        padding: 100px;
+        position: relative;
+        width: 50%;
+        
+        @media (max-width: $screen-xs-min) {
+            min-height: 500px;
+            padding: 30px;
+            width: 100%;
+        }
+        @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+            margin: 0 auto;
+            min-height: 600px;
+            padding: 30px;
+            width: 100%;
+        }
+        @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+            min-height: 600px;
+            padding: 50px;
+        }
+        @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
+            padding: 70px;
+        }
+        
+        h2.welcome-text {
+            bottom: 0;
+            color: $white;
+            font: {
+                size: 36px;
+                weight: 300;
+            }
+            line-height: 1.4em;
+            padding: 0 100px 20px 0;
+            position: absolute;
+            vertical-align: bottom;
+            
+            @media (max-width: $screen-xs-min) {
+                font-size: 26px;
+                padding-top: 0;
+            }
+            @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+                font-size: 26px;
+                padding-top: 0;
+            }
+            @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+                font-size: 26px;
+                padding-top: 0;
+            }
+            @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
+                font-size: 30px;
+                padding-top: 0;
+            }
+        }
+        
+        .saos-logo {
+        
+            @media (max-width: $screen-xs-min) {
+                display: none;  
+            }
+            @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+                width: 550px;
+            }
+            @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+                width: 450px;
+            }
+            @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
+                width: 550px;
+            }
+        }
+        
+        
+    }
+    
+    .content {
+        height: 100%;
+        margin: 0;
+        min-height: 750px;
+        padding: 0;
+        width: 50%;
+        
+        @media (max-width: $screen-xs-min) {
+            width: 100%;
+        }
+        @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+            width: 100%;
+        }
+        
+        .block {
+            color: $dark;
+            font: {
+                    size: 20px
+                }
+            height: 33.333333%;
+            margin: 0;
+            min-height: 250px;
+            line-height: 1.3em;
+            padding: 0;
+            position: relative;
+            text-align: center;
+            width: 100%;
+            
+            a {
+                display: block;
+                height: 100%;
+                padding-top: 20px;
+                width: 100%;
+                
+                &:hover, &:focus {
+                    color: $dark;
+                }
+                
+                > div {
+                    @include vertical-align;
+                    display: inline-block;    
+                }
+            }
+            
+            img {
+                height: 100px;
+            }
+            
+            .box-title {
+                border: 1px solid $dark;
+                display: block;
+                margin: 10px 0;
+                letter-spacing: 0.2em;
+                padding: 5px 15px;
+                text-transform: uppercase;
+            }
+            
+            .box-desc {
+                display: inline-block;
+                font: {
+                    size: 20px
+                }
+                margin: 10px 0;
+                text-transform: lowercase;
+            }
+        }
+    
+        .block-search {
+            background: $lime;
+        }
+    
+        .block-analysis {
+            background: $orange;
+        }
+    
+        .block-api {
+            background: $green;
+        }
+            
+    }
+    
+    .partners {
+        
+        > div {
+            padding: 30px 0;
+            text-align: center;
+        }
+    }
+    
+
+}
+
+
+
+.navigation {
+    background: $dark;
+    color: $white;
+}
+
+.content {
+    background: $white;
+    color: $dark;
+}
+
+
+.search, .details, .analysis, .article {
+
+    .navigation, .content {
+        padding-left: 35px;
+        padding-right: 35px;
+        padding-bottom: 50px;
+    }
+    
+    .navigation {
+        width: 35%;
+        
+        @media (max-width: $screen-xs-min) {
+            width: 100%;
+        }
+        @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+            width: 100%;
+        }
+        
+        .saos-logo {
+            @include background-image("saosLogoNoText.png");
+            background-size: 300px auto;
+            cursor: pointer;
+            display: block;
+            height: 151px;
+            position: absolute;
+            right: 35px;
+            width: 300px;
+            top: 60px;
+            z-index: 10;
+            
+            @media (max-width: $screen-xs-min) {
+                top: 25px;
+            }
+            @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+                top: 25px;
+            }
+            @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+                background-size: 270px auto;
+                height: 136px;
+                width: 270px;
+            }
+        }
+        
+                    
+        legend {
+            border-bottom: 6px solid $white;
+            color: $white;
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            line-height: 1.3em;
+            padding-bottom: 10px;
+            text-transform: uppercase;
+        }
+        
+        input[type="text"] {
+            background: $light-dark;
+            border: {
+                color: $white;
+                style: solid;
+                radius: 0;
+                width: 1px;
+            }
+            box-shadow: none;
+            color: $white;
+            @include placeholder {
+                color: $grey;
+            }
+            
+            &:focus {
+                box-shadow: 0 0 6px $white;
+            }
+        }
+        
+        input[type="text"].form-date {
+            @include background-image("icons/dateForm.png");
+            background-position: right 2% center;
+            background-repeat: no-repeat;
+            background-size: 18px 16px;
+        }
+        
+                    
+        .button {
+            @include transition(all, 0.2s);
+            background: $orange;
+            border: {
+                color: $orange;
+                radius: 0;
+            }
+            color: $white;
+            font: {
+                size: 17px;
+                weight: bold;
+            }
+            margin-top: 20px;
+            letter-spacing: 0.05em;
+            padding: 8px 20px;
+            
+            &:hover, &:focus {
+                background: lighten($orange, 15%);
+            }
+        }
+        
+        .btn-sm {
+            font: {
+                size: 15px;
+            }
+            margin-top: 5px;
+            padding: 4px 10px;
+        }
+        
+        .hint {
+            @include icon-hint;
+            background-position: -4px -168px;
+            background-repeat: no-repeat;
+            background-size: 87px 386px;
+            border: 2px solid #fff;
+            bottom: -8px;
+            cursor: pointer;
+            display: inline-block;
+            height: 22px;
+            left: 0;
+            position: relative;
+            width: 22px;
+        }
+        
+    }
+    
+    .content {
+        width: 65%;
+        
+        @media (max-width: $screen-xs-min) {
+            width: 100%;
+        }
+        @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+            width: 100%;
+        }
+        
+        h2 {
+            border: {
+                color: $dark;
+                style: solid;
+                width: 0 0 6px 0;
+            }
+            font: {
+                size: 20px;
+                weight: 700;
+            }
+            line-height: 1.4em;
+            padding-bottom: 5px;
+            text-transform: uppercase;
+        }
+        
+        select {
+            @include background-image("icons/triangle-down.png");
+            background-color: $white;
+            background-position: right 5% center;
+            background-repeat: no-repeat;
+            background-size: 12px 11px;
+            border: {
+                color: $dark;
+                radius: 4px;
+                style: solid;
+                width: 1px;
+            }
+            color: $dark;
+            cursor: pointer;
+            padding: 0 6px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            @include outline();
+            
+            option {
+                background: $white;
+                border: {
+                    color: $dark;
+                    width: 0;
+                }
+                box-shadow: none;
+                padding: 0 6px;
+            }
+        }
+    }
+}
+
+.search {
+
+    form {
+        min-height: 100%;
+        height: 100%;
+    }
+
+    .navigation {
+        color: $white;
+    
+    
+        .search-form {
+            padding-bottom: 50px;
+            padding-top: 250px;
+            position: relative;
+            
+            
+            .search-all {
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .search-form-hint {
+                right: 0;
+                position: absolute;
+                top: 250px;
+            
+                .hint {
+                    @include icon-hint;
+                    background-position: -4px -168px;
+                    background-repeat: no-repeat;
+                    background-size: 87px 386px;
+                    border: 2px solid #fff;
+                    cursor: pointer;
+                    display: inline-block;
+                    height: 22px;
+                    width: 22px;
+                }
+            }
+            
+        
+        }
+        
+        
+    }
+    
+    .content {
+    
+        h2 {
+        
+            span {
+                font: {
+                    weight: 300;
+                } 
+                margin-left: 5px;
+            }
+        }
+    
+    
+        .settings-box {
+            height: 50px;
+        
+            legend {
+                position: absolute;
+                left: -9999px;
+            }
+            
+            fieldset > div {
+            
+                margin-bottom: 10px;
+                padding-left: 0;
+                padding-right: 0;
+            
+            }
+            
+        }
+        
+        .pagination-row {
+            padding: 10px 0;
+            position: relative;
+        }
+        
+        label {
+            background: $white;
+            color: $dark;
+            font: {
+                size: 14px;
+            }
+            letter-spacing: 0.05em;
+        }
+    }
+
+}
+
+.details {
+
+    .navigation {
+        color: $white;
+        font: {
+            weight: 300;
+        }
+     
+        .judgment-details {
+            padding-top: 250px;
+            padding-bottom: 50px;
+            position: relative;
+            
+            @media (max-width: $screen-xs-min) {
+                padding-top: 190px;
+            }
+            @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+                padding-top: 190px;
+            }
+        
+            a {
+                color: $white;
+                @include filter-underline();
+                border-color: $white;
+                
+                &:hover {
+                    color: $white;
+                }
+            }
+            
+            h2 {
+                border-top: 6px solid $white;
+                font: {
+                    size: 30px;
+                    weight: bold;
+                }
+                margin-top: 10px;
+                padding-top: 15px;
+            }
+            
+            h3, h4 {
+                border-bottom: 2px solid $white;
+                font: {
+                    size: 20px;
+                    weight: bold;
+                }
+                margin-top: 30px;
+                padding-bottom: 4px;
+                padding-right: 35px;
+                text-transform: uppercase;
+            }
+            
+            h4 {
+                font: {
+                    size: 16px;
+                }
+                margin-top: 5px;
+                margin-bottom: 0;
+                position: relative;
+            }
+
+
+            ol {
+                padding: 0 0 0 1em;
+            }
+            
+            
+            ul {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            
+            
+                li {
+                    .label-title {
+                        margin-right: 5px;
+                    }
+                
+                    div {
+                        display: inline-block;
+                    }
+                    
+                    a {
+                        margin-right: 5px;
+                    }
+                }
+            }
+
+            .judgment-type {
+                font: {
+                    size: 20px;
+                    weight: bold;
+                }
+                letter-spacing: 0.1em;
+                line-height: 1.3em;
+                text-transform: uppercase;
+                
+                a {
+                    border: 0;
+                }
+            }
+
+            .hint {
+                @include icon-hint;
+                background-position: -6px -188px;
+                background-size: 97px 430px;
+                border: 2px solid #fff;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        
+        }
+    }
+
+    .content {
+        position: relative;
+        
+        
+        .info-box {
+            border: 1px solid $dark;
+            right: 70px;
+            position: absolute;
+            top: 20px;
+            @media (max-width: $screen-xs-min) {
+                top: 0;
+            }
+            @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+                top: 0;
+            }
+            
+            .hint {
+                @include icon-hint;
+            }
+        }
+        
+        .judgment-content-buttons {
+            
+        }
+        
+        .body {
+            color: $dark;
+            font: {
+                size: 14px;
+            
+            }
+            line-height: 1.4em;
+        
+            
+            h2 {
+                border: {
+                    color: $dark;
+                    style: solid;
+                    width: 0 0 1px 0;
+                }
+                font: {
+                    size: 30px;
+                    weight: 700;
+                }
+                letter-spacing: 0.05em;
+                text-transform: uppercase;
+            
+            }
+        
+        
+            p {
+                margin: 0;
+            
+            }
+        }
+    }
+}
+
+.analysis {
+
+
+    #analysisFormDiv {
+        padding-top: 250px;
+        padding-bottom: 50px;
+        position: relative;
+    }
+    
+    .navigation {
+    
+        input[type="text"] {
+            padding-left: 35px;
+            
+        }
+        
+        .input-color {
+            border: {
+                color: $white;
+                width: 1px 1px 1px 0;
+                radius: 0; 
+            }
+            height: 34px;
+            left: 16px;
+            position: absolute;
+            width: 10px;
+            z-index: 999;
+        }
+        
+        .remove-button {
+            background: transparent;
+            border: 0;
+            position: absolute;
+            right: 30px;
+            top: 0;
+            z-index: 999;
+        }
+        
+        select {
+            margin-right: 10px;
+        }
+    
+    }
+    
+    .content {
+    
+    }
+}
+
+
+.judgment-list {
+    background: $white;
+    border: {
+        color: $grey;
+        style: solid;
+        width: 0;
+    }
+    padding-bottom: 30px;
+
+    ol {
+        list-style: outside none none;
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .col-xs-3 {
+        min-height: 0;
+    }
+
+    .no-results {
+        font: {
+            size: 16px;
+        }
+        
+        p {
+            margin-top: 40px;
+        }
+    }
+
+    .judgment {
+        border: {
+            color: $dark;
+            style: solid;
+            width: 0 0 1px 0;
+        }
+        margin-left: 0;
+        margin-right: 0;
+        padding: 0;
+        position: relative;
+    
+        h3 {
+            margin-bottom: 5px;
+            margin-top: 5px;
+        }
+    
+        a {
+            background: $white;
+            color: $dark;
+            
+            &:hover {
+                background: $white;
+                color: $dark;
+                text-decoration: none;
+            }
+            
+        }
+    
+        > .row {
+            padding: 15px 0 0;
+        }
+    
+        .case-number {
+            background: $white;
+            color: #0176c3;
+            font-size: 22px;
+            margin-bottom: 6px;
+            
+            a {
+                background: $white;
+                color: $orange;
+                font: {
+                    size: 30px;
+                }
+                line-height: 1.1em;
+                letter-spacing: 0.03em; 
+                position: relative;
+                
+                &:hover {
+                    text-decoration: underline;
+                }
+                
+                &:visited {
+                    color: $dark;
+                }
+            }
+        }
+        
+        .top-line {
+            font-size: 0.8em;
+            margin-top: 15px;
+            
+            .top-line-right {
+                float: right;
+                color: #666;
+                font-style: italic;
+                
+                a {
+                    @include filter-underline-color(#666);
+                    color: #666;
+                }
+            }
+        }
+        
+        .judgment-type {
+            @include filter-underline();
+            text-transform: uppercase;
+        }
+        
+        .court-type {
+            @include filter-underline();
+        }
+        
+        .date {
+            @include filter-underline();
+            margin-left: 4px;
+        }
+        
+        .court-desc {
+            /*font-style: italic;*/
+            font-size: 14px;
+            margin: 2px 0 4px;
+        }
+        
+        .court, .division, .chamber, .chamber-division {
+            @include filter-underline();
+        }
+        
+        .judges {
+            margin-top: 2px;
+            
+            ul {
+                display: inline;
+                margin: 0;
+                padding: 0;
+                
+                li {
+                    display: inline-block;
+                    margin-right: 4px;
+                    position: relative;
+                    
+                    &:first-child {
+                        margin-right: 0;
+                    }
+                    
+                }
+            }
+        }
+        
+        .judge {
+            @include filter-underline();
+            cursor: pointer;
+            display: inline-block;
+        }
+        
+        .judgment-form {
+            @include filter-underline();
+            display: inline-block;
+        }
+        
+        .personnel-type {
+            @include filter-underline();
+            display: inline-block;
+            
+            &:after {
+                content: ")";
+            }
+            
+            &:before {
+                content: "(";
+            }
+        }
+        
+        .extract {
+            margin: 8px 0 0;
+            padding: 0 0 15px;
+            text-align: justify;
+            
+            em {
+                background: lighten($orange, 10%);
+                font: {
+                    weight: bold;
+                }
+                padding: 0 2px;
+            }
+        }
+        
+        &:first-child {
+            @include border-grey();
+            border-width: 1px 0 1px 0;
+        }
+    }
+}
+
+.keywords {
+    margin: 8px 0 0;
+    
+    ul {
+        display: inline;
+        margin: 0;
+        padding: 0;
+        
+        li {
+            display: inline;
+        
+            .keyword {
+                @include filter-underline();
+                cursor: pointer;
+                display: inline-block;
+                margin: 0 4px 4px 0;
+            }
+        }
+    }
+}
+
+
+.form-section-container {
+    margin-bottom: 20px;
+}
+
+.form-section {
+    background: $light-dark;
+    border: 0;
+    border-radius: 0;
+    display: none;
+    margin: 0;
+    padding: 10px 20px;
+    position: relative;
+    
+    label {
+        font-weight: 400;
+        
+        &.col-sm-2 {
+            width: 18%;     
+        }
+        
+    }
+    
+    input[type="checkbox"] {
+        margin: 0;
+    }
+    
+    .field-label {
+        font: {
+            size: 16px;
+            weight: bold;
+        }
+    }
+    
+    .checkbox > div {
+        padding: 2px 0;
+        
+        &:last-child {
+            input[type="checkbox"] {
+                top: 9px;
+            }
+        }
+    }
+
+    .radio-label {
+        cursor: pointer;
+        margin-bottom: 0;
+        margin-top: 5px;
+    
+        &:before {
+            background: $light-dark;
+            bottom: 4px;
+            border: {
+                color: $lime;
+                radius: 8px;
+                style: solid;
+                width: 1px;
+            }
+            content: "";
+            display: inline-block;
+            height: 12px;
+            margin-right: 10px;
+            left: -4px;
+            position: absolute;
+            width: 12px;
+        }
+        
+        &:hover {
+            &:before {
+                background: $lime;
+            }
+        }
+    }
+    
+    .radio-label-disabled {
+        color: $grey;
+        cursor: default;
+    
+    
+        &:before {
+            border: {
+                color: $grey;
+            }
+        }
+        
+        &:hover {
+            &:before {
+                background: $light-dark;
+            }
+        }
+    
+    }
+    
+    input[type="radio"] {
+        display: none;
+    }
+    
+    input[type="radio"]:checked + .radio-label:before {
+        border: {
+            width: 4px;
+        }
+    }
+    
+    select {
+        background: $light-dark;
+        @include background-image("icons/arrow-down.png");
+        background-position: right 2% center;
+        background-repeat: no-repeat;
+        background-color: $light-dark;
+        background-size: 26px 26px;
+        border: {
+            color: $white;
+            radius: 0;
+            style: solid;
+            width: 1px;
+        }
+        color: $white;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        
+        option {
+            border: {
+                color: $white;
+            }
+            box-shadow: none;
+            padding: 4px 12px;
+        }
+    
+        &:disabled {
+            background: $light-dark;
+            @include background-image("icons/arrow-down-light.png");
+            background-position: right 2% center;
+            background-repeat: no-repeat;
+            background-size: 26px 26px;
+            border: {
+                color: $grey;
+            }
+            color: $grey;
+        }
+    
+    }
+    
+    .suggestion-wrapper {
+        background: $light-dark;
+        border: {
+            color: $white;
+            radius: 0;
+            style: solid;
+            width: 1px;
+        }
+    
+        textarea {
+            background: $light-dark;
+            border: 0;
+            color: $white;
+        }
+    
+        .suggestions ul {
+            background: $light-dark;
+            color: $white;
+            
+            li {
+            
+                &.selected {
+                    background: lighten($light-dark, 10%);    
+                    color: $white;
+                }
+                
+            }
+        }
+        
+        .suggestion {
+            background: $light-dark;   
+            border: {
+                color: $white;
+                radius: 0;
+                style: solid;
+                width: 1px;
+            }
+            color: $white;
+            
+            &:hover, &:focus {
+                background: lighten($light-dark, 10%);
+                color: $white;
+            }
+            
+            .remove-suggestion {
+                background-image: url("../../image/icons/close.png");
+                background-size: 10px auto;
+                cursor: pointer;
+                display: inline-block;
+                height: 10px;
+                position: relative;
+                right: -3px;
+                top: 0;
+                width: 10px;
+                z-index: 1;
+            }
+        }
+    }
+    
+}
+
+.law-journal {
+    position: relative;
+    
+
+    .well {
+        background: lighten($light-dark, 10%);
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+        display: none;
+        margin: 10px 0;
+        padding: 10px 0 15px;
+        
+        > div {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+        
+    .selected-law {
+        background-color: $light-dark;
+        border: 1px solid $white;
+        border-radius: 0;
+        color: $white;
+        padding: 10px;
+        position: relative;
+        
+        span {
+            display: block;
+            height: 20px;
+            overflow: hidden;
+            padding-right: 30px;
+            width: 100%;
+        }
+        
+        .remove {
+            right: 10px;
+            top: 10px;
+        }
+    }
+
+    .law-close {
+        right: 8px;
+        position: absolute;
+        top: 8px;
+        z-index: 10;
+    }
+
+    .form-control {
+        display: inline-block;
+        padding: 6px 8px;
+        width: auto;
+    }
+
+    .width-full {
+        width: 100%;
+    }
+
+    .law-journal-more {
+        background: lighten($light-dark, 10%);
+        border: {
+            color: $white;
+            style: solid;
+            width: 1px;
+        }
+        color: $white;
+        margin-left: 15px;
+        margin-top: 5px;
+        padding: 4px 8px;
+        
+        &:hover {
+            background: lighten($light-dark, 20%);
+            text-decoration: none;
+        }
+    }
+
+    ul {
+        margin: 0;
+        padding-bottom: 0;
+        padding-left: 0;
+    
+    
+        li {
+            background: lighten($light-dark, 10%);
+            border: 1px solid $white;
+            border-width: 1px 1px 0;
+            color: $white;
+            cursor: pointer;
+            height: 28px;
+            margin: 0 15px;
+            overflow: hidden;
+            
+            &:first-child {
+                background: lighten($light-dark, 10%);
+                border: 0;
+                color: $white;
+                cursor: default;
+                font: {
+                    size: 16px;
+                    weight: bold;
+                }
+                margin-bottom: 5px;
+                margin-top: 25px;
+                
+                &:hover {
+                    background: lighten($light-dark, 10%);
+                }
+            }
+            
+            &:last-child {
+                border-width: 1px 1px 1px;
+            }
+            
+            &:hover {
+                background: lighten($light-dark, 15%);
+            }
+            
+            &.no-items {
+                color: $orange;
+            }
+            
+            a {
+                color: $white;
+                display: inline-block;
+                height: 28px;
+                overflow: hidden;
+                padding: 5px 10px;
+                text-decoration: none;
+                width: 100%;
+            }
+        }
+    
+    }
+}
+
+.referenced-regulations {
+    background-color: $dark;
+    border: {
+        color: $white;
+        style: solid;
+        width: 0 0 1px 0;
+    }
+    color: $white;
+    display: block;
+    font: {
+        size: 15px;
+    }
+    letter-spacing: 0;
+    margin-bottom: 0px;
+    padding: 8px 30px 8px 0;
+    position: relative;
+    text-decoration: none;
+    
+    a {
+        color: $lime;
+        font-weight: bold;
+        text-decoration: none;
+    }
+}
+
+.info-section {    
+    @include transition(all, 0.2s);
+    background-color: $dark;
+    border: {
+        color: $white;
+        style: solid;
+        width: 0 0 1px 0;
+    }
+    color: $white;
+    cursor: pointer;
+    display: block;
+    font: {
+        size: 15px;
+    }
+    letter-spacing: 0;
+    margin-bottom: 0px;
+    padding: 8px 30px 8px 0;
+    position: relative;
+    text-decoration: none;
+    
+    &:hover, &:focus {
+        color: $white;
+        text-decoration: none;   
+    }
+    
+    &:before {
+        @include background-image("icons/arrow-down.png");
+        @include transition(all, 0.4s);
+        background-repeat: no-repeat;
+        background-size: 26px 26px;
+        content: "";
+        display: block;
+        height: 26px;
+        position: absolute;
+        right: 7px;
+        top: 5px;
+        width: 26px;
+    }
+    
+    b {
+        color: $lime;
+    }
+}
+
+.info-section-header {
+    font: {
+        size: 16px;
+    }
+    margin-top: 20px;
+}
+
+.info-section-opened {
+    &:before {
+        @include rotate(180);   
+    }
+}
+
+
+.remove {
+    @include background-image("icons/close.png");
+    background: {
+        position: 50% 50%;
+        repeat: no-repeat;
+    }
+    cursor: pointer;
+    display: block;
+    float: right;
+    height: 20px;
+    position: absolute;
+    right: 9px;
+    top: 12px;
+    width: 20px;
+}
+
+.pagination {
+    border: {
+        width: 0
+    }
+    display: block;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding: 10px 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    
+    .results-number {
+        background: $white;
+        color: #666;
+        font-size: 0.8em;
+        margin-top: 10px;
+    }
+    
+    .page-block {
+        border: {
+            color: $dark;
+            style: solid;
+            width: 1px;
+            radius: 0px;
+        }
+        font-size: 0.8em;
+        margin: 0 2px;
+        padding: 3px 8px;
+        @include transition(all, 0.2s);
+    
+        &.active, &:hover, &:active {
+            background: $grey;
+        }   
+    }
+    
+    a {
+        color: $dark;
+        text-decoration: none;
+        
+        span {
+            height: 1px;
+            overflow: hidden;
+            position: absolute;
+            top: -10px;
+            width: 1px;
+        }
+        
+    }
+}
+
+
+.icon-html {
+    @include icon-judgment-type;
+    background-position: -6px -166px;
+}
+
+.icon-doc {
+    @include icon-judgment-type;
+    background-position: -6px -417px;
+}
+
+.icon-pdf {
+    @include icon-judgment-type;
+    background-position: -5px -459px;
+}
+
+.presiding-judge-white {
+    @include presiding-judge;
+    background-position: -4px -219px;
+    background-size: 72px 320px;
+    height: 16px;
+    margin-top: -2px;
+    width: 16px;
+}
+
+.presiding-judge-dark {
+    @include presiding-judge;
+    background-position: -4px -198px;
+    background-size: 72px 320px;
+    height: 16px;
+    margin-top: -2px;
+    width: 16px;
+    
+}
+
+.tooltip {
+    opacity: 1 !important;
+    
+    .tooltip-inner {
+        background: $lime;
+        border-radius: 0;
+        box-shadow: 4px 4px 12px rgba(50, 50, 50, 0.5);
+        color: $dark;
+        padding: 10px;
+    }
+    
+    &.top .tooltip-arrow {
+        border-top-color: $lime;
+    }
+
+}
+
+.popover {
+    background: $lime;
+    border: 0;
+    border-radius: 0;
+    line-height: 1.2em;
+    max-width: 290px;
+    padding: 8px 14px;
+    
+    .popover-title {
+        display: none;
+    }
+
+    .popover-content {
+        font: {
+            size: 13px;
+        }
+        padding: 6px 4px 4px;
+        text-align: justify;
+    }   
+    
+    &.left > .arrow:after {
+        border-left-color: $lime;
+    }
+    
+    &.right > .arrow:after {
+        border-right-color: $lime;
+    }
+}
+
+
+.info-box-section {
+    position: relative;
+
+
+    a {
+    
+    }
+    
+
+
+    > div {
+        background: $light-dark;
+        display: none;
+        padding: 10px 20px;
+    }
+}
+
+.info-section-button {  
+    border: 0 !important;
+    display: block;
+    overflow: hidden;
+    margin-top: 30px;
+    padding: 0;
+    position: relative;
+    right: 0;
+    top: 0;
+    
+    
+    
+    &.info-section-button-open {
+        > span {
+            @include rotate(180);
+        }
+    }
+    
+    > span {
+        @include background-image("icons/arrow-down.png");
+        background-size: 24px auto;
+        background-repeat: no-repeat;
+        bottom: 2px;
+        display: block;
+        height: 24px;
+        position: absolute;
+        right: 0;
+        transition: all 0.4s ease 0s;
+        width: 24px;
+    }
+    
+
+}
+
+
+.valid-error {
+    color: $red;
+    display: none;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.has-error {
+
+    label {
+        background: $light-dark;
+        color: $red;
+    }
+    
+    input[type="text"] {
+        border: {
+            color: $red !important;
+        }
+        color: $red !important;
+    }
+    
+}
+
+.message-box {
+    position: fixed;
+    text-align: center;
+    width: 100%;
+
+    > div {
+        background: $purple;
+        border-radius: 0;
+        box-shadow: 1px 0 3px 0 rgba(100, 100, 100, 1);
+        color: $white;
+        display: inline-block;
+        font: {
+            weight: bold;
+        }
+        padding: 10px 20px;
+        position: relative;
+        top: 10px;
+        z-index: 10;
+    }
+    
+}
+
+.no-js {
+
+    body {
+        margin-top: 50px;
+    }
+
+}
+
+.message-no-js {
+    background: lighten($purple, 20%);
+    color: $dark;
+    padding: 15px 0 15px;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100%;
+}
+
+.cookie-message {
+    background: lighten($purple, 20%);
+    color: $dark;
+    display: none;
+    padding: 15px 0 15px;
+    position: relative;
+    text-align: center;
+    top: 0;
+    width: 100%;
+    
+    .text {
+        font: {
+            size: 12px;
+        }
+        text-align: left;
+    }
+    
+    .btn {
+        background: $orange;
+        border-radius: 0;
+        border: 0;
+        font-weight: bold;
+        margin-left: 10px;
+        margin-top: 10px;
+        padding: 5px 10px;
+        
+        &:hover {
+            background: lighten($orange, 20);
+            @include transition(background, 0.4s);
+        }
+    }   
+}
+
+.cookie-window {
+    background: rgba($dark, 0.8);
+    border-radius: 0;
+    color: $white;
+    font-size: 16px;
+    padding: 15px 25px;
+    position: absolute;
+    right: 25px;
+    width: 220px;
+    text-align: center;
+    top: 20px;
+    z-index: 9999;
+    
+    .btn {
+        background: $orange;
+        border-radius: 0;
+        font-weight: bold;
+        margin-left: 10px;
+        margin-top: 20px;
+        padding: 5px 10px;
+        
+        &:hover {
+            background: lighten($orange, 20);
+            @include transition(background, 0.4s);
+        }
+    }
+}
+
+
+.export-csv {
+    border: 2px solid $orange;
+    margin: 5px 0;
+    padding: 2px;
+    
+    img {
+        margin-top: -4px;
+    }
+}
+
+.for-screen-readers {
+    left: -9999px;
+    position: absolute;
+}
+
+.saos-logo-mobile {
+    @media (max-width: $screen-xs-min) {
+        display: block;
+        margin: 0 auto;
+    }
+    @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+        display: none;
+    }
+    @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+        display: none;
+    }
+    @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
+        display: none;
+    }
+    @media (min-width: $screen-xl-min) {
+        display: none;
+    }
+}
+
+.site-map {
+    font: {
+        size: 18px;
+    }
+    
+    ul {
+        margin: 20px 0;
+        list-style: none;
+        padding: 0;
+        
+        li {
+            margin: 8px 0;
+        }
+    }
+}
+
+
+

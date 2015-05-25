@@ -9,12 +9,44 @@ var jsInitInJudgmentDetails = function(options) {
     if (options.pageTitle !== undefined) {
         $(document).attr("title", options.pageTitle + " " + $(document).attr("title"));
     }
-    	
-    InfoBox.init({
-        offsetTop: 61,
-        containerId: "#judgment",
-        elements: [{buttonId: "#source-info-nav", sectionId: "#source-info-section", buttonHideId: "#source-info-hide"},
-                   {buttonId: "#corrections-nav", sectionId: "#corrections-section", buttonHideId: "#corrections-hide"}]
+
+   
+    //Corrections info section 
+    $("#corrections-toggle").click(function() {
+        var $section = $("#corrections-section"),
+            $button = $(this),
+            animationOptions = {
+                time: 300,
+                easing: "swing"
+            };
+        
+        
+        if ($section.css("display") === "none") {
+            $button.addClass("info-section-button-open");
+            $section.slideDown(animationOptions);
+        } else if ($section.css("display") === "block") {
+            $button.removeClass("info-section-button-open");
+            $section.slideUp(animationOptions);
+        }
+    });
+    
+    //Sourceinfo info section 
+    $("#source-info-toggle").click(function() {
+        var $section = $("#source-info-section"),
+            $button = $(this),
+            animationOptions = {
+                time: 300,
+                easing: "swing"
+            };
+        
+        
+        if ($section.css("display") === "none") {
+            $button.addClass("info-section-button-open");
+            $section.slideDown(animationOptions);
+        } else if ($section.css("display") === "block") {
+            $button.removeClass("info-section-button-open");
+            $section.slideUp(animationOptions);
+        }
     });
 
 }

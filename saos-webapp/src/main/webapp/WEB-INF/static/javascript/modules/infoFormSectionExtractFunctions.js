@@ -166,8 +166,8 @@ function extractInfoFromDateSectionInSearch() {
              if ($this.attr("id") === "lawJournalEntryId") {
                  var lawJournalText = $("#law-journal-navigation").find("> div > span").text();
                  
-                 if (lawJournalText.length > 60) {
-                     lawJournalText = lawJournalText.substr(0, 60) + " ...";
+                 if (lawJournalText.length > 50) {
+                     lawJournalText = lawJournalText.substr(0, 50) + " ...";
                  }
                  
                  html += addPhrase(lawJournalText, fieldDescription, comma);

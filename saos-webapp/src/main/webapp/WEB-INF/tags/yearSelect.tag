@@ -10,7 +10,7 @@
 <c:set var="commaSplittedYears" value="${fn:split(yearRange, ',')}"/>
 
 
-<form:select id="${id}" path="${path}" class="form-control" title="${title}" >
+<form:select id="${id}" path="${path}" class="col-xs-5" title="${title}" >
 
 <c:forEach items="${commaSplittedYears}" var="year">
 

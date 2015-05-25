@@ -8,7 +8,7 @@
 
 
 <c:set var="pageNo" value="${pageNo+1}" />
-<c:set var="pageBlockNumber" value="8" />
+<c:set var="pageBlockNumber" value="5" />
 
 <fmt:formatNumber var="halfBookmarks" value="${pageBlockNumber/2}" maxFractionDigits="0" scope="page"/>
 

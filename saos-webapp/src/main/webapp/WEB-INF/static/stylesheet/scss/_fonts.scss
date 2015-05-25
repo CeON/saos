@@ -1,29 +1,30 @@
 @font-face {
-    font-family: 'Noto Sans';
-    src: url("../../../static/font/NotoSans/NotoSans-Regular.ttf") format('truetype');
+    font-family: 'Lato';
+    src: url("../../../static/font/Lato/Lato-Regular.ttf") format('truetype');
 }
 
 @font-face {
-    font-family: 'Noto Sans';
-    src: url("../../../static/font/NotoSans/NotoSans-Bold.ttf") format('truetype');
-    font-weight: 700;
-}
-
-@font-face {
-    font-family: 'Noto Sans';
-    src: url("../../../static/font/NotoSans/NotoSans-BoldItalic.ttf") format('truetype');
-    font-weight: 700;
+    font-family: 'Lato';
+    src: url("../../../static/font/Lato/Lato-Italic.ttf") format('truetype');
     font-style: italic;
 }
 
 @font-face {
-    font-family: 'Noto Sans';
-    src: url("../../../static/font/NotoSans/NotoSans-Italic.ttf") format('truetype');
-    font-style: italic;
+    font-family: 'Lato';
+    src: url("../../../static/font/Lato/Lato-Bold.ttf") format('truetype');
+    font-weight: 700;
 }
 
 @font-face {
-    font-family: 'Open Sans';
-    src: url("../../../static/font/OpenSans/OpenSans-Light.ttf") format('truetype');
+    font-family: 'Lato';
+    src: url("../../../static/font/Lato/Lato-Light.ttf") format('truetype');
     font-weight: 300;
 }
+
+@font-face {
+    font-family: 'Lato';
+    src: url("../../../static/font/Lato/Lato-LightItalic.ttf") format('truetype');
+    font-weight: 300;
+    font-style: italic;
+}
+

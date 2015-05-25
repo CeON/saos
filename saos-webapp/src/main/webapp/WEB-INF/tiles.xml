@@ -5,9 +5,7 @@
     <definition name="template" template="/WEB-INF/view/template/mainTemplate.jsp">
    	    <put-attribute name="title" value="" type="string" />
         <put-attribute name="skipLinks" value="skipLinksTemplate"  />
-        <put-attribute name="header" value="/WEB-INF/view/template/header.jsp" />
         <put-attribute name="content" value="" />
-        <put-attribute name="footer" value="/WEB-INF/view/template/footer.jsp" />
     </definition>
     
     <!-- ************* Simple template definition -->

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
+        
 
 <c:set var="judgments" value="${searchResults.results}" />
 <c:set var="resultsNo" value="${searchResults.totalResults}" />
@@ -11,45 +12,34 @@
 
 <script>
 $(document).ready(function() {
-	jsInitInJudgmentSearch();
+    jsInitInJudgmentSearch();
 });
 </script>
+        
+<div class="search container">
 
+    <form:form id="search-form" class="form-horizontal" role="form" modelAttribute="judgmentCriteriaForm" action="${contextPath}/search" method="GET">
 
+	    <div class="row row-eq-height" >
+	        
+	        <div class="navigation col-md-4">
+	                
+	            <%@ include file="../common/navigationMenu.jsp" %>
+	            
+	            <%@ include file="../search/judgmentSearchNavigation.jsp" %>
+	                        
+	        </div>
+	    
+	        <div class="content col-md-8">
+	            
+	            <%@ include file="../search/judgmentSearchContent.jsp" %>
+	            
+	        </div>
+	        
+	    </div>
 
-<div class="container search-results">
-
-	<%@ include file="judgmentSearchForm.jsp" %>
-	
-	<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" pageSize="${pageSize}" resultsNo="${resultsNo}" ></saos:pagePagination>
-	
-	<div class="container judgment-list">
-	
-		<div id="judgment-list" class="col-xs-12 ">	
-		
-			<%@ include file="judgmentList.jsp" %>
-		
-			<c:if test="${resultsNo == 0}">
-				<div class="no-results">
-					<p>
-					   <spring:message code="judgmentSearch.results.noRecords" />
-					</p>
-					<p>
-					   <spring:message code="judgmentSearch.results.hints" />:
-					</p>
-					<ul>
-					   <li><spring:message code="judgmentSearch.results.hints.first" />,</li>
-					   <li><spring:message code="judgmentSearch.results.hints.second" />.</li>
-					</ul>
-					
-				</div>
-			</c:if>
-		
-		</div>
-		
-	</div>
-	
-	<saos:pagePagination pageLink="${pageLink}" pageNo="${pageNo}" pageSize="${pageSize}" resultsNo="${resultsNo}" ></saos:pagePagination>
-
+    </form:form>
+    
 </div>
 
+        

@@ -1,42 +1,40 @@
-/* Styles for Web Accessibility 
- *
- */
-
 
 .skip-links {
 
-	ul {
-		list-style: outside none;
-		position: absolute;
-		text-align: center;
+    ul {
+        list-style: outside none;
+        position: absolute;
+        text-align: center;
 
-		li {
-			display: inline-block;
-			text-align: center;
-		
-			a {
-				cursor: pointer;
-				position: absolute;
-				left: -99999px;
-				top: 7px;
-			
-				&:focus, &:active {
-					background: $white;
-					font: {
-						size: 18px;
-					}
-					height: auto;
-					left: 0;
-					padding: 5px 15px;
-					position: relative;
-					text-decoration: none;
-					z-index:9999;
+        li {
+            display: inline-block;
+            text-align: center;
+        
+            a {
+                background: $purple;
+                color: $white;
+                cursor: pointer;
+                position: absolute;
+                left: -99999px;
+                top: 7px;
+            
+                &:focus, &:active {
+                    background: $purple;
+                    font: {
+                        size: 18px;
+                    }
+                    height: auto;
+                    left: 0;
+                    padding: 10px 20px;
+                    position: relative;
+                    text-decoration: none;
+                    z-index:9999;
 
-				}
-			}
-		}
+                }
+            }
+        }
 
-	}
+    }
 }
 
 

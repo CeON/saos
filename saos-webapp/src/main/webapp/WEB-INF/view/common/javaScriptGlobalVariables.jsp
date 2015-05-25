@@ -16,7 +16,7 @@ var contextPath = '${pageContext.request.contextPath}',
 		    judgmentSearchFilterMessageBoxSet: '<spring:message code="judgmentSearch.filter.messageBox.set" />',
 		 
 			
-			contextDateAnyValue: '<spring:message code="context.date.fieldDescription" />: <b><spring:message code="context.date.anyValue" /></b>',
+			contextDateAnyValue: '<b><spring:message code="context.date.anyValue" /></b>',
 			
 			to: '<spring:message code="to" />',
 			from: '<spring:message code="from" />',

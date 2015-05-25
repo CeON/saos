@@ -5,6 +5,8 @@ $screen-sm-max: 991px;
 $screen-md-min: 992px;
 $screen-md-max: 1200px;
 $screen-lg-min: 1201px;
+$screen-lg-max: 1400px;
+$screen-xl-min: 1401px;
 
 @media (max-width: $screen-xs-min) {
 
@@ -15,7 +17,8 @@ $screen-lg-min: 1201px;
 @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
 
 }
-@media (min-width: $screen-lg-min) {
+@media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
 
 }
-
+@media (min-width: $screen-xl-min) {
+}

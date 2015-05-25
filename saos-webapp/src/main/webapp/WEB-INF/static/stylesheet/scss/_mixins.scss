@@ -1,6 +1,6 @@
 @mixin border-grey() {
 	border: {
-		color: $grey-border;
+		color: $grey;
 		style: solid;
 		width: 1px;
 	}
@@ -33,6 +33,11 @@
 	background-image: url($image-src + $image);
 }
 
+@mixin background-icons {
+    background-image: url("../../image/icons.png");
+    background-size: 107px 474px;
+}
+
 @mixin filter-underline() {
 	@include filter-underline-color(#333);
 }
@@ -44,6 +49,7 @@
 		width: 0px 0px 1px;
 	}
 	cursor: pointer;
+	text-decoration: none;
 	
 	&:hover {
 		border: {
@@ -62,7 +68,7 @@
 
 @mixin navigation-buttons() {
 	ul li {
-		color: $grey98;
+		color: $black;
 		margin: 0;
 		
 		&:hover {
@@ -76,7 +82,7 @@
 			@include transition(background, 0.4s);
 			
 			&:hover {
-				background: $grey98;
+				background: $black;
 				color: inherit;
 			}
 		}
@@ -85,7 +91,7 @@
 
 @mixin outline() {
 	&:focus {
-		outline: 4px solid lighten($blue, 12%);
+		outline: 4px solid $purple;
 		z-index: 10;
 	}
 }
@@ -103,4 +109,63 @@
   @include transform(rotate(#{$deg}deg));
 }
 
+/* Mixin */
+@mixin vertical-align {
+    position: relative;
+    top: 50%;
+    /*-webkit-transform: translateY(-50%);*/
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+@mixin icon-hint {
+    @include background-icons;
+    background-position: -6px -207px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: block;
+    height: 22px;
+    width: 22px;
+}
+
+@mixin icon-judgment-type {
+    @include background-icons;
+    background-repeat: no-repeat;
+    border: 1px solid $dark;
+    cursor: pointer;
+    display: inline-block;
+    height: 24px;
+    position: absolute;
+    right: 35px;
+    width: 24px;
+    top: 20px;
+    
+    @media (max-width: $screen-xs-min) {
+        top: 0;
+    }
+    @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+        top: 0;
+    }
+}
+
+@mixin presiding-judge {
+    @include background-icons;
+    background-position: -5px -279px;
+    background-repeat: no-repeat;
+    background-size: 92px 408px;
+    cursor: pointer;
+    display: inline-block;
+    height: 20px;
+    margin-top: -2px;
+    position: relative;
+    top: 3px;
+    width: 22px;
+}
+
+@mixin placeholder {
+    &::-webkit-input-placeholder {@content}
+    &:-moz-placeholder           {@content}
+    &::-moz-placeholder          {@content}
+    &:-ms-input-placeholder      {@content}  
+}
 

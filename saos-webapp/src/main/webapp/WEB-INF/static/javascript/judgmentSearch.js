@@ -48,24 +48,16 @@ var jsInitInJudgmentSearch = function() {
             $parent = $(element).parent(); 
             
             $parent.addClass("has-error");
-            $parent.prev().addClass("has-error");
-            
+
             $(id).css({display: "block"});
-            
-            $parent.parent().css({marginTop: "35px"});
         },
         unhighlight: function(element, errorClass, validClass) {
             var id = "#" + $(element).attr("id") + "-error",
             $parent = $(element).parent(); 
             
             $parent.removeClass("has-error");
-            $parent.prev().removeClass("has-error");
             
             $(id).css({display: "none"});
-            
-            if ($parent.parent().find(".has-error").length === 0) {
-            $parent.parent().css({marginTop: "0px"});
-            }
             
         }
     });
@@ -135,18 +127,18 @@ var jsInitInJudgmentSearch = function() {
 		              {filterField: "radio-court-constitutional_tribunal", container: "#constitutional-tribunal-fields"}],
 		
 		filters: [{button: ".judge", searchfield: "#input-search-judge", filterfield: "filter-judge"},
-		           {button: ".keyword", searchfield: "#input-search-keywords-cc", filterfield: "filter-keyword", selectFormType: "#radio-court-common"},
+		           {button: ".keyword", searchfield: "#input-search-keywords-cc", filterfield: "filter-keyword", selectFormType: "#courtType_COMMON"},
 		           {button: ".judgment-type", searchfield: "[name='judgmentTypes']", filterfield: "filter-judgment-type"},
-		           {button: ".court-type", searchfield: "[name='courtType']", filterfield: "filter-court-type"},
+		           {button: ".court-type", searchfield: "[name='courtCriteria.courtType']", filterfield: "filter-court-type"},
 		           {button: ".date", searchfield: "#datepicker_from, #datepicker_to", filterfield: "filter-judgment-date-from"},
-				   {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court", selectFormType: "#radio-court-common"},
-				   {button: ".chamber", searchfield: "#select-supreme-chamber", filterfield: "filter-supreme-chamber", selectFormType: "#radio-court-supreme"},
-				   {button: ".judgment-form", searchfield: "#select-search-judgment-form", filterfield: "filter-supreme-judgment-form", selectFormType: "#radio-court-supreme"}],
+				   {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court", selectFormType: "#courtType_COMMON"},
+				   {button: ".chamber", searchfield: "#select-supreme-chamber", filterfield: "filter-supreme-chamber", selectFormType: "#courtType_SUPREME"},
+				   {button: ".judgment-form", searchfield: "#select-search-judgment-form", filterfield: "filter-supreme-judgment-form", selectFormType: "#courtType_SUPREME"}],
 		
-		advanceFilter: [{button: ".division", searchfield: "#select-common-division", filterfield: "filter-division", selectFormType: "#radio-court-common",
+		advanceFilter: [{button: ".division", searchfield: "#select-common-division", filterfield: "filter-division", selectFormType: "#courtType_COMMON",
 						getUrl: function(id) {return contextPath + "/cc/courts/{id}/courtDivisions/list".replace("{id}", id)},
 						parent : {button: ".court", searchfield: "#select-common-court", filterfield: "filter-court"}},
-						{button: ".chamber-division", searchfield: "#select-supreme-chamber-division", filterfield: "filter-supreme-chamber-division", selectFormType: "#radio-court-supreme",
+						{button: ".chamber-division", searchfield: "#select-supreme-chamber-division", filterfield: "filter-supreme-chamber-division", selectFormType: "#courtType_SUPREME",
 						getUrl: function(id) {return contextPath + "/sc/chambers/{id}/chamberDivisions/list".replace("{id}", id)},
 						parent : {button: ".chamber", searchfield: "#select-supreme-chamber", filterfield: "filter-supreme-chamber"}}],
 	});
@@ -180,8 +172,8 @@ var jsInitInJudgmentSearch = function() {
     
     
     //refresh keywords suggester width when form section opens
-    $("#judgment-info").one("click", function() {
-        setTimeout(function() {$("#input-search-keywords-cc").suggesterRefresh()}, 500);
+    $("#judgment-info").on("click", function() {
+        setTimeout(function() {$("#input-search-keywords-cc").suggesterRefresh()}, 1000);
     });
 	
 	

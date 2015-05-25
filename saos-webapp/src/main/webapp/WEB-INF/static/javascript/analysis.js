@@ -123,6 +123,9 @@ var initAnalysisJs = function() {
         
         //Enables bootstrap tooltip
         $('#analysisForm [data-toggle="tooltip"]').tooltip({container: 'body'});
+        
+        /* Enable bootstrap popover's */
+        $('[data-toggle="popover"]').popover({container: 'body'});
 
         /* Anchor with empty href, should not reload page*/
         $("a[href='']").click(function(event) {
