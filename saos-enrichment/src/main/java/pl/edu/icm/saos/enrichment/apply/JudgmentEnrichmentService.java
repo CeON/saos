@@ -38,9 +38,11 @@ public class JudgmentEnrichmentService {
     
     
     /**
-     * Finds a judgment with the given id by using {@link JudgmentRepository#findOneAndInitialize(long) and
-     * then invokes #enrich(Judgment). <br/>
-     * Usually you will want to use this method instead of {@link JudgmentRepository#findOneAndInitialize(long)}.
+     * Finds a judgment with the given id by using {@link JudgmentRepository#findOneAndInitialize(long)} and
+     * then invokes {@link #enrich(Judgment)}. <br/>
+     * Usually you will want to use this method instead of {@link JudgmentRepository#findOneAndInitialize(long)}.<br/>
+     * Method will return judgment detached from session to prevent flushing changes made to object
+     * during enrichment process. 
      * 
      */
     public <T extends Judgment> T findOneAndEnrich(long judgmentId) {

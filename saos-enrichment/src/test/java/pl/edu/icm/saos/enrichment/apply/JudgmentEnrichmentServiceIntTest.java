@@ -9,6 +9,7 @@ import static pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactor
 import java.math.BigDecimal;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -19,11 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.enrichment.EnrichmentTestSupport;
 import pl.edu.icm.saos.persistence.common.GeneratedEntityMergeException;
+import pl.edu.icm.saos.persistence.common.GeneratedEntityPersistException;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
@@ -48,11 +51,11 @@ public class JudgmentEnrichmentServiceIntTest extends EnrichmentTestSupport {
     @Autowired
     private JudgmentRepository judgmentRepository;
     
-    
-    private Judgment judgment;
-    
     @Autowired
     private EntityManager entityManager;
+    
+    
+    private Judgment judgment;
     
     
     @Before
@@ -115,6 +118,20 @@ public class JudgmentEnrichmentServiceIntTest extends EnrichmentTestSupport {
         
         // execute
         judgmentRepository.save(enrichedJudgment);
+    }
+    
+    @Test(expected = GeneratedEntityPersistException.class)
+    @Transactional
+    public void findOneAndEnrich_GENERATED_SAVE_EXCEPTION_ON_REF_REGULATION() {
+        
+        // given
+        Judgment enrichedJudgment = judgmentEnrichmentService.findOneAndEnrich(judgment.getId());
+        JudgmentReferencedRegulation generatedRefRegulation = enrichedJudgment.getReferencedRegulations().stream().filter(jrr -> jrr.isGenerated()).findFirst().get();
+        
+        // execute
+        entityManager.persist(generatedRefRegulation.getLawJournalEntry());
+        entityManager.persist(generatedRefRegulation);
+        entityManager.flush();
     }
     
 

@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.persistence.common;
 
 /**
- * Exception thrown when attempting to merge generated intity into hibernate session
+ * Exception thrown when attempting to merge generated entity into hibernate session
  * 
  * @author madryk
  */
@@ -13,6 +13,6 @@ public class GeneratedEntityMergeException extends RuntimeException {
     //------------------------ CONSTRUCTORS --------------------------
     
     public GeneratedEntityMergeException(Object entity) {
-        super("Detected attempt to merge generated entity " + entity + ". Merging generated entities is not allowed");
+        super("Detected attempt to merge a generated entity " + entity + ". Merging of generated entities is not allowed");
     }
 }
