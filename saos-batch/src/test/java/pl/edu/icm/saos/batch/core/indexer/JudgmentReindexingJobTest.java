@@ -170,7 +170,7 @@ public class JudgmentReindexingJobTest extends BatchTestSupport {
                 JsonNormalizer.normalizeJson("{amount:12300.45, text:'123 tys zł 45 gr'}"));
         EnrichmentTag tag3 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(ccJudgments.get(1).getId(), EnrichmentTagTypes.REFERENCED_REGULATIONS,
                 JsonNormalizer.normalizeJson("[{journalTitle:'Ustawa', journalNo:162, journalYear:1998, journalEntry:1118, text:'Ustawa (art.103)'}]"));
-        enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2)); // TODO save tag3 after resolve of https://github.com/CeON/saos/issues/484
+        enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2, tag3));
         
         long notExistingJudgmentId = findMaxJudgmentId() + 1;
         indexSimpleJudgment(notExistingJudgmentId, SourceCode.CONSTITUTIONAL_TRIBUNAL); // this judgment will be in index but not in database

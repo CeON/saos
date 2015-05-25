@@ -100,7 +100,7 @@ public class JudgmentIndexingJobTest extends BatchTestSupport {
         EnrichmentTag tag4 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(ccJudgments.get(3).getId(), EnrichmentTagTypes.REFERENCED_REGULATIONS,
                 JsonNormalizer.normalizeJson("[{journalTitle:'Ustawa', journalNo:162, journalYear:1998, journalEntry:1118, text:'Ustawa (art.103)'}]"));
         
-        enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2, tag3)); // TODO save tag4 after resolve of https://github.com/CeON/saos/issues/484
+        enrichmentTagRepository.save(Lists.newArrayList(tag1, tag2, tag3, tag4));
     }
     
     @After

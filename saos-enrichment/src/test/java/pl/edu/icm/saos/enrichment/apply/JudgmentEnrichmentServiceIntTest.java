@@ -3,9 +3,13 @@ package pl.edu.icm.saos.enrichment.apply;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory.createEnrichmentTag;
 
 import java.math.BigDecimal;
+
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.hamcrest.Matchers;
 import org.junit.Before;
@@ -15,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.enrichment.EnrichmentTestSupport;
+import pl.edu.icm.saos.persistence.common.GeneratedEntityMergeException;
+import pl.edu.icm.saos.persistence.common.GeneratedEntityPersistException;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
@@ -22,6 +28,7 @@ import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.ReferencedCourtCase;
+import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 import com.google.common.collect.Lists;
 
@@ -40,6 +47,12 @@ public class JudgmentEnrichmentServiceIntTest extends EnrichmentTestSupport {
     
     @Autowired
     private EnrichmentTagRepository enrichmentTagRepository;
+    
+    @Autowired
+    private JudgmentRepository judgmentRepository;
+    
+    @Autowired
+    private EntityManager entityManager;
     
     
     private Judgment judgment;
@@ -83,6 +96,54 @@ public class JudgmentEnrichmentServiceIntTest extends EnrichmentTestSupport {
         assertEquals(1118, generatedRefRegulation.getLawJournalEntry().getEntry());
         assertEquals("Ustawa", generatedRefRegulation.getLawJournalEntry().getTitle());
         
+    }
+    
+    @Test
+    public void unenrichAndSave() {
+        // given
+        Judgment enrichedJudgment = judgmentEnrichmentService.findOneAndEnrich(judgment.getId());
+
+
+        // execute
+        judgmentEnrichmentService.unenrichAndSave(enrichedJudgment);
+        
+
+        // assert
+        Judgment unenrichedJudgment = judgmentRepository.findOneAndInitialize(judgment.getId());
+        assertEquals(0, judgment.getReferencedCourtCases().size());
+        assertEquals(0, unenrichedJudgment.getReferencedCourtCases().size());
+
+        assertNull(unenrichedJudgment.getMaxMoneyAmount());
+
+        assertEquals(3, judgment.getReferencedRegulations().size());
+        assertEquals(3, unenrichedJudgment.getReferencedRegulations().size());
+        assertEquals(0, unenrichedJudgment.getReferencedRegulations().stream().filter(rr->rr.isGenerated()).count());
+
+    }
+    
+    
+    @Test(expected = GeneratedEntityMergeException.class)
+    public void findOneAndEnrich_GENERATED_SAVE_EXCEPTION() {
+        
+        // given
+        Judgment enrichedJudgment = judgmentEnrichmentService.findOneAndEnrich(judgment.getId());
+        
+        // execute
+        judgmentRepository.save(enrichedJudgment);
+    }
+    
+    @Test(expected = GeneratedEntityPersistException.class)
+    @Transactional
+    public void findOneAndEnrich_GENERATED_SAVE_EXCEPTION_ON_REF_REGULATION() {
+        
+        // given
+        Judgment enrichedJudgment = judgmentEnrichmentService.findOneAndEnrich(judgment.getId());
+        JudgmentReferencedRegulation generatedRefRegulation = enrichedJudgment.getReferencedRegulations().stream().filter(jrr -> jrr.isGenerated()).findFirst().get();
+        
+        // execute
+        entityManager.persist(generatedRefRegulation.getLawJournalEntry()); // save LawJournalEntry first to prevent TransientPropertyValueException in next line
+        entityManager.persist(generatedRefRegulation);
+        entityManager.flush();
     }
     
 

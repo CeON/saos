@@ -526,6 +526,9 @@ public abstract class Judgment extends IndexableObject {
         return this.referencedCourtCases.add(referencedCourtCase);
     }
     
+    public void removeReferencedCourtCase(ReferencedCourtCase referencedCourtCase) {
+        referencedCourtCases.remove(referencedCourtCase);
+    }
     
     //--- lower court judgments ---
     
