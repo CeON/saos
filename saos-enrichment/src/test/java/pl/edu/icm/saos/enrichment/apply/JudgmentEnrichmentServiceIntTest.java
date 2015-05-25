@@ -129,7 +129,7 @@ public class JudgmentEnrichmentServiceIntTest extends EnrichmentTestSupport {
         JudgmentReferencedRegulation generatedRefRegulation = enrichedJudgment.getReferencedRegulations().stream().filter(jrr -> jrr.isGenerated()).findFirst().get();
         
         // execute
-        entityManager.persist(generatedRefRegulation.getLawJournalEntry());
+        entityManager.persist(generatedRefRegulation.getLawJournalEntry()); // save LawJournalEntry first to prevent TransientPropertyValueException in next line
         entityManager.persist(generatedRefRegulation);
         entityManager.flush();
     }
