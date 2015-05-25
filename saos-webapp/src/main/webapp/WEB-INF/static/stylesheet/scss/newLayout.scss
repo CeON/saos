@@ -60,22 +60,6 @@ a, .hint {
     z-index: 1000;
     
     .menu-button {
-        @media (max-width: $screen-xs-min) {
-            background: yellow;
-        }
-        @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
-            background: blue;
-        }
-        @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
-            background: red;
-        }
-        @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
-            background: pink;
-        }
-        @media (min-width: $screen-xl-min) {
-            background: $green;
-        }
-    
         background: $green;
         border: {
             color: darken($green, 30%);
@@ -145,9 +129,7 @@ a, .hint {
 .home {
 
     .navigation {
-        height: 100%;
         margin: 0;
-        min-height: 750px;
         padding: 100px;
         position: relative;
         width: 50%;
@@ -175,7 +157,7 @@ a, .hint {
             bottom: 0;
             color: $white;
             font: {
-                size: 36px;
+                size: 32px;
                 weight: 300;
             }
             line-height: 1.4em;
@@ -196,7 +178,7 @@ a, .hint {
                 padding-top: 0;
             }
             @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
-                font-size: 30px;
+                font-size: 28px;
                 padding-top: 0;
             }
         }
@@ -210,10 +192,10 @@ a, .hint {
                 width: 550px;
             }
             @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
-                width: 450px;
+                width: 400px;
             }
             @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
-                width: 550px;
+                width: 500px;
             }
         }
         
@@ -221,9 +203,9 @@ a, .hint {
     }
     
     .content {
-        height: 100%;
+
         margin: 0;
-        min-height: 750px;
+        min-height: 645px;
         padding: 0;
         width: 50%;
         
@@ -241,7 +223,7 @@ a, .hint {
                 }
             height: 33.333333%;
             margin: 0;
-            min-height: 250px;
+            min-height: 215px;
             line-height: 1.3em;
             padding: 0;
             position: relative;
@@ -259,8 +241,8 @@ a, .hint {
                 }
                 
                 > div {
-                    @include vertical-align;
-                    display: inline-block;    
+                    display: inline-block;   
+                    vertical-align: middle; 
                 }
             }
             
@@ -273,7 +255,7 @@ a, .hint {
                 display: block;
                 margin: 10px 0;
                 letter-spacing: 0.2em;
-                padding: 5px 15px;
+                padding: 5px 20px 0;
                 text-transform: uppercase;
             }
             
@@ -282,7 +264,7 @@ a, .hint {
                 font: {
                     size: 20px
                 }
-                margin: 10px 0;
+                margin: 5px 0;
                 text-transform: lowercase;
             }
         }

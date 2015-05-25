@@ -25,7 +25,7 @@
 
 
 <div class="row block block-analysis">
-    <a href="${contextPath}/search" >
+    <a href="${contextPath}/analysis" >
     
         <div>
             <img src="${contextPath}/static/image/home/analysis.png" alt="todo" />
@@ -44,7 +44,7 @@
 
 
 <div class="row block block-api">
-    <a href="${contextPath}/search" >
+    <a href="${contextPath}/api" >
     
         <div>
             <img src="${contextPath}/static/image/home/api.png" alt="todo" />
