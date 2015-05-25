@@ -2,10 +2,13 @@ package pl.edu.icm.saos.enrichment.apply;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.common.Generatable;
+import pl.edu.icm.saos.persistence.common.UnenrichingVisitor;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -28,16 +31,18 @@ public class JudgmentEnrichmentService {
     
     private EnrichmentTagApplierManager enrichmentTagApplierManager;
     
-    
+    private EntityManager entityManager;
     
     
     //------------------------ LOGIC --------------------------
     
     
     /**
-     * Finds a judgment with the given id by using {@link JudgmentRepository#findOneAndInitialize(long) and
-     * then invokes #enrich(Judgment). <br/>
-     * Usually you will want to use this method instead of {@link JudgmentRepository#findOneAndInitialize(long)}.
+     * Finds a judgment with the given id by using {@link JudgmentRepository#findOneAndInitialize(long)} and
+     * then invokes {@link #enrich(Judgment)}. <br/>
+     * Usually you will want to use this method instead of {@link JudgmentRepository#findOneAndInitialize(long)}.<br/>
+     * Method will return judgment detached from session to prevent flushing changes made to object
+     * during enrichment process. 
      * 
      */
     public <T extends Judgment> T findOneAndEnrich(long judgmentId) {
@@ -48,10 +53,25 @@ public class JudgmentEnrichmentService {
             return null;
         }
         
+        entityManager.detach(judgment);
+        
         enrich(judgment);
         
         return judgment;
     
+    }
+    
+    /**
+     * Removes enrichment from judgment and then saves it using {@link JudgmentRepository#save(Judgment)}.<br/>
+     * If judgment was fetched by {@link #findOneAndEnrich(long)} then you should use this method for save operation
+     * instead of {@link JudgmentRepository#save(Judgment)}.
+     */
+    public void unenrichAndSave(Judgment judgment) {
+        Preconditions.checkNotNull(judgment);
+        
+        judgment.accept(new UnenrichingVisitor());
+        
+        judgmentRepository.save(judgment);
     }
 
 
@@ -124,5 +144,9 @@ public class JudgmentEnrichmentService {
         this.enrichmentTagApplierManager = enrichmentTagApplierManager;
     }
     
+    @Autowired
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
     
 }

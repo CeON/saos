@@ -16,10 +16,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 import com.google.common.collect.Lists;
 
@@ -38,11 +38,11 @@ public class JudgmentIndexingProcessorTest {
     private ScJudgmentIndexFieldsFiller scJudgmentIndexFieldsFiller;
     
     @Mock
-    private JudgmentRepository judgmentRepository;
+    private JudgmentEnrichmentService judgmentEnrichmentService;
     
     @Before
     public void setUp() {
-        judgmentIndexingProcessor.setJudgmentRepository(judgmentRepository);
+        judgmentIndexingProcessor.setJudgmentEnrichmentService(judgmentEnrichmentService);
         doCallRealMethod().when(ccJudgmentIndexFieldsFiller).isApplicable(any());
         doCallRealMethod().when(scJudgmentIndexFieldsFiller).isApplicable(any());
         judgmentIndexingProcessor.setJudgmentIndexFieldsFillers(Lists.newArrayList(ccJudgmentIndexFieldsFiller, scJudgmentIndexFieldsFiller));
@@ -94,7 +94,7 @@ public class JudgmentIndexingProcessorTest {
     
     private void assertSaveJudgmentInRepository(int judgmentId) {
         ArgumentCaptor<Judgment> argCapture = ArgumentCaptor.forClass(Judgment.class);
-        verify(judgmentRepository, times(1)).save(argCapture.capture());
+        verify(judgmentEnrichmentService, times(1)).unenrichAndSave(argCapture.capture());
         assertEquals(judgmentId, argCapture.getValue().getId());
         assertTrue(argCapture.getValue().isIndexed());
     }

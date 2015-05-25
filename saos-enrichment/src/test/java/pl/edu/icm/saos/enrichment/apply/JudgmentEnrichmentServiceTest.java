@@ -11,6 +11,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -38,6 +40,8 @@ public class JudgmentEnrichmentServiceTest {
     
     @Mock private EnrichmentTagApplierManager enrichmentTagApplierManager;
     
+    @Mock private EntityManager entityManager;
+    
     
     private Judgment judgment = TestInMemoryObjectFactory.createScJudgment();
     
@@ -51,6 +55,7 @@ public class JudgmentEnrichmentServiceTest {
         judgmentEnrichmentService.setJudgmentRepository(judgmentRepository);
         judgmentEnrichmentService.setEnrichmentTagRepository(enrichmentTagRepository);
         judgmentEnrichmentService.setEnrichmentTagApplierManager(enrichmentTagApplierManager);
+        judgmentEnrichmentService.setEntityManager(entityManager);
         
     }
     
@@ -84,6 +89,7 @@ public class JudgmentEnrichmentServiceTest {
         // assert
         verifyZeroInteractions(judgmentRepository);
         verifyZeroInteractions(enrichmentTagApplierManager);
+        verifyZeroInteractions(entityManager);
     
     }
     
@@ -113,12 +119,11 @@ public class JudgmentEnrichmentServiceTest {
         
         // assert
         
-        verifyZeroInteractions(judgmentRepository);
+        verifyZeroInteractions(judgmentRepository, entityManager);
         verify(enrichmentTagApplierManager).getEnrichmentTagApplier(enrichmentTag1.getTagType());
         verify(enrichmentTagApplierManager).getEnrichmentTagApplier(enrichmentTag2.getTagType());
         verify(enrichmentTagApplier1).applyEnrichmentTag(judgment, enrichmentTag1);
         verify(enrichmentTagApplier2).applyEnrichmentTag(judgment, enrichmentTag2);
-        
         
     }
     
@@ -150,7 +155,7 @@ public class JudgmentEnrichmentServiceTest {
         
         // assert
         
-        verifyZeroInteractions(judgmentRepository, enrichmentTagRepository);
+        verifyZeroInteractions(judgmentRepository, enrichmentTagRepository, entityManager);
         verify(enrichmentTagApplierManager).getEnrichmentTagApplier(enrichmentTag1.getTagType());
         verify(enrichmentTagApplierManager).getEnrichmentTagApplier(enrichmentTag2.getTagType());
         verify(enrichmentTagApplier1).applyEnrichmentTag(judgment, enrichmentTag1);
@@ -170,7 +175,7 @@ public class JudgmentEnrichmentServiceTest {
         
         // assert
         
-        verifyZeroInteractions(judgmentRepository, enrichmentTagRepository, enrichmentTagApplierManager);
+        verifyZeroInteractions(judgmentRepository, enrichmentTagRepository, enrichmentTagApplierManager, entityManager);
         
         
     }
@@ -208,7 +213,7 @@ public class JudgmentEnrichmentServiceTest {
         
         // assert
         
-        verifyZeroInteractions(judgmentRepository, enrichmentTagRepository);
+        verifyZeroInteractions(judgmentRepository, enrichmentTagRepository, entityManager);
         verify(enrichmentTagApplierManager).getEnrichmentTagApplier(enrichmentTag.getTagType());
         verify(enrichmentTagApplier).applyEnrichmentTag(judgment, enrichmentTag);
         
@@ -298,6 +303,7 @@ public class JudgmentEnrichmentServiceTest {
         verify(judgmentRepository).findOneAndInitialize(judgment.getId());
         verify(enrichmentTagApplierManager).getEnrichmentTagApplier(enrichmentTag1.getTagType());
         verify(enrichmentTagApplier1).applyEnrichmentTag(judgment, enrichmentTag1);
+        verify(entityManager).detach(judgment);
         
     }
 
