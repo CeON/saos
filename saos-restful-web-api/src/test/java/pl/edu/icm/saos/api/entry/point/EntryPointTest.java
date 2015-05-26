@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.dump.DumpEntryPointController;
 import pl.edu.icm.saos.api.search.SearchEntryPointController;
+import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -50,10 +51,12 @@ public class EntryPointTest {
 
 
         mockMvc = standaloneSetup(
-                mainEntryPointController,
-                dumpEntryPointController,
-                searchEntryPointController
-                ).build();
+                    mainEntryPointController,
+                    dumpEntryPointController,
+                    searchEntryPointController
+                )
+                .addInterceptors(new AccessControlHeaderHandlerInterceptor())
+                .build();
 
     }
 

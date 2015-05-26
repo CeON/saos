@@ -68,6 +68,7 @@ import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
+import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -124,6 +125,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
         mockMvc = standaloneSetup(judgmentsController)
                 .addInterceptors(new RestrictParamsHandlerInterceptor())
+                .addInterceptors(new AccessControlHeaderHandlerInterceptor())
                 .build();
     }
 

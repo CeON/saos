@@ -93,6 +93,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.ApiTestConfiguration;
+import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -147,6 +148,7 @@ public class JudgmentControllerTest extends PersistenceTestSupport {
         judgmentController.setJudgmentEnrichmentService(judgmentEnrichmentService);
 
         mockMvc = standaloneSetup(judgmentController)
+                .addInterceptors(new AccessControlHeaderHandlerInterceptor())
                 .build();
     }
 
