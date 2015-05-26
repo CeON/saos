@@ -30,7 +30,8 @@ public class ApiResponseAssertUtils {
                         allOf(
                                 containsString("application/json"),
                                 containsString("charset=" + charset)
-                        )));
+                        )))
+                .andExpect(header().string("Access-Control-Allow-Origin", "*"));
     }
     
     

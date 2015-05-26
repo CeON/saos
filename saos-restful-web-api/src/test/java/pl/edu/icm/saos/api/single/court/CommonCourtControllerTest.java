@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.ApiTestConfiguration;
+import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
@@ -77,6 +78,7 @@ public class CommonCourtControllerTest extends PersistenceTestSupport {
         courtController.setSingleCourtSuccessRepresentationBuilder(singleCourtSuccessRepresentationBuilder);
 
         mockMvc = standaloneSetup(courtController)
+                .addInterceptors(new AccessControlHeaderHandlerInterceptor())
                 .build();
     }
 

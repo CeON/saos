@@ -31,6 +31,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import pl.edu.icm.saos.api.ApiTestConfiguration;
+import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
@@ -80,6 +81,7 @@ public class CcDivisionControllerTest extends PersistenceTestSupport {
         divisionController.setDivisionSuccessRepresentationBuilder(divisionSuccessRepresentationBuilder);
 
         mockMvc = standaloneSetup(divisionController)
+                .addInterceptors(new AccessControlHeaderHandlerInterceptor())
                 .build();
     }
 
