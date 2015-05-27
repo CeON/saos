@@ -30,6 +30,10 @@ public class LawJournalEntryCodeExtractor {
     //------------------------ PRIVATE --------------------------
     
     private int extractEntryCodePart(String lawJournalEntryCode, int partNumber) {
-        return Integer.parseInt(StringUtils.split(lawJournalEntryCode, LawJournalEntry.ENTRY_CODE_PARTS_SEPARATOR)[partNumber]);
+        try {
+            return Integer.parseInt(StringUtils.split(lawJournalEntryCode, LawJournalEntry.ENTRY_CODE_PARTS_SEPARATOR)[partNumber]);
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            throw new IllegalArgumentException(lawJournalEntryCode + " is invalid law journal entry code");
+        }
     }
 }

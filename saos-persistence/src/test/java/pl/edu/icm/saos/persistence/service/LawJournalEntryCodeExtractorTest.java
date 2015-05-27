@@ -58,4 +58,13 @@ public class LawJournalEntryCodeExtractorTest {
         // execute & assert
         assertEquals(296, lawJournalEntryCodeExtractor.extractEntry(lawJournalEntryCode));
     }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void extractEntry_INVALID() {
+        // given
+        String lawJournalEntryCode = "1964/43/abc";
+        
+        // execute
+        lawJournalEntryCodeExtractor.extractEntry(lawJournalEntryCode);
+    }
 }
