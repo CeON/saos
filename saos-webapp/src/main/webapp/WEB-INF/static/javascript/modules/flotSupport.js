@@ -1,3 +1,97 @@
+/** Flot point tooltip controlling class. Its main responsibility is caring about proper
+ * showing, hiding of chart point tooltip element.
+ * 
+ *  @param pointTooltipId id that will be given to any controlled tooltip element. It is assumed
+ *  that there can be no more than one tooltip element on the page (controlled by one controller). 
+ *  The specified id makes it easier to show/remove or replace this element with a new one.
+ *  */
+function FlotPointTooltipController(pointTooltipId) {
+    
+    var pointTooltipId = pointTooltipId;
+    
+    var currentPointTooltipItem = null;
+        
+    var _this = this;
+        
+    /**
+     * Main entry point.<br/><br/>
+     * Controls the point tooltip: generates and shows or removes one. <br/><br/>
+     * If the item is specified and no tooltip is shown on the page, or the tooltip shown is a tooltip
+     * for a different item, then a new tooltip is generated and shown.<br/>
+     * If the item is not specified and the pos is outside the existing tooltip then the tooltip is removed.<br/>
+     * 
+     * @param pos position of a mouse pointer
+     * @param item item pointed on a flot chart
+     * @param generatePointTooltip function generating the point tooltip html element, the function will be passed 
+     * the given item. <b> The returned element id will be changed to this.pointTooltipId </b>
+     */    
+    this.controlPointTooltip = function(pos, item, generatePointTooltip) {
+            
+        var $pointTooltip = $("#"+pointTooltipId);
+        
+        if (item) {
+            if (currentPointTooltipItem == null || currentPointTooltipItem.dataIndex != item.dataIndex) {
+                _this.removePointTooltip();
+            }
+            if (!$pointTooltip.length) {
+                pointTooltipDiv = generatePointTooltip(item);
+                pointTooltipDiv.attr('id', pointTooltipId);  
+                
+                _this.showPointTooltip(pointTooltipDiv, item.pageX, item.pageY);
+                
+                $pointTooltip = $("#"+pointTooltipId);
+                $pointTooltip.mouseleave(function(event) {
+                    _this.removePointTooltip();
+                });
+                currentPointTooltipItem = item;
+            }
+               
+        } else {
+            if ($pointTooltip.length) {
+                if (!isInsideElement(pointTooltipId, pos.pageX, pos.pageY)) {
+                    _this.removePointTooltip();
+                    currentPointTooltipItem = null;
+                }
+            }
+        }
+    }
+    
+
+    /**
+     * Shows the given tooltip in x,y page position.
+     */
+    this.showPointTooltip = function(pointTooltip, x, y) {
+
+        
+        pointTooltip
+          .css({
+                top: y-1,
+                left: x-1,
+                display: 'inline'
+            }).appendTo("body");
+        
+        var windowWidth = $(window).width();
+        var distanceToRight = windowWidth - x;
+        if (distanceToRight < pointTooltip.width()) {
+            x = x - pointTooltip.width() + 1;
+        };
+        pointTooltip.css("left", x);
+    }
+    
+    /**
+     * Removes tooltip controlled by this object
+     */
+    this.removePointTooltip = function() {
+        $('#'+pointTooltipId).remove();
+    }
+    
+    
+
+
+}
+
+
+
 /**
  * 
  * A set of methods that add or extend the functionality of the flot chart library
@@ -125,24 +219,7 @@ function getMaxYForXRange(chart, xmin, xmax) {
 	return getMinMaxYForXRange(chart, xmin, xmax, true);
 }
 
-/**
- * Shows the tooltip for the point in chart
- * @param x position of the point on the x axis
- * @param y position of the point on the y axis
- * @param contents Content of the tooltip
- */
-function showTooltip(x, y, content) {
-    $('<div id="tooltip">' + content + '</div>').css( {
-        position: 'absolute',
-        display: 'none',
-        top: y + 5,
-        left: x + 17,
-        border: '1px solid #fdd',
-        padding: '4px',
-        'background-color': '#fee',
-        opacity: 0.80
-    }).appendTo("body").fadeIn(200);
-}
+
 
 /**
  * Returns the Y axis range for the given x range. The returned value is a 2-element array with ymin as the first element and ymax as the second element.

@@ -1,6 +1,7 @@
 <script>
 
 var contextPath = '${pageContext.request.contextPath}', 
+    DATE_PATTERN = '${DATE_PATTERN}'.toUpperCase(),
 
 	/* Global variable that contains spring:message values
 	 * used in javascript code. 
