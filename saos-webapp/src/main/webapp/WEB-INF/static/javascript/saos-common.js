@@ -1,4 +1,89 @@
 /**
+ * Generates url params for the given json paramObject (key - value pairs). Omits params with empty values.
+ * 
+ * <br/><br/>
+ * Example:<br/> <br/>
+ * paramObject =>
+ * 
+ * courtCriteria: {
+ *    courtType: "COMMON",
+ *    scCourtChamberId: "",
+ *    ccCourtId: 12;
+ * }
+ * 
+ * <br/>
+ * paramPrefix => courtFilter
+ * 
+ * <br/><br/>
+ * Results in =>
+ * courtFilter.courtType=COMMON&courtFilter.ccCourtId=12
+ *  
+ * <br/><br/>
+ * <b>Note</b>: paramObject has to be a simple flat json object. Nested objects and arrays are treated as values, for example:
+ * <br/> <br/>
+ * this: <br/>
+ * var json = {};
+ * <br/> 
+ * json.criteria = {aaa : 'bbb'};
+ * <br/>
+ * console.log(generateUrlParams(json));
+ *<br/><br/>
+ * will give:
+ * <br/>
+ * criteria=%5Bobject%20Object%5D
+ *  
+ * @param paramObject object from which the url params will be generated
+ * @param paramPrefix prefix that will be added to any of the param, prefix will be followed by dot (.)
+ * 
+ * 
+ * 
+ */
+function generateUrlParams(paramObject, paramPrefix) {
+    return Object.keys(paramObject)
+        .filter(function(key) {
+                return paramObject[key];
+        })
+        .map(function(key) {
+            var urlParam = encodeURIComponent(key) + '=' + encodeURIComponent(paramObject[key]);
+            if (paramPrefix) {
+                urlParam = paramPrefix+"."+urlParam;
+            }
+            return urlParam;
+        })
+        .join('&');
+
+    }
+
+
+
+/**
+ * Returns true if a point defined by posPageX and posPageY is inside an element with id equal to
+ * elementId.
+ * @param elementId of the element on the html page, e.g. a div
+ * @param posPageX absolute x page position of the point  
+ * @param posPageY absolute y page position of the point 
+ * @returns {Boolean}
+ */
+function isInsideElement(elementId, posPageX, posPageY) {
+    var $element = $("#"+elementId);
+       
+    var elementOffset = $element.offset();
+    var elementLeft = elementOffset.left;
+    var elementTop = elementOffset.top;
+    var elementRight = elementLeft + $element.width();
+    var elementBottom = elementTop + $element.height();
+        
+    if (posPageX >= elementLeft && posPageX <= elementRight &&
+       posPageY >= elementTop && posPageY <= elementBottom) {
+       return true;
+    }
+        
+    return false;
+}
+
+
+
+/**
  * Inits & binds two complementary sections - one that is an info and the second that is
  * a form part that a user can use to change the info. In general when the info section is clicked then
  * it is hidden and the form section is shown to allow changing of the data. And then if
@@ -157,6 +242,7 @@ function tieMonthYearRangeSelects(startMonthId, startYearId, endMonthId, endYear
     
     
 }
+
 
 /**
  * Formats the given number by invoking #addSpacesEvery3Digits(value) and by

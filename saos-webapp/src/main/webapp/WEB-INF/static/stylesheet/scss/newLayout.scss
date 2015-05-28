@@ -826,6 +826,27 @@ a, .hint {
 }
 
 
+.chart-point-tooltip {
+
+    position: absolute;
+    border: 1px solid $dark;
+    padding: 4px;
+    background-color: lighten($orange, 35%);
+    opacity: 0.90;
+    
+    a {
+        text-decoration: underline;
+    }
+    
+    div {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+}
+
+
+
 .judgment-list {
     background: $white;
     border: {
@@ -1840,6 +1861,8 @@ a, .hint {
         }
     }
 }
+
+
 
 
 

@@ -85,3 +85,43 @@ $(document).ready(function() {
 
 
 <img id="ajaxChartLoaderImg" src="${contextPath}/static/image/icons/ajax-loader.gif" alt="<spring:message code='analysis.button.ajaxLoader.iconAlt'/>" style="visibility: hidden;"/>
+<div id="simpleChartPointTooltip" class="chart-point-tooltip" style="visibility:hidden"></div>
+
+<div id="mainChartPointTooltip" class="chart-point-tooltip" style="display:none">
+    <div>
+        <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod"></span></b>
+    </div>
+    <div>
+        <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount"></span></b>
+    </div>
+    <div id="pointSearchLinkDiv" class="point-search-link">    
+        <a id="pointSearchLink" href=""><spring:message code="analysis.chart.tooltip.searchLink"/></a>
+    </div>
+</div>
+
+<div id="aggregatedMainChartPointTooltip" class="chart-point-tooltip" style="display:none; width: 230px;">
+    <div>
+        <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod"></span></b>
+    </div>
+    <div>
+        <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount"></span></b>
+    </div>
+    <div id="pointSearchLinkDiv" class="point-search-link">    
+        <a id="pointSearchLink" href=""><spring:message code="analysis.chart.tooltip.searchLink"/></a>
+    </div>
+</div>
+
+<div id="ccCourtChartPointTooltip" class="chart-point-tooltip" style="display:none">
+    <div>
+        <b><span id="pointCourtName"></span></b>
+    </div>
+    <div>
+        <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod"></span></b>
+    </div>
+    <div>
+        <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount"></span></b>
+    </div>
+    <div id="pointSearchLinkDiv" class="point-search-link">    
+        <a id="pointSearchLink" href=""><spring:message code="analysis.chart.tooltip.searchLink"/></a>
+    </div>
+</div>
