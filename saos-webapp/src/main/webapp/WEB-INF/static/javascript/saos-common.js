@@ -18,6 +18,19 @@
  * Results in =>
  * courtFilter.courtType=COMMON&courtFilter.ccCourtId=12
  *  
+ * <br/><br/>
+ * <b>Note</b>: paramObject has to be a simple flat json object. Nested objects and arrays are treated as values, for example:
+ * <br/> <br/>
+ * this: <br/>
+ * var json = {};
+ * <br/> 
+ * json.criteria = {aaa : 'bbb'};
+ * <br/>
+ * console.log(generateUrlParams(json));
+ *<br/><br/>
+ * will give:
+ * <br/>
+ * criteria=%5Bobject%20Object%5D
  *  
  * @param paramObject object from which the url params will be generated
  * @param paramPrefix prefix that will be added to any of the param, prefix will be followed by dot (.)
