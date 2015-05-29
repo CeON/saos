@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.Locale;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.AnnotationFormatterFactory;
 import org.springframework.format.Formatter;
 import org.springframework.format.Parser;
@@ -41,17 +40,11 @@ public class LawJournalEntryCodeFormatterFactory implements AnnotationFormatterF
 
     @Override
     public String parse(String text, Locale locale) throws ParseException {
-        if (StringUtils.isNotBlank(text)) {
-            
-            try {
-                lawJournalEntryCodeExtractor.extractYear(text);
-                lawJournalEntryCodeExtractor.extractJournalNo(text);
-                lawJournalEntryCodeExtractor.extractEntry(text);
-            } catch (IllegalArgumentException e) {
-                throw new WrongRequestParameterException("invalid value");
-            }
-            
+        
+        if (!lawJournalEntryCodeExtractor.isCorrectLawJournalEntryCode(text)) {
+            throw new WrongRequestParameterException(String.format("invalid value '%s', input should be in format 'year/journal_number/entry_number'", text));
         }
+        
         return text;
     }
 

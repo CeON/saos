@@ -1,6 +1,8 @@
 package pl.edu.icm.saos.persistence.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -13,6 +15,48 @@ public class LawJournalEntryCodeExtractorTest {
     
     
     //------------------------ TESTS --------------------------
+    
+    @Test
+    public void isCorrectLawJournalEntryCode_CORRECT() {
+        // given
+        String lawJournalEntryCode = "1964/43/296";
+        
+        // execute & assert
+        assertTrue(lawJournalEntryCodeExtractor.isCorrectLawJournalEntryCode(lawJournalEntryCode));
+    }
+    
+    @Test
+    public void isCorrectLawJournalEntryCode_NULL_ENTRY_CODE() {
+        // execute & assert
+        assertFalse(lawJournalEntryCodeExtractor.isCorrectLawJournalEntryCode(null));
+    }
+    
+    @Test
+    public void isCorrectLawJournalEntryCode_INVALID_ENTRY() {
+        // given
+        String lawJournalEntryCode = "1964/43/2a6";
+        
+        // execute & assert
+        assertFalse(lawJournalEntryCodeExtractor.isCorrectLawJournalEntryCode(lawJournalEntryCode));
+    }
+    
+    @Test
+    public void isCorrectLawJournalEntryCode_EMPTY_JOURNAL_NO() {
+        // given
+        String lawJournalEntryCode = "1964//296";
+        
+        // execute & assert
+        assertFalse(lawJournalEntryCodeExtractor.isCorrectLawJournalEntryCode(lawJournalEntryCode));
+    }
+    
+    @Test
+    public void isCorrectLawJournalEntryCode_MISSING_ENTRY() {
+        // given
+        String lawJournalEntryCode = "1964/43";
+        
+        // execute & assert
+        assertFalse(lawJournalEntryCodeExtractor.isCorrectLawJournalEntryCode(lawJournalEntryCode));
+    }
     
     @Test
     public void extractYear() {
