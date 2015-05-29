@@ -100,7 +100,10 @@ subprojects {
         'org.hamcrest:hamcrest-library' : 'org.hamcrest:hamcrest-library:1.3',
         'org.codehaus.groovy:groovy-all' : 'org.codehaus.groovy:groovy-all:2.3.7',
         'org.spockframework:spock-core' : 'org.spockframework:spock-core:0.7-groovy-2.0',
-        'au.com.bytecode:opencsv':'au.com.bytecode:opencsv:2.4'
+        'au.com.bytecode:opencsv':'au.com.bytecode:opencsv:2.4',
+        
+        'com.sun.mail:javax.mail':'com.sun.mail:javax.mail:1.4.5'
+
 
         
     ]

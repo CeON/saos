@@ -32,6 +32,8 @@ dependencies {
     testCompile lib.'com.jayway.jsonpath:json-path'
     testCompile lib.'com.jayway.jsonpath:json-path-assert'
     providedCompile lib.'javax.el:javax.el-api'
+    compile lib.'com.sun.mail:javax.mail'
+
 }
 
 buildscript {
