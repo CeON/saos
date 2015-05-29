@@ -14,7 +14,6 @@ import com.google.common.base.Preconditions
 
 statusListener(OnConsoleStatusListener)
 
-def HOSTNAME = hostname
 
 def defaultPattern = "%d{HH:mm:ss.SSS} %-5level: [%thread] %logger{36} - %msg%n"
 def logDirectory = System.properties.getProperty('catalina.base', System.getProperty('java.io.tmpdir'))+"/logs"
@@ -87,7 +86,7 @@ if (mailTo) {
     Preconditions.checkNotNull(mailSubjectPattern);
     Preconditions.checkNotNull(mailContentPattern);
     
-    mailFrom = mailFrom.replace("\${HOSTNAME}", "${HOSTNAME}");
+    mailFrom = mailFrom.replace("\${HOSTNAME}", "${hostname}");
     
     appender("MAIL", SMTPAppender) {
         smtpHost = mailSmtpHost
