@@ -33,6 +33,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
+import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
@@ -75,6 +76,7 @@ public class DumpSupremeCourtChambersControllerTest extends PersistenceTestSuppo
 
         mockMvc = standaloneSetup(scChambersController)
                 .addInterceptors(new RestrictParamsHandlerInterceptor())
+                .addInterceptors(new AccessControlHeaderHandlerInterceptor())
                 .build();
     }
 

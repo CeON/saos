@@ -31,6 +31,7 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
+import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.webapp.format.MultiWordFormatterFactory;
 import pl.edu.icm.saos.webapp.format.StringTrimmingFormatter;
@@ -87,6 +88,7 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     public void addInterceptors(InterceptorRegistry registry) {
 
         registry.addInterceptor(new RestrictParamsHandlerInterceptor());
+        registry.addInterceptor(new AccessControlHeaderHandlerInterceptor()).addPathPatterns("/api/**");
     }
 
     @Override
