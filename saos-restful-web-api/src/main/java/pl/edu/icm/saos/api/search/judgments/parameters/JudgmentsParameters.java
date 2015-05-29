@@ -8,6 +8,7 @@ import org.joda.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import pl.edu.icm.saos.api.formatter.LawJournalEntryCodeFormat;
 import pl.edu.icm.saos.api.search.parameters.Pagination;
 import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.CourtType;
@@ -30,6 +31,9 @@ public class JudgmentsParameters {
     private String all;
     private String legalBase;
     private String referencedRegulation;
+
+    @LawJournalEntryCodeFormat
+    private String lawJournalEntryCode;
     private String judgeName;
     private String caseNumber;
 
@@ -84,6 +88,10 @@ public class JudgmentsParameters {
 
     public String getReferencedRegulation() {
         return referencedRegulation;
+    }
+
+    public String getLawJournalEntryCode() {
+        return lawJournalEntryCode;
     }
 
     public String getJudgeName() {
@@ -194,6 +202,10 @@ public class JudgmentsParameters {
         this.referencedRegulation = StringUtils.trimToNull(referencedRegulation);
     }
 
+    public void setLawJournalEntryCode(String lawJournalEntryCode) {
+        this.lawJournalEntryCode = lawJournalEntryCode;
+    }
+
     public void setJudgeName(String judgeName) {
         this.judgeName = StringUtils.trimToNull(judgeName);
     }
@@ -287,7 +299,8 @@ public class JudgmentsParameters {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(pagination, sort, caseNumber, all, legalBase, referencedRegulation,
+        return Objects.hashCode(pagination, sort, caseNumber, all,
+                legalBase, referencedRegulation, lawJournalEntryCode,
                 judgeName, scPersonnelType, scJudgmentForm, judgmentDateFrom, judgmentDateTo, courtType,
                 ccCourtType, ccCourtId, ccCourtCode, ccCourtName,
                 ccDivisionId, ccDivisionCode, ccDivisionName, ccIncludeDependentCourtJudgments, scChamberId,
@@ -310,6 +323,7 @@ public class JudgmentsParameters {
                 Objects.equal(this.all, other.all) &&
                 Objects.equal(this.legalBase, other.legalBase) &&
                 Objects.equal(this.referencedRegulation, other.referencedRegulation) &&
+                Objects.equal(this.lawJournalEntryCode, other.lawJournalEntryCode) &&
                 Objects.equal(this.judgeName, other.judgeName) &&
                 Objects.equal(this.scPersonnelType, other.scPersonnelType) &&
                 Objects.equal(this.scJudgmentForm, other.scJudgmentForm) &&
@@ -345,6 +359,7 @@ public class JudgmentsParameters {
                 .add("all", all)
                 .add("legalBase", legalBase)
                 .add("referencedRegulation", referencedRegulation)
+                .add("lawJournalEntryCode", lawJournalEntryCode)
                 .add("judgeName", judgeName)
                 .add("scPersonnelType", scPersonnelType)
                 .add("scJudgmentForm", scJudgmentForm)

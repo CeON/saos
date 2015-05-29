@@ -50,6 +50,7 @@ class JudgmentParametersToCriteriaConverterTest extends Specification {
             def all = "some all value"
             def caseNumber = "013424"
             def referencedRegulation = "some referenced regulation"
+            def lawJournalEntryCode = "1900/32/344"
             def judgeName = "some judge name"
             def legalBases = "some legal bases"
             def personnelType = SupremeCourtJudgment.PersonnelType.FIVE_PERSON
@@ -77,6 +78,7 @@ class JudgmentParametersToCriteriaConverterTest extends Specification {
             params.setAll(all)
             params.setCaseNumber(caseNumber)
             params.setReferencedRegulation(referencedRegulation)
+            params.setLawJournalEntryCode(lawJournalEntryCode)
             params.setJudgeName(judgeName)
             params.setLegalBase(legalBases)
             params.setJudgmentDateFrom(judgmentDateFrom)
@@ -110,6 +112,7 @@ class JudgmentParametersToCriteriaConverterTest extends Specification {
             expected.setAll(all)
             expected.setCaseNumber(caseNumber)
             expected.setReferencedRegulation(referencedRegulation)
+            expected.setLawJournalEntryCode(lawJournalEntryCode)
             expected.setJudgeName(judgeName)
             expected.setLegalBase(legalBases)
             expected.setCourtType(courtType)

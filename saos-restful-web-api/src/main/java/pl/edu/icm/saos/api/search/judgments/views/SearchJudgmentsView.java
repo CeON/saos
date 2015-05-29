@@ -40,6 +40,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
         private String all;
         private String legalBase;
         private String referencedRegulation;
+        private LawJournalEntryCodeTemplate lawJournalEntryCode;
         private String judgeName;
         private String caseNumber;
 
@@ -99,6 +100,10 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
 
         public String getReferencedRegulation() {
             return referencedRegulation;
+        }
+
+        public LawJournalEntryCodeTemplate getLawJournalEntryCode() {
+            return lawJournalEntryCode;
         }
 
         public String getJudgeName() {
@@ -216,6 +221,10 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             this.referencedRegulation = referencedRegulation;
         }
 
+        public void setLawJournalEntryCode(LawJournalEntryCodeTemplate lawJournalEntryCode) {
+            this.lawJournalEntryCode = lawJournalEntryCode;
+        }
+
         public void setJudgeName(String judgeName) {
             this.judgeName = judgeName;
         }
@@ -308,7 +317,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
         public int hashCode() {
             return Objects.hashCode(pageNumber, pageSize, sortingField, sortingDirection,
                     all, legalBase,
-                    referencedRegulation, judgeName, caseNumber, scPersonnelType, scJudgmentForm,
+                    referencedRegulation, lawJournalEntryCode, judgeName, caseNumber, scPersonnelType, scJudgmentForm,
                     courtType, ccCourtType, ccCourtId, ccCourtCode,
                     ccCourtName, ccDivisionId, ccDivisionCode, ccDivisionName, ccIncludeDependentCourtJudgments,
                     scChamberId, scChamberName, scDivisionId, scDivisionName,
@@ -331,6 +340,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
                     Objects.equal(this.all, other.all) &&
                     Objects.equal(this.legalBase, other.legalBase) &&
                     Objects.equal(this.referencedRegulation, other.referencedRegulation) &&
+                    Objects.equal(this.lawJournalEntryCode, other.lawJournalEntryCode) &&
                     Objects.equal(this.judgeName, other.judgeName) &&
                     Objects.equal(this.caseNumber, other.caseNumber) &&
                     Objects.equal(this.scPersonnelType, other.scPersonnelType) &&
@@ -368,6 +378,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
                     .add("all", all)
                     .add("legalBase", legalBase)
                     .add("referencedRegulation", referencedRegulation)
+                    .add("lawJournalEntryCode", lawJournalEntryCode)
                     .add("judgeName", judgeName)
                     .add("caseNumber", caseNumber)
                     .add("scPersonnelType", scPersonnelType)
@@ -429,6 +440,16 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
             super(value);
             setDescription("Represents the direction in which to sort a list of items");
             setAllowedValues(Arrays.asList(Sorting.Direction.values()));
+        }
+    }
+
+    public static class LawJournalEntryCodeTemplate extends QueryParameterRepresentation<String, String> {
+        private static final long serialVersionUID = 7346384386808638141L;
+
+        public LawJournalEntryCodeTemplate(String value) {
+            super(value);
+            setDescription("Represents polish law journal entry (pl. pozycja dziennika ustaw)");
+            setAllowedValues("String in format : 'year/journal_number/entry_number'");
         }
     }
 

@@ -32,7 +32,9 @@ import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
+import pl.edu.icm.saos.api.formatter.LawJournalEntryCodeFormatterFactory;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
+import pl.edu.icm.saos.persistence.service.LawJournalEntryCodeExtractor;
 import pl.edu.icm.saos.webapp.format.MultiWordFormatterFactory;
 import pl.edu.icm.saos.webapp.format.StringTrimmingFormatter;
 
@@ -52,6 +54,9 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     
     @Autowired
     private LocaleResolver localeResolver;
+    
+    @Autowired
+    private LawJournalEntryCodeExtractor lawJournalEntryCodeExtractor;
     
     @Value("${judgments.content.dir}")
     private String judgmentsContentPath; 
@@ -81,6 +86,7 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     public void addFormatters(FormatterRegistry registry) {
     	registry.addFormatterForFieldType(String.class, new StringTrimmingFormatter());
     	registry.addFormatterForFieldAnnotation(new DateTimeWithZoneFormatterFactory());
+    	registry.addFormatterForFieldAnnotation(new LawJournalEntryCodeFormatterFactory(lawJournalEntryCodeExtractor));
     	registry.addFormatterForFieldAnnotation(new MultiWordFormatterFactory());
     }
 

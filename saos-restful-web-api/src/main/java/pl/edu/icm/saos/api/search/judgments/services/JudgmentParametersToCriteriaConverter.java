@@ -29,6 +29,7 @@ public class JudgmentParametersToCriteriaConverter {
         criteria.setAll(params.getAll());
         criteria.setCaseNumber(params.getCaseNumber());
         criteria.setReferencedRegulation(params.getReferencedRegulation());
+        criteria.setLawJournalEntryCode(params.getLawJournalEntryCode());
         criteria.setJudgeName(params.getJudgeName());
         criteria.setLegalBase(params.getLegalBase());
         criteria.setCourtType(params.getCourtType());
