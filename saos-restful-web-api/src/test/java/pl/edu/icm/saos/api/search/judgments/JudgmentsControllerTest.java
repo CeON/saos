@@ -55,6 +55,8 @@ import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.format.support.DefaultFormattingConversionService;
+import org.springframework.format.support.FormattingConversionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
@@ -65,6 +67,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.ApiTestConfiguration;
+import pl.edu.icm.saos.api.formatter.LawJournalEntryCodeFormatterFactory;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
@@ -78,6 +81,7 @@ import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
+import pl.edu.icm.saos.persistence.service.LawJournalEntryCodeExtractor;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingData;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
@@ -107,6 +111,9 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     private JudgmentsApiSearchService apiSearchService;
 
     @Autowired
+    private LawJournalEntryCodeExtractor lawJournalEntryCodeExtractor;
+
+    @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
     private TestObjectContext testObjectContext;
@@ -121,9 +128,13 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         judgmentsController.setApiSearchService(apiSearchService);
         judgmentsController.setListSuccessRepresentationBuilder(listSuccessRepresentationBuilder);
         judgmentsController.setParametersExtractor(parametersExtractor);
+        
+        FormattingConversionService conversionService = new DefaultFormattingConversionService();
+        conversionService.addFormatterForFieldAnnotation(new LawJournalEntryCodeFormatterFactory(lawJournalEntryCodeExtractor));
 
         mockMvc = standaloneSetup(judgmentsController)
                 .addInterceptors(new RestrictParamsHandlerInterceptor())
+                .setConversionService(conversionService)
                 .build();
     }
 
@@ -310,6 +321,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
 
         String legalBaseValue = "someLegalBase";
         String referencedRegulationValue = "someReferencedRegulation";
+        String lawJournalEntryCodeValue = "2000/10/123";
         String judgeNameValue = "someJudgeName";
         String caseNumberValue = "someCaseNumber";
         String courtTypeValue = CourtType.ADMINISTRATIVE.name();
@@ -348,6 +360,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .param(ApiConstants.SC_JUDGMENT_FORM, judgmentFormValue)
                 .param(ApiConstants.LEGAL_BASE, legalBaseValue)
                 .param(ApiConstants.REFERENCED_REGULATION, referencedRegulationValue)
+                .param(ApiConstants.LAW_JOURNAL_ENTRY_CODE, lawJournalEntryCodeValue)
                 .param(ApiConstants.JUDGE_NAME, judgeNameValue)
                 .param(ApiConstants.CASE_NUMBER, caseNumberValue)
                 .param(ApiConstants.COURT_TYPE, courtTypeValue)
@@ -378,6 +391,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".all").value(allValue))
                 .andExpect(jsonPath(prefix + ".legalBase").value(legalBaseValue))
                 .andExpect(jsonPath(prefix + ".referencedRegulation").value(referencedRegulationValue))
+                .andExpect(jsonPath(prefix + ".lawJournalEntryCode.value").value(lawJournalEntryCodeValue))
                 .andExpect(jsonPath(prefix + ".judgeName").value(judgeNameValue))
                 .andExpect(jsonPath(prefix + ".caseNumber").value(caseNumberValue))
                 .andExpect(jsonPath(prefix + ".courtType.value").value(courtTypeValue))
@@ -443,6 +457,7 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
                 .andExpect(jsonPath(prefix + ".all").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".legalBase").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".referencedRegulation").value(isEmptyOrNullString()))
+                .andExpect(jsonPath(prefix + ".lawJournalEntryCode.value").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".judgeName").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".caseNumber").value(isEmptyOrNullString()))
                 .andExpect(jsonPath(prefix + ".courtType.value").value(isEmptyOrNullString()))
@@ -570,6 +585,15 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
         assertIncorrectValueError(actions, ApiConstants.JUDGMENT_TYPES, "INCORRECT");
     }
     
+    @Test
+    public void it_should_not_allow_incorrect_law_journal_entry_code() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.LAW_JOURNAL_ENTRY_CODE, "2000/abc/123"));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.LAW_JOURNAL_ENTRY_CODE, "2000/abc/123");
+    }
 
     @Test
     public void showJudgments__it_should_show_info() throws Exception {
