@@ -67,18 +67,9 @@
       <%--------------------------- Y AXIS --------------------------------%>
       
       
+      <form:hidden id="yaxisValueTypeHidden" path="ysettings.valueType"/>
               
-       <div class="form-group-sm" >
-           <div class="form-inline col-xs-12">
-                <div class="col-xs-12">
-                <label class="control-label"><spring:message code="analysis.ysettings.yaxis.label"/></label>
-                <form:select id="yaxisValueType" path="ysettings.valueType" class="form-control">
-                      <saos:enumOptions enumType="pl.edu.icm.saos.webapp.analysis.request.UiySettings.UiyValueType" selected="${analysisForm.ysettings.valueType}"/>
-                </form:select>
-                </div>
-           </div>
-       </div>
-                
+      
         
 	 </fieldset>
 
