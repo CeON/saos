@@ -15,5 +15,8 @@ dependencies {
     compile lib.'com.fasterxml.jackson.core:jackson-core'
     compile lib.'javax.servlet:javax.servlet-api'
     
+    compile lib.'org.springframework.batch:spring-batch-core'
+    compile lib.'commons-codec:commons-codec'
+    
     compile lib.'commons-fileupload:commons-fileupload'
 }

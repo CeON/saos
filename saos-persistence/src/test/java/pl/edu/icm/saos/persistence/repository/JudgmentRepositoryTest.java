@@ -93,6 +93,20 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
+    public void findAllIds() {
+        // given
+        Judgment judgment1 = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        Judgment judgment2 = createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
+        Judgment judgment3 = createScJudgment(SourceCode.SUPREME_COURT, "3", "AAA3");
+        
+        // execute
+        List<Long> judgmentIds = judgmentRepository.findAllIds();
+        
+        // assert
+        assertThat(judgmentIds, containsInAnyOrder(judgment1.getId(), judgment2.getId(), judgment3.getId()));
+    }
+    
+    @Test
     public void findOneBySourceCodeAndSourceJudgmentId_NOT_FOUND() {
         
         // execute
