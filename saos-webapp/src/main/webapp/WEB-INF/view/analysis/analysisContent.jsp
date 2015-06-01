@@ -1,14 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
-<%-- TODO: REMOVE IT AFTER https://github.com/CeON/saos/issues/800 --%>
-<style>
-<!--
-    #ccCourtChart * .flot-x-axis .flot-tick-label {
-        font-size: 9px;
-    }
--->
-</style>
 
 <script>
 $(document).ready(function() {
@@ -26,6 +18,14 @@ $(document).ready(function() {
 	
 <div>
     <h2><spring:message code="analysis.chart.header" /></h2>
+
+    <div class="form-inline yaxisValueSelect">
+        <label class="control-label"><spring:message code="analysis.ysettings.yaxis.label"/></label>
+        <select id="yaxisValueType" name="ysettings.valueType" class="form-control">
+             <saos:enumOptions enumType="pl.edu.icm.saos.webapp.analysis.request.UiySettings.UiyValueType" selected="${analysisForm.ysettings.valueType}"/>
+        </select>
+    </div>
+                
 
 	<a id="exportToCsv-MAIN_CHART" class="export-csv" style="float:right" href="" data-toggle="tooltip" data-placement="left" title="<spring:message code='analysis.button.exportToCsv'/>" >
 	    <img style="cursor: pointer;"  src="${contextPath}/static/image/icons/exportCsv.png" alt="<spring:message code='analysis.button.exportToCsv.iconAlt'/>" />

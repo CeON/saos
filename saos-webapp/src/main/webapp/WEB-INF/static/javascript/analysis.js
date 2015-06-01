@@ -246,9 +246,15 @@ var initAnalysisJs = function() {
      */
     this.initInputs = function() {
         
-        $("[id^=seriesSearchPhraseInput], #yaxisValueType").change(function() {
+        $("[id^=seriesSearchPhraseInput]").change(function() {
             _this.generateCharts(true);
         });
+        
+        $("#yaxisValueType").change(function() {
+            $('#yaxisValueTypeHidden').val($(this).val());
+            _this.generateCharts(true);
+        });
+        
         
         $("[id^=seriesSearchPhraseInput]").keypress(function (e) {
             if (e.which == 13) {

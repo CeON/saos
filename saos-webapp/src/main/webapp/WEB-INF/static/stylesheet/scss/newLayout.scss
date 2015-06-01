@@ -785,6 +785,21 @@ a, .hint {
         position: relative;
     }
     
+    #ccCourtChart {
+       * {
+            .flot-x-axis { 
+                .flot-tick-label {
+                    font-size: 9px;
+                }
+            }
+         }
+    }
+    
+    .yaxisValueSelect {
+        margin-bottom:-20px; 
+        margin-top: 15px;
+    }
+    
     .navigation {
     
         input[type="text"] {
