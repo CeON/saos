@@ -102,7 +102,9 @@ subprojects {
         'org.spockframework:spock-core' : 'org.spockframework:spock-core:0.7-groovy-2.0',
         'au.com.bytecode:opencsv':'au.com.bytecode:opencsv:2.4',
         
-        'com.sun.mail:javax.mail':'com.sun.mail:javax.mail:1.4.5'
+        'com.sun.mail:javax.mail':'com.sun.mail:javax.mail:1.4.5',
+        
+        'net.bull.javamelody:javamelody-core':'net.bull.javamelody:javamelody-core:1.56.0'
 
 
         
