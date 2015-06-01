@@ -43,7 +43,7 @@ public class AnalysisController {
     
     private int maxNumberOfSearchPhrases;
     
-    
+
     //------------------------ MODEL --------------------------
     
     @ModelAttribute("analysisForm")
@@ -71,9 +71,7 @@ public class AnalysisController {
     
     @RequestMapping(value="/analysis", method=RequestMethod.GET)
     public String showAnalysis(@ModelAttribute("analysisForm") AnalysisForm analysisForm, ModelMap model, HttpServletRequest request) {
-
         courtDataModelCreator.addCourtDataToModel(analysisForm.getGlobalFilter().getCourtCriteria(), model);
-        
         return "analysis";
     }
     
