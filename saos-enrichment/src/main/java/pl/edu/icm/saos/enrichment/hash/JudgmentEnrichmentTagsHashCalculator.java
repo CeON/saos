@@ -26,15 +26,15 @@ public class JudgmentEnrichmentTagsHashCalculator {
      * Returns hash of enrichment tags for given judgment based on md5 algorithm.
      * If judgment has no enrichment tags then {@literal null} is returned.
      */
-    public String calculateHash(JudgmentEnrichmentTags judgmentIdWithTags) {
+    public String calculateHash(JudgmentEnrichmentTags judgmentEnrichmentTags) {
         
-        Preconditions.checkNotNull(judgmentIdWithTags);
+        Preconditions.checkNotNull(judgmentEnrichmentTags);
         
-        if (judgmentIdWithTags.getEnrichmentTags().size() == 0) {
+        if (judgmentEnrichmentTags.getEnrichmentTags().size() == 0) {
             return null;
         }
         
-        String value = judgmentIdWithTags.getEnrichmentTags().stream()
+        String value = judgmentEnrichmentTags.getEnrichmentTags().stream()
                 .map(tag -> tag.getJudgmentId() + TAG_VALUES_SEPARATOR + tag.getTagType() + TAG_VALUES_SEPARATOR + tag.getValue())
                 .collect(Collectors.joining(TAG_SEPARATOR));
         

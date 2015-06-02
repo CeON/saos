@@ -23,9 +23,6 @@ public class UpdateEnrichmentHashProcessor implements ItemProcessor<JudgmentEnri
     @Override
     public JudgmentEnrichmentHash process(JudgmentEnrichmentTags judgmentEnrichmentTags) throws Exception {
         
-        String hash = judgmentEnrichmentTagsHashCalculator.calculateHash(judgmentEnrichmentTags);
-        
-        
         JudgmentEnrichmentHash enrichmentHash = judgmentEnrichmentHashRepository.findByJudgmentId(judgmentEnrichmentTags.getJudgmentId());
         
         if (enrichmentHash == null) {
@@ -33,7 +30,8 @@ public class UpdateEnrichmentHashProcessor implements ItemProcessor<JudgmentEnri
             enrichmentHash.setJudgmentId(judgmentEnrichmentTags.getJudgmentId());
         }
         
-        enrichmentHash.fillNewHash(hash);
+        String hash = judgmentEnrichmentTagsHashCalculator.calculateHash(judgmentEnrichmentTags);
+        enrichmentHash.updateHash(hash);
         
         return enrichmentHash;
     }

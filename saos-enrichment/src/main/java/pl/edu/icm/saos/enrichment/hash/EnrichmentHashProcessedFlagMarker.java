@@ -12,7 +12,7 @@ import pl.edu.icm.saos.persistence.enrichment.JudgmentEnrichmentHashRepository;
  * @author madryk
  */
 @Service
-public class MarkProcessedJobExecutionListener implements JobExecutionListener {
+public class EnrichmentHashProcessedFlagMarker implements JobExecutionListener {
 
     @Autowired
     private JudgmentEnrichmentHashRepository judgmentEnrichmentHashRepository;

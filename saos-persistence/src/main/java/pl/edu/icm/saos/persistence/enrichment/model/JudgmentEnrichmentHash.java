@@ -13,9 +13,11 @@ import org.apache.commons.lang3.StringUtils;
 import pl.edu.icm.saos.persistence.common.DataObject;
 
 /**
- * Entity containing hashes enrichment tags related to judgment.
- * Hashes are used to determine if enrichment tags has changed
- * since last processing of it after their upload.
+ * Entity containing hashes generated from enrichment tags related to judgments 
+ * (generated for it, see: {@link EnrichmentTag#getJudgmentId()} or 
+ * referring to it in their value, see: {@link EnrichmentTag#getValue()}).<br/>
+ * Hashes are used to determine if enrichment tags have changed 
+ * since the last processing of them.
  * 
  * @author madryk
  */
@@ -36,7 +38,7 @@ public class JudgmentEnrichmentHash extends DataObject {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Updates hash value. Marks judgment enrichment tags as not processed if
+     * Updates hash value (see {@link #getHash()}). Marks judgment enrichment tags as not processed if
      * hash value changed since last enrichment tags processing.
      */
     public void updateHash(String newHash) {
@@ -63,40 +65,30 @@ public class JudgmentEnrichmentHash extends DataObject {
 
 
     /**
-     * Returns id of judgment
+     * Returns id of judgment ({@link pl.edu.icm.saos.persistence.model.Judgment#getId()})
      */
     public long getJudgmentId() {
         return judgmentId;
     }
 
     /**
-     * Returns old hash of judgment enrichment tags.
-     * If {@link #isProcessed()} is false then it contains hash
-     * for last processed enrichment tags (new enrichment tags are
-     * in database, but was not processed yet)
-     * If {@link #isProcessed()} is true then it contains hash
-     * that is already outdated (new enrichment tags are in database
-     * and their processing have ended).
+     * Returns a hash for the last but one judgment enrichment tags (not the current ones).
      */
     public String getOldHash() {
         return oldHash;
     }
 
     /**
-     * Returns hash of judgment enrichment tags.
-     * If {@link #isProcessed()} is false then it contains
-     * newly calculated hash for current enrichment tags that are in database,
-     * but was not processed yet.
-     * If {@link #isProcessed()} is true then it contains
-     * hash for current enrichment tags and their processing have ended.
+     * Returns a hash for the current judgment enrichment tags 
+     * (those generated for the judgment and those that refer to it).
      */
     public String getHash() {
         return hash;
     }
 
     /**
-     * Flag telling if judgment was processed with
-     * last known enrichment tags.
+     * Returns true if the current judgment enrichment tags 
+     * (for which {@link #getHash()} has been generated) have been processed.
      */
     public boolean isProcessed() {
         return processed;

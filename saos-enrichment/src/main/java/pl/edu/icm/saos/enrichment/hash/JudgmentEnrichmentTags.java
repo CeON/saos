@@ -2,9 +2,9 @@ package pl.edu.icm.saos.enrichment.hash;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
+
+import com.google.common.collect.Lists;
 
 /**
  * Class containing judgment id and enrichment tags that are related to this judgment.
@@ -29,7 +29,11 @@ public class JudgmentEnrichmentTags {
     //------------------------ LOGIC --------------------------
     
     public void addEnrichmentTag(EnrichmentTag enrichmentTag) {
-        enrichmentTags.add(enrichmentTag);
+        this.enrichmentTags.add(enrichmentTag);
+    }
+    
+    public void addAllEnrichmentTags(List<EnrichmentTag> enrichmentTags) {
+        this.enrichmentTags.addAll(enrichmentTags);
     }
     
     
