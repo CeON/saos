@@ -169,7 +169,7 @@ function extractInfoFromDateSectionInSearch() {
              }
 
              if ($this.attr("id") === "lawJournalEntryCode") {
-                 var lawJournalText = $("#law-journal-navigation").find("> div > span").text().replace(/\s+|\s+/g, ' ');
+                 var lawJournalText = $("#law-journal-navigation").find("> div > span").text().replace(/\s+/g, ' ');
                  
                  if (lawJournalText.length > 50) {
                      lawJournalText = lawJournalText.substr(0, 50) + " ...";
