@@ -7,8 +7,8 @@
  * @param userOptions - object with structure
  * 
  *  {
- *      formSectionId - id of form section 
- *      infoSectionId - id of info section
+ *      formSectionId - id of form section preceded by #
+ *      infoSectionId - id of info section preceded by #
  *      defaultInfoSectionText - not required - text displayed in info section when there is no selected fields
  *      extractInfoFromFormCustom - function - if set then it is used for extracting info from form section
  *      onFormSectionCloseAction - function - if set then it is executed just before the form section closes
@@ -17,7 +17,6 @@
  */
 function InfoFormSection(options) {
    
-    
     
     init();
     
@@ -235,7 +234,7 @@ function InfoFormSection(options) {
          var html = "";
          
          if (options.extractInfoFromFormCustom !== undefined) {
-             html = options.extractInfoFromFormCustom(options);
+             html = options.extractInfoFromFormCustom(options.formSectionId);
          } else {
              html = extractInfoFromFormSection();
          }
@@ -250,6 +249,11 @@ function InfoFormSection(options) {
              
          }
      }
+     
+     
+     
+     this.updateInfoSection = updateInfoSection;
+     
 }
 
 

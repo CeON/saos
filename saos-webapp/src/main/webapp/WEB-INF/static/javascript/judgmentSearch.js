@@ -146,13 +146,8 @@ var jsInitInJudgmentSearch = function() {
 	
 	CourtCriteriaForm.init();
     	
-    /* Search form section: court type */
-    infoFormSection({
-        formSectionId: "#court-form-section",
-        infoSectionId: "#court-info-section",
-        extractInfoFromFormCustom: extractInfoFromCourtSection
-    });
-
+	
+    
     /* Search form section: date */
     infoFormSection({
         formSectionId: "#date-form-section",
@@ -163,12 +158,25 @@ var jsInitInJudgmentSearch = function() {
     
     
     /* Search form section: judgment extra fields */
-    infoFormSection({
+    var extraFieldInfoFormSection = infoFormSection({
         formSectionId: "#judgment-form-section",
         infoSectionId: "#judgment-info",
         extractInfoFromFormCustom: extractInfoFromJudgmentFormSectionInSearch,
         defaultInfoSectionText: springMessage.judgmentSearchJudgmentSectionDefaultText
     });
+
+    this.updateExtraFieldInfoFormSection = function() {
+        extraFieldInfoFormSection.updateInfoSection();
+    }
+
+    /* Search form section: court type */
+    infoFormSection({
+        formSectionId: "#court-form-section",
+        infoSectionId: "#court-info-section",
+        extractInfoFromFormCustom: extractInfoFromCourtSection,
+        onFormSectionCloseAction: updateExtraFieldInfoFormSection
+    });
+
     
     
     //refresh keywords suggester width when form section opens

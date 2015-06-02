@@ -23,10 +23,12 @@ function addPhrase(text, fieldDescription, separator) {
 /**
  * Extracts info from court section
  * 
+ * formSectionId the id of the form section preceded by #
+ * 
  */
-function extractInfoFromCourtSection(options) {
+function extractInfoFromCourtSection(formSectionId) {
     
-    var $formSection = $(options.formSectionId),
+    var $formSection = $(formSectionId),
     html = "",
     comma = false;
 
@@ -112,10 +114,13 @@ function extractInfoFromDateSectionInSearch() {
 
 /**
  * Extracts info from section judgment extra search fields.
+ * 
+ * formSectionId the id of the form section preceded by #
+ * 
  */
- function extractInfoFromJudgmentFormSectionInSearch(options) {
+ function extractInfoFromJudgmentFormSectionInSearch(formSectionId) {
      
-     var $formSection = $(options.formSectionId),
+     var $formSection = $(formSectionId),
          html = "",
          comma = false;
      
@@ -164,7 +169,7 @@ function extractInfoFromDateSectionInSearch() {
              }
 
              if ($this.attr("id") === "lawJournalEntryCode") {
-                 var lawJournalText = $("#law-journal-navigation").find("> div > span").text();
+                 var lawJournalText = $("#law-journal-navigation").find("> div > span").text().replace(/\s+|\s+/g, ' ');
                  
                  if (lawJournalText.length > 50) {
                      lawJournalText = lawJournalText.substr(0, 50) + " ...";
