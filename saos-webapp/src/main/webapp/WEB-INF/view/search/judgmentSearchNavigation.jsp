@@ -248,8 +248,6 @@
                         </div>
                         
                     </div>
-                    
-                    <form:hidden path="referencedCourtCaseId" id="referencedCourtCaseId" />
                      
                 </div>
     
