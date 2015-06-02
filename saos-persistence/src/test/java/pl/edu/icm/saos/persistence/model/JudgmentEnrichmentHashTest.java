@@ -59,6 +59,20 @@ public class JudgmentEnrichmentHashTest {
         assertFalse(judgmentEnrichmentHash.isProcessed());
     }
     
+    @Test
+    public void updateHash_NOT_PROCESSED_CHANGE_TO_OLD() {
+        // given
+        JudgmentEnrichmentHash judgmentEnrichmentHash = createJudgmentEnrichmentHash(2L, "oldHash", "hash", false);
+        
+        // execute
+        judgmentEnrichmentHash.updateHash("oldHash");
+        
+        // assert
+        assertEquals("oldHash", judgmentEnrichmentHash.getOldHash());
+        assertEquals("oldHash", judgmentEnrichmentHash.getHash());
+        assertTrue(judgmentEnrichmentHash.isProcessed());
+    }
+    
     
     //------------------------ PRIVATE --------------------------
     

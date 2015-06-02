@@ -50,6 +50,9 @@ public class JudgmentEnrichmentHash extends DataObject {
             }
         } else {
             this.hash = newHash;
+            if (StringUtils.equals(this.oldHash, this.hash)) {
+                processed = true;
+            }
         }
     }
     
