@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
+import pl.edu.icm.saos.persistence.enrichment.model.JudgmentEnrichmentHash;
 import pl.edu.icm.saos.persistence.enrichment.model.UploadEnrichmentTag;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
@@ -67,6 +68,7 @@ public class DbCleaner {
         deleteAll(MeansOfAppeal.class);
         deleteAll(JudgmentResult.class);
         
+        deleteAll(JudgmentEnrichmentHash.class);
         deleteAll(UploadEnrichmentTag.class);
         deleteAll(EnrichmentTag.class);
         

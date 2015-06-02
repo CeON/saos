@@ -20,6 +20,9 @@ public interface JudgmentCommonRepository<T extends Judgment> extends IndexableO
     @Query("select count(j) from #{#entityName} j where TYPE(j)=:clazz")
     long count(@Param("clazz") Class<? extends T> clazz);
     
+    @Query("select j.id from #{#entityName} j")
+    List<Long> findAllIds();
+    
     @Query("select j from #{#entityName} j where j.sourceInfo.sourceCode=:sourceCode and j.sourceInfo.sourceJudgmentId=:sourceJudgmentId ")
     T findOneBySourceCodeAndSourceJudgmentId(@Param("sourceCode") SourceCode sourceCode, @Param("sourceJudgmentId") String sourceJudgmentId);
     
