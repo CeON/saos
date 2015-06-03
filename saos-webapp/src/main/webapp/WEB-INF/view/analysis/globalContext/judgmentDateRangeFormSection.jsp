@@ -25,6 +25,6 @@
       </div>
       
       <div class="align-right">
-          <button class="btn btn-sm button confirm-section-button">Zatwierdź</button>
+          <button class="btn btn-sm button confirm-section-button"><spring:message code="confirm" /></button>
       </div>
  </div>
