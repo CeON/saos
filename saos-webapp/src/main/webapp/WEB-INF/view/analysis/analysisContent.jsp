@@ -62,7 +62,7 @@ $(document).ready(function() {
 <div id="ccCourtChartDiv" style="margin-top: 40px;">
 
 	<div>
-	    <a id="exportToCsv-CC_COURT_CHART" class="export-csv" style="float:right" href="" data-trigger="click" data-toggle="tooltip" data-placement="left" title="<spring:message code='analysis.button.exportToCsv'/>" >
+	    <a id="exportToCsv-CC_COURT_CHART" class="export-csv" style="float:right" href="" data-toggle="tooltip" data-placement="left" title="<spring:message code='analysis.button.exportToCsv'/>" >
 	        <img style="cursor: pointer;"  src="${contextPath}/static/image/icons/exportCsv.png" alt="<spring:message code='analysis.button.exportToCsv.iconAlt'/>" />
 	    </a>
 	 </div>
