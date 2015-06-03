@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import pl.edu.icm.saos.enrichment.hash.MarkNotProcessedAsNotIndexedReader;
+import pl.edu.icm.saos.enrichment.hash.MarkNotProcessedAsNotIndexedWriter;
 import pl.edu.icm.saos.enrichment.hash.JudgmentEnrichmentTags;
 import pl.edu.icm.saos.enrichment.hash.EnrichmentHashProcessedFlagMarker;
 import pl.edu.icm.saos.enrichment.hash.UpdateEnrichmentHashProcessor;
@@ -54,22 +56,48 @@ public class TagPostUploadJobConfiguration {
     private EnrichmentHashProcessedFlagMarker enrichmentHashProcessedFlagMarker;
     
     
+    //--- mark as not indexed beans ---
+    
+    @Autowired
+    private MarkNotProcessedAsNotIndexedReader markNotProcessedAsNotIndexedReader;
+    
+    @Autowired
+    private MarkNotProcessedAsNotIndexedWriter markNotProcessedAsNotIndexedWriter;
+    
+    
+    //--- index not indexed beans ---
+    
+    @Autowired
+    private Step judgmentIndexingProcessStep;
+    
+    
     //------------------------ LOGIC --------------------------
     
     @Bean
     public Job tagPostUploadJob() {
         return jobs.get("TAG_POST_UPLOAD_PROCESSING")
-                .start(updateEnrichmentHash())
+                .start(updateEnrichmentHashStep())
+                .next(markNotProcessedAsNotIndexedStep())
+                .next(judgmentIndexingProcessStep)
                 .listener(enrichmentHashProcessedFlagMarker)
                 .incrementer(new RunIdIncrementer()).build();
     }
     
     @Bean
-    protected Step updateEnrichmentHash() {
+    protected Step updateEnrichmentHashStep() {
         return steps.get("updateEnrichmentHashStep").<JudgmentEnrichmentTags, JudgmentEnrichmentHash> chunk(50)
             .reader(updateEnrichmentHashReader)
             .processor(updateEnrichmentHashProcessor)
             .writer(updateEnrichmentHashWriter)
             .build();
-    } 
+    }
+    
+    @Bean
+    protected Step markNotProcessedAsNotIndexedStep() {
+        return steps.get("markNotProcessedAsNotIndexed").<Long, Long> chunk(1000)
+                .reader(markNotProcessedAsNotIndexedReader)
+                .writer(markNotProcessedAsNotIndexedWriter)
+                .build();
+    }
+    
 }
