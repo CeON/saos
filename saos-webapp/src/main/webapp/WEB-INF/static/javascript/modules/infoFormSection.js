@@ -27,6 +27,7 @@ function InfoFormSection(options) {
     function init() {
         updateInfoSection();
         bindOpenFormSection();
+        bindConfirmFormSection();
     }
     
     
@@ -49,6 +50,18 @@ function InfoFormSection(options) {
             $formSection.slideDown(400, function() {});
         });
         
+     }
+     
+     /*
+      * Assigns action to close form section on confirm button click 
+      */
+     function bindConfirmFormSection() {
+         $(options.formSectionId).on('click', '.confirm-section-button', function(event) {
+             event.preventDefault();
+             closeFormSection();
+             unBindCloseFormSectionEventHandler();
+             setTimeout(bindOpenFormSection, 200);
+         });
      }
      
      /*

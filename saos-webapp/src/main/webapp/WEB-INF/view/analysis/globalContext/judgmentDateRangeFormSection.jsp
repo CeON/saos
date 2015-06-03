@@ -4,9 +4,9 @@
     
  <div id="date-range-form-section" class="row form-section">
       
-      <div id="dateRangeInputs" class="form-inline col-xs-10 col-sm-10 col-md-9 col-lg-8">
+      <div id="dateRangeInputs" class="form-group form-inline col-xs-12">
       
-           <div >
+           <div class="col-xs-12">
                <spring:message code="analysis.criteria.judgmentDateStartMonth.title" var="judgmentDateStartMonthTitle" />
                <spring:message code="analysis.criteria.judgmentDateStartYear.title" var="judgmentDateStartYearTitle" />
                <label class="col-xs-12"><spring:message code="from"/></label>
@@ -14,7 +14,7 @@
                <saos:yearSelect path="globalFilter.judgmentDateRange.startYear" id="judgmentDateStartYear" yearRange="${currentYear}-1970, 1960, 1950, 1940, 1930"  title="${judgmentDateStartYearTitle}" />
            </div>
     
-           <div >
+           <div class="col-xs-12">
                <spring:message code="analysis.criteria.judgmentDateEndMonth.title" var="judgmentDateEndMonthTitle" />
                <spring:message code="analysis.criteria.judgmentDateEndYear.title" var="judgmentDateEndYearTitle" />
                <label class="col-xs-12"><spring:message code="to"/></label>
@@ -22,5 +22,9 @@
                <saos:yearSelect path="globalFilter.judgmentDateRange.endYear" id="judgmentDateEndYear" yearRange="${currentYear}-1970, 1960, 1950, 1940, 1930" title="${judgmentDateEndYearTitle}" />
            </div>
 
+      </div>
+      
+      <div class="align-right">
+          <button class="btn btn-sm button confirm-section-button">Zatwierdź</button>
       </div>
  </div>

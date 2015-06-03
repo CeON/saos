@@ -40,6 +40,10 @@
                 <label id="datepicker_to-desc" class="for-screen-readers" for="datepicker_to"><spring:message code="judgmentSearch.formField.dateWrongFormat" /></label>
             </div>
         </div>
+        
+        <div class="align-right">
+            <button class="btn btn-sm button confirm-section-button">Zatwierdź</button>
+        </div>
     
     </div>
     

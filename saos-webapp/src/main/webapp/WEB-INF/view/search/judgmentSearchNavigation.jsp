@@ -250,6 +250,10 @@
                     </div>
                     
                     <form:hidden path="referencedCourtCaseId" id="referencedCourtCaseId" />
+                    
+                    <div class="align-right">
+                        <button class="btn btn-sm button confirm-section-button">Zatwierdź</button>
+                    </div>
                      
                 </div>
     
