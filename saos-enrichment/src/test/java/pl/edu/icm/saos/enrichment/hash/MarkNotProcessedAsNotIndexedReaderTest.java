@@ -23,7 +23,7 @@ import com.google.common.collect.Lists;
 public class MarkNotProcessedAsNotIndexedReaderTest {
 
     @InjectMocks
-    private MarkNotProcessedAsNotIndexedReader markNotProcessedAsNotIndexedReader;
+    private MarkChangedTagJudgmentsAsNotIndexedReader markChangedTagJudgmentsAsNotIndexedReader;
     
     @Mock
     private JudgmentEnrichmentHashRepository judgmentEnrichmentHashRepository;
@@ -35,12 +35,12 @@ public class MarkNotProcessedAsNotIndexedReaderTest {
     public void read() throws Exception {
         // given
         when(judgmentEnrichmentHashRepository.findAllJudgmentsIdsToProcess()).thenReturn(Lists.newArrayList(2L, 3L));
-        markNotProcessedAsNotIndexedReader.open(mock(ExecutionContext.class));
+        markChangedTagJudgmentsAsNotIndexedReader.open(mock(ExecutionContext.class));
         
         // execute
-        Long retJudgmentId1 = markNotProcessedAsNotIndexedReader.read();
-        Long retJudgmentId2 = markNotProcessedAsNotIndexedReader.read();
-        Long retJudgmentId3 = markNotProcessedAsNotIndexedReader.read();
+        Long retJudgmentId1 = markChangedTagJudgmentsAsNotIndexedReader.read();
+        Long retJudgmentId2 = markChangedTagJudgmentsAsNotIndexedReader.read();
+        Long retJudgmentId3 = markChangedTagJudgmentsAsNotIndexedReader.read();
         
         // assert
         assertEquals(Long.valueOf(2L), retJudgmentId1);

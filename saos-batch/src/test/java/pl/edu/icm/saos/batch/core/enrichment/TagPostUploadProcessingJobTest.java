@@ -71,6 +71,10 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
     private SolrServer solrJudgmentsServer;
     
     
+    private final static int UPDATE_ENRICHMENT_HASH_STEP = 1;
+    private final static int MARK_CHANGED_TAG_JUDGMENTS_AS_NOT_INDEXED_STEP = 2;
+    
+    
     //------------------------ TESTS --------------------------
     
     @Test
@@ -99,8 +103,8 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
         
         // assert
         
-        JobExecutionAssertUtils.assertStepExecution(execution, 1, 0, 4);
-        JobExecutionAssertUtils.assertStepExecution(execution, 2, 0, 2);
+        JobExecutionAssertUtils.assertStepExecution(execution, UPDATE_ENRICHMENT_HASH_STEP, 0, 4);
+        JobExecutionAssertUtils.assertStepExecution(execution, MARK_CHANGED_TAG_JUDGMENTS_AS_NOT_INDEXED_STEP, 0, 2);
         
         assertEnrichmentHashForJudgment(testObjectContext.getScJudgmentId(), null, scJudgmentHash, true);
         assertEnrichmentHashForJudgment(testObjectContext.getNacJudgmentId(), null, nacJudgmentHash, true);
@@ -147,8 +151,8 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
         
         // assert
         
-        JobExecutionAssertUtils.assertStepExecution(execution, 1, 0, 4);
-        JobExecutionAssertUtils.assertStepExecution(execution, 2, 0, 3);
+        JobExecutionAssertUtils.assertStepExecution(execution, UPDATE_ENRICHMENT_HASH_STEP, 0, 4);
+        JobExecutionAssertUtils.assertStepExecution(execution, MARK_CHANGED_TAG_JUDGMENTS_AS_NOT_INDEXED_STEP, 0, 3);
         
         
         assertEnrichmentHashForJudgment(testObjectContext.getScJudgmentId(), getHashForTags(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag),

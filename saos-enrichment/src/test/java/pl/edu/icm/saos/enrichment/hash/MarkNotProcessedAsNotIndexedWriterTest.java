@@ -20,7 +20,7 @@ import com.google.common.collect.Lists;
 public class MarkNotProcessedAsNotIndexedWriterTest {
 
     @InjectMocks
-    private MarkNotProcessedAsNotIndexedWriter markNotProcessedAsNotIndexedWriter;
+    private MarkChangedTagJudgmentsAsNotIndexedWriter markChangedTagJudgmentsAsNotIndexedWriter;
     
     @Mock
     private JudgmentRepository judgmentRepository;
@@ -31,7 +31,7 @@ public class MarkNotProcessedAsNotIndexedWriterTest {
     @Test
     public void write() throws Exception {
         // execute
-        markNotProcessedAsNotIndexedWriter.write(Lists.newArrayList(2L, 3L));
+        markChangedTagJudgmentsAsNotIndexedWriter.write(Lists.newArrayList(2L, 3L));
         
         // assert
         verify(judgmentRepository).markAsNotIndexed(Lists.newArrayList(2L, 3L));

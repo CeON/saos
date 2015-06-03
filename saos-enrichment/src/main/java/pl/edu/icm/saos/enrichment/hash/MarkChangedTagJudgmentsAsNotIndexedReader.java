@@ -16,10 +16,13 @@ import com.google.common.collect.Lists;
 import pl.edu.icm.saos.persistence.enrichment.JudgmentEnrichmentHashRepository;
 
 /**
+ * Spring batch reader for step responsible for
+ * marking judgments with changed enrichment tags as not indexed
+ * 
  * @author madryk
  */
 @Service
-public class MarkNotProcessedAsNotIndexedReader implements ItemStreamReader<Long> {
+public class MarkChangedTagJudgmentsAsNotIndexedReader implements ItemStreamReader<Long> {
 
     private JudgmentEnrichmentHashRepository judgmentEnrichmentHashRepository;
     

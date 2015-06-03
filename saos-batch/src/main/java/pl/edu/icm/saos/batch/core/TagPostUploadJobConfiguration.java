@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-import pl.edu.icm.saos.enrichment.hash.MarkNotProcessedAsNotIndexedReader;
-import pl.edu.icm.saos.enrichment.hash.MarkNotProcessedAsNotIndexedWriter;
 import pl.edu.icm.saos.enrichment.hash.JudgmentEnrichmentTags;
 import pl.edu.icm.saos.enrichment.hash.EnrichmentHashProcessedFlagMarker;
+import pl.edu.icm.saos.enrichment.hash.MarkChangedTagJudgmentsAsNotIndexedReader;
+import pl.edu.icm.saos.enrichment.hash.MarkChangedTagJudgmentsAsNotIndexedWriter;
 import pl.edu.icm.saos.enrichment.hash.UpdateEnrichmentHashProcessor;
 import pl.edu.icm.saos.enrichment.hash.UpdateEnrichmentHashReader;
 import pl.edu.icm.saos.enrichment.hash.UpdateEnrichmentHashWriter;
@@ -59,10 +59,10 @@ public class TagPostUploadJobConfiguration {
     //--- mark as not indexed beans ---
     
     @Autowired
-    private MarkNotProcessedAsNotIndexedReader markNotProcessedAsNotIndexedReader;
+    private MarkChangedTagJudgmentsAsNotIndexedReader markChangedTagJudgmentsAsNotIndexedReader;
     
     @Autowired
-    private MarkNotProcessedAsNotIndexedWriter markNotProcessedAsNotIndexedWriter;
+    private MarkChangedTagJudgmentsAsNotIndexedWriter markChangedTagJudgmentsAsNotIndexedWriter;
     
     
     //--- index not indexed beans ---
@@ -95,8 +95,8 @@ public class TagPostUploadJobConfiguration {
     @Bean
     protected Step markNotProcessedAsNotIndexedStep() {
         return steps.get("markNotProcessedAsNotIndexed").<Long, Long> chunk(1000)
-                .reader(markNotProcessedAsNotIndexedReader)
-                .writer(markNotProcessedAsNotIndexedWriter)
+                .reader(markChangedTagJudgmentsAsNotIndexedReader)
+                .writer(markChangedTagJudgmentsAsNotIndexedWriter)
                 .build();
     }
     

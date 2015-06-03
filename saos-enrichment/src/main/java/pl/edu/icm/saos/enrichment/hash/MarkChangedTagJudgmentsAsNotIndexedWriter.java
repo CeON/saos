@@ -11,10 +11,13 @@ import com.google.common.collect.Lists;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
+ * String batch writer for step responsible for
+ * marking judgments with changed enrichment tags as not indexed
+ *  
  * @author madryk
  */
 @Service
-public class MarkNotProcessedAsNotIndexedWriter implements ItemWriter<Long> {
+public class MarkChangedTagJudgmentsAsNotIndexedWriter implements ItemWriter<Long> {
 
     private JudgmentRepository judgmentRepository;
     
