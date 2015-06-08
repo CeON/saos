@@ -21,13 +21,16 @@ import pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionList;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
 import com.google.common.collect.Lists;
@@ -51,6 +54,8 @@ public class CommonJudgmentOverwriterTest {
     @Test
     public void overwriteJudgment_DONT_TOUCH_DB_FIELDS() {
         
+        // given
+        
         int oldId = 132;
         int oldVer = 12;
         DateTime oldCreationDate = new DateTime(2012, 12, 12, 12, 12);
@@ -62,7 +67,11 @@ public class CommonJudgmentOverwriterTest {
         Whitebox.setInternalState(newJudgment, "ver", oldVer + 10);
         Whitebox.setInternalState(newJudgment, "creationDate", oldCreationDate.plusDays(12));
         
+        // execute
+        
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        // assert
         
         assertEquals(oldId, oldJudgment.getId());
         assertEquals(oldVer, oldJudgment.getVer());
@@ -73,6 +82,8 @@ public class CommonJudgmentOverwriterTest {
     @Test
     public void overwriteJudgment_CourtCases() {
         
+        // given
+        
         oldJudgment.addCourtCase(new CourtCase("123XD"));
         oldJudgment.addCourtCase(new CourtCase("123"));
         
@@ -81,7 +92,12 @@ public class CommonJudgmentOverwriterTest {
         String newCaseNumber2 = "123";
         newJudgment.addCourtCase(new CourtCase(newCaseNumber2));
         
+        // execute
+        
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        
+        // assert
         
         assertThat(newJudgment.getCaseNumbers(), Matchers.containsInAnyOrder(newCaseNumber1, newCaseNumber2));
         assertThat(oldJudgment.getCaseNumbers(), Matchers.containsInAnyOrder(newCaseNumber1, newCaseNumber2));
@@ -91,12 +107,20 @@ public class CommonJudgmentOverwriterTest {
     @Test
     public void overwriteJudgment_Decision() {
         
+        // given
+        
         oldJudgment.setDecision("sdsdskldfald l3qkn dlkasn d");
         
         String newDecision = "sdsdsdsd s ds ds";
         newJudgment.setDecision(newDecision);
         
+        
+        // execute
+        
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        
+        // assert
         
         assertEquals(newDecision, oldJudgment.getDecision());
         assertEquals(newDecision, newJudgment.getDecision());
@@ -107,12 +131,21 @@ public class CommonJudgmentOverwriterTest {
     
     @Test
     public void overwriteJudgment_Summary() {
+        
+        // given
+        
         oldJudgment.setSummary("sdsdskldfald l3qkn dlkasn d");
         
         String newSummary = "dcsdkcnl4k32l4nd ";
         newJudgment.setSummary(newSummary);
         
+        
+        // execute
+        
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        
+        // assert
         
         assertEquals(newSummary, oldJudgment.getSummary());
         assertEquals(newSummary, newJudgment.getSummary());
@@ -120,12 +153,20 @@ public class CommonJudgmentOverwriterTest {
     
     @Test
     public void overwriteJudgment_JudgmentDate() {
+        
+        // given
+        
         oldJudgment.setJudgmentDate(new LocalDate(2012, 12, 12));
         
         LocalDate newJudgmentDate = new LocalDate(2012, 12, 14);
         newJudgment.setJudgmentDate(newJudgmentDate);
         
+        // execute
+        
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        
+        // assert
         
         assertEquals(newJudgmentDate, oldJudgment.getJudgmentDate());
         assertEquals(newJudgmentDate, newJudgment.getJudgmentDate());
@@ -134,12 +175,20 @@ public class CommonJudgmentOverwriterTest {
     
     @Test
     public void overwriteJudgment_JudgmentType() {
+        
+        // given
+        
         oldJudgment.setJudgmentType(JudgmentType.DECISION);
         
         JudgmentType newJudgmentType = JudgmentType.SENTENCE;
         newJudgment.setJudgmentType(newJudgmentType);
         
+        // execute
+        
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        
+        // assert
         
         assertEquals(newJudgmentType, oldJudgment.getJudgmentType());
         assertEquals(newJudgmentType, newJudgment.getJudgmentType());
@@ -148,6 +197,9 @@ public class CommonJudgmentOverwriterTest {
     
     @Test
     public void overwriteJudgment_TextContent() {
+        
+        // given
+        
         JudgmentTextContent oldTextContent = new JudgmentTextContent();
         oldTextContent.setRawTextContent("salkd;lad a;dlks; d;sadkl ;l3ke ;lk;l344343kk34j3jh4j3h43 ");
         oldTextContent.setType(ContentType.PDF);
@@ -162,7 +214,13 @@ public class CommonJudgmentOverwriterTest {
         
         newJudgment.setTextContent(newTextContent);
         
+        
+        // execute
+        
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        
+        // assert
         
         assertEquals(newTextContent.getRawTextContent(), oldJudgment.getRawTextContent());
         assertEquals(newTextContent.getType(), oldJudgment.getTextContent().getType());
@@ -265,13 +323,19 @@ public class CommonJudgmentOverwriterTest {
     @Test
     public void overwriteJudgment_CourtReporters() {
         
+        // given
+        
         oldJudgment.addCourtReporter("sldslkdlsdsd");
         oldJudgment.addCourtReporter("ddsdsdsds");
         
         List<String> newCourtReporters = Lists.newArrayList("sldslkdlsdssd");
         newJudgment.addCourtReporter(newCourtReporters.get(0));
         
+        // execute
+        
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        // assert
         
         assertEquals(newCourtReporters, oldJudgment.getCourtReporters());
         assertEquals(newCourtReporters, newJudgment.getCourtReporters());
@@ -280,6 +344,9 @@ public class CommonJudgmentOverwriterTest {
     
     @Test
     public void overwriteJudgment_LegalBases() {
+        
+        //given
+        
         oldJudgment.addLegalBase("sldslkdlsdsd");
         oldJudgment.addLegalBase("ddsdsdsds");
         
@@ -288,7 +355,11 @@ public class CommonJudgmentOverwriterTest {
         newJudgment.addLegalBase(newLegalBases.get(1));
         newJudgment.addLegalBase(newLegalBases.get(2));
         
+        // execute
+        
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        // assert
         
         assertEquals(newLegalBases, oldJudgment.getLegalBases());
         assertEquals(newLegalBases, newJudgment.getLegalBases());
@@ -298,6 +369,7 @@ public class CommonJudgmentOverwriterTest {
     @Test
     public void overwriteJudgment_SourceInfo() {
         
+        // given
         // old judgment
         JudgmentSourceInfo oldSource = new JudgmentSourceInfo();
         oldSource.setPublicationDate(new DateTime(2003, 12, 23, 23, 23));
@@ -333,7 +405,7 @@ public class CommonJudgmentOverwriterTest {
         newJudgment.setSourceInfo(newSource);
         
         
-        // overwrite
+        // execute
         judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
 
         
@@ -345,11 +417,106 @@ public class CommonJudgmentOverwriterTest {
     }
     
     
+    @Test
+    public void overwriteJudgment_ReceiptDate() {
+        
+        // given
+        
+        oldJudgment.setReceiptDate(new LocalDate(2001, 11, 11));
+        
+        LocalDate newReceiptDate = new LocalDate();
+        newJudgment.setReceiptDate(newReceiptDate);
+        
+        
+        // execute
+        
+        judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        
+        // assert
+        
+        assertEquals(newReceiptDate, oldJudgment.getReceiptDate());
+        assertEquals(newReceiptDate, newJudgment.getReceiptDate());
+        
+        
+    }
     
     
-    
+    @Test
+    public void overwriteJudgment_MeansOfAppeal() {
+        
+        // given
+        
+        oldJudgment.setMeansOfAppeal(new MeansOfAppeal(CourtType.CONSTITUTIONAL_TRIBUNAL, "OLD"));
+        
+        MeansOfAppeal newMeansOfAppeal = new MeansOfAppeal(CourtType.CONSTITUTIONAL_TRIBUNAL, "NEW");
+        newJudgment.setMeansOfAppeal(newMeansOfAppeal);
+        
+        
+        // execute
+        
+        judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        
+        // assert
+        
+        assertEquals(newMeansOfAppeal, oldJudgment.getMeansOfAppeal());
+        assertEquals(newMeansOfAppeal, newJudgment.getMeansOfAppeal());
+        
+        
+    }
     
 
+    @Test
+    public void overwriteJudgment_JudgmentResult() {
+        
+        // given
+        
+        oldJudgment.setJudgmentResult(new JudgmentResult(CourtType.CONSTITUTIONAL_TRIBUNAL, "OLD"));
+        
+        JudgmentResult newJudgmentResult = new JudgmentResult(CourtType.CONSTITUTIONAL_TRIBUNAL, "NEW");
+        newJudgment.setJudgmentResult(newJudgmentResult);
+        
+        
+        // execute
+        
+        judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        
+        // assert
+        
+        assertEquals(newJudgmentResult, oldJudgment.getJudgmentResult());
+        assertEquals(newJudgmentResult, newJudgment.getJudgmentResult());
+        
+        
+    }
+    
+    
+    @Test
+    public void overwriteJudgment_LowerCourtJudgments() {
+        
+        // given
+        
+        oldJudgment.addLowerCourtJudgment("A");
+        oldJudgment.addLowerCourtJudgment("B");
+        oldJudgment.addLowerCourtJudgment("C");
+        
+        newJudgment.addLowerCourtJudgment("A");
+        newJudgment.addLowerCourtJudgment("D");
+        
+        // execute
+        
+        judgmentOverwriter.overwriteJudgment(oldJudgment, newJudgment, correctionList);
+        
+        
+        // assert
+        
+        assertEquals(2, newJudgment.getLowerCourtJudgments().size());
+        assertEquals(newJudgment.getLowerCourtJudgments().size(), oldJudgment.getLowerCourtJudgments().size());
+        assertThat(newJudgment.getLowerCourtJudgments(), Matchers.containsInAnyOrder("A", "D"));
+        assertThat(oldJudgment.getLowerCourtJudgments(), Matchers.containsInAnyOrder("A", "D"));
+    }
+    
     
     
 }
