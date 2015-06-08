@@ -1,15 +1,14 @@
 package pl.edu.icm.saos.api.dump.enrichmenttag;
 
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
-import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectParamNameError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageNumberError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNegativePageNumberError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooBigPageSizeError;
@@ -37,7 +36,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -46,7 +44,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
@@ -223,11 +220,10 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
     public void showEnrichmentTags_INVALID_PAGE_SIZE() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
-                .param(PAGE_SIZE, "invalid"));
+                .param(PAGE_SIZE, "abc"));
         
         // assert
-        assertError(actions, HttpStatus.INTERNAL_SERVER_ERROR, ErrorReason.GENERAL_INTERNAL_ERROR .errorReason(),
-                null, allOf(containsString("invalid"), containsString("Failed to convert value")));
+        assertInvalidPageSizeError(actions, "abc");
     }
     
     
@@ -235,11 +231,10 @@ public class DumpEnrichmentTagControllerTest extends PersistenceTestSupport {
     public void showEnrichmentTags_INVALID_PAGE_NUMBER() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
-                .param(PAGE_NUMBER, "invalid"));
+                .param(PAGE_NUMBER, "abc"));
         
         // assert
-        assertError(actions, HttpStatus.INTERNAL_SERVER_ERROR, ErrorReason.GENERAL_INTERNAL_ERROR .errorReason(),
-                null, allOf(containsString("invalid"), containsString("Failed to convert value")));
+        assertInvalidPageNumberError(actions, "abc");
     }
     
     @Test

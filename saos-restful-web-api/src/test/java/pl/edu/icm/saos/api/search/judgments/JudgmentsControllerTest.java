@@ -1,8 +1,6 @@
 package pl.edu.icm.saos.api.search.judgments;
 
 
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
@@ -12,9 +10,10 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
-import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectParamNameError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectValueError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageNumberError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNegativePageNumberError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooBigPageSizeError;
@@ -57,7 +56,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.support.DefaultFormattingConversionService;
 import org.springframework.format.support.FormattingConversionService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -70,7 +68,6 @@ import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.formatter.LawJournalEntryCodeFormatterFactory;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
-import pl.edu.icm.saos.api.services.exceptions.status.ErrorReason;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
@@ -700,11 +697,10 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     public void it_should_not_allow_invalid_page_size() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, "invalid"));
+                .param(ApiConstants.PAGE_SIZE, "abc"));
         
         // assert
-        assertError(actions, HttpStatus.INTERNAL_SERVER_ERROR, ErrorReason.GENERAL_INTERNAL_ERROR .errorReason(),
-                null, allOf(containsString("invalid"), containsString("Failed to convert value")));
+        assertInvalidPageSizeError(actions, "abc");
     }
     
     
@@ -712,11 +708,10 @@ public class JudgmentsControllerTest extends PersistenceTestSupport {
     public void it_should_not_allow_invalid_page_number() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_NUMBER, "invalid"));
+                .param(ApiConstants.PAGE_NUMBER, "abc"));
         
         // assert
-        assertError(actions, HttpStatus.INTERNAL_SERVER_ERROR, ErrorReason.GENERAL_INTERNAL_ERROR .errorReason(),
-                null, allOf(containsString("invalid"), containsString("Failed to convert value")));
+        assertInvalidPageNumberError(actions, "abc");
     }
     
     @Test
