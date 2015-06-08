@@ -42,7 +42,7 @@
         </div>
         
         <div class="align-right">
-            <button class="btn btn-sm button confirm-section-button"><spring:message code="confirm" /></button>
+            <button id="confirm-section-date" class="btn btn-xs button"><spring:message code="confirm" /></button>
         </div>
     
     </div>

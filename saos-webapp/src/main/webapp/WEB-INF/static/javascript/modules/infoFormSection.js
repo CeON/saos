@@ -56,7 +56,7 @@ function InfoFormSection(options) {
       * Assigns action to close form section on confirm button click 
       */
      function bindConfirmFormSection() {
-         $(options.formSectionId).on('click', '.confirm-section-button', function(event) {
+         $(options.formSectionId).on('click', 'button[id^="confirm-section-"]', function(event) {
              event.preventDefault();
              closeFormSection();
              unBindCloseFormSectionEventHandler();
