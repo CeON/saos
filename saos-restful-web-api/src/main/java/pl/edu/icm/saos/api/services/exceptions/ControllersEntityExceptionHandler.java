@@ -69,7 +69,7 @@ public class ControllersEntityExceptionHandler {
         
         ErrorRepresentation.Builder builder = create(errorStatus, ex);
         builder.propertyName(ex.getPropertyName());
-        String message = String.format("parameter can't have value '%s'", ex.getValue());
+        String message = String.format("incorrect parameter value '%s'", ex.getValue());
         builder.message(message);
         
         return createErrorResponse(builder, errorStatus);
