@@ -27,6 +27,12 @@ public final class JobExecutionAssertUtils {
         assertEquals(writeCount, stepExecution.getWriteCount());
     }
 
+    public static void assertStepExecution(JobExecution execution, int stepNumber, int skipCount, int writeCount) {
+        StepExecution stepExecution = getNthStepExecution(execution, stepNumber);
+        assertEquals(skipCount, stepExecution.getProcessSkipCount());
+        assertEquals(writeCount, stepExecution.getWriteCount());
+    }
+
     
     //------------------------ PRIVATE --------------------------
     
@@ -36,5 +42,8 @@ public final class JobExecutionAssertUtils {
         }
         return null;
     }
-        
+    
+    private static StepExecution getNthStepExecution(JobExecution execution, int n) {
+        return execution.getStepExecutions().stream().skip(n - 1).findFirst().get();
+    }
 }
