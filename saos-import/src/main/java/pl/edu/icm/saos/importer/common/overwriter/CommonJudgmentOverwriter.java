@@ -43,6 +43,11 @@ public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
         
         overwriteReferencedRegulations(oldJudgment, newJudgment);
         
+        oldJudgment.setReceiptDate(newJudgment.getReceiptDate());
+        oldJudgment.setMeansOfAppeal(newJudgment.getMeansOfAppeal());
+        oldJudgment.setJudgmentResult(newJudgment.getJudgmentResult());
+        
+        overwriteLowerCourtJudgments(oldJudgment, newJudgment);
         
     }
 
@@ -150,6 +155,19 @@ public class CommonJudgmentOverwriter implements JudgmentOverwriter<Judgment> {
         oldTextContent.setRawTextContent(newTextContent.getRawTextContent());
         oldTextContent.setType(newTextContent.getType());
         oldTextContent.setFilePath(newTextContent.getFilePath());
+    }
+    
+    private void overwriteLowerCourtJudgments(Judgment oldJudgment, Judgment newJudgment) {
+        for (String oldLowerCourtJudgment : oldJudgment.getLowerCourtJudgments()) {
+            if (!newJudgment.containsLowerCourtJudgment(oldLowerCourtJudgment)) {
+                oldJudgment.removeLowerCourtJudgment(oldLowerCourtJudgment);
+            }
+        }
+        for (String newLowerCourtJudgment : newJudgment.getLowerCourtJudgments()) {
+            if (!oldJudgment.containsLowerCourtJudgment(newLowerCourtJudgment)) {
+                oldJudgment.addLowerCourtJudgment(newLowerCourtJudgment);
+            }
+        }
     }
    
 }
