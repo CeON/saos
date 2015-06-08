@@ -1,29 +1,41 @@
 package pl.edu.icm.saos.batch.core.enrichment;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory.createEnrichmentTag;
+import static pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import pl.edu.icm.saos.batch.core.BatchTestSupport;
 import pl.edu.icm.saos.batch.core.JobExecutionAssertUtils;
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
+import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory;
+import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.JudgmentEnrichmentHashRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.enrichment.model.JudgmentEnrichmentHash;
+import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 import com.google.common.collect.Lists;
 
@@ -48,90 +60,131 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
     @Autowired
     private EnrichmentTagRepository enrichmentTagRepository;
     
+    @Autowired
+    private JudgmentEnrichmentService judgmentEnrichmentService;
+    
+    @Autowired
+    private JudgmentRepository judgmentRepository;
+    
+    @Autowired
+    @Qualifier("solrJudgmentsServer")
+    private SolrServer solrJudgmentsServer;
+    
+    
+    private final static int UPDATE_ENRICHMENT_HASH_STEP = 1;
+    private final static int MARK_CHANGED_TAG_JUDGMENTS_AS_NOT_INDEXED_STEP = 2;
+    
     
     //------------------------ TESTS --------------------------
     
     @Test
     public void tagPostUploadJob() throws Exception {
+        
+        // given
+        
         TestObjectContext testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
         
-        EnrichmentTag tag1 = testPersistenceObjectFactory.createReferencedCourtCasesTag(testObjectContext.getScJudgmentId(), testObjectContext.getNacJudgment());
-        EnrichmentTag tag2 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(testObjectContext.getScJudgmentId(), "SOME_TAG_TYPE", "{key:'value'}");
+        EnrichmentTag scjReferenceTag = createReferencedCourtCasesTag(testObjectContext.getScJudgmentId(), testObjectContext.getNacJudgment());
+        EnrichmentTag scjSomeTag = createEnrichmentTag(testObjectContext.getScJudgmentId(), "SOME_TAG_TYPE", "{key:'value'}");
+        EnrichmentTag scjMaxRefMoneyTag = createEnrichmentTag(testObjectContext.getScJudgmentId(), EnrichmentTagTypes.MAX_REFERENCED_MONEY,
+                JsonNormalizer.normalizeJson("{amount:12300.45, text:'123 tys zł 45 gr'}"));
         
-        enrichmentTagRepository.save(tag2);
+        enrichmentTagRepository.save(Lists.newArrayList(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag));
         
-        String scJudgmentHash = getHashForTags(tag1, tag2);
-        String nacJudgmentHash = getHashForTags(tag1);
+        String scJudgmentHash = getHashForTags(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag);
+        String nacJudgmentHash = getHashForTags(scjReferenceTag);
         
+        
+        // execute
         
         JobExecution execution = jobExecutor.forceStartNewJob(tagPostUploadJob);
+        solrJudgmentsServer.commit();
         
         
-        JobExecutionAssertUtils.assertJobExecution(execution, 0, 4);
+        // assert
         
-        JudgmentEnrichmentHash hash1 = judgmentEnrichmentHashRepository.findByJudgmentId(testObjectContext.getScJudgmentId());
-        assertTrue(hash1.isProcessed());
-        assertEquals(scJudgmentHash, hash1.getHash());
+        JobExecutionAssertUtils.assertStepExecution(execution, UPDATE_ENRICHMENT_HASH_STEP, 0, 4);
+        JobExecutionAssertUtils.assertStepExecution(execution, MARK_CHANGED_TAG_JUDGMENTS_AS_NOT_INDEXED_STEP, 0, 2);
         
-        JudgmentEnrichmentHash hash2 = judgmentEnrichmentHashRepository.findByJudgmentId(testObjectContext.getNacJudgmentId());
-        assertTrue(hash2.isProcessed());
-        assertEquals(nacJudgmentHash, hash2.getHash());
+        assertEnrichmentHashForJudgment(testObjectContext.getScJudgmentId(), null, scJudgmentHash, true);
+        assertEnrichmentHashForJudgment(testObjectContext.getNacJudgmentId(), null, nacJudgmentHash, true);
+        assertEnrichmentHashForJudgment(testObjectContext.getCtJudgmentId(), null, null, true);
+        assertEnrichmentHashForJudgment(testObjectContext.getCcJudgmentId(), null, null, true);
         
-        JudgmentEnrichmentHash hash3 = judgmentEnrichmentHashRepository.findByJudgmentId(testObjectContext.getCtJudgmentId());
-        assertTrue(hash3.isProcessed());
-        assertEquals(null, hash3.getHash());
         
-        JudgmentEnrichmentHash hash4 = judgmentEnrichmentHashRepository.findByJudgmentId(testObjectContext.getCcJudgmentId());
-        assertTrue(hash4.isProcessed());
-        assertEquals(null, hash4.getHash());
+        assertMaxReferencedMoneyIndexed(testObjectContext.getScJudgmentId(), "12300.45,PLN");
+        
         
     }
     
     @Test
     public void tagPostUploadJob_TAGS_CHANGED() throws Exception {
+        
+        // given
+        
         TestObjectContext testObjectContext = testPersistenceObjectFactory.createTestObjectContext();
         
-        EnrichmentTag tag1 = testPersistenceObjectFactory.createReferencedCourtCasesTag(testObjectContext.getScJudgmentId(), testObjectContext.getNacJudgment());
-        EnrichmentTag tag2 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(testObjectContext.getScJudgmentId(), "SOME_TAG_TYPE", "{key:'value2'}");
-        EnrichmentTag tag3 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(testObjectContext.getCtJudgmentId(), "SOME_TAG_TYPE", "{key:'value3'}");
-        EnrichmentTag tag4 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(testObjectContext.getCcJudgmentId(), "SOME_TAG_TYPE", "{key:'value4'}");
+        EnrichmentTag scjReferenceTag = createReferencedCourtCasesTag(testObjectContext.getScJudgmentId(), testObjectContext.getNacJudgment());
+        EnrichmentTag scjSomeTag = createEnrichmentTag(testObjectContext.getScJudgmentId(), "SOME_TAG_TYPE", "{key:'value2'}");
+        EnrichmentTag scjMaxRefMoneyTag = createEnrichmentTag(testObjectContext.getScJudgmentId(), EnrichmentTagTypes.MAX_REFERENCED_MONEY,
+                JsonNormalizer.normalizeJson("{amount:12300.45, text:'123 tys zł 45 gr'}"));
+        EnrichmentTag ctjSomeTag = createEnrichmentTag(testObjectContext.getCtJudgmentId(), "SOME_TAG_TYPE", "{key:'value3'}");
+        EnrichmentTag ccjSomeTag = createEnrichmentTag(testObjectContext.getCcJudgmentId(), "SOME_TAG_TYPE", "{key:'value4'}");
         
-        enrichmentTagRepository.save(Lists.newArrayList(tag2, tag3, tag4));
-        enrichmentTagRepository.flush();
+        enrichmentTagRepository.save(Lists.newArrayList(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag, ctjSomeTag, ccjSomeTag));
         
         jobExecutor.forceStartNewJob(tagPostUploadJob);
         
-        enrichmentTagRepository.delete(tag3);
-        enrichmentTagRepository.delete(tag4);
-        EnrichmentTag tagChanged = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(testObjectContext.getCtJudgmentId(), "SOME_TAG_TYPE", "{key:'value3_changed'}");
-        enrichmentTagRepository.save(tagChanged);
+        enrichmentTagRepository.delete(Lists.newArrayList(scjMaxRefMoneyTag, ctjSomeTag, ccjSomeTag));
+        EnrichmentTag ctjSomeTagChanged = createEnrichmentTag(testObjectContext.getCtJudgmentId(), "SOME_TAG_TYPE", "{key:'value3_changed'}");
+        EnrichmentTag scjMaxRefMoneyTagChanged = createEnrichmentTag(testObjectContext.getScJudgmentId(), EnrichmentTagTypes.MAX_REFERENCED_MONEY,
+                JsonNormalizer.normalizeJson("{amount:52300.45, text:'523 tys zł 45 gr'}"));
         
+        enrichmentTagRepository.save(Lists.newArrayList(ctjSomeTagChanged, scjMaxRefMoneyTagChanged));
+        
+        
+        // execute
         
         JobExecution execution = jobExecutor.forceStartNewJob(tagPostUploadJob);
-        JobExecutionAssertUtils.assertJobExecution(execution, 0, 4);
+        solrJudgmentsServer.commit();
         
         
-        JudgmentEnrichmentHash hash1 = judgmentEnrichmentHashRepository.findByJudgmentId(testObjectContext.getScJudgmentId());
-        JudgmentEnrichmentHash hash2 = judgmentEnrichmentHashRepository.findByJudgmentId(testObjectContext.getNacJudgmentId());
-        JudgmentEnrichmentHash hash3 = judgmentEnrichmentHashRepository.findByJudgmentId(testObjectContext.getCtJudgmentId());
-        JudgmentEnrichmentHash hash4 = judgmentEnrichmentHashRepository.findByJudgmentId(testObjectContext.getCcJudgmentId());
+        // assert
         
-        assertTrue(hash1.isProcessed());
-        assertEquals(getHashForTags(tag1, tag2), hash1.getOldHash());
-        assertEquals(getHashForTags(tag1, tag2), hash1.getHash());
+        JobExecutionAssertUtils.assertStepExecution(execution, UPDATE_ENRICHMENT_HASH_STEP, 0, 4);
+        JobExecutionAssertUtils.assertStepExecution(execution, MARK_CHANGED_TAG_JUDGMENTS_AS_NOT_INDEXED_STEP, 0, 3);
         
-        assertTrue(hash2.isProcessed());
-        assertEquals(getHashForTags(tag1), hash2.getOldHash());
-        assertEquals(getHashForTags(tag1), hash2.getHash());
         
-        assertTrue(hash3.isProcessed());
-        assertEquals(getHashForTags(tag3), hash3.getOldHash());
-        assertEquals(getHashForTags(tagChanged), hash3.getHash());
+        assertEnrichmentHashForJudgment(testObjectContext.getScJudgmentId(), getHashForTags(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag),
+                getHashForTags(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTagChanged), true);
+        assertEnrichmentHashForJudgment(testObjectContext.getNacJudgmentId(), getHashForTags(scjReferenceTag), getHashForTags(scjReferenceTag), true);
+        assertEnrichmentHashForJudgment(testObjectContext.getCtJudgmentId(), getHashForTags(ctjSomeTag), getHashForTags(ctjSomeTagChanged), true);
+        assertEnrichmentHashForJudgment(testObjectContext.getCcJudgmentId(), getHashForTags(ccjSomeTag), null, true);
         
-        assertTrue(hash4.isProcessed());
-        assertEquals(getHashForTags(tag4), hash4.getOldHash());
-        assertEquals(null, hash4.getHash());
+        assertMaxReferencedMoneyIndexed(testObjectContext.getScJudgmentId(), "52300.45,PLN");
         
+    }
+    
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private void assertEnrichmentHashForJudgment(long judgmentId, String oldHash, String hash, boolean processed) {
+        JudgmentEnrichmentHash retHash = judgmentEnrichmentHashRepository.findByJudgmentId(judgmentId);
+        
+        assertNotNull(retHash);
+        assertEquals(processed, retHash.isProcessed());
+        assertEquals(oldHash, retHash.getOldHash());
+        assertEquals(hash, retHash.getHash());
+    }
+    
+    private void assertMaxReferencedMoneyIndexed(long judgmentId, String value) throws SolrServerException {
+        SolrQuery query = new SolrQuery("databaseId:" + String.valueOf(judgmentId));
+        QueryResponse response = solrJudgmentsServer.query(query);
+        assertEquals(1, response.getResults().getNumFound());
+        
+        SolrDocument doc = response.getResults().get(0);
+        
+        assertEquals(value, doc.getFieldValue(JudgmentIndexField.MAXIMUM_MONEY_AMOUNT.getFieldName()));
     }
     
     private String getHashForTags(EnrichmentTag ... tags) {
