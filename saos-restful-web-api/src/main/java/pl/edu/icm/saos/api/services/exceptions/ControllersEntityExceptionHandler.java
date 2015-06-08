@@ -5,6 +5,7 @@ import java.util.Map;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
@@ -59,6 +60,18 @@ public class ControllersEntityExceptionHandler {
         }
 
 
+        return createErrorResponse(builder, errorStatus);
+    }
+
+    @ExceptionHandler(TypeMismatchException.class)
+    public ResponseEntity<Map<String, Object>> handleTypeMismatchError(TypeMismatchException ex){
+        ErrorReason errorStatus = ErrorReason.WRONG_REQUEST_PARAMETER_ERROR;
+        
+        ErrorRepresentation.Builder builder = create(errorStatus, ex);
+        builder.propertyName(ex.getPropertyName());
+        String message = String.format("incorrect parameter value '%s'", ex.getValue());
+        builder.message(message);
+        
         return createErrorResponse(builder, errorStatus);
     }
 
