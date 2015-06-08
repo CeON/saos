@@ -94,7 +94,7 @@ public class TagPostUploadJobConfiguration {
     
     @Bean
     protected Step markNotProcessedAsNotIndexedStep() {
-        return steps.get("markNotProcessedAsNotIndexed").<Long, Long> chunk(1000)
+        return steps.get("markChangedTagJudgmentsAsNotIndexedStep").<Long, Long> chunk(1000)
                 .reader(markChangedTagJudgmentsAsNotIndexedReader)
                 .writer(markChangedTagJudgmentsAsNotIndexedWriter)
                 .build();
