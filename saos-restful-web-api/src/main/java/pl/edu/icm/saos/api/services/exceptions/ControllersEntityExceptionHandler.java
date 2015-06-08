@@ -70,7 +70,7 @@ public class ControllersEntityExceptionHandler {
         ErrorRepresentation.Builder builder = create(errorStatus, ex);
 
 
-        log.warn("general exception: "+ ExceptionUtils.getStackTrace(ex));
+        log.error("general exception: "+ ExceptionUtils.getStackTrace(ex));
 
         return createErrorResponse(builder, errorStatus);
     }
