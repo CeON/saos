@@ -7,12 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.common.chart.formatter.PointCcCourtAreaValueFormatter;
 import pl.edu.icm.saos.common.chart.formatter.PointDayPeriodValueFormatter;
 import pl.edu.icm.saos.common.chart.formatter.PointMonthPeriodValueFormatter;
 import pl.edu.icm.saos.common.chart.formatter.PointObjectValueFormatter;
 import pl.edu.icm.saos.common.chart.formatter.PointValueFormatterManager;
 import pl.edu.icm.saos.common.chart.formatter.PointYearPeriodValueFormatter;
-import pl.edu.icm.saos.webapp.analysis.result.PointBrAddingValueFormatter;
 import pl.edu.icm.saos.webapp.analysis.result.PointFloatValueFormatter;
 
 import com.google.common.collect.Lists;
@@ -27,29 +27,7 @@ import com.google.common.collect.Lists;
 public class UiAnalysisConfiguration {
 
     
-    
-    
-    
-
-    @Bean
-    public PointValueFormatterManager flotChartPointValueFormatterManager() {
-        
-        PointValueFormatterManager pointValueFormatterManager = new PointValueFormatterManager();
-        pointValueFormatterManager.setPointValueFormatters(
-                Lists.newArrayList(new PointBrAddingValueFormatter(new PointDayPeriodValueFormatter()),
-                                   new PointBrAddingValueFormatter(new PointMonthPeriodValueFormatter()),
-                                   new PointBrAddingValueFormatter(new PointYearPeriodValueFormatter()),
-                                   new PointObjectValueFormatter()
-                )
-        );
-        
-        return pointValueFormatterManager;
-        
-        
-    }
-    
-    
-    
+       
     @Bean
     public PointValueFormatterManager csvPointValueFormatterManager() {
                                       
@@ -58,6 +36,7 @@ public class UiAnalysisConfiguration {
                 Lists.newArrayList(new PointDayPeriodValueFormatter(),
                                    new PointMonthPeriodValueFormatter(),
                                    new PointYearPeriodValueFormatter(),
+                                   new PointCcCourtAreaValueFormatter(),
                                    new PointFloatValueFormatter(),
                                    new PointObjectValueFormatter()
                 )
