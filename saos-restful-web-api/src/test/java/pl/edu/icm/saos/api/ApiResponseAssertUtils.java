@@ -61,6 +61,12 @@ public class ApiResponseAssertUtils {
         
     }
     
+    public static void assertInvalidPageSizeError(ResultActions result, String value) throws Exception {
+
+        assertError(result, HttpStatus.BAD_REQUEST, ErrorReason.WRONG_REQUEST_PARAMETER_ERROR.errorReason(),
+                null, containsString(value));
+    }
+    
     public static void assertNegativePageNumberError(ResultActions result) throws Exception {
         
         assertError(result, HttpStatus.BAD_REQUEST, ErrorReason.WRONG_REQUEST_PARAMETER_ERROR.errorReason(),
@@ -68,6 +74,11 @@ public class ApiResponseAssertUtils {
         
     }
     
+    public static void assertInvalidPageNumberError(ResultActions result, String value) throws Exception {
+
+        assertError(result, HttpStatus.BAD_REQUEST, ErrorReason.WRONG_REQUEST_PARAMETER_ERROR.errorReason(),
+                null, containsString(value));
+    }
     
     
     public static void assertIncorrectParamNameError(ResultActions result, String paramName) throws Exception {
