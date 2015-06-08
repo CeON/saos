@@ -77,7 +77,7 @@ public class TagPostUploadJobConfiguration {
     public Job tagPostUploadJob() {
         return jobs.get("TAG_POST_UPLOAD_PROCESSING")
                 .start(updateEnrichmentHashStep())
-                .next(markNotProcessedAsNotIndexedStep())
+                .next(markChangedTagJudgmentsAsNotIndexedStep())
                 .next(judgmentIndexingProcessStep)
                 .listener(enrichmentHashProcessedFlagMarker)
                 .incrementer(new RunIdIncrementer()).build();
@@ -93,7 +93,7 @@ public class TagPostUploadJobConfiguration {
     }
     
     @Bean
-    protected Step markNotProcessedAsNotIndexedStep() {
+    protected Step markChangedTagJudgmentsAsNotIndexedStep() {
         return steps.get("markChangedTagJudgmentsAsNotIndexedStep").<Long, Long> chunk(1000)
                 .reader(markChangedTagJudgmentsAsNotIndexedReader)
                 .writer(markChangedTagJudgmentsAsNotIndexedWriter)
