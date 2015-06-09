@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 
 import com.google.common.collect.Lists;
 
@@ -64,5 +65,26 @@ public final class TestInMemoryEnrichmentTagFactory {
         }
         
         return createEnrichmentTag(judgmentId, EnrichmentTagTypes.REFERENCED_COURT_CASES, normalizeJson("[" + referenceStrings.stream().collect(Collectors.joining(", ")) + "]"));
+    }
+    
+    public static EnrichmentTag createReferencedRegulationsTag(long judgmentId, String refRegulationTextPrefix, LawJournalEntry ... entries) {
+        
+        List<String> refRegulationsStrings = Lists.newArrayList();
+        int i = 1;
+        for (LawJournalEntry entry : entries) {
+            String refRegulationString = 
+                    "{"
+                        + "journalTitle : '" + entry.getTitle() + "',"
+                        + "journalNo : '" + entry.getJournalNo() + "',"
+                        + "journalYear : '" + entry.getYear() + "',"
+                        + "journalEntry : '" + entry.getEntry() + "',"
+                        + "text : '" + refRegulationTextPrefix + i + "'"
+                    + "}";
+            
+            ++i;
+            refRegulationsStrings.add(refRegulationString);
+        }
+        
+        return createEnrichmentTag(judgmentId, EnrichmentTagTypes.REFERENCED_REGULATIONS, normalizeJson("[" + refRegulationsStrings.stream().collect(Collectors.joining(", ")) + "]"));
     }
 }

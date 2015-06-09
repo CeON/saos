@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import pl.edu.icm.saos.enrichment.hash.EnrichmentTagLawJournalEntryReader;
+import pl.edu.icm.saos.enrichment.hash.EnrichmentTagLawJournalEntryWriter;
 import pl.edu.icm.saos.enrichment.hash.JudgmentEnrichmentTags;
 import pl.edu.icm.saos.enrichment.hash.EnrichmentHashProcessedFlagMarker;
 import pl.edu.icm.saos.enrichment.hash.MarkChangedTagJudgmentsAsNotIndexedReader;
@@ -19,6 +21,7 @@ import pl.edu.icm.saos.enrichment.hash.UpdateEnrichmentHashProcessor;
 import pl.edu.icm.saos.enrichment.hash.UpdateEnrichmentHashReader;
 import pl.edu.icm.saos.enrichment.hash.UpdateEnrichmentHashWriter;
 import pl.edu.icm.saos.persistence.enrichment.model.JudgmentEnrichmentHash;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 
 /**
  * Configuration of job that needs to be executed after enrichment tags upload.
@@ -65,6 +68,15 @@ public class TagPostUploadJobConfiguration {
     private MarkChangedTagJudgmentsAsNotIndexedWriter markChangedTagJudgmentsAsNotIndexedWriter;
     
     
+    //--- save enrichment tags law journal entries beans ---
+    
+    @Autowired
+    private EnrichmentTagLawJournalEntryReader enrichmentTagLawJournalEntryReader;
+    
+    @Autowired
+    private EnrichmentTagLawJournalEntryWriter enrichmentTagLawJournalEntryWriter;
+    
+    
     //--- index not indexed beans ---
     
     @Autowired
@@ -78,6 +90,7 @@ public class TagPostUploadJobConfiguration {
         return jobs.get("TAG_POST_UPLOAD_PROCESSING")
                 .start(updateEnrichmentHashStep())
                 .next(markChangedTagJudgmentsAsNotIndexedStep())
+                .next(saveEnrichmentTagsLawJournalEntriesStep())
                 .next(judgmentIndexingProcessStep)
                 .listener(enrichmentHashProcessedFlagMarker)
                 .incrementer(new RunIdIncrementer()).build();
@@ -97,6 +110,14 @@ public class TagPostUploadJobConfiguration {
         return steps.get("markChangedTagJudgmentsAsNotIndexedStep").<Long, Long> chunk(1000)
                 .reader(markChangedTagJudgmentsAsNotIndexedReader)
                 .writer(markChangedTagJudgmentsAsNotIndexedWriter)
+                .build();
+    }
+    
+    @Bean
+    protected Step saveEnrichmentTagsLawJournalEntriesStep() {
+        return steps.get("saveEnrichmentTagsLawJournalEntriesStep").<LawJournalEntry, LawJournalEntry> chunk(1000)
+                .reader(enrichmentTagLawJournalEntryReader)
+                .writer(enrichmentTagLawJournalEntryWriter)
                 .build();
     }
     
