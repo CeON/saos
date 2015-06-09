@@ -131,6 +131,7 @@ a, .hint {
     .navigation {
         margin: 0;
         padding: 100px;
+        padding-top: 70px;
         position: relative;
         width: 50%;
         
@@ -191,10 +192,10 @@ a, .hint {
             @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
                 width: 550px;
             }
-            @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+            @media (min-width: $screen-md-min) and (max-width: $screen-md-max + 250px) {
                 width: 400px;
             }
-            @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
+            @media (min-width: $screen-lg-min + 250px) and (max-width: $screen-lg-max + 250px) {
                 width: 500px;
             }
         }
@@ -205,9 +206,10 @@ a, .hint {
     .content {
 
         margin: 0;
-        min-height: 645px;
+        min-height: 665px;
         padding: 0;
         width: 50%;
+        height: 100vh;
         
         @media (max-width: $screen-xs-min) {
             width: 100%;
@@ -231,17 +233,18 @@ a, .hint {
             width: 100%;
             
             a {
-                display: block;
+                display: table;
                 height: 100%;
-                padding-top: 20px;
+                padding-top: 5px;
                 width: 100%;
-                
+       
                 &:hover, &:focus {
                     color: $dark;
+                    text-decoration: none;
                 }
                 
                 > div {
-                    display: inline-block;   
+                    display: table-cell;   
                     vertical-align: middle; 
                 }
             }
@@ -253,10 +256,11 @@ a, .hint {
             .box-title {
                 border: 1px solid $dark;
                 display: block;
-                margin: 10px 0;
+                margin: 10px auto;
                 letter-spacing: 0.2em;
-                padding: 5px 20px 0;
+                padding: 5px 20px;
                 text-transform: uppercase;
+                max-width: 315px;
             }
             
             .box-desc {
