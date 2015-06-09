@@ -23,8 +23,8 @@ public class EnrichmentTagLawJournalEntryWriter implements ItemWriter<LawJournal
     //------------------------ LOGIC --------------------------
     
     @Override
-    public void write(List<? extends LawJournalEntry> items) throws Exception {
-        lawJournalEntryRepository.save(items);
+    public void write(List<? extends LawJournalEntry> lawJournalEntries) throws Exception {
+        lawJournalEntryRepository.save(lawJournalEntries);
     }
 
 
