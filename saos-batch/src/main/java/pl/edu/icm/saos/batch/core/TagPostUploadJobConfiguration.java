@@ -68,7 +68,7 @@ public class TagPostUploadJobConfiguration {
     private MarkChangedTagJudgmentsAsNotIndexedWriter markChangedTagJudgmentsAsNotIndexedWriter;
     
     
-    //--- save enrichment tags law journal entries beans ---
+    //--- save enrichment tag law journal entries beans ---
     
     @Autowired
     private EnrichmentTagLawJournalEntryReader enrichmentTagLawJournalEntryReader;
@@ -90,7 +90,7 @@ public class TagPostUploadJobConfiguration {
         return jobs.get("TAG_POST_UPLOAD_PROCESSING")
                 .start(updateEnrichmentHashStep())
                 .next(markChangedTagJudgmentsAsNotIndexedStep())
-                .next(saveEnrichmentTagsLawJournalEntriesStep())
+                .next(saveEnrichmentTagLawJournalEntriesStep())
                 .next(judgmentIndexingProcessStep)
                 .listener(enrichmentHashProcessedFlagMarker)
                 .incrementer(new RunIdIncrementer()).build();
@@ -114,8 +114,8 @@ public class TagPostUploadJobConfiguration {
     }
     
     @Bean
-    protected Step saveEnrichmentTagsLawJournalEntriesStep() {
-        return steps.get("saveEnrichmentTagsLawJournalEntriesStep").<LawJournalEntry, LawJournalEntry> chunk(1000)
+    protected Step saveEnrichmentTagLawJournalEntriesStep() {
+        return steps.get("saveEnrichmentTagLawJournalEntriesStep").<LawJournalEntry, LawJournalEntry> chunk(1000)
                 .reader(enrichmentTagLawJournalEntryReader)
                 .writer(enrichmentTagLawJournalEntryWriter)
                 .build();
