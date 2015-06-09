@@ -248,6 +248,12 @@
                         </div>
                         
                     </div>
+                    
+                    <form:hidden path="referencedCourtCaseId" id="referencedCourtCaseId" />
+                    
+                    <div class="align-right">
+                        <button id="confirm-section-judgment-info" class="btn btn-xs button"><spring:message code="confirm" /></button>
+                    </div>
                      
                 </div>
     

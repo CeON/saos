@@ -136,6 +136,10 @@
 		        </form:select>
 		    </div>
 		</div>
+		
+        <div class="align-right">
+            <button id="confirm-section-court" class="btn btn-xs button"><spring:message code="confirm" /></button>
+        </div>
         
     </div>
     
