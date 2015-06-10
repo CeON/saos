@@ -284,6 +284,7 @@ $(document).ready(function() {
     //configure locale language for moment
     moment.locale(springMessage.lang, {
         months : springMessage.months,
+        monthsShort: springMessage.monthsShort,
         longDateFormat : {
             LL : "D MMMM YYYY"
         },
