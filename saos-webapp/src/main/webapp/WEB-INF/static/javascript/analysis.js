@@ -963,6 +963,18 @@ var initAnalysisJs = function() {
     /******************************** XTICK FORMATTERS ********************************************
     /**********************************************************************************************/    
 
+    
+    /**
+     * Formats the given xtick contains a period of type pl.edu.icm.saos.common.chart.value.TimePeriod
+     * 
+     * xtick xtick object that contains a period of type pl.edu.icm.saos.common.chart.value.TimePeriod
+     * yearRangeConnector the separator of period start and end year for year periods, defaults to: -
+     * monthRangeConnector the separator of period start and end month-year for month-year periods, defaults to: &lt;br/&gr; - &lt;br/&gr;
+     * dayRangeConnector the separator of period start and end dates for day periods, defaults to: &lt;br/&gr; - &lt;br/&gr;
+     * monthDateFormatter the function formatting start and end dates for month-year periods, defaults to formatMonth
+     * dayDateFormatter the function formatting start and end dates for day periods, defaults to formatDate
+     * 
+     */
     function formatXtickPeriod(xtick, yearRangeConnector, monthRangeConnector, dayRangeConnector, monthDateFormatter, dayDateFormatter) {
         
         if (!monthDateFormatter) {
