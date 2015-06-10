@@ -965,7 +965,7 @@ var initAnalysisJs = function() {
 
     
     /**
-     * Formats the given xtick contains a period of type pl.edu.icm.saos.common.chart.value.TimePeriod
+     * Formats the given xtick that contains a period of type pl.edu.icm.saos.common.chart.value.TimePeriod
      * 
      * xtick xtick object that contains a period of type pl.edu.icm.saos.common.chart.value.TimePeriod
      * yearRangeConnector the separator of period start and end year for year periods, defaults to: -
