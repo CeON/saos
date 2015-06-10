@@ -7,7 +7,9 @@ $(document).ready(function() {
 	
     analysisJsProperties = {
             ZOOM_CANCEL_HINT: '<spring:message code="chart.zoomCancelHint"/>',
-            PAGE_LANG: '<spring:message code="page.lang"/>'
+            PAGE_LANG: '<spring:message code="page.lang"/>',
+            CHART_TABLE_NULL_PHRASE: '<spring:message code="analysis.chart.table.nullPhrase"/>',
+            CHART_TABLE_SEARCHED_PHRASE: '<spring:message code="analysis.chart.table.searchedPhrase"/>'
     }
     
 	initAnalysisJs();
@@ -26,68 +28,88 @@ $(document).ready(function() {
         </select>
     </div>
                 
-
-	<a id="exportToCsv-MAIN_CHART" class="export-csv" style="float:right" href="" data-toggle="tooltip" data-placement="left" title="<spring:message code='analysis.button.exportToCsv'/>" >
-	    <img style="cursor: pointer;"  src="${contextPath}/static/image/icons/exportCsv.png" alt="<spring:message code='analysis.button.exportToCsv.iconAlt'/>" />
-	</a>
 </div>
+
+
+	<a id="exportToCsv-MAIN_CHART" class="export-csv" style="float:right" href="" data-toggle="tooltip" data-placement="left" title="<spring:message code='analysis.button.exportToCsv'/>">
+	    <img style="cursor: pointer;"  src="${contextPath}/static/image/icons/exportCsv.png" alt="<spring:message code='analysis.button.exportMainChartToCsv.aria'/>"/>
+	</a>
+
 
 <div class="clearfix"></div>
-  
 
-<div class="panel panel-default" style="border-width: 2px;">
+<div aria-label="<spring:message code='analysis.mainChart.title'/>">
 
-    <div class="panel-body">
-    
-
-		<div class="col-xs-12 col-sm-9">
-		    <span class="small" id="mainChartZoomCancelHint"></span>
-		    <div id="mainChart" style="width: 100%; height: 300px;">
-		    </div>
-		</div>
-	   
-		<div class="col-xs-5 col-sm-3">
-		    <span class="small" id="aggregatedMainChartZoomCancelHint"></span>
-		    <div id="aggregatedMainChart" style="width: 100%; height: 180px;">
-		    </div>
-		</div>
-
-   </div>
-
+	<div class="panel panel-default" style="border-width: 2px;" aria-hidden="true">
+	
+	    <div class="panel-body">
+	    
+	
+			<div class="col-xs-12 col-sm-9">
+			    <span class="small" id="mainChartZoomCancelHint"></span>
+			    <div id="mainChart" style="width: 100%; height: 300px;">
+			    </div>
+			</div>
+		   
+			<div class="col-xs-5 col-sm-3">
+			    <span class="small" id="aggregatedMainChartZoomCancelHint"></span>
+			    <div id="aggregatedMainChart" style="width: 100%; height: 180px;">
+			    </div>
+			</div>
+	
+	   </div>
+	
+	</div>
+	
 </div>
    
-   
-  
+<table id="mainChartTable" class="table visuallyhidden" tabindex="0">
+    <caption><spring:message code='analysis.mainChart.table.caption'/></caption>
+    <thead></thead>
+    <tbody></tbody>
+</table>     
   
 <div id="ccCourtChartDiv" style="margin-top: 40px;">
 
 	<div>
-	    <a id="exportToCsv-CC_COURT_CHART" class="export-csv" style="float:right" href="" data-toggle="tooltip" data-placement="left" title="<spring:message code='analysis.button.exportToCsv'/>" >
-	        <img style="cursor: pointer;"  src="${contextPath}/static/image/icons/exportCsv.png" alt="<spring:message code='analysis.button.exportToCsv.iconAlt'/>" />
+	    <a id="exportToCsv-CC_COURT_CHART" class="export-csv" style="float:right" href="" data-toggle="tooltip" data-placement="left" title="<spring:message code='analysis.button.exportToCsv'/>">
+	        <img style="cursor: pointer;"  src="${contextPath}/static/image/icons/exportCsv.png" alt="<spring:message code='analysis.button.exportCcCourtChartToCsv.aria'/>"/>
 	    </a>
 	 </div>
 	 
 	 <div class="clearfix"></div>
 	
-	 <div id="ccCourtChartPanel" class="panel panel-default" style="border-width: 2px; ">
-	    <div class="panel-body">
-	 
-	  <div class="col-xs-12 col-sm-12">
-	      <span class="small" id="ccCourtChartZoomCancelHint"></span>
-	      <div id="ccCourtChart" style="width: 100%; height: 300px;">
-	      </div>
-	   </div>
-	 
-	     </div>
+	 <div aria-label="<spring:message code='analysis.ccCourtChart.title'/>">
+	
+		 <div id="ccCourtChartPanel" class="panel panel-default" style="border-width: 2px; " aria-hidden="true">
+		    <div class="panel-body">
+		 
+		  <div class="col-xs-12 col-sm-12">
+		      <span class="small" id="ccCourtChartZoomCancelHint"></span>
+		      <div id="ccCourtChart" style="width: 100%; height: 300px;">
+		      </div>
+		   </div>
+		 
+		     </div>
+		</div>
 	</div>
+	
+	<table id="ccCourtChartTable" class="table visuallyhidden" tabindex="0">
+        <caption><spring:message code='analysis.ccCourtChart.table.caption'/></caption>
+        <thead></thead>
+        <tbody></tbody>
+    </table>  
 
 </div>
 
 
-<img id="ajaxChartLoaderImg" src="${contextPath}/static/image/icons/ajax-loader.gif" alt="<spring:message code='analysis.button.ajaxLoader.iconAlt'/>" style="visibility: hidden;"/>
-<div id="simpleChartPointTooltip" class="chart-point-tooltip" style="visibility:hidden"></div>
 
-<div id="mainChartPointTooltip" class="chart-point-tooltip" style="display:none">
+
+
+<img id="ajaxChartLoaderImg" src="${contextPath}/static/image/icons/ajax-loader.gif" alt="<spring:message code='analysis.button.ajaxLoader.iconAlt'/>" style="display:none;"/>
+<div id="simpleChartPointTooltip" class="chart-point-tooltip" style="display:none;"></div>
+
+<div id="mainChartPointTooltip" class="chart-point-tooltip" style="display:none" >
     <div>
         <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod"></span></b>
     </div>

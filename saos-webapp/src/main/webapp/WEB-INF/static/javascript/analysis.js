@@ -10,7 +10,6 @@ var initAnalysisJs = function() {
     /**********************************************************************************************/   
 
     
-    var _this = this;
     
     var mainChart = null;
     var aggregatedMainChart = null;
@@ -18,8 +17,6 @@ var initAnalysisJs = function() {
     
     
     var generatedChartAnalysisForm = null; // analysis form used to generate charts (see chart variables above)
-    
-    var mainChartXtickFormatter = null;
     
     var pointTooltipId = "pointTooltip";
     
@@ -86,12 +83,27 @@ var initAnalysisJs = function() {
     var plCcCourtNameReplacements = {"Sąd Apelacyjny":"SA", "Sąd Rejonowy":"SR", "Sąd Okręgowy":"SO", " w ":"<br/>w ", " we ":"<br/>we "}
     ccCourtNameReplacements['pl'] = plCcCourtNameReplacements;
     
+    var nullPhraseReplacements = {'pl':'wszystkie'};
     
     var analysisFormBaseAction = $('#analysisForm').attr('action');
     
     
     
+    /**********************************************************************************************    
+    /************************************ INITALIZATION *******************************************
+    /**********************************************************************************************/    
     
+    
+    
+    initFormElements();
+    
+    generateCharts(false);
+    
+    // reloads page on history back (without this
+    // after changing the history in {@link #updateUrl()} the back button would not work properly)
+    window.onpopstate = function(e){
+        location.reload();
+    };
     
     
     
@@ -105,7 +117,7 @@ var initAnalysisJs = function() {
     /**
      * Initializes certain analysis form elements
      */
-    this.initFormElements = function() {
+    function initFormElements() {
         
         
         
@@ -130,9 +142,9 @@ var initAnalysisJs = function() {
         
         tieMonthYearRangeSelects("judgmentDateStartMonth", "judgmentDateStartYear", "judgmentDateEndMonth", "judgmentDateEndYear");
 
-        _this.initInputs();
+        initInputs();
 
-        _this.colourPhraseInputs();
+        colourPhraseInputs();
         
         //Enables bootstrap tooltip
         $('#analysisForm [data-toggle="tooltip"]').tooltip({container: 'body'});
@@ -145,7 +157,7 @@ var initAnalysisJs = function() {
             event.preventDefault();
         });
         
-        _this.initButtons();
+        initButtons();
         
         
     }
@@ -154,10 +166,10 @@ var initAnalysisJs = function() {
     /**
      * Inits buttons of the analysisForm  
      */
-    this.initButtons = function() {
-        _this.initAddNewSearchPhraseButton();
-        _this.initDeleteSearchPhraseButtons();
-        _this.initExportToCsvButtons();
+    function initButtons() {
+        initAddNewSearchPhraseButton();
+        initDeleteSearchPhraseButtons();
+        initExportToCsvButtons();
         
     }
     
@@ -165,7 +177,7 @@ var initAnalysisJs = function() {
      * Returns a colour for the specified index from colours array. A colour is always retrieved even if the
      * given index in bigger than colours.length (uses modulo inside)
      */
-    this.getColour = function(index) {
+    function getColour(index) {
     	
         return colours[index % colours.length];
     	
@@ -174,7 +186,7 @@ var initAnalysisJs = function() {
     /**
      * Paints phrase input boxes with the same colours as corresponding series.
     */
-    this.colourPhraseInputs = function() {
+    function colourPhraseInputs() {
         
         $('[id^=inputColourBox_]').each(function() {
             $(this).css("background-color", getColour(extractIndex($(this))));
@@ -189,13 +201,13 @@ var initAnalysisJs = function() {
     /**
      * Inits deleteSearchPhrase buttons
      */
-    this.initDeleteSearchPhraseButtons = function() {
+    function initDeleteSearchPhraseButtons() {
     
         $('[id^=deletePhraseButton_]').click(function() {
             
             $(this).tooltip("hide");
             
-            _this.deleteSearchPhrase(extractIndex($(this)));
+            deleteSearchPhrase(extractIndex($(this)));
             
         });
     }
@@ -204,12 +216,12 @@ var initAnalysisJs = function() {
      * Deletes the given search phrase
      * @param phraseIndexToRemove index (in the list of phrases) of the phrase to delete
      */
-    this.deleteSearchPhrase = function(phraseIndexToRemove) {
+    function deleteSearchPhrase(phraseIndexToRemove) {
         
         $('#analysisForm').attr('action', analysisFormBaseAction + "/removePhrase");
         $('#analysisForm').append($('<input>').attr('id', 'filterIndexToRemove').attr('type', 'hidden').attr('name', 'filterIndexToRemove').val(phraseIndexToRemove));
         
-        _this.submitAndPrintAnalysisForm(true);
+        submitAndPrintAnalysisForm(true);
         
     }
     
@@ -220,11 +232,11 @@ var initAnalysisJs = function() {
     /**
      * Inits addNewSearchPhraseButton
      */
-    this.initAddNewSearchPhraseButton = function() {
+    function initAddNewSearchPhraseButton() {
         
         $('#addPhraseButton').click(function(){
         
-              _this.addNewSearchPhrase();
+              addNewSearchPhrase();
         });
         
     }
@@ -232,11 +244,11 @@ var initAnalysisJs = function() {
     /**
      * Adds new search phrase
      */
-    this.addNewSearchPhrase = function() {
+    function addNewSearchPhrase() {
         
         $('#analysisForm').attr('action', analysisFormBaseAction + "/addNewPhrase");
         
-        _this.submitAndPrintAnalysisForm(true);
+        submitAndPrintAnalysisForm(true);
     }
     
 
@@ -244,21 +256,21 @@ var initAnalysisJs = function() {
     /**
      * Inits form inputs
      */
-    this.initInputs = function() {
+    function initInputs() {
         
         $("[id^=seriesSearchPhraseInput]").change(function() {
-            _this.generateCharts(true);
+            generateCharts(true);
         });
         
         $("#yaxisValueType").change(function() {
             $('#yaxisValueTypeHidden').val($(this).val());
-            _this.generateCharts(true);
+            generateCharts(true);
         });
         
         
         $("[id^=seriesSearchPhraseInput]").keypress(function (e) {
             if (e.which == 13) {
-                _this.generateCharts(true);
+                generateCharts(true);
                 e.preventDefault();
             }
         });
@@ -286,13 +298,13 @@ var initAnalysisJs = function() {
      * Initializes export to csv buttons. Clicking on these buttons will execute csv chart data
      * generation.
      */
-    this.initExportToCsvButtons = function() {
+    function initExportToCsvButtons() {
         $("[id^=exportToCsv]").click(function () {
             var chartCode = $(this).attr('id').split("-")[1];
             if (isChartGenerating) { // hold the csv generation if the chart is generating
-                setTimeout(function() {_this.generateCsv(chartCode)}, 500);
+                setTimeout(function() {generateCsv(chartCode)}, 500);
             } else {
-                _this.generateCsv(chartCode);
+                generateCsv(chartCode);
             }
         });
     }
@@ -300,7 +312,7 @@ var initAnalysisJs = function() {
     /**
      * Generates csv data for the chart with the given chartCode
      */
-    this.generateCsv = function(chartCode) {
+    function generateCsv(chartCode) {
         if (isChartGenerating) {return;}
         $('#analysisForm').attr('action', analysisFormBaseAction + "/generateCsv");
         $('[name="chartCode"]').remove();
@@ -323,10 +335,10 @@ var initAnalysisJs = function() {
     $(document).click(function(event) { 
         if($(event.target).parents().index($('#mainChart')) == -1 && $(event.target).parents().index($('#ccCourtChart')) == -1 && isZoomed) {
             $('[id$="mainChartZoomCancelHint"]').html("");
-            _this.printMainChart(mainChart, null, null);
+            printMainChart(mainChart, null, null);
             
             $('[id$="ccCourtChartZoomCancelHint"]').html("");
-            _this.printCcCourtChart(ccCourtChart, null, null);
+            printCcCourtChart(ccCourtChart, null, null);
             isZoomed = false;
         }        
     });
@@ -344,7 +356,7 @@ var initAnalysisJs = function() {
      * @param regenerateChart if true then the charts will be regenerated
      *  
      */
-    this.submitAndPrintAnalysisForm = function(regenerateChart) {
+    function submitAndPrintAnalysisForm(regenerateChart) {
         
         
         $('#analysisForm').attr('method', 'post');
@@ -353,11 +365,11 @@ var initAnalysisJs = function() {
             
             $('#analysisFormDiv').html(view);  
         
-            _this.initFormElements();
+            initFormElements();
             
             if (regenerateChart) {
                 
-                _this.generateCharts(true);
+                generateCharts(true);
                 
             }
             
@@ -370,7 +382,7 @@ var initAnalysisJs = function() {
     /**
      * Updates url in brower address and history
      */
-    this.updateUrl = function() {
+    function updateUrl() {
         $('[name="chartCode"]').remove();
         
         var newUrl = $(location).attr('protocol') + "//" + $(location).attr('host') + $(location).attr('pathname') + "?" + $("#analysisForm").serialize();
@@ -382,7 +394,7 @@ var initAnalysisJs = function() {
     /**
      * Shows ajax loader gif in the given div during chart generation process 
      */
-    this.showAjaxLoader = function(chartDivId) {
+    function showAjaxLoader(chartDivId) {
         ajaxLoader = $('#ajaxChartLoaderImg').clone();
         ajaxLoader.css('visibility', "visible");
         $('#'+chartDivId).html(ajaxLoader);
@@ -395,15 +407,16 @@ var initAnalysisJs = function() {
      * data received from the server.
      * @param updateUrlLocation should the updateUrl function be invoked after generating the chart
      */
-    this.generateCharts = function(updateLocationUrl) {
+    function generateCharts(updateLocationUrl) {
 
         isChartGenerating = true;
         
         $('#analysisForm').attr('action', analysisFormBaseAction + "/generate");
             
-        _this.showAjaxLoader("mainChart");
-        _this.showAjaxLoader("aggregatedMainChart");
-        _this.showAjaxLoader("ccCourtChart");
+        showAjaxLoader("mainChart");
+        showAjaxLoader("aggregatedMainChart");
+        showAjaxLoader("ccCourtChart");
+        clearChartTables();
         
         $('#analysisForm').ajaxSubmit(function(analysisResult) {
              $('#analysisForm').attr('action', analysisFormBaseAction);
@@ -417,12 +430,14 @@ var initAnalysisJs = function() {
              aggregatedMainChart = charts['AGGREGATED_MAIN_CHART'];
              ccCourtChart = charts['CC_COURT_CHART'];
              
-             _this.printMainChart(mainChart, null, null);
-             _this.printAggregatedMainChart(aggregatedMainChart);
-             _this.printCcCourtChart(ccCourtChart);
+             printMainChart(mainChart, null, null);
+             generateMainChartTable(mainChart);
+             printAggregatedMainChart(aggregatedMainChart);
+             printCcCourtChart(ccCourtChart);
+             generateCcCourtChartTable(ccCourtChart);
              
              if (updateLocationUrl) {
-                 _this.updateUrl();   
+                 updateUrl();   
              }
              
              isChartGenerating = false;
@@ -450,7 +465,7 @@ var initAnalysisJs = function() {
      * @param xmin min x value that will be shown on the chart, null - the min x value from chart data
      * @param xmax max x value that will be shown on the chart, null - the max x value from chart data
      */
-    this.printMainChart = function(chart, xmin, xmax) {
+    function printMainChart(chart, xmin, xmax) {
 
         var yMinMax = calculateYAxisRangeForXRange(chart, xmin, xmax);
         var ymin = yMinMax[0];
@@ -461,9 +476,6 @@ var initAnalysisJs = function() {
         for (var i = 0; i < chart.seriesList.length; i++) {
             seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points, points: {fillColor: getColour(i)}});
         }
-        
-        // point periods for all axticks are the same, so the templating function will also be the same
-        mainChartXtickFormatter = xtickPeriodFormatters[chart.xticks[0][1].period]; 
         
         $.plot($("#mainChart"), seriesArr,    {
                                                      lines: {
@@ -483,7 +495,7 @@ var initAnalysisJs = function() {
                                                         tickSize: 1,
                                                         tickFormatter: function(val, axis) {
                                                             var xtick = chart.xticks[val][1];
-                                                            return mainChartXtickFormatter(xtick);
+                                                            return formatXtickPeriod(xtick);
                                                         }
                                                         
                                                     }, 
@@ -522,7 +534,7 @@ var initAnalysisJs = function() {
     
     
     /** Generates tooltip div for the given point item of the MainChart */
-    this.generateMainChartPointTooltip = function(item) {
+    function generateMainChartPointTooltip(item) {
         
         var pointTooltipDivId = "mainChartPointTooltip";
         var pointTooltipDiv = $('#'+pointTooltipDivId).clone();
@@ -530,7 +542,7 @@ var initAnalysisJs = function() {
         pointTooltipDiv.attr('id', pointTooltipId);
         
         var timePeriod = mainChart.xticks[item.dataIndex][1];
-        var formattedTimePeriod = mainChartXtickFormatter(timePeriod).replace(/<br\/>/g," ");
+        var formattedTimePeriod = formatXtickPeriod(timePeriod, " - ", " - ", " - ");
         var judgmentCount = item.datapoint[1];
         var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
         
@@ -540,7 +552,7 @@ var initAnalysisJs = function() {
         
         if (judgmentCount > 0) {
             
-            var searchUrl = _this.generateMainChartPointSearchUrl(item);
+            var searchUrl = generateMainChartPointSearchUrl(item);
             
             pointTooltipDiv.find("#pointSearchLink").attr("href", searchUrl);
             
@@ -555,31 +567,31 @@ var initAnalysisJs = function() {
     
     
     /** Generates an url to the search page with a list of judgments for the given point of the MainChart */
-    this.generateMainChartPointSearchUrl = function(item) {
+    function generateMainChartPointSearchUrl(item) {
         
-        var searchUrl = _this.generateBasePointSearchUrl(item);
+        var searchUrl = generateBasePointSearchUrl(item);
         
-        searchUrl += _this.generatePointDatePeriodSearchUrlParams(item);
+        searchUrl += generatePointDatePeriodSearchUrlParams(item);
         
-        searchUrl += "&" + _this.generateCourtCriteriaSearchUrlParams();
+        searchUrl += "&" + generateCourtCriteriaSearchUrlParams();
      
         return searchUrl;
     }
    
     
-    this.generatePointDatePeriodSearchUrlParams = function(item) {
+    function generatePointDatePeriodSearchUrlParams(item) {
         
         var timePeriod = mainChart.xticks[item.dataIndex][1];
         
-        var dateFrom = _this.extractStartDate(timePeriod);
-        var dateTo = _this.extractEndDate(timePeriod);
+        var dateFrom = extractStartDate(timePeriod);
+        var dateTo = extractEndDate(timePeriod);
         
-        return _this.generateDateRangeSearchUrlParams(dateFrom, dateTo);
+        return generateDateRangeSearchUrlParams(dateFrom, dateTo);
         
     }
     
     
-    this.extractStartDate = function(timePeriod) {
+    function extractStartDate(timePeriod) {
         
         if (timePeriod.period === "YEAR") {
             return new Date(timePeriod.startYear, 1-1, 1);
@@ -595,7 +607,7 @@ var initAnalysisJs = function() {
         
     }
     
-    this.extractEndDate = function(timePeriod) {
+    function extractEndDate(timePeriod) {
         
         if (timePeriod.period === "YEAR") {
             return new Date(timePeriod.endYear, 12-1, 31);
@@ -612,16 +624,29 @@ var initAnalysisJs = function() {
 
     }
     
-    
-    
+
+
     /*------------------------------------ ZOOM --------------------------------------------*/
 
     
     $("#mainChart").on("plotselected", function (event, ranges) {
         $('#mainChartZoomCancelHint').text(analysisJsProperties.ZOOM_CANCEL_HINT);
-        _this.printMainChart(mainChart, ranges.xaxis.from, ranges.xaxis.to);
+        printMainChart(mainChart, ranges.xaxis.from, ranges.xaxis.to);
         isZoomed = true;
     });
+    
+    
+    
+    /*------------------------------------ GENERATE TABLE /WCAG/ --------------------------------------------*/
+
+    
+    function generateMainChartTable(chart) {
+        
+        generateChartTable('mainChartTable', chart, function(xtick) {
+            return formatXtickPeriod(xtick, " - ", " - ", " - ", function(date) { return formatDateWithPattern(date, "MMMM YYYY")}, function(date) { return formatDateWithPattern(date, "DD MMMM YYYY")})
+        });
+        
+    }
     
     
     
@@ -641,7 +666,7 @@ var initAnalysisJs = function() {
      * Prints the aggregated main chart (number of judgments in the whole judgment date period)
      * @param chart json chart data, see pl.edu.icm.saos.webapp.chart.Chart 
      */
-    this.printAggregatedMainChart = function(chart) {
+    function printAggregatedMainChart(chart) {
 
         var xmin = 0;
         var xmax = chart.seriesList[chart.seriesList.length-1].points[0][0] + 1;
@@ -700,16 +725,16 @@ var initAnalysisJs = function() {
     
     
     /** Generates tooltip div for the given point item of the AggregatedMainChart */
-    this.generateAggregatedMainChartPointTooltip = function(item) {
+    function generateAggregatedMainChartPointTooltip(item) {
         
         var pointTooltipDivId = "aggregatedMainChartPointTooltip";
         var pointTooltipDiv = $('#'+pointTooltipDivId).clone();
         
         pointTooltipDiv.attr('id', pointTooltipId);
         
-        var formattedTimePeriod = _this.formatMonth(_this.getGlobalStartDate()) + " - " + _this.formatMonth(_this.getGlobalEndDate()); 
+        var formattedTimePeriod = formatMonth(getGlobalStartDate()) + " - " + formatMonth(getGlobalEndDate()); 
         var judgmentCount = item.datapoint[1];
-        var formattedJudgmentCount = _this.formatNumber(judgmentCount, 2) + _this.getChartYNumberUnit();
+        var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
         
         pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
         pointTooltipDiv.find("#pointJudgmentCount").html(formattedJudgmentCount);
@@ -717,7 +742,7 @@ var initAnalysisJs = function() {
         
         if (judgmentCount > 0) {
             
-            var searchUrl = _this.generateAggregatedChartPointSearchUrl(item);
+            var searchUrl = generateAggregatedChartPointSearchUrl(item);
             
             pointTooltipDiv.find("#pointSearchLink").attr("href", searchUrl);
             
@@ -733,13 +758,13 @@ var initAnalysisJs = function() {
     
     
     /** Generates an url to the search page with a list of judgments for the given point of the AggregatedMainChart */
-    this.generateAggregatedChartPointSearchUrl = function(item) {
+    function generateAggregatedChartPointSearchUrl(item) {
         
-        var searchUrl = _this.generateBasePointSearchUrl(item);
+        var searchUrl = generateBasePointSearchUrl(item);
         
-        searchUrl += _this.generateDateRangeSearchUrlParams(_this.getGlobalStartDate(), _this.getGlobalEndDate());
+        searchUrl += generateDateRangeSearchUrlParams(getGlobalStartDate(), getGlobalEndDate());
         
-        searchUrl += "&" + _this.generateCourtCriteriaSearchUrlParams();
+        searchUrl += "&" + generateCourtCriteriaSearchUrlParams();
      
         return searchUrl;
     }
@@ -762,7 +787,7 @@ var initAnalysisJs = function() {
      * @param xmin min x value that will be shown on the chart, null - the min x value from chart data
      * @param xmax max x value that will be shown on the chart, null - the max x value from chart data
      */
-    this.printCcCourtChart = function(chart, xmin, xmax) {
+    function printCcCourtChart(chart, xmin, xmax) {
 
         if (chart == null) {
             $('#ccCourtChartDiv').hide();
@@ -807,7 +832,7 @@ var initAnalysisJs = function() {
                                                         tickSize: 1,
                                                         tickFormatter: function(val, axis) {  
                                                             if (val > xmin && val < xmax) {
-                                                                return _this.formatXCourtName(chart.xticks[val][1].name);
+                                                                return formatXCourtName(chart.xticks[val][1].name);
                                                             } else {
                                                                 return "";
                                                             }
@@ -840,7 +865,7 @@ var initAnalysisJs = function() {
      * Formats the given court name, replaces each phrase of the name with a replacement from ccCourtNameReplacements
      * (more precisely: from a set of replacements for the current language of the analysis page)
      */
-    this.formatXCourtName = function(courtName) {
+    function formatXCourtName(courtName) {
         var replacements = ccCourtNameReplacements[analysisJsProperties.PAGE_LANG];
         for (key in replacements) {
            courtName = courtName.replace(key, replacements[key]);
@@ -859,7 +884,7 @@ var initAnalysisJs = function() {
     
 
     /** Generates tooltip div for the given point item of the CcCourtChart */
-    this.generateCcCourtChartPointTooltip = function(item) {
+    function generateCcCourtChartPointTooltip(item) {
         
         var pointTooltipDivId = "ccCourtChartPointTooltip";
         var pointTooltipDiv = $('#'+pointTooltipDivId).clone();
@@ -870,18 +895,18 @@ var initAnalysisJs = function() {
         pointTooltipDiv.find("#pointCourtName").html(ccCourtChart.xticks[item.dataIndex][1].name);
         
         
-        var formattedTimePeriod = _this.formatMonth(_this.getGlobalStartDate()) + " - " + _this.formatMonth(_this.getGlobalEndDate()); 
+        var formattedTimePeriod = formatMonth(getGlobalStartDate()) + " - " + formatMonth(getGlobalEndDate()); 
         pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
         
         
         var judgmentCount = item.datapoint[1];
-        var formattedJudgmentCount = _this.formatNumber(judgmentCount, 2) + _this.getChartYNumberUnit();
+        var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
         pointTooltipDiv.find("#pointJudgmentCount").html(formattedJudgmentCount);
         
         
         if (judgmentCount > 0) {
             
-            var searchUrl = _this.generateCcCourtChartPointSearchUrl(item);
+            var searchUrl = generateCcCourtChartPointSearchUrl(item);
             
             pointTooltipDiv.find("#pointSearchLink").attr("href", searchUrl);
             
@@ -896,11 +921,11 @@ var initAnalysisJs = function() {
     
     
     /** Generates an url to the search page with a list of judgments for the given point of the CcCourtChart */
-    this.generateCcCourtChartPointSearchUrl = function(item) {
+    function generateCcCourtChartPointSearchUrl(item) {
         
-        var searchUrl = _this.generateBasePointSearchUrl(item);
+        var searchUrl = generateBasePointSearchUrl(item);
         
-        searchUrl += _this.generateDateRangeSearchUrlParams(getGlobalStartDate(), _this.getGlobalEndDate());
+        searchUrl += generateDateRangeSearchUrlParams(getGlobalStartDate(), getGlobalEndDate());
         
         var courtId = ccCourtChart.xticks[item.dataIndex][1].courtId;
         
@@ -917,11 +942,20 @@ var initAnalysisJs = function() {
     
     $("#ccCourtChart").on("plotselected", function (event, ranges) {
         $('#ccCourtChartZoomCancelHint').text(analysisJsProperties.ZOOM_CANCEL_HINT);
-        _this.printCcCourtChart(ccCourtChart, ranges.xaxis.from, ranges.xaxis.to);
+        printCcCourtChart(ccCourtChart, ranges.xaxis.from, ranges.xaxis.to);
         isZoomed = true;
     });
 
     
+    
+    /*------------------------------------ GENERATE TABLE /WCAG/ --------------------------------------------*/
+
+    
+    function generateCcCourtChartTable(chart) {
+        
+        generateChartTable('ccCourtChartTable', chart, function(xtick) {return xtick.name;});
+        
+    }
    
     
     
@@ -929,44 +963,71 @@ var initAnalysisJs = function() {
     /******************************** XTICK FORMATTERS ********************************************
     /**********************************************************************************************/    
 
-    
-    var xtickPeriodFormatters = {};
+    function formatXtickPeriod(xtick, yearRangeConnector, monthRangeConnector, dayRangeConnector, monthDateFormatter, dayDateFormatter) {
         
-    xtickPeriodFormatters['YEAR'] = function(xtick) {
-        if (xtick.startYear === xtick.endYear) {
-            return ""+xtick.startYear;
-        } else {
-            return xtick.startYear + " - " + xtick.endYear;
+        if (!monthDateFormatter) {
+            monthDateFormatter = formatMonth;
         }
-    };
+        
+        if (!dayDateFormatter) {
+            dayDateFormatter = formatDate;
+        }
+        
+        if (!yearRangeConnector) {
+            yearRangeConnector = " - ";
+        }
+        
+        if (!monthRangeConnector) {
+            monthRangeConnector = "<br/> - <br/>";
+        }
+        
+
+        if (!dayRangeConnector) {
+            dayRangeConnector = "<br/> - <br/>";
+        }
+        
+        if (xtick.period === 'YEAR') {
+            
+            if (xtick.startYear === xtick.endYear) {
+                return ""+xtick.startYear;
+            } else {
+                return xtick.startYear + yearRangeConnector + xtick.endYear;
+            }
+            
+        } else if (xtick.period === 'MONTH') {
+            
+            if (xtick.startYear === xtick.endYear && xtick.startMonthOfYear === xtick.endMonthOfYear) {
+                return monthDateFormatter(new Date(xtick.startYear, xtick.startMonthOfYear-1, 1));
+            } else {
+                return monthDateFormatter(new Date(xtick.startYear, xtick.startMonthOfYear-1, 1)) + monthRangeConnector + monthDateFormatter(new Date(xtick.endYear, xtick.endMonthOfYear-1, 1));
+            }
+            
+        } else if (xtick.period === 'DAY') {
+            
+            if (xtick.startDay.dayOfMonth === xtick.endDay.dayOfMonth 
+                    && xtick.startDay.monthOfYear === xtick.endDay.monthOfYear
+                    && xtick.startDay.year === xtick.endDay.year) {
+                return dayDateFormatter(new Date(xtick.startDay.year, xtick.startDay.monthOfYear-1, xtick.startDay.dayOfMonth));
+            } else {
+                return dayDateFormatter(new Date(xtick.startDay.year, xtick.startDay.monthOfYear-1, xtick.startDay.dayOfMonth)) + dayRangeConnector +
+                       dayDateFormatter(new Date(xtick.endDay.year, xtick.endDay.monthOfYear-1, xtick.endDay.dayOfMonth));
+            }
+        }
+        
+    }
     
-    xtickPeriodFormatters['MONTH'] = function(xtick) {
-        if (xtick.startYear === xtick.endYear && xtick.startMonthOfYear === xtick.endMonthOfYear) {
-            return formatMonth(new Date(xtick.startYear, xtick.startMonthOfYear-1, 1));
-        } else {
-            return formatMonth(new Date(xtick.startYear, xtick.startMonthOfYear-1, 1)) + "<br/> - <br/>" + formatMonth(new Date(xtick.endYear, xtick.endMonthOfYear-1, 1));
-        }
-    };
-    
-    xtickPeriodFormatters['DAY'] = function(xtick) {
-        if (xtick.startDay.dayOfMonth === xtick.endDay.dayOfMonth 
-                && xtick.startDay.monthOfYear === xtick.endDay.monthOfYear
-                && xtick.startDay.year === xtick.endDay.year) {
-            return formatDate(new Date(xtick.startDay.year, xtick.startDay.monthOfYear-1, xtick.startDay.dayOfMonth));
-        } else {
-            return formatDate(new Date(xtick.startDay.year, xtick.startDay.monthOfYear-1, xtick.startDay.dayOfMonth)) + "<br/> - <br/>" +
-                   formatDate(new Date(xtick.endDay.year, xtick.endDay.monthOfYear-1, xtick.endDay.dayOfMonth));
-        }
-    };
    
-    this.formatMonth = function(date) {
-        return moment(date).locale(analysisJsProperties.PAGE_LANG).format("MMMM YYYY").replace(/ /g,"&nbsp;");
+    function formatMonth(date) {
+        return formatDateWithPattern(date, "MMM YYYY");
     }
  
-    this.formatDate = function(date) {
-        return moment(date).locale(analysisJsProperties.PAGE_LANG).format("DD MMMM YYYY").replace(/ /g,"&nbsp;");
+    function formatDate(date) {
+        return formatDateWithPattern(date, "DD MMM YYYY");
     }
     
+    function formatDateWithPattern(date, pattern) {
+        return moment(date).locale(analysisJsProperties.PAGE_LANG).format(pattern).replace(/ /g,"&nbsp;");
+    }
     
     
     
@@ -974,23 +1035,23 @@ var initAnalysisJs = function() {
     /******************************** POINT_TOOLTIP RELATED FUNCTIONS *****************************
     /**********************************************************************************************/    
 
-    this.isChartYPercent = function() {
+    function isChartYPercent() {
         return generatedChartAnalysisForm.ysettings.valueType === 'PERCENT';
     }
     
-    this.isChartYPer1000 = function() {
+    function isChartYPer1000() {
         return generatedChartAnalysisForm.ysettings.valueType === 'NUMBER_PER_1000';
     }
     
-    this.getChartYNumberUnit = function() {
+    function getChartYNumberUnit() {
         
         var numberUnit = '';
         
-        if (_this.isChartYPercent()) {
+        if (isChartYPercent()) {
             numberUnit = '%';
         }
         
-        if (_this.isChartYPer1000()) {
+        if (isChartYPer1000()) {
             numberUnit = '‰';
         }
         
@@ -998,31 +1059,31 @@ var initAnalysisJs = function() {
     }
     
     
-    this.generateCourtCriteriaSearchUrlParams = function() {
+    function generateCourtCriteriaSearchUrlParams() {
         return generateUrlParams(generatedChartAnalysisForm.globalFilter.courtCriteria, "courtCriteria");
     }
 
     
-    this.getGlobalStartDate = function() {
+    function getGlobalStartDate() {
         var dateRange = generatedChartAnalysisForm.globalFilter.judgmentDateRange;
         return moment([dateRange.startYear, dateRange.startMonth-1, 1]).toDate();
     }
 
     
-    this.getGlobalEndDate = function() {
+    function getGlobalEndDate() {
         var dateRange = generatedChartAnalysisForm.globalFilter.judgmentDateRange;
         return moment([dateRange.endYear, dateRange.endMonth-1, 1]).endOf("month").toDate();
     }
     
     
-    this.generateDateRangeSearchUrlParams = function(dateFrom, dateTo) {
+    function generateDateRangeSearchUrlParams(dateFrom, dateTo) {
         var dateFrom = moment(dateFrom).format(DATE_PATTERN);
         var dateTo = moment(dateTo).format(DATE_PATTERN);
         
         return "dateFrom="+encodeURIComponent(dateFrom)+"&dateTo="+encodeURIComponent(dateTo);
     }
     
-    this.generateBasePointSearchUrl = function(item) {
+    function generateBasePointSearchUrl(item) {
         
         var searchUrl = "search";
         
@@ -1041,25 +1102,71 @@ var initAnalysisJs = function() {
     
     
     
-    
-    
-    
-    
-    
     /**********************************************************************************************    
-    /************************************ INITALIZATION *******************************************
+    /******************************** CHART TABLES ************************************************
     /**********************************************************************************************/    
-    
-    
-    
-    _this.initFormElements();
-    
-    _this.generateCharts(false);
-    
-    // reloads page on history back (without this
-    // after changing the history in {@link #updateUrl()} the back button would not work properly)
-    window.onpopstate = function(e){
-        location.reload();
-    };
 
+    function clearChartTables() {
+        $('table[id$="ChartTable"] > thead').html("");
+        $('table[id$="ChartTable"] > tbody').html("");
+    }
+    
+
+    /**
+     * 
+     * Generates table from chart data
+     * 
+     * tableId - id of the table element
+     * chart - chart data to generate table headers and rows from
+     * xtickFormatter - function formatting chart.xticks, formatted values will be column headers
+     */
+    function generateChartTable(tableId, chart, xtickFormatter) {
+        
+        $table = $('#'+tableId);
+        
+        $thead = $table.children("thead");
+     
+        $tbody = $table.children("tbody");
+        
+        
+        var $theadTr = $('<tr>');
+        
+        $theadTr.append('<th>'+analysisJsProperties.CHART_TABLE_SEARCHED_PHRASE+'</th>');
+        
+        
+        for (var i = 0; i < chart.xticks.length; i++) {
+            
+            var thValue = xtickFormatter(chart.xticks[i][1]);
+            $theadTr.append('<th>'+thValue+'</th>')
+            
+        }
+        
+        $thead.append($theadTr);
+        
+        
+        for (var i = 0; i < chart.seriesList.length; i++) {
+            
+                        
+            var phrase = generatedChartAnalysisForm.seriesFilters[i].phrase;
+            
+            if (phrase == null) {
+                phrase = analysisJsProperties.CHART_TABLE_NULL_PHRASE;
+            }
+            
+            var $rowTr = $('<tr>');
+            
+            $rowTr.append('<th scope="row">'+phrase+'</th>');
+            
+            var series = chart.seriesList[i];
+            
+            for (var j = 0; j < series.points.length; j++) {
+                
+                $rowTr.append('<td>'+formatNumber(series.points[j][1], 2)+getChartYNumberUnit()+'</td>');    
+                
+            }
+            
+            $tbody.append($rowTr);
+        }
+
+    }
 }
