@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory.createEnrichmentTag;
 import static pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag;
+import static pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory.createReferencedRegulationsTag;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -34,7 +35,9 @@ import pl.edu.icm.saos.persistence.enrichment.JudgmentEnrichmentHashRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.enrichment.model.JudgmentEnrichmentHash;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
 
 import com.google.common.collect.Lists;
@@ -70,9 +73,14 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
     @Qualifier("solrJudgmentsServer")
     private SolrServer solrJudgmentsServer;
     
+    @Autowired
+    private LawJournalEntryRepository lawJournalEntryRepository;
+    
     
     private final static int UPDATE_ENRICHMENT_HASH_STEP = 1;
     private final static int MARK_CHANGED_TAG_JUDGMENTS_AS_NOT_INDEXED_STEP = 2;
+    private final static int SAVE_ENRICHMENT_TAG_LAW_JOURNAL_ENTRIES_STEP = 3;
+    private final static int INDEX_JUDGMENTS_STEP = 4;
     
     
     //------------------------ TESTS --------------------------
@@ -89,9 +97,19 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
         EnrichmentTag scjMaxRefMoneyTag = createEnrichmentTag(testObjectContext.getScJudgmentId(), EnrichmentTagTypes.MAX_REFERENCED_MONEY,
                 JsonNormalizer.normalizeJson("{amount:12300.45, text:'123 tys zł 45 gr'}"));
         
-        enrichmentTagRepository.save(Lists.newArrayList(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag));
+        LawJournalEntry dbLawJournalEntry = new LawJournalEntry(2013, 33, 333, "Ustawa db");
+        lawJournalEntryRepository.save(dbLawJournalEntry);
+        int dbLawJournalEntryVer = dbLawJournalEntry.getVer();
         
-        String scJudgmentHash = getHashForTags(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag);
+        LawJournalEntry lawJournalEntry1 = new LawJournalEntry(2014, 34, 344, "Ustawa 1");
+        LawJournalEntry lawJournalEntry2 = new LawJournalEntry(2015, 35, 355, "Ustawa 2");
+        LawJournalEntry lawJournalEntry3 = new LawJournalEntry(2013, 33, 333, "Ustawa 3"); // same as dbLawJournalEntry but with different title 
+        EnrichmentTag scjRefRegulationsTag = createReferencedRegulationsTag(testObjectContext.getScJudgmentId(), "prefix_",
+                lawJournalEntry1, lawJournalEntry2, lawJournalEntry3);
+        
+        enrichmentTagRepository.save(Lists.newArrayList(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag, scjRefRegulationsTag));
+        
+        String scJudgmentHash = getHashForTags(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag, scjRefRegulationsTag);
         String nacJudgmentHash = getHashForTags(scjReferenceTag);
         
         
@@ -105,6 +123,8 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
         
         JobExecutionAssertUtils.assertStepExecution(execution, UPDATE_ENRICHMENT_HASH_STEP, 0, 4);
         JobExecutionAssertUtils.assertStepExecution(execution, MARK_CHANGED_TAG_JUDGMENTS_AS_NOT_INDEXED_STEP, 0, 2);
+        JobExecutionAssertUtils.assertStepExecution(execution, SAVE_ENRICHMENT_TAG_LAW_JOURNAL_ENTRIES_STEP, 0, 2);
+        JobExecutionAssertUtils.assertStepExecution(execution, INDEX_JUDGMENTS_STEP, 0, 4);
         
         assertEnrichmentHashForJudgment(testObjectContext.getScJudgmentId(), null, scJudgmentHash, true);
         assertEnrichmentHashForJudgment(testObjectContext.getNacJudgmentId(), null, nacJudgmentHash, true);
@@ -114,6 +134,10 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
         
         assertMaxReferencedMoneyIndexed(testObjectContext.getScJudgmentId(), "12300.45,PLN");
         
+        assertLawJournalEntryInDb(lawJournalEntry1);
+        assertLawJournalEntryInDb(lawJournalEntry2);
+        assertLawJournalEntryInDb(new LawJournalEntry(2013, 33, 333, "Ustawa db"));
+        assertLawJournalEntryVersion(dbLawJournalEntry.getId(), dbLawJournalEntryVer);
         
     }
     
@@ -128,19 +152,29 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
         EnrichmentTag scjSomeTag = createEnrichmentTag(testObjectContext.getScJudgmentId(), "SOME_TAG_TYPE", "{key:'value2'}");
         EnrichmentTag scjMaxRefMoneyTag = createEnrichmentTag(testObjectContext.getScJudgmentId(), EnrichmentTagTypes.MAX_REFERENCED_MONEY,
                 JsonNormalizer.normalizeJson("{amount:12300.45, text:'123 tys zł 45 gr'}"));
+        
+        LawJournalEntry lawJournalEntry1 = new LawJournalEntry(2014, 34, 344, "Ustawa 1");
+        LawJournalEntry lawJournalEntry2 = new LawJournalEntry(2015, 35, 355, "Ustawa 2");
+        EnrichmentTag scjRefRegulationsTag = createReferencedRegulationsTag(testObjectContext.getScJudgmentId(), "prefix_",
+                lawJournalEntry1, lawJournalEntry2);
+        
         EnrichmentTag ctjSomeTag = createEnrichmentTag(testObjectContext.getCtJudgmentId(), "SOME_TAG_TYPE", "{key:'value3'}");
         EnrichmentTag ccjSomeTag = createEnrichmentTag(testObjectContext.getCcJudgmentId(), "SOME_TAG_TYPE", "{key:'value4'}");
         
-        enrichmentTagRepository.save(Lists.newArrayList(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag, ctjSomeTag, ccjSomeTag));
+        enrichmentTagRepository.save(Lists.newArrayList(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag, scjRefRegulationsTag, ctjSomeTag, ccjSomeTag));
         
         jobExecutor.forceStartNewJob(tagPostUploadJob);
         
-        enrichmentTagRepository.delete(Lists.newArrayList(scjMaxRefMoneyTag, ctjSomeTag, ccjSomeTag));
+        enrichmentTagRepository.delete(Lists.newArrayList(scjMaxRefMoneyTag, scjRefRegulationsTag, ctjSomeTag, ccjSomeTag));
         EnrichmentTag ctjSomeTagChanged = createEnrichmentTag(testObjectContext.getCtJudgmentId(), "SOME_TAG_TYPE", "{key:'value3_changed'}");
         EnrichmentTag scjMaxRefMoneyTagChanged = createEnrichmentTag(testObjectContext.getScJudgmentId(), EnrichmentTagTypes.MAX_REFERENCED_MONEY,
                 JsonNormalizer.normalizeJson("{amount:52300.45, text:'523 tys zł 45 gr'}"));
         
-        enrichmentTagRepository.save(Lists.newArrayList(ctjSomeTagChanged, scjMaxRefMoneyTagChanged));
+        LawJournalEntry lawJournalEntry3 = new LawJournalEntry(2016, 36, 366, "Ustawa 3");
+        EnrichmentTag scjRefRegulationsTagChanged = createReferencedRegulationsTag(testObjectContext.getScJudgmentId(), "prefix_",
+                lawJournalEntry1, lawJournalEntry3);
+        
+        enrichmentTagRepository.save(Lists.newArrayList(ctjSomeTagChanged, scjMaxRefMoneyTagChanged, scjRefRegulationsTagChanged));
         
         
         // execute
@@ -153,16 +187,22 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
         
         JobExecutionAssertUtils.assertStepExecution(execution, UPDATE_ENRICHMENT_HASH_STEP, 0, 4);
         JobExecutionAssertUtils.assertStepExecution(execution, MARK_CHANGED_TAG_JUDGMENTS_AS_NOT_INDEXED_STEP, 0, 3);
+        JobExecutionAssertUtils.assertStepExecution(execution, SAVE_ENRICHMENT_TAG_LAW_JOURNAL_ENTRIES_STEP, 0, 1);
+        JobExecutionAssertUtils.assertStepExecution(execution, INDEX_JUDGMENTS_STEP, 0, 3);
         
         
-        assertEnrichmentHashForJudgment(testObjectContext.getScJudgmentId(), getHashForTags(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag),
-                getHashForTags(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTagChanged), true);
+        assertEnrichmentHashForJudgment(testObjectContext.getScJudgmentId(),
+                getHashForTags(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag, scjRefRegulationsTag),
+                getHashForTags(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTagChanged, scjRefRegulationsTagChanged), true);
         assertEnrichmentHashForJudgment(testObjectContext.getNacJudgmentId(), getHashForTags(scjReferenceTag), getHashForTags(scjReferenceTag), true);
         assertEnrichmentHashForJudgment(testObjectContext.getCtJudgmentId(), getHashForTags(ctjSomeTag), getHashForTags(ctjSomeTagChanged), true);
         assertEnrichmentHashForJudgment(testObjectContext.getCcJudgmentId(), getHashForTags(ccjSomeTag), null, true);
         
         assertMaxReferencedMoneyIndexed(testObjectContext.getScJudgmentId(), "52300.45,PLN");
         
+        assertLawJournalEntryInDb(lawJournalEntry1);
+        assertLawJournalEntryInDb(lawJournalEntry2);
+        assertLawJournalEntryInDb(lawJournalEntry3);
     }
     
     
@@ -185,6 +225,20 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
         SolrDocument doc = response.getResults().get(0);
         
         assertEquals(value, doc.getFieldValue(JudgmentIndexField.MAXIMUM_MONEY_AMOUNT.getFieldName()));
+    }
+    
+    private void assertLawJournalEntryInDb(LawJournalEntry entry) {
+        LawJournalEntry actualEntry = lawJournalEntryRepository.findOneByYearAndJournalNoAndEntry(entry.getYear(), entry.getJournalNo(), entry.getEntry());
+        
+        assertNotNull(actualEntry);
+        assertEquals(entry.getTitle(), actualEntry.getTitle());
+    }
+    
+    private void assertLawJournalEntryVersion(long id, int version) {
+        LawJournalEntry actualEntry = lawJournalEntryRepository.findOne(id);
+        
+        assertNotNull(actualEntry);
+        assertEquals(version, actualEntry.getVer());
     }
     
     private String getHashForTags(EnrichmentTag ... tags) {

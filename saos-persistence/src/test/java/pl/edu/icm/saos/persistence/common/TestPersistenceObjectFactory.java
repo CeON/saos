@@ -16,6 +16,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
+import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamber;
 import pl.edu.icm.saos.persistence.model.SupremeCourtChamberDivision;
@@ -258,6 +259,18 @@ public class TestPersistenceObjectFactory {
     @Transactional
     public EnrichmentTag createReferencedCourtCasesTag(long judgmentId, Judgment ... referencedJudgments) {
         EnrichmentTag enrichmentTag = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(judgmentId, referencedJudgments);
+        saveEnrichmentTag(enrichmentTag);
+        
+        return enrichmentTag;
+    }
+    
+    /**
+     * Creates {@link EnrichmentTag} with
+     * {@link pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes#REFERENCED_REGULATIONS} type
+     */
+    @Transactional
+    public EnrichmentTag createReferencedRegulationsTag(long judgmentId, String refRegulationTextPrefix, LawJournalEntry ... lawJournalEntries) {
+        EnrichmentTag enrichmentTag = TestInMemoryEnrichmentTagFactory.createReferencedRegulationsTag(judgmentId, refRegulationTextPrefix, lawJournalEntries);
         saveEnrichmentTag(enrichmentTag);
         
         return enrichmentTag;
