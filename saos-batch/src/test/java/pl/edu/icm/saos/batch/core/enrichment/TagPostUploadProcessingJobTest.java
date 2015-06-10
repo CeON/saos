@@ -99,10 +99,13 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
         
         LawJournalEntry dbLawJournalEntry = new LawJournalEntry(2013, 33, 333, "Ustawa db");
         lawJournalEntryRepository.save(dbLawJournalEntry);
+        int dbLawJournalEntryVer = dbLawJournalEntry.getVer();
+        
         LawJournalEntry lawJournalEntry1 = new LawJournalEntry(2014, 34, 344, "Ustawa 1");
         LawJournalEntry lawJournalEntry2 = new LawJournalEntry(2015, 35, 355, "Ustawa 2");
+        LawJournalEntry lawJournalEntry3 = new LawJournalEntry(2013, 33, 333, "Ustawa 3"); // same as dbLawJournalEntry but with different title 
         EnrichmentTag scjRefRegulationsTag = createReferencedRegulationsTag(testObjectContext.getScJudgmentId(), "prefix_",
-                dbLawJournalEntry, lawJournalEntry1, lawJournalEntry2);
+                lawJournalEntry1, lawJournalEntry2, lawJournalEntry3);
         
         enrichmentTagRepository.save(Lists.newArrayList(scjReferenceTag, scjSomeTag, scjMaxRefMoneyTag, scjRefRegulationsTag));
         
@@ -133,7 +136,8 @@ public class TagPostUploadProcessingJobTest extends BatchTestSupport {
         
         assertLawJournalEntryInDb(lawJournalEntry1);
         assertLawJournalEntryInDb(lawJournalEntry2);
-        assertLawJournalEntryVersion(dbLawJournalEntry.getId(), dbLawJournalEntry.getVer());
+        assertLawJournalEntryInDb(new LawJournalEntry(2013, 33, 333, "Ustawa db"));
+        assertLawJournalEntryVersion(dbLawJournalEntry.getId(), dbLawJournalEntryVer);
         
     }
     
