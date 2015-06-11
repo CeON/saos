@@ -25,10 +25,31 @@ function InfoFormSection(options) {
     
     function init() {
         updateInfoSection();
+        bindClearFormSection();
         bindOpenFormSection();
         bindConfirmFormSection();
     }
     
+    /* 
+     * Assigns clear form section event on click
+     */
+    function bindClearFormSection() {
+        
+        $(options.clearFormSectionId).on("click", function(event) {
+            
+            var isSectionOpened = $(options.infoSectionId).hasClass("info-section-opened");
+            
+            event.preventDefault();
+            
+            clearFieldsInContainer($(options.formSectionId));
+            
+            updateInfoSection();
+            
+            if (options.onAfterClearFormSection) {
+                options.onAfterClearFormSection(isSectionOpened);
+            }
+        });
+    }
     
     /* 
      * Assigns buttons to open form section on event click.
@@ -102,12 +123,14 @@ function InfoFormSection(options) {
      /**
       * Closes form section if the user clicked outside it
       * e.data[0].formSectionId = the id of the form section prefixed with #
-      * e.data[1].infoSectionId = the id of the info section prefixed with #
+      * e.data[0].infoSectionId = the id of the info section prefixed with #
+      * e.data[0].clearFormSectionId = the id of the clear form section button prefixed with #
       */
      function closeFormSectionIfClickedOutside(e) {
 
          var $formSection = $(e.data[0].formSectionId),
          $setSection = $(e.data[0].infoSectionId),
+         $clearFormSection = $(e.data[0].clearFormSectionId)
          $datepicker = $("#ui-datepicker-div");
      
      
@@ -117,7 +140,8 @@ function InfoFormSection(options) {
 
          if (!$formSection.is(e.target)  // if the target of the click isn't the container...
                  && $formSection.has(e.target).length === 0 && $setSection.has(e.target).length === 0 && // ... nor a descendant of the container
-                 !$datepicker.is(e.target) && $datepicker.has(e.target).length === 0) // ... nor a datepicker
+                 !$datepicker.is(e.target) && $datepicker.has(e.target).length === 0 // ... nor a datepicker
+        	     && !$clearFormSection.is(e.target)) // ... nor clear section button
          {
              closeFormSection();
              unBindCloseFormSectionEventHandler();

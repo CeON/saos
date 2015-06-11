@@ -41,10 +41,11 @@
             <div class="info-section-header" >
                 <spring:message code="judgmentSearch.judgmentSection.criteria.header" />
            </div>
-        
+         
            <a id="judgment-info" class="info-section" href="" >
                <spring:message code="judgmentSearch.judgmentSection.defaultText" />
            </a>
+               
     
             
             <div id="judgment-form-section" class="row form-section">
@@ -249,10 +250,9 @@
                         
                     </div>
                     
-                    <form:hidden path="referencedCourtCaseId" id="referencedCourtCaseId" />
-                    
-                    <div class="align-right">
-                        <button id="confirm-section-judgment-info" class="btn btn-xs button"><spring:message code="confirm" /></button>
+                    <div>
+                        <button id="judgment-clear-form-section" class="btn btn-xxs button float-left"><spring:message code="clear" /></button>
+                        <button id="confirm-section-judgment-info" class="btn btn-xs button float-right"><spring:message code="confirm" /></button>
                     </div>
                      
                 </div>

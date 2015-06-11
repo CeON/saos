@@ -20,6 +20,7 @@
         <b><spring:message code="context.date.anyValue" /></b>
     </a>
         
+        
     <div id="date-form-section" class="row form-section">
         
         <spring:message code="judgmentSearch.formField.datePlaceholder" var="datePlaceholder" />
@@ -41,8 +42,9 @@
             </div>
         </div>
         
-        <div class="align-right">
-            <button id="confirm-section-date" class="btn btn-xs button"><spring:message code="confirm" /></button>
+        <div>
+            <button id="date-clear-form-section" class="btn btn-xxs button float-left"><spring:message code="clear" /></button>
+            <button id="confirm-section-date" class="btn btn-xs button float-right"><spring:message code="confirm" /></button>
         </div>
     
     </div>
