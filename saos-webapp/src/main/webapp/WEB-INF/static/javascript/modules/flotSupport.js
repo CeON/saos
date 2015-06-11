@@ -30,7 +30,8 @@ function FlotPointTooltipController(pointTooltipId) {
         var $pointTooltip = $("#"+pointTooltipId);
         
         if (item) {
-            if (currentPointTooltipItem == null || currentPointTooltipItem.dataIndex != item.dataIndex) {
+            if (currentPointTooltipItem == null || currentPointTooltipItem.dataIndex != item.dataIndex
+                                                || currentPointTooltipItem.seriesIndex != item.seriesIndex) {
                 _this.removePointTooltip();
             }
             if (!$pointTooltip.length) {
@@ -90,6 +91,53 @@ function FlotPointTooltipController(pointTooltipId) {
 
 }
 
+
+/**
+ * Function highlighting the current series and diminishing other ones. You can use it in
+ * flot plothover/plotclick events
+ * @param plot the current plot
+ * @param pointTooltipId the id of the tooltip of the current point of the series, the highlighting will be kept while hovering
+ * on the tooltip element; set it to null if you do not want this behaviour 
+ * <br/>
+ * The 3 parameters below comes from the flot plothover/plotclick event callback function
+ * @param event event
+ * @param pos mouse position
+ * @param item the current item
+ */
+function highlightCurrentSeries(plot, pointTooltipId, event, pos, item) {
+    var re = /\(([0-9]+,[0-9]+,[0-9]+)/;
+    var opacity = 1;
+    var seriesIdx = -1;
+    
+    if (item) {
+        seriesIdx = item.seriesIndex;
+        opacity = 0.05;
+    } 
+    
+    if (pointTooltipId) {
+        if ($("#"+pointTooltipId).length && isInsideElement("pointTooltip", pos.pageX, pos.pageY)) {
+            return;
+        }
+    }
+    
+    // loop all the series and adjust the opacity 
+    var modSeries = 
+    $.map(plot.getData(),function(series,idx){
+        if (idx == seriesIdx){
+           var calcColor = 'rgba(' + re.exec(series.color)[1] + ',' + 2 + ')'  
+           series.color = calcColor
+           series.points.fillColor = calcColor;
+        } else {
+            var calcColor = 'rgba(' + re.exec(series.color)[1] + ',' + opacity + ')';
+            series.color = calcColor
+            series.points.fillColor = calcColor;
+        }
+       return series;
+    });
+    // reload the series and redraw
+    plot.setData(modSeries);
+    plot.draw();
+}
 
 
 /**

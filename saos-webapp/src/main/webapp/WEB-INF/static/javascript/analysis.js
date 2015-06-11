@@ -30,10 +30,10 @@ var initAnalysisJs = function() {
     // each next colour has to differ as much as possible from preceding colours in order
     // for the series to look distinct 
     var colours = [
-                   "#0000ff", // blue
-                   "#ff0000", // red
-                   "#008000", // green
-                   "#000000", // black
+                   "rgb(0,0,255)", // blue
+                   "rgb(255,0,0)", // red
+                   "rgb(0,128,0)", // green
+                   "rgb(0,0,0)", // black
                    "#ffa500", // orange
                    "#800080", // purple
                    "#a9a9a9", // darkgrey
@@ -433,8 +433,14 @@ var initAnalysisJs = function() {
              printMainChart(mainChart, null, null);
              generateMainChartTable(mainChart);
              printAggregatedMainChart(aggregatedMainChart);
-             printCcCourtChart(ccCourtChart);
-             generateCcCourtChartTable(ccCourtChart);
+             
+             if (ccCourtChart) {
+                 printCcCourtChart(ccCourtChart);
+                 generateCcCourtChartTable(ccCourtChart);
+             } else {
+                 $('#ccCourtChartDiv').hide();
+
+             }
              
              if (updateLocationUrl) {
                  updateUrl();   
@@ -477,16 +483,16 @@ var initAnalysisJs = function() {
             seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points, points: {fillColor: getColour(i)}});
         }
         
-        $.plot($("#mainChart"), seriesArr,    {
-                                                     lines: {
+        mainChartPlot = $.plot($("#mainChart"), seriesArr,    {
+                                                    lines: {
                                                          steps:false,
                                                          align: 'left',
                                                          show: true
                                                          
                                                     }, 
                                                     points: {
-                                                        show:true 
-                                                        
+                                                        show:true, 
+                                                        radius: 2
                                                         
                                                     },
                                                     xaxis: { 
@@ -511,7 +517,7 @@ var initAnalysisJs = function() {
                                                     },
                                                     selection: {
                                                         mode: "x"
-                                                    }  
+                                                    }
                                                      
                                                 }
                                             );
@@ -528,8 +534,10 @@ var initAnalysisJs = function() {
     
     
     $("#mainChart").on("plothover", function (event, pos, item) {
+        highlightCurrentSeries(mainChartPlot, null, event, pos, item);
         pointTooltipController.controlPointTooltip(pos, item, generateMainChartPointTooltip);
     });
+    
     
     
     
@@ -543,10 +551,15 @@ var initAnalysisJs = function() {
         
         var timePeriod = mainChart.xticks[item.dataIndex][1];
         var formattedTimePeriod = formatXtickPeriod(timePeriod, " - ", " - ", " - ");
+        pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
+        
+        
+        var searchedPhrase = getSearchedPhrase(item.seriesIndex);
+        pointTooltipDiv.find("#pointSearchedPhrase").html(searchedPhrase);
+        
+        
         var judgmentCount = item.datapoint[1];
         var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
-        
-        pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
         pointTooltipDiv.find("#pointJudgmentCount").html(formattedJudgmentCount);
         
         
@@ -733,10 +746,13 @@ var initAnalysisJs = function() {
         pointTooltipDiv.attr('id', pointTooltipId);
         
         var formattedTimePeriod = formatMonth(getGlobalStartDate()) + " - " + formatMonth(getGlobalEndDate()); 
+        pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
+        
+        var searchedPhrase = getSearchedPhrase(item.seriesIndex);
+        pointTooltipDiv.find("#pointSearchedPhrase").html(searchedPhrase);
+        
         var judgmentCount = item.datapoint[1];
         var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
-        
-        pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
         pointTooltipDiv.find("#pointJudgmentCount").html(formattedJudgmentCount);
         
         
@@ -789,10 +805,6 @@ var initAnalysisJs = function() {
      */
     function printCcCourtChart(chart, xmin, xmax) {
 
-        if (chart == null) {
-            $('#ccCourtChartDiv').hide();
-            return;
-        }
         $('#ccCourtChartDiv').show();
         
         if (xmin == null) {
@@ -818,7 +830,7 @@ var initAnalysisJs = function() {
         
         var calcBarWidth = numberOfBarsInSeries / (numberOfBarsInSeries*numberOfSeries*2);
         
-        $.plot($("#ccCourtChart"), seriesArr,    {
+        ccCourtChartPlot = $.plot($("#ccCourtChart"), seriesArr,    {
                                                     bars: {
                                                         show: true,
                                                         align: 'left',
@@ -879,6 +891,7 @@ var initAnalysisJs = function() {
     
       
     $("#ccCourtChart").on("plothover", function (event, pos, item) {
+        highlightCurrentSeries(ccCourtChartPlot, pointTooltipId, event, pos, item);
         pointTooltipController.controlPointTooltip(pos, item, generateCcCourtChartPointTooltip);
     });
     
@@ -898,6 +911,9 @@ var initAnalysisJs = function() {
         var formattedTimePeriod = formatMonth(getGlobalStartDate()) + " - " + formatMonth(getGlobalEndDate()); 
         pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
         
+
+        var searchedPhrase = getSearchedPhrase(item.seriesIndex);
+        pointTooltipDiv.find("#pointSearchedPhrase").html(searchedPhrase);
         
         var judgmentCount = item.datapoint[1];
         var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
@@ -1087,6 +1103,10 @@ var initAnalysisJs = function() {
         return moment([dateRange.endYear, dateRange.endMonth-1, 1]).endOf("month").toDate();
     }
     
+    
+    function getSearchedPhrase(seriesIndex) {
+        return generatedChartAnalysisForm.seriesFilters[seriesIndex].phrase;
+    }
     
     function generateDateRangeSearchUrlParams(dateFrom, dateTo) {
         var dateFrom = moment(dateFrom).format(DATE_PATTERN);
