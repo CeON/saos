@@ -39,6 +39,7 @@ html, body {
 
 a, .hint {
     color: $dark;
+	display: inline-block;
     @include outline();
     
     &:hover {
@@ -332,6 +333,7 @@ a, .hint {
         .saos-logo {
             @include background-image("saosLogoNoText.png");
             background-size: 300px auto;
+            background-repeat: no-repeat;
             cursor: pointer;
             display: block;
             height: 151px;
@@ -486,10 +488,12 @@ a, .hint {
             }
             color: $dark;
             cursor: pointer;
-            padding: 0 6px;
+            padding: 0 30px 0 6px;
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
+        	width: auto;
+  			display: inline-block;
             @include outline();
             
             option {
@@ -725,6 +729,7 @@ a, .hint {
                 position: absolute;
                 right: 0;
                 top: 0;
+                left: initial;
             }
         
         }
@@ -837,12 +842,14 @@ a, .hint {
             border: 0;
             position: absolute;
             right: 30px;
-            top: 0;
+            top: 2px;;
             z-index: 999;
         }
         
         select {
             margin-right: 10px;
+            min-width: 105px;
+            padding-left: 2px;
         }
     
     }
@@ -1477,6 +1484,9 @@ a, .hint {
         color: $white;
         text-decoration: none;   
     }
+    &:focus {
+    	padding-left: 5px;
+    }
     
     &:before {
         @include background-image("icons/arrow-down.png");
@@ -1888,6 +1898,9 @@ a, .hint {
         }
     }
 }
+    
+
+
 
 
 

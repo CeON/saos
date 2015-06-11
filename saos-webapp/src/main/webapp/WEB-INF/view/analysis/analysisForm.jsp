@@ -27,7 +27,7 @@
 		
 			    <c:forEach items="${analysisForm.seriesFilters}" var="seriesFilter" varStatus="status">
 				    
-				    <div class="col-sm-6 col-md-11 col-lg-11 form-group" id="seriesSearchPhraseDiv_${status.index}">
+				    <div class="col-sm-6 col-md-11 col-lg-11 form-group no-margin-right" id="seriesSearchPhraseDiv_${status.index}">
 				     
 				            <div >
 	
