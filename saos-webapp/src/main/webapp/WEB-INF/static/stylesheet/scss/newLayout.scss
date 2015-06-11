@@ -39,6 +39,7 @@ html, body {
 
 a, .hint {
     color: $dark;
+	display: inline-block;
     @include outline();
     
     &:hover {
@@ -131,6 +132,7 @@ a, .hint {
     .navigation {
         margin: 0;
         padding: 100px;
+        padding-top: 70px;
         position: relative;
         width: 50%;
         
@@ -191,10 +193,10 @@ a, .hint {
             @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
                 width: 550px;
             }
-            @media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+            @media (min-width: $screen-md-min) and (max-width: $screen-md-max + 250px) {
                 width: 400px;
             }
-            @media (min-width: $screen-lg-min) and (max-width: $screen-lg-max) {
+            @media (min-width: $screen-lg-min + 250px) and (max-width: $screen-lg-max + 250px) {
                 width: 500px;
             }
         }
@@ -205,9 +207,10 @@ a, .hint {
     .content {
 
         margin: 0;
-        min-height: 645px;
+        min-height: 665px;
         padding: 0;
         width: 50%;
+        height: 100vh;
         
         @media (max-width: $screen-xs-min) {
             width: 100%;
@@ -231,17 +234,18 @@ a, .hint {
             width: 100%;
             
             a {
-                display: block;
+                display: table;
                 height: 100%;
-                padding-top: 20px;
+                padding-top: 5px;
                 width: 100%;
-                
+       
                 &:hover, &:focus {
                     color: $dark;
+                    text-decoration: none;
                 }
                 
                 > div {
-                    display: inline-block;   
+                    display: table-cell;   
                     vertical-align: middle; 
                 }
             }
@@ -253,10 +257,11 @@ a, .hint {
             .box-title {
                 border: 1px solid $dark;
                 display: block;
-                margin: 10px 0;
+                margin: 10px auto;
                 letter-spacing: 0.2em;
-                padding: 5px 20px 0;
+                padding: 5px 20px;
                 text-transform: uppercase;
+                max-width: 315px;
             }
             
             .box-desc {
@@ -328,6 +333,7 @@ a, .hint {
         .saos-logo {
             @include background-image("saosLogoNoText.png");
             background-size: 300px auto;
+            background-repeat: no-repeat;
             cursor: pointer;
             display: block;
             height: 151px;
@@ -482,10 +488,12 @@ a, .hint {
             }
             color: $dark;
             cursor: pointer;
-            padding: 0 6px;
+            padding: 0 30px 0 6px;
             -webkit-appearance: none;
             -moz-appearance: none;
             appearance: none;
+        	width: auto;
+  			display: inline-block;
             @include outline();
             
             option {
@@ -721,6 +729,7 @@ a, .hint {
                 position: absolute;
                 right: 0;
                 top: 0;
+                left: initial;
             }
         
         }
@@ -833,12 +842,14 @@ a, .hint {
             border: 0;
             position: absolute;
             right: 30px;
-            top: 0;
+            top: 2px;;
             z-index: 999;
         }
         
         select {
             margin-right: 10px;
+            min-width: 105px;
+            padding-left: 2px;
         }
     
     }
@@ -1473,6 +1484,9 @@ a, .hint {
         color: $white;
         text-decoration: none;   
     }
+    &:focus {
+    	padding-left: 5px;
+    }
     
     &:before {
         @include background-image("icons/arrow-down.png");
@@ -1884,6 +1898,9 @@ a, .hint {
         }
     }
 }
+    
+
+
 
 
 

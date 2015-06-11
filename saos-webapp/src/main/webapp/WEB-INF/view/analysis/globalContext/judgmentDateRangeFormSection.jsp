@@ -4,9 +4,9 @@
     
  <div id="date-range-form-section" class="row form-section">
       
-      <div id="dateRangeInputs" class="form-group form-inline col-xs-12">
+      <div id="dateRangeInputs" class="form-group form-inline col-padding">
       
-           <div class="col-xs-12">
+           <div>
                <spring:message code="analysis.criteria.judgmentDateStartMonth.title" var="judgmentDateStartMonthTitle" />
                <spring:message code="analysis.criteria.judgmentDateStartYear.title" var="judgmentDateStartYearTitle" />
                <label class="col-xs-12"><spring:message code="from"/></label>
@@ -14,7 +14,7 @@
                <saos:yearSelect path="globalFilter.judgmentDateRange.startYear" id="judgmentDateStartYear" yearRange="${currentYear}-1970, 1960, 1950, 1940, 1930"  title="${judgmentDateStartYearTitle}" />
            </div>
     
-           <div class="col-xs-12">
+           <div>
                <spring:message code="analysis.criteria.judgmentDateEndMonth.title" var="judgmentDateEndMonthTitle" />
                <spring:message code="analysis.criteria.judgmentDateEndYear.title" var="judgmentDateEndYearTitle" />
                <label class="col-xs-12"><spring:message code="to"/></label>
