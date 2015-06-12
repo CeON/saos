@@ -175,7 +175,7 @@
                         
                         <c:forEach items="${presidingJudges}" var="judge" >
                             <span>
-                                <a href="${contextPath}/search?judgeName=${judge.name}" data-toggle="tooltip" title="${judgeLinkTooltip}" >
+                                <a href="${contextPath}/search?judgeName=%22${judge.name}%22" data-toggle="tooltip" title="${judgeLinkTooltip}" >
                                        <c:out value="${judge.name}" />
                                     </a>
 	                            <span class="presiding-judge-white"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >
@@ -187,7 +187,7 @@
                         <c:forEach items="${judgment.judges}" var="judge" >
                             <c:if test="${!judge.presidingJudge}" >
                                 <span>                                      
-                                    <a href="${contextPath}/search?judgeName=${judge.name}" data-toggle="tooltip" title="${judgeLinkTooltip}" >
+                                    <a href="${contextPath}/search?judgeName=%22${judge.name}%22" data-toggle="tooltip" title="${judgeLinkTooltip}" >
                                        <c:out value="${judge.name}" />
                                     </a>
                                 </span>
@@ -283,7 +283,7 @@
             <div class="legalBases">    
                 <c:forEach items="${judgment.legalBases}" var="legalBase" >
                     <div class="legalBase">
-                        <a href="${contextPath}/search?legalBase=${legalBase}" data-toggle="tooltip" title="${legalBasesLinkTooltip}" >
+                        <a href="${contextPath}/search?legalBase=%22${legalBase}%22" data-toggle="tooltip" title="${legalBasesLinkTooltip}" >
                            <c:out value="${legalBase}" />
                         </a>
                     </div>
