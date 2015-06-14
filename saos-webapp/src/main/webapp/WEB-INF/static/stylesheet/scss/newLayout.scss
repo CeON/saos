@@ -185,7 +185,7 @@ a, .hint {
             }
         }
         
-        .saos-logo {
+        .saos-logo, .saos-logo-link {
         
             @media (max-width: $screen-xs-min) {
                 display: none;  
@@ -1864,7 +1864,7 @@ a, .hint {
     position: absolute;
 }
 
-.saos-logo-mobile {
+.saos-logo-mobile, .saos-logo-mobile-link {
     @media (max-width: $screen-xs-min) {
         display: block;
         margin: 0 auto;

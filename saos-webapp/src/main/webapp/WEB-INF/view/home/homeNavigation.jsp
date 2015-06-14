@@ -3,11 +3,11 @@
 
 
 <h1>
-    <a href="${contextPath}/" >
+    <a href="${contextPath}/" class="saos-logo-link">
         <img class="saos-logo" src="${contextPath}/static/image/saosLogo.png" alt="<spring:message code="saos.fullname"/>" />
     </a>
     
-    <a href="${contextPath}/" >
+    <a href="${contextPath}/" class="saos-logo-mobile-link">
         <img class="saos-logo-mobile" src="${contextPath}/static/image/saosLogoMobile.png" alt="<spring:message code="saos.fullname"/>" />
     </a>    
 </h1>
