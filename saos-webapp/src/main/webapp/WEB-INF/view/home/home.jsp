@@ -14,8 +14,7 @@
 	        
 	    </div>
 	
-	    <div class="content col-xs-6">
-	        
+	    <div class="content col-xs-6" id="content">
 	        <%@ include file="../home/homeContent.jsp" %>
 	        
 	    </div>
