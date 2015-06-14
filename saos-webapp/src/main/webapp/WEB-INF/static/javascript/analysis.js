@@ -373,6 +373,8 @@ var initAnalysisJs = function() {
                 
             }
             
+            $("input[id^='seriesSearchPhraseInput']").last().focus()
+            
         });
         
         

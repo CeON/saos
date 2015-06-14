@@ -21,7 +21,7 @@
             </div>
         </div>
     
-        <div class="content col-md-8">
+        <div class="content col-md-8" id="content">
             
             <%@ include file="analysisContent.jsp" %>
             

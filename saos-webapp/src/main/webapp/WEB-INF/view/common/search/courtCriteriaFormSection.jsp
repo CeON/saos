@@ -13,7 +13,7 @@
                 <div class="col-xs-12" >
                     <input type="radio" id="courtType_ALL" name="${courtCriteriaNestedPath}.courtType" value="" checked="checked" />
                     <label for="courtType_ALL" class="radio-label" >
-                        <spring:message code="courtCriteriaFormSection.formField.courtTypeAny" />
+                       	<spring:message code="courtCriteriaFormSection.formField.courtTypeAny" />
                     </label>
                 </div>
                 
