@@ -9,4 +9,8 @@
         <spring:message code="analysis.skipLinks.analysis" />
     </a>
 </li>
-
+<li>
+    <a href="#content" >
+        <spring:message code="analysis.skipLinks.charts" />
+    </a>
+</li>
