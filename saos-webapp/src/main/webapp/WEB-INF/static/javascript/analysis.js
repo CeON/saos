@@ -373,6 +373,8 @@ var initAnalysisJs = function() {
                 
             }
             
+            $("input[id^='seriesSearchPhraseInput']").last().focus()
+            
         });
         
         
@@ -642,10 +644,10 @@ var initAnalysisJs = function() {
     
     function generateMainChartTable(chart) {
         
-        generateChartTable('mainChartTable', chart, function(xtick) {
-            return formatXtickPeriod(xtick, " - ", " - ", " - ", function(date) { return formatDateWithPattern(date, "MMMM YYYY")}, function(date) { return formatDateWithPattern(date, "DD MMMM YYYY")})
-        });
-        
+//        generateChartTable('mainChartTable', chart, function(xtick) {
+//            return formatXtickPeriod(xtick, " - ", " - ", " - ", function(date) { return formatDateWithPattern(date, "MMMM YYYY")}, function(date) { return formatDateWithPattern(date, "DD MMMM YYYY")})
+//        });
+//        
     }
     
     
@@ -953,7 +955,7 @@ var initAnalysisJs = function() {
     
     function generateCcCourtChartTable(chart) {
         
-        generateChartTable('ccCourtChartTable', chart, function(xtick) {return xtick.name;});
+//        generateChartTable('ccCourtChartTable', chart, function(xtick) {return xtick.name;});
         
     }
    
