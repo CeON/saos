@@ -1,10 +1,10 @@
 package pl.edu.icm.saos.importer.notapi.common.content;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.zip.ZipFile;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
@@ -37,34 +37,21 @@ public class JudgmentContentFileExtractor {
     public InputStreamWithFilename extractJudgmentContent(File archiveFile, String judgmentSourceId) throws IOException {
         
         if (FilenameUtils.getExtension(archiveFile.getName()).equals("zip")) {
-            ZipInputStream inputStream = null;
-            try {
-                inputStream = new ZipInputStream(new FileInputStream(archiveFile));
-
-                ZipEntry entry = inputStream.getNextEntry();
-
-                while(true) {
-                    if (entry == null) {
-                        break;
-                    }
-
-                    if (FilenameUtils.getBaseName(entry.getName()).equals(judgmentSourceId)) {
-                        return new InputStreamWithFilename(inputStream, entry.getName());
-                    }
-
-                    entry = inputStream.getNextEntry();
-
-                }
+            ZipFile file = null;
+            file = new ZipFile(archiveFile);
+            
+            final Enumeration<? extends ZipEntry> entries = file.entries();
+            
+            while(entries.hasMoreElements()) {
+                final ZipEntry entry = entries.nextElement();
                 
-                throw new ImportException("Content for judgment with sourceId " + judgmentSourceId + " not found in file " + archiveFile.getName());
-                
-            } catch (IOException | ImportException e) {
-                if (inputStream != null) {
-                    inputStream.close();
+                if (FilenameUtils.getBaseName(entry.getName()).equals(judgmentSourceId)) {
+                    return new ZipEntryBasedInputStreamWithFilename(file, entry);
                 }
-                throw e;
             }
-
+            
+            file.close();
+            throw new ImportException("Content for judgment with sourceId " + judgmentSourceId + " not found in file " + archiveFile.getName());
         }
         
         throw new ImportException("File " + archiveFile.getName() + " is of type that is not supported");
