@@ -21,7 +21,7 @@ $(document).ready(function() {
 	        
 	    </div>
 	
-	    <div class="content col-md-8">
+	    <div class="content col-md-8" id="judgment-content">
 	        
 	        <%@ include file="../details/judgmentDetailsContent.jsp" %>
 	        
