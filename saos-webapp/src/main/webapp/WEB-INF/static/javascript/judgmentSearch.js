@@ -152,7 +152,7 @@ var jsInitInJudgmentSearch = function() {
     infoFormSection({
         formSectionId: "#date-form-section",
         infoSectionId: "#date-info-section",
-        clearFormButtonId: "#date-clear-form-section",
+        clearFormButtonId: "#date-clear-form-button",
         extractInfoFromFormCustom: extractInfoFromDateSectionInSearch,
         defaultInfoSectionText: springMessage.contextDateAnyValue
     });
