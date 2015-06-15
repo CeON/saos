@@ -7,7 +7,7 @@
 
     <a href="${contextPath}/search" >    
         <div>
-	        <img src="${contextPath}/static/image/home/search.png" alt="todo" />
+	        <img src="${contextPath}/static/image/home/search.png" />
 	        
 	        <p class="box-title" >
 	            <spring:message code="home.navigation.search" />
@@ -28,7 +28,7 @@
     <a href="${contextPath}/analysis" >
     
         <div>
-            <img src="${contextPath}/static/image/home/analysis.png" alt="todo" />
+            <img src="${contextPath}/static/image/home/analysis.png" />
         
 	        <p class="box-title" >
 	           <spring:message code="home.navigation.analysis" />
@@ -47,7 +47,7 @@
     <a href="${contextPath}/api" >
     
         <div>
-            <img src="${contextPath}/static/image/home/api.png" alt="todo" />
+            <img src="${contextPath}/static/image/home/api.png" />
         
             <p class="box-title" >
                 <spring:message code="home.navigation.api" />
