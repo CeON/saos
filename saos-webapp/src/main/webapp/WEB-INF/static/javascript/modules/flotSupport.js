@@ -2,12 +2,23 @@
  * showing, hiding of chart point tooltip element.
  * 
  *  @param pointTooltipId id that will be given to any controlled tooltip element. It is assumed
- *  that there can be no more than one tooltip element on the page (controlled by one controller). 
- *  The specified id makes it easier to show/remove or replace this element with a new one.
+ *  that there can be no more than one tooltip element for the given chart. 
+ *  The specified id makes it easier to show/remove or replace this element with a new one. 
+ *  @param generatePointTooltip function generating the point tooltip html element, the function will be passed 
+ *  the current item (see #controlPointTooltip(pos, item)). 
+ *  @param onPointTooltipOpenAction callback fired after opening the point tooltip, can be null
+ *  @param onPointTooltipCloseAction callback fired after closing the point tooltip, it will be passed current pos and item (see #controlPointTooltip(pos, item)), can be null
+ *   
  *  */
-function FlotPointTooltipController(pointTooltipId) {
+function FlotPointTooltipController(pointTooltipId, generatePointTooltip, onPointTooltipOpenAction, onPointTooltipCloseAction) {
     
     var pointTooltipId = pointTooltipId;
+    
+    var generatePointTooltip = generatePointTooltip;
+    
+    var onPointTooltipCloseAction = onPointTooltipCloseAction;
+    
+    var onPointTooltipOpenAction = onPointTooltipOpenAction;
     
     var currentPointTooltipItem = null;
         
@@ -22,17 +33,15 @@ function FlotPointTooltipController(pointTooltipId) {
      * 
      * @param pos position of a mouse pointer
      * @param item item pointed on a flot chart
-     * @param generatePointTooltip function generating the point tooltip html element, the function will be passed 
-     * the given item. <b> The returned element id will be changed to this.pointTooltipId </b>
      */    
-    this.controlPointTooltip = function(pos, item, generatePointTooltip) {
+    this.controlPointTooltip = function(pos, item) {
             
         var $pointTooltip = $("#"+pointTooltipId);
         
         if (item) {
             if (currentPointTooltipItem == null || currentPointTooltipItem.dataIndex != item.dataIndex
                                                 || currentPointTooltipItem.seriesIndex != item.seriesIndex) {
-                _this.removePointTooltip();
+                _this.closePointTooltip();
             }
             if (!$pointTooltip.length) {
                 pointTooltipDiv = generatePointTooltip(item);
@@ -42,16 +51,20 @@ function FlotPointTooltipController(pointTooltipId) {
                 
                 $pointTooltip = $("#"+pointTooltipId);
                 $pointTooltip.mouseleave(function(event) {
-                    _this.removePointTooltip();
+                    _this.closePointTooltip();
                 });
                 currentPointTooltipItem = item;
+                
+                if (onPointTooltipOpenAction) {
+                    onPointTooltipOpenAction(pos, item);
+                }
             }
-               
         } else {
             if ($pointTooltip.length) {
                 if (!isInsideElement(pointTooltipId, pos.pageX, pos.pageY)) {
-                    _this.removePointTooltip();
+                    _this.closePointTooltip();
                     currentPointTooltipItem = null;
+                    
                 }
             }
         }
@@ -82,8 +95,11 @@ function FlotPointTooltipController(pointTooltipId) {
     /**
      * Removes tooltip controlled by this object
      */
-    this.removePointTooltip = function() {
+    this.closePointTooltip = function() {
         $('#'+pointTooltipId).remove();
+        if (onPointTooltipCloseAction) {
+            onPointTooltipCloseAction();
+        }
     }
     
     
@@ -102,11 +118,10 @@ function FlotPointTooltipController(pointTooltipId) {
  * on the tooltip element; set it to null if you do not want this behaviour 
  * <br/>
  * The 3 parameters below comes from the flot plothover/plotclick event callback function
- * @param event event
  * @param pos mouse position
  * @param item the current item
  */
-function highlightCurrentSeries(plot, pointTooltipId, event, pos, item) {
+function highlightCurrentSeries(plot, pointTooltipId, pos, item) {
     var re = /\(([0-9]+,[0-9]+,[0-9]+)/;
     var opacity = 1;
     var seriesIdx = -1;
@@ -118,7 +133,9 @@ function highlightCurrentSeries(plot, pointTooltipId, event, pos, item) {
     
     if (pointTooltipId) {
         if ($("#"+pointTooltipId).length && isInsideElement("pointTooltip", pos.pageX, pos.pageY)) {
-            return;
+            if (!item) {
+                return;
+            }
         }
     }
     

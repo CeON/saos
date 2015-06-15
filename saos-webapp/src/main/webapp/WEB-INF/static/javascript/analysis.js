@@ -20,7 +20,9 @@ var initAnalysisJs = function() {
     
     var pointTooltipId = "pointTooltip";
     
-    var pointTooltipController = new FlotPointTooltipController(pointTooltipId);
+    var mainPointTooltipController;
+    var aggregatedMainChartPointTooltipController;
+    var ccCourtChartPointTooltipController;
     
     
     var isZoomed = false;
@@ -479,7 +481,7 @@ var initAnalysisJs = function() {
             seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points, points: {fillColor: getColour(i)}});
         }
         
-        mainChartPlot = $.plot($("#mainChart"), seriesArr,    {
+        var mainChartPlot = $.plot($("#mainChart"), seriesArr,    {
                                                     lines: {
                                                          steps:false,
                                                          align: 'left',
@@ -520,6 +522,12 @@ var initAnalysisJs = function() {
         
         formatXTicks(140, "mainChart");
         $('#mainChart').find('.flot-x-axis .flot-tick-label').css("max-width","");
+
+        function highlightMainChartCurrentSeries(pos, item) {
+            highlightCurrentSeries(mainChartPlot, pointTooltipId, pos, item);
+        }
+        
+        mainChartPointTooltipController = new FlotPointTooltipController(pointTooltipId, generateMainChartPointTooltip, highlightMainChartCurrentSeries, highlightMainChartCurrentSeries);
         
     }
     
@@ -530,10 +538,8 @@ var initAnalysisJs = function() {
     
     
     $("#mainChart").on("plothover", function (event, pos, item) {
-        highlightCurrentSeries(mainChartPlot, null, event, pos, item);
-        pointTooltipController.controlPointTooltip(pos, item, generateMainChartPointTooltip);
+        mainChartPointTooltipController.controlPointTooltip(pos, item);
     });
-    
     
     
     
@@ -690,7 +696,7 @@ var initAnalysisJs = function() {
             seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points});
         }
         
-        $.plot($("#aggregatedMainChart"), seriesArr,    {
+        var aggregatedMainChartPlot = $.plot($("#aggregatedMainChart"), seriesArr,    {
                                                     bars: {
                                                         show: true,
                                                         align: 'right',
@@ -722,13 +728,19 @@ var initAnalysisJs = function() {
                                             );
         
         
+        function highlightAggregatedMainChartCurrentSeries(pos, item) {
+            highlightCurrentSeries(aggregatedMainChartPlot, pointTooltipId, pos, item);
+        }
+
+        aggregatedMainChartPointTooltipController = new FlotPointTooltipController(pointTooltipId, generateAggregatedMainChartPointTooltip, highlightAggregatedMainChartCurrentSeries, highlightAggregatedMainChartCurrentSeries);
+        
     }
     
    
     /*----------------------------------- TOOLTIP ----------------------------------*/
     
     $("#aggregatedMainChart").on("plothover", function (event, pos, item) {
-        pointTooltipController.controlPointTooltip(pos, item, generateAggregatedMainChartPointTooltip);
+        aggregatedMainChartPointTooltipController.controlPointTooltip(pos, item);
     });
     
     
@@ -826,7 +838,7 @@ var initAnalysisJs = function() {
         
         var calcBarWidth = numberOfBarsInSeries / (numberOfBarsInSeries*numberOfSeries*2);
         
-        ccCourtChartPlot = $.plot($("#ccCourtChart"), seriesArr,    {
+        var ccCourtChartPlot = $.plot($("#ccCourtChart"), seriesArr,    {
                                                     bars: {
                                                         show: true,
                                                         align: 'left',
@@ -866,7 +878,13 @@ var initAnalysisJs = function() {
                                                 }
                                             );
         
-        
+ 
+        function highlightCcCourtChartCurrentSeries(pos, item) {
+            highlightCurrentSeries(ccCourtChartPlot, pointTooltipId, pos, item);
+        }
+
+        ccCourtChartPointTooltipController = new FlotPointTooltipController(pointTooltipId, generateCcCourtChartPointTooltip, highlightCcCourtChartCurrentSeries, highlightCcCourtChartCurrentSeries);
+ 
     }
     
     /**
@@ -887,8 +905,7 @@ var initAnalysisJs = function() {
     
       
     $("#ccCourtChart").on("plothover", function (event, pos, item) {
-        highlightCurrentSeries(ccCourtChartPlot, pointTooltipId, event, pos, item);
-        pointTooltipController.controlPointTooltip(pos, item, generateCcCourtChartPointTooltip);
+        ccCourtChartPointTooltipController.controlPointTooltip(pos, item);
     });
     
 
