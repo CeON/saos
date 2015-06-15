@@ -114,10 +114,9 @@ var initAnalysisJs = function() {
         infoFormSection({
             formSectionId: "#court-form-section",
             infoSectionId: "#court-info-section",
-            clearFormSectionId: "#court-clear-form-section",
+            clearFormButtonId: "#court-clear-form-button",
             extractInfoFromFormCustom: extractInfoFromCourtSection,
-            onFormSectionCloseAction: function() {generateCharts(true);},
-            onAfterClearFormSection: function(isSectionOpened) { if(!isSectionOpened) { generateCharts(true); }}
+            onFormSectionCloseAction: function() {generateCharts(true);}
         });
 
         infoFormSection({

@@ -251,7 +251,7 @@
                     </div>
                     
                     <div>
-                        <button id="judgment-clear-form-section" class="btn btn-xxs button float-left"><spring:message code="clear" /></button>
+                        <button id="judgment-clear-form-button" class="btn btn-xxs button float-left"><spring:message code="clear" /></button>
                         <button id="confirm-section-judgment-info" class="btn btn-xs button float-right"><spring:message code="confirm" /></button>
                     </div>
                      

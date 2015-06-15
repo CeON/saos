@@ -152,7 +152,7 @@ var jsInitInJudgmentSearch = function() {
     infoFormSection({
         formSectionId: "#date-form-section",
         infoSectionId: "#date-info-section",
-        clearFormSectionId: "#date-clear-form-section",
+        clearFormButtonId: "#date-clear-form-section",
         extractInfoFromFormCustom: extractInfoFromDateSectionInSearch,
         defaultInfoSectionText: springMessage.contextDateAnyValue
     });
@@ -162,7 +162,7 @@ var jsInitInJudgmentSearch = function() {
     var extraFieldInfoFormSection = infoFormSection({
         formSectionId: "#judgment-form-section",
         infoSectionId: "#judgment-info",
-        clearFormSectionId: "#judgment-clear-form-section",
+        clearFormButtonId: "#judgment-clear-form-button",
         extractInfoFromFormCustom: extractInfoFromJudgmentFormSectionInSearch,
         defaultInfoSectionText: springMessage.judgmentSearchJudgmentSectionDefaultText,
         onAfterClearFormSection: function() {
@@ -179,7 +179,7 @@ var jsInitInJudgmentSearch = function() {
     infoFormSection({
         formSectionId: "#court-form-section",
         infoSectionId: "#court-info-section",
-        clearFormSectionId: "#court-clear-form-section",
+        clearFormButtonId: "#court-clear-form-button",
         extractInfoFromFormCustom: extractInfoFromCourtSection,
         onFormSectionCloseAction: updateExtraFieldInfoFormSection,
         onAfterClearFormSection: updateExtraFieldInfoFormSection
