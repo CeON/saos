@@ -20,7 +20,9 @@ var initAnalysisJs = function() {
     
     var pointTooltipId = "pointTooltip";
     
-    var pointTooltipController = new FlotPointTooltipController(pointTooltipId);
+    var mainPointTooltipController;
+    var aggregatedMainChartPointTooltipController;
+    var ccCourtChartPointTooltipController;
     
     
     var isZoomed = false;
@@ -30,48 +32,44 @@ var initAnalysisJs = function() {
     // each next colour has to differ as much as possible from preceding colours in order
     // for the series to look distinct 
     var colours = [
-                   "#0000ff", // blue
-                   "#ff0000", // red
-                   "#008000", // green
-                   "#000000", // black
-                   "#ffa500", // orange
-                   "#800080", // purple
-                   "#a9a9a9", // darkgrey
-                   "#00ffff", // cyan
-                   "#a52a2a", // brown
-                   "#808000", // olive
-                   "#ffff00", // yellow
-                   "#ffc0cb", // pink  
-                   "#008b8b", // darkcyan
-                   "#000080", // navy
-                   "#90ee90", // lightgreen
-                   "#bdb76b", // darkkhaki
-                   "#556b2f", // darkolivegreen
-                   "#ff8c00", // darkorange
-                   "#9932cc", // darkorchid
-                   "#ff00ff", // magenta
-                   "#8b0000", // darkred
-                   "#e9967a", // darksalmon
-                   "#9400d3", // darkviolet
-                   "#ff00ff", // fuchsia
-                   "#8b008b", // darkmagenta
-                   "#006400", // darkgreen
-                   "#ffd700", // gold
-                   "#4b0082", // indigo
-                   "#f0e68c", // khaki
-                   "#add8e6", // lightblue
-                   "#e0ffff", // lightcyan
-                   "#d3d3d3", // lightgrey
-                   "#ffb6c1", // lighpink
-                   "#ffffe0", // lightyellow
-                   "#00ff00", // lime
-                   "#800000", // maroon
-                   "#00ffff", // aqua
-                   "#00008b", // darkblue
-                   "#f5f5dc", // beige
-                   "#c0c0c0"  // silver
-                   //"#ffffff"  // white
-                   //"#f0ffff", // azure
+                   "rgb(  0,    0,  255)", // blue
+                   "rgb(255,    0,    0)", // red
+                   "rgb(  0,  128,    0)", // green
+                   "rgb(  0,    0,    0)", // black
+                   "rgb(255,  165,    0)", // orange
+                   "rgb(128,    0,  128)", // purple
+                   "rgb(  0,  255,  255)", // cyan
+                   "rgb(165,   42,   42)", // brown
+                   "rgb(128,  128,    0)", // olive
+                   "rgb(255,  255,    0)", // yellow
+                   "rgb(255,  192,  203)", // pink  
+                   "rgb(  0,  139,  139)", // darkcyan
+                   "rgb(  0,    0,  128)", // navy
+                   "rgb(144,  238,  144)", // lightgreen
+                   "rgb(189,  183,  107)", // darkkhaki
+                   "rgb(169,  169,  169)", // darkgrey
+                   "rgb( 85,  107,   47)", // darkolivegreen
+                   "rgb(255,  140,    0)", // darkorange
+                   "rgb(153,   50,  204)", // darkorchid
+                   "rgb(255,    0,  255)", // magenta
+                   "rgb(139,    0,    0)", // darkred
+                   "rgb(233,  150,  122)", // darksalmon
+                   "rgb(148,    0,  211)", // darkviolet
+                   "rgb(139,    0,  139)", // darkmagenta
+                   "rgb(  0,  100,    0)", // darkgreen
+                   "rgb(255,  215,    0)", // gold
+                   "rgb( 75,    0,  130)", // indigo
+                   "rgb(240,  230,  140)", // khaki
+                   "rgb(173,  216,  230)", // lightblue
+                   "rgb(224,  255,  255)", // lightcyan
+                   "rgb(211,  211,  211)", // lightgrey
+                   "rgb(255,  182,  193)", // lighpink
+                   "rgb(255,  255,  224)", // lightyellow
+                   "rgb(  0,  255,    0)", // lime
+                   "rgb(128,    0,    0)", // maroon
+                   "rgb(  0,    0,  139)", // darkblue
+                   "rgb(245,  245,  220)", // beige
+                   "rgb(192,  192,  192)"  // silver
                 
                	   ];
     
@@ -435,8 +433,14 @@ var initAnalysisJs = function() {
              printMainChart(mainChart, null, null);
              generateMainChartTable(mainChart);
              printAggregatedMainChart(aggregatedMainChart);
-             printCcCourtChart(ccCourtChart);
-             generateCcCourtChartTable(ccCourtChart);
+             
+             if (ccCourtChart) {
+                 printCcCourtChart(ccCourtChart);
+                 generateCcCourtChartTable(ccCourtChart);
+             } else {
+                 $('#ccCourtChartDiv').hide();
+
+             }
              
              if (updateLocationUrl) {
                  updateUrl();   
@@ -479,16 +483,16 @@ var initAnalysisJs = function() {
             seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points, points: {fillColor: getColour(i)}});
         }
         
-        $.plot($("#mainChart"), seriesArr,    {
-                                                     lines: {
+        var mainChartPlot = $.plot($("#mainChart"), seriesArr,    {
+                                                    lines: {
                                                          steps:false,
                                                          align: 'left',
                                                          show: true
                                                          
                                                     }, 
                                                     points: {
-                                                        show:true 
-                                                        
+                                                        show:true, 
+                                                        radius: 2
                                                         
                                                     },
                                                     xaxis: { 
@@ -513,13 +517,19 @@ var initAnalysisJs = function() {
                                                     },
                                                     selection: {
                                                         mode: "x"
-                                                    }  
+                                                    }
                                                      
                                                 }
                                             );
         
         formatXTicks(140, "mainChart");
         $('#mainChart').find('.flot-x-axis .flot-tick-label').css("max-width","");
+
+        function highlightMainChartCurrentSeries(pos, item) {
+            highlightCurrentSeries(mainChartPlot, pointTooltipId, pos, item);
+        }
+        
+        mainChartPointTooltipController = new FlotPointTooltipController(pointTooltipId, generateMainChartPointTooltip, highlightMainChartCurrentSeries, highlightMainChartCurrentSeries);
         
     }
     
@@ -530,7 +540,7 @@ var initAnalysisJs = function() {
     
     
     $("#mainChart").on("plothover", function (event, pos, item) {
-        pointTooltipController.controlPointTooltip(pos, item, generateMainChartPointTooltip);
+        mainChartPointTooltipController.controlPointTooltip(pos, item);
     });
     
     
@@ -545,10 +555,15 @@ var initAnalysisJs = function() {
         
         var timePeriod = mainChart.xticks[item.dataIndex][1];
         var formattedTimePeriod = formatXtickPeriod(timePeriod, " - ", " - ", " - ");
+        pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
+        
+        
+        var searchedPhrase = getSearchedPhrase(item.seriesIndex);
+        pointTooltipDiv.find("#pointSearchedPhrase").html(searchedPhrase);
+        
+        
         var judgmentCount = item.datapoint[1];
         var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
-        
-        pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
         pointTooltipDiv.find("#pointJudgmentCount").html(formattedJudgmentCount);
         
         
@@ -683,7 +698,7 @@ var initAnalysisJs = function() {
             seriesArr.push({color: getColour(i), label: "", data: chart.seriesList[i].points});
         }
         
-        $.plot($("#aggregatedMainChart"), seriesArr,    {
+        var aggregatedMainChartPlot = $.plot($("#aggregatedMainChart"), seriesArr,    {
                                                     bars: {
                                                         show: true,
                                                         align: 'right',
@@ -715,13 +730,19 @@ var initAnalysisJs = function() {
                                             );
         
         
+        function highlightAggregatedMainChartCurrentSeries(pos, item) {
+            highlightCurrentSeries(aggregatedMainChartPlot, pointTooltipId, pos, item);
+        }
+
+        aggregatedMainChartPointTooltipController = new FlotPointTooltipController(pointTooltipId, generateAggregatedMainChartPointTooltip, highlightAggregatedMainChartCurrentSeries, highlightAggregatedMainChartCurrentSeries);
+        
     }
     
    
     /*----------------------------------- TOOLTIP ----------------------------------*/
     
     $("#aggregatedMainChart").on("plothover", function (event, pos, item) {
-        pointTooltipController.controlPointTooltip(pos, item, generateAggregatedMainChartPointTooltip);
+        aggregatedMainChartPointTooltipController.controlPointTooltip(pos, item);
     });
     
     
@@ -735,10 +756,13 @@ var initAnalysisJs = function() {
         pointTooltipDiv.attr('id', pointTooltipId);
         
         var formattedTimePeriod = formatMonth(getGlobalStartDate()) + " - " + formatMonth(getGlobalEndDate()); 
+        pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
+        
+        var searchedPhrase = getSearchedPhrase(item.seriesIndex);
+        pointTooltipDiv.find("#pointSearchedPhrase").html(searchedPhrase);
+        
         var judgmentCount = item.datapoint[1];
         var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
-        
-        pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
         pointTooltipDiv.find("#pointJudgmentCount").html(formattedJudgmentCount);
         
         
@@ -791,10 +815,6 @@ var initAnalysisJs = function() {
      */
     function printCcCourtChart(chart, xmin, xmax) {
 
-        if (chart == null) {
-            $('#ccCourtChartDiv').hide();
-            return;
-        }
         $('#ccCourtChartDiv').show();
         
         if (xmin == null) {
@@ -820,7 +840,7 @@ var initAnalysisJs = function() {
         
         var calcBarWidth = numberOfBarsInSeries / (numberOfBarsInSeries*numberOfSeries*2);
         
-        $.plot($("#ccCourtChart"), seriesArr,    {
+        var ccCourtChartPlot = $.plot($("#ccCourtChart"), seriesArr,    {
                                                     bars: {
                                                         show: true,
                                                         align: 'left',
@@ -860,7 +880,13 @@ var initAnalysisJs = function() {
                                                 }
                                             );
         
-        
+ 
+        function highlightCcCourtChartCurrentSeries(pos, item) {
+            highlightCurrentSeries(ccCourtChartPlot, pointTooltipId, pos, item);
+        }
+
+        ccCourtChartPointTooltipController = new FlotPointTooltipController(pointTooltipId, generateCcCourtChartPointTooltip, highlightCcCourtChartCurrentSeries, highlightCcCourtChartCurrentSeries);
+ 
     }
     
     /**
@@ -881,7 +907,7 @@ var initAnalysisJs = function() {
     
       
     $("#ccCourtChart").on("plothover", function (event, pos, item) {
-        pointTooltipController.controlPointTooltip(pos, item, generateCcCourtChartPointTooltip);
+        ccCourtChartPointTooltipController.controlPointTooltip(pos, item);
     });
     
 
@@ -900,6 +926,9 @@ var initAnalysisJs = function() {
         var formattedTimePeriod = formatMonth(getGlobalStartDate()) + " - " + formatMonth(getGlobalEndDate()); 
         pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
         
+
+        var searchedPhrase = getSearchedPhrase(item.seriesIndex);
+        pointTooltipDiv.find("#pointSearchedPhrase").html(searchedPhrase);
         
         var judgmentCount = item.datapoint[1];
         var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
@@ -1089,6 +1118,10 @@ var initAnalysisJs = function() {
         return moment([dateRange.endYear, dateRange.endMonth-1, 1]).endOf("month").toDate();
     }
     
+    
+    function getSearchedPhrase(seriesIndex) {
+        return generatedChartAnalysisForm.seriesFilters[seriesIndex].phrase;
+    }
     
     function generateDateRangeSearchUrlParams(dateFrom, dateTo) {
         var dateFrom = moment(dateFrom).format(DATE_PATTERN);
