@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
-<div class="nav-menu" id="nav-menu" >
+<div class="nav-menu" id="nav-menu" tabindex=0>
 
     <a id="menu-button" class="menu-button" href="" >
         <span class="icon-bar"></span>
