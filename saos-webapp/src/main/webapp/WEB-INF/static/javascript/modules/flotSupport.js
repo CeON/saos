@@ -94,7 +94,9 @@ function FlotPointTooltipController(pointTooltipId) {
 
 /**
  * Function highlighting the current series and diminishing other ones. You can use it in
- * flot plothover/plotclick events
+ * flot plothover/plotclick events. The function assumes that series colors are given as rgb strings (e.g. 'rgb(0, 255, 0)'),
+ * if the colors of the series have different formats then this function will not work properly.
+ * 
  * @param plot the current plot
  * @param pointTooltipId the id of the tooltip of the current point of the series, the highlighting will be kept while hovering
  * on the tooltip element; set it to null if you do not want this behaviour 
@@ -123,17 +125,22 @@ function highlightCurrentSeries(plot, pointTooltipId, event, pos, item) {
     // loop all the series and adjust the opacity 
     var modSeries = 
     $.map(plot.getData(),function(series,idx){
+        
+        var seriesColor = series.color.replace(/\s/g,"");
+        var calcColor;
+        
         if (idx == seriesIdx){
-           var calcColor = 'rgba(' + re.exec(series.color)[1] + ',' + 2 + ')'  
-           series.color = calcColor
-           series.points.fillColor = calcColor;
+           calcColor = 'rgba(' + re.exec(seriesColor)[1] + ',' + 2 + ')'  
         } else {
-            var calcColor = 'rgba(' + re.exec(series.color)[1] + ',' + opacity + ')';
-            series.color = calcColor
-            series.points.fillColor = calcColor;
+           calcColor = 'rgba(' + re.exec(seriesColor)[1] + ',' + opacity + ')';
         }
-       return series;
+        
+        series.color = calcColor
+        series.points.fillColor = calcColor;
+        
+        return series;
     });
+    
     // reload the series and redraw
     plot.setData(modSeries);
     plot.draw();

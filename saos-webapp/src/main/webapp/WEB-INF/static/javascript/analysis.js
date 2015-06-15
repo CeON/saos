@@ -30,48 +30,44 @@ var initAnalysisJs = function() {
     // each next colour has to differ as much as possible from preceding colours in order
     // for the series to look distinct 
     var colours = [
-                   "rgb(0,0,255)", // blue
-                   "rgb(255,0,0)", // red
-                   "rgb(0,128,0)", // green
-                   "rgb(0,0,0)", // black
-                   "#ffa500", // orange
-                   "#800080", // purple
-                   "#a9a9a9", // darkgrey
-                   "#00ffff", // cyan
-                   "#a52a2a", // brown
-                   "#808000", // olive
-                   "#ffff00", // yellow
-                   "#ffc0cb", // pink  
-                   "#008b8b", // darkcyan
-                   "#000080", // navy
-                   "#90ee90", // lightgreen
-                   "#bdb76b", // darkkhaki
-                   "#556b2f", // darkolivegreen
-                   "#ff8c00", // darkorange
-                   "#9932cc", // darkorchid
-                   "#ff00ff", // magenta
-                   "#8b0000", // darkred
-                   "#e9967a", // darksalmon
-                   "#9400d3", // darkviolet
-                   "#ff00ff", // fuchsia
-                   "#8b008b", // darkmagenta
-                   "#006400", // darkgreen
-                   "#ffd700", // gold
-                   "#4b0082", // indigo
-                   "#f0e68c", // khaki
-                   "#add8e6", // lightblue
-                   "#e0ffff", // lightcyan
-                   "#d3d3d3", // lightgrey
-                   "#ffb6c1", // lighpink
-                   "#ffffe0", // lightyellow
-                   "#00ff00", // lime
-                   "#800000", // maroon
-                   "#00ffff", // aqua
-                   "#00008b", // darkblue
-                   "#f5f5dc", // beige
-                   "#c0c0c0"  // silver
-                   //"#ffffff"  // white
-                   //"#f0ffff", // azure
+                   "rgb(  0,    0,  255)", // blue
+                   "rgb(255,    0,    0)", // red
+                   "rgb(  0,  128,    0)", // green
+                   "rgb(  0,    0,    0)", // black
+                   "rgb(255,  165,    0)", // orange
+                   "rgb(128,    0,  128)", // purple
+                   "rgb(  0,  255,  255)", // cyan
+                   "rgb(165,   42,   42)", // brown
+                   "rgb(128,  128,    0)", // olive
+                   "rgb(255,  255,    0)", // yellow
+                   "rgb(255,  192,  203)", // pink  
+                   "rgb(  0,  139,  139)", // darkcyan
+                   "rgb(  0,    0,  128)", // navy
+                   "rgb(144,  238,  144)", // lightgreen
+                   "rgb(189,  183,  107)", // darkkhaki
+                   "rgb(169,  169,  169)", // darkgrey
+                   "rgb( 85,  107,   47)", // darkolivegreen
+                   "rgb(255,  140,    0)", // darkorange
+                   "rgb(153,   50,  204)", // darkorchid
+                   "rgb(255,    0,  255)", // magenta
+                   "rgb(139,    0,    0)", // darkred
+                   "rgb(233,  150,  122)", // darksalmon
+                   "rgb(148,    0,  211)", // darkviolet
+                   "rgb(139,    0,  139)", // darkmagenta
+                   "rgb(  0,  100,    0)", // darkgreen
+                   "rgb(255,  215,    0)", // gold
+                   "rgb( 75,    0,  130)", // indigo
+                   "rgb(240,  230,  140)", // khaki
+                   "rgb(173,  216,  230)", // lightblue
+                   "rgb(224,  255,  255)", // lightcyan
+                   "rgb(211,  211,  211)", // lightgrey
+                   "rgb(255,  182,  193)", // lighpink
+                   "rgb(255,  255,  224)", // lightyellow
+                   "rgb(  0,  255,    0)", // lime
+                   "rgb(128,    0,    0)", // maroon
+                   "rgb(  0,    0,  139)", // darkblue
+                   "rgb(245,  245,  220)", // beige
+                   "rgb(192,  192,  192)"  // silver
                 
                	   ];
     
