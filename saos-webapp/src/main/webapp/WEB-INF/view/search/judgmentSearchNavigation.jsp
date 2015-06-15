@@ -5,7 +5,7 @@
 
 <a href="${contextPath}/" class="saos-logo" title="" ></a>
 
-<div class="search-form">
+<div class="search-form" id="search-form-section" tabindex=0>
     <fieldset id="search-fieldset" >
     
         <legend><spring:message code="judgmentSearch.form.header" /></legend>   

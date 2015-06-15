@@ -7,7 +7,7 @@
 <a href="${contextPath}/" class="saos-logo" title="" ></a>
 
 
-<div class="judgment-details">
+<div class="judgment-details" id="judgment" tabindex=0>
 
 	<c:if test="${!empty judgment.judgmentType}" >
 	    <spring:message code="judgmentDetails.linkTooltip.judgmentType" var="judgmentTypeLinkTooltip" />

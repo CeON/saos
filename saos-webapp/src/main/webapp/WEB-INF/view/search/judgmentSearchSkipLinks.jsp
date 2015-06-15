@@ -3,7 +3,7 @@
 
 
 <li>
-	<a href="#search-form" >
+	<a href="#search-form-section" >
 		<spring:message code="skipLinks.search" />
 	</a>
 </li>
