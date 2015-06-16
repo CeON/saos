@@ -2,12 +2,23 @@
  * showing, hiding of chart point tooltip element.
  * 
  *  @param pointTooltipId id that will be given to any controlled tooltip element. It is assumed
- *  that there can be no more than one tooltip element on the page (controlled by one controller). 
- *  The specified id makes it easier to show/remove or replace this element with a new one.
+ *  that there can be no more than one tooltip element for the given chart. 
+ *  The specified id makes it easier to show/remove or replace this element with a new one. 
+ *  @param generatePointTooltip function generating the point tooltip html element, the function will be passed 
+ *  the current item (see #controlPointTooltip(pos, item)). 
+ *  @param onPointTooltipOpenAction callback fired after opening the point tooltip, can be null
+ *  @param onPointTooltipCloseAction callback fired after closing the point tooltip, it will be passed current pos and item (see #controlPointTooltip(pos, item)), can be null
+ *   
  *  */
-function FlotPointTooltipController(pointTooltipId) {
+function FlotPointTooltipController(pointTooltipId, generatePointTooltip, onPointTooltipOpenAction, onPointTooltipCloseAction) {
     
     var pointTooltipId = pointTooltipId;
+    
+    var generatePointTooltip = generatePointTooltip;
+    
+    var onPointTooltipCloseAction = onPointTooltipCloseAction;
+    
+    var onPointTooltipOpenAction = onPointTooltipOpenAction;
     
     var currentPointTooltipItem = null;
         
@@ -22,16 +33,15 @@ function FlotPointTooltipController(pointTooltipId) {
      * 
      * @param pos position of a mouse pointer
      * @param item item pointed on a flot chart
-     * @param generatePointTooltip function generating the point tooltip html element, the function will be passed 
-     * the given item. <b> The returned element id will be changed to this.pointTooltipId </b>
      */    
-    this.controlPointTooltip = function(pos, item, generatePointTooltip) {
+    this.controlPointTooltip = function(pos, item) {
             
         var $pointTooltip = $("#"+pointTooltipId);
         
         if (item) {
-            if (currentPointTooltipItem == null || currentPointTooltipItem.dataIndex != item.dataIndex) {
-                _this.removePointTooltip();
+            if (currentPointTooltipItem == null || currentPointTooltipItem.dataIndex != item.dataIndex
+                                                || currentPointTooltipItem.seriesIndex != item.seriesIndex) {
+                _this.closePointTooltip();
             }
             if (!$pointTooltip.length) {
                 pointTooltipDiv = generatePointTooltip(item);
@@ -41,16 +51,20 @@ function FlotPointTooltipController(pointTooltipId) {
                 
                 $pointTooltip = $("#"+pointTooltipId);
                 $pointTooltip.mouseleave(function(event) {
-                    _this.removePointTooltip();
+                    _this.closePointTooltip();
                 });
                 currentPointTooltipItem = item;
+                
+                if (onPointTooltipOpenAction) {
+                    onPointTooltipOpenAction(pos, item);
+                }
             }
-               
         } else {
             if ($pointTooltip.length) {
                 if (!isInsideElement(pointTooltipId, pos.pageX, pos.pageY)) {
-                    _this.removePointTooltip();
+                    _this.closePointTooltip();
                     currentPointTooltipItem = null;
+                    
                 }
             }
         }
@@ -81,8 +95,11 @@ function FlotPointTooltipController(pointTooltipId) {
     /**
      * Removes tooltip controlled by this object
      */
-    this.removePointTooltip = function() {
+    this.closePointTooltip = function() {
         $('#'+pointTooltipId).remove();
+        if (onPointTooltipCloseAction) {
+            onPointTooltipCloseAction();
+        }
     }
     
     
@@ -90,6 +107,61 @@ function FlotPointTooltipController(pointTooltipId) {
 
 }
 
+
+/**
+ * Function highlighting the current series and diminishing other ones. You can use it in
+ * flot plothover/plotclick events. The function assumes that series colors are given as rgb strings (e.g. 'rgb(0, 255, 0)'),
+ * if the colors of the series have different formats then this function will not work properly.
+ * 
+ * @param plot the current plot
+ * @param pointTooltipId the id of the tooltip of the current point of the series, the highlighting will be kept while hovering
+ * on the tooltip element; set it to null if you do not want this behaviour 
+ * <br/>
+ * The 3 parameters below comes from the flot plothover/plotclick event callback function
+ * @param pos mouse position
+ * @param item the current item
+ */
+function highlightCurrentSeries(plot, pointTooltipId, pos, item) {
+    var re = /\(([0-9]+,[0-9]+,[0-9]+)/;
+    var opacity = 1;
+    var seriesIdx = -1;
+    
+    if (item) {
+        seriesIdx = item.seriesIndex;
+        opacity = 0.05;
+    } 
+    
+    if (pointTooltipId) {
+        if ($("#"+pointTooltipId).length && isInsideElement("pointTooltip", pos.pageX, pos.pageY)) {
+            if (!item) {
+                return;
+            }
+        }
+    }
+    
+    // loop all the series and adjust the opacity 
+    var modSeries = 
+    $.map(plot.getData(),function(series,idx){
+        
+        var seriesColor = series.color.replace(/\s/g,"");
+        var calcColor;
+        
+        if (idx == seriesIdx){
+           calcColor = 'rgba(' + re.exec(seriesColor)[1] + ',' + 2 + ')'  
+        } else {
+           calcColor = 'rgba(' + re.exec(seriesColor)[1] + ',' + opacity + ')';
+        }
+        
+        series.color = calcColor
+        series.points.fillColor = calcColor;
+        
+        return series;
+    });
+    
+    // reload the series and redraw
+    plot.setData(modSeries);
+    plot.draw();
+}
 
 
 /**

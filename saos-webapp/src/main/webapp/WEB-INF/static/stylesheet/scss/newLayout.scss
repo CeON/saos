@@ -867,6 +867,7 @@ a, .hint {
     padding: 4px;
     background-color: lighten($orange, 35%);
     opacity: 0.90;
+    max-width: 220px;
     
     a {
         text-decoration: underline;

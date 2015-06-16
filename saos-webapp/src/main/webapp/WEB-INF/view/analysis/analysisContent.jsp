@@ -114,6 +114,9 @@ $(document).ready(function() {
         <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod"></span></b>
     </div>
     <div>
+        <span><spring:message code="analysis.chart.tooltip.searchedPhrase"/>: </span><b><span id="pointSearchedPhrase"></span></b>
+    </div>
+    <div>
         <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount"></span></b>
     </div>
     <div id="pointSearchLinkDiv" class="point-search-link">    
@@ -124,6 +127,9 @@ $(document).ready(function() {
 <div id="aggregatedMainChartPointTooltip" class="chart-point-tooltip" style="display:none; width: 230px;">
     <div>
         <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod"></span></b>
+    </div>
+    <div>
+        <span><spring:message code="analysis.chart.tooltip.searchedPhrase"/>: </span><b><span id="pointSearchedPhrase"></span></b>
     </div>
     <div>
         <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount"></span></b>
@@ -140,6 +146,11 @@ $(document).ready(function() {
     <div>
         <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod"></span></b>
     </div>
+    
+    <div>
+        <span><spring:message code="analysis.chart.tooltip.searchedPhrase"/>: </span><b><span id="pointSearchedPhrase"></span></b>
+    </div>
+    
     <div>
         <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount"></span></b>
     </div>
