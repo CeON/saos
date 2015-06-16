@@ -152,6 +152,7 @@ var jsInitInJudgmentSearch = function() {
     infoFormSection({
         formSectionId: "#date-form-section",
         infoSectionId: "#date-info-section",
+        clearFormButtonId: "#date-clear-form-button",
         extractInfoFromFormCustom: extractInfoFromDateSectionInSearch,
         defaultInfoSectionText: springMessage.contextDateAnyValue
     });
@@ -161,8 +162,13 @@ var jsInitInJudgmentSearch = function() {
     var extraFieldInfoFormSection = infoFormSection({
         formSectionId: "#judgment-form-section",
         infoSectionId: "#judgment-info",
+        clearFormButtonId: "#judgment-clear-form-button",
         extractInfoFromFormCustom: extractInfoFromJudgmentFormSectionInSearch,
-        defaultInfoSectionText: springMessage.judgmentSearchJudgmentSectionDefaultText
+        defaultInfoSectionText: springMessage.judgmentSearchJudgmentSectionDefaultText,
+        onAfterClearFormSection: function() {
+            $("#law-journal-navigation").trigger("removeSelected");
+            $("#input-search-keywords-cc").suggesterClear();
+        }
     });
 
     this.updateExtraFieldInfoFormSection = function() {
@@ -173,8 +179,10 @@ var jsInitInJudgmentSearch = function() {
     infoFormSection({
         formSectionId: "#court-form-section",
         infoSectionId: "#court-info-section",
+        clearFormButtonId: "#court-clear-form-button",
         extractInfoFromFormCustom: extractInfoFromCourtSection,
-        onFormSectionCloseAction: updateExtraFieldInfoFormSection
+        onFormSectionCloseAction: updateExtraFieldInfoFormSection,
+        onAfterClearFormSection: updateExtraFieldInfoFormSection
     });
 
     

@@ -25,10 +25,29 @@ function InfoFormSection(options) {
     
     function init() {
         updateInfoSection();
+        bindClearFormButton();
         bindOpenFormSection();
         bindConfirmFormSection();
     }
     
+    /* 
+     * Assigns clear form section event on click
+     */
+    function bindClearFormButton() {
+        
+        $(options.clearFormButtonId).on("click", function(event) {
+            
+            event.preventDefault();
+            
+            clearFieldsInContainer($(options.formSectionId));
+            
+            updateInfoSection();
+            
+            if (options.onAfterClearFormSection) {
+                options.onAfterClearFormSection();
+            }
+        });
+    }
     
     /* 
      * Assigns buttons to open form section on event click.
@@ -102,7 +121,7 @@ function InfoFormSection(options) {
      /**
       * Closes form section if the user clicked outside it
       * e.data[0].formSectionId = the id of the form section prefixed with #
-      * e.data[1].infoSectionId = the id of the info section prefixed with #
+      * e.data[0].infoSectionId = the id of the info section prefixed with #
       */
      function closeFormSectionIfClickedOutside(e) {
 

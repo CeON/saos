@@ -490,6 +490,15 @@ var Suggester = (function() {
     	});
     },
     
+    /*
+     * Removes all boxed suggestions
+     */
+    removeAllSuggestions = function(fieldId) {
+        
+        $("#" + WRAPPER_ID + "-" + fieldId).find("." + SELECTED_FIELD_CLASS).remove();
+        populateInputFieldInBoxyMode(fieldId);
+        
+    }
     
     /* Method that changes width of textarea when suggester is in boxy mode.
      * When boxy suggestion is added to field, textarea needs to change
@@ -590,6 +599,10 @@ var Suggester = (function() {
     	refreshSuggestionField($field.attr("id"));
     }
     
+    space.clear = function($field) {
+        removeAllSuggestions($field.attr("id"));
+    }
+    
     return space;
 }());
 
@@ -599,6 +612,10 @@ $.fn.suggester = function(source) {
 
 $.fn.suggesterRefresh = function() {
     Suggester.refresh(this);
+}
+
+$.fn.suggesterClear = function() {
+    Suggester.clear(this);
 }
 
 

@@ -124,6 +124,7 @@ var initAnalysisJs = function() {
         infoFormSection({
             formSectionId: "#court-form-section",
             infoSectionId: "#court-info-section",
+            clearFormButtonId: "#court-clear-form-button",
             extractInfoFromFormCustom: extractInfoFromCourtSection,
             onFormSectionCloseAction: function() {generateCharts(true);}
         });
