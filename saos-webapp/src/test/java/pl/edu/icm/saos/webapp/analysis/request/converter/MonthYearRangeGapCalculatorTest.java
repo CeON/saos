@@ -38,14 +38,26 @@ public class MonthYearRangeGapCalculatorTest {
         
     }
     
+    
     @Test
     public void calculateGap_MONTH() {
         
         // execute & assert
         assertEquals(new Period(1, PeriodUnit.MONTH), calculator.calculateGap(2014, 2, 2015, 3));
-        assertEquals(new Period(1, PeriodUnit.MONTH), calculator.calculateGap(2004, 2, 2014, 1));
+        assertEquals(new Period(1, PeriodUnit.MONTH), calculator.calculateGap(2009, 2, 2014, 1));
         
     }
+    
+    
+    @Test
+    public void calculateGap_6_MONTHS() {
+        
+        // execute & assert
+        assertEquals(new Period(6, PeriodUnit.MONTH), calculator.calculateGap(2005, 4, 2015, 3));
+        assertEquals(new Period(6, PeriodUnit.MONTH), calculator.calculateGap(2008, 2, 2013, 2));
+        
+    }
+    
     
     @Test
     public void calculateGap_YEAR() {
