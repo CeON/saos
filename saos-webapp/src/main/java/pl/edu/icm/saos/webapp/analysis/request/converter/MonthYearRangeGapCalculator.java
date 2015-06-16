@@ -41,9 +41,16 @@ class MonthYearRangeGapCalculator {
         }
         
         
-        if (monthDiff <= 120) {
+        if (monthDiff <= 60) {
             
             return new Period(1, PeriodUnit.MONTH);
+            
+        }
+        
+        
+        if (monthDiff <= 120) {
+            
+            return new Period(6, PeriodUnit.MONTH);
             
         }
         
