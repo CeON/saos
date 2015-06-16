@@ -12,7 +12,7 @@
             
             <a href="${contextPath}/" class="saos-logo" title="" ></a>
             
-            <div id="analysis">
+            <div id="analysis" tabindex=0>
                 <div class="form-group" id="analysisFormDiv">
             
                     <%@ include file="analysisForm.jsp" %>
@@ -21,7 +21,7 @@
             </div>
         </div>
     
-        <div class="content col-md-8" id="content">
+		<div class="content col-md-8" id="content" tabindex=0>
             
             <%@ include file="analysisContent.jsp" %>
             
