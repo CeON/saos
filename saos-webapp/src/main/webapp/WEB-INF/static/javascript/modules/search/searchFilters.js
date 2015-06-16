@@ -94,6 +94,10 @@ var SearchFilters = (function(){
 							} else if($searchFormField.is("input")) {
 								return function() {
 									
+									if ($thisButton.attr(dataFilterValue) !== undefined) {
+										filterValue = $thisButton.attr(dataFilterValue);
+									}
+									
 									if ($searchFormField.attr('type') == "hidden"){
 										selectFormType($selectFormType);
 										
