@@ -14,7 +14,7 @@
 	        
 	    </div>
 	
-	    <div class="content col-xs-6" id="content">
+	    <div class="content col-xs-6" id="content" tabindex=0>
 	        <%@ include file="../home/homeContent.jsp" %>
 	        
 	    </div>
