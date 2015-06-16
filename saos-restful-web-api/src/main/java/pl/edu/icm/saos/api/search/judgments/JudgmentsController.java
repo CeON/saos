@@ -1,11 +1,9 @@
 package pl.edu.icm.saos.api.search.judgments;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+import static pl.edu.icm.saos.api.services.links.ControllerProxyLinkBuilder.linkTo;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,8 +37,7 @@ import pl.edu.icm.saos.search.search.model.SearchResults;
 @RequestMapping("/api/search/judgments")
 public class JudgmentsController extends ControllersEntityExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(JudgmentsController.class);
-
+    
 
     @Autowired
     private JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder;

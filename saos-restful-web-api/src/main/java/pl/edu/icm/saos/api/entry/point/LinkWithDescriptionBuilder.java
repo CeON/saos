@@ -1,9 +1,10 @@
 package pl.edu.icm.saos.api.entry.point;
 
+import static pl.edu.icm.saos.api.services.links.ControllerProxyLinkBuilder.linkTo;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 
 /**
  * @author pavtel
