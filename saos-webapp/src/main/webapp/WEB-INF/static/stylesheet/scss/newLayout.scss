@@ -424,12 +424,23 @@ a, .hint {
             padding: 4px 10px;
         }
         
-        .btn-xs {
+        .btn-xxs {
             font: {
-                size: 13px;
+                size: 12px;
             }
-            margin-top: 3px;
-            padding: 2px 5px;
+            margin: 2px;
+            padding: 2px;
+        }
+        
+        .btn-secondary {
+            background: $dark;
+            border: {
+                color: $dark;
+            }
+            
+            &:hover, &:focus {
+                background: lighten($dark, 15%);
+            }
         }
         
         .hint {
@@ -1484,7 +1495,7 @@ a, .hint {
     }
     letter-spacing: 0;
     margin-bottom: 0px;
-    padding: 8px 30px 8px 0;
+    padding: 8px 30px 8px 0px;
     position: relative;
     text-decoration: none;
     

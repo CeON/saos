@@ -134,6 +134,34 @@ function hideFormSectionIfClickedOutside(e) {
     
 }
 
+function clearFieldsInContainer(container) {
+    container.find("input, select, textarea").each(function() {
+        clearField($(this));
+    });
+}
+
+function clearField(field) {
+    
+    if (field.is("input:checkbox")) {
+        field.prop("checked", false);
+    } else if (field.is("input:radio")) {
+        field.prop("checked", false);
+        if ($("body").find('input:radio[name="' + field.attr("name") + '"]').first().is(field) ) {
+            field.prop("checked", true).trigger("click");
+        }
+    } else if (field.is("input")) {
+        field.val("")
+            .trigger("change");
+    } else if (field.is("select")) {
+        field.removeAttr('selected')
+            .val("")
+            .trigger("change");
+    } else if (field.is("textarea")) {
+        field.val("")
+            .trigger("change");
+    }
+}
+
     
 function jAlert(messageText) {
 	$("<span class='col-md-7'>" + messageText +" </span>").dialog({ modal: true, width: "500px", buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); } } ] });
