@@ -1,8 +1,7 @@
 package pl.edu.icm.saos.api.dump.enrichmenttag;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_SIZE;
+import static pl.edu.icm.saos.api.services.links.ControllerProxyLinkBuilder.linkTo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
