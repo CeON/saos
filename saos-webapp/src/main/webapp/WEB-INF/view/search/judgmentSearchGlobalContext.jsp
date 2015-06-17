@@ -16,7 +16,7 @@
         <spring:message code="context.date.fieldDescription" />: 
     </div>
     
-    <a id="date-info-section" class="info-section" href="" >
+    <a id="date-info-section" class="info-section" href="" aria-expanded="false" role="button">
         <b><spring:message code="context.date.anyValue" /></b>
     </a>
         

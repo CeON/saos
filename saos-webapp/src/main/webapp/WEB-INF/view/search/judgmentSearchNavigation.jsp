@@ -3,7 +3,7 @@
 
 
 
-<a href="${contextPath}/" class="saos-logo" title="" ></a>
+<a href="${contextPath}/" class="saos-logo" title="" aria-label="<spring:message code='linkToMainPage'/>"></a>
 
 <div class="search-form" id="search-form-section" tabindex=0>
     <fieldset id="search-fieldset" >
@@ -42,7 +42,7 @@
                 <spring:message code="judgmentSearch.judgmentSection.criteria.header" />
            </div>
          
-           <a id="judgment-info" class="info-section" href="" >
+           <a id="judgment-info" class="info-section" href="" aria-expanded="false" role="button">
                <spring:message code="judgmentSearch.judgmentSection.defaultText" />
            </a>
                
@@ -64,16 +64,16 @@
                                         
                     <%-- JudgmentType --%>
                     <div class="form-group">
-                        <label class="col-xs-12 field-label"><spring:message code="judgmentSearch.formField.judgmentType" />:</label>
+                        <label id="judgmentTypeLabel" class="col-xs-12 field-label"><spring:message code="judgmentSearch.formField.judgmentType" />:</label>
                         <div class="col-xs-12">
-                            <div class="checkbox">
+                            <div class="checkbox" role="group" aria-labelledby="judgmentTypeLabel">
         
                                 <spring:eval expression="T(pl.edu.icm.saos.persistence.model.Judgment.JudgmentType).values()" var="enumJudgmentTypes" scope="page"/>
-                            
+                                
                                 <c:forEach var="enumValue" items="${enumJudgmentTypes}">
                                     <c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
                                     <div class="col-xs-12">
-                                        <form:checkbox path="judgmentTypes" value="${enumValue}" id="checkbox-${lowerCaseEnumValue}" ></form:checkbox>
+                                        <form:checkbox role="checkbox" path="judgmentTypes" value="${enumValue}" id="checkbox-${lowerCaseEnumValue}" ></form:checkbox>
                                         <label for="checkbox-${lowerCaseEnumValue}" >
                                             <saos:enum value="${enumValue}" />
                                         </label>
@@ -150,7 +150,7 @@
                                              -
                                             <c:out value="${lawJournalEntry.title}" /> 
                                         </span>
-                                        <a href="" class="remove"></a>
+                                        <a href="" class="remove" role="button" data-toggle="tooltip" data-placement="right" title="<spring:message code='judgmentSearch.formField.lawJournalEntry.remove'/>"></a>
                                     </div>
                                 </c:if>
                                  
@@ -172,9 +172,9 @@
                                         <spring:message code="judgmentSearch.formField.lawJournal.entry" />
                                     </div>
                                     <div >
-                                        <input class="form-control" id="law-journal-year" type="text" size="4" />/
-                                        <input class="form-control" id="law-journal-journalNo" type="text" size="4" />/
-                                        <input class="form-control" id="law-journal-entry" type="text" size="4" />
+                                        <input class="form-control" id="law-journal-year" type="text" size="4" aria-label="<spring:message code='judgmentSearch.formField.lawJournal.year'/>"/>/
+                                        <input class="form-control" id="law-journal-journalNo" type="text" size="4" aria-label="<spring:message code='judgmentSearch.formField.lawJournal.journalNo'/>"/>/
+                                        <input class="form-control" id="law-journal-entry" type="text" size="4" aria-label="<spring:message code='judgmentSearch.formField.lawJournal.entry'/>"/>
                                     </div>
                                 </div>
                                 
@@ -185,7 +185,7 @@
                                     </div>
                                         
                                     <div >
-                                        <input class="form-control width-full" id="law-journal-text" type="text" />
+                                        <input class="form-control width-full" id="law-journal-text" type="text" aria-label="<spring:message code='judgmentSearch.formField.lawJournal.text'/>"/>
                                     </div>
                                 </div>
                             
