@@ -4,7 +4,7 @@
 
 
 
-<a href="${contextPath}/" class="saos-logo" title="" ></a>
+<a href="${contextPath}/" class="saos-logo" aria-label="<spring:message code='linkToMainPage'/>"></a>
 
 
 <div class="judgment-details" id="judgment" tabindex=0>
@@ -335,7 +335,7 @@
             <div class="info-box-section">
              
                 
-                <a id="corrections-toggle" class="info-section-button" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.corrections.toggle" />">
+                <a id="corrections-toggle" role="button" aria-expanded="false" class="info-section-button" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.corrections.toggle" />">
                     <h4><spring:message code="judgmentDetails.corrections.title" />:</h4>
                     <span></span>
                 </a>
@@ -349,7 +349,7 @@
                     </c:forEach>
                     
                     <div class="correction-desc" >
-                        <spring:message code="judgmentDetails.corrections.sysInfo" />
+                        <small><i><spring:message code="judgmentDetails.corrections.sysInfo" /></i></small>
                     </div>
                 
                 </div>
@@ -361,7 +361,7 @@
         <c:if test="${!empty judgment.sourceInfo}">
             <div class="info-box-section" >
         
-                <a id="source-info-toggle" class="info-section-button" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.sourceInfo.toggle" />" >
+                <a id="source-info-toggle" role="button" aria-expanded="false" class="info-section-button" href="" data-placement="top" data-toggle="tooltip" title="<spring:message code="judgmentDetails.sourceInfo.toggle" />" >
                 
                     <h4><spring:message code="judgment.sourceInfo" />:</h4>
                     <span></span>

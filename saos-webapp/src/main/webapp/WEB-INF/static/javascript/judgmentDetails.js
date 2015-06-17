@@ -24,9 +24,11 @@ var jsInitInJudgmentDetails = function(options) {
         if ($section.css("display") === "none") {
             $button.addClass("info-section-button-open");
             $section.slideDown(animationOptions);
+            $button.attr('aria-expanded', 'true');
         } else if ($section.css("display") === "block") {
             $button.removeClass("info-section-button-open");
             $section.slideUp(animationOptions);
+            $button.attr('aria-expanded', 'false');
         }
     });
     
@@ -43,9 +45,11 @@ var jsInitInJudgmentDetails = function(options) {
         if ($section.css("display") === "none") {
             $button.addClass("info-section-button-open");
             $section.slideDown(animationOptions);
+            $button.attr('aria-expanded', 'true');
         } else if ($section.css("display") === "block") {
             $button.removeClass("info-section-button-open");
             $section.slideUp(animationOptions);
+            $button.attr('aria-expanded', 'false');
         }
     });
 
