@@ -508,6 +508,8 @@ a, .hint {
             padding: 0 30px 0 6px;
             -webkit-appearance: none;
             -moz-appearance: none;
+            -ms-appearance: none;
+			-o-appearance: none;
             appearance: none;
         	width: auto;
   			display: inline-block;
@@ -523,6 +525,9 @@ a, .hint {
                 padding: 0 6px;
             }
         }
+        select::-ms-expand {
+			display: none;
+		}
     }
 }
 
