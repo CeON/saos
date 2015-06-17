@@ -2,6 +2,8 @@ package pl.edu.icm.saos.webapp.judgment;
 
 import javax.servlet.http.HttpServletRequest;
 
+import pl.edu.icm.saos.common.http.HttpServletRequestUtils;
+
 /**
  * @author Łukasz Dumiszewski, Łukasz Pawełczak
  * 
@@ -22,7 +24,7 @@ public class PageLinkGenerator {
 	 * @param pageNoParameterName A page number parameter name. 
 	 */
 	public static String generateSearchPageBaseLink(HttpServletRequest request, String pageNoParameterName) {
-		String pageLink = request.getRequestURL().toString() + "?";
+		String pageLink = HttpServletRequestUtils.constructRequestUrl(request) + "?";
 		if (request.getQueryString()!=null) {
 			pageLink += request.getQueryString();
 		}
