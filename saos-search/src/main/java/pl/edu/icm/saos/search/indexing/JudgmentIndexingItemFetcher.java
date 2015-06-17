@@ -66,14 +66,12 @@ public class JudgmentIndexingItemFetcher {
      *     judgments referencing to judgment with that id
      */
     private Map<Long, Long> countReferencingJudgmentsForNotIndexed() {
-        Query query = entityManager.createNativeQuery("SELECT j.id, count(*) "
+        Query query = entityManager.createNativeQuery("SELECT refId\\:\\:text\\:\\:bigint, count(*) "
                 + " FROM enrichment_tag tag "
                 + " JOIN json_array_elements(tag.value) tagValue ON true "
                 + " JOIN json_array_elements(tagValue->'judgmentIds') refId ON true "
-                + " LEFT JOIN judgment j ON refId\\:\\:text\\:\\:bigint = j.id "
                 + " WHERE tag.tag_type = '" + EnrichmentTagTypes.REFERENCED_COURT_CASES + "' "
-                + " AND j.indexed = false "
-                + " GROUP BY j.id;");
+                + " GROUP BY refId\\:\\:text\\:\\:bigint;");
         
         @SuppressWarnings("unchecked")
         List<Object[]> results = query.getResultList();
