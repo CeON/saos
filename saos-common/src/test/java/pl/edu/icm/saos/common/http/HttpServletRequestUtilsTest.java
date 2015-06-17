@@ -191,6 +191,6 @@ public class HttpServletRequestUtilsTest {
     public void isDefaultPort_Scheme_NULL() {
      
         // execute & assert
-        assertTrue(HttpServletRequestUtils.isDefaultPort(null, 443));
+        HttpServletRequestUtils.isDefaultPort(null, 443);
      }
 }
