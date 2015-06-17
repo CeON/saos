@@ -12,7 +12,7 @@
  		
 <spring:message code="judgmentSearch.hint.icon.alt" var="hintAltText" />
 
-<span class="hint" tabindex="0" data-html="true" data-trigger="focus" data-toggle="popover" title="${title}" data-content="${content}" data-placement="${placement}">
+<span class="hint" tabindex="0" role="button" data-html="true" data-trigger="focus" data-toggle="popover" aria-label="${title}" title="${title}" data-content="${content}" data-placement="${placement}">
     <%--
 	<img src="${contextPath}/static/image/icons/info.png" height="26" alt="${hintAltText}" />
 	 --%>

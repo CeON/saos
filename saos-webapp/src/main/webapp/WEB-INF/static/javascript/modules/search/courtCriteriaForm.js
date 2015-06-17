@@ -161,6 +161,9 @@ var CourtCriteriaForm = (function() {
                          } else {
                              $ccIncludeDependentCourtJudgmentsCheckbox.removeAttr("disabled");
                              $ccIncludeDependentCourtJudgmentsCheckbox.val("true");
+                             if (!$("#select-common-court").is(':focus')) {
+                                 $ccIncludeDependentCourtJudgmentsCheckbox.focus();
+                             }
                              if (!$ccIncludeDependentCourtJudgmentsCheckbox.is(":checked")) {
                                  $commonCourtDivisionSelect.removeAttr("disabled");
                                  showCcDivisionSearchCriteriaLink();
@@ -176,6 +179,7 @@ var CourtCriteriaForm = (function() {
                     $commonCourtDivisionSelect.prop("disabled", "disabled").find("option:gt(0)").remove();
                     $ccIncludeDependentCourtJudgmentsCheckbox.prop("checked", false).trigger("change");
                     $ccIncludeDependentCourtJudgmentsCheckbox.attr("disabled", "disabled");
+                    
                 }
             });
             
@@ -183,6 +187,8 @@ var CourtCriteriaForm = (function() {
         var createDivisionOption = function(id, name) { 
             return "<option data-content='" + name + "' value='" + id + "' >" + name + "</option>";
         };
+        
+        
         
     
     //Search form - init select court & division

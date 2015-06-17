@@ -10,7 +10,7 @@
             
             <%@ include file="../common/navigationMenu.jsp" %>
             
-            <a href="${contextPath}/" class="saos-logo" title="" ></a>
+            <a href="${contextPath}/" class="saos-logo" aria-label="<spring:message code='linkToMainPage'/>"></a>
             
             <div id="analysis" tabindex=0>
                 <div class="form-group" id="analysisFormDiv">

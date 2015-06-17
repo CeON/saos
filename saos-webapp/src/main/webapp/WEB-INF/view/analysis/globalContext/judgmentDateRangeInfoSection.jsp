@@ -6,7 +6,7 @@
     <spring:message code="analysis.criteria.judgmentDateRange"/>:
 </div> 
 
-<a id="date-range-info-section" class="info-section" href="" >
+<a id="date-range-info-section" class="info-section" href="" aria-expanded="false" role="button">
      
 </a>
         

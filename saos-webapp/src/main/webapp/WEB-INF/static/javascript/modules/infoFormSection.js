@@ -66,6 +66,9 @@ function InfoFormSection(options) {
             $(options.infoSectionId).addClass("info-section-opened");
             
             $formSection.slideDown(400, function() {});
+            
+            $(options.infoSectionId).attr('aria-expanded', 'true');
+            
         });
         
      }
@@ -163,6 +166,9 @@ function InfoFormSection(options) {
          $(options.formSectionId).slideUp(400, function() {
              updateInfoSection();
          });
+         
+         $(options.infoSectionId).attr('aria-expanded', 'false');
+         
          
      }
      
