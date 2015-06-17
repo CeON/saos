@@ -5,7 +5,7 @@
 <div class="skip-links row">
 	<ul class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2" >
 		<li>
-			<a href="#nav-menu">
+			<a href="" id="menu-button-target">
 				<spring:message code="skipLinks.nav" />
 			</a>
 		</li>

@@ -357,11 +357,19 @@ $(document).ready(function() {
 	        $menu.animate({left: menuHidePosition}, 400, function() {
 	            $menu.css("visibility", "hidden");
 	        });
+	        $(this).attr('aria-expanded', 'false')
 	    } else if ($menu.css("left") === menuHidePosition) {
 	        $menu.css("visibility", "visible");
 	        $menu.animate({left: "0px"}, 400);
+	        $(this).attr('aria-expanded', 'true')
+	        $("#navigation-links").focus()
 	    }
 	});
+	
+	$("#menu-button-target").click(function(e){
+		e.preventDefault()
+		$("#menu-button").focus()
+	})
 	
     
     ConvertFakeEmailAddressToReal({
