@@ -42,7 +42,7 @@ public class JudgmentIndexingItemFetcher {
         
         List<Long> notIndexedIds = judgmentRepository.findAllNotIndexedIds();
         
-        Map<Long, Long> referencingJudgmentsCountInfo = countReferencingJudgmentsForNotIndexed();
+        Map<Long, Long> referencingJudgmentsCountInfo = countReferencingJudgments();
         
         List<JudgmentIndexingItem> judgmentsIndexingItems = Lists.newLinkedList();
         for (Long notIndexedId : notIndexedIds) {
@@ -58,14 +58,14 @@ public class JudgmentIndexingItemFetcher {
     //------------------------ PRIVATE --------------------------
     
     /**
-     * Counts number of referencing judgments for not indexed judgments.
+     * Counts number of referencing judgments.
      * When judgment is not referenced by any other judgment then there
      * will be no result for it in returned map.
      * 
      * @return map containing pairs of judgmentId and number of
      *     judgments referencing to judgment with that id
      */
-    private Map<Long, Long> countReferencingJudgmentsForNotIndexed() {
+    private Map<Long, Long> countReferencingJudgments() {
         Query query = entityManager.createNativeQuery("SELECT refId\\:\\:text\\:\\:bigint, count(*) "
                 + " FROM enrichment_tag tag "
                 + " JOIN json_array_elements(tag.value) tagValue ON true "
