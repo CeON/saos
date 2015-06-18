@@ -57,6 +57,8 @@ public class SolrCriterionTransformerTest {
                 
                 {"+content:some +content:\\\"phrase", "some \"phrase"},
                 {"+content:\"word1 word2\" +content:\\\" +content:word3", "\"word1 word2\"\" word3"},
+                {"+content:\"word1 \\\\ word2\"", "\"word1 \\ word2\""}, // "word1 \ word2" -> +content:"word1 \\ word2"
+                {"+content:\"word1 word2\\\\\"", "\"word1 word2\\\""}, // "word1 word2\" -> +content:"word1 word2\\"
                 
                 // with exclusion (minus sign)
                 {"-content:word", "-word"},

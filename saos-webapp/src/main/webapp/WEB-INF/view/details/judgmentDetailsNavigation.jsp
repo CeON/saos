@@ -176,7 +176,7 @@
                         <c:forEach items="${presidingJudges}" var="judge" >
                             <span>
                                 <c:url value="/search" var="judgeSearchUrl">
-                                    <c:param name="judgeName" value="&quot;${judge.name}&quot;" />
+                                    <c:param name="judgeName" value="&quot;${fn:replace(judge.name, '\"', ' ')}&quot;" />
                                 </c:url>
                                 <a href="${judgeSearchUrl}" data-toggle="tooltip" title="${judgeLinkTooltip}" >
                                     <c:out value="${judge.name}" />
@@ -189,9 +189,9 @@
                         <%-- Not Presiding Judges --%>
                         <c:forEach items="${judgment.judges}" var="judge" >
                             <c:if test="${!judge.presidingJudge}" >
-                                <span>                                      
+                                <span>                                     
                                     <c:url value="/search" var="judgeSearchUrl">
-                                        <c:param name="judgeName" value="&quot;${judge.name}&quot;" />
+                                        <c:param name="judgeName" value="&quot;${fn:replace(judge.name, '\"', ' ')}&quot;" />
                                     </c:url>
                                     <a href="${judgeSearchUrl}" data-toggle="tooltip" title="${judgeLinkTooltip}" >
                                         <c:out value="${judge.name}" />
@@ -290,7 +290,7 @@
                 <c:forEach items="${judgment.legalBases}" var="legalBase" >
                     <div class="legalBase">
                         <c:url value="/search" var="legalBaseSearchUrl">
-                            <c:param name="legalBase" value="&quot;${legalBase}&quot;" />
+                            <c:param name="legalBase" value="&quot;${fn:replace(judge.name, '\"', ' ')}&quot;" />
                         </c:url>
                         <a href="${legalBaseSearchUrl}" data-toggle="tooltip" title="${legalBasesLinkTooltip}" >
                            <c:out value="${legalBase}" />
