@@ -52,8 +52,17 @@
 		  
             <c:if test="${fn:length(analysisForm.seriesFilters) < maxNumberOfSearchPhrases}">
                 
-                <div class="col-sm-12 align-right">
-                    <input id="addPhraseButton" type="button" class="btn btn-default button btn-sm" value="<spring:message code='analysis.button.addPhrase'/>"/>
+                <div class="col-sm-6 col-md-11 col-lg-11 form-group no-margin-right">
+<!--                     <span class="input-group-addon input-color"></span> -->
+<!--                     <div id="addPhraseButton" role="button" class="form-control"  style="padding-left: 35px;"> -->
+<%--                         <spring:message code='analysis.button.addPhrase'/> --%>
+<!--                     </div> -->
+<!--                     <span class="input-group-addon input-color"></span> -->
+<!--                     <input id="addPhraseButton" type="button" class="form-control" style="padding-left: 35px;"/> -->
+                    <span class="input-group-addon input-color"></span>
+                    <button id="addPhraseButton" class="form-control input-button" style="padding-left: 35px">
+                        <spring:message code='analysis.button.addPhrase'/>
+                    </button>
                 
                 </div>
             </c:if>

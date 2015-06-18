@@ -374,7 +374,7 @@ a, .hint {
             text-transform: uppercase;
         }
         
-        input[type="text"] {
+        input[type="text"], button.input-button {
             background: $light-dark;
             border: {
                 color: $white;
@@ -391,6 +391,10 @@ a, .hint {
             &:focus {
                 box-shadow: 0 0 6px $white;
             }
+        }
+        
+        button.input-button {
+            text-align: left;
         }
         
         input[type="text"].form-date {
@@ -841,7 +845,7 @@ a, .hint {
     
     .navigation {
     
-        input[type="text"] {
+        input[type="text"], button.input-button {
             padding-left: 35px;
             
         }
