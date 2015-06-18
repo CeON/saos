@@ -1,3 +1,13 @@
+/** RELEASE PLUGIN */
+    buildscript {
+        repositories {
+            jcenter()
+        }
+        dependencies {
+            classpath 'net.researchgate:gradle-release:2.1.2'
+        }
+    }
+
 allprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
@@ -6,11 +16,17 @@ allprojects {
     apply plugin: 'maven' /** to generate poms - they will be uploaded to the maven repository along with jars/wars */
     apply plugin: 'idea'
 
-    version = '0.0.1-SNAPSHOT'
+   
+
     group = 'pl.edu.icm.saos'
 
     sourceCompatibility = 1.8
     
+    
+    
+    
+    
+    apply plugin: 'net.researchgate.release'
 }
 
 
@@ -105,8 +121,6 @@ subprojects {
         'com.sun.mail:javax.mail':'com.sun.mail:javax.mail:1.4.5',
         
         'net.bull.javamelody:javamelody-core':'net.bull.javamelody:javamelody-core:1.56.0'
-
-
         
     ]
     
