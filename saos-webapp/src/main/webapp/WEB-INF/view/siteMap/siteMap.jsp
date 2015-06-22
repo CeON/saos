@@ -17,7 +17,7 @@
 	
 	    <div class="content col-xs-6">
 	        
-	        <h2><spring:message code="header.siteMap" /></h2>
+	        <h1><spring:message code="header.siteMap" /></h1>
 	    
 		    <div class="site-map">
 		    

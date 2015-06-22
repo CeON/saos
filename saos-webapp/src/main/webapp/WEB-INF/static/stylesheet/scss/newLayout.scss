@@ -488,7 +488,7 @@ a, .hint {
             width: 100%;
         }
         
-        h2 {
+        h1 {
             border: {
                 color: $dark;
                 style: solid;
@@ -591,7 +591,7 @@ a, .hint {
     
     .content {
     
-        h2 {
+        h1 {
         
             span {
                 font: {
@@ -956,9 +956,10 @@ a, .hint {
         padding: 0;
         position: relative;
     
-        h3 {
+        h2 {
             margin-bottom: 5px;
             margin-top: 5px;
+            font-size: 24px;
         }
     
         a {

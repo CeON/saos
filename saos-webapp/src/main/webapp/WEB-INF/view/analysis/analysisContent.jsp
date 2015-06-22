@@ -19,7 +19,7 @@ $(document).ready(function() {
 
 	
 <div>
-    <h2><spring:message code="analysis.chart.header" /></h2>
+    <h1><spring:message code="analysis.chart.header" /></h1>
 
     <div class="form-inline yaxisValueSelect">
         <label class="control-label"><spring:message code="analysis.ysettings.yaxis.label"/></label>
