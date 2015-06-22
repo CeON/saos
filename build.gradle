@@ -1,12 +1,21 @@
 /** RELEASE PLUGIN */
-    buildscript {
-        repositories {
-            jcenter()
-        }
-        dependencies {
-            classpath 'net.researchgate:gradle-release:2.1.2'
-        }
-    }
+buildscript {
+   repositories {
+       jcenter()
+   }
+   dependencies {
+       classpath 'net.researchgate:gradle-release:2.1.2'
+   }
+}
+
+apply plugin: 'net.researchgate.release'
+    
+    
+release {
+   ext.pushToRemote = false
+}
+
+
 
 allprojects {
     apply plugin: 'java'
@@ -26,12 +35,6 @@ allprojects {
     
     
     
-    apply plugin: 'net.researchgate.release'
-    
-    
-    release {
-        ext.pushToRemote = false
-    }
     
 }
 
