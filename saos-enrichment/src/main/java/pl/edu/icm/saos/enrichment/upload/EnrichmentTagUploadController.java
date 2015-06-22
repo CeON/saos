@@ -12,11 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.batch.core.JobParametersInvalidException;
-import org.springframework.batch.core.launch.NoSuchJobException;
-import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
-import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
-import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import pl.edu.icm.saos.batch.core.JobForcingExecutor;
-import pl.edu.icm.saos.common.batch.JobName;
 import pl.edu.icm.saos.common.service.ServiceException;
 import pl.edu.icm.saos.common.service.ServiceResponse;
 import pl.edu.icm.saos.common.service.ServiceResponseFactory;
@@ -54,8 +47,6 @@ public class EnrichmentTagUploadController {
     private UploadEnrichmentTagProcessor uploadEnrichmentTagProcessor;
     
     private EnrichmentTagUploadMessageHttpStatusMapper enrichmentTagUploadMessageHttpStatusMapper;
-    
-    private JobForcingExecutor jobExecutor;
     
     //------------------------ LOGIC --------------------------
     
@@ -100,7 +91,6 @@ public class EnrichmentTagUploadController {
 			        		public void run() {
 			        			uploadEnrichmentTagProcessor.processUploadedEnrichmentTags();
 			        			
-			        			runTagPostUploadProcessingJob();
 			        		};
     			   }).start();
 		
@@ -122,18 +112,6 @@ public class EnrichmentTagUploadController {
         if (!SUPPORTED_CONTENT_TYPE.equals(contentType)) {
             throw new ServiceException(ERROR_UNSUPPORTED_HTTP_CONTENT_TYPE, contentType + ", only " + SUPPORTED_CONTENT_TYPE + " allowed");
         }
-    }
-    
-    private void runTagPostUploadProcessingJob() {
-        try {
-            jobExecutor.forceStartNewJob(JobName.TAG_POST_UPLOAD_PROCESSING);
-        } catch (JobExecutionAlreadyRunningException
-                | JobRestartException
-                | JobInstanceAlreadyCompleteException
-                | JobParametersInvalidException
-                | NoSuchJobException e) {
-            throw new RuntimeException(e);
-  }
     }
 
     
@@ -170,11 +148,6 @@ public class EnrichmentTagUploadController {
     @Autowired
     public void setEnrichmentTagUploadMessageHttpStatusMapper(EnrichmentTagUploadMessageHttpStatusMapper enrichmentTagUploadMessageHttpStatusMapper) {
         this.enrichmentTagUploadMessageHttpStatusMapper = enrichmentTagUploadMessageHttpStatusMapper;
-    }
-
-    @Autowired
-    public void setJobExecutor(JobForcingExecutor jobExecutor) {
-        this.jobExecutor = jobExecutor;
     }
     
 }

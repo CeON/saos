@@ -8,6 +8,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.springframework.batch.core.JobParametersInvalidException;
+import org.springframework.batch.core.launch.NoSuchJobException;
+import org.springframework.batch.core.repository.JobExecutionAlreadyRunningException;
+import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
+import org.springframework.batch.core.repository.JobRestartException;
+
+import pl.edu.icm.saos.batch.core.JobForcingExecutor;
+import pl.edu.icm.saos.common.batch.JobName;
 
 /**
  * @author Łukasz Dumiszewski
@@ -20,6 +28,8 @@ public class UploadEnrichmentTagProcessorTest {
     
     @Mock private UploadEnrichmentTagOverwriter uploadEnrichmentTagOverwriter;
     
+    @Mock private JobForcingExecutor jobForcingExecutor;
+    
     
     @Before
     public void before() {
@@ -27,6 +37,7 @@ public class UploadEnrichmentTagProcessorTest {
         initMocks(this);
         
         uploadEnrichmentTagProcessor.setUploadEnrichmentTagOverwriter(uploadEnrichmentTagOverwriter);
+        uploadEnrichmentTagProcessor.setJobExecutor(jobForcingExecutor);
     }
     
     
@@ -34,7 +45,7 @@ public class UploadEnrichmentTagProcessorTest {
     //------------------------ TESTS --------------------------
     
     @Test
-    public void processUploadedEnrichmentTags_enrichmentTagsShouldBeOverwritten() {
+    public void processUploadedEnrichmentTags_enrichmentTagsShouldBeOverwritten() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException, NoSuchJobException {
         
         // given
         
@@ -49,7 +60,8 @@ public class UploadEnrichmentTagProcessorTest {
         // assert
         
         verify(uploadEnrichmentTagOverwriter).overwriteEnrichmentTags();
-        verifyNoMoreInteractions(uploadEnrichmentTagOverwriter);
+        verify(jobForcingExecutor).forceStartNewJob(JobName.TAG_POST_UPLOAD_PROCESSING);
+        verifyNoMoreInteractions(uploadEnrichmentTagOverwriter, jobForcingExecutor);
     }
     
     
