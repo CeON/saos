@@ -1889,6 +1889,15 @@ a, .hint {
     }
 }
 
+
+.app-info-footer {
+    border-top: 1px solid $grey;
+    font-family: helvetica;
+    font-size: 12px;
+    text-align: right;
+    color: lighten($dark, 10);
+}
+
 .for-screen-readers {
     left: -9999px;
     position: absolute;

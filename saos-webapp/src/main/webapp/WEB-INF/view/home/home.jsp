@@ -44,6 +44,9 @@
 		    </div>
 		</div>
 
+        <div class="app-info-footer">
+            <spring:message code="appInfo.saosVersion"/>: <spring:eval expression="@versionProperties.getProperty('saos.version')"/>
+        </div>
     
 
 </div>
