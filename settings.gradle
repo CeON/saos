@@ -1,3 +1,4 @@
+rootProject.name = "saos"
 include 'saos-common',
         'saos-persistence',
         'saos-import',
