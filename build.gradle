@@ -11,11 +11,6 @@ buildscript {
 apply plugin: 'net.researchgate.release'
     
     
-release {
-   ext.pushToRemote = false
-}
-
-
 
 allprojects {
     apply plugin: 'java'
