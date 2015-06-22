@@ -171,7 +171,7 @@ a, .hint {
             padding: 70px;
         }
         
-        h2.welcome-text {
+        div.welcome-text {
             bottom: 0;
             color: $white;
             font: {
@@ -278,6 +278,8 @@ a, .hint {
                 padding: 5px 20px;
                 text-transform: uppercase;
                 max-width: 315px;
+                font-size: 100%;
+  				font-weight: lighter;
             }
             
             .box-desc {

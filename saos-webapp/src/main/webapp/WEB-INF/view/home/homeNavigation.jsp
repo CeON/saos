@@ -13,8 +13,8 @@
 </h1>
 
    
-<h2 class="welcome-text">
+<div class="welcome-text">
    <spring:message code="home.welcome.text" />
-</h2>
+</div>
                 
                 
