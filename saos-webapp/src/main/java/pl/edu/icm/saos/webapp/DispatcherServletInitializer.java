@@ -6,7 +6,8 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import pl.edu.icm.saos.api.ApiConfiguration;
-import pl.edu.icm.saos.batch.core.BatchConfiguration;
+import pl.edu.icm.saos.batch.core.BatchCoreConfiguration;
+import pl.edu.icm.saos.batch.jobs.BatchJobsConfiguration;
 import pl.edu.icm.saos.common.CommonConfiguration;
 import pl.edu.icm.saos.enrichment.EnrichmentConfiguration;
 import pl.edu.icm.saos.importer.ImportConfiguration;
@@ -20,7 +21,7 @@ public class DispatcherServletInitializer extends AbstractAnnotationConfigDispat
    
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {  GeneralConfiguration.class, CacheConfiguration.class, CommonConfiguration.class, EnrichmentConfiguration.class, SecurityConfiguration.class, BatchConfiguration.class, PersistenceConfiguration.class, ImportConfiguration.class,  SearchConfiguration.class, ApiConfiguration.class, UiAnalysisConfiguration.class};
+        return new Class<?>[] {  GeneralConfiguration.class, CacheConfiguration.class, CommonConfiguration.class, EnrichmentConfiguration.class, SecurityConfiguration.class, BatchCoreConfiguration.class, BatchJobsConfiguration.class, PersistenceConfiguration.class, ImportConfiguration.class,  SearchConfiguration.class, ApiConfiguration.class, UiAnalysisConfiguration.class};
     }
 
     @Override

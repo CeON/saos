@@ -1,0 +1,27 @@
+
+dependencies {
+    
+    testCompile project(path:':saos-common', configuration:'testArtifacts')
+    testCompile project(path:':saos-persistence', configuration:'testArtifacts')
+        
+    
+    compile project(':saos-persistence')
+       
+    compile lib.'commons-collections:commons-collections'
+    compile lib.'org.springframework.batch:spring-batch-core'
+    compile lib.'org.springframework:spring-webmvc'
+    compile lib.'javax.servlet:javax.servlet-api'
+    
+    compile(lib.'org.springframework.batch:spring-batch-admin-manager') {
+        exclude group: 'net.sf.ehcache', module: 'ehcache-core'
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'org.springframework', module:'spring-webmvc'
+        exclude group: 'org.springframework', module: 'spring-context-support'
+    }
+
+    compile(lib.'org.springframework.batch:spring-batch-admin-resources') {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'org.springframework', module: 'spring-context-support'
+    }
+    
+}

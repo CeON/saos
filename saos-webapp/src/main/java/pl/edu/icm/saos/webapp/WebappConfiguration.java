@@ -31,8 +31,8 @@ import org.springframework.web.servlet.view.tiles3.TilesConfigurer;
 import org.springframework.web.servlet.view.tiles3.TilesViewResolver;
 
 import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
-import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.formatter.LawJournalEntryCodeFormatterFactory;
+import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.persistence.service.LawJournalEntryCodeExtractor;
 import pl.edu.icm.saos.webapp.format.MultiWordFormatterFactory;

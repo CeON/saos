@@ -1,0 +1,20 @@
+
+dependencies {
+    
+    testCompile project(path:':saos-common', configuration:'testArtifacts')
+    testCompile project(path:':saos-persistence', configuration:'testArtifacts')
+    testCompile project(path:':saos-search', configuration:'testArtifacts')
+    testCompile project(path:':saos-import', configuration:'testArtifacts')
+    testCompile project(path:':saos-enrichment', configuration:'testArtifacts')
+    testCompile project(path:':saos-batch-core', configuration:'testArtifacts')
+        
+    
+    compile project(':saos-persistence')
+    compile project(':saos-import')
+    compile project(':saos-search')
+    compile project(':saos-batch-core')
+       
+    compile lib.'commons-collections:commons-collections'
+    
+    
+}

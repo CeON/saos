@@ -1,44 +1,37 @@
-package pl.edu.icm.saos.webapp;
-
+package pl.edu.icm.saos.batch.jobs;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import pl.edu.icm.saos.batch.core.JobForcingExecutor;
+import pl.edu.icm.saos.batch.core.BatchDbCleaner;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.persistence.DbCleaner;
+
 
 /**
  * @author Łukasz Dumiszewski
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { WebappTestConfiguration.class })
-@Category(SlowTest.class)  // unfortunately it is not interpreted by surfire for subclasses
-public abstract class WebappTestSupport {
+@ContextConfiguration(classes = { BatchJobsTestConfiguration.class })
+@Category(SlowTest.class)
+public abstract class BatchJobsTestSupport {
     
     @Autowired
-    private DbCleaner dbCleaner;
+    private BatchDbCleaner dbCleaner;
     
-    @Autowired
-    private JobForcingExecutor jobForcingExecutor;
+    
     
     @Before
-    public void before() {
-        dbCleaner.clean();
-        Mockito.reset(jobForcingExecutor);
+    public void before() throws Exception {
+       dbCleaner.clean();
     }
     
     @After
     public void after() {
         dbCleaner.clean(); 
     }
-
-    
-    
 }
