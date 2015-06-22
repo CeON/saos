@@ -27,6 +27,12 @@ allprojects {
     
     
     apply plugin: 'net.researchgate.release'
+    
+    
+    release {
+        ext.pushToRemote = false
+    }
+    
 }
 
 
