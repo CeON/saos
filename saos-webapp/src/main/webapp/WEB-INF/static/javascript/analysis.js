@@ -235,7 +235,7 @@ var initAnalysisJs = function() {
         
         $('#addPhraseButton').click(function(event){
               
-              event.preventDefault();
+              event.preventDefault(); /** to prevent button from submitting the analysis form */
               
               addNewSearchPhrase();
         });

@@ -374,7 +374,7 @@ a, .hint {
             text-transform: uppercase;
         }
         
-        input[type="text"], button.input-button {
+        input[type="text"] {
             background: $light-dark;
             border: {
                 color: $white;
@@ -395,6 +395,22 @@ a, .hint {
         
         button.input-button {
             text-align: left;
+            background: $grey-47;
+            border: {
+                color: $grey-67;
+                style: solid;
+                radius: 0;
+                width: 1px;
+            }
+            box-shadow: none;
+            color: $white;
+            @include placeholder {
+                color: $grey;
+            }
+            
+            &:focus {
+                box-shadow: 0 0 6px $white;
+            }
         }
         
         input[type="text"].form-date {
