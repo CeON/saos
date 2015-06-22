@@ -53,7 +53,7 @@
             <c:if test="${fn:length(analysisForm.seriesFilters) < maxNumberOfSearchPhrases}">
                 
                 <div class="col-sm-6 col-md-11 col-lg-11 form-group no-margin-right">
-                    <span class="input-group-addon input-color"></span>
+                    <span class="input-group-addon input-color disabled-color"></span>
                     <button id="addPhraseButton" class="form-control input-button">
                         <spring:message code='analysis.button.addPhrase'/>
                     </button>

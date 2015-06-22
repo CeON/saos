@@ -395,9 +395,9 @@ a, .hint {
         
         button.input-button {
             text-align: left;
-            background: $grey-47;
+            background: $grey-44;
             border: {
-                color: $grey-67;
+                color: $grey-65;
                 style: solid;
                 radius: 0;
                 width: 1px;
@@ -877,6 +877,13 @@ a, .hint {
             position: absolute;
             width: 10px;
             z-index: 999;
+            
+            &.disabled-color {
+                border-color: $grey-65;
+                background: {
+                    color: $grey-53;
+                }
+            }
         }
         
         .remove-button {
