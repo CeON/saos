@@ -196,6 +196,11 @@ subprojects {
         }
     }
     
+    
+    check.dependsOn slowTest
+    slowTest.mustRunAfter test
+    
+    
     tasks.withType(Test) {
         testLogging {
             events 'passed'
