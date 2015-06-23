@@ -90,7 +90,7 @@
                     <c:forEach items="${judgment.judges}" var="judge" >
                 
                         <li >
-                            <a href="" class="judge" data-toggle="tooltip" data-filter-value="&quot;${fn:escapeXml(judge.name)}&quot;" title="<spring:message code="judgmentSearch.filter.set"/>" ><c:out value="${judge.name}" /></a>
+                            <a href="" class="judge" data-toggle="tooltip" data-filter-value="&quot;${fn:escapeXml(fn:replace(judge.name, '\"', ' '))}&quot;" title="<spring:message code="judgmentSearch.filter.set"/>" ><c:out value="${judge.name}" /></a>
                             
                             <c:if test="${judge.presidingJudge}" >
                                 <span class="presiding-judge-dark"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >

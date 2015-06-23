@@ -326,6 +326,8 @@ public class SolrCriterionTransformer<F extends IndexField> {
             preparedValue = preparedValue.trim();
             preparedValue = ClientUtils.escapeQueryChars(preparedValue);
             preparedValue = escapeOperators(preparedValue);
+        } else {
+            preparedValue = preparedValue.replace("\\", "\\\\"); // escape backslashes inside phrase
         }
         
         return operator + fieldName + ":" + preparedValue;
