@@ -405,6 +405,26 @@ a, .hint {
             }
         }
         
+        button.input-button {
+            text-align: left;
+            background: $grey-44;
+            border: {
+                color: $grey-65;
+                style: solid;
+                radius: 0;
+                width: 1px;
+            }
+            box-shadow: none;
+            color: $white;
+            @include placeholder {
+                color: $grey;
+            }
+            
+            &:focus {
+                box-shadow: 0 0 6px $white;
+            }
+        }
+        
         input[type="text"].form-date {
             @include background-image("icons/dateForm.png");
             background-position: right 2% center;
@@ -853,7 +873,7 @@ a, .hint {
     
     .navigation {
     
-        input[type="text"] {
+        input[type="text"], button.input-button {
             padding-left: 35px;
             
         }
@@ -869,6 +889,13 @@ a, .hint {
             position: absolute;
             width: 10px;
             z-index: 999;
+            
+            &.disabled-color {
+                border-color: $grey-65;
+                background: {
+                    color: $grey-53;
+                }
+            }
         }
         
         .remove-button {
