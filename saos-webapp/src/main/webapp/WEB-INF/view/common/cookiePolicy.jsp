@@ -25,8 +25,8 @@
 <c:if test="${!cookiePolicyAccepted}" >
     <div class="cookie-window" id="cookie-window">
         <spring:message code="cookie.policy.previewMessage" />
-        <button id="cookie-preview-accept" class="btn button-blue btn-xs" ><spring:message code="cookie.policy.accept" /></button>
-        <button id="cookie-show-message" class="btn button-blue btn-xs" ><spring:message code="cookie.policy.show" /></button>
+        <button id="cookie-preview-accept" class="btn button-blue btn-xs" aria-label='<spring:message code="cookie.policy.accept.desc" />'><spring:message code="cookie.policy.accept" /></button>
+        <button id="cookie-show-message" class="btn button-blue btn-xs" aria-label='<spring:message code="cookie.policy.show.desc" />'><spring:message code="cookie.policy.show" /></button>
     </div>
 </c:if>
 

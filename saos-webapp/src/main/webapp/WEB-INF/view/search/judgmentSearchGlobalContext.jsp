@@ -12,9 +12,9 @@
     
     
     <%-- DATA FORM SECTION --%>
-    <div class="info-section-header" >
+    <h2 class="info-section-header" >
         <spring:message code="context.date.fieldDescription" />: 
-    </div>
+    </h2>
     
     <a id="date-info-section" class="info-section" href="" aria-expanded="false" role="button">
         <b><spring:message code="context.date.anyValue" /></b>

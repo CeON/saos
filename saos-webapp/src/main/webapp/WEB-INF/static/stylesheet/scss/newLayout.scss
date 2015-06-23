@@ -47,6 +47,16 @@ a, .hint {
     }
 }
 
+.home {
+	a, .hint {
+		color: $dark-dark;
+		&:hover {
+        	color: $dark-dark;
+    	}
+	}
+	
+}
+
 .lawJournal-link {
 	a {
 		display: initial;
@@ -114,10 +124,10 @@ a, .hint {
             text-transform: uppercase;
             
             a {
-                color: $dark;
+                color: $dark-dark;
                 
                 &:hover, &:focus {
-                    color: $dark;
+                    color: $dark-dark;
                 }
             }
         }
@@ -161,7 +171,7 @@ a, .hint {
             padding: 70px;
         }
         
-        h2.welcome-text {
+        div.welcome-text {
             bottom: 0;
             color: $white;
             font: {
@@ -169,7 +179,7 @@ a, .hint {
                 weight: 300;
             }
             line-height: 1.4em;
-            padding: 0 100px 20px 0;
+            padding: 0 100px 50px 0;
             position: absolute;
             vertical-align: bottom;
             
@@ -226,7 +236,7 @@ a, .hint {
         }
         
         .block {
-            color: $dark;
+            color: $dark-dark;
             font: {
                     size: 20px
                 }
@@ -246,7 +256,7 @@ a, .hint {
                 width: 100%;
        
                 &:hover, &:focus {
-                    color: $dark;
+                    color: $dark-dark;
                     text-decoration: none;
                 }
                 
@@ -261,13 +271,15 @@ a, .hint {
             }
             
             .box-title {
-                border: 1px solid $dark;
+                border: 1px solid $dark-dark;
                 display: block;
                 margin: 10px auto;
                 letter-spacing: 0.2em;
-                padding: 5px 20px;
+                padding: 7px 20px;
                 text-transform: uppercase;
                 max-width: 315px;
+                font-size: 100%;
+  				font-weight: lighter;
             }
             
             .box-desc {
@@ -476,7 +488,7 @@ a, .hint {
             width: 100%;
         }
         
-        h2 {
+        h1 {
             border: {
                 color: $dark;
                 style: solid;
@@ -550,7 +562,7 @@ a, .hint {
             
             .search-all {
                 height: 40px;
-                font-size: 16px;
+                font-size: 1.15em;
             }
             
             .search-form-hint {
@@ -579,7 +591,7 @@ a, .hint {
     
     .content {
     
-        h2 {
+        h1 {
         
             span {
                 font: {
@@ -944,9 +956,10 @@ a, .hint {
         padding: 0;
         position: relative;
     
-        h3 {
+        h2 {
             margin-bottom: 5px;
             margin-top: 5px;
+            font-size: 24px;
         }
     
         a {
@@ -1542,6 +1555,9 @@ a, .hint {
         size: 16px;
     }
     margin-top: 20px;
+    margin-bottom: 0px;
+  	display: inline-block;
+    font-weight: inherit;
 }
 
 .info-section-opened {
@@ -1842,7 +1858,7 @@ a, .hint {
         margin-left: 10px;
         margin-top: 10px;
         padding: 5px 10px;
-        
+        color: $black;
         &:hover {
             background: lighten($orange, 20);
             @include transition(background, 0.4s);
@@ -1864,7 +1880,8 @@ a, .hint {
     z-index: 9999;
     
     .btn {
-        background: $orange;
+        background: $orange-contrast;
+        color: $dark-dark;
         border-radius: 0;
         font-weight: bold;
         margin-left: 10px;

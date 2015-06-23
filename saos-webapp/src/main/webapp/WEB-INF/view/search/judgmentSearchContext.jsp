@@ -4,9 +4,9 @@
 
 <div class="search-context" data-context-form-field="referencedCourtCaseId">
 
-    <div class="info-section-header" >
+    <h2 class="info-section-header" >
         <spring:message code="judgmentSearch.context.referencedJudgment.text" />:
-    </div>
+    </h2>
     
     <div class="referenced-regulations">
         

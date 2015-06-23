@@ -38,9 +38,9 @@
     
         <div class="form-section-container" >
         
-            <div class="info-section-header" >
+            <h2 class="info-section-header" >
                 <spring:message code="judgmentSearch.judgmentSection.criteria.header" />
-           </div>
+           </h2>
          
            <a id="judgment-info" class="info-section" href="" aria-expanded="false" role="button">
                <spring:message code="judgmentSearch.judgmentSection.defaultText" />

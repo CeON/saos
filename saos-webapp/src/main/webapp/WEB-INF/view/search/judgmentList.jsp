@@ -44,11 +44,11 @@
         </div>
     
         <div class="case-number">
-            <h3>
+            <h2>
                 <a href="${contextPath}/judgments/${judgment.id}" title="<spring:message code="judgmentSearch.results.link"  />" >
                     <saos:caseNumber items="${judgment.caseNumbers}"/>
                 </a>
-            </h3>
+            </h2>
         </div>
         
         <div class="">

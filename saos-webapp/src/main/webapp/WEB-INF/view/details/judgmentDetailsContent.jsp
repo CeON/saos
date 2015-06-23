@@ -3,7 +3,7 @@
 
 
 <%-- Judgment content --%>            
-<h2 ><spring:message code="judgmentDetails.judgmentFullText" /></h2>
+<h1 ><spring:message code="judgmentDetails.judgmentFullText" /></h1>
 
 <div class="info-box" >
     <div class="info-box-nav">
