@@ -3,7 +3,7 @@ package pl.edu.icm.saos.enrichment.upload;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -41,6 +41,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
 
+import pl.edu.icm.saos.batch.core.JobForcingExecutor;
+import pl.edu.icm.saos.common.batch.JobName;
 import pl.edu.icm.saos.common.service.ServiceExecutionStatus;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
@@ -79,6 +81,9 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
 
     @Autowired
     private EnrichmentTagUploadController enrichmentTagUploadController;
+    
+    @Autowired
+    private JobForcingExecutor jobForcingExecutor;
 
     
     @Value("${enrichment.enricher.login}")
@@ -326,6 +331,8 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
         EnrichmentTag expectedEnrichmentTag3 = createEnrichmentTag(scJudgment.getId(), "REFERENCED_CASE_NUMBERS", jsonValue3);
 
         assertThat(enrichmentTagRepository.findAll(), containsInAnyOrder(expectedEnrichmentTag1, expectedEnrichmentTag2, expectedEnrichmentTag3));
+        
+        verify(jobForcingExecutor).forceStartNewJob(JobName.TAG_POST_UPLOAD_PROCESSING);
     }
 
     
@@ -360,6 +367,7 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
         
         assertThat(enrichmentTagRepository.findAll(), containsInAnyOrder(expectedEnrichmentTag1, expectedEnrichmentTag2));
 
+        verify(jobForcingExecutor, times(1)).forceStartNewJob(JobName.TAG_POST_UPLOAD_PROCESSING);
         
         
         //---------- SECOND TIME ----------
@@ -385,6 +393,7 @@ public class EnrichmentTagUploadControllerTest extends WebappTestSupport {
         
         assertThat(enrichmentTagRepository.findAll(), containsInAnyOrder(expectedEnrichmentTag1));
 
+        verify(jobForcingExecutor, times(2)).forceStartNewJob(JobName.TAG_POST_UPLOAD_PROCESSING);
     
     }
 

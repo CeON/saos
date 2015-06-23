@@ -48,8 +48,6 @@ public class EnrichmentTagUploadController {
     
     private EnrichmentTagUploadMessageHttpStatusMapper enrichmentTagUploadMessageHttpStatusMapper;
     
-    
-    
     //------------------------ LOGIC --------------------------
     
    
@@ -92,6 +90,7 @@ public class EnrichmentTagUploadController {
 		new Thread(new Runnable() {
 			        		public void run() {
 			        			uploadEnrichmentTagProcessor.processUploadedEnrichmentTags();
+			        			
 			        		};
     			   }).start();
 		
@@ -150,6 +149,5 @@ public class EnrichmentTagUploadController {
     public void setEnrichmentTagUploadMessageHttpStatusMapper(EnrichmentTagUploadMessageHttpStatusMapper enrichmentTagUploadMessageHttpStatusMapper) {
         this.enrichmentTagUploadMessageHttpStatusMapper = enrichmentTagUploadMessageHttpStatusMapper;
     }
-    
     
 }

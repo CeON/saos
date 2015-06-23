@@ -84,29 +84,23 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import pl.edu.icm.saos.api.ApiTestConfiguration;
+import pl.edu.icm.saos.api.ApiTestSupport;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
-import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes =  {ApiTestConfiguration.class})
 @Category(SlowTest.class)
-public class JudgmentControllerTest extends PersistenceTestSupport {
+public class JudgmentControllerTest extends ApiTestSupport {
 
     @Autowired
     private SingleJudgmentSuccessRepresentationBuilder singleJudgmentSuccessRepresentationBuilder;

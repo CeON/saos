@@ -10,7 +10,7 @@ import pl.edu.icm.saos.persistence.PersistenceTestConfiguration;
  * @author Łukasz Dumiszewski
  */
 
-@Import({ImportConfiguration.class, PersistenceTestConfiguration.class, EnrichmentTestConfiguration.class})
+@Import({ImportConfiguration.class, EnrichmentTestConfiguration.class, PersistenceTestConfiguration.class})
 public class ImportTestConfiguration extends TestConfigurationBase {
 
 }

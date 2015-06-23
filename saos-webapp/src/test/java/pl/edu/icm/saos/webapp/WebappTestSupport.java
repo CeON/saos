@@ -5,10 +5,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.DbCleaner;
 
@@ -23,9 +25,13 @@ public abstract class WebappTestSupport {
     @Autowired
     private DbCleaner dbCleaner;
     
+    @Autowired
+    private JobForcingExecutor jobForcingExecutor;
+    
     @Before
     public void before() {
         dbCleaner.clean();
+        Mockito.reset(jobForcingExecutor);
     }
     
     @After
