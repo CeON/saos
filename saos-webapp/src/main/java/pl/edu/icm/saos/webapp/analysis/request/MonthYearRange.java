@@ -1,5 +1,6 @@
 package pl.edu.icm.saos.webapp.analysis.request;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 
@@ -85,5 +86,42 @@ public class MonthYearRange {
         
         this.endYear = endYear;
     }
+    
+    
+    
+    //------------------------ HashCode & Equals --------------------------
+    
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(startMonth, startYear, endMonth, endYear);
+    }
+    
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final MonthYearRange other = (MonthYearRange) obj;
+        return Objects.equal(this.startMonth, other.startMonth) &&
+                Objects.equal(this.startYear, other.startYear) &&
+                Objects.equal(this.endMonth, other.endMonth) &&
+                Objects.equal(this.endYear, other.endYear);
+    }
+    
+    
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "MonthYearRange [startMonth=" + startMonth + ", startYear="
+                + startYear + ", endMonth=" + endMonth + ", endYear=" + endYear
+                + "]";
+    }
+    
     
 }

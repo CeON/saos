@@ -53,6 +53,14 @@ public class JudgmentSeriesFilter {
 
     }
 
+    
+    //------------------------ toString --------------------------
+    
+    @Override
+    public String toString() {
+        return "JudgmentSeriesFilter [phrase=" + phrase + "]";
+    }
+
 
    
     
