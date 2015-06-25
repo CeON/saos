@@ -41,6 +41,12 @@ import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_DIVISION_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_JUDGMENT_FORM_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_PERSONNEL_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_CASE_NUMBER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_JUDGMENT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_KEYWORD;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_KEYWORD;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_CHAMBER_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_TYPE;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -295,6 +301,387 @@ public class JudgmentsControllerTest extends ApiTestSupport {
 
     }
 
+    @Test
+    public void showJudgments__it_should_search_by_all_field() throws Exception {
+        // when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.ALL, "nac content")
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getNacJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_legal_base() throws Exception {
+        // when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.LEGAL_BASE, "ustawa z dnia 22 listopada 2013")
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getScJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_referenced_regulation() throws Exception {
+        // when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.REFERENCED_REGULATION, "first ct")
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCtJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_journal_entry_code() throws Exception {
+        // when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.LAW_JOURNAL_ENTRY_CODE, "1960/30/168")
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_judge_name() throws Exception {
+        // when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.JUDGE_NAME, CC_FIRST_JUDGE_NAME)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_case_number() throws Exception {
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.CASE_NUMBER, NAC_CASE_NUMBER)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getNacJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_court_type() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.COURT_TYPE, "CONSTITUTIONAL_TRIBUNAL")
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCtJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_judgment_type() throws Exception {
+        // given
+        String firstType = CC_JUDGMENT_TYPE.name();
+        String secondType = SC_JUDGMENT_TYPE.name();
+        List<String> judgmentTypes = Arrays.asList(firstType, secondType);
+        
+        // when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.JUDGMENT_TYPES, judgmentTypes.toArray(new String[0]))
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        List<Judgment> judgments = Lists.newArrayList(testObjectContext.getCcJudgment(), testObjectContext.getScJudgment());
+        Collections.sort(judgments, (j1, j2) -> Long.compare(j1.getId(), j2.getId()));
+        
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(2)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(judgments.get(0).getId())))
+            .andExpect(jsonPath("$.items.[1].id").value(equalsLong(judgments.get(1).getId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_keywords() throws Exception {
+        // given
+        String firstKeyword = CC_FIRST_KEYWORD;
+        String secondKeyword = CC_SECOND_KEYWORD;
+        List<String> keywords = Arrays.asList(firstKeyword, secondKeyword);
+        
+        // when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.KEYWORDS, keywords.toArray(new String[0]))
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_judgment_date_from() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.JUDGMENT_DATE_FROM, "2013-01-01")
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        List<Judgment> judgments = Lists.newArrayList(testObjectContext.getCtJudgment(), testObjectContext.getNacJudgment());
+        Collections.sort(judgments, (j1, j2) -> Long.compare(j1.getId(), j2.getId()));
+        
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(2)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(judgments.get(0).getId())))
+            .andExpect(jsonPath("$.items.[1].id").value(equalsLong(judgments.get(1).getId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_judgment_date_to() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.JUDGMENT_DATE_TO, "2013-01-01")
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        List<Judgment> judgments = Lists.newArrayList(testObjectContext.getCcJudgment(), testObjectContext.getScJudgment());
+        Collections.sort(judgments, (j1, j2) -> Long.compare(j1.getId(), j2.getId()));
+        
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(2)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(judgments.get(0).getId())))
+            .andExpect(jsonPath("$.items.[1].id").value(equalsLong(judgments.get(1).getId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_sc_personnel_type() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.SC_PERSONNEL_TYPE, SC_PERSONNEL_TYPE.name())
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getScJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_sc_chamber_id() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.SC_CHAMBER_ID, String.valueOf(testObjectContext.getScChamberId()))
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getScJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_sc_chamber_name() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.SC_CHAMBER_NAME, SC_CHAMBER_NAME)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getScJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_sc_division_id() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.SC_DIVISION_ID, String.valueOf(testObjectContext.getScFirstDivisionId()))
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getScJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_sc_division_name() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.SC_DIVISION_NAME, SC_FIRST_DIVISION_NAME)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getScJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_cc_court_type() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.CC_COURT_TYPE, CC_COURT_TYPE.name())
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_cc_court_id() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.CC_COURT_ID, String.valueOf(testObjectContext.getCcCourtId()))
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_cc_court_code() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.CC_COURT_CODE, CC_COURT_CODE)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_cc_court_name() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.CC_COURT_NAME, CC_COURT_NAME)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_cc_division_id() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.CC_DIVISION_ID, String.valueOf(testObjectContext.getCcFirstDivisionId()))
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_cc_division_code() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.CC_DIVISION_CODE, CC_FIRST_DIVISION_CODE)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_by_cc_division_name() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.CC_DIVISION_NAME, CC_FIRST_DIVISION_NAME)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())));
+    }
+    
+    @Test
+    public void showJudgments__it_should_search_with_dependent_courts() throws Exception {
+        // given
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.PAGE_NUMBER, "0")
+                .param(ApiConstants.CC_COURT_ID, String.valueOf(testObjectContext.getCcCourtParentId()))
+                .param(ApiConstants.CC_INCLUDE_DEPENDENT_COURT_JUDGMENTS, "true")
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // then
+        assertOk(actions);
+        actions
+            .andExpect(jsonPath("$.items").value(iterableWithSize(1)))
+            .andExpect(jsonPath("$.items.[0].id").value(equalsLong(testObjectContext.getCcJudgmentId())));
+    }
 
 
     @Test
