@@ -176,12 +176,12 @@
                         <c:forEach items="${presidingJudges}" var="judge" >
                             <span>
                                 <c:url value="/search" var="judgeSearchUrl">
-                                    <c:param name="judgeName" value="&quot;${fn:replace(judge.name, '\"', ' ')}&quot;" />
+                                    <c:param name="judgeName" value='&quot;${fn:replace(judge.name, "\"", " ")}&quot;' />
                                 </c:url>
                                 <a href="${judgeSearchUrl}" data-toggle="tooltip" title="${judgeLinkTooltip}" >
                                     <c:out value="${judge.name}" />
                                 </a>
-	                            <span class="presiding-judge-white"  data-toggle="tooltip" title="<spring:message code="judgment.judgeRole.PRESIDING_JUDGE" />" >
+	                            <span class="presiding-judge-white"  data-toggle="tooltip" title="<spring:message code='judgment.judgeRole.PRESIDING_JUDGE' />" >
 	                            </span>
                             </span>
                         </c:forEach>
@@ -191,7 +191,7 @@
                             <c:if test="${!judge.presidingJudge}" >
                                 <span>                                     
                                     <c:url value="/search" var="judgeSearchUrl">
-                                        <c:param name="judgeName" value="&quot;${fn:replace(judge.name, '\"', ' ')}&quot;" />
+                                        <c:param name="judgeName" value='&quot;${fn:replace(judge.name, "\"", " ")}&quot;' />
                                     </c:url>
                                     <a href="${judgeSearchUrl}" data-toggle="tooltip" title="${judgeLinkTooltip}" >
                                         <c:out value="${judge.name}" />
@@ -203,8 +203,9 @@
                                 
                     </div>
                 </div>
-            </li>
-            </c:if>
+           </li>
+           </c:if>
+            
                         
             <c:if test="${!empty judgment.courtReporters}" >
                 <li>
