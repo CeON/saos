@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
@@ -531,42 +532,46 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
         
         // assert
-        
-        assertMainChartSeriesDouble(0, result,
+        List<Double> series0Values = Lists.newArrayList(
                 (double) 4/10 * 100,
                 (double) 4/7  * 100,
-                0,
+                (double) 0,
                 (double) 9/16 * 100,
                 (double) 1/1  * 100,
-                0,
-                0,
-                0,
+                (double) 0,
+                (double) 0,
+                (double) 0,
                 (double) 1/3  * 100,
-                0,
-                0,
+                (double) 0,
+                (double) 0,
                 (double) 2/2  * 100,
-                0);
-        assertMainChartSeriesDouble(1, result,
+                (double) 0);
+        
+        List<Double> series1Values = Lists.newArrayList(
                 (double) 6/10 * 100,
                 (double) 3/7  * 100,
-                0,
+                (double) 0,
                 (double) 7/16 * 100,
                 (double) 1/1  * 100,
-                0,
-                0,
-                0,
+                (double) 0,
+                (double) 0,
+                (double) 0,
                 (double) 3/3  * 100,
-                0,
-                0,
+                (double) 0,
+                (double) 0,
                 (double) 1/2  * 100,
-                0);
+                (double) 0);
+        
+        assertMainChartSeriesDouble(0, result, ArrayUtils.toPrimitive(series0Values.toArray(new Double[0])));
+        assertMainChartSeriesDouble(1, result,ArrayUtils.toPrimitive(series1Values.toArray(new Double[0])));
         
         assertMainChartXticksFor2000Year(result);
         
-        double avgSeries0 = (((double) 4/10) + ((double) 4/7) + 0 + ((double) 9/16) + ((double) 1/1) + 0 + 0 + 0 + ((double) 1/3) + 0 + 0 + ((double) 2/2) + 0) / 13;
-        assertAggregatedChartSeriesDouble(0, result, 1, avgSeries0 * 100);
-        double avgSeries1 = (((double) 6/10) + ((double) 3/7) + 0 + ((double) 7/16) + ((double) 1/1) + 0 + 0 + 0 + ((double) 3/3) + 0 + 0 + ((double) 1/2) + 0) / 13;
-        assertAggregatedChartSeriesDouble(1, result, 3, avgSeries1 * 100);
+        double avgSeries0 = series0Values.stream().collect(Collectors.averagingDouble(x -> x));
+        assertAggregatedChartSeriesDouble(0, result, 1, avgSeries0);
+        
+        double avgSeries1 = series1Values.stream().collect(Collectors.averagingDouble(x -> x));
+        assertAggregatedChartSeriesDouble(1, result, 3, avgSeries1);
     }
     
     @Test
@@ -585,40 +590,44 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
         // assert
         
-        assertMainChartSeriesDouble(0, result,
+        List<Double> series0Values = Lists.newArrayList(
                 (double) 4 * 1000 / 10,
                 (double) 4 * 1000 / 7,
-                0,
+                (double) 0,
                 (double) 9 * 1000 / 16,
                 (double) 1 * 1000 / 1,
-                0,
-                0,
-                0,
+                (double) 0,
+                (double) 0,
+                (double) 0,
                 (double) 1 * 1000 / 3,
-                0,
-                0,
+                (double) 0,
+                (double) 0,
                 (double) 2 * 1000 / 2,
-                0);
-        assertMainChartSeriesDouble(1, result,
+                (double) 0);
+        List<Double> series1Values = Lists.newArrayList(
                 (double) 6 * 1000 / 10,
                 (double) 3 * 1000 / 7,
-                0,
+                (double) 0,
                 (double) 7 * 1000 / 16,
                 (double) 1 * 1000 / 1,
-                0,
-                0,
-                0,
+                (double) 0,
+                (double) 0,
+                (double) 0,
                 (double) 3 * 1000 / 3,
-                0,
-                0,
+                (double) 0,
+                (double) 0,
                 (double) 1 * 1000 / 2,
-                0);
+                (double) 0);
+        
+        assertMainChartSeriesDouble(0, result, ArrayUtils.toPrimitive(series0Values.toArray(new Double[0])));
+        assertMainChartSeriesDouble(1, result,ArrayUtils.toPrimitive(series1Values.toArray(new Double[0])));
         
         assertMainChartXticksFor2000Year(result);
         
-        double avgSeries0 = (((double) 4 * 1000 / 10) + ((double) 4 * 1000 / 7) + 0 + ((double) 9 * 1000 / 16) + ((double) 1 * 1000 / 1) + 0 + 0 + 0 + ((double) 1 * 1000 / 3) + 0 + 0 + ((double) 2 * 1000 / 2) + 0) / 13;
+        double avgSeries0 = series0Values.stream().collect(Collectors.averagingDouble(x -> x));
         assertAggregatedChartSeriesDouble(0, result, 1, avgSeries0);
-        double avgSeries1 = (((double) 6 * 1000 / 10) + ((double) 3 * 1000 / 7) + 0 + ((double) 7 * 1000 / 16) + ((double) 1 * 1000 / 1) + 0 + 0 + 0 + ((double) 3 * 1000 / 3) + 0 + 0 + ((double) 1 * 1000 / 2) + 0) / 13;
+        
+        double avgSeries1 = series1Values.stream().collect(Collectors.averagingDouble(x -> x));
         assertAggregatedChartSeriesDouble(1, result, 3, avgSeries1);
     }
     
