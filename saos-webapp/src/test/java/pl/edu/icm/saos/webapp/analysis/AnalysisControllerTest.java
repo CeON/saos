@@ -31,6 +31,7 @@ import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.common.SolrInputDocument;
 import org.joda.time.LocalDate;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -149,11 +150,20 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
         judgmentsServer.deleteByQuery("*:*");
         judgmentsServer.commit();
-        generateData();
+        
+        generateCommonCourts();
+        generateSupremeCourtChambers();
+        indexJudgments();
         
         
         mockMvc = webAppContextSetup(webApplicationCtx)
                 .build();
+    }
+    
+    @After
+    public void cleanup() throws SolrServerException, IOException {
+        judgmentsServer.deleteByQuery("*:*");
+        judgmentsServer.commit();
     }
     
     
@@ -161,9 +171,11 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void showAnalysis_initial() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE));
         
         
+        // assert
         MonthYearRange expectedMonthYearRange = new MonthYearRange();
         expectedMonthYearRange.setStartMonth(1);
         expectedMonthYearRange.setStartYear((new LocalDate()).getYear() - 20);
@@ -184,6 +196,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void showAnalysis_checkExposeParams() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -193,6 +206,8 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("globalFilter.judgmentDateRange.endYear", "2001")
                 .param("ysettings.valueType", "PERCENT"));
         
+        
+        // assert
         MonthYearRange expectedMonthYearRange = new MonthYearRange();
         expectedMonthYearRange.setStartMonth(1);
         expectedMonthYearRange.setStartYear(1991);
@@ -213,9 +228,11 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void showAnalysis_checkCommonCourtsInModel() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)
                 .param("globalFilter.courtCriteria.courtType", "COMMON"));
         
+        // assert
         result
             .andExpect(status().isOk())
             .andExpect(view().name("analysis"))
@@ -233,10 +250,12 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void showAnalysis_checkCommonCourtDivisionsInModel() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)
                 .param("globalFilter.courtCriteria.courtType", "COMMON")
                 .param("globalFilter.courtCriteria.ccCourtId", String.valueOf(appealCourt1.getId())));
         
+        // assert
         result
             .andExpect(status().isOk())
             .andExpect(view().name("analysis"))
@@ -250,9 +269,12 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void showAnalysis_checkSupremeCourtChambersInModel() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)
                 .param("globalFilter.courtCriteria.courtType", "SUPREME"));
         
+        
+        // assert
         result
             .andExpect(status().isOk())
             .andExpect(view().name("analysis"))
@@ -265,10 +287,12 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void showAnalysis_checkSupremeCourtChamberDivisionsInModel() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)
                 .param("globalFilter.courtCriteria.courtType", "SUPREME")
                 .param("globalFilter.courtCriteria.scCourtChamberId", String.valueOf(scChamber_1.getId())));
         
+        // assert
         result
             .andExpect(status().isOk())
             .andExpect(view().name("analysis"))
@@ -281,12 +305,14 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void removeSeriesSearchCriteria() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(post(URL_BASE + "/removePhrase")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
                 .param("seriesFilters[2].phrase", "phrase3")
                 .param("filterIndexToRemove", "1"));
         
+        // assert
         result
             .andExpect(status().isOk())
             .andExpect(view().name("analysisForm"))
@@ -300,12 +326,12 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void addNewSeriesSearchCriteria() throws Exception {
-        
+        // execute
         ResultActions result = mockMvc.perform(post(URL_BASE + "/addNewPhrase")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2"));
         
-        
+        // assert
         result
             .andExpect(status().isOk())
             .andExpect(view().name("analysisForm"))
@@ -320,6 +346,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_WithOneYearPeriods() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -329,6 +356,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("globalFilter.judgmentDateRange.endYear", "2001")
                 .param("ysettings.valueType", "NUMBER")
                 .accept(MediaType.APPLICATION_JSON));
+        
+        
+        // assert
         
         assertMainChartSeries(0, result, 2, 0, 0, 0, 0, 1, 0, 0, 2, 21, 0);
         assertMainChartSeries(1, result, 0, 1, 0, 0, 1, 1, 1, 1, 1, 21, 0);
@@ -352,6 +382,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_WithSixMonthsPeriods() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -361,6 +392,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("globalFilter.judgmentDateRange.endYear", "2001")
                 .param("ysettings.valueType", "NUMBER")
                 .accept(MediaType.APPLICATION_JSON));
+        
+        
+        // assert
         
         assertMainChartSeries(0, result, 1, 0, 0, 0, 0, 0, 2, 0, 18, 3, 0);
         assertMainChartSeries(1, result, 1, 0, 0, 1, 0, 1, 0, 1, 17, 4, 0);
@@ -384,6 +418,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_WithOneMonthPeriods() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -394,6 +429,8 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("ysettings.valueType", "NUMBER")
                 .accept(MediaType.APPLICATION_JSON));
         
+        
+        // assert
         
         assertMainChartSeries(0, result, 4, 4, 0, 9, 1, 0, 0, 0, 1, 0, 0, 2, 0);
         assertMainChartSeries(1, result, 6, 3, 0, 7, 1, 0, 0, 0, 3, 0, 0, 1, 0);
@@ -407,6 +444,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_WithOneWeekPeriods() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -416,6 +454,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("globalFilter.judgmentDateRange.endYear", "2000")
                 .param("ysettings.valueType", "NUMBER")
                 .accept(MediaType.APPLICATION_JSON));
+        
+        
+        // assert
         
         assertMainChartSeries(0, result, 1, 0, 0, 1, 3, 0, 0, 3, 0, 0, 0, 0, 0);
         assertMainChartSeries(1, result, 2, 0, 0, 1, 3, 0, 0, 1, 2, 0, 0, 0, 0);
@@ -441,6 +482,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_WithOneDayPeriods() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -450,6 +492,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("globalFilter.judgmentDateRange.endYear", "2000")
                 .param("ysettings.valueType", "NUMBER")
                 .accept(MediaType.APPLICATION_JSON));
+        
+        
+        // assert
         
         assertMainChartSeries(0, result,
                 0, 0, 1, 0, 0,  0, 0, 0, 0, 0,
@@ -473,6 +518,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_WithPercentYValues() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -482,6 +528,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("globalFilter.judgmentDateRange.endYear", "2001")
                 .param("ysettings.valueType", "PERCENT")
                 .accept(MediaType.APPLICATION_JSON));
+        
+        
+        // assert
         
         assertMainChartSeriesDouble(0, result,
                 (double) 4/10 * 100,
@@ -522,6 +571,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_WithNumberPer1000YValues() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -531,6 +581,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("globalFilter.judgmentDateRange.endYear", "2001")
                 .param("ysettings.valueType", "NUMBER_PER_1000")
                 .accept(MediaType.APPLICATION_JSON));
+        
+        
+        // assert
         
         assertMainChartSeriesDouble(0, result,
                 (double) 4 * 1000 / 10,
@@ -571,6 +624,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_ForCommonCourts() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -582,6 +636,8 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("ysettings.valueType", "NUMBER")
                 .accept(MediaType.APPLICATION_JSON));
         
+        
+        // assert
         
         assertMainChartSeries(0, result, 4, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         assertMainChartSeries(1, result, 5, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -601,6 +657,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_ForCommonCourt() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -612,6 +669,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("globalFilter.courtCriteria.ccCourtId", String.valueOf(appealCourt1.getId()))
                 .param("ysettings.valueType", "NUMBER")
                 .accept(MediaType.APPLICATION_JSON));
+        
+        
+        // assert
         
         assertMainChartSeries(0, result, 3, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         assertMainChartSeries(1, result, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -624,6 +684,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_ForCommonCourtWithDependent() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -636,6 +697,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("globalFilter.courtCriteria.ccIncludeDependentCourtJudgments", "true")
                 .param("ysettings.valueType", "NUMBER")
                 .accept(MediaType.APPLICATION_JSON));
+        
+        
+        // assert
         
         assertMainChartSeries(0, result, 3, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         assertMainChartSeries(1, result, 5, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -653,6 +717,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_ForCommonCourtDivision() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -666,6 +731,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("ysettings.valueType", "NUMBER")
                 .accept(MediaType.APPLICATION_JSON));
         
+        
+        // assert
+        
         assertMainChartSeries(0, result, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         assertMainChartSeries(1, result, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         
@@ -678,6 +746,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_ForSupremeCourtChamber() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -690,6 +759,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("ysettings.valueType", "NUMBER")
                 .accept(MediaType.APPLICATION_JSON));
         
+        
+        // assert
+        
         assertMainChartSeries(0, result, 0, 3, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         assertMainChartSeries(1, result, 1, 3, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         
@@ -701,6 +773,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generate_ForSupremeCourtChamberDivision() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -714,6 +787,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("ysettings.valueType", "NUMBER")
                 .accept(MediaType.APPLICATION_JSON));
         
+        
+        // assert
+        
         assertMainChartSeries(0, result, 0, 2, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         assertMainChartSeries(1, result, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         
@@ -725,6 +801,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void generateCsv_MAIN_CHART() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generateCsv")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
@@ -733,6 +810,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .param("globalFilter.judgmentDateRange.endMonth", "1")
                 .param("globalFilter.judgmentDateRange.endYear", "2001")
                 .param("chartCode", "MAIN_CHART"));
+        
+        
+        // assert
         
         String expectedCsvContent = 
                 buildCsvHeader("1/2000", "2/2000", "3/2000", "4/2000", "5/2000", "6/2000", "7/2000", "8/2000", "9/2000", "10/2000", "11/2000", "12/2000", "1/2001") + "\n"
@@ -744,12 +824,15 @@ public class AnalysisControllerTest extends WebappTestSupport {
 
     @Test
     public void generateCsv_CC_COURT_CHART() throws Exception {
+        // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generateCsv")
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
                 .param("globalFilter.courtCriteria.courtType", "COMMON")
                 .param("chartCode", "CC_COURT_CHART"));
 
+        
+        // assert
         
         String expectedCsvContent = 
                 buildCsvHeader(appealCourt1.getName(), appealCourt2.getName()) + "\n"
@@ -878,13 +961,6 @@ public class AnalysisControllerTest extends WebappTestSupport {
         JudgmentSeriesFilter judgmentSeriesFilter = new JudgmentSeriesFilter();
         judgmentSeriesFilter.setPhrase(phrase);
         return judgmentSeriesFilter;
-    }
-    
-    private void generateData() throws SolrServerException, IOException {
-        
-        generateCommonCourts();
-        generateSupremeCourtChambers();
-        indexJudgments();
     }
     
     @Transactional
