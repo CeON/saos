@@ -692,7 +692,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     }
     
     @Test
-    public void generate_ForCommonCourtWithDependent() throws Exception {
+    public void generate_ForCcAppealWithDependent() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
                 .param("seriesFilters[0].phrase", "phrase1")
@@ -721,6 +721,39 @@ public class AnalysisControllerTest extends WebappTestSupport {
         assertCcCourtChartXticks(result, appealCourt1, regionalCourt1_2, regionalCourt1_1);
         assertCcCourtChartSeries(0, result, 5, 0, 3);
         assertCcCourtChartSeries(1, result, 5, 1, 2);
+        
+    }
+    
+    @Test
+    public void generate_ForCcRegionalWithDependent() throws Exception {
+        // execute
+        ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
+                .param("seriesFilters[0].phrase", "phrase1")
+                .param("seriesFilters[1].phrase", "phrase2")
+                .param("globalFilter.judgmentDateRange.startMonth", "1")
+                .param("globalFilter.judgmentDateRange.startYear", "2000")
+                .param("globalFilter.judgmentDateRange.endMonth", "1")
+                .param("globalFilter.judgmentDateRange.endYear", "2001")
+                .param("globalFilter.courtCriteria.courtType", "COMMON")
+                .param("globalFilter.courtCriteria.ccCourtId", String.valueOf(regionalCourt1_1.getId()))
+                .param("globalFilter.courtCriteria.ccIncludeDependentCourtJudgments", "true")
+                .param("ysettings.valueType", "NUMBER")
+                .accept(MediaType.APPLICATION_JSON));
+        
+        
+        // assert
+        
+        assertMainChartSeries(0, result, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        assertMainChartSeries(1, result, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+        
+        assertMainChartXticksFor2000Year(result);
+        
+        assertAggregatedChartSeries(0, result, 1, 3);
+        assertAggregatedChartSeries(1, result, 3, 2);
+        
+        assertCcCourtChartXticks(result, regionalCourt1_1, districtCourt1_1_1, districtCourt1_1_2);
+        assertCcCourtChartSeries(0, result, 1, 2, 0);
+        assertCcCourtChartSeries(1, result, 1, 0, 1);
         
     }
     
