@@ -45,6 +45,9 @@
 		</div>
 
         <div class="app-info-footer">
+            <spring:message code="appInfo.contact"/>: <spring:eval var="contactMailAddress" expression="@exposedProperties.getProperty('contact.generalMailAddress')"/>
+            <saos:mail value="${contactMailAddress}"/> 
+            | 
             <spring:message code="appInfo.saosVersion"/>: <spring:eval expression="@versionProperties.getProperty('saos.version')"/>
         </div>
     

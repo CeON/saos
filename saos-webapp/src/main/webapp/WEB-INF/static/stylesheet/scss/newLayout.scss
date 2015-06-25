@@ -47,6 +47,8 @@ a, .hint {
     }
 }
 
+
+
 .home {
 	a, .hint {
 		color: $dark-dark;
@@ -1939,7 +1941,11 @@ a, .hint {
     font-family: helvetica;
     font-size: 12px;
     text-align: right;
-    color: lighten($dark, 10);
+    color: lighten($dark, 4);
+    
+    a {
+        color: lighten($dark, 4);
+    }
 }
 
 .for-screen-readers {
