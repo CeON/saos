@@ -7,7 +7,7 @@
 <a href="${contextPath}/" class="saos-logo" aria-label="<spring:message code='linkToMainPage'/>"></a>
 
 
-<div class="judgment-details" id="judgment" tabindex=0>
+<div class="judgment-details" id="judgment" tabindex="-1">
 
 	<c:if test="${!empty judgment.judgmentType}" >
 	    <spring:message code="judgmentDetails.linkTooltip.judgmentType" var="judgmentTypeLinkTooltip" />
