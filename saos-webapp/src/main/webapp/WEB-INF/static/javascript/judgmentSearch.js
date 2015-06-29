@@ -3,8 +3,11 @@
  * 
  * @author Łukasz Pawełczak
  */
-var jsInitInJudgmentSearch = function() {
+var jsInitInJudgmentSearch = function(options) {
 
+	if (options && options.trackFocusOn) {
+		$("#" + options.trackFocusOn).focus();
+	}
 	
 	/* Clear button clears form */ 
 	$("#search-form button[type='reset']").click(function() {

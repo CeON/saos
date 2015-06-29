@@ -11,12 +11,13 @@ var SearchCriteria = {
 		form: "#search-form",
 		
 		init: function() {
-			SearchCriteria.assigPageSize();
+			SearchCriteria.assignPageSize();
 			SearchCriteria.assignSort();
+			SearchCriteria.assignTrackingFocus();
 		},
 		
 		/* Page size change automatically submits search form. */
-		assigPageSize: function() {
+		assignPageSize: function() {
 			$(SearchCriteria.pageSize).change(function() {
 				SearchCriteria.submitForm();
 			});
@@ -34,7 +35,25 @@ var SearchCriteria = {
 			});
 		},
 		
+		/* Assign events for tracking focus on search criteria. */
+		assignTrackingFocus: function() {
+			$(SearchCriteria.sorting + ", " + SearchCriteria.direction + ", " + SearchCriteria.pageSize).focusin(function() {
+				$(SearchCriteria.form).data("focusOn", $(this).attr("id"));
+			});
+			$(SearchCriteria.sorting + ", " + SearchCriteria.direction + ", " + SearchCriteria.pageSize).focusout(function() {
+				$(SearchCriteria.form).data("focusOn", "");
+			});
+		},
+		
 		submitForm: function() {
-			$(SearchCriteria.form).submit();
+			var $form = $(SearchCriteria.form),
+				focusOn = $form.data("focusOn");
+			
+			if (focusOn) {
+				trackFocusInput = $("<input></input>").attr("name", "trackFocusOn").val(focusOn);
+				$form.append(trackFocusInput);
+			}
+			
+			$form.submit();
 		},
 };
