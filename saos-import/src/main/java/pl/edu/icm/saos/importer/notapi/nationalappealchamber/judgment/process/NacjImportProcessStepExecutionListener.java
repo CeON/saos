@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.importer.notapi.common.JudgmentObjectDeleter;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.NationalAppealChamberJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceNacJudgment;
 
@@ -31,6 +32,10 @@ public class NacjImportProcessStepExecutionListener implements StepExecutionList
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
+        
+        judgmentObjectDeleter.deleteMeansOfAppealWithoutJudgments(CourtType.NATIONAL_APPEAL_CHAMBER);
+        judgmentObjectDeleter.deleteJudgmentResultsWithoutJudgments(CourtType.NATIONAL_APPEAL_CHAMBER);
+        
         return ExitStatus.COMPLETED;
     }
 

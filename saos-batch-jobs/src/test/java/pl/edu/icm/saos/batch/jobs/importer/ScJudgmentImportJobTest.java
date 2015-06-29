@@ -210,7 +210,7 @@ public class ScJudgmentImportJobTest extends BatchJobsTestSupport {
         
         assertScJudgmentForms("uchwała SN", "wyrok SN");
         assertMeansOfAppeals("zagadnienie prawne");
-        assertJudgmentResults("udzielono odpowiedzi");
+        assertJudgmentResults("udzielono odpowiedzi", "wydano wyrok");
         
         assertJudgment_24ffe0d974d5823db702e6436dbb9f0f();
         
@@ -288,7 +288,7 @@ public class ScJudgmentImportJobTest extends BatchJobsTestSupport {
         
         assertScJudgmentForms("uchwała SN", "wyrok SN");
         assertMeansOfAppeals("zagadnienie prawne");
-        assertJudgmentResults("udzielono odpowiedzi", "wydano wyrok");
+        assertJudgmentResults("udzielono odpowiedzi", "wydano wyrok (zmieniony)");
         
         
         // should not exist anymore
@@ -382,7 +382,7 @@ public class ScJudgmentImportJobTest extends BatchJobsTestSupport {
         assertEquals("zagadnienie prawne", scJudgment.getMeansOfAppeal().getName());
         
         assertEquals(CourtType.SUPREME, scJudgment.getJudgmentResult().getCourtType());
-        assertEquals("wydano wyrok", scJudgment.getJudgmentResult().getText());
+        assertEquals("wydano wyrok (zmieniony)", scJudgment.getJudgmentResult().getText());
         
         assertSpecificFieldsEmpty(scJudgment);
     }
