@@ -81,8 +81,6 @@ var initAnalysisJs = function() {
     var plCcCourtNameReplacements = {"Sąd Apelacyjny":"SA", "Sąd Rejonowy":"SR", "Sąd Okręgowy":"SO", " w ":"<br/>w ", " we ":"<br/>we "}
     ccCourtNameReplacements['pl'] = plCcCourtNameReplacements;
     
-    var nullPhraseReplacements = {'pl':'wszystkie'};
-    
     var analysisFormBaseAction = $('#analysisForm').attr('action');
     
     
@@ -663,8 +661,12 @@ var initAnalysisJs = function() {
     function generateMainChartTable(chart) {
         
         generateChartTable('mainChartTable', chart, function(xtick) {
-            return formatXtickPeriod(xtick, " - ", " - ", " - ", function(date) { return formatDateWithPattern(date, "MMMM YYYY")}, function(date) { return formatDateWithPattern(date, "DD MMMM YYYY")})
+            return formatXtickPeriod(xtick, " - ", " - ", " - ", function(year) {return yearDateFormatter(year);}, function(date) { return formatDateWithPattern(date, "MMMM YYYY")}, function(date) { return formatDateWithPattern(date, "DD MMMM YYYY")})
         });
+        
+        function yearDateFormatter(year) {
+            return analysisJsProperties.MAIN_CHART_TABLE_COL_HEADER_YEAR + " " + year;
+        }
         
     }
     
@@ -1005,11 +1007,12 @@ var initAnalysisJs = function() {
      * yearRangeConnector the separator of period start and end year for year periods, defaults to: -
      * monthRangeConnector the separator of period start and end month-year for month-year periods, defaults to: &lt;br/&gr; - &lt;br/&gr;
      * dayRangeConnector the separator of period start and end dates for day periods, defaults to: &lt;br/&gr; - &lt;br/&gr;
+     * yearDateFormatter the function formatting start and end dates for year periods, shows year (if start year == end year) or year + yearRangeConnector + year by default (if the function is not defined)
      * monthDateFormatter the function formatting start and end dates for month-year periods, defaults to formatMonth
      * dayDateFormatter the function formatting start and end dates for day periods, defaults to formatDate
      * 
      */
-    function formatXtickPeriod(xtick, yearRangeConnector, monthRangeConnector, dayRangeConnector, monthDateFormatter, dayDateFormatter) {
+    function formatXtickPeriod(xtick, yearRangeConnector, monthRangeConnector, dayRangeConnector, yearDateFormatter, monthDateFormatter, dayDateFormatter) {
         
         if (!monthDateFormatter) {
             monthDateFormatter = formatMonth;
@@ -1035,9 +1038,17 @@ var initAnalysisJs = function() {
         if (xtick.period === 'YEAR') {
             
             if (xtick.startYear === xtick.endYear) {
+                if (yearDateFormatter) {
+                    return yearDateFormatter(xtick.startYear);
+                } else {
                 return ""+xtick.startYear;
+                }
             } else {
-                return xtick.startYear + yearRangeConnector + xtick.endYear;
+                if (yearDateFormatter) {
+                    return yearDateFormatter(xtick.startYear) + yearRangeConnector + yearDateFormatter(xtick.endYear);
+                } else {
+                    return xtick.startYear + yearRangeConnector + xtick.endYear;
+                }
             }
             
         } else if (xtick.period === 'MONTH') {
