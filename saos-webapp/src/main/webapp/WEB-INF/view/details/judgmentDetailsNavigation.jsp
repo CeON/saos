@@ -176,7 +176,7 @@
                         <c:forEach items="${presidingJudges}" var="judge" >
                             <span>
                                 <c:url value="/search" var="judgeSearchUrl">
-                                    <c:param name="judgeName" value='&quot;${fn:replace(judge.name, "\"", " ")}&quot;' />
+                                    <c:param name="judgeName" value='&quot;${fn:replace(judge.name, "\\"", " ")}&quot;' />
                                 </c:url>
                                 <a href="${judgeSearchUrl}" data-toggle="tooltip" title="${judgeLinkTooltip}" >
                                     <c:out value="${judge.name}" />
@@ -191,7 +191,7 @@
                             <c:if test="${!judge.presidingJudge}" >
                                 <span>                                     
                                     <c:url value="/search" var="judgeSearchUrl">
-                                        <c:param name="judgeName" value='&quot;${fn:replace(judge.name, "\"", " ")}&quot;' />
+                                        <c:param name="judgeName" value='&quot;${fn:replace(judge.name, "\\"", " ")}&quot;' />
                                     </c:url>
                                     <a href="${judgeSearchUrl}" data-toggle="tooltip" title="${judgeLinkTooltip}" >
                                         <c:out value="${judge.name}" />
@@ -291,7 +291,7 @@
                 <c:forEach items="${judgment.legalBases}" var="legalBase" >
                     <div class="legalBase">
                         <c:url value="/search" var="legalBaseSearchUrl">
-                            <c:param name="legalBase" value="&quot;${fn:replace(judge.name, '\"', ' ')}&quot;" />
+                            <c:param name="legalBase" value='&quot;${fn:replace(legalBase, "\\"", " ")}&quot;' />
                         </c:url>
                         <a href="${legalBaseSearchUrl}" data-toggle="tooltip" title="${legalBasesLinkTooltip}" >
                            <c:out value="${legalBase}" />
