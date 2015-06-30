@@ -5,6 +5,10 @@
  */
 var jsInitInJudgmentSearch = function(options) {
 
+	SearchCriteria.init();
+	SearchContext.init();
+	
+	
 	if (options && options.trackFocusOn) {
 		$("#" + options.trackFocusOn).focus();
 	}
@@ -97,9 +101,6 @@ var jsInitInJudgmentSearch = function(options) {
 				onHide: function() {}
 			}
 	});
-
-	SearchCriteria.init();
-	SearchContext.init();
 	
 
 	$("#courtType_SUPREME").one("click", function() {

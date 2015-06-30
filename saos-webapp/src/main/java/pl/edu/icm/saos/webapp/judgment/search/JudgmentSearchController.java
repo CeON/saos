@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -60,7 +62,7 @@ public class JudgmentSearchController {
 		
 		model.addAttribute("pageable", pageable);
 		model.addAttribute("searchResults", searchResults);
-		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
+		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request, Lists.newArrayList("trackFocusOn")));
 		model.addAttribute("trackFocusOn", trackFocusOn);
 		
 		courtDataModelCreator.addCourtDataToModel(judgmentCriteriaForm.getCourtCriteria(), model);
