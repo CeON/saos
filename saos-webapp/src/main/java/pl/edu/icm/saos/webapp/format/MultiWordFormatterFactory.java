@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.format.AnnotationFormatterFactory;
@@ -52,7 +53,7 @@ public final class MultiWordFormatterFactory implements AnnotationFormatterFacto
             return StringUtils.EMPTY;
     	}
     	
-    	return StringUtils.join(value, ", ");
+    	return StringUtils.join(value, " | ");
     }
     
     @Override
@@ -62,7 +63,9 @@ public final class MultiWordFormatterFactory implements AnnotationFormatterFacto
             return Collections.emptyList();
     	}
        
-    	return Lists.newArrayList(source.trim().split("\\s*,\\s*"));
+    	return Lists.newArrayList(source.trim().split("\\s*\\|\\s*")).stream()
+    	        .filter(x -> StringUtils.isNotBlank(x))
+    	        .collect(Collectors.toList());
     }
      
 }
