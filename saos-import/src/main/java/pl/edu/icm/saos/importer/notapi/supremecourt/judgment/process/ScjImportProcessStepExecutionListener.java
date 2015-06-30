@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.importer.notapi.common.JudgmentObjectDeleter;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 
@@ -42,6 +43,8 @@ public class ScjImportProcessStepExecutionListener implements StepExecutionListe
         scjObjectDeleter.deleteScChambersWithoutJudgments();
         scjObjectDeleter.deleteScChamberDivisionsWithoutJudgments();
         scjObjectDeleter.deleteScjFormsWithoutJudgments();
+        judgmentObjectDeleter.deleteMeansOfAppealWithoutJudgments(CourtType.SUPREME);
+        judgmentObjectDeleter.deleteJudgmentResultsWithoutJudgments(CourtType.SUPREME);
 
         return ExitStatus.COMPLETED;
     }

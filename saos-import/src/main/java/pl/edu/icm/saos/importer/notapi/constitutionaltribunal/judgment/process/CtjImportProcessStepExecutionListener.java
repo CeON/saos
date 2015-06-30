@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.importer.notapi.common.JudgmentObjectDeleter;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 
 @Service
@@ -29,6 +30,10 @@ public class CtjImportProcessStepExecutionListener implements
 
     @Override
     public ExitStatus afterStep(StepExecution stepExecution) {
+        
+        judgmentObjectDeleter.deleteMeansOfAppealWithoutJudgments(CourtType.CONSTITUTIONAL_TRIBUNAL);
+        judgmentObjectDeleter.deleteJudgmentResultsWithoutJudgments(CourtType.CONSTITUTIONAL_TRIBUNAL);
+        
         return ExitStatus.COMPLETED;
     }
 
