@@ -78,6 +78,13 @@ public class JudgmentObjectDeleter {
         }
     }
     
+    
+    /**
+     * Deletes {@link MeansOfAppeal} which are not referenced from any judgment.
+     * 
+     * @param courtType of means of appeal ({@link MeansOfAppeal#getCourtType()})
+     *      that will be checked for reference existence
+     */
     @Transactional
     public void deleteMeansOfAppealWithoutJudgments(CourtType courtType) {
         
@@ -99,6 +106,12 @@ public class JudgmentObjectDeleter {
         
     }
     
+    /**
+     * Deletes {@link JudgmentResult} which are not referenced from any judgment.
+     * 
+     * @param courtType of means of appeal ({@link JudgmentResult#getCourtType()})
+     *      that will be checked for reference existence
+     */
     @Transactional
     public void deleteJudgmentResultsWithoutJudgments(CourtType courtType) {
         
