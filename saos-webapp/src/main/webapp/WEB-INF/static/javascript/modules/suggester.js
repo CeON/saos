@@ -158,7 +158,7 @@ var Suggester = (function() {
     		.attr("id", WRAPPER_ID + "-" + fieldId);
     	
     	if (fieldValue !== "") {
-    		var elements = fieldValue.split(",");
+    		var elements = fieldValue.split(/\s*\|\s*/);
     		
     		for(var i = elements.length - 1; i >= 0; i -= 1) {        		
         		$wrapper.prepend(createBoxedSuggestion(elements[i], fieldId));
@@ -468,7 +468,7 @@ var Suggester = (function() {
     	
     	valueArray = valueArray.sort();
     	
-    	value = convertArrayToString(valueArray, ", ")
+    	value = convertArrayToString(valueArray, " | ")
     	
     	$("#" + fieldId).val(value).change();
     },
@@ -543,7 +543,7 @@ var Suggester = (function() {
     		value = $field.val(),
     		newValue = "",
     		first = true,
-    		array = value.split(", "),
+    		array = value.split(/\s*\|\s*/),
     		elementsToRemove = [],
     		length = array.length;
     	
@@ -561,7 +561,7 @@ var Suggester = (function() {
     		array.splice(elementsToRemove[i], 1);
     	}
     	
-    	newValue = convertArrayToString(array, ", ");
+    	newValue = convertArrayToString(array, " | ");
     	
     	$field.val(newValue);
     },
