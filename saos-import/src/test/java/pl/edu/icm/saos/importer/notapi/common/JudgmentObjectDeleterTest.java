@@ -17,17 +17,22 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.google.common.collect.Lists;
-import com.google.common.io.Files;
-
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.ImportTestSupport;
 import pl.edu.icm.saos.persistence.content.JudgmentContentFileDeleter;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceScJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
+import pl.edu.icm.saos.persistence.repository.JudgmentResultRepository;
+import pl.edu.icm.saos.persistence.repository.MeansOfAppealRepository;
+
+import com.google.common.collect.Lists;
+import com.google.common.io.Files;
 
 /**
  * @author madryk
@@ -46,6 +51,12 @@ public class JudgmentObjectDeleterTest extends ImportTestSupport {
     
     @Autowired
     private RawJudgmentTestFactory rawJudgmentTestFactory;
+    
+    @Autowired
+    private MeansOfAppealRepository meansOfAppealRepository;
+    
+    @Autowired
+    private JudgmentResultRepository judgmentResultRepository;
     
     
     private File judgmentContentDir;
@@ -101,6 +112,74 @@ public class JudgmentObjectDeleterTest extends ImportTestSupport {
         assertTrue(ctJudgment1File.exists());
     }
     
+    @Test
+    public void deleteMeansOfAppealWithoutJudgments() {
+        
+        // given
+        Judgment scJudgment = rawJudgmentTestFactory.createCtJudgment(false);
+        Judgment ctJudgment = rawJudgmentTestFactory.createCtJudgment(false);
+        
+        MeansOfAppeal scMeansOfAppeal1 = createMeansOfAppeal(CourtType.SUPREME, "scMeansOfAppeal1");
+        createMeansOfAppeal(CourtType.SUPREME, "scMeansOfAppeal2");
+        MeansOfAppeal ctMeansOfAppeal1 = createMeansOfAppeal(CourtType.CONSTITUTIONAL_TRIBUNAL, "ctMeansOfAppeal1");
+        MeansOfAppeal ctMeansOfAppeal2 = createMeansOfAppeal(CourtType.CONSTITUTIONAL_TRIBUNAL, "ctMeansOfAppeal2");
+        
+        scJudgment.setMeansOfAppeal(scMeansOfAppeal1);
+        ctJudgment.setMeansOfAppeal(ctMeansOfAppeal1);
+        judgmentRepository.save(Lists.newArrayList(scJudgment, ctJudgment));
+        
+        
+        // execute
+        judgmentObjectDeleter.deleteMeansOfAppealWithoutJudgments(CourtType.SUPREME);
+        
+        
+        // assert
+        List<MeansOfAppeal> dbMeansOfAppeal = meansOfAppealRepository.findAll();
+        assertThat(dbMeansOfAppeal, containsInAnyOrder(scMeansOfAppeal1, ctMeansOfAppeal1, ctMeansOfAppeal2));
+        
+    }
     
+    @Test
+    public void deleteJudgmentResultsWithoutJudgments() {
+        
+        // given
+        Judgment scJudgment = rawJudgmentTestFactory.createCtJudgment(false);
+        Judgment ctJudgment = rawJudgmentTestFactory.createCtJudgment(false);
+        
+        JudgmentResult scJudgmentResult1 = createJudgmentResult(CourtType.SUPREME, "scMeansOfAppeal1");
+        createMeansOfAppeal(CourtType.SUPREME, "scMeansOfAppeal2");
+        JudgmentResult ctJudgmentResult1 = createJudgmentResult(CourtType.CONSTITUTIONAL_TRIBUNAL, "ctMeansOfAppeal1");
+        JudgmentResult ctJudgmentResult2 = createJudgmentResult(CourtType.CONSTITUTIONAL_TRIBUNAL, "ctMeansOfAppeal2");
+        
+        scJudgment.setJudgmentResult(scJudgmentResult1);
+        ctJudgment.setJudgmentResult(ctJudgmentResult1);
+        judgmentRepository.save(Lists.newArrayList(scJudgment, ctJudgment));
+        
+        
+        // execute
+        judgmentObjectDeleter.deleteJudgmentResultsWithoutJudgments(CourtType.SUPREME);
+        
+        
+        // assert
+        List<JudgmentResult> dbJudgmentResults = judgmentResultRepository.findAll();
+        assertThat(dbJudgmentResults, containsInAnyOrder(scJudgmentResult1, ctJudgmentResult1, ctJudgmentResult2));
+        
+    }
+    
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private MeansOfAppeal createMeansOfAppeal(CourtType courtType, String name) {
+        MeansOfAppeal meansOfAppeal = new MeansOfAppeal(courtType, name);
+        meansOfAppealRepository.save(meansOfAppeal);
+        return meansOfAppeal;
+    }
+    
+    private JudgmentResult createJudgmentResult(CourtType courtType, String text) {
+        JudgmentResult judgmentResult = new JudgmentResult(courtType, text);
+        judgmentResultRepository.save(judgmentResult);
+        return judgmentResult;
+        
+    }
 
 }

@@ -141,5 +141,6 @@
 			"supremeCourtJudgmentForm" : "uchwała SN",
 			"personnelType" : null,
 			"supremeCourtChambers" : [ "Izba Administracyjna, Pracy i Ubezpieczeń Społecznych" ],
-			"supremeCourtChamberDivision" : "Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych Wydział II"
+			"supremeCourtChamberDivision" : "Izba Pracy, Ubezpieczeń Społecznych i Spraw Publicznych Wydział II",
+            "judgmentResult" : "wydano wyrok"
 		} ]

@@ -14,8 +14,13 @@ import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.enrichment.delete.JudgmentWithEnrichmentDeleter;
 import pl.edu.icm.saos.persistence.content.JudgmentContentFileDeleter;
+import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.importer.RawSourceJudgment;
+import pl.edu.icm.saos.persistence.repository.JudgmentResultRepository;
+import pl.edu.icm.saos.persistence.repository.MeansOfAppealRepository;
 
 /**
  * @author madryk
@@ -34,6 +39,12 @@ public class JudgmentObjectDeleter {
     
     @Autowired
     private JudgmentContentFileDeleter judgmentContentFileDeleter;
+    
+    @Autowired
+    private MeansOfAppealRepository meansOfAppealRepository;
+    
+    @Autowired
+    private JudgmentResultRepository judgmentResultRepository;
     
     
     
@@ -65,6 +76,61 @@ public class JudgmentObjectDeleter {
                     .filter(path -> StringUtils.isNotEmpty(path))
                     .collect(Collectors.toList()));
         }
+    }
+    
+    
+    /**
+     * Deletes {@link MeansOfAppeal} which are not referenced from any judgment.
+     * 
+     * @param courtType of means of appeal ({@link MeansOfAppeal#getCourtType()})
+     *      that will be checked for reference existence
+     */
+    @Transactional
+    public void deleteMeansOfAppealWithoutJudgments(CourtType courtType) {
+        
+        log.debug("Deleting meansOfAppeal (with type {}) without referring judgments ", courtType.name());
+        
+        
+        String q = "select meansOfAppeal.id from " + MeansOfAppeal.class.getName() + " meansOfAppeal " +
+                    " where meansOfAppeal.courtType = :courtType " +
+                    " and not exists (select judgment from "+ Judgment.class.getName() + " judgment " +
+                                            " where judgment.meansOfAppeal.id = meansOfAppeal.id)";
+        @SuppressWarnings("unchecked")
+        List<Long> meansOfAppealIds = entityManager.createQuery(q)
+                .setParameter("courtType", courtType)
+                .getResultList();
+        
+        meansOfAppealIds.stream().forEach(meansOfAppealRepository::delete);
+        
+        meansOfAppealRepository.flush();
+        
+    }
+    
+    /**
+     * Deletes {@link JudgmentResult} which are not referenced from any judgment.
+     * 
+     * @param courtType of means of appeal ({@link JudgmentResult#getCourtType()})
+     *      that will be checked for reference existence
+     */
+    @Transactional
+    public void deleteJudgmentResultsWithoutJudgments(CourtType courtType) {
+        
+        log.debug("Deleting judgmentResults (with type {}) without referring judgments ", courtType.name());
+        
+        
+        String q = "select judgmentResult.id from " + JudgmentResult.class.getName() + " judgmentResult " +
+                    " where judgmentResult.courtType = :courtType " +
+                    " and not exists  (select judgment from "+ Judgment.class.getName() + " judgment " +
+                                            " where judgment.judgmentResult.id = judgmentResult.id)";
+        @SuppressWarnings("unchecked")
+        List<Long> judgmentResultIds = entityManager.createQuery(q)
+                .setParameter("courtType", courtType)
+                .getResultList();
+        
+        judgmentResultIds.stream().forEach(judgmentResultRepository::delete);
+        
+        judgmentResultRepository.flush();
+        
     }
     
 }
