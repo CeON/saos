@@ -10,7 +10,9 @@ var jsInitInJudgmentSearch = function(options) {
 	
 	
 	if (options && options.trackFocusOn) {
-		$("#" + options.trackFocusOn).focus();
+		setTimeout(function() {
+			$("#" + options.trackFocusOn).focus();
+		}, 30);
 	}
 	
 	/* Clear button clears form */ 
