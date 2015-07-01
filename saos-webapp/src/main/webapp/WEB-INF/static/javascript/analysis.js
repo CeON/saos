@@ -556,27 +556,27 @@ var initAnalysisJs = function() {
         
         var timePeriod = mainChart.xticks[item.dataIndex][1];
         var formattedTimePeriod = formatXtickPeriod(timePeriod, " - ", " - ", " - ");
-        pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
+        pointTooltipDiv.find("#pointTimePeriod_mainChart").html(formattedTimePeriod);
         
         
         var searchedPhrase = getSearchedPhrase(item.seriesIndex);
-        pointTooltipDiv.find("#pointSearchedPhrase").html(searchedPhrase);
+        pointTooltipDiv.find("#pointSearchedPhrase_mainChart").html(searchedPhrase);
         
         
         var judgmentCount = item.datapoint[1];
         var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
-        pointTooltipDiv.find("#pointJudgmentCount").html(formattedJudgmentCount);
+        pointTooltipDiv.find("#pointJudgmentCount_mainChart").html(formattedJudgmentCount);
         
         
         if (judgmentCount > 0) {
             
             var searchUrl = generateMainChartPointSearchUrl(item);
             
-            pointTooltipDiv.find("#pointSearchLink").attr("href", searchUrl);
+            pointTooltipDiv.find("#pointSearchLink_mainChart").attr("href", searchUrl);
             
         } else {
             
-            pointTooltipDiv.find("#pointSearchLinkDiv").remove();
+            pointTooltipDiv.find("#pointSearchLinkDiv_mainChart").remove();
         }
         
         
@@ -761,25 +761,25 @@ var initAnalysisJs = function() {
         pointTooltipDiv.attr('id', pointTooltipId);
         
         var formattedTimePeriod = formatMonth(getGlobalStartDate()) + " - " + formatMonth(getGlobalEndDate()); 
-        pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
+        pointTooltipDiv.find("#pointTimePeriod_aggregatedMainChart").html(formattedTimePeriod);
         
         var searchedPhrase = getSearchedPhrase(item.seriesIndex);
-        pointTooltipDiv.find("#pointSearchedPhrase").html(searchedPhrase);
+        pointTooltipDiv.find("#pointSearchedPhrase_aggregatedMainChart").html(searchedPhrase);
         
         var judgmentCount = item.datapoint[1];
         var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
-        pointTooltipDiv.find("#pointJudgmentCount").html(formattedJudgmentCount);
+        pointTooltipDiv.find("#pointJudgmentCount_aggregatedMainChart").html(formattedJudgmentCount);
         
         
         if (judgmentCount > 0) {
             
             var searchUrl = generateAggregatedChartPointSearchUrl(item);
             
-            pointTooltipDiv.find("#pointSearchLink").attr("href", searchUrl);
+            pointTooltipDiv.find("#pointSearchLink_aggregatedMainChart").attr("href", searchUrl);
             
         } else {
             
-            pointTooltipDiv.find("#pointSearchLinkDiv").remove();
+            pointTooltipDiv.find("#pointSearchLinkDiv_aggregatedMainChart").remove();
         }
         
         
@@ -929,26 +929,26 @@ var initAnalysisJs = function() {
         
         
         var formattedTimePeriod = formatMonth(getGlobalStartDate()) + " - " + formatMonth(getGlobalEndDate()); 
-        pointTooltipDiv.find("#pointTimePeriod").html(formattedTimePeriod);
+        pointTooltipDiv.find("#pointTimePeriod_ccCourtChart").html(formattedTimePeriod);
         
 
         var searchedPhrase = getSearchedPhrase(item.seriesIndex);
-        pointTooltipDiv.find("#pointSearchedPhrase").html(searchedPhrase);
+        pointTooltipDiv.find("#pointSearchedPhrase_ccCourtChart").html(searchedPhrase);
         
         var judgmentCount = item.datapoint[1];
         var formattedJudgmentCount = formatNumber(judgmentCount, 2) + getChartYNumberUnit();
-        pointTooltipDiv.find("#pointJudgmentCount").html(formattedJudgmentCount);
+        pointTooltipDiv.find("#pointJudgmentCount_ccCourtChart").html(formattedJudgmentCount);
         
         
         if (judgmentCount > 0) {
             
             var searchUrl = generateCcCourtChartPointSearchUrl(item);
             
-            pointTooltipDiv.find("#pointSearchLink").attr("href", searchUrl);
+            pointTooltipDiv.find("#pointSearchLink_ccCourtChart").attr("href", searchUrl);
             
         } else {
             
-            pointTooltipDiv.find("#pointSearchLinkDiv").remove();
+            pointTooltipDiv.find("#pointSearchLinkDiv_ccCourtChart").remove();
         }
         
         

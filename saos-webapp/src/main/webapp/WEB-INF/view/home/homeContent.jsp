@@ -7,7 +7,7 @@
 
     <a href="${contextPath}/search" aria-label='<spring:message code="home.navigation.search.desc" />'>    
         <div>
-	        <img src="${contextPath}/static/image/home/search.png" aria-label='<spring:message code="home.navigation.search.imageAlt" /> - <spring:message code="home.navigation.search" />'/>
+	        <img src="${contextPath}/static/image/home/search.png" aria-label='<spring:message code="home.navigation.search.imageAlt" /> - <spring:message code="home.navigation.search" />' alt='<spring:message code="home.navigation.search.imageAlt" />'/>
 	        
 	        <h2 class="box-title" >
 	            <spring:message code="home.navigation.search" />
@@ -28,7 +28,7 @@
     <a href="${contextPath}/analysis" aria-label='<spring:message code="home.navigation.analysis.desc" />'>
     
         <div>
-            <img src="${contextPath}/static/image/home/analysis.png" aria-label='<spring:message code="home.navigation.analysis.imageAlt" /> - <spring:message code="home.navigation.analysis" />'/>
+            <img src="${contextPath}/static/image/home/analysis.png" aria-label='<spring:message code="home.navigation.analysis.imageAlt" /> - <spring:message code="home.navigation.analysis" />' alt='<spring:message code="home.navigation.analysis.imageAlt" />'/>
         
 	        <h2 class="box-title" >
 	           <spring:message code="home.navigation.analysis" />
@@ -47,7 +47,7 @@
     <a href="${contextPath}/api" aria-label='<spring:message code="home.navigation.api" /> - <spring:message code="home.navigation.api.desc" />'>
     
         <div>
-            <img src="${contextPath}/static/image/home/api.png" aria-label='<spring:message code="home.navigation.api.imageAlt" /> - <spring:message code="home.navigation.api" />'/>
+            <img src="${contextPath}/static/image/home/api.png" aria-label='<spring:message code="home.navigation.api.imageAlt" /> - <spring:message code="home.navigation.api" />' alt='<spring:message code="home.navigation.api.imageAlt" />'/>
         
             <h2 class="box-title" >
                 <spring:message code="home.navigation.api" />

@@ -30,7 +30,7 @@ $(document).ready(function() {
 	                        
 	        </div>
 	    
-	        <div class="content col-md-8" id="judgment-list" tabindex="-1">
+	        <div class="content col-md-8" id="judgment-search-content" tabindex="-1">
 	            
 	            <%@ include file="../search/judgmentSearchContent.jsp" %>
 	            
