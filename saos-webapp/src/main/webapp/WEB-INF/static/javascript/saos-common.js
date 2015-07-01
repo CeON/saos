@@ -348,6 +348,11 @@ $(document).ready(function() {
 		event.preventDefault();
 	});
 	
+	/* aria-checked attribute for elements with checkbox role should be updated */
+	$("input[type='checkbox'][role='checkbox']").click(function(event) {
+		$(this).attr("aria-checked", $(this).is(":checked") ? "true" : "false");
+	});
+	
     //Navigation menu 
 	$("#menu-button").click(function() {
 	    var $menu = $("#nav-menu"),

@@ -139,7 +139,13 @@
                         <div class="" >
                             <div class="label-title" ><spring:message code="judgment.scJudgmentForm" />:</div>
                             <div class="desc" >
-                                <a href="${contextPath}/search?courtCriteria.courtType=${judgment.courtType}&amp;scJudgmentForm=${judgment.scJudgmentForm.name}" data-toggle="tooltip" title="${scJudgmentFormLinkTooltip}" >
+                            
+                                <c:url value="/search" var="scJudgmentFormSearchUrl">
+                                    <c:param name="courtCriteria.courtType" value="${judgment.courtType}" />
+                                    <c:param name="scJudgmentForm" value="${judgment.scJudgmentForm.name}" />
+                                </c:url>
+                                
+                                <a href='<c:out value="${scJudgmentFormSearchUrl}" />' data-toggle="tooltip" title="${scJudgmentFormLinkTooltip}" >
                                     <c:out value="${judgment.scJudgmentForm.name}" />
                                 </a>
                             </div>
@@ -227,10 +233,16 @@
                         <div class="label-title" ><spring:message code="judgment.keywords" />:</div>
                         <div class="desc" >
                             <c:forEach items="${judgment.keywords}" var="keyword" varStatus="status">
-                            <a href="${contextPath}/search?courtCriteria.courtType=${judgment.courtType}&amp;keywords=${keyword.phrase}" data-toggle="tooltip" title="${keywordsLinkTooltip}" >
-                                <c:out value="${keyword.phrase}" />
-                            </a>
-                            <c:if test="${!status.last}">,</c:if>
+                                
+                                <c:url value="/search" var="keywordSearchUrl">
+                                    <c:param name="courtCriteria.courtType" value="${judgment.courtType}" />
+                                    <c:param name="keywords" value="${keyword.phrase}" />
+                                </c:url>
+                                
+                                <a href='<c:out value="${keywordSearchUrl}" />' data-toggle="tooltip" title="${keywordsLinkTooltip}" >
+                                    <c:out value="${keyword.phrase}" />
+                                </a>
+                                <c:if test="${!status.last}">,</c:if>
                             </c:forEach>
                         </div>
                     </div>
@@ -375,7 +387,7 @@
                     <ul class="judgment-data judgment-source-info">
                         <c:if test="${!empty judgment.sourceInfo.sourceJudgmentUrl}" >
                             <li>
-                                <a href="${judgment.sourceInfo.sourceJudgmentUrl}" rel="nofollow" >
+                                <a href='<c:out value="${judgment.sourceInfo.sourceJudgmentUrl}" />' rel="nofollow" >
                                     <spring:message code="judgment.sourceLink" />
                                 </a>    
                             </li>

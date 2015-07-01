@@ -70,10 +70,20 @@
         
                                 <spring:eval expression="T(pl.edu.icm.saos.persistence.model.Judgment.JudgmentType).values()" var="enumJudgmentTypes" scope="page"/>
                                 
+                                
+                                
                                 <c:forEach var="enumValue" items="${enumJudgmentTypes}">
                                     <c:set var="lowerCaseEnumValue" value="${fn:toLowerCase(enumValue)}" />
+                                    
+                                    <c:set var="isJudgmentTypeChecked" value="false" />
+                                    <c:forEach var="checkedJudgmentType" items="${judgmentCriteriaForm.judgmentTypes}">
+                                        <c:if test="${checkedJudgmentType == enumValue}">
+                                            <c:set var="isJudgmentTypeChecked" value="true" />
+                                        </c:if>
+                                    </c:forEach>
+                                    
                                     <div class="col-xs-12">
-                                        <form:checkbox role="checkbox" path="judgmentTypes" value="${enumValue}" id="checkbox-${lowerCaseEnumValue}" ></form:checkbox>
+                                        <form:checkbox role="checkbox" aria-checked="${isJudgmentTypeChecked}" path="judgmentTypes" value="${enumValue}" id="checkbox-${lowerCaseEnumValue}" ></form:checkbox>
                                         <label for="checkbox-${lowerCaseEnumValue}" >
                                             <saos:enum value="${enumValue}" />
                                         </label>
@@ -138,7 +148,7 @@
                     
                     <%-- Law journal entry --%>
                     <div class="form-group law-journal">
-                        <label for="lawJournalEntryCode" class="col-xs-12 field-label"><spring:message code="judgmentSearch.formField.lawJournalEntry" /></label>
+                        <label for="law-journal-set" class="col-xs-12 field-label"><spring:message code="judgmentSearch.formField.lawJournalEntry" /></label>
                         <div class="col-xs-12">
                              
                              <div id="law-journal-navigation" >

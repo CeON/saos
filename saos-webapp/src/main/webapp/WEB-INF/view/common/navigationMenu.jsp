@@ -3,7 +3,7 @@
 
 <div class="nav-menu" id="nav-menu">
 
-    <a id="menu-button" class="menu-button" href="" role="" aria-label="<spring:message code='navigation.menu.btn' />"  aria-expanded="false" aria-controls="nav-menu">
+    <a id="menu-button" class="menu-button" href="" aria-label="<spring:message code='navigation.menu.btn' />"  aria-expanded="false" aria-controls="nav-menu">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
