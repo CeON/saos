@@ -44,7 +44,7 @@
 
 
 <div class="row block block-api">
-    <a href="${contextPath}/api" aria-label='<spring:message code="home.navigation.api" /> - <spring:message code="home.navigation.api.desc" />'>
+    <a href="${contextPath}/help/index.php/dokumentacja-api" aria-label='<spring:message code="home.navigation.api" /> - <spring:message code="home.navigation.api.desc" />'>
     
         <div>
             <img src="${contextPath}/static/image/home/api.png" aria-label='<spring:message code="home.navigation.api.imageAlt" /> - <spring:message code="home.navigation.api" />'/>
