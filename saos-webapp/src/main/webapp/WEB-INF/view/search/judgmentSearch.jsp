@@ -12,7 +12,9 @@
 
 <script>
 $(document).ready(function() {
-    jsInitInJudgmentSearch();
+    jsInitInJudgmentSearch({
+    	trackFocusOn: "${trackFocusOn}"
+    });
 });
 </script>
         
