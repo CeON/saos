@@ -21,11 +21,14 @@ public class PageLinkGenerator {
 	
 	/**
 	 * Generates a base search page link. It is used in UI to create links to specific search result pages.
-	 * The base link will contain the full request URL with all query parameters except the page number parameter (it will be added later in UI during creating specific search result pages).
+	 * The base link will contain the full request URL with all query parameters except the page number parameter (it will be added later in UI during creating specific search result pages)
+	 * and parameters specified in parametersToExclude.
+	 * 
 	 * @param request
-	 * @param pageNoParameterName A page number parameter name. 
+	 * @param pageNoParameterName A page number parameter name.
+	 * @param parametersToExclude Names of parameters that will be excluded from resulting page link.
 	 */
-	public static String generateSearchPageBaseLink(HttpServletRequest request, String pageNoParameterName, List<String> filterParameters) {
+	public static String generateSearchPageBaseLink(HttpServletRequest request, String pageNoParameterName, List<String> parametersToExclude) {
 		String pageLink = HttpServletRequestUtils.constructRequestUrl(request) + "?";
 		
 		if (request.getQueryString()!=null) {
@@ -33,7 +36,7 @@ public class PageLinkGenerator {
 		    
 		    filteredQueryString = filteredQueryString.replaceAll("[\\&]*"+pageNoParameterName+"\\=[0-9]*", "");
 		    
-		    for (String paramName : filterParameters) {
+		    for (String paramName : parametersToExclude) {
 		        filteredQueryString = filteredQueryString.replaceAll("[\\&]*"+paramName+"\\=.*?($|[&;])", "");
 		    }
 		    

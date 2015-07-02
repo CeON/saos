@@ -1,5 +1,15 @@
 /**
- * Modules used in judgment search view.
+ * Initialization of modules used in judgment search view.
+ * 
+ * @param options object that contains configuration parameters of judgment search modules. <br/>
+ *     Supported parameters: <br/>
+ *         trackFocusOn - sets initial focus to element with id passed as value of this parameter <br/>
+ *         
+ * <br/><br/>
+ * Example usage:<br/>
+ *  jsInitInJudgmentSearch({
+        trackFocusOn: "elementToFocusId"
+    });
  * 
  * @author Łukasz Pawełczak
  */

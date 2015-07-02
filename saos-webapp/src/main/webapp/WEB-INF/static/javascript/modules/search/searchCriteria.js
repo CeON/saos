@@ -18,6 +18,7 @@ var SearchCriteria = {
 			SearchCriteria.assignTrackingFocus();
 		},
 		
+		/* Saves starting pageSize and sorting values in "initial-value" data attribute. */
 		saveInitialValues: function() {
 			$(SearchCriteria.pageSize).data("initial-value", $(SearchCriteria.pageSize).val());
 			$(SearchCriteria.sorting).data("initial-value", $(SearchCriteria.sorting).val());
