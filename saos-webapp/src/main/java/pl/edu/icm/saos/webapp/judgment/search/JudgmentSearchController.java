@@ -12,6 +12,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judgment;
@@ -52,14 +55,15 @@ public class JudgmentSearchController {
 	
 	@RequestMapping(value="/search", method=RequestMethod.GET)
 	public String judgmentSearchResults(@ModelAttribute("judgmentCriteriaForm") JudgmentCriteriaForm judgmentCriteriaForm,
-	@SortDefault(sort="JUDGMENT_DATE", direction=Sort.Direction.DESC) Pageable pageable,
+	@SortDefault(sort="JUDGMENT_DATE", direction=Sort.Direction.DESC) Pageable pageable, @RequestParam(value="trackFocusOn", required=false) String trackFocusOn,
 		ModelMap model, HttpServletRequest request) {
 		
 		SearchResults<JudgmentSearchResult> searchResults = judgmentsWebSearchService.search(judgmentCriteriaForm, pageable);
 		
 		model.addAttribute("pageable", pageable);
 		model.addAttribute("searchResults", searchResults);
-		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request));
+		model.addAttribute("pageLink", PageLinkGenerator.generateSearchPageBaseLink(request, Lists.newArrayList("trackFocusOn")));
+		model.addAttribute("trackFocusOn", trackFocusOn);
 		
 		courtDataModelCreator.addCourtDataToModel(judgmentCriteriaForm.getCourtCriteria(), model);
 		addSupremeCourtJudgmentForm(judgmentCriteriaForm, model);
