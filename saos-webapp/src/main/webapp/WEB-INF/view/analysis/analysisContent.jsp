@@ -112,31 +112,31 @@ $(document).ready(function() {
 
 <div id="mainChartPointTooltip" class="chart-point-tooltip" style="display:none" >
     <div>
-        <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod"></span></b>
+        <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod_mainChart"></span></b>
     </div>
     <div>
-        <span><spring:message code="analysis.chart.tooltip.searchedPhrase"/>: </span><b><span id="pointSearchedPhrase"></span></b>
+        <span><spring:message code="analysis.chart.tooltip.searchedPhrase"/>: </span><b><span id="pointSearchedPhrase_mainChart"></span></b>
     </div>
     <div>
-        <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount"></span></b>
+        <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount_mainChart"></span></b>
     </div>
-    <div id="pointSearchLinkDiv" class="point-search-link">    
-        <a id="pointSearchLink" href=""><spring:message code="analysis.chart.tooltip.searchLink"/></a>
+    <div id="pointSearchLinkDiv_mainChart" class="point-search-link">    
+        <a id="pointSearchLink_mainChart" href=""><spring:message code="analysis.chart.tooltip.searchLink"/></a>
     </div>
 </div>
 
 <div id="aggregatedMainChartPointTooltip" class="chart-point-tooltip" style="display:none; width: 230px;">
     <div>
-        <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod"></span></b>
+        <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod_aggregatedMainChart"></span></b>
     </div>
     <div>
-        <span><spring:message code="analysis.chart.tooltip.searchedPhrase"/>: </span><b><span id="pointSearchedPhrase"></span></b>
+        <span><spring:message code="analysis.chart.tooltip.searchedPhrase"/>: </span><b><span id="pointSearchedPhrase_aggregatedMainChart"></span></b>
     </div>
     <div>
-        <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount"></span></b>
+        <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount_aggregatedMainChart"></span></b>
     </div>
-    <div id="pointSearchLinkDiv" class="point-search-link">    
-        <a id="pointSearchLink" href=""><spring:message code="analysis.chart.tooltip.searchLink"/></a>
+    <div id="pointSearchLinkDiv_aggregatedMainChart" class="point-search-link">    
+        <a id="pointSearchLink_aggregatedMainChart" href=""><spring:message code="analysis.chart.tooltip.searchLink"/></a>
     </div>
 </div>
 
@@ -145,17 +145,17 @@ $(document).ready(function() {
         <b><span id="pointCourtName"></span></b>
     </div>
     <div>
-        <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod"></span></b>
+        <span><spring:message code="analysis.chart.tooltip.timePeriod"/>: </span><b><span id="pointTimePeriod_ccCourtChart"></span></b>
     </div>
     
     <div>
-        <span><spring:message code="analysis.chart.tooltip.searchedPhrase"/>: </span><b><span id="pointSearchedPhrase"></span></b>
+        <span><spring:message code="analysis.chart.tooltip.searchedPhrase"/>: </span><b><span id="pointSearchedPhrase_ccCourtChart"></span></b>
     </div>
     
     <div>
-        <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount"></span></b>
+        <span><spring:message code="analysis.chart.tooltip.judgmentCount"/>: </span><b><span id="pointJudgmentCount_ccCourtChart"></span></b>
     </div>
-    <div id="pointSearchLinkDiv" class="point-search-link">    
-        <a id="pointSearchLink" href=""><spring:message code="analysis.chart.tooltip.searchLink"/></a>
+    <div id="pointSearchLinkDiv_ccCourtChart" class="point-search-link">    
+        <a id="pointSearchLink_ccCourtChart" href=""><spring:message code="analysis.chart.tooltip.searchLink"/></a>
     </div>
 </div>
