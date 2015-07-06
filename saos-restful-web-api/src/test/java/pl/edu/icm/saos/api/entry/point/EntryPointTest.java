@@ -3,8 +3,11 @@ package pl.edu.icm.saos.api.entry.point;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMediaType;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMethod;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 
 import org.junit.Before;
@@ -24,6 +27,7 @@ import pl.edu.icm.saos.api.ApiTestConfiguration;
 import pl.edu.icm.saos.api.dump.DumpEntryPointController;
 import pl.edu.icm.saos.api.search.SearchEntryPointController;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,19 +39,27 @@ public class EntryPointTest {
     @Qualifier("apiMessageSource")
     private MessageSource apiMessageService;
 
+    @Autowired
+    private JsonFormatter jsonFormatter;
+
+
     private MockMvc mockMvc;
+
 
     @Before
     public void setUp(){
 
         MainEntryPointController mainEntryPointController = new MainEntryPointController();
         mainEntryPointController.setApiMessageService(apiMessageService);
+        mainEntryPointController.setJsonFormatter(jsonFormatter);
 
         DumpEntryPointController dumpEntryPointController = new DumpEntryPointController();
         dumpEntryPointController.setApiMessageService(apiMessageService);
+        mainEntryPointController.setJsonFormatter(jsonFormatter);
 
         SearchEntryPointController searchEntryPointController = new SearchEntryPointController();
         searchEntryPointController.setApiMessageService(apiMessageService);
+        mainEntryPointController.setJsonFormatter(jsonFormatter);
 
 
         mockMvc = standaloneSetup(
@@ -117,6 +129,26 @@ public class EntryPointTest {
                 .andExpect(jsonPath("$.links[3].href").value(endsWith("/api/dump/enrichments")))
                 .andExpect(jsonPath("$.links[3].description").value(notNullValue()))
         ;
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_method() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(post("/api")
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // assert
+        assertNotSupportedMethod(actions, "POST", "GET");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_media_type() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get("/api")
+                .accept(MediaType.APPLICATION_XML));
+        
+        // assert
+        assertNotSupportedMediaType(actions, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE);
     }
 
 }

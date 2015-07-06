@@ -93,7 +93,6 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        registry.addInterceptor(new RestrictParamsHandlerInterceptor());
         registry.addInterceptor(new AccessControlHeaderHandlerInterceptor())
             .addPathPatterns("/api/**")
             .addPathPatterns("/analysis/generate*")
@@ -102,6 +101,8 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
             .addPathPatterns("/sc/judgmentForms/list")
             .addPathPatterns("/search/lawJournalEntries*")
             .addPathPatterns("/keywords/**");
+        registry.addInterceptor(new RestrictParamsHandlerInterceptor());
+        
     }
 
     @Override

@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.emptyIterable;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectParamNameError;
@@ -11,6 +12,8 @@ import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectValueErr
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageNumberError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNegativePageNumberError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMediaType;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMethod;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooBigPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooSmallPageSizeError;
@@ -36,6 +39,7 @@ import pl.edu.icm.saos.api.formatter.DateTimeWithZoneFormatterFactory;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentDbSearchService;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
@@ -55,14 +59,19 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
 
     @Autowired
     private DumpJudgmentsListSuccessRepresentationBuilder dumpJudgmentsListSuccessRepresentationBuilder;
+    
+    @Autowired
+    private JsonFormatter jsonFormatter;
+
 
     @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
+
     private TestObjectContext testObjectContext;
 
-
     private MockMvc mockMvc;
+
 
     @Before
     public void setUp(){
@@ -73,14 +82,15 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
         dumpJudgmentsController.setJudgmentEnrichmentDbSearchService(judgmentEnrichmentDbSearchService);
         dumpJudgmentsController.setDumpJudgmentsListSuccessRepresentationBuilder(dumpJudgmentsListSuccessRepresentationBuilder);
         dumpJudgmentsController.setParametersExtractor(parametersExtractor);
+        dumpJudgmentsController.setJsonFormatter(jsonFormatter);
 
         FormattingConversionService conversionService = new DefaultFormattingConversionService();
         conversionService.addFormatterForFieldAnnotation(new DateTimeWithZoneFormatterFactory());
 
         mockMvc = standaloneSetup(dumpJudgmentsController)
                 .setConversionService(conversionService)
-                .addInterceptors(new RestrictParamsHandlerInterceptor())
                 .addInterceptors(new AccessControlHeaderHandlerInterceptor())
+                .addInterceptors(new RestrictParamsHandlerInterceptor())
                 .build();
 
     }
@@ -155,7 +165,8 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_start_date_format() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param(ApiConstants.JUDGMENT_START_DATE, "2011-11-10 20:23"));
+                .param(ApiConstants.JUDGMENT_START_DATE, "2011-11-10 20:23")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.JUDGMENT_START_DATE, "2011-11-10 20:23");
@@ -165,7 +176,8 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_end_date_format() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param(ApiConstants.JUDGMENT_END_DATE, "2011-11-10 20:23"));
+                .param(ApiConstants.JUDGMENT_END_DATE, "2011-11-10 20:23")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.JUDGMENT_END_DATE, "2011-11-10 20:23");
@@ -175,7 +187,8 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_since_modification_date_format() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param(ApiConstants.SINCE_MODIFICATION_DATE, "2015-10-25T13:55:18")); // no miliseconds
+                .param(ApiConstants.SINCE_MODIFICATION_DATE, "2015-10-25T13:55:18") // no miliseconds
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.SINCE_MODIFICATION_DATE, "2015-10-25T13:55:18");
@@ -185,7 +198,8 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_with_generated_parameter() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param(ApiConstants.WITH_GENERATED, "no true"));
+                .param(ApiConstants.WITH_GENERATED, "no true")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.WITH_GENERATED, "no true");
@@ -196,7 +210,8 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_request_parameter_name() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param("some_incorrect_parameter_name", ""));
+                .param("some_incorrect_parameter_name", "")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectParamNameError(actions, "some_incorrect_parameter_name");
@@ -207,7 +222,8 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_too_small_page_size() throws Exception {
         // when
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, String.valueOf(1)));
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(1))
+                .accept(MediaType.APPLICATION_JSON));
         
         // then
         assertTooSmallPageSizeError(actions, 2);
@@ -217,7 +233,8 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_too_big_page_size() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, String.valueOf(101)));
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(101))
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertTooBigPageSizeError(actions, 100);
@@ -227,7 +244,8 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_invalid_page_size() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, "abc"));
+                .param(ApiConstants.PAGE_SIZE, "abc")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertInvalidPageSizeError(actions, "abc");
@@ -238,7 +256,8 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_invalid_page_number() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_NUMBER, "abc"));
+                .param(ApiConstants.PAGE_NUMBER, "abc")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertInvalidPageNumberError(actions, "abc");
@@ -248,7 +267,8 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_negative_page_number() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_NUMBER, "-1"));
+                .param(ApiConstants.PAGE_NUMBER, "-1")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertNegativePageNumberError(actions);
@@ -262,6 +282,26 @@ public class DumpJudgmentsControllerTest extends ApiTestSupport {
         
         // then
         assertOk(actions, "ISO-8859-1");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_method() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(post(DUMP_JUDGMENTS_PATH)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // assert
+        assertNotSupportedMethod(actions, "POST", "GET");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_media_type() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_JUDGMENTS_PATH)
+                .accept(MediaType.APPLICATION_XML));
+        
+        // assert
+        assertNotSupportedMediaType(actions, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE);
     }
 
     

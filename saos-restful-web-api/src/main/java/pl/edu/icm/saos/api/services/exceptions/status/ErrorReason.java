@@ -22,7 +22,13 @@ public enum  ErrorReason {
      * Represents situation when element with given id does not exist.
      * For example judgment with id '-134';
      */
-    ELEMENT_DOES_NOT_EXIST_ERROR(HttpStatus.NOT_FOUND, "ELEMENT DOES NOT EXIST");
+    ELEMENT_DOES_NOT_EXIST_ERROR(HttpStatus.NOT_FOUND, "ELEMENT DOES NOT EXIST"),
+    
+    PAGE_DOES_NOT_EXIST_ERROR(HttpStatus.NOT_FOUND, "PAGE DOES NOT EXIST"),
+    
+    UNSUPPORTED_HTTP_METHOD_ERROR(HttpStatus.METHOD_NOT_ALLOWED, "UNSUPPORTED HTTP METHOD"),
+    
+    UNSUPPORTED_MEDIA_TYPE_ERROR(HttpStatus.NOT_ACCEPTABLE, "UNSUPPORTED MEDIA TYPE");
 
     private HttpStatus httpStatus;
     private String errorReason;

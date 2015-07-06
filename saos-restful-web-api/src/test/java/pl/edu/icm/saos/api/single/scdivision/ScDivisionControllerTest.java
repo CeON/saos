@@ -2,9 +2,12 @@ package pl.edu.icm.saos.api.single.scdivision;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotFoundError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMediaType;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMethod;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_CHAMBER_NAME;
@@ -23,6 +26,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.ApiTestSupport;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
@@ -37,13 +41,18 @@ public class ScDivisionControllerTest extends ApiTestSupport {
     @Autowired
     private ScChamberDivisionRepository scChamberDivisionRepository;
 
+    @Autowired
+    private JsonFormatter jsonFormatter;
+
 
     @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
+
     private TestObjectContext testObjectContext;
 
     private MockMvc mockMvc;
+
 
     private String divisionsPath;
     private String chambersPath;
@@ -64,6 +73,7 @@ public class ScDivisionControllerTest extends ApiTestSupport {
         ScDivisionController scDivisionController = new ScDivisionController();
         scDivisionController.setDivisionSuccessRepresentationBuilder(divisionSuccessRepresentationBuilder);
         scDivisionController.setScChamberDivisionRepository(scChamberDivisionRepository);
+        scDivisionController.setJsonFormatter(jsonFormatter);
 
         mockMvc =  standaloneSetup(scDivisionController)
                 .addInterceptors(new AccessControlHeaderHandlerInterceptor())
@@ -114,7 +124,8 @@ public class ScDivisionControllerTest extends ApiTestSupport {
     @Test
     public void it_should_not_allow_not_existing_chamber_id() throws Exception {
         // when
-        ResultActions actions = mockMvc.perform(get(notExistingDivisionPath));
+        ResultActions actions = mockMvc.perform(get(notExistingDivisionPath)
+                .accept(MediaType.APPLICATION_JSON));
         
         // then
         assertNotFoundError(actions, notExistingDivisionId);
@@ -128,6 +139,26 @@ public class ScDivisionControllerTest extends ApiTestSupport {
         
         // then
         assertOk(actions, "ISO-8859-1");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_method() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(post(divisionsPath)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // assert
+        assertNotSupportedMethod(actions, "POST", "GET");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_media_type() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(divisionsPath)
+                .accept(MediaType.APPLICATION_XML));
+        
+        // assert
+        assertNotSupportedMediaType(actions, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE);
     }
 
 }

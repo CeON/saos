@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectParamNameError;
@@ -15,6 +16,8 @@ import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectValueErr
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageNumberError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNegativePageNumberError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMediaType;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMethod;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooBigPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooSmallPageSizeError;
@@ -26,6 +29,7 @@ import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CASE_NUMBER;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_CODE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_TYPE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_DAY;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_MONTH;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_DATE_YEAR;
@@ -33,20 +37,19 @@ import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_DIVISION_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_JUDGE_ROLE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_KEYWORD;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_JUDGMENT_TYPE;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_KEYWORD;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_TEXT_CONTENT;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_THIRD_JUDGE_NAME;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_CASE_NUMBER;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_CHAMBER_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_CHAMBER_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_FIRST_DIVISION_NAME;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_JUDGMENT_FORM_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_PERSONNEL_TYPE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.NAC_CASE_NUMBER;
 import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_JUDGMENT_TYPE;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_FIRST_KEYWORD;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_SECOND_KEYWORD;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_CHAMBER_NAME;
-import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.CC_COURT_TYPE;
+import static pl.edu.icm.saos.persistence.common.TextObjectDefaultData.SC_PERSONNEL_TYPE;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -73,6 +76,7 @@ import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
@@ -110,11 +114,17 @@ public class JudgmentsControllerTest extends ApiTestSupport {
 
     @Autowired
     private LawJournalEntryCodeExtractor lawJournalEntryCodeExtractor;
+    
+    @Autowired
+    private JsonFormatter jsonFormatter;
+
 
     @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
 
+
     private TestObjectContext testObjectContext;
+
 
     @Before
     public void setUp() throws Exception{
@@ -126,13 +136,14 @@ public class JudgmentsControllerTest extends ApiTestSupport {
         judgmentsController.setApiSearchService(apiSearchService);
         judgmentsController.setListSuccessRepresentationBuilder(listSuccessRepresentationBuilder);
         judgmentsController.setParametersExtractor(parametersExtractor);
+        judgmentsController.setJsonFormatter(jsonFormatter);
         
         FormattingConversionService conversionService = new DefaultFormattingConversionService();
         conversionService.addFormatterForFieldAnnotation(new LawJournalEntryCodeFormatterFactory(lawJournalEntryCodeExtractor));
 
         mockMvc = standaloneSetup(judgmentsController)
-                .addInterceptors(new RestrictParamsHandlerInterceptor())
                 .addInterceptors(new AccessControlHeaderHandlerInterceptor())
+                .addInterceptors(new RestrictParamsHandlerInterceptor())
                 .setConversionService(conversionService)
                 .build();
     }
@@ -879,7 +890,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_date_from_format() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.JUDGMENT_DATE_FROM, "2011-11-10 20:23"));
+                .param(ApiConstants.JUDGMENT_DATE_FROM, "2011-11-10 20:23")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.JUDGMENT_DATE_FROM, "2011-11-10 20:23");
@@ -889,7 +901,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_date_to_format() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.JUDGMENT_DATE_TO, "2011-11-10 20:23"));
+                .param(ApiConstants.JUDGMENT_DATE_TO, "2011-11-10 20:23")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.JUDGMENT_DATE_TO, "2011-11-10 20:23");
@@ -899,7 +912,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_sorting_field() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.SORTING_FIELD, "NOT_EXISTING_FIELD"));
+                .param(ApiConstants.SORTING_FIELD, "NOT_EXISTING_FIELD")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.SORTING_FIELD, "NOT_EXISTING_FIELD");
@@ -909,7 +923,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_sorting_direction() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.SORTING_FIELD, "AASC"));
+                .param(ApiConstants.SORTING_FIELD, "AASC")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.SORTING_FIELD, "AASC");
@@ -919,8 +934,9 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_include_dependent_court_judgments() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.CC_INCLUDE_DEPENDENT_COURT_JUDGMENTS, "not boolean"));
-        actions.andDo(MockMvcResultHandlers.print());
+                .param(ApiConstants.CC_INCLUDE_DEPENDENT_COURT_JUDGMENTS, "not boolean")
+                .accept(MediaType.APPLICATION_JSON));
+        
         //then
         assertIncorrectValueError(actions, ApiConstants.CC_INCLUDE_DEPENDENT_COURT_JUDGMENTS, "not boolean");
     }
@@ -929,7 +945,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_personnel_type() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.SC_PERSONNEL_TYPE, "INCORRECT_PERSONNEL_TYPE"));
+                .param(ApiConstants.SC_PERSONNEL_TYPE, "INCORRECT_PERSONNEL_TYPE")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.SC_PERSONNEL_TYPE, "INCORRECT_PERSONNEL_TYPE");
@@ -939,7 +956,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_cc_court_type() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.CC_COURT_TYPE, "INCORRECT_COURT_TYPE"));
+                .param(ApiConstants.CC_COURT_TYPE, "INCORRECT_COURT_TYPE")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.CC_COURT_TYPE, "INCORRECT_COURT_TYPE");
@@ -949,7 +967,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_court_type() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.COURT_TYPE, "INCORRECT_COURT_TYPE"));
+                .param(ApiConstants.COURT_TYPE, "INCORRECT_COURT_TYPE")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.COURT_TYPE, "INCORRECT_COURT_TYPE");
@@ -959,7 +978,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_judgment_types() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.JUDGMENT_TYPES, new String[] {"DECISION", "RESOLUTION", "INCORRECT"}));
+                .param(ApiConstants.JUDGMENT_TYPES, new String[] {"DECISION", "RESOLUTION", "INCORRECT"})
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.JUDGMENT_TYPES, "INCORRECT");
@@ -969,7 +989,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_law_journal_entry_code() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.LAW_JOURNAL_ENTRY_CODE, "2000/abc/123"));
+                .param(ApiConstants.LAW_JOURNAL_ENTRY_CODE, "2000/abc/123")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectValueError(actions, ApiConstants.LAW_JOURNAL_ENTRY_CODE, "2000/abc/123");
@@ -1028,6 +1049,7 @@ public class JudgmentsControllerTest extends ApiTestSupport {
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
                 .param(ApiConstants.PAGE_SIZE, String.valueOf(pageSize))
                 .param(ApiConstants.PAGE_NUMBER, String.valueOf(pageNumber))
+                .accept(MediaType.APPLICATION_JSON)
         );
 
         //then
@@ -1047,7 +1069,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_request_parameter_name() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param("some_incorrect_parameter_name", ""));
+                .param("some_incorrect_parameter_name", "")
+                .accept(MediaType.APPLICATION_JSON));
 
         //then
         assertIncorrectParamNameError(actions, "some_incorrect_parameter_name");
@@ -1058,7 +1081,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_too_small_page_size() throws Exception {
         // when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, String.valueOf(1)));
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(1))
+                .accept(MediaType.APPLICATION_JSON));
         
         // then
         assertTooSmallPageSizeError(actions, 2);
@@ -1068,7 +1092,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_too_big_page_size() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, String.valueOf(101)));
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(101))
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertTooBigPageSizeError(actions, 100);
@@ -1078,7 +1103,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_invalid_page_size() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, "abc"));
+                .param(ApiConstants.PAGE_SIZE, "abc")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertInvalidPageSizeError(actions, "abc");
@@ -1089,7 +1115,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_invalid_page_number() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_NUMBER, "abc"));
+                .param(ApiConstants.PAGE_NUMBER, "abc")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertInvalidPageNumberError(actions, "abc");
@@ -1099,7 +1126,8 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_negative_page_number() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_NUMBER, "-1"));
+                .param(ApiConstants.PAGE_NUMBER, "-1")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertNegativePageNumberError(actions);
@@ -1113,6 +1141,26 @@ public class JudgmentsControllerTest extends ApiTestSupport {
         
         // assert
         assertOk(actions, "ISO-8859-1");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_method() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(post(JUDGMENTS_PATH)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // assert
+        assertNotSupportedMethod(actions, "POST", "GET");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_media_type() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .accept(MediaType.APPLICATION_XML));
+        
+        // assert
+        assertNotSupportedMediaType(actions, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE);
     }
     
     

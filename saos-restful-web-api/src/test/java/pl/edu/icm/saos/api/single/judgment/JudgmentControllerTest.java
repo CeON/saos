@@ -5,9 +5,12 @@ import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotFoundError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMediaType;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMethod;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.services.Constants.DATE_FORMAT;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_COURTS_PATH;
@@ -91,6 +94,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.ApiTestSupport;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
@@ -109,12 +113,17 @@ public class JudgmentControllerTest extends ApiTestSupport {
     private JudgmentEnrichmentService judgmentEnrichmentService;
 
     @Autowired
+    private JsonFormatter jsonFormatter;
+
+
+    @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
+
 
     private TestObjectContext testObjectContext;
 
-
     private MockMvc mockMvc;
+
 
     private String ccJudgmentPath;
     private String scJudgmentPath;
@@ -140,6 +149,7 @@ public class JudgmentControllerTest extends ApiTestSupport {
 
         judgmentController.setSingleJudgmentSuccessRepresentationBuilder(singleJudgmentSuccessRepresentationBuilder);
         judgmentController.setJudgmentEnrichmentService(judgmentEnrichmentService);
+        judgmentController.setJsonFormatter(jsonFormatter);
 
         mockMvc = standaloneSetup(judgmentController)
                 .addInterceptors(new AccessControlHeaderHandlerInterceptor())
@@ -369,7 +379,8 @@ public class JudgmentControllerTest extends ApiTestSupport {
     @Test
     public void it_should_not_allow_not_existing_judgment_id() throws Exception {
         // when
-        ResultActions actions = mockMvc.perform(get(notExistingJudgmentPath));
+        ResultActions actions = mockMvc.perform(get(notExistingJudgmentPath)
+                .accept(MediaType.APPLICATION_JSON));
         
         // then
         assertNotFoundError(actions, notExistingJudgmentId);
@@ -383,6 +394,26 @@ public class JudgmentControllerTest extends ApiTestSupport {
         
         // then
         assertOk(actions, "ISO-8859-1");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_method() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(post(ccJudgmentPath)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // assert
+        assertNotSupportedMethod(actions, "POST", "GET");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_media_type() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(ccJudgmentPath)
+                .accept(MediaType.APPLICATION_XML));
+        
+        // assert
+        assertNotSupportedMediaType(actions, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE);
     }
 
 

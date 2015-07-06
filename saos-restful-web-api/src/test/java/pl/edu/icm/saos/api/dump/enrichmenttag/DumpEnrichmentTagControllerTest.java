@@ -2,6 +2,7 @@ package pl.edu.icm.saos.api.dump.enrichmenttag;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
@@ -10,6 +11,8 @@ import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectParamNam
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageNumberError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNegativePageNumberError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMediaType;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMethod;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooBigPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooSmallPageSizeError;
@@ -43,6 +46,7 @@ import pl.edu.icm.saos.api.ApiTestSupport;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
@@ -63,12 +67,17 @@ public class DumpEnrichmentTagControllerTest extends ApiTestSupport {
 
     @Autowired
     private DumpEnrichmentTagsListSuccessRepresentationBuilder dumpEnrichmentTagsListSuccessRepresentationBuilder;
-
-    @Autowired
-    private TestPersistenceObjectFactory testPersistenceObjectFactory;
     
     @Autowired
     private EnrichmentTagRepository enrichmentTagRepository;
+
+    @Autowired
+    private JsonFormatter jsonFormatter;
+
+
+    @Autowired
+    private TestPersistenceObjectFactory testPersistenceObjectFactory;
+
 
     private TestObjectContext testObjectContext;
 
@@ -90,11 +99,12 @@ public class DumpEnrichmentTagControllerTest extends ApiTestSupport {
         dumpEnrichmentTagController.setParametersExtractor(parametersExtractor);
         dumpEnrichmentTagController.setDatabaseSearchService(databaseSearchService);
         dumpEnrichmentTagController.setDumpEnrichmentTagsListSuccessRepresentationBuilder(dumpEnrichmentTagsListSuccessRepresentationBuilder);
+        dumpEnrichmentTagController.setJsonFormatter(jsonFormatter);
 
 
         mockMvc = standaloneSetup(dumpEnrichmentTagController)
-                .addInterceptors(new RestrictParamsHandlerInterceptor())
                 .addInterceptors(new AccessControlHeaderHandlerInterceptor())
+                .addInterceptors(new RestrictParamsHandlerInterceptor())
                 .build();
     }
     
@@ -183,7 +193,8 @@ public class DumpEnrichmentTagControllerTest extends ApiTestSupport {
     public void showEnrichmentTags_WRONG_PARAM() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
-                .param("some_incorrect_parameter_name", ""));
+                .param("some_incorrect_parameter_name", "")
+                .accept(MediaType.APPLICATION_JSON));
 
         // assert
         assertIncorrectParamNameError(actions, "some_incorrect_parameter_name");
@@ -194,7 +205,8 @@ public class DumpEnrichmentTagControllerTest extends ApiTestSupport {
     public void showEnrichmentTags_TOO_SMALL_PAGE_SIZE() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
-                .param(PAGE_SIZE, String.valueOf(1)));
+                .param(PAGE_SIZE, String.valueOf(1))
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertTooSmallPageSizeError(actions, 2);
@@ -204,7 +216,8 @@ public class DumpEnrichmentTagControllerTest extends ApiTestSupport {
     public void showEnrichmentTags_TOO_BIG_PAGE_SIZE() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
-                .param(PAGE_SIZE, String.valueOf(101)));
+                .param(PAGE_SIZE, String.valueOf(101))
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertTooBigPageSizeError(actions, 100);
@@ -214,7 +227,8 @@ public class DumpEnrichmentTagControllerTest extends ApiTestSupport {
     public void showEnrichmentTags_INVALID_PAGE_SIZE() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
-                .param(PAGE_SIZE, "abc"));
+                .param(PAGE_SIZE, "abc")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertInvalidPageSizeError(actions, "abc");
@@ -225,7 +239,8 @@ public class DumpEnrichmentTagControllerTest extends ApiTestSupport {
     public void showEnrichmentTags_INVALID_PAGE_NUMBER() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
-                .param(PAGE_NUMBER, "abc"));
+                .param(PAGE_NUMBER, "abc")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertInvalidPageNumberError(actions, "abc");
@@ -235,7 +250,8 @@ public class DumpEnrichmentTagControllerTest extends ApiTestSupport {
     public void showEnrichmentTags_NEGATIVE_PAGE_NUMBER() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
-                .param(PAGE_NUMBER, "-1"));
+                .param(PAGE_NUMBER, "-1")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertNegativePageNumberError(actions);
@@ -249,6 +265,26 @@ public class DumpEnrichmentTagControllerTest extends ApiTestSupport {
         
         // assert
         assertOk(actions, "ISO-8859-1");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_method() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(post(DUMP_ENRICHMENT_PATH)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // assert
+        assertNotSupportedMethod(actions, "POST", "GET");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_media_type() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_ENRICHMENT_PATH)
+                .accept(MediaType.APPLICATION_XML));
+        
+        // assert
+        assertNotSupportedMediaType(actions, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE);
     }
     
 }

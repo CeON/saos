@@ -7,9 +7,9 @@ import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
+
+import pl.edu.icm.saos.common.json.JsonFormatter;
 
 /**
  * @author pavtel
@@ -29,9 +29,11 @@ public class ApiConfiguration {
 
     }
     
-    
     @Bean
-    public HttpMessageConverter<?> mappingJackson2HttpMessageConverter() {
-        return new MappingJackson2HttpMessageConverter();
+    public JsonFormatter jsonFormatter() {
+        JsonFormatter jsonFormatter = new JsonFormatter();
+        return jsonFormatter;
     }
+    
+    
 }

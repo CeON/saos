@@ -2,6 +2,7 @@ package pl.edu.icm.saos.api.dump.court;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiConstants.PAGE_NUMBER;
@@ -10,6 +11,8 @@ import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertIncorrectParamNam
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageNumberError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertInvalidPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNegativePageNumberError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMediaType;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMethod;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooBigPageSizeError;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertTooSmallPageSizeError;
@@ -37,6 +40,7 @@ import pl.edu.icm.saos.api.ApiTestSupport;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
@@ -54,9 +58,14 @@ public class DumpCommonCourtsControllerTest extends ApiTestSupport {
 
     @Autowired
     private DumpCourtsListSuccessRepresentationBuilder dumpCourtsListSuccessRepresentationBuilder;
+    
+    @Autowired
+    private JsonFormatter jsonFormatter;
+
 
     @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
+
 
     private TestObjectContext testObjectContext;
 
@@ -71,11 +80,12 @@ public class DumpCommonCourtsControllerTest extends ApiTestSupport {
         dumpCourtsController.setParametersExtractor(parametersExtractor);
         dumpCourtsController.setDatabaseSearchService(databaseSearchService);
         dumpCourtsController.setDumpCourtsListSuccessRepresentationBuilder(dumpCourtsListSuccessRepresentationBuilder);
+        dumpCourtsController.setJsonFormatter(jsonFormatter);
 
 
         mockMvc = standaloneSetup(dumpCourtsController)
-                .addInterceptors(new RestrictParamsHandlerInterceptor())
                 .addInterceptors(new AccessControlHeaderHandlerInterceptor())
+                .addInterceptors(new RestrictParamsHandlerInterceptor())
                 .build();
     }
 
@@ -151,7 +161,8 @@ public class DumpCommonCourtsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_too_small_page_size() throws Exception {
         // when
         ResultActions actions = mockMvc.perform(get(DUMP_COURTS_PATH)
-                .param(PAGE_SIZE, String.valueOf(1)));
+                .param(PAGE_SIZE, String.valueOf(1))
+                .accept(MediaType.APPLICATION_JSON));
         
         // then
         assertTooSmallPageSizeError(actions, 2);
@@ -161,7 +172,8 @@ public class DumpCommonCourtsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_too_big_page_size() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_COURTS_PATH)
-                .param(PAGE_SIZE, String.valueOf(101)));
+                .param(PAGE_SIZE, String.valueOf(101))
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertTooBigPageSizeError(actions, 100);
@@ -171,7 +183,8 @@ public class DumpCommonCourtsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_invalid_page_size() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_COURTS_PATH)
-                .param(PAGE_SIZE, "abc"));
+                .param(PAGE_SIZE, "abc")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertInvalidPageSizeError(actions, "abc");
@@ -182,7 +195,8 @@ public class DumpCommonCourtsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_invalid_page_number() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_COURTS_PATH)
-                .param(PAGE_NUMBER, "abc"));
+                .param(PAGE_NUMBER, "abc")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertInvalidPageNumberError(actions, "abc");
@@ -192,7 +206,8 @@ public class DumpCommonCourtsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_negative_page_number() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(DUMP_COURTS_PATH)
-                .param(PAGE_NUMBER, "-1"));
+                .param(PAGE_NUMBER, "-1")
+                .accept(MediaType.APPLICATION_JSON));
         
         // assert
         assertNegativePageNumberError(actions);
@@ -207,5 +222,26 @@ public class DumpCommonCourtsControllerTest extends ApiTestSupport {
         // assert
         assertOk(actions, "ISO-8859-1");
     }
+    
+    @Test
+    public void should_not_allow_not_supported_method() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(post(DUMP_COURTS_PATH)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // assert
+        assertNotSupportedMethod(actions, "POST", "GET");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_media_type() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(DUMP_COURTS_PATH)
+                .accept(MediaType.APPLICATION_XML));
+        
+        // assert
+        assertNotSupportedMediaType(actions, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE);
+    }
+    
 
 }

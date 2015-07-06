@@ -2,9 +2,12 @@ package pl.edu.icm.saos.api.single.court;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotFoundError;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMediaType;
+import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertNotSupportedMethod;
 import static pl.edu.icm.saos.api.ApiResponseAssertUtils.assertOk;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_COURTS_PATH;
 import static pl.edu.icm.saos.api.services.Constants.SINGLE_DIVISIONS_PATH;
@@ -27,6 +30,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import pl.edu.icm.saos.api.ApiTestSupport;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
+import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
@@ -40,7 +44,12 @@ public class CommonCourtControllerTest extends ApiTestSupport {
     private CommonCourtRepository courtRepository;
 
     @Autowired
+    private JsonFormatter jsonFormatter;
+
+
+    @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
+
 
     private TestObjectContext testObjectContext;
 
@@ -70,6 +79,7 @@ public class CommonCourtControllerTest extends ApiTestSupport {
 
         courtController.setCourtRepository(courtRepository);
         courtController.setSingleCourtSuccessRepresentationBuilder(singleCourtSuccessRepresentationBuilder);
+        courtController.setJsonFormatter(jsonFormatter);
 
         mockMvc = standaloneSetup(courtController)
                 .addInterceptors(new AccessControlHeaderHandlerInterceptor())
@@ -130,7 +140,8 @@ public class CommonCourtControllerTest extends ApiTestSupport {
     @Test
     public void it_should_not_allow_not_existing_court_id() throws Exception {
         // when
-        ResultActions actions = mockMvc.perform(get(notExistingCourtPath));
+        ResultActions actions = mockMvc.perform(get(notExistingCourtPath)
+                .accept(MediaType.APPLICATION_JSON));
         
         // then
         assertNotFoundError(actions, notExistingCourtId);
@@ -144,6 +155,26 @@ public class CommonCourtControllerTest extends ApiTestSupport {
         
         // then
         assertOk(actions, "ISO-8859-1");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_method() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(post(path)
+                .accept(MediaType.APPLICATION_JSON));
+        
+        // assert
+        assertNotSupportedMethod(actions, "POST", "GET");
+    }
+    
+    @Test
+    public void should_not_allow_not_supported_media_type() throws Exception {
+        // execute
+        ResultActions actions = mockMvc.perform(get(path)
+                .accept(MediaType.APPLICATION_XML));
+        
+        // assert
+        assertNotSupportedMediaType(actions, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE);
     }
 
 }
