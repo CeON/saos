@@ -1,7 +1,7 @@
 package pl.edu.icm.saos.api.services.links;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static pl.edu.icm.saos.api.ApiConstants.SELF;
+import static pl.edu.icm.saos.api.services.links.ControllerProxyLinkBuilder.linkTo;
 
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
