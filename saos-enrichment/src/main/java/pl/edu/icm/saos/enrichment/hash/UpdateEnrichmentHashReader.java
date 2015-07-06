@@ -10,6 +10,7 @@ import org.springframework.batch.item.NonTransientResourceException;
 import org.springframework.batch.item.ParseException;
 import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
@@ -27,7 +28,7 @@ public class UpdateEnrichmentHashReader implements ItemStreamReader<JudgmentEnri
     private JudgmentEnrichmentTagsFetcher judgmentEnrichmentTagsFetcher;
     
     
-    private int judgmentsEnrichmentTagsPageSize = 10000;
+    private int judgmentsEnrichmentTagsPageSize = 5000;
     
     private LinkedList<Long> judgmentIds = Lists.newLinkedList();
     
@@ -101,6 +102,7 @@ public class UpdateEnrichmentHashReader implements ItemStreamReader<JudgmentEnri
         this.judgmentEnrichmentTagsFetcher = judgmentsToRecalculateHashFetcher;
     }
 
+    @Value("${enrichment.hash.calculate.page.size:5000}")
     public void setJudgmentsEnrichmentTagsPageSize(int judgmentsEnrichmentTagsPageSize) {
         this.judgmentsEnrichmentTagsPageSize = judgmentsEnrichmentTagsPageSize;
     }
