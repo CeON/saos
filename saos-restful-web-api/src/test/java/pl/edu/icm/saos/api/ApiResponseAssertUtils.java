@@ -106,7 +106,7 @@ public class ApiResponseAssertUtils {
     public static void assertNotFoundError(ResultActions result, long id) throws Exception {
         
         assertError(result, HttpStatus.NOT_FOUND, ErrorReason.ELEMENT_DOES_NOT_EXIST_ERROR.errorReason(),
-                null, allOf(containsString(String.valueOf(id)), containsString("does not exists")));
+                null, allOf(containsString(String.valueOf(id)), containsString("does not exist")));
         
     }
     
