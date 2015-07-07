@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import pl.edu.icm.saos.api.services.dates.DatesFactory;
 import pl.edu.icm.saos.api.services.exceptions.WrongRequestParameterException;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 
@@ -38,10 +39,10 @@ public class ParametersExtractor {
     private int defaultPageSize=20;
 
     @Value("${restful.api.max.page.size}")
-    private int maxPageSize=100;
+    private int defaultMaxPageSize=100;
     
     @Value("${restful.api.min.page.size}")
-    private int minPageSize=10;
+    private int defaultMinPageSize=10;
 
 
     //------------------------ LOGIC --------------------------
@@ -101,14 +102,30 @@ public class ParametersExtractor {
     }
 
     /**
-     * Constructs Pagination object (sets default values for offset and limit if necessary)
-     * @param pageSize to process.
-     * @param pageNumber to process.
-     * @return pagination
-     * @throws WrongRequestParameterException if limit and offset values are incorrect.
+     * Constructs Pagination object.
+     * Internally uses {@link #extractAndValidatePagination(int, int, int, int)} with
+     * default minimum and maximum page size ({@link #getDefaultMinPageSize()}, {@link #getDefaultMaxPageSize()} respectively)
      */
     public Pagination extractAndValidatePagination(int pageSize, int pageNumber) throws WrongRequestParameterException {
-        int currentPageSize = normalizeAndValidatePageSize(pageSize);
+        
+        return extractAndValidatePagination(pageSize, pageNumber, defaultMinPageSize, defaultMaxPageSize);
+    }
+
+    /**
+     * Constructs Pagination object (sets default value for pageSize if necessary).
+     * Validates pageSize and pageNumber parameter.
+     * 
+     * @param pageSize to validate
+     * @param pageNumber to validate
+     * @param minPageSize - minimum value accepted for pageSize
+     * @param maxPageSize - maximum value accepted for pageSize
+     * @return pagination
+     * @throws WrongRequestParameterException when pageSize or pageNumber are not correct
+     */
+    public Pagination extractAndValidatePagination(int pageSize, int pageNumber, int minPageSize, int maxPageSize) throws WrongRequestParameterException {
+        Preconditions.checkArgument(minPageSize <= maxPageSize && minPageSize > 0);
+        
+        int currentPageSize = normalizeAndValidatePageSize(pageSize, minPageSize, maxPageSize);
         int currentPageNumber = normalizeAndValidatePageNumber(pageNumber);
 
 
@@ -122,7 +139,7 @@ public class ParametersExtractor {
     }
 
 
-    private int normalizeAndValidatePageSize(int pageSize) throws WrongRequestParameterException {
+    private int normalizeAndValidatePageSize(int pageSize, int minPageSize, int maxPageSize) throws WrongRequestParameterException {
         int currentPageSize = normalizePageSize(pageSize);
 
         validate(currentPageSize, (n) -> n<=0, PAGE_SIZE, "may not be negative");
@@ -145,12 +162,12 @@ public class ParametersExtractor {
     
     //------------------------ GETTERS --------------------------
     
-    public int getMaxPageSize() {
-        return maxPageSize;
+    public int getDefaultMaxPageSize() {
+        return defaultMaxPageSize;
     }
 
-    public int getMinPageSize() {
-        return minPageSize;
+    public int getDefaultMinPageSize() {
+        return defaultMinPageSize;
     }
 
 
@@ -160,12 +177,12 @@ public class ParametersExtractor {
         this.defaultPageSize = defaultPageSize;
     }
 
-    public void setMaxPageSize(int maxPageSize) {
-        this.maxPageSize = maxPageSize;
+    public void setDefaultMaxPageSize(int defaultMaxPageSize) {
+        this.defaultMaxPageSize = defaultMaxPageSize;
     }
 
-    public void setMinPageSize(int minPageSize) {
-        this.minPageSize = minPageSize;
+    public void setDefaultMinPageSize(int defaultMinPageSize) {
+        this.defaultMinPageSize = defaultMinPageSize;
     }
 
 }

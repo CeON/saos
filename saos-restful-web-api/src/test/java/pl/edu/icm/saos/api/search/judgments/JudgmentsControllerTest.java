@@ -138,6 +138,9 @@ public class JudgmentsControllerTest extends ApiTestSupport {
         judgmentsController.setParametersExtractor(parametersExtractor);
         judgmentsController.setJsonFormatter(jsonFormatter);
         
+        judgmentsController.setMinPageSize(3);
+        judgmentsController.setMaxPageSize(50);
+        
         FormattingConversionService conversionService = new DefaultFormattingConversionService();
         conversionService.addFormatterForFieldAnnotation(new LawJournalEntryCodeFormatterFactory(lawJournalEntryCodeExtractor));
 
@@ -190,7 +193,7 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void showJudgments__it_should_show_all_basic_judgment_fields() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, "2")
+                .param(ApiConstants.PAGE_SIZE, "3")
                 .param(ApiConstants.PAGE_NUMBER, "0")
                 .accept(MediaType.APPLICATION_JSON));
         //then
@@ -1017,7 +1020,7 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     @Test
     public void showJudgments__it_should_not_show_next_link() throws Exception {
         //given
-        int pageSize = 2;
+        int pageSize = 3;
         int pageNumber = NR_OF_JUDGMENTS_STORED_IN_SOLR_INDEX /pageSize;
 
         //when
@@ -1081,22 +1084,22 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_too_small_page_size() throws Exception {
         // when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, String.valueOf(1))
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(2))
                 .accept(MediaType.APPLICATION_JSON));
         
         // then
-        assertTooSmallPageSizeError(actions, 2);
+        assertTooSmallPageSizeError(actions, 3);
     }
     
     @Test
     public void it_should_not_allow_too_big_page_size() throws Exception {
         // execute
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.PAGE_SIZE, String.valueOf(101))
+                .param(ApiConstants.PAGE_SIZE, String.valueOf(51))
                 .accept(MediaType.APPLICATION_JSON));
         
         // assert
-        assertTooBigPageSizeError(actions, 100);
+        assertTooBigPageSizeError(actions, 50);
     }
     
     @Test

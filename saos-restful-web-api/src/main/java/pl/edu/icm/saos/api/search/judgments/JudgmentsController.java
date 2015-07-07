@@ -9,6 +9,7 @@ import static pl.edu.icm.saos.api.services.links.ControllerProxyLinkBuilder.link
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -43,6 +44,11 @@ import pl.edu.icm.saos.search.search.model.SearchResults;
 public class JudgmentsController extends ControllersEntityExceptionHandler {
 
 
+    private int maxPageSize = 100;
+
+    private int minPageSize = 1;
+
+
     private JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder;
 
     private JudgmentsApiSearchService apiSearchService;
@@ -70,7 +76,7 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
         checkRequestMethod(request, HttpMethod.GET);
         checkAcceptHeader(acceptHeader, MediaType.APPLICATION_JSON);
 
-        Pagination pagination = parametersExtractor.extractAndValidatePagination(pageSize, pageNumber);
+        Pagination pagination = parametersExtractor.extractAndValidatePagination(pageSize, pageNumber, minPageSize, maxPageSize);
         judgmentsParameters.setPagination(pagination);
         judgmentsParameters.setSort(sort);
 
@@ -90,6 +96,16 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
 
     //------------------------ SETTERS --------------------------
 
+    @Value("${restful.api.search.max.page.size}")
+    public void setMaxPageSize(int maxPageSize) {
+        this.maxPageSize = maxPageSize;
+    }
+
+    @Value("${restful.api.search.min.page.size}")
+    public void setMinPageSize(int minPageSize) {
+        this.minPageSize = minPageSize;
+    }
+
     @Autowired
     public void setListSuccessRepresentationBuilder(JudgmentsListSuccessRepresentationBuilder listSuccessRepresentationBuilder) {
         this.listSuccessRepresentationBuilder = listSuccessRepresentationBuilder;
@@ -104,4 +120,7 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
     public void setParametersExtractor(ParametersExtractor parametersExtractor) {
         this.parametersExtractor = parametersExtractor;
     }
+
+
+
 }
