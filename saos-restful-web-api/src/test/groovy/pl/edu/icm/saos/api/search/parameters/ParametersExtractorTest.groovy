@@ -17,8 +17,8 @@ class ParametersExtractorTest extends Specification {
     void setup() {
         parametersExtractor = new ParametersExtractor()
         parametersExtractor.setDefaultPageSize(DEFAULT_PAGE_SIZE)
-        parametersExtractor.setMaxPageSize(MAX_PAGE_SIZE)
-        parametersExtractor.setMinPageSize(MIN_PAGE_SIZE)
+        parametersExtractor.setDefaultMaxPageSize(MAX_PAGE_SIZE)
+        parametersExtractor.setDefaultMinPageSize(MIN_PAGE_SIZE)
     }
 
     def "it should return default page size if page size is zero"(){
@@ -89,6 +89,34 @@ class ParametersExtractorTest extends Specification {
 
         when:
             parametersExtractor.extractAndValidatePagination(pageSize, somePageNumber)
+
+        then:
+            thrown(WrongRequestParameterException)
+    }
+
+    def "it should throw WrongRequestParameterException if pageSize is smaller than overridden minPageSize"() {
+        given:
+            def maxPageSize = 34
+            def minPageSize = 32
+            def pageSize = 30
+            def somePageNumber = 10
+
+        when:
+            parametersExtractor.extractAndValidatePagination(pageSize, 10, minPageSize, maxPageSize)
+
+        then:
+            thrown(WrongRequestParameterException)
+    }
+
+    def "it should throw WrongRequestParameterException if pageSize is bigger than overridden maxPageSize"() {
+        given:
+            def maxPageSize = 34
+            def minPageSize = 32
+            def pageSize = 35
+            def somePageNumber = 10
+
+        when:
+            parametersExtractor.extractAndValidatePagination(pageSize, 10, minPageSize, maxPageSize)
 
         then:
             thrown(WrongRequestParameterException)
