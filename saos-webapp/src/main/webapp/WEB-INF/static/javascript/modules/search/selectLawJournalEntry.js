@@ -22,6 +22,7 @@ var SelectLawJournalEntry = (function() {
 		if($("." + defaults.SELECTED_CLASS).length > 0) {
 		
 			$("." + defaults.SELECTED_CLASS + " a.remove").click(function() {
+				$(this).tooltip("hide");
 				$(options.buttonsContainer).trigger("removeSelected");
 			});
 			
@@ -42,22 +43,34 @@ var SelectLawJournalEntry = (function() {
 	assignButtonsContainerEventHandlers = function() {
 		
 		$(options.buttonsContainer)
-			.on("setSelected", function(event, selectedText) {
+			.on("setSelected", function(event, selectedText, fullTitle) {
 				var $selectedElement = $("<div></div>"),
 					$removeButton = $("<a><span></span></a>");
 				
 				$removeButton
 					.attr("href", "")
 					.addClass("remove")
+					.attr("title", springMessage.judgmentSearchFormFieldLawJournalRemove)
+					.attr("data-toggle", "tooltip")
+					.attr("data-placement", "right")
+					.tooltip({container: 'body'})
 					.click(function(event) {
 						event.preventDefault();
+						
+						$(this).tooltip("hide");
 						
 						$(options.buttonsContainer).trigger("removeSelected");
 					});
 				
+				$selectedElementSpan = $("<span>" + selectedText + "</span>")
+					.attr("title", fullTitle)
+					.attr("data-toggle", "tooltip")
+					.attr("data-placement", "right")
+					.tooltip({container: 'body'});
+				
 				$selectedElement
 					.addClass(defaults.SELECTED_CLASS)
-					.append($("<span>" + selectedText + "</span>"))
+					.append($selectedElementSpan)
 					.append($removeButton);
 				
 				$(options.setButton)
@@ -260,13 +273,18 @@ var SelectLawJournalEntry = (function() {
 					(function () {
 						var $li = $("<li><a></a></li>"),
 							lawJournalEntryCode = data[j].code,
+							title = data[j].title,
 							innerText = "";
 						
 						innerText = prepareLawJournalEntryForDisplay(data[j], year, journalNo, entry, text);
 						
 						$li.find("a")
 							.attr("href", "")
-							.html(innerText);
+							.attr("data-toggle", "tooltip")
+							.attr("data-placement", "right")
+							.attr("title", title)
+							.html(innerText)
+							.tooltip({container: 'body'});
 	
 						innerText = innerText.replace(/(<([^>]+)>)/ig,"");
 						
@@ -275,8 +293,9 @@ var SelectLawJournalEntry = (function() {
 							event.preventDefault();
 							
 							$(options.fieldLawJournalCode).val(lawJournalEntryCode);
-							$(options.fieldsContainer).trigger("hide");									
-							$(options.buttonsContainer).trigger("setSelected", [innerText]);
+							$(options.fieldsContainer).trigger("hide");
+							$(this).find("a").tooltip("hide");
+							$(options.buttonsContainer).trigger("setSelected", [innerText, title]);
 						});
 						
 						$container.append($li);
@@ -330,7 +349,10 @@ var SelectLawJournalEntry = (function() {
 		}
 		
 		function highlightMatchingPhrase(line, word ) {
-		     return (line + "").replace( new RegExp( '(' + word + ')', 'gi' ), "<b>$1</b>" );
+			if (!word) {
+				return line + "";
+			}
+			return (line + "").replace( new RegExp( '(' + word + ')', 'gi' ), "<b>$1</b>" );
 		}
 		
 		function findPosition(line, word) {

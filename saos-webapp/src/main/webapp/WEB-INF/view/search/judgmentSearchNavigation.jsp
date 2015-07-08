@@ -155,7 +155,7 @@
                                 
                                 <c:if test="${!empty lawJournalEntry}" >
                                     <div class="selected-law">
-                                        <span>
+                                        <span data-toggle="tooltip" data-placement="right" title="${lawJournalEntry.title}">
                                             <c:out value="${lawJournalEntry.year}" />/<c:out value="${lawJournalEntry.journalNo}" />/<c:out value="${lawJournalEntry.entry}" />
                                              -
                                             <c:out value="${lawJournalEntry.title}" /> 
