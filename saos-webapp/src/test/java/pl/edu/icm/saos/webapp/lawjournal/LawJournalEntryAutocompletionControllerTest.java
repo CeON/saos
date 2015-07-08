@@ -1,15 +1,14 @@
 package pl.edu.icm.saos.webapp.lawjournal;
 
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import static pl.edu.icm.saos.common.testcommon.IntToLongMatcher.equalsLong;
 
 import java.util.List;
 
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -17,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.web.context.WebApplicationContext;
 
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
@@ -40,6 +40,9 @@ public class LawJournalEntryAutocompletionControllerTest extends WebappTestSuppo
     private LawJournalEntryRepository lawJournalEntryRepository;
     
     
+    @Autowired
+    private WebApplicationContext webApplicationCtx;
+    
     private MockMvc mockMvc;
     
     private List<LawJournalEntry> lawJournalEntryList;
@@ -54,7 +57,8 @@ public class LawJournalEntryAutocompletionControllerTest extends WebappTestSuppo
 		
 		lawJournalEntryRepository.save(lawJournalEntryList);
 		
-		mockMvc = standaloneSetup(lawJournalController)
+		
+		mockMvc = webAppContextSetup(webApplicationCtx)
 				.build();
     }
     
@@ -119,8 +123,63 @@ public class LawJournalEntryAutocompletionControllerTest extends WebappTestSuppo
         
     }
     
+    @Test
+    public void lawJournalSearch_TOO_BIG_PAGE_SIZE() throws Exception {
+        
+        // execute
+        ResultActions result = mockMvc.perform(get(PATH)
+                .param("pageSize", "101"));
+        
+        // assert
+        result
+            .andExpect(view().name("wrongParamValue"))
+            .andExpect(status().isBadRequest());
+        
+        assertWrongParamValueModel(result, "pageSize", "error.wrongParamValue.pageSize.tooBig", arrayContaining(100));
+    }
+    
+    @Test
+    public void lawJournalSearch_NEGATIVE_PAGE_SIZE() throws Exception {
+        
+        // execute
+        ResultActions result = mockMvc.perform(get(PATH)
+                .param("pageSize", "-1"));
+        
+        // assert
+        result
+            .andExpect(view().name("wrongParamValue"))
+            .andExpect(status().isBadRequest());
+        
+        assertWrongParamValueModel(result, "pageSize", "error.wrongParamValue.pageSize.negative", emptyArray());
+    }
+    
+    @Test
+    public void lawJournalSearch_NEGATIVE_PAGE_NUMBER() throws Exception {
+        
+        // execute
+        ResultActions result = mockMvc.perform(get(PATH)
+                .param("pageNumber", "-1"));
+        
+        // assert
+        result
+            .andExpect(view().name("wrongParamValue"))
+            .andExpect(status().isBadRequest());
+        
+        assertWrongParamValueModel(result, "pageNumber", "error.wrongParamValue.pageNumber.negative", emptyArray());
+    }
 
     //------------------------ private --------------------------    
+    
+    private void assertWrongParamValueModel(ResultActions result, String paramName, String errorDetailsMessageCode, Matcher<Object[]> errorDetailsMessageArgsMatcher) throws Exception {
+        
+        result.andExpect(model().attribute("exception",
+                allOf(
+                        hasProperty("paramName", is(paramName)),
+                        hasProperty("errorDetailsMessageCode", is(errorDetailsMessageCode)),
+                        hasProperty("errorDetailsMessageArgs", errorDetailsMessageArgsMatcher)
+                )
+        ));
+    }
     
     private List<LawJournalEntry> createLawJournalEntryTestData() {
     	LawJournalEntry lawJournalEntryOne = new LawJournalEntry(1964, 43, 296, "Ustawa z dnia 17 listopada 1964 r. - Kodeks postepowania cywilnego");

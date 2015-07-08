@@ -17,6 +17,7 @@ import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
 import pl.edu.icm.saos.persistence.search.dto.LawJournalEntrySearchFilter;
 import pl.edu.icm.saos.persistence.search.result.SearchResult;
+import pl.edu.icm.saos.webapp.security.WrongParamValueException;
 
 /**
  * @author madryk
@@ -25,6 +26,9 @@ import pl.edu.icm.saos.persistence.search.result.SearchResult;
 public class LawJournalEntryAutocompletionController {
 
     private final static String DEFAULT_PAGE_SIZE = "10";
+    
+    private final static int MAX_PAGE_SIZE = 100;
+    
     
     @Autowired
     private DatabaseSearchService databaseSearchService;
@@ -45,6 +49,9 @@ public class LawJournalEntryAutocompletionController {
             @RequestParam(value = "pageSize", required = false, defaultValue = DEFAULT_PAGE_SIZE) int pageSize,
             @RequestParam(value = "pageNumber", required = false, defaultValue = "0") int pageNumber) {
         
+        validatePageSize(pageSize);
+        validatePageNumber(pageNumber);
+        
         LawJournalEntrySearchFilter searchFilter = LawJournalEntrySearchFilter.builder()
                 .year(year)
                 .journalNo(journalNo)
@@ -62,4 +69,21 @@ public class LawJournalEntryAutocompletionController {
         return new ResponseEntity<>(simpleLawJournalEntries, new HttpHeaders(), HttpStatus.OK);
     }
     
+    
+    //------------------------ PRIVATE --------------------------
+    
+    private void validatePageSize(int pageSize) {
+        if (pageSize < 0) {
+            throw new WrongParamValueException("pageSize", "error.wrongParamValue.pageSize.negative");
+        }
+        if (pageSize > MAX_PAGE_SIZE) {
+            throw new WrongParamValueException("pageSize", "error.wrongParamValue.pageSize.tooBig", MAX_PAGE_SIZE);
+        }
+    }
+    
+    private void validatePageNumber(int pageNumber) {
+        if (pageNumber < 0) {
+            throw new WrongParamValueException("pageNumber", "error.wrongParamValue.pageNumber.negative");
+        }
+    }
 }

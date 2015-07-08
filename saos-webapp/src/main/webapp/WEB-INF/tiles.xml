@@ -94,5 +94,9 @@
         <put-attribute name="content" value="/WEB-INF/view/error/entityNotFound.jsp" />
     </definition>
     
+    <definition name="wrongParamValue" extends="simpleTemplate">
+        <put-attribute name="content" value="/WEB-INF/view/error/wrongParamValue.jsp" />
+    </definition>
+    
     
 </tiles-definitions>

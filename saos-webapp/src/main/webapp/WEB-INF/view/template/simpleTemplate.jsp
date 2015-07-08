@@ -1,11 +1,13 @@
 <%@page pageEncoding="UTF-8"%>
-<%@page isErrorPage="true" %>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 <!DOCTYPE html>
 
 
 <html>
+
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}" scope="session"></c:set>
 
 
 <head>
