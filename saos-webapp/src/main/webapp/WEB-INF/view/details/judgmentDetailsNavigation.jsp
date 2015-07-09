@@ -142,7 +142,7 @@
                             
                                 <c:url value="/search" var="scJudgmentFormSearchUrl">
                                     <c:param name="courtCriteria.courtType" value="${judgment.courtType}" />
-                                    <c:param name="scJudgmentForm" value="${judgment.scJudgmentForm.name}" />
+                                    <c:param name="scJudgmentFormId" value="${judgment.scJudgmentForm.id}" />
                                 </c:url>
                                 
                                 <a href='<c:out value="${scJudgmentFormSearchUrl}" />' data-toggle="tooltip" title="${scJudgmentFormLinkTooltip}" >
