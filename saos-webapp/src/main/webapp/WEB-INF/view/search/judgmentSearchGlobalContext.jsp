@@ -43,8 +43,8 @@
         </div>
         
         <div class="align-right">
-            <button id="date-clear-form-button" class="btn btn-xxs button btn-secondary"><spring:message code="clear" /></button>
-            <button id="confirm-section-date" class="btn btn-xxs button"><spring:message code="close" /></button>
+            <button id="date-clear-form-button" type="button" class="btn btn-xxs button btn-secondary"><spring:message code="clear" /></button>
+            <button id="confirm-section-date" type="button" class="btn btn-xxs button"><spring:message code="close" /></button>
         </div>
     
     </div>

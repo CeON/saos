@@ -261,8 +261,8 @@
                     </div>
                     
                     <div class="align-right">
-                        <button id="judgment-clear-form-button" class="btn btn-xxs button btn-secondary"><spring:message code="clear" /></button>
-                        <button id="confirm-section-judgment-info" class="btn btn-xxs button"><spring:message code="close" /></button>
+                        <button id="judgment-clear-form-button" type="button" class="btn btn-xxs button btn-secondary"><spring:message code="clear" /></button>
+                        <button id="confirm-section-judgment-info" type="button" class="btn btn-xxs button"><spring:message code="close" /></button>
                     </div>
                      
                 </div>

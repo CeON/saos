@@ -138,8 +138,8 @@
 		</div>
 		
         <div class="align-right">
-            <button id="court-clear-form-button" class="btn btn-xxs button btn-secondary"><spring:message code="clear" /></button>
-            <button id="confirm-section-court" class="btn btn-xxs button"><spring:message code="close" /></button>
+            <button id="court-clear-form-button" type="button" class="btn btn-xxs button btn-secondary"><spring:message code="clear" /></button>
+            <button id="confirm-section-court" type="button" class="btn btn-xxs button"><spring:message code="close" /></button>
         </div>
         
     </div>
