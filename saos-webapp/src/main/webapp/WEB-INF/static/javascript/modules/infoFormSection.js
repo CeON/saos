@@ -138,7 +138,7 @@ function InfoFormSection(options) {
          }
 
          if (!$formSection.is(e.target)  // if the target of the click isn't the container...
-                 && $formSection.has(e.target).length === 0 && $setSection.has(e.target).length === 0 && // ... nor a descendant of the container
+                 && $formSection.has(e.target).length === 0 && // ... nor a descendant of the container
                  !$datepicker.is(e.target) && $datepicker.has(e.target).length === 0) // ... nor a datepicker
          {
              closeFormSection();
