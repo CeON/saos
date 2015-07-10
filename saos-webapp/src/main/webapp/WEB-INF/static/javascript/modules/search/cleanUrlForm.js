@@ -19,15 +19,15 @@ var CleanUrlForm = {
 		$form.find("input, select").each(function() {
 			var $this = $(this);
 			if ($this.val() === "") {
-				$this.attr("name", "");
+				$this.attr("name", null);
 			}
 		});
 		
 		$form.find("input:checkbox").each(function() {
 			var $this = $(this);
 			if (!$this.is(":checked")) {
-				$this.attr("name", "");
-				$this.next().attr("name", "");
+				$this.attr("name", null);
+				$this.next().attr("name", null);
 			}
 		});
 	}
