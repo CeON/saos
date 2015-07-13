@@ -220,7 +220,7 @@ public class JudgmentJpqlSearchImplementorTest extends PersistenceTestSupport {
         assertThat("creation date", actualJudgment.getCreationDate(), is(ccJudgment.getCreationDate()));
         assertThat("judges", actualJudgment.getJudges(), containsListInAnyOrder(ccJudgment.getJudges()));
         assertThat("all roles ", extractRolesNames(actualJudgment.getJudges()), containsInAnyOrder(Judge.JudgeRole.PRESIDING_JUDGE.name()));
-        assertThat("judge's role", actualJudgment.getJudges().get(0).getSpecialRoles().get(0), is(Judge.JudgeRole.PRESIDING_JUDGE));
+        assertThat("judge's role", actualJudgment.getJudges(Judge.JudgeRole.PRESIDING_JUDGE).get(0).getId(), is(ccJudgment.getJudges(Judge.JudgeRole.PRESIDING_JUDGE).get(0).getId()));
 
         assertThat("court reporters", actualJudgment.getCourtReporters(), containsListInAnyOrder(ccJudgment.getCourtReporters()));
         assertThat("decision" , actualJudgment.getDecision(), is(ccJudgment.getDecision()));
