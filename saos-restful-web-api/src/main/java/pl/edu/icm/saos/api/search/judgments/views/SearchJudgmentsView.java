@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.search.judgments.item.representation.SearchJudgmentItem;
 import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.Info;
 import pl.edu.icm.saos.api.search.judgments.views.SearchJudgmentsView.QueryTemplate;
@@ -411,24 +412,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
         public SortingFieldTemplate(JudgmentIndexField value) {
             super(value);
             setDescription("Represents the field by which you want to sort a list of items");
-            setAllowedValues(Arrays.asList(
-                    JudgmentIndexField.DATABASE_ID,
-                    JudgmentIndexField.JUDGMENT_DATE,
-                    JudgmentIndexField.CASE_NUMBER,
-                    JudgmentIndexField.CC_COURT_TYPE,
-                    JudgmentIndexField.CC_COURT_ID,
-                    JudgmentIndexField.CC_COURT_CODE,
-                    JudgmentIndexField.CC_COURT_NAME,
-                    JudgmentIndexField.CC_COURT_DIVISION_ID,
-                    JudgmentIndexField.CC_COURT_DIVISION_CODE,
-                    JudgmentIndexField.CC_COURT_DIVISION_NAME,
-                    JudgmentIndexField.SC_JUDGMENT_FORM_ID,
-                    JudgmentIndexField.SC_PERSONNEL_TYPE,
-                    JudgmentIndexField.SC_COURT_DIVISION_ID,
-                    JudgmentIndexField.SC_COURT_DIVISION_NAME,
-                    JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID,
-                    JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_NAME
-            ));
+            setAllowedValues(Arrays.asList(ApiConstants.ALLOWED_SORTING_FIELDS));
         }
     }
 

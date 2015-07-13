@@ -923,14 +923,25 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     }
     
     @Test
-    public void it_should_not_allow_incorrect_sorting_direction() throws Exception {
+    public void it_should_not_allow_not_sortable_field() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.SORTING_FIELD, "AASC")
+                .param(ApiConstants.SORTING_FIELD, JudgmentIndexField.LEGAL_BASE.name())
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
-        assertIncorrectValueError(actions, ApiConstants.SORTING_FIELD, "AASC");
+        assertIncorrectValueError(actions, ApiConstants.SORTING_FIELD, JudgmentIndexField.LEGAL_BASE.name());
+    }
+    
+    @Test
+    public void it_should_not_allow_incorrect_sorting_direction() throws Exception {
+        //when
+        ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
+                .param(ApiConstants.SORTING_DIRECTION, "AASC")
+                .accept(MediaType.APPLICATION_JSON));
+
+        //then
+        assertIncorrectValueError(actions, ApiConstants.SORTING_DIRECTION, "AASC");
     }
     
     @Test

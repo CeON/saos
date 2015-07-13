@@ -8,6 +8,7 @@ import static pl.edu.icm.saos.api.services.links.ControllerProxyLinkBuilder.link
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import pl.edu.icm.saos.api.ApiConstants;
 import pl.edu.icm.saos.api.search.judgments.parameters.JudgmentsParameters;
 import pl.edu.icm.saos.api.search.judgments.parameters.Sort;
 import pl.edu.icm.saos.api.search.judgments.services.JudgmentsApiSearchService;
@@ -77,6 +79,7 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
         checkAcceptHeader(acceptHeader, MediaType.APPLICATION_JSON);
 
         Pagination pagination = parametersExtractor.extractAndValidatePagination(pageSize, pageNumber, minPageSize, maxPageSize);
+        validateSort(sort);
         judgmentsParameters.setPagination(pagination);
         judgmentsParameters.setSort(sort);
 
@@ -91,7 +94,13 @@ public class JudgmentsController extends ControllersEntityExceptionHandler {
     }
 
 
+    //------------------------ PRIVATE --------------------------
 
+    private void validateSort(Sort sort) {
+        if (!ArrayUtils.contains(ApiConstants.ALLOWED_SORTING_FIELDS, sort.getSortingField())) {
+            throw new WrongRequestParameterException("sortingField", "can't have value '" + sort.getSortingField().name() + "'");
+        }
+    }
 
 
     //------------------------ SETTERS --------------------------

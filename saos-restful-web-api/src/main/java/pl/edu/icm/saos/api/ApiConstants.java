@@ -1,5 +1,7 @@
 package pl.edu.icm.saos.api;
 
+import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
+
 /**
  * @author pavtel
  */
@@ -95,4 +97,24 @@ public abstract class ApiConstants {
     public static final String CHAMBER = "chamber";
 
     public static final String TOTAL_RESULTS = "totalResults";
+
+    public static final JudgmentIndexField[] ALLOWED_SORTING_FIELDS = {
+        JudgmentIndexField.DATABASE_ID,
+        JudgmentIndexField.JUDGMENT_DATE,
+        JudgmentIndexField.REFERENCING_JUDGMENTS_COUNT,
+        JudgmentIndexField.MAXIMUM_MONEY_AMOUNT,
+        JudgmentIndexField.CC_COURT_TYPE,
+        JudgmentIndexField.CC_COURT_ID,
+        JudgmentIndexField.CC_COURT_CODE,
+        JudgmentIndexField.CC_COURT_NAME,
+        JudgmentIndexField.CC_COURT_DIVISION_ID,
+        JudgmentIndexField.CC_COURT_DIVISION_CODE,
+        JudgmentIndexField.CC_COURT_DIVISION_NAME,
+        JudgmentIndexField.SC_JUDGMENT_FORM_ID,
+        JudgmentIndexField.SC_PERSONNEL_TYPE,
+        JudgmentIndexField.SC_COURT_DIVISION_ID,
+        JudgmentIndexField.SC_COURT_DIVISION_NAME,
+        JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_ID,
+        JudgmentIndexField.SC_COURT_DIVISIONS_CHAMBER_NAME
+    };
 }

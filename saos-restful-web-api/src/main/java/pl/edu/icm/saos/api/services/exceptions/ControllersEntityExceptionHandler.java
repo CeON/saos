@@ -68,7 +68,7 @@ public class ControllersEntityExceptionHandler {
         if(causedByFieldError(ex)){
             FieldError fieldError = extractFieldError(ex);
             builder.propertyName(fieldError.getField());
-            String message = String.format("parameter '%s' can't have value '%s'", fieldError.getField(), fieldError.getRejectedValue());
+            String message = String.format("parameter '%s' : can't have value '%s'", fieldError.getField(), fieldError.getRejectedValue());
             builder.message(message);
         }
 
