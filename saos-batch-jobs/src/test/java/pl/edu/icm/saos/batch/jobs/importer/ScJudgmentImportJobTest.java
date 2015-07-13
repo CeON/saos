@@ -376,7 +376,7 @@ public class ScJudgmentImportJobTest extends BatchJobsTestSupport {
             
         assertEquals(new LocalDate("2005-05-29"), scJudgment.getReceiptDate());
         
-        assertThat(scJudgment.getLowerCourtJudgments(), Matchers.contains("I ACa 124/02 - postanowienie z dnia 23 maja 2002 r. - Sąd Apelacyjny w Rzeszowie", "I ACa 122/01 - postanowienie z dnia 21 maja 2001 r. - Sąd Okręgowy w Bydgoszczy"));
+        assertThat(scJudgment.getLowerCourtJudgments(), Matchers.contains("I ACa 122/01 - postanowienie z dnia 21 maja 2001 r. - Sąd Okręgowy w Bydgoszczy", "I ACa 124/02 - postanowienie z dnia 23 maja 2002 r. - Sąd Apelacyjny w Rzeszowie"));
 
         assertEquals(CourtType.SUPREME, scJudgment.getMeansOfAppeal().getCourtType());
         assertEquals("zagadnienie prawne", scJudgment.getMeansOfAppeal().getName());

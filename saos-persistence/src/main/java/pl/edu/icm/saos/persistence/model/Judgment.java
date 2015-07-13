@@ -25,6 +25,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -144,6 +145,7 @@ public abstract class Judgment extends IndexableObject {
     }
 
     @OneToMany(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL)
+    @OrderBy("name")
     private List<Judge> getJudges_() {
         return judges;
     }
@@ -157,6 +159,7 @@ public abstract class Judgment extends IndexableObject {
     @ElementCollection
     @CollectionTable(name="judgment_court_reporter", uniqueConstraints={@UniqueConstraint(name="judgment_court_reporter_unique", columnNames={"fk_judgment", "court_reporter"})})
     @Column(name="court_reporter")
+    @OrderBy("court_reporter")
     private List<String> getCourtReporters_() {
         return courtReporters;
     }
@@ -180,6 +183,7 @@ public abstract class Judgment extends IndexableObject {
     @ElementCollection
     @CollectionTable(name="judgment_legal_bases", uniqueConstraints={@UniqueConstraint(name="judgment_legal_base_unique", columnNames={"fk_judgment", "legal_base"})})
     @Column(name="legal_base")
+    @OrderBy("legal_base")
     private List<String> getLegalBases_() {
         return legalBases;
     }
@@ -195,6 +199,7 @@ public abstract class Judgment extends IndexableObject {
      * for hibernate
      */
     @OneToMany(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL)
+    @OrderBy
     private List<JudgmentReferencedRegulation> getReferencedRegulations_() {
         return referencedRegulations;
     }
@@ -210,6 +215,7 @@ public abstract class Judgment extends IndexableObject {
             indexes = {@Index(name = "assigned_keyword_fk_judgment_index", columnList = "fk_judgment")},
             joinColumns = {@JoinColumn(name = "fk_judgment", nullable = false, updatable = false) }, 
             inverseJoinColumns = {@JoinColumn(name = "fk_keyword", nullable = false, updatable = false) })
+    @OrderBy("phrase")
     private List<JudgmentKeyword> getKeywords_() {
         return keywords;
     }
@@ -240,6 +246,7 @@ public abstract class Judgment extends IndexableObject {
     }
 
     @OneToMany(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL)
+    @OrderBy("caseNumber")
     private List<CourtCase> getCourtCases_() {
         return courtCases;
     }
@@ -290,6 +297,7 @@ public abstract class Judgment extends IndexableObject {
     @ElementCollection
     @CollectionTable(name="judgment_lower_court_judgments", uniqueConstraints={@UniqueConstraint(name="judgment_lower_court_judgment_unique", columnNames={"fk_judgment", "lower_court_judgment"})})
     @Column(name="lower_court_judgment")
+    @OrderBy("lower_court_judgment")
     private List<String> getLowerCourtJudgments_() {
         return lowerCourtJudgments;
     }

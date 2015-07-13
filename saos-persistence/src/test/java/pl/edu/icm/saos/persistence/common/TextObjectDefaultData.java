@@ -27,13 +27,13 @@ public final class TextObjectDefaultData {
     public static final String NAC_DECISION = "nie uznaje apelacji";
     public static final String DECISION = CC_DECISION;
 
-    public static final String CC_FIRST_LEGAL_BASE ="art. 88 ust. 1 ustawy z dnia 26 stycznia 1982 r. Karta Nauczyciela";
-    public static final String SC_FIRST_LEGAL_BASE ="art. 5 ust. 2 ustawy z dnia 22 listopada 2013 r. o zmianie ustawy o systemie informacji oświatowej";
+    public static final String CC_FIRST_LEGAL_BASE ="art. 30 i art. 17 ustawy z dn. 16.07.2004r. Prawo telekomunikacyjne";
+    public static final String SC_FIRST_LEGAL_BASE ="art. 3 i art. 12 ustawa z dnia 18 sierpnia 2011 r. o bezpieczeństwie morskim";
     public static final String CT_FIRST_LEGAL_BASE ="art. 28 i art. 17 ustawy z dn. 16.07.2004r. Prawo telekomunikacyjne";
     public static final String NAC_FIRST_LEGAL_BASE ="art. 28 i art. 17 ustawy z dn. 16.07.2004r. Prawo telekomunikacyjne";
     public static final String FIRST_LEGAL_BASE =CC_FIRST_LEGAL_BASE;
-    public static final String CC_SECOND_LEGAL_BASE="art. 30 i art. 17 ustawy z dn. 16.07.2004r. Prawo telekomunikacyjne";
-    public static final String SC_SECOND_LEGAL_BASE="art. 3 i art. 12 ustawa z dnia 18 sierpnia 2011 r. o bezpieczeństwie morskim";
+    public static final String CC_SECOND_LEGAL_BASE="art. 88 ust. 1 ustawy z dnia 26 stycznia 1982 r. Karta Nauczyciela";
+    public static final String SC_SECOND_LEGAL_BASE="art. 5 ust. 2 ustawy z dnia 22 listopada 2013 r. o zmianie ustawy o systemie informacji oświatowej";
     public static final String CT_SECOND_LEGAL_BASE="art. 4 i art. 13 ustawa z dnia 18 sierpnia 2011 r. o bezpieczeństwie morskim";
     public static final String NAC_SECOND_LEGAL_BASE="art. 4 i art. 13 ustawa z dnia 18 sierpnia 2011 r. o bezpieczeństwie morskim";
     public static final String SECOND_LEGAL_BASE=CC_SECOND_LEGAL_BASE;
@@ -110,14 +110,14 @@ public final class TextObjectDefaultData {
     public static final String CC_FIRST_COURT_REPORTER = "Adam Nowak";
     public static final String CC_SECOND_COURT_REPORTER = "Jan Kowalski";
 
-    public static final String SC_FIRST_COURT_REPORTER = "Ewa Wesołowska";
-    public static final String SC_SECOND_COURT_REPORTER = "Dominik Wesołowski";
+    public static final String SC_FIRST_COURT_REPORTER = "Dominik Wesołowski";
+    public static final String SC_SECOND_COURT_REPORTER = "Ewa Wesołowska";
 
     public static final String CT_FIRST_COURT_REPORTER = "Adam Niewiński";
     public static final String CT_SECOND_COURT_REPORTER = "Piotr Przybylski";
     
-    public static final String NAC_FIRST_COURT_REPORTER = "Norbert Zawadzki";
-    public static final String NAC_SECOND_COURT_REPORTER = "Kazimierz Dudek";
+    public static final String NAC_FIRST_COURT_REPORTER = "Kazimierz Dudek";
+    public static final String NAC_SECOND_COURT_REPORTER = "Norbert Zawadzki";
 
     public static final String CC_SUMMARY = "CC Apelacja jest bezzasadna";
     public static final String SC_SUMMARY = "SC Apelacja jest zasadna";
@@ -164,8 +164,8 @@ public final class TextObjectDefaultData {
     public static final String CC_FIRST_JUDGE_NAME = "Ewa Śniegocka";
     public static final Judge.JudgeRole CC_FIRST_JUDGE_ROLE = Judge.JudgeRole.PRESIDING_JUDGE;
     public static final String CC_FIRST_JUDGE_FUNCTION = "CC first function";
-    public static final String CC_SECOND_JUDGE_NAME = "Irena Piotrowska";
-    public static final String CC_THIRD_JUDGE_NAME = "Ewa Zalewska";
+    public static final String CC_SECOND_JUDGE_NAME = "Ewa Zalewska";
+    public static final String CC_THIRD_JUDGE_NAME = "Irena Piotrowska";
 
     public static final String SC_FIRST_JUDGE_NAME = "Katarzyna Zima";
     public static final Judge.JudgeRole SC_FIRST_JUDGE_ROLE = Judge.JudgeRole.PRESIDING_JUDGE;
@@ -178,10 +178,10 @@ public final class TextObjectDefaultData {
     public static final String CT_FIRST_JUDGE_FUNCTION = "CT first function";
     public static final String CT_SECOND_JUDGE_NAME = "Urszula Nieznana";
     
-    public static final String NAC_FIRST_JUDGE_NAME = "Tadeusz Kowalski";
+    public static final String NAC_FIRST_JUDGE_NAME = "Anna Kowalska";
     public static final Judge.JudgeRole NAC_FIRST_JUDGE_ROLE = Judge.JudgeRole.PRESIDING_JUDGE;
-    public static final String NAC_SECOND_JUDGE_NAME = "Anna Kowalska";
-    public static final String NAC_THIRD_JUDGE_NAME = "Ernest Kowalski";
+    public static final String NAC_SECOND_JUDGE_NAME = "Ernest Kowalski";
+    public static final String NAC_THIRD_JUDGE_NAME = "Tadeusz Kowalski";
 
     public static final SourceCode CC_SOURCE_CODE = SourceCode.COMMON_COURT;
     public static final SourceCode SC_SOURCE_CODE = SourceCode.SUPREME_COURT;
@@ -295,14 +295,14 @@ public final class TextObjectDefaultData {
     public static final String CC_PARENT_SECOND_DIVISION_CODE = CC_SECOND_APPEAL_DIVISION_CODE;
     
     
-    public static final String CC_FIRST_KEYWORD = "konsument";
-    public static final String CC_SECOND_KEYWORD = "klauzule niedozwolone";
+    public static final String CC_FIRST_KEYWORD = "klauzule niedozwolone";
+    public static final String CC_SECOND_KEYWORD = "konsument";
 
-    public static final String SC_FIRST_KEYWORD = "pracownik";
-    public static final String SC_SECOND_KEYWORD = "klazule";
+    public static final String SC_FIRST_KEYWORD = "klazule";
+    public static final String SC_SECOND_KEYWORD = "pracownik";
 
-    public static final String CT_FIRST_KEYWORD = "obywatel";
-    public static final String CT_SECOND_KEYWORD = "niedozwolone";
+    public static final String CT_FIRST_KEYWORD = "niedozwolone";
+    public static final String CT_SECOND_KEYWORD = "obywatel";
     
     public static final String NAC_FIRST_KEYWORD = "prawo cywilne";
     public static final String NAC_SECOND_KEYWORD = "producent";
@@ -354,17 +354,17 @@ public final class TextObjectDefaultData {
     public static final String NAC_JUDGMENT_RESULT = "oddalono";
     
     
-    public static final String CC_FIRST_LOWER_COURT_JUDGMENT = "XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okręgowy Warszawa";
-    public static final String CC_SECOND_LOWER_COURT_JUDGMENT = "WSD 20/00 - orzeczenie z dnia 30 wrzesnia 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
+    public static final String CC_FIRST_LOWER_COURT_JUDGMENT = "WSD 20/00 - orzeczenie z dnia 30 wrzesnia 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
+    public static final String CC_SECOND_LOWER_COURT_JUDGMENT = "XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okręgowy Warszawa";
     
-    public static final String SC_FIRST_LOWER_COURT_JUDGMENT = "SC XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okręgowy Warszawa";
-    public static final String SC_SECOND_LOWER_COURT_JUDGMENT = "SC WSD 20/00 - orzeczenie z dnia 30 września 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
+    public static final String SC_FIRST_LOWER_COURT_JUDGMENT = "SC WSD 20/00 - orzeczenie z dnia 30 września 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
+    public static final String SC_SECOND_LOWER_COURT_JUDGMENT = "SC XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okręgowy Warszawa";
     
-    public static final String CT_FIRST_LOWER_COURT_JUDGMENT = "CT XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okregowy Warszawa";
-    public static final String CT_SECOND_LOWER_COURT_JUDGMENT = "CT WSD 20/00 - orzeczenie z dnia 30 września 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
+    public static final String CT_FIRST_LOWER_COURT_JUDGMENT = "CT WSD 20/00 - orzeczenie z dnia 30 września 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
+    public static final String CT_SECOND_LOWER_COURT_JUDGMENT = "CT XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okregowy Warszawa";
     
-    public static final String NAC_FIRST_LOWER_COURT_JUDGMENT = "NAC XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okręgowy Warszawa";
-    public static final String NAC_SECOND_LOWER_COURT_JUDGMENT = "NAC WSD 20/00 - orzeczenie z dnia 30 wrzesńia 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
+    public static final String NAC_FIRST_LOWER_COURT_JUDGMENT = "NAC WSD 20/00 - orzeczenie z dnia 30 wrzesńia 2000 r. - Wyższy Sąd Dyscyplinarny Warszawa";
+    public static final String NAC_SECOND_LOWER_COURT_JUDGMENT = "NAC XX Gz 87/01 - postanowienie z dnia 5 grudnia 2001 r. - Sąd Okręgowy Warszawa";
     
     
     public static final String REFERENCED_REGULATIONS_TAG_TYPE = "REFERENCED_REGULATIONS";
