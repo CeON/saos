@@ -161,7 +161,7 @@ public final class TextObjectDefaultData {
     public static final int NAC_DATE_MONTH = 9;
     public static final int NAC_DATE_DAY = 23;
 
-    public static final String CC_FIRST_JUDGE_NAME = "Ewa Śniegocka";
+    public static final String CC_FIRST_JUDGE_NAME = "Ewa Sokół";
     public static final Judge.JudgeRole CC_FIRST_JUDGE_ROLE = Judge.JudgeRole.PRESIDING_JUDGE;
     public static final String CC_FIRST_JUDGE_FUNCTION = "CC first function";
     public static final String CC_SECOND_JUDGE_NAME = "Ewa Zalewska";
