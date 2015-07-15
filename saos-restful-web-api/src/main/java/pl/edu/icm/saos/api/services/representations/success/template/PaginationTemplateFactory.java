@@ -16,10 +16,10 @@ import pl.edu.icm.saos.api.search.parameters.Pagination;
 public class PaginationTemplateFactory {
 
     @Value("${restful.api.max.page.size}")
-    private int maxPageSize=100;
+    private int defaultMaxPageSize=100;
     
     @Value("${restful.api.min.page.size}")
-    private int minPageSize=10;
+    private int defaultMinPageSize=10;
     
     
     //------------------------ LOGIC --------------------------
@@ -33,17 +33,23 @@ public class PaginationTemplateFactory {
     public PageSizeTemplate createPageSizeTemplate(Pagination pagination) {
         Preconditions.checkNotNull(pagination);
         
-        return new PageSizeTemplate(pagination.getPageSize(), minPageSize, maxPageSize);
+        return createPageSizeTemplate(pagination, defaultMinPageSize, defaultMaxPageSize);
     }
 
+    public PageSizeTemplate createPageSizeTemplate(Pagination pagination, int minPageSize, int maxPageSize) {
+        Preconditions.checkNotNull(pagination);
+        Preconditions.checkArgument(minPageSize <= maxPageSize && minPageSize > 0);
+        
+        return new PageSizeTemplate(pagination.getPageSize(), minPageSize, maxPageSize);
+    }
     
     //------------------------ SETTERS --------------------------
     
-    public void setMaxPageSize(int maxPageSize) {
-        this.maxPageSize = maxPageSize;
+    public void setDefaultMaxPageSize(int defaultMaxPageSize) {
+        this.defaultMaxPageSize = defaultMaxPageSize;
     }
 
-    public void setMinPageSize(int minPageSize) {
-        this.minPageSize = minPageSize;
+    public void setDefaultMinPageSize(int defaultMinPageSize) {
+        this.defaultMinPageSize = defaultMinPageSize;
     }
 }

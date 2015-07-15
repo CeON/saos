@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -47,6 +48,13 @@ import pl.edu.icm.saos.search.search.model.SearchResults;
 @Service("judgmentsListSuccessRepresentationBuilder")
 public class JudgmentsListSuccessRepresentationBuilder {
 
+    @Value("${restful.api.search.max.page.size}")
+    private int maxPageSize = 100;
+
+    @Value("${restful.api.search.min.page.size}")
+    private int minPageSize = 1;
+
+
     @Autowired
     private DateMapping dateMapping;
 
@@ -61,11 +69,9 @@ public class JudgmentsListSuccessRepresentationBuilder {
 
     @Autowired
     private SearchJudgmentItemMapper judgmentItemMapper;
-    
+
     @Autowired
     private PaginationTemplateFactory paginationTemplateFactory;
-
-
 
 
     //------------------------ LOGIC --------------------------
@@ -299,7 +305,7 @@ public class JudgmentsListSuccessRepresentationBuilder {
         Pagination pagination = params.getPagination();
         
         queryTemplate.setPageNumber(paginationTemplateFactory.createPageNumberTemplate(pagination));
-        queryTemplate.setPageSize(paginationTemplateFactory.createPageSizeTemplate(pagination));
+        queryTemplate.setPageSize(paginationTemplateFactory.createPageSizeTemplate(pagination, minPageSize, maxPageSize));
 
         Sort sort = params.getSort();
         queryTemplate.setSortingField(new SortingFieldTemplate(sort.getSortingField()));

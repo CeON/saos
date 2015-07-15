@@ -17,8 +17,8 @@ public class PaginationTemplateFactoryTest {
     
     @Before
     public void setUp() {
-        paginationTemplateFactory.setMinPageSize(10);
-        paginationTemplateFactory.setMaxPageSize(100);
+        paginationTemplateFactory.setDefaultMinPageSize(10);
+        paginationTemplateFactory.setDefaultMaxPageSize(100);
     }
     
     
@@ -44,7 +44,7 @@ public class PaginationTemplateFactoryTest {
     
     
     @Test
-    public void createPageSizeTemplate() {
+    public void createPageSizeTemplate_DEFAULT_MIN_MAX() {
         // given
         Pagination pagination = new Pagination(20, 2);
         
@@ -55,10 +55,37 @@ public class PaginationTemplateFactoryTest {
         assertEquals(new PageSizeTemplate(20, 10, 100), pageSizeTemplate);
     }
     
+    @Test
+    public void createPageSizeTemplate_OVERRIDDEN_MIN_MAX() {
+        // given
+        Pagination pagination = new Pagination(20, 2);
+        
+        // execute
+        PageSizeTemplate pageSizeTemplate = paginationTemplateFactory.createPageSizeTemplate(pagination, 5, 200);
+        
+        // assert
+        assertEquals(new PageSizeTemplate(20, 5, 200), pageSizeTemplate);
+    }
+    
+    
     @Test(expected = NullPointerException.class)
     public void createPageSizeTemplate_NULL_CHECK() {
         // execute
         paginationTemplateFactory.createPageSizeTemplate(null);
     }
     
+    @Test(expected = NullPointerException.class)
+    public void createPageSizeTemplate_OVERRIDDEN_MIN_MAX_NULL_CHECK() {
+        // execute
+        paginationTemplateFactory.createPageSizeTemplate(null, 1, 10);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void createPageSizeTemplate_MIN_GREATER_THAN_MAX() {
+        // given
+        Pagination pagination = new Pagination(20, 2);
+        
+        // execute
+        paginationTemplateFactory.createPageSizeTemplate(pagination, 100, 50);
+    }
 }
