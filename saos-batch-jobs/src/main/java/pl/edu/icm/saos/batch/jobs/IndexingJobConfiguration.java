@@ -8,21 +8,19 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.search.indexing.IndexingJobStepExecutionListener;
+import pl.edu.icm.saos.search.indexing.JudgmentIndexingData;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingProcessor;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingReader;
 import pl.edu.icm.saos.search.indexing.JudgmentIndexingWriter;
-import pl.edu.icm.saos.search.indexing.JudgmentIndexingData;
 import pl.edu.icm.saos.search.indexing.ReindexJobStepExecutionListener;
 
 @Configuration
-@ComponentScan
 public class IndexingJobConfiguration {
     
     private final static int INDEXING_CHUNK_SIZE = 10;

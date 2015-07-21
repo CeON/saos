@@ -5,7 +5,10 @@ import javax.annotation.PostConstruct;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ComponentScan.Filter;
+import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
 import pl.edu.icm.saos.importer.commoncourt.CommonCourtImportConfiguration;
@@ -23,7 +26,7 @@ import com.fasterxml.jackson.databind.MappingJsonFactory;
  * @author Łukasz Dumiszewski
  */
 @Configuration
-@ComponentScan
+@ComponentScan(useDefaultFilters=false, includeFilters={@Filter(type=FilterType.ANNOTATION, value=Service.class)})
 @Import({CommonCourtImportConfiguration.class, SupremeCourtImportConfiguration.class, ConstitutionalTribunalImportConfiguration.class,
     NationalAppealChamberImportConfiguration.class})
 public class ImportConfiguration {

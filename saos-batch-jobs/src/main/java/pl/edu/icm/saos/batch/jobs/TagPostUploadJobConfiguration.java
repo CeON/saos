@@ -8,13 +8,12 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import pl.edu.icm.saos.enrichment.hash.EnrichmentHashProcessedFlagMarker;
 import pl.edu.icm.saos.enrichment.hash.EnrichmentTagLawJournalEntryReader;
 import pl.edu.icm.saos.enrichment.hash.EnrichmentTagLawJournalEntryWriter;
 import pl.edu.icm.saos.enrichment.hash.JudgmentEnrichmentTags;
-import pl.edu.icm.saos.enrichment.hash.EnrichmentHashProcessedFlagMarker;
 import pl.edu.icm.saos.enrichment.hash.MarkChangedTagJudgmentsAsNotIndexedReader;
 import pl.edu.icm.saos.enrichment.hash.MarkChangedTagJudgmentsAsNotIndexedWriter;
 import pl.edu.icm.saos.enrichment.hash.UpdateEnrichmentHashProcessor;
@@ -31,7 +30,6 @@ import pl.edu.icm.saos.persistence.model.LawJournalEntry;
  * @author madryk
  */
 @Configuration
-@ComponentScan
 public class TagPostUploadJobConfiguration {
 
     @Autowired
