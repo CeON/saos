@@ -102,6 +102,28 @@
     </model> <!-- ZGSR -->
   </court> <!-- ZGSR -->
 
+  <court id="15500535">
+    <model>
+      <name>Sąd Rejonowy w Kamiennej Górze</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15500540">
+    <model>
+      <name>Sąd Rejonowy w Lwówku Śląskim</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15501000">
     <model> <!-- LESO -->
       <name>Sąd Okręgowy w Legnicy</name>
@@ -318,6 +340,17 @@
       </departments> <!-- SRSTRZELCE -->
     </model> <!-- SRSTRZELCE -->
   </court> <!-- SRSTRZELCE -->
+
+  <court id="15501550">
+    <model>
+      <name>Sąd Rejonowy w Oleśnie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15502000">
     <model> <!-- SOSWIDNICA -->
@@ -571,6 +604,7 @@
         <department id="0002021">IV Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SRWS -->
         <department id="0002506">V Wydział Karny</department> <!-- SRWS -->
         <department id="0003006">VI Wydział Karny</department> <!-- SRWS -->
+        <department id="0003503">VII Wydział Cywilny</department> <!-- SRWS -->
         <department id="0004003">VIII Wydział Cywilny</department> <!-- SRWS -->
         <department id="0004503">IX Wydział Cywilny</department> <!-- SRWS -->
         <department id="0005021">X Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SRWS -->
@@ -685,7 +719,7 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRLM -->
         <department id="0001509">III Wydział Rodzinny</department> <!-- SRLM -->
         <department id="0002021">IV Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SRLM -->
-        <department id="0002521">V Wydział Gospodarczy</department> <!-- SRLM -->
+        <department id="0002527">V Wydział Gospodarczy</department> <!-- SRLM -->
         <department id="0523506">VII Zamiejscowy Wydział Karny w Kolnie</department> <!-- SRLM -->
         <department id="1024003">VIII Zamiejscowy Wydział Cywilny w Grajewie</department> <!-- SRLM -->
         <department id="1524506">IX Zamiejscowy Wydział Karny w Grajewie</department> <!-- SRLM -->
@@ -710,6 +744,28 @@
       </departments> <!-- SRZAMB -->
     </model> <!-- SRZAMB -->
   </court><!-- SRZAMB -->
+
+  <court id="15051015">
+    <model>
+      <name>Sąd Rejonowy w Wysokiem Mazowieckiem</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15051020">
+    <model>
+      <name>Sąd Rejonowy w Grajewie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15051500"> <!-- SOOLSZT -->
     <model> <!-- SOOLSZT -->
@@ -837,6 +893,17 @@
       </departments><!-- SRSZCZYT -->
     </model><!-- SRSZCZYT -->
   </court><!-- SRSZCZYT -->
+
+  <court id="15051535">
+    <model>
+      <name>Sąd Rejonowy w Piszu</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15052000"> <!-- SOSUW -->
     <model> <!-- SOSUW -->
@@ -988,6 +1055,17 @@
     </model><!-- SRWYSZ -->
   </court><!-- SRWYSZ -->
 
+  <court id="15052525">
+    <model>
+      <name>Sąd Rejonowy w Pułtusku</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
 
   <court id="15100000">
     <model>
@@ -1039,6 +1117,7 @@
         <department id="0003012">VI Wydział Rodzinny i Nieletnich</department> <!-- SRBG -->
         <department id="0003521">VII Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SRBG -->
         <department id="0004027">VIII Wydział Gospodarczy</department> <!-- SRBG -->
+        <department id="0004506">IX Wydział Karny</department> <!-- SRBG -->
         <department id="0005024">X Wydział Ksiąg Wieczystych</department> <!-- SRBG -->
         <department id="0005506">XI Wydział Karny</department> <!-- SRBG -->
         <department id="0006003">XII Wydział Cywilny</department> <!-- SRBG -->
@@ -1065,10 +1144,10 @@
         <department id="0002015">IV Wydział Pracy</department> <!-- SRIN -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRIN -->
         <department id="0003006">VI Wydział Karny</department> <!-- SRIN -->
-        <department id="0003503">VII Zamiejscowy Wydział Cywilny</department> <!-- SRIN -->
-        <department id="0004006">VIII Zamiejscowy Wydział Karny</department> <!-- SRIN -->
-        <department id="0004512">IX Zamiejscowy Wydział Rodzinny i Nieletnich</department> <!-- SRIN -->
-        <department id="0005024">X Zamiejscowy Wydział Ksiąg Wieczystych</department> <!-- SRIN -->
+        <department id="3520003">VII Zamiejscowy Wydział Cywilny</department> <!-- SRIN -->
+        <department id="4020006">VIII Zamiejscowy Wydział Karny</department> <!-- SRIN -->
+        <department id="4520012">IX Zamiejscowy Wydział Rodzinny i Nieletnich</department> <!-- SRIN -->
+        <department id="5020024">X Zamiejscowy Wydział Ksiąg Wieczystych</department> <!-- SRIN -->
       </departments> <!-- SRIN -->
     </model> <!-- SRIN -->
   </court> <!-- SRIN -->
@@ -1086,14 +1165,9 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRSZU -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRSZU -->
         <department id="0002024">IV Wydział Ksiąg Wieczystych</department> <!-- SRSZU -->
-        <department id="0002503">V  Zamiejscowy Wydział Cywilny</department> <!-- SRSZU -->
-        <department id="0003006">VI Zamiejscowy Wydział Karny</department> <!-- SRSZU -->
-        <department id="0003512">VII Zamiejscowy Wydział Rodzinny i Nieletnich</department> <!-- SRSZU -->
-        <department id="0004024">VIII Zamiejscowy Wydział Ksiąg Wieczystych</department> <!-- SRSZU -->
-        <department id="0004503">IX Zamiejscowy Wydział Cywilny</department> <!-- SRSZU -->
-        <department id="0005006">X Zamiejscowy Wydział Karny</department> <!-- SRSZU -->
-        <department id="0005012">XI Zamiejscowy Wydział Rodzinny i Nieletnich</department> <!-- SRSZU -->
-        <department id="0005024">XII Zamiejscowy Wydział Ksiąg Wieczystych</department> <!-- SRSZU -->
+        <department id="4520003">IX Zamiejscowy Wydział Cywilny z siedzibą w Żninie</department> <!-- SRSZU -->
+        <department id="5020006">X Zamiejscowy Wydział Karny z siedzibą w Żninie</department> <!-- SRSZU -->
+        <department id="5520012">XI Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Żninie</department> <!-- SRSZU -->
       </departments> <!-- SRSZU -->
     </model> <!-- SRSZU -->
   </court> <!-- SRSZU -->
@@ -1115,6 +1189,28 @@
       </departments> <!-- SRSW -->
     </model> <!-- SRSW -->
   </court> <!-- SRSW -->
+
+  <court id="15100525">
+    <model>
+      <name>Sąd Rejonowy w Nakle nad Notecią</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15100530">
+    <model>
+      <name>Sąd Rejonowy w Tucholi</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15101000"> <!-- SOE -->
     <model> <!-- SOE -->
@@ -1167,6 +1263,7 @@
         <department id="0003554">VII Wydział Wykonywania Orzeczeń Sądowych</department> <!-- SRE -->
         <department id="0004006">VIII Wydział Karny</department> <!-- SRE -->
         <department id="0004503">IX Wydział Cywilny</department> <!-- SRE -->
+        <department id="0005003">X Wydział Cywilny</department> <!-- SRE -->
       </departments>  <!-- SRE -->
     </model> <!-- SRE -->
   </court> <!-- SRE -->
@@ -1184,10 +1281,10 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRIL -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRIL -->
         <department id="0002527">V Wydział Ksiąg Wieczystych</department> <!-- SRIL -->
-        <department id="0003003">VI Zamiejscowy Wydział Cywilny</department> <!-- SRIL -->
-        <department id="0003506">VII Zamiejscowy Wydział Karny</department> <!-- SRIL -->
-        <department id="0004012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich</department> <!-- SRIL -->
-        <department id="0004527">IX Zamiejscowy Wydział Ksiąg Wieczystych</department> <!-- SRIL -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny w Nowym Mieście Lubawskim</department> <!-- SRIL -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny w Nowym Mieście Lubawskim</department> <!-- SRIL -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich w Nowym Mieście Lubawskim</department> <!-- SRIL -->
+        <department id="4520027">IX Zamiejscowy Wydział Ksiąg Wieczystych w Nowym Mieście Lubawskim</department> <!-- SRIL -->
       </departments>  <!-- SRIL -->
     </model> <!-- SRIL -->
   </court> <!-- SRIL -->
@@ -1206,11 +1303,22 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SROS -->
         <department id="0002015">IV Wydział Pracy</department> <!-- SROS -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SROS -->
-        <department id="0003024">VI Zamiejscowy Wydział Ksiąg Wieczystych</department> <!-- SROS -->
-        <department id="0003506">VII Zamiejscowy Wydział Karny</department> <!-- SROS -->
+        <department id="3020024">VI Zamiejscowy Wydział Ksiąg Wieczystych w Morągu</department> <!-- SROS -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny w Morągu</department> <!-- SROS -->
       </departments>  <!-- SROS -->
     </model> <!-- SROS -->
   </court> <!-- SROS -->
+
+  <court id="15101025">
+    <model>
+      <name>Sąd Rejonowy w Działdowie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15101500"> <!-- SOGDA -->
     <model> <!-- SOGDA -->
@@ -1238,12 +1346,27 @@
     </model> <!-- SOGDA -->
   </court> <!-- SOGDA -->
 
-	<!--- <court id="15101505"> SRGDANSK POLUDNIE -->
+  <court id="15101505">
+    <model>
+      <name>Sąd Rejonowy Gdańsk-Południe w Gdańsku</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0002012">IV Wydział Rodzinny</department>
+        <department id="0002512">V Wydział Rodzinny</department>
+        <department id="0003021">VI Wydział Pracy</department>
+        <department id="0004006">VIII Wydział Karny</department>
+        <department id="0004503">IX Wydział Cywilny</department>
+        <department id="0005006">X Wydział Karny</department>
+        <department id="0006003">XII Wydział Cywilny</department>
+      </departments>
+    </model>
+  </court>
 
 
   <court id="15101510"> <!-- SRGDPLN -->
     <model> <!-- SRGDPLN -->
-      <name>Sąd Rejonowy Gdańsk-Północ</name> <!-- SRGDPLN -->
+      <name>Sąd Rejonowy Gdańsk-Północ w Gdańsku</name> <!-- SRGDPLN -->
       <excluded>true</excluded> <!-- SRGDPLN -->
        <!-- SRGDPLN -->
       <domain>orzeczenia.gdansk-polnoc.sr.gov.pl</domain> <!-- SRGDPLN -->
@@ -1266,9 +1389,32 @@
     </model> <!-- SRGDPLN -->
   </court> <!-- SRGDPLN -->
 
-	<!--- <court id="15101515"> SR GDYNIA -->
+  <court id="15101515">
+    <model>
+      <name>Sąd Rejonowy w Gdyni</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+        <department id="0002015">IV Wydział Pracy</department>
+        <department id="0003027">VI Wydział Gospodarczy</department>
+        <department id="0003503">VII Wydział Cywilny</department>
+        <department id="0004506">IX Wydział Karny</department>
+      </departments>
+    </model>
+  </court>
 
-	<!--- <court id="15101520"> SR KARTUZY -->
+  <court id="15101520">
+    <model>
+      <name>Sąd Rejonowy w Kartuzach</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+        <department id="0002015">IV Wydział Pracy</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15101525"> <!-- SRKWIDZ -->
     <model> <!-- SRKWIDZ -->
@@ -1306,7 +1452,16 @@
     </model> <!-- SRMALB -->
   </court> <!-- SRMALB -->
 
-	<!--- <court id="15101535"> SR SOPOT -->
+  <court id="15101535">
+    <model>
+      <name>Sąd Rejonowy w Sopocie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15101540"> <!-- SRSTGD -->
     <model> <!-- SRSTGD -->
@@ -1325,9 +1480,39 @@
     </model> <!-- SRSTGD -->
   </court> <!-- SRSTGD -->
 
-	<!--- <court id="15101545"> SR TCZEWIE -->
+  <court id="15101545">
+    <model>
+      <name>Sąd Rejonowy w Tczewie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
-	<!--- <court id="15101550"> SR WEJHEROWO -->
+  <court id="15101550">
+    <model>
+      <name>Sąd Rejonowy w Wejherowie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+        <department id="4520006">IX Zamiejscowy Wydział Karny z siedzibą w Pucku</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15101555">
+    <model>
+      <name>Sąd Rejonowy w Kościerzynie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15102000"> <!-- SOS -->
     <model> <!-- SOS -->
@@ -1389,6 +1574,9 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRLEB	-->
         <department id="0001512">III Wydział Rodzinny</department> <!-- SRLEB	-->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRLEB	-->
+        <department id="3000003">VI Zamiejscowy Wydział Cywilny z siedzibą w Bytowie</department> <!-- SRLEB -->
+        <department id="3500006">VII Zamiejscowy Wydział Karny z siedzibą w Bytowie</department> <!-- SRLEB -->
+        <department id="4000012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Bytowie</department> <!-- SRLEB -->
       </departments>  <!-- SRLEB	-->
     </model> <!-- SRLEB	-->
   </court> <!-- SRLEB	-->
@@ -1408,6 +1596,9 @@
         <department id="0003524">VII Wydział Ksiąg Wieczystych</department> <!-- SRSLUPSK	-->
         <department id="0004503">IX Wydział Cywilny</department> <!-- SRSLUPSK	-->
         <department id="0007006">XIV Wydział Karny</department> <!-- SRSLUPSK	-->
+        <department id="7520003">XV Zamiejscowy Wydział Cywilny</department> <!-- SRSLUPSK   -->
+        <department id="8020006">XVI Zamiejscowy Wydział Karny</department> <!-- SRSLUPSK   -->
+        <department id="8520012">XVII Zamiejscowy Wydział Rodzinny i Nieletnich</department> <!-- SRSLUPSK   -->
       </departments>  <!-- SRSLUPSK	-->
     </model> <!-- SRSLUPSK	-->
   </court> <!-- SRSLUPSK	-->
@@ -1442,6 +1633,9 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRBRODNICA	-->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRBRODNICA	-->
         <department id="0002024">IV Wydział Ksiąg Wieczystych</department> <!-- SRBRODNICA	-->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Golubiu-Dobrzyniu</department> <!-- SRBRODNICA  -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Golubiu-Dobrzyniu</department> <!-- SRBRODNICA  -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Golubiu-Dobrzyniu</department> <!-- SRBRODNICA  -->
       </departments>  <!-- SRBRODNICA	-->
     </model> <!-- SRBRODNICA	-->
   </court> <!-- SRBRODNICA	-->
@@ -1456,9 +1650,9 @@
         <department id="0000503">I Wydział Cywilny</department> <!-- SRCHELMNO	-->
         <department id="0001006">II Wydział Karny</department> <!-- SRCHELMNO	-->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRCHELMNO	-->
-        <department id="0002015">IV Wydział Pracy</department> <!-- SRCHELMNO	-->
-        <department id="0003024">VI Wydział Ksiąg Wieczystych</department> <!-- SRCHELMNO	-->
-        <department id="0003506">VII Wydział Karny</department> <!-- SRCHELMNO	-->
+        <department id="0522503">VI Zamiejscowy Wydział Cywilny z siedzibą w Wąbrzeźnie</department> <!-- SRCHELMNO  -->
+        <department id="1023006">VII Zamiejscowy Wydział Karny z siedzibą w Wąbrzeźnie</department> <!-- SRCHELMNO  -->
+        <department id="1523512">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Wąbrzeźnie</department> <!-- SRCHELMNO  -->
       </departments>  <!-- SRCHELMNO	-->
     </model> <!-- SRCHELMNO	-->
   </court> <!-- SRCHELMNO	-->
@@ -1530,6 +1724,9 @@
         <department id="0001006">II Wydział Karny</department><!-- SRALEKSKUJ	-->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRALEKSKUJ	-->
         <department id="0002024">IV Wydział Ksiąg Wieczystych</department> <!-- SRALEKSKUJ	-->
+        <department id="2520003">V Zamiejscowy Wydział Cywilny</department> <!-- SRALEKSKUJ  -->
+        <department id="3020006">VI Zamiejscowy Wydział Karny</department> <!-- SRALEKSKUJ  -->
+        <department id="3520012">VII Zamiejscowy Wydział Rodzinny i Nieletnich</department> <!-- SRALEKSKUJ  -->
       </departments>  <!-- SRALEKSKUJ	-->
     </model> <!-- SRALEKSKUJ	-->
   </court> <!-- SRALEKSKUJ	-->
@@ -1545,6 +1742,9 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRLIPNO	-->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRLIPNO	-->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRLIPNO	-->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Rypinie</department> <!-- SRLIPNO  -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Rypinie</department> <!-- SRLIPNO  -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Rypinie</department> <!-- SRLIPNO  -->
       </departments>  <!-- SRLIPNO	-->
     </model> <!-- SRLIPNO	-->
   </court> <!-- SRLIPNO	-->
@@ -1641,7 +1841,7 @@
       <domain>orzeczenia.zywiec.sr.gov.pl</domain> <!-- SRZYW -->
       <abbrev>SRZYW</abbrev> <!-- SRZYW -->
       <departments> <!-- SRZYW -->
-        <department id="0000503">I Wydział Cywilny Nieprocesowy</department> <!-- SRZYW -->
+        <department id="0000503">I Wydział Cywilny</department> <!-- SRZYW -->
         <department id="0001006">II Wydział Karny</department> <!-- SRZYW -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRZYW -->
         <department id="0002015">IV Wydział Pracy</department> <!-- SRZYW -->
@@ -1674,7 +1874,7 @@
       <domain>orzeczenia.czestochowa.sr.gov.pl</domain> <!-- SRCZEST -->
       <abbrev>SRCZEST</abbrev> <!-- SRCZEST -->
       <departments> <!-- SRCZEST -->
-        <department id="0000503">I Wydział Cywilny Nieprocesowy</department> <!-- SRCZEST -->
+        <department id="0000503">I Wydział Cywilny</department> <!-- SRCZEST -->
         <department id="0001003">II Wydział Cywilny</department> <!-- SRCZEST -->
         <department id="0001506">III Wydział Karny</department> <!-- SRCZEST -->
         <department id="0002006">IV Wydział Karny</department> <!-- SRCZEST -->
@@ -1869,6 +2069,7 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRTGORY -->
         <department id="0002015">IV Wydział Pracy</department> <!-- SRTGORY -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRTGORY -->
+        <department id="3020006">VI Zamiejscowy Wydział Karny</department> <!-- SRTGORY -->
       </departments> <!-- SRTGORY -->
     </model> <!-- SRTGORY -->
   </court> <!-- SRTGORY -->
@@ -2239,6 +2440,12 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRBUSKO -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRBUSKO -->
         <department id="0002024">IV Wydział Ksiąg Wieczystych</department> <!-- SRBUSKO -->
+        <department id="0002024">V Zamiejscowy Wydział Cywilny z siedzibą w Kazimierzy Wielkej</department> <!-- SRBUSKO -->
+        <department id="3020006">VI Zamiejscowy Wydział Karny z siedzibą w Kazimierzy Wielkej</department> <!-- SRBUSKO -->
+        <department id="3520012">VII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Kazimierzy Wielkej</department> <!-- SRBUSKO -->
+        <department id="4520003">IX Zamiejscowy Wydział Cywilny z siedzibą w Pińczowie</department> <!-- SRBUSKO -->
+        <department id="5020006">X Zamiejscowy Wydział Karny z siedzibą w Pińczowie</department> <!-- SRBUSKO -->
+        <department id="5520012">XI Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Pińczowie</department> <!-- SRBUSKO -->
       </departments> <!-- SRBUSKO -->
     </model> <!-- SRBUSKO -->
   </court> <!-- SRBUSKO -->
@@ -2255,6 +2462,9 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department>  <!-- SRJEDRZ -->
         <department id="0002015">IV Wydział Pracy</department>  <!-- SRJEDRZ -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department>  <!-- SRJEDRZ -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą we Włoszczowie</department>  <!-- SRJEDRZ -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą we Włoszczowie</department>  <!-- SRJEDRZ -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą we Włoszczowie</department>  <!-- SRJEDRZ -->
       </departments>  <!-- SRJEDRZ -->
     </model>  <!-- SRJEDRZ -->
   </court>  <!-- SRJEDRZ -->
@@ -2310,7 +2520,9 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department>  <!-- SROSTROWIEC -->
         <department id="0002015">IV Wydział Pracy</department>  <!-- SROSTROWIEC -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department>  <!-- SROSTROWIEC -->
-        <department id="0003042">VI Wydział Grodzki</department>  <!-- SROSTROWIEC -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Opatowie</department>  <!-- SROSTROWIEC -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Opatowie</department>  <!-- SROSTROWIEC -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Opatowie</department>  <!-- SROSTROWIEC -->
       </departments>  <!-- SROSTROWIEC -->
     </model>  <!-- SROSTROWIEC -->
   </court>  <!-- SROSTROWIEC -->
@@ -2327,6 +2539,9 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department>  <!-- SRSANDO -->
         <department id="0002015">IV Wydział Pracy</department>  <!-- SRSANDO -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department>  <!-- SRSANDO -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Staszowie</department>  <!-- SRSANDO -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Staszowie</department>  <!-- SRSANDO -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinnych i Nieletnich z siedzibą w Staszowie</department>  <!-- SRSANDO -->
       </departments>  <!-- SRSANDO -->
     </model>  <!-- SRSANDO -->
   </court>  <!-- SRSANDO -->
@@ -2362,6 +2577,28 @@
       </departments>  <!-- SRSTARA -->
     </model>  <!-- SRSTARA -->
   </court>  <!-- SRSTARA -->
+
+  <court id="15200545">
+    <model>
+      <name>Sąd Rejonowy w Opatowie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15200550">
+    <model>
+      <name>Sąd Rejonowy w Staszowie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15201000">
     <model>
@@ -2471,6 +2708,9 @@
         <department id="0005536">XI Wydział Gospodarczy Krajowego Rejestru Sądowego</department>  <!-- SRKRASR -->
         <department id="0006036">XII Wydział Gospodarczy Krajowego Rejestru Sądowego</department>  <!-- SRKRASR -->
         <department id="0007006">XIV Wydział Karny</department>  <!-- SRKRASR -->
+        <department id="7520003">XV Zamiejscowy Wydział Cywilny z siedzibą w Miechowie</department>  <!-- SRKRASR -->
+        <department id="8020006">XVI Zamiejscowy Wydział Karny z siedzibą w Miechowie</department>  <!-- SRKRASR -->
+        <department id="8520012">XVII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Miechowie</department>  <!-- SRKRASR -->
       </departments>  <!-- SRKRASR -->
     </model>  <!-- SRKRASR -->
   </court>  <!-- SRKRASR -->
@@ -2549,6 +2789,17 @@
     </model> <!-- SRWIELI -->
   </court>  <!-- SRWIELI -->
 
+  <court id="15201055">
+    <model>
+      <name>Sąd Rejonowy w Suchej Beskidzkiej</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15201500"> <!-- SONS -->
     <model> <!-- SONS -->
       <name>Sąd Okręgowy w Nowym Sączu</name> <!-- SONS -->
@@ -2609,6 +2860,9 @@
         <department id="0002021">IV Wydział Pracy i Ubezpieczeń Społęcznych</department>  <!-- SRNOWYSACZ -->
         <department id="0002527">V Wydział Gospodarczy</department>  <!-- SRNOWYSACZ -->
         <department id="0003024">VI Wydział Ksiąg Wieczystych</department>  <!-- SRNOWYSACZ -->
+        <department id="3520003">VII Zamiejscowy Wydział Cywilny z siedzibą w Musznie</department>  <!-- SRNOWYSACZ -->
+        <department id="4020006">VIII Zamiejscowy Wydział Karny z siedzibą w Muszynie</department>  <!-- SRNOWYSACZ -->
+        <department id="4520012">IX Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Muszynie</department>  <!-- SRNOWYSACZ -->
       </departments>  <!-- SRNOWYSACZ -->
     </model> <!-- SRNOWYSACZ -->
   </court>  <!-- SRNOWYSACZ -->
@@ -2703,10 +2957,22 @@
         <department id="0002527">V Wydział Gospodarczy</department>  <!-- SRTARNOW -->
         <department id="0003024">VI Wydział Ksiąg Wieczystych</department>  <!-- SRTARNOW -->
         <department id="0003506">VII Wydział Karny</department>  <!-- SRTARNOW -->
+        <department id="5020003">X Zamiejscowy Cywilny z siedzibą w Tuchowie</department>  <!-- SRTARNOW -->
         <department id="0005554">XI Wydział Wykonawczy</department>  <!-- SRTARNOW -->
       </departments>  <!-- SRTARNOW -->
     </model> <!-- SRTARNOW -->
   </court>  <!-- SRTARNOW -->
+
+  <court id="15202020">
+    <model>
+      <name>Sąd Rejonowy w Dąbrowie Tarnowskiej</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15250000">
     <model><!-- SAL -->
@@ -2752,9 +3018,26 @@
         <department id="0001006">II Wydział Karny</department>  <!-- SRJAROC -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department>  <!-- SRJAROC -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department>  <!-- SRJAROC -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Pleszewie</department>  <!-- SRJAROC -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Pleszewie</department>  <!-- SRJAROC -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Pleszewie</department>  <!-- SRJAROC -->
       </departments>  <!-- SRJAROC -->
     </model> <!-- SRJAROC -->
   </court>  <!-- SRJAROC -->
+
+  <court id="15250510">
+    <model>
+      <name>Sąd Rejonowy w Kaliszu</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+        <department id="0002021">IV Wydział Pracy i Ubezpieczeń Społecznych</department>
+        <department id="0002527">V Wydział Gospodarczy</department>
+        <department id="0003506">VII Wydział Karny</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15250515"> <!-- SRKEPNO -->
     <model> <!-- SRKEPNO -->
@@ -2768,6 +3051,9 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department>  <!-- SRKEPNO -->
         <department id="0002015">IV Wydział Pracy</department>  <!-- SRKEPNO -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department>  <!-- SRKEPNO -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z Siedzibą w Ostrzeszowie</department>  <!-- SRKEPNO -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z Siedzibą w Ostrzeszowie</department>  <!-- SRKEPNO -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z Siedzibą w Ostrzeszowie</department>  <!-- SRKEPNO -->
       </departments>  <!-- SRKEPNO -->
     </model> <!-- SRKEPNO -->
   </court>  <!-- SRKEPNO -->
@@ -2787,6 +3073,28 @@
       </departments>  <!-- SROSTROW -->
     </model> <!-- SROSTROW -->
   </court>  <!-- SROSTROW -->
+
+  <court id="15250525">
+    <model>
+      <name>Sąd Rejonowy w Krotoszynie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15250530">
+    <model>
+      <name>Sąd Rejonowy w Pleszewie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15251000">
     <model><!-- SOL -->
@@ -2836,24 +3144,21 @@
       <domain>orzeczenia.lodz.sr.gov.pl</domain>  <!-- SRLODZSR -->
       <abbrev>SRLODZSR</abbrev> <!-- SRLODZSR -->
       <departments> <!-- SRLODZSR -->
-        <department id="0000503">I Wydział Cywilny </department>  <!-- SRLODZSR -->
-        <department id="0001003">II Wydział Cywilny</department>  <!-- SRLODZSR -->
-        <department id="0001503">III Wydział Cywilny</department>  <!-- SRLODZSR -->
-        <department id="0002006">IV Wydział Karny</department>  <!-- SRLODZSR -->
-        <department id="0002506">V Wydział Karny</department> <!-- SRLODZSR -->
-        <department id="0003006">VI Wydział Karny</department> <!-- SRLODZSR -->
-        <department id="0003512">VII Wydział Rodzinny i Nieletnich</department> <!-- SRLODZSR -->
-        <department id="0004012">VIII Wydział Rodzinny i Nieletnich</department> <!-- SRLODZSR -->
-        <department id="0004512">IX Wydział Rodzinny i Nieletnich</department> <!-- SRLODZSR -->
-        <department id="0005021">X Wydział Pracy i Ubezpieczeń Społecznych </department> <!-- SRLODZSR -->
-        <department id="0005521">XI Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SRLODZSR -->
-        <department id="0006027">XII Wydział Gospodarczy</department> <!-- SRLODZSR -->
-        <department id="0006527">XIII Wydział Gospodarczy</department> <!-- SRLODZSR -->
-        <department id="0007027">XIV Wydział Gospodarczy</department> <!-- SRLODZSR -->
-        <department id="0007533">XV Wydział Gospodarczy Rejestru Zastawów</department> <!-- SRLODZSR -->
-        <department id="0008024">XVI Wydział Ksiąg Wieczystych</department> <!-- SRLODZSR -->
-        <department id="0008506">XVII Wydział Karny</department> <!-- SRLODZSR -->
-        <department id="0009003">XVIII Wydział Cywilny</department> <!-- SRLODZSR -->
+        <department id="0000303">I Wydział Cywilny </department>  <!-- SRLODZSR -->
+        <department id="0000603">II Wydział Cywilny</department>  <!-- SRLODZSR -->
+        <department id="0000903">III Wydział Cywilny</department>  <!-- SRLODZSR -->
+        <department id="0001206">IV Wydział Karny</department>  <!-- SRLODZSR -->
+        <department id="0001506">V Wydział Karny</department> <!-- SRLODZSR -->
+        <department id="0001806">VI Wydział Karny</department> <!-- SRLODZSR -->
+        <department id="0002112">VII Wydział Rodzinny i Nieletnich</department> <!-- SRLODZSR -->
+        <department id="0002412">VIII Wydział Rodzinny i Nieletnich</department> <!-- SRLODZSR -->
+        <department id="0002712">IX Wydział Rodzinny i Nieletnich</department> <!-- SRLODZSR -->
+        <department id="0003021">X Wydział Pracy i Ubezpieczeń Społecznych </department> <!-- SRLODZSR -->
+        <department id="0003321">XI Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SRLODZSR -->
+        <department id="0003627">XII Wydział Gospodarczy</department> <!-- SRLODZSR -->
+        <department id="0003927">XIII Wydział Gospodarczy</department> <!-- SRLODZSR -->
+        <department id="0005106">XVII Wydział Karny</department> <!-- SRLODZSR -->
+        <department id="0005403">XVIII Wydział Cywilny</department> <!-- SRLODZSR -->
       </departments>  <!-- SRLODZSR -->
     </model> <!-- SRLODZSR -->
   </court>  <!-- SRLODZSR -->
@@ -2940,6 +3245,39 @@
       </departments>  <!-- SRZGIERZ -->
     </model> <!-- SRZGIERZ -->
   </court>  <!-- SRZGIERZ -->
+
+  <court id="15251040">
+    <model>
+      <name>Sąd Rejonowy w Brzezinach</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15251045">
+    <model>
+      <name>Sąd Rejonowy w Łęczycy</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15251050">
+    <model>
+      <name>Sąd Rejonowy w Rawie Mazowieckiej</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15251500">
     <model><!-- SOPT -->
@@ -3078,6 +3416,7 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRLASK -->
         <department id="0002015">IV Wydział Pracy</department>  <!-- SRLASK -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRLASK -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny w Poddębicach</department> <!-- SRLASK -->
       </departments> <!-- SRLASK -->
     </model> <!-- SRLASK -->
   </court> <!-- SRLASK -->
@@ -3115,6 +3454,8 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRWIELUN -->
         <department id="0002015">IV Wydział Pracy</department>  <!-- SRWIELUN -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRWIELUN -->
+        <department id="3020006">VI Zamiejscowy Wydział Karny z siedzibą w Pajęcznie</department> <!-- SRWIELUN -->
+        <department id="4020003">VIII Zamiejscowy Wydział Cywilny z siedzibą w Pajęcznie</department> <!-- SRWIELUN -->
       </departments> <!-- SRWIELUN -->
     </model> <!-- SRWIELUN -->
   </court> <!-- SRWIELUN -->
@@ -3280,6 +3621,17 @@
     </model>  <!-- SRZYR -->
   </court>  <!-- SRZYR -->
 
+  <court id="15252540">
+    <model>
+      <name>Sąd Rejonowy w Sierpcu</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15300000">
     <model><!-- SALU -->
       <name>Sąd Apelacyjny w Lublinie</name><!-- SALU -->
@@ -3351,6 +3703,9 @@
         <department id="0002015">IV Wydział Pracy</department>   <!-- SRCHELM -->
         <department id="0003024">VI Wydział Ksiąg Wieczystych</department>   <!-- SRCHELM -->
         <department id="0003506">VII Wydział Karny</department>   <!-- SRCHELM -->
+        <department id="0524003">VIII Zamiejscowy Wydział Cywilny z siedzibą we Włodawie</department>   <!-- SRCHELM -->
+        <department id="0524506">IX Zamiejscowy Wydział Karny z siedzibą we Włodawie</department>   <!-- SRCHELM -->
+        <department id="0525012">X Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą we Włodawie</department>   <!-- SRCHELM -->
       </departments>  <!-- SRCHELM -->
     </model>  <!-- SRCHELM -->
   </court>  <!-- SRCHELM -->
@@ -3486,6 +3841,28 @@
     </model> <!-- SRRADZYN -->
   </court>  <!-- SRRADZYN -->
 
+  <court id="15300550">
+    <model>
+      <name>Sąd Rejonowy w Opolu Lubelskim</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15300555">
+    <model>
+      <name>Sąd Rejonowy w Rykach</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15301000">
     <model><!-- SORAD -->
       <name>Sąd Okręgowy w Radomiu</name><!-- SORAD -->
@@ -3551,6 +3928,9 @@
         <department id="0001006">II Wydział Karny</department>  <!-- SRPRZYS -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRPRZYS -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRPRZYS -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Szydłowcu</department> <!-- SRPRZYS -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Szydłowcu</department> <!-- SRPRZYS -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Szydłowcu</department> <!-- SRPRZYS -->
       </departments>  <!-- SRPRZYS -->
     </model> <!-- SRPRZYS -->
   </court>  <!-- SRPRZYS -->
@@ -3577,6 +3957,20 @@
       </departments>  <!-- SRRADOM -->
     </model> <!-- SRRADOM -->
   </court>  <!-- SRRADOM -->
+
+  <court id="15301025">
+    <model>
+      <name>Sąd Rejonowy w Zwoleniu</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Lipsku</department>
+        <department id="3520006">VII Zamiejscowy Wydział Karny w Lipsku</department>
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich w Lipsku</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15301500">
     <model><!-- SOSIEDL -->
@@ -3662,9 +4056,23 @@
         <department id="0001006">II Wydział Karny</department>  <!-- SRWEGROW -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRWEGROW -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department>  <!-- SRWEGROW -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Sokołowie Podlaskim</department>  <!-- SRWEGROW -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Sokołowie Podlaskim</department>  <!-- SRWEGROW -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Sokołowie Podlaskim</department>  <!-- SRWEGROW -->
       </departments>  <!-- SRWEGROW -->
     </model> <!-- SRWEGROW -->
   </court>  <!-- SRWEGROW -->
+
+  <court id="15301525">
+    <model>
+      <name>Sąd Rejonowy w Sokołowie Podlaskim</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15302000">
     <model><!-- SOZAM -->
@@ -3695,6 +4103,9 @@
         <department id="0001006">II Wydział Karny</department>  <!-- SRBILGO -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRBILGO -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department>  <!-- SRBILGO -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Janowie Lubelskim</department>  <!-- SRBILGO -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Janowie Lubelskim</department>  <!-- SRBILGO -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Janowie Lubelskim</department>  <!-- SRBILGO -->
       </departments>  <!-- SRBILGO -->
     </model> <!-- SRBILGO -->
   </court>  <!-- SRBILGO -->
@@ -3753,6 +4164,17 @@
       </departments><!-- SRZAMOSC -->
     </model> <!-- SRZAMOSC -->
   </court>  <!-- SRZAMOSC -->
+
+  <court id="15302025">
+    <model>
+      <name>Sąd Rejonowy w Krasnymstawie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15350000">
     <model><!-- SAP -->
@@ -3836,6 +4258,17 @@
     </model> <!-- SRTUREK -->
   </court>  <!-- SRTUREK -->
 
+  <court id="15350520">
+    <model>
+      <name>Sąd Rejonowy w Słupcy</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15351000">
     <model><!-- SOPOZ -->
       <name>Sąd Okręgowy w Poznaniu</name><!-- SOPOZ -->
@@ -3899,6 +4332,28 @@
     </model> <!-- SRGRWLKP -->
   </court>  <!-- SRGRWLKP -->
 
+  <court id="15351011">
+    <model>
+      <name>Sąd Rejonowy w Nowym Tomyślu</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15351012">
+    <model>
+      <name>Sąd Rejonowy w Wolsztynie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15351015"> <!-- SRKOSCIAN -->
     <model>  <!-- SRKOSCIAN -->
       <name>Sąd Rejonowy w Kościanie</name>  <!-- SRKOSCIAN -->
@@ -3916,6 +4371,17 @@
       </departments> <!-- SRKOSCIAN -->
     </model> <!-- SRKOSCIAN -->
   </court>  <!-- SRKOSCIAN -->
+
+  <court id="15351016">
+    <model>
+      <name>Sąd Rejonowy w Śremie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15351020"> <!-- SRLESZNO -->
     <model>  <!-- SRLESZNO -->
@@ -3936,6 +4402,28 @@
     </model> <!-- SRLESZNO -->
   </court>  <!-- SRLESZNO -->
 
+  <court id="15351021">
+    <model>
+      <name>Sąd Rejonowy w Gostyniu</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15351022">
+    <model>
+      <name>Sąd Rejonowy w Rawiczu</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15351025"> <!-- SRPILA -->
     <model>  <!-- SRPILA -->
       <name>Sąd Rejonowy w Pile</name>  <!-- SRPILA -->
@@ -3955,6 +4443,17 @@
     </model> <!-- SRPILA -->
   </court>  <!-- SRPILA -->
 
+  <court id="15351026">
+    <model>
+      <name>Sąd Rejonowy w Złotowie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15351030"> <!-- SRPOZGRU -->
     <model>  <!-- SRPOZGRU -->
       <name>Sąd Rejonowy Poznań-Grunwald i Jeżyce w Poznaniu</name>  <!-- SRPOZGRU -->
@@ -3968,8 +4467,8 @@
         <department id="0001003">II Wydział Cywilny</department>  <!-- SRPOZGRU -->
         <department id="0001506">III Wydział Karny</department> <!-- SRPOZGRU -->
         <department id="0002012">IV Wydział Rodzinny i Nieletnich</department> <!-- SRPOZGRU -->
-        <department id="0002515">V Wydział Pracy</department>  <!-- SRPOZGRU -->
-        <department id="0003018">VI Wydział Ubezpieczeń Społecznych</department>  <!-- SRPOZGRU -->
+        <department id="0002521">V Wydział Pracy i Ubezpieczeń Społecznych</department>  <!-- SRPOZGRU -->
+        <department id="0003021">VI Wydział Pracy i Ubezpieczeń Społecznych</department>  <!-- SRPOZGRU -->
         <department id="0004006">VIII Wydział Karny</department>  <!-- SRPOZGRU -->
         <department id="0004503">IX Wydział Cywilny</department>  <!-- SRPOZGRU -->
       </departments> <!-- SRPOZGRU -->
@@ -4041,6 +4540,17 @@
     </model> <!-- SRSZAM -->
   </court>  <!-- SRSZAM -->
 
+  <court id="15351046">
+    <model>
+      <name>Sąd Rejonowy w Obornikach</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15351050"> <!-- SRSRWLKP -->
     <model>  <!-- SRSRWLKP -->
       <name>Sąd Rejonowy w Środzie Wielkopolskiej</name>  <!-- SRSRWLKP -->
@@ -4058,6 +4568,17 @@
       </departments> <!-- SRSRWLKP -->
     </model> <!-- SRSRWLKP -->
   </court>  <!-- SRSRWLKP -->
+
+  <court id="15351051">
+    <model>
+      <name>Sąd Rejonowy we Wrześni</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15351055"> <!-- SRTRZCIANKA -->
     <model>  <!-- SRTRZCIANKA -->
@@ -4093,6 +4614,17 @@
     </model> <!-- SRWAGRO -->
   </court>  <!-- SRWAGRO -->
 
+  <court id="15351061">
+    <model>
+      <name>Sąd Rejonowy w Chodzieży</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15351500">
     <model><!-- SOZG -->
       <name>Sąd Okręgowy w Zielonej Górze</name><!-- SOZG -->
@@ -4120,6 +4652,7 @@
         <department id="0000503">I Wydział Cywilny</department> <!-- SRKROSNOO -->
         <department id="0001006">II Wydział Karny</department> <!-- SRKROSNOO -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRKROSNOO -->
+        <department id="2020006">IV Zamiejscowy Wydział Karny z siedzibą w Gubinie</department> <!-- SRKROSNOO -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRKROSNOO -->
       </departments><!-- SRKROSNOO -->
     </model><!-- SRKROSNOO -->
@@ -4137,6 +4670,9 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRNOWAS -->
         <department id="0002015">IV Wydział Pracy</department> <!-- SRNOWAS -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRNOWAS -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą we Wschowie</department> <!-- SRNOWAS -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą we Wschowie</department> <!-- SRNOWAS -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą we Wschowie</department> <!-- SRNOWAS -->
       </departments> <!-- SRNOWAS -->
     </model> <!-- SRNOWAS -->
   </court> <!-- SRNOWAS -->
@@ -4153,6 +4689,7 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRSWIEBODZIN -->
         <department id="0002015">IV Wydział Pracy</department> <!-- SRSWIEBODZIN -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRSWIEBODZIN -->
+        <department id="0523006">VI Zamiejscowy Wydział Karny w Sulechowie</department> <!-- SRSWIEBODZIN -->
       </departments> <!-- SRSWIEBODZIN -->
     </model> <!-- SRSWIEBODZIN -->
   </court> <!-- SRSWIEBODZIN -->
@@ -4264,6 +4801,9 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRKROSNO -->
         <department id="0002015">IV Wydział Pracy</department> <!-- SRKROSNO -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRKROSNO -->
+        <department id="3520003">VII Wydział Cywilny z siedzibą w Brzozowie</department> <!-- SRKROSNO -->
+        <department id="4020006">VIII Wydział Karny z siedzibą w Brzozowie</department> <!-- SRKROSNO -->
+        <department id="4520012">IX Wydział Rodzinny i Nieletnich z siedzibą w Brzozowie</department> <!-- SRKROSNO -->
       </departments> <!-- SRKROSNO -->
     </model> <!-- SRKROSNO -->
   </court> <!-- SRKROSNO -->
@@ -4279,6 +4819,7 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRLESKO -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRLESKO -->
         <department id="0002524">IV Wydział Ksiąg Wieczystych</department> <!-- SRLESKO -->
+        <department id="3020006">VI Zamiejscowy Wydział Karny z siedzibą w Ustrzykach Dolnych</department> <!-- SRLESKO -->
       </departments> <!-- SRLESKO -->
     </model> <!-- SRLESKO -->
   </court> <!-- SRLESKO -->
@@ -4327,6 +4868,9 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRDEBICA -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRDEBICA -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRDEBICA -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Ropczycach</department> <!-- SRDEBICA -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Ropczycach</department> <!-- SRDEBICA -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich w Ropczycach</department> <!-- SRDEBICA -->
       </departments> <!-- SRDEBICA -->
     </model> <!-- SRDEBICA -->
   </court> <!-- SRDEBICA -->
@@ -4355,15 +4899,30 @@
       <departments> <!-- SRRZESZOW -->
         <department id="0000503">I Wydział Cywilny</department> <!-- SRRZESZOW -->
         <department id="0001006">II Wydział Karny</department> <!-- SRRZESZOW -->
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRRZESZOW -->
         <department id="0002021">IV Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SRRZESZOW -->
         <department id="0002527">V Wydział Gospodarczy</department> <!-- SRRZESZOW -->
         <department id="0003024">VI Wydział Ksiąg Wieczystych</department> <!-- SRRZESZOW -->
         <department id="0004533">IX Wydział Gospodarczy Rejestru Zastawów</department> <!-- SRRZESZOW -->
         <department id="0005006">X Wydział Karny</department> <!-- SRRZESZOW -->
         <department id="0006036">XII Wydział Gospodarczy Krajowego Rejestru Sądowego</department> <!-- SRRZESZOW -->
+        <department id="6520003">XIII Zamiejscowy Wydział Cywilny z siedzibą w Strzyżowie</department> <!-- SRRZESZOW -->
+        <department id="7020006">XIV Zamiejscowy Wydział Karny z siedzibą w Strzyżowie</department> <!-- SRRZESZOW -->
+        <department id="7520012">XV Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Strzyżowie</department> <!-- SRRZESZOW -->
       </departments> <!-- SRRZESZOW -->
     </model> <!-- SRRZESZOW -->
   </court> <!-- SRRZESZOW -->
+
+  <court id="15401020">
+    <model>
+      <name>Sąd Rejonowy w Leżajsku</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
 
   <court id="15401500">
@@ -4394,6 +4953,9 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRMIELEC -->
         <department id="0002015">IV Wydział Pracy</department> <!-- SRMIELEC -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRMIELEC -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Kolbuszowej</department> <!-- SRMIELEC -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Kolbuszowej</department> <!-- SRMIELEC -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Kolbuszowej</department> <!-- SRMIELEC -->
       </departments> <!-- SRMIELEC -->
     </model> <!-- SRMIELEC -->
   </court> <!-- SRMIELEC -->
@@ -4407,8 +4969,8 @@
       <departments> <!-- SRSTALOWAW -->
         <department id="0000503">I Wydział Cywilny</department> <!-- SRSTALOWAW -->
         <department id="0001006">II Wydział Karny</department> <!-- SRSTALOWAW -->
-        <department id="0001521">III Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SRSTALOWAW -->
-        <department id="0002057">IV Wydział Wizytacji</department> <!-- SRSTALOWAW -->
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRSTALOWAW -->
+        <department id="0002015">IV Wydział Pracy</department> <!-- SRSTALOWAW -->
       </departments> <!-- SRSTALOWAW -->
     </model> <!-- SRSTALOWAW -->
   </court> <!-- SRSTALOWAW -->
@@ -4430,6 +4992,17 @@
       </departments> <!-- SRTARNOBRZEG -->
     </model> <!-- SRTARNOBRZEG -->
   </court> <!-- SRTARNOBRZEG -->
+
+  <court id="15401520">
+    <model>
+      <name>Sąd Rejonowy w Nisku</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15402000">
     <model><!-- SOPRZEM -->
@@ -4477,6 +5050,17 @@
       </departments> <!-- SRPRZEMYSL -->
     </model> <!-- SRPRZEMYSL -->
   </court> <!-- SRPRZEMYSL -->
+
+  <court id="15402015">
+    <model>
+      <name>Sąd Rejonowy w Przeworsku</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15550000">
     <model><!-- SASZ -->
@@ -4545,6 +5129,9 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRMIEDZY -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRMIEDZY -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRMIEDZY -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Sulęcinie</department> <!-- SRMIEDZY -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Sulęcinie</department> <!-- SRMIEDZY -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Sulęcinie</department> <!-- SRMIEDZY -->
       </departments> <!-- SRMIEDZY -->
     </model> <!-- SRMIEDZY -->
   </court> <!-- SRMIEDZY -->
@@ -4566,6 +5153,17 @@
       </departments> <!-- SRSLUBICE -->
     </model> <!-- SRSLUBICE -->
   </court> <!-- SRSLUBICE -->
+
+  <court id="15550520">
+    <model>
+      <name>Sąd Rejonowy w Strzelcach Krajeńskich</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15551000">
     <model><!-- SOKO -->
@@ -4599,6 +5197,7 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRBIALOGARD -->
         <department id="0002015">IV Wydział Pracy</department> <!-- SRBIALOGARD -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRBIALOGARD -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny</department> <!-- SRBIALOGARD -->
       </departments> <!-- SRBIALOGARD -->
     </model> <!-- SRBIALOGARD -->
   </court> <!-- SRBIALOGARD -->
@@ -4658,6 +5257,9 @@
         <department id="0004536">IX Wydział Krajowego Rejestru Sądowego</department> <!-- SRKOSZ -->
         <department id="0005006">X Wydział Karny</department> <!-- SRKOSZ -->
         <department id="0005539">XI Wydział Wykonywania Orzeczeń</department> <!-- SRKOSZ -->
+        <department id="6020003">XII Zamiejscowy Wydział Cywilny z siedzibą w Sławnie</department> <!-- SRKOSZ -->
+        <department id="6520006">XIII Zamiejscowy Wydział Karny z siedzibą w Sławnie</department> <!-- SRKOSZ -->
+        <department id="7020012">XIV Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Sławnie</department> <!-- SRKOSZ -->
       </departments> <!-- SRKOSZ -->
     </model> <!-- SRKOSZ -->
   </court> <!-- SRKOSZ -->
@@ -4749,6 +5351,9 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRGRYFICE -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRGRYFICE -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRGRYFICE -->
+        <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Łobzie</department> <!-- SRGRYFICE -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny z siedzibą w Łobzie</department> <!-- SRGRYFICE -->
+        <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Łobzie</department> <!-- SRGRYFICE -->
       </departments> <!-- SRGRYFICE -->
     </model> <!-- SRGRYFICE -->
   </court> <!-- SRGRYFICE -->
@@ -4766,6 +5371,7 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRGRYFINO -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRGRYFINO -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRGRYFINO -->
+        <department id="3020006">VI Zamiejscowy Wydział Karny Sądu Rejonowego w Gryfinie z siedzibą w Chojnie</department> <!-- SRGRYFINO -->
       </departments> <!-- SRGRYFINO -->
     </model> <!-- SRGRYFINO -->
   </court> <!-- SRGRYFINO -->
@@ -4801,6 +5407,7 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRSTARGARD -->
         <department id="0002015">IV Wydział Pracy</department> <!-- SRSTARGARD -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRSTARGARD -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny w Pyrzycach</department> <!-- SRSTARGARD -->
       </departments> <!-- SRSTARGARD -->
     </model> <!-- SRSTARGARD -->
   </court> <!-- SRSTARGARD -->
@@ -4867,9 +5474,24 @@
         <department id="0001006">II Wydział Karny</department> <!-- SRSWINO -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRSWINO -->
         <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRSWINO -->
+        <department id="0523003">VI Zamiejscowy Wydział Cywilny z siedzibą w Kamieniu Pomorskim</department> <!-- SRSWINO -->
+        <department id="0523506">VII Zamiejscowy Wydział Karny z siedzibą w Kamieniu Pomorskim</department> <!-- SRSWINO -->
+        <department id="0524012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Kamieniu Pomorskim</department> <!-- SRSWINO -->
       </departments> <!-- SRSWINO -->
     </model> <!-- SRSWINO -->
   </court> <!-- SRSWINO -->
+
+  <court id="15551545">
+    <model>
+      <name>Sąd Rejonowy w Choszcznie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+        <department id="0002015">IV Wydział Pracy</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15450000">
     <model><!-- SAWAW -->
@@ -5003,6 +5625,7 @@
         <department id="0005027">X Wydział d/s Upadłościowych i Naprawczych</department><!-- SRMSTWAW -->
         <department id="0007527">XV Wydział Gospodarczy</department><!-- SRMSTWAW -->
         <department id="0008027">XVI Wydział Gospodarczy</department><!-- SRMSTWAW -->
+        <department id="0008527">XVII Wydział Gospodarczy</department><!-- SRMSTWAW -->
       </departments><!-- SRMSTWAW -->
     </model><!-- SRMSTWAW -->
   </court><!-- SRMSTWAW -->
