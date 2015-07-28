@@ -10,7 +10,6 @@
       
     <head>
 	    <meta charset="UTF-8" />
-	    <meta content="noindex, nofollow" name="robots">
 	    <meta name="google-site-verification" content="G_F59iM1mxi7lR9TXG2XsgU7NmU-UvK710_NaBSmB1A" />
 	    <link rel="shortcut icon" href="${contextPath}/static/image/favicon.ico" />
 	    
