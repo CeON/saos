@@ -11,6 +11,9 @@
     <head>
 	    <meta charset="UTF-8" />
 	    <meta name="google-site-verification" content="G_F59iM1mxi7lR9TXG2XsgU7NmU-UvK710_NaBSmB1A" />
+	    
+	    <%@ include file="pageDescription.jsp" %>
+	    
 	    <link rel="shortcut icon" href="${contextPath}/static/image/favicon.ico" />
 	    
 		<saos:cssJsInit></saos:cssJsInit>
