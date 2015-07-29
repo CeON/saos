@@ -1,5 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
+
+<%-- Below, search box in google search results --%>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "${homePageUrl}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "${homePageUrl}/search?all={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
         
         
 <div class="home container">
