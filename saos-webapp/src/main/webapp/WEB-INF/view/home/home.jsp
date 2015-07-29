@@ -9,7 +9,7 @@
   "url": "${homePageUrl}",
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "${homePageUrl}/search?all={search_term_string}",
+    "target": "${homePageUrl}search?all={search_term_string}",
     "query-input": "required name=search_term_string"
   }
 }
