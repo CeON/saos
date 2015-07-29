@@ -103,7 +103,7 @@ public class TagPostUploadProcessingJobTest extends BatchJobsTestSupport {
         
         LawJournalEntry lawJournalEntry1 = new LawJournalEntry(2014, 34, 344, "Ustawa 1");
         LawJournalEntry lawJournalEntry2 = new LawJournalEntry(2015, 35, 355, "Ustawa 2");
-        LawJournalEntry lawJournalEntry3 = new LawJournalEntry(2013, 33, 333, "Ustawa 3"); // same as dbLawJournalEntry but with different title 
+        LawJournalEntry lawJournalEntry3 = new LawJournalEntry(2013, 0, 333, "Ustawa 3"); // same as dbLawJournalEntry but with different title and journalNo
         EnrichmentTag scjRefRegulationsTag = createReferencedRegulationsTag(testObjectContext.getScJudgmentId(), "prefix_",
                 lawJournalEntry1, lawJournalEntry2, lawJournalEntry3);
         

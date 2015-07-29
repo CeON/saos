@@ -11,10 +11,8 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.powermock.reflect.Whitebox;
 
-import pl.edu.icm.saos.common.testcommon.ReflectionFieldSetter;
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.LawJournalEntryCreator;
-import pl.edu.icm.saos.importer.commoncourt.judgment.process.LawJournalEntryData;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
 
@@ -36,13 +34,13 @@ public class LawJournalEntryCreatorTest {
     @Before
     public void before() {
         
-        ReflectionFieldSetter.setField(lawJournalEntry, "id", 114);
+        Whitebox.setInternalState(lawJournalEntry, "id", 114);
         lawJournalEntry.setYear(2011);
         lawJournalEntry.setEntry(11);
         lawJournalEntry.setEntry(1);
         lawJournalEntry.setTitle("Title title");
         
-        when(lawJournalEntryRepository.findOneByYearAndJournalNoAndEntry(Mockito.eq(lawJournalEntry.getYear()), Mockito.eq(lawJournalEntry.getJournalNo()), Mockito.eq(lawJournalEntry.getEntry()))).thenReturn(lawJournalEntry);
+        when(lawJournalEntryRepository.findOneByYearAndEntry(Mockito.eq(lawJournalEntry.getYear()), Mockito.eq(lawJournalEntry.getEntry()))).thenReturn(lawJournalEntry);
         
         lawJournalEntryCreator.setLawJournalEntryRepository(lawJournalEntryRepository);
         
@@ -50,13 +48,17 @@ public class LawJournalEntryCreatorTest {
     }
 
     
+    //------------------------ TESTS --------------------------
+    
     @Test
     public void testGetOrCreateLawJournalEntry_Get() {
-        
-        
+        // given
         LawJournalEntryData entryData = new LawJournalEntryData(lawJournalEntry.getYear(), lawJournalEntry.getJournalNo(), lawJournalEntry.getEntry(), "Tiisiss");
+        
+        // execute
         LawJournalEntry foundLawJournalEntry = lawJournalEntryCreator.getOrCreateLawJournalEntry(entryData);
         
+        // assert
         verify(lawJournalEntryRepository, never()).save(Mockito.any(LawJournalEntry.class));
         assertEquals(lawJournalEntry, foundLawJournalEntry);
         assertTrue(lawJournalEntry == foundLawJournalEntry);
@@ -67,18 +69,22 @@ public class LawJournalEntryCreatorTest {
 
     @Test
     public void testGetOrCreateLawJournalEntry_Create() {
-        int journalNo = lawJournalEntry.getJournalNo() + 2;
+        // given
+        int entry = lawJournalEntry.getEntry() + 2;
         String title = "Tiiiis";
-        LawJournalEntryData entryData = new LawJournalEntryData(lawJournalEntry.getYear(), journalNo, lawJournalEntry.getEntry(), title);
+        LawJournalEntryData entryData = new LawJournalEntryData(lawJournalEntry.getYear(), lawJournalEntry.getJournalNo(), entry, title);
+        
+        // execute
         LawJournalEntry foundLawJournalEntry = lawJournalEntryCreator.getOrCreateLawJournalEntry(entryData);
         
+        // assert
         verify(lawJournalEntryRepository).save(Mockito.any(LawJournalEntry.class));
-        verify(lawJournalEntryRepository).findOneByYearAndJournalNoAndEntry(lawJournalEntry.getYear(), journalNo, lawJournalEntry.getEntry());
+        verify(lawJournalEntryRepository).findOneByYearAndEntry(lawJournalEntry.getYear(), entry);
         
         assertEquals(title, foundLawJournalEntry.getTitle());
         assertEquals(lawJournalEntry.getYear(), foundLawJournalEntry.getYear());
-        assertEquals(journalNo, foundLawJournalEntry.getJournalNo());
-        assertEquals(lawJournalEntry.getEntry(), foundLawJournalEntry.getEntry());
+        assertEquals(lawJournalEntry.getJournalNo(), foundLawJournalEntry.getJournalNo());
+        assertEquals(entry, foundLawJournalEntry.getEntry());
         
         assertFalse(lawJournalEntry == foundLawJournalEntry);
         
