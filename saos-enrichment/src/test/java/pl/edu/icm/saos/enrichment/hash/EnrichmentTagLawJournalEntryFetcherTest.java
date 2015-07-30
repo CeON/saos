@@ -40,11 +40,14 @@ public class EnrichmentTagLawJournalEntryFetcherTest extends EnrichmentTestSuppo
         LawJournalEntry dbLawJournalEntry = new LawJournalEntry(2000, 10, 100, "Ustawa 1");
         LawJournalEntry tagLawJournalEntry1 = new LawJournalEntry(2003, 13, 203, "Ustawa 2");
         LawJournalEntry tagLawJournalEntry2 = new LawJournalEntry(2004, 24, 204, "Ustawa 3");
+        LawJournalEntry tagLawJournalEntry3 = new LawJournalEntry(2000, 0, 100, "Ustawa 1"); // same as dbLawJournalEntry but with different journalNo
+        LawJournalEntry tagLawJournalEntry4 = new LawJournalEntry(2003, 0, 203, "Ustawa 2"); // same as tagLawJournalEntry1 but with different journalNo
         
         lawJournalEntryRepository.save(dbLawJournalEntry);
         testPersistenceObjectFactory.createReferencedRegulationsTag(3L, "prefix_", dbLawJournalEntry, tagLawJournalEntry1);
         testPersistenceObjectFactory.createReferencedRegulationsTag(4L, "prefix_", tagLawJournalEntry1);
         testPersistenceObjectFactory.createReferencedRegulationsTag(5L, "prefix_", tagLawJournalEntry1, tagLawJournalEntry2);
+        testPersistenceObjectFactory.createReferencedRegulationsTag(6L, "prefix_", tagLawJournalEntry3, tagLawJournalEntry4);
         
         
         // execute
