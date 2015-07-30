@@ -42,7 +42,7 @@ final class TestInMemoryObjectFactoryHelper {
         LawJournalEntry firstLawJournalEntry = new  LawJournalEntry(
                 RandomUtils.nextInt(1950, 2000),
                 RandomUtils.nextInt(1, 30),
-                RandomUtils.nextInt(1, 200) + (numericPrefix*1000),
+                RandomUtils.nextInt(1, 100) + (numericPrefix*1000),
                 RandomStringUtils.randomAlphabetic(10));
         firstReferencedRegulation.setRawText(RandomStringUtils.randomAlphabetic(30));
         firstReferencedRegulation.setLawJournalEntry(firstLawJournalEntry);
@@ -51,7 +51,7 @@ final class TestInMemoryObjectFactoryHelper {
         LawJournalEntry secondLawJournalEntry = new  LawJournalEntry(
                 RandomUtils.nextInt(1950, 2000),
                 RandomUtils.nextInt(30, 60),
-                RandomUtils.nextInt(1, 200) + (numericPrefix*1000),
+                RandomUtils.nextInt(100, 200) + (numericPrefix*1000),
                 RandomStringUtils.randomAlphabetic(10));
         secondReferencedRegulation.setRawText(RandomStringUtils.randomAlphabetic(30));
         secondReferencedRegulation.setLawJournalEntry(secondLawJournalEntry);
