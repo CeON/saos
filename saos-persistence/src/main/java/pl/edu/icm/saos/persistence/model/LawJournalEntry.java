@@ -23,7 +23,7 @@ import com.google.common.base.Preconditions;
  * 
  * @author Łukasz Dumiszewski
  */
-@Table(uniqueConstraints={@UniqueConstraint(name="law_journal_entry_unique", columnNames={"year", "journalNo", "entry"})})
+@Table(uniqueConstraints={@UniqueConstraint(name="law_journal_entry_unique", columnNames={"year", "entry"})})
 @Entity
 @Cacheable(true)
 @SequenceGenerator(name = "seq_law_journal_entry", allocationSize = 1, sequenceName = "seq_law_journal_entry")

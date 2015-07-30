@@ -18,11 +18,11 @@ class LawJournalEntryCreator {
     
     /**
      * Returns {@link LawJournalEntry} equivalent to {@link LawJournalEntryData} from the data repository
-     * ({@link LawJournalEntryRepository#findOneByYearAndJournalNoAndEntry(int, int, int)}). <br/>
+     * ({@link LawJournalEntryRepository#findOneByYearAndEntry(int, int)}). <br/>
      * If there is no such a {@link LawJournalEntry} in the repository yet, then first it is created and then returned.
      */
     public LawJournalEntry getOrCreateLawJournalEntry(LawJournalEntryData entryData) {
-        LawJournalEntry lawJournalEntry = lawJournalEntryRepository.findOneByYearAndJournalNoAndEntry(entryData.getYear(), entryData.getJournalNo(), entryData.getEntry());
+        LawJournalEntry lawJournalEntry = lawJournalEntryRepository.findOneByYearAndEntry(entryData.getYear(), entryData.getEntry());
         if (lawJournalEntry == null) {
             lawJournalEntry = new LawJournalEntry(entryData.getYear(), entryData.getJournalNo(), entryData.getEntry(), entryData.getTitle());
             lawJournalEntryRepository.save(lawJournalEntry);

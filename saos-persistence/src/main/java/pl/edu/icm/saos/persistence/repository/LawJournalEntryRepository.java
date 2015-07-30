@@ -13,4 +13,5 @@ public interface LawJournalEntryRepository extends JpaRepository<LawJournalEntry
     
     public LawJournalEntry findOneByYearAndJournalNoAndEntry(int year, int journalNo, int entry);
     
+    public LawJournalEntry findOneByYearAndEntry(int year, int entry);
 }

@@ -35,17 +35,16 @@ public class EnrichmentTagLawJournalEntryFetcher {
     public List<LawJournalEntry> fetchTagLawJournalEntriesWihoutCorrespondingEntryInDb() {
         String select = "SELECT"
                 + "    (tagValue->'journalYear')\\:\\:text journalYear,"
-                + "    (tagValue->'journalNo')\\:\\:text journalNo,"
+                + "    max((tagValue->'journalNo')\\:\\:text) journalNo,"
                 + "    (tagValue->'journalEntry')\\:\\:text journalEntry,"
                 + "    max((tagValue->'journalTitle')\\:\\:text) title"
                 + " FROM enrichment_tag tag"
                 + " JOIN json_array_elements(tag.value) tagValue ON"
                 + "     NOT EXISTS (SELECT 1 FROM law_journal_entry lje WHERE "
                 + "         replace((tagValue->'journalYear')\\:\\:text, '\"', '')\\:\\:int = lje.year AND"
-                + "         replace((tagValue->'journalNo')\\:\\:text, '\"', '')\\:\\:int = lje.journal_no AND"
                 + "         replace((tagValue->'journalEntry')\\:\\:text, '\"', '')\\:\\:int = lje.entry)"
                 + " WHERE tag.tag_type = '" + EnrichmentTagTypes.REFERENCED_REGULATIONS + "'"
-                + " GROUP BY journalYear, journalNo, journalEntry;";
+                + " GROUP BY journalYear, journalEntry;";
         
         Query query = entityManager.createNativeQuery(select);
         

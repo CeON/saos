@@ -395,7 +395,7 @@ public class CcJudgmentImportProcessJobTest extends BatchJobsTestSupport {
         assertEquals(3, judgment.getReferencedRegulations().size());
         assertReferencedRegulation(judgment.getReferencedRegulations().get(0), 1964, 43, 296, "Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296 - art. 1; art. 108; art. 233; art. 385; art. 391; art. 98; art. 99)");
         assertReferencedRegulation(judgment.getReferencedRegulations().get(1), 2003, 124, 1152, "Ustawa z dnia 22 maja 2003 r. o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych (Dz. U. z 2003 r. Nr 124, poz. 1152 - art. 34; art. 34 ust. 1)");
-        assertReferencedRegulation(judgment.getReferencedRegulations().get(2), 1964, 16, 93, "Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny (Dz. U. z 1964 r. Nr 16, poz. 93 - art. 1; art. 24; art. 4; art. 446; art. 448)");
+        assertReferencedRegulation(judgment.getReferencedRegulations().get(2), 1964, 16, 93, "Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny (Dz. U. z 1964 r. Nr 0, poz. 93 - art. 1; art. 24; art. 4; art. 446; art. 448)");
         assertEquals(2, judgment.getJudges().size());
         assertEquals("Jerzy Dydo", judgment.getJudges(JudgeRole.PRESIDING_JUDGE).get(0).getName());
         assertEquals("Alicja Chrzan", judgment.getJudges(null).get(0).getName());

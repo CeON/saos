@@ -3749,7 +3749,7 @@ INSERT INTO raw_source_cc_judgment (id, creation_date, ver, case_number, content
    <references>
       <reference>Ustawa z dnia 17 listopada 1964 r. - Kodeks postępowania cywilnego (Dz. U. z 1964 r. Nr 43, poz. 296 - art. 1; art. 108; art. 233; art. 385; art. 391; art. 98; art. 99)</reference>
       <reference>Ustawa z dnia 22 maja 2003 r. o ubezpieczeniach obowiązkowych, Ubezpieczeniowym Funduszu Gwarancyjnym i Polskim Biurze Ubezpieczycieli Komunikacyjnych (Dz. U. z 2003 r. Nr 124, poz. 1152 - art. 34; art. 34 ust. 1)</reference>
-      <reference>Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny (Dz. U. z 1964 r. Nr 16, poz. 93 - art. 1; art. 24; art. 4; art. 446; art. 448)</reference>
+      <reference>Ustawa z dnia 23 kwietnia 1964 r. - Kodeks cywilny (Dz. U. z 1964 r. Nr 0, poz. 93 - art. 1; art. 24; art. 4; art. 446; art. 448)</reference>
    </references>
    <legalBases>
       <legalBasis>art 445 kc</legalBasis>

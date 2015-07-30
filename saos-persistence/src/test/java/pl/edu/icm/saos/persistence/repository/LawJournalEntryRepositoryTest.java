@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,32 +22,70 @@ public class LawJournalEntryRepositoryTest extends PersistenceTestSupport {
     private LawJournalEntryRepository lawJournalEntryRepository;
     
     
+    //------------------------ TESTS --------------------------
+    
     @Test
-    public void testSave() {
-        Assert.assertEquals(0, lawJournalEntryRepository.count());
+    public void save() {
+        // given
+        assertEquals(0, lawJournalEntryRepository.count());
         
+        // execute
         createTestLawJournalEntry();
         
-        Assert.assertEquals(1, lawJournalEntryRepository.count());
+        // assert
+        assertEquals(1, lawJournalEntryRepository.count());
         
+    }
+    
+    @Test
+    public void findOneByYearAndJournalNoAndEntry_NOT_FOUND() {
+        // given
+        LawJournalEntry lawJournalEntry = createTestLawJournalEntry();
+        
+        // execute
+        LawJournalEntry dbLawJournalEntry = lawJournalEntryRepository.findOneByYearAndJournalNoAndEntry(lawJournalEntry.getYear()+1, lawJournalEntry.getJournalNo(), lawJournalEntry.getEntry());
+        
+        // assert
+        assertNull(dbLawJournalEntry);
+    }
+    
+    @Test
+    public void findOneByYearAndJournalNoAndEntry_FOUND() {
+        // given
+        LawJournalEntry lawJournalEntry = createTestLawJournalEntry();
+        
+        // execute
+        LawJournalEntry dbLawJournalEntry = lawJournalEntryRepository.findOneByYearAndJournalNoAndEntry(lawJournalEntry.getYear(), lawJournalEntry.getJournalNo(), lawJournalEntry.getEntry());
+        
+        // assert
+        assertNotNull(dbLawJournalEntry);
+        assertEquals(lawJournalEntry, dbLawJournalEntry);
     }
 
     @Test
-    public void testFindByYearAndJournalNoAndEntry() {
-        Assert.assertEquals(0, lawJournalEntryRepository.count());
-        
+    public void testFindOneByYearAndEntry_NOT_FOUND() {
+        // given
         LawJournalEntry lawJournalEntry = createTestLawJournalEntry();
         
-        LawJournalEntry dbLawJournalEntry = lawJournalEntryRepository.findOneByYearAndJournalNoAndEntry(lawJournalEntry.getYear()+1, lawJournalEntry.getJournalNo(), lawJournalEntry.getEntry());
-        assertNull(dbLawJournalEntry);
+        // execute
+        LawJournalEntry dbLawJournalEntry = lawJournalEntryRepository.findOneByYearAndEntry(lawJournalEntry.getYear()+1, lawJournalEntry.getEntry());
         
-        dbLawJournalEntry = lawJournalEntryRepository.findOneByYearAndJournalNoAndEntry(lawJournalEntry.getYear(), lawJournalEntry.getJournalNo(), lawJournalEntry.getEntry());
+        // assert
+        assertNull(dbLawJournalEntry);
+    }
+    
+    @Test
+    public void testFindOneByYearAndEntry_FOUND() {
+        // given
+        LawJournalEntry lawJournalEntry = createTestLawJournalEntry();
+        
+        // execute
+        LawJournalEntry dbLawJournalEntry = lawJournalEntryRepository.findOneByYearAndEntry(lawJournalEntry.getYear(), lawJournalEntry.getEntry());
+        
+        // assert
         assertNotNull(dbLawJournalEntry);
         assertEquals(lawJournalEntry, dbLawJournalEntry);
-        
-        
     }
-
     
     //------------------------ PRIVATE --------------------------
 
