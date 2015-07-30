@@ -145,8 +145,8 @@ final class TestInMemoryCtObjectFactory {
     static List<ConstitutionalTribunalJudgment> createCtJudgmentListWithRandomData(int size){
         List<ConstitutionalTribunalJudgment> judgments = new ArrayList<>(size);
         for(int i=0; i<size; ++i){
-            String prefix = i + "__";
-            ConstitutionalTribunalJudgment judgment = createCtJudgmentWithRandomData(prefix, i);
+            String prefix = i + "_CT_";
+            ConstitutionalTribunalJudgment judgment = createCtJudgmentWithRandomData(prefix, i * (CourtType.CONSTITUTIONAL_TRIBUNAL.ordinal() + 1));
             judgments.add(judgment);
         }
 
