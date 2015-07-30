@@ -36,7 +36,7 @@ public class LawJournalEntryCreatorTest {
         
         Whitebox.setInternalState(lawJournalEntry, "id", 114);
         lawJournalEntry.setYear(2011);
-        lawJournalEntry.setEntry(11);
+        lawJournalEntry.setJournalNo(11);
         lawJournalEntry.setEntry(1);
         lawJournalEntry.setTitle("Title title");
         
