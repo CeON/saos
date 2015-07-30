@@ -161,9 +161,10 @@ final class TestInMemoryScObjectFactory {
      */
     static List<SupremeCourtJudgment> createScJudgmentListWithRandomData(int size){
         List<SupremeCourtJudgment> judgments = new ArrayList<>();
-        for(int i=0; i<size; ++i){
+        for(int i=1; i<=size; ++i){
             String prefix = i + "_SC_";
-            SupremeCourtJudgment judgment = createScJudgmentWithRandomData(prefix, i * (CourtType.SUPREME.ordinal() + 1));
+            SupremeCourtJudgment judgment = createScJudgmentWithRandomData(prefix,
+                    CourtType.values().length * i + CourtType.SUPREME.ordinal());
             judgments.add(judgment);
         }
 

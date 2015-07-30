@@ -294,7 +294,8 @@ final class TestInMemoryCcObjectFactory {
         List<CommonCourtJudgment> judgments = new ArrayList<>(size);
         for(int i=0; i<size; ++i){
             String prefix = i + "_CC_";
-            CommonCourtJudgment judgment = createCcJudgmentWithRandomData(prefix, i * (CourtType.COMMON.ordinal() + 1));
+            CommonCourtJudgment judgment = createCcJudgmentWithRandomData(prefix,
+                    CourtType.values().length * i + CourtType.COMMON.ordinal());
             judgments.add(judgment);
         }
 

@@ -149,7 +149,8 @@ final class TestInMemoryNacObjectFactory {
         List<NationalAppealChamberJudgment> judgments = new ArrayList<>(size);
         for(int i=0; i<size; ++i){
             String prefix = i + "_NAC_";
-            NationalAppealChamberJudgment judgment = createNacJudgmentWithRandomData(prefix, i * (CourtType.NATIONAL_APPEAL_CHAMBER.ordinal() + 1));
+            NationalAppealChamberJudgment judgment = createNacJudgmentWithRandomData(prefix,
+                    CourtType.values().length * i + CourtType.NATIONAL_APPEAL_CHAMBER.ordinal());
             judgments.add(judgment);
         }
 
