@@ -132,8 +132,8 @@ public class JudgmentSearchServiceTest {
             { Lists.newArrayList(41808l), JudgmentCriteriaBuilder.create().withLawJournalEntryId(502).build() },
             { Lists.newArrayList(), JudgmentCriteriaBuilder.create().withLawJournalEntryId(510).build() },
             
-            { Lists.newArrayList(1961l), JudgmentCriteriaBuilder.create().withLawJournalEntryCode("2000/94/1037").build() },
-            { Lists.newArrayList(), JudgmentCriteriaBuilder.create().withLawJournalEntryCode("2001/93/324").build() },
+            { Lists.newArrayList(1961l), JudgmentCriteriaBuilder.create().withLawJournalEntryCode("2000/1037").build() },
+            { Lists.newArrayList(), JudgmentCriteriaBuilder.create().withLawJournalEntryCode("2001/324").build() },
             
             { Lists.newArrayList(22l, 23l), JudgmentCriteriaBuilder.create().withReferencedCourtCaseId(58).build() },
             { Lists.newArrayList(23l), JudgmentCriteriaBuilder.create().withReferencedCourtCaseId(59).build() },
@@ -486,8 +486,8 @@ public class JudgmentSearchServiceTest {
         doc.addField("lawJournalEntryId", "507");
         doc.addField("lawJournalEntryId", "508");
         
-        doc.addField("lawJournalEntryCode", "2000/94/1037");
-        doc.addField("lawJournalEntryCode", "2001/93/113");
+        doc.addField("lawJournalEntryCode", "2000/1037");
+        doc.addField("lawJournalEntryCode", "2001/113");
         
         doc.addField("courtType", "COMMON");
         doc.addField("ccCourtType", "APPEAL");

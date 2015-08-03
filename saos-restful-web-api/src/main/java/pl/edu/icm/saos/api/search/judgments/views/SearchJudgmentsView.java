@@ -433,7 +433,7 @@ public class SearchJudgmentsView extends CollectionRepresentation<SearchJudgment
         public LawJournalEntryCodeTemplate(String value) {
             super(value);
             setDescription("Represents polish law journal entry (pl. pozycja dziennika ustaw)");
-            setAllowedValues("String in format : 'year/journal_number/entry_number'");
+            setAllowedValues("String in format : 'year/entry_number'");
         }
     }
 

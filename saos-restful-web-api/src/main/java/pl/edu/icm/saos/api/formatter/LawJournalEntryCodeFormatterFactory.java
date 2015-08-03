@@ -42,7 +42,7 @@ public class LawJournalEntryCodeFormatterFactory implements AnnotationFormatterF
     public String parse(String text, Locale locale) throws ParseException {
         
         if (!lawJournalEntryCodeExtractor.isCorrectLawJournalEntryCode(text)) {
-            throw new WrongRequestParameterException(String.format("invalid value '%s', input should be in format 'year/journal_number/entry_number'", text));
+            throw new WrongRequestParameterException(String.format("invalid value '%s', input should be in format 'year/entry_number'", text));
         }
         
         return text;

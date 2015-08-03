@@ -19,7 +19,7 @@ public class LawJournalEntryCodeExtractorTest {
     @Test
     public void isCorrectLawJournalEntryCode_CORRECT() {
         // given
-        String lawJournalEntryCode = "1964/43/296";
+        String lawJournalEntryCode = "1964/296";
         
         // execute & assert
         assertTrue(lawJournalEntryCodeExtractor.isCorrectLawJournalEntryCode(lawJournalEntryCode));
@@ -34,16 +34,16 @@ public class LawJournalEntryCodeExtractorTest {
     @Test
     public void isCorrectLawJournalEntryCode_INVALID_ENTRY() {
         // given
-        String lawJournalEntryCode = "1964/43/2a6";
+        String lawJournalEntryCode = "1964/2a6";
         
         // execute & assert
         assertFalse(lawJournalEntryCodeExtractor.isCorrectLawJournalEntryCode(lawJournalEntryCode));
     }
     
     @Test
-    public void isCorrectLawJournalEntryCode_EMPTY_JOURNAL_NO() {
+    public void isCorrectLawJournalEntryCode_EMPTY_ENTRY() {
         // given
-        String lawJournalEntryCode = "1964//296";
+        String lawJournalEntryCode = "1964/";
         
         // execute & assert
         assertFalse(lawJournalEntryCodeExtractor.isCorrectLawJournalEntryCode(lawJournalEntryCode));
@@ -52,7 +52,7 @@ public class LawJournalEntryCodeExtractorTest {
     @Test
     public void isCorrectLawJournalEntryCode_MISSING_ENTRY() {
         // given
-        String lawJournalEntryCode = "1964/43";
+        String lawJournalEntryCode = "1964";
         
         // execute & assert
         assertFalse(lawJournalEntryCodeExtractor.isCorrectLawJournalEntryCode(lawJournalEntryCode));
@@ -61,34 +61,16 @@ public class LawJournalEntryCodeExtractorTest {
     @Test
     public void extractYear() {
         // given
-        String lawJournalEntryCode = "1964/43/296";
+        String lawJournalEntryCode = "1964/296";
         
         // execute & assert
         assertEquals(1964, lawJournalEntryCodeExtractor.extractYear(lawJournalEntryCode));
     }
     
     @Test
-    public void extractJournalNo() {
-        // given
-        String lawJournalEntryCode = "1964/43/296";
-        
-        // execute & assert
-        assertEquals(43, lawJournalEntryCodeExtractor.extractJournalNo(lawJournalEntryCode));
-    }
-    
-    @Test
-    public void extractJournalNo_PRECEDING_ZERO() {
-        // given
-        String lawJournalEntryCode = "1964/0043/296";
-        
-        // execute & assert
-        assertEquals(43, lawJournalEntryCodeExtractor.extractJournalNo(lawJournalEntryCode));
-    }
-    
-    @Test
     public void extractEntry() {
         // given
-        String lawJournalEntryCode = "1964/43/296";
+        String lawJournalEntryCode = "1964/296";
         
         // execute & assert
         assertEquals(296, lawJournalEntryCodeExtractor.extractEntry(lawJournalEntryCode));
@@ -97,7 +79,7 @@ public class LawJournalEntryCodeExtractorTest {
     @Test
     public void extractEntry_PRECEDING_ZERO() {
         // given
-        String lawJournalEntryCode = "1964/43/0296";
+        String lawJournalEntryCode = "1964/0296";
         
         // execute & assert
         assertEquals(296, lawJournalEntryCodeExtractor.extractEntry(lawJournalEntryCode));
@@ -106,7 +88,7 @@ public class LawJournalEntryCodeExtractorTest {
     @Test(expected = IllegalArgumentException.class)
     public void extractEntry_INVALID() {
         // given
-        String lawJournalEntryCode = "1964/43/abc";
+        String lawJournalEntryCode = "1964/abc";
         
         // execute
         lawJournalEntryCodeExtractor.extractEntry(lawJournalEntryCode);

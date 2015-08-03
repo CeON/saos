@@ -133,7 +133,7 @@ public class JudgmentIndexFieldsFillerTest {
         List<SolrInputField> referencedRegulationsFields = Lists.newArrayList(
                 fieldFactory.create("referencedRegulations", "Ustawa 1", "Ustawa 2"),
                 fieldFactory.create("lawJournalEntryId", 55l, 56l),
-                fieldFactory.create("lawJournalEntryCode", "1964/43/296", "1999/110/1257"));
+                fieldFactory.create("lawJournalEntryCode", "1964/296", "1999/1257"));
         
         
         // referenced court cases
@@ -226,7 +226,7 @@ public class JudgmentIndexFieldsFillerTest {
                     fieldFactory.create("legalBases", "art 1023 kc"),
                     fieldFactory.create("referencedRegulations", "Ustawa 1"),
                     fieldFactory.create("lawJournalEntryId", 55L),
-                    fieldFactory.create("lawJournalEntryCode", "1964/43/296"),
+                    fieldFactory.create("lawJournalEntryCode", "1964/296"),
                     fieldFactory.create("judgmentDate", "2014-09-04T00:00:00Z"),
                     fieldFactory.create("judgmentType", "SENTENCE"),
                     fieldFactory.create("content", "some content"),
