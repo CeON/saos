@@ -233,8 +233,13 @@ class JudgmentIndexAssertUtils {
                 .filter(x -> x.getLawJournalEntry() != null)
                 .map(x -> x.getLawJournalEntry().getId())
                 .collect(Collectors.toList());
+        List<String> lawJournalEntriesCodes = judgment.getReferencedRegulations().stream()
+                .filter(x -> x.getLawJournalEntry() != null)
+                .map(x -> x.getLawJournalEntry().getEntryCode())
+                .collect(Collectors.toList());
         
         assertSolrDocumentLongValues(doc, JudgmentIndexField.LAW_JOURNAL_ENTRY_ID, lawJournalEntriesIds);
+        assertSolrDocumentValues(doc, JudgmentIndexField.LAW_JOURNAL_ENTRY_CODE, lawJournalEntriesCodes);
     }
     
     

@@ -94,11 +94,11 @@ public class LawJournalEntry extends DataObject {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Returns entry code (string value consisting of {@link #getYear()}, {@link #getJournalNo()} and {@link #getEntry()}) 
+     * Returns entry code (string value consisting of {@link #getYear()} and {@link #getEntry()}) 
      */
     @Transient
     public String getEntryCode() {
-        return getYear() + ENTRY_CODE_PARTS_SEPARATOR + getJournalNo() + ENTRY_CODE_PARTS_SEPARATOR + getEntry();
+        return getYear() + ENTRY_CODE_PARTS_SEPARATOR + getEntry();
     }
 
 

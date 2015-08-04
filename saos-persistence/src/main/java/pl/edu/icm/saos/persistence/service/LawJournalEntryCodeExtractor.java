@@ -21,11 +21,11 @@ public class LawJournalEntryCodeExtractor {
         
         String[] entryCodeParts = StringUtils.split(lawJournalEntryCode, LawJournalEntry.ENTRY_CODE_PARTS_SEPARATOR);
         
-        if (entryCodeParts.length != 3) {
+        if (entryCodeParts.length != 2) {
             return false;
         }
         
-        return entryCodeParts[0].matches("\\d+") && entryCodeParts[1].matches("\\d+") && entryCodeParts[2].matches("\\d+");
+        return entryCodeParts[0].matches("\\d+") && entryCodeParts[1].matches("\\d+");
     }
     
     public int extractYear(String lawJournalEntryCode) {
@@ -36,20 +36,12 @@ public class LawJournalEntryCodeExtractor {
         return extractEntryCodePart(lawJournalEntryCode, 0);
     }
     
-    public int extractJournalNo(String lawJournalEntryCode) {
-        if (!isCorrectLawJournalEntryCode(lawJournalEntryCode)) {
-            throw new IllegalArgumentException(lawJournalEntryCode + " is invalid law journal entry code");
-        }
-        
-        return extractEntryCodePart(lawJournalEntryCode, 1);
-    }
-    
     public int extractEntry(String lawJournalEntryCode) {
         if (!isCorrectLawJournalEntryCode(lawJournalEntryCode)) {
             throw new IllegalArgumentException(lawJournalEntryCode + " is invalid law journal entry code");
         }
         
-        return extractEntryCodePart(lawJournalEntryCode, 2);
+        return extractEntryCodePart(lawJournalEntryCode, 1);
     }
     
     

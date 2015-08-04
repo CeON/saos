@@ -365,7 +365,7 @@ public class JudgmentsControllerTest extends ApiTestSupport {
         // when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
                 .param(ApiConstants.PAGE_NUMBER, "0")
-                .param(ApiConstants.LAW_JOURNAL_ENTRY_CODE, "1960/30/168")
+                .param(ApiConstants.LAW_JOURNAL_ENTRY_CODE, "1960/168")
                 .accept(MediaType.APPLICATION_JSON));
         
         // then
@@ -715,7 +715,7 @@ public class JudgmentsControllerTest extends ApiTestSupport {
 
         String legalBaseValue = "someLegalBase";
         String referencedRegulationValue = "someReferencedRegulation";
-        String lawJournalEntryCodeValue = "2000/10/123";
+        String lawJournalEntryCodeValue = "2000/123";
         String judgeNameValue = "someJudgeName";
         String caseNumberValue = "someCaseNumber";
         String courtTypeValue = CourtType.ADMINISTRATIVE.name();
@@ -1003,11 +1003,11 @@ public class JudgmentsControllerTest extends ApiTestSupport {
     public void it_should_not_allow_incorrect_law_journal_entry_code() throws Exception {
         //when
         ResultActions actions = mockMvc.perform(get(JUDGMENTS_PATH)
-                .param(ApiConstants.LAW_JOURNAL_ENTRY_CODE, "2000/abc/123")
+                .param(ApiConstants.LAW_JOURNAL_ENTRY_CODE, "2000/abc")
                 .accept(MediaType.APPLICATION_JSON));
 
         //then
-        assertIncorrectValueError(actions, ApiConstants.LAW_JOURNAL_ENTRY_CODE, "2000/abc/123");
+        assertIncorrectValueError(actions, ApiConstants.LAW_JOURNAL_ENTRY_CODE, "2000/abc");
     }
 
     @Test

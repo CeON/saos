@@ -89,10 +89,9 @@ public class JudgmentSearchController {
 	    
 	    if (StringUtils.isNotBlank(judgmentCriteriaForm.getLawJournalEntryCode())) {
 	        int year = lawJournalEntryCodeExtractor.extractYear(judgmentCriteriaForm.getLawJournalEntryCode());
-	        int journalNo = lawJournalEntryCodeExtractor.extractJournalNo(judgmentCriteriaForm.getLawJournalEntryCode());
 	        int entry = lawJournalEntryCodeExtractor.extractEntry(judgmentCriteriaForm.getLawJournalEntryCode());
 	        
-	        model.addAttribute("lawJournalEntry", lawJournalEntryRepository.findOneByYearAndJournalNoAndEntry(year, journalNo, entry));
+	        model.addAttribute("lawJournalEntry", lawJournalEntryRepository.findOneByYearAndEntry(year, entry));
 	    }
 	}
 	

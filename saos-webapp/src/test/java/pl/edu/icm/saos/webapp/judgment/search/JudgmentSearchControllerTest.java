@@ -243,12 +243,11 @@ public class JudgmentSearchControllerTest {
 	@Test
 	public void judgmentSearchResults_search_form_contains_lawJournalEntryCode() throws Exception {
 		
-		String lawJournalEntryCode = "2000/1/18";
+		String lawJournalEntryCode = "2000/18";
 		
 		when(lawJournalEntryCodeExtractor.extractYear(lawJournalEntryCode)).thenReturn(2000);
-		when(lawJournalEntryCodeExtractor.extractJournalNo(lawJournalEntryCode)).thenReturn(1);
 		when(lawJournalEntryCodeExtractor.extractEntry(lawJournalEntryCode)).thenReturn(18);
-		when(lawJournalEntryRepository.findOneByYearAndJournalNoAndEntry(2000, 1, 18)).thenReturn(lawJournalEntry);
+		when(lawJournalEntryRepository.findOneByYearAndEntry(2000, 18)).thenReturn(lawJournalEntry);
 		
 		mockMvc.perform(get("/search").param("lawJournalEntryCode", lawJournalEntryCode))
 			.andExpect(status().isOk())
@@ -257,9 +256,8 @@ public class JudgmentSearchControllerTest {
 			;
 		
 		verify(lawJournalEntryCodeExtractor, times(1)).extractYear(lawJournalEntryCode);
-		verify(lawJournalEntryCodeExtractor, times(1)).extractJournalNo(lawJournalEntryCode);
 		verify(lawJournalEntryCodeExtractor, times(1)).extractEntry(lawJournalEntryCode);
-		verify(lawJournalEntryRepository, times(1)).findOneByYearAndJournalNoAndEntry(2000, 1, 18);
+		verify(lawJournalEntryRepository, times(1)).findOneByYearAndEntry(2000, 18);
 	}
 	
 	@Test
