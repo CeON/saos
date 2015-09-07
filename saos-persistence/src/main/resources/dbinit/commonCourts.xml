@@ -510,6 +510,19 @@
     </model> <!-- SROLAWA -->
   </court> <!-- SROLAWA -->
 
+  <court id="15502520">
+    <model> 
+      <name>Sąd Rejonowy w Strzelinie</name>
+      <domain>orzeczenia.strzelin.sr.gov.pl</domain>
+      <abbrev>SRSTRZELIN</abbrev>
+      <departments> 
+        <department id="0000503">I Wydział Cywilny</department> 
+        <department id="0001006">II Wydział Karny</department> 
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department> 
+      </departments> 
+    </model> 
+  </court> 
+
   <court id="15502525">
     <model> <!-- SRSRODA -->
       <name>Sąd Rejonowy w Środzie Śląskiej</name>
