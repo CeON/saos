@@ -11,14 +11,14 @@
     <head>
 	    <meta charset="UTF-8" />
 	    <meta name="google-site-verification" content="G_F59iM1mxi7lR9TXG2XsgU7NmU-UvK710_NaBSmB1A" />
+	    <meta name="robots" content="index, follow" >
+	    <meta name="language" content="<spring:message code='meta.language' />" > 
 	    
-	    <%@ include file="pageDescription.jsp" %>
+	    <tiles:insertAttribute name="meta" />
 	    
 	    <link rel="shortcut icon" href="${contextPath}/static/image/favicon.ico" />
 	    
 		<saos:cssJsInit></saos:cssJsInit>
-		
-		<%@ include file="/WEB-INF/view/common/pageTitle.jsp" %>
 	    
 	    <%-- have to overwrite the font-face declaration because firefox does not work with fontface relative urls --%>
 	    <c:set var="glyphiconsFontsUrl" value="${contextPath}/static/font/bootstrap" scope="page"/>

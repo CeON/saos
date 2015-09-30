@@ -3,8 +3,7 @@
     
     <!-- ************* Main template definition -->
     <definition name="template" template="/WEB-INF/view/template/mainTemplate.jsp">
-   	    <put-attribute name="title" value="" type="string" />
-   	    <put-attribute name="metaPageDescriptionCode" value="" type="string"/>
+   	    <put-attribute name="meta" value=""  />
         <put-attribute name="skipLinks" value="skipLinksTemplate"  />
         <put-attribute name="content" value="" />
     </definition>
@@ -20,21 +19,19 @@
     <definition name="home" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/home/home.jsp" />
         <put-attribute name="skipLinks" value="skipLinksSimple" />
-        <put-attribute name="title" value="pageTitle.home" type="string" />
-        <put-attribute name="metaPageDescriptionCode" value="home.meta.pageDescription"/>
+        <put-attribute name="meta" value="/WEB-INF/view/home/homeMeta.jsp" />
     </definition>
     
     <definition name="judgmentSearch" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/search/judgmentSearch.jsp" />
         <put-attribute name="skipLinks" value="skipLinksJudgmentSearch" />
-        <put-attribute name="title" value="pageTitle.judgmentSearch" type="string" />
-        <put-attribute name="metaPageDescriptionCode" value="search.meta.pageDescription"/>
+        <put-attribute name="meta" value="/WEB-INF/view/search/judgmentSearchMeta.jsp" />
     </definition>
     
     <definition name="judgmentDetails" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/details/judgmentDetails.jsp" />
         <put-attribute name="skipLinks" value="skipLinksJudgmentDetails" />
-        <put-attribute name="title" value="pageTitle.judgmentDetails" type="string" />
+        <put-attribute name="meta" value="/WEB-INF/view/details/judgmentDetailsMeta.jsp" />
     </definition>
     
     <definition name="judgmentContent" extends="simpleTemplate">
@@ -54,8 +51,7 @@
     <definition name="analysis" extends="template">
         <put-attribute name="content" value="/WEB-INF/view/analysis/analysis.jsp" />
         <put-attribute name="skipLinks" value="analysisSkipLinks" />
-        <put-attribute name="title" value="pageTitle.analysis" type="string" />
-        <put-attribute name="metaPageDescriptionCode" value="analysis.meta.pageDescription"/>
+        <put-attribute name="meta" value="/WEB-INF/view/analysis/analysisMeta.jsp" />
     </definition>
         
     <definition name="analysisForm" template="/WEB-INF/view/analysis/analysisForm.jsp"/>

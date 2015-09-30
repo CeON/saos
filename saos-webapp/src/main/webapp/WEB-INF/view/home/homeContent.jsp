@@ -9,9 +9,9 @@
         <div>
 	        <img src="${contextPath}/static/image/home/search.png" aria-label='<spring:message code="home.navigation.search.imageAlt" /> - <spring:message code="home.navigation.search" />' alt='<spring:message code="home.navigation.search.imageAlt" />'/>
 	        
-	        <h2 class="box-title" >
+	        <h3 class="box-title" >
 	            <spring:message code="home.navigation.search" />
-	        </h2>
+	        </h3>
 	        
 	        
             <p class="box-desc">
@@ -30,9 +30,9 @@
         <div>
             <img src="${contextPath}/static/image/home/analysis.png" aria-label='<spring:message code="home.navigation.analysis.imageAlt" /> - <spring:message code="home.navigation.analysis" />' alt='<spring:message code="home.navigation.analysis.imageAlt" />'/>
         
-	        <h2 class="box-title" >
+	        <h3 class="box-title" >
 	           <spring:message code="home.navigation.analysis" />
-	        </h2>
+	        </h3>
 	    
 	        <p class="box-desc">
 	           <spring:message code="home.navigation.analysis.desc" />
@@ -49,9 +49,9 @@
         <div>
             <img src="${contextPath}/static/image/home/api.png" aria-label='<spring:message code="home.navigation.api.imageAlt" /> - <spring:message code="home.navigation.api" />' alt='<spring:message code="home.navigation.api.imageAlt" />'/>
         
-            <h2 class="box-title" >
+            <h3 class="box-title" >
                 <spring:message code="home.navigation.api" />
-            </h2>
+            </h3>
         
             <p class="box-desc">
                <spring:message code="home.navigation.api.desc" />

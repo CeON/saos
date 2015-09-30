@@ -5,5 +5,6 @@
 
 <c:if test="${!empty value}">
     <c:set var="enumType" value="<%=value.getClass().getName()%>"/>
-    <spring:message code="${enumType}.${value}" text="${enumType}.${value}"/>
+    <spring:message code="${enumType}.${value}" text="${enumType}.${value}" var="enumValue"/>
+    <c:out value="${enumValue}" />
 </c:if>
