@@ -8,10 +8,10 @@
     <div class="row row-eq-height" >
         <div class="navigation col-md-4">
             
-			<%@ include file="../common/navigationMenu.jsp" %>
-			
-			<%@ include file="../common/saosLogo.jsp" %>
+            <%@ include file="../common/navigationMenu.jsp" %>
             
+            <%@ include file="../common/saosLogo.jsp" %>
+	           
             <div id="analysis" tabindex="-1">
                 <div class="form-group" id="analysisFormDiv">
             
