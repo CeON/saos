@@ -478,6 +478,19 @@
     </model> <!-- SOW -->
   </court> <!-- SOW -->
 
+  <court id="15502505"> <!-- SROLESNICA -->
+    <model> 
+      <name>Sąd Rejonowy w Miliczu</name>
+      <domain>orzeczenia.milicz.sr.gov.pl</domain>
+      <abbrev>SRMILICZ</abbrev>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department> 
+        <department id="0001006">II Wydział Karny</department> 
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department> 
+      </departments>
+    </model> 
+  </court> 
+
   <court id="15502510">
     <model> <!-- SROLESNICA -->
       <name>Sąd Rejonowy w Oleśnicy</name>
@@ -558,6 +571,19 @@
       </departments> <!-- SRTRZEBNICA -->
     </model> <!-- SRTRZEBNICA -->
   </court> <!-- SRTRZEBNICA -->
+
+  <court id="15502535"> <!-- SRWOLOW -->
+	  <model> 
+	      <name>Sąd Rejonowy w Wołowie</name>
+	      <domain>orzeczenia.wolow.sr.gov.pl</domain>
+	      <abbrev>SRWOLOW</abbrev>
+	      <departments>
+	        <department id="0000503">I Wydział Cywilny</department> 
+	        <department id="0001006">II Wydział Karny</department> 
+	        <department id="0001512">III Wydział Rodzinny i Nieletnich</department> 
+	      </departments>
+	    </model> 
+	  </court> 
 
   <court id="15502540">
     <model> <!-- SRWF -->
@@ -1778,6 +1804,21 @@
       </departments>  <!-- SRWLOC	-->
     </model> <!-- SRWLOC	-->
   </court> <!-- SRWLOC	-->
+
+  <court id="15103020"> <!-- SRRADZIEJOW -->
+    <model> 
+      <name>Sąd Rejonowy w Radziejowie</name> 
+      <excluded>true</excluded> 
+      <domain>orzeczenia.radziejow.sr.gov.pl</domain> 
+      <abbrev>SRRADZIEJOW</abbrev> 
+      <departments> 
+        <department id="0000503">I Wydział Cywilny</department> 
+        <department id="0001006">II Wydział Karny</department> 
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department> 
+      </departments> 
+    </model> 
+  </court>
+
 
   <court id="15150000">
     <model>
