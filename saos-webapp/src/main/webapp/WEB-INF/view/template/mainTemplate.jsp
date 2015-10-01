@@ -9,14 +9,14 @@
     <c:set var="MONTH_YEAR_PATTERN" value="MM-yyyy" scope="session"></c:set>  
       
     <head>
-	    <meta charset="UTF-8" />
-	    <meta name="robots" content="index, follow" >
-	    <meta name="language" content="<spring:message code='meta.language' />" > 
-        <meta name="google-site-verification" content="G_F59iM1mxi7lR9TXG2XsgU7NmU-UvK710_NaBSmB1A" />
-        <%-- bing verification --%>
-        <meta name="msvalidate.01" content="645E7E5CC7ACB0DED23BF980917530B1" />
-        
-        <tiles:insertAttribute name="meta" />
+		<meta charset="UTF-8" />
+		<meta name="robots" content="index, follow" >
+		<meta name="language" content="<spring:message code='meta.language' />" > 
+		<meta name="google-site-verification" content="G_F59iM1mxi7lR9TXG2XsgU7NmU-UvK710_NaBSmB1A" />
+		<%-- bing verification --%>
+		<meta name="msvalidate.01" content="645E7E5CC7ACB0DED23BF980917530B1" />
+		
+		<tiles:insertAttribute name="meta" />
 	    
 	    <link rel="shortcut icon" href="${contextPath}/static/image/favicon.ico" />
 	    

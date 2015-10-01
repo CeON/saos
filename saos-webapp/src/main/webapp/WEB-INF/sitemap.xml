@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
-    <loc>https://www.saos.org.pl/</loc>
+		<loc>https://www.saos.org.pl/</loc>
 		<lastmod>2015-09-30</lastmod>
 		<changefreq>weekly</changefreq>
 	</url>
 	<url>
 		<loc>https://www.saos.org.pl/search</loc>
 		<lastmod>2015-09-30</lastmod>
-    	<changefreq>daily</changefreq>
+		<changefreq>daily</changefreq>
 	</url>
 	<url>
 		<loc>https://www.saos.org.pl/analysis</loc>
@@ -18,6 +18,6 @@
 	<url>
 		<loc>https://www.saos.org.pl/help</loc>
 		<lastmod>2015-09-30</lastmod>
-		<changefreq>daily</changefreq>
+    	<changefreq>daily</changefreq>
 	</url>
 </urlset> 
