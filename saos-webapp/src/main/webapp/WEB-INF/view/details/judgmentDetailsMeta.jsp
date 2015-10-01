@@ -175,7 +175,7 @@
 <c:choose>
     <c:when test="${judgment.courtType == 'COMMON'}" >
         <c:if test="${!empty judgment.courtDivision.court.name}" >
-            <c:set var="detailsMetaKeywords" value="${detailsMetaDescription += ' ' += releasedBy += ' ' += judgment.courtDivision.court.name}" />
+            <c:set var="detailsMetaDescription" value="${detailsMetaDescription += ' ' += releasedBy += ' ' += judgment.courtDivision.court.name}" />
         </c:if>
     </c:when>
     <c:when test="${judgment.courtType == 'SUPREME'}" >
@@ -198,6 +198,14 @@
 
 
 <meta name="description" content="${detailsMetaDescription}" />
+
+
+<%-- Open graph ogp.me --%>
+<%@ include file="../common/openGraphMeta.jsp" %>
+<meta property="og:title" content="<c:out value="${metaCaseNumbers}" /> <spring:message code='pageTitle.judgmentDetails' /> - <spring:message code="saos.fullname"/>">
+<meta property="og:description" content="${detailsMetaDescription}">
+
+
 
 <%-- title --%>
 <title><c:out value="${metaCaseNumbers}" /> <spring:message code='pageTitle.judgmentDetails' /> - <spring:message code="saos.fullname"/></title>

@@ -4,7 +4,7 @@
 
 
 
-<h1><spring:message code="judgmentSearch.results.header" /><span><spring:message code="judgmentSearch.results.judgmentsNumber" arguments="${resultsNo}" /></span></h1>
+<h2 class="content-header" ><spring:message code="judgmentSearch.results.header" /><span><spring:message code="judgmentSearch.results.judgmentsNumber" arguments="${resultsNo}" /></span></h2>
 
 <div class="row pagination-row">
 

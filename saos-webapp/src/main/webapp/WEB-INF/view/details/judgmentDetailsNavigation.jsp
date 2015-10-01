@@ -2,9 +2,7 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-
-
-<a href="${contextPath}/" class="saos-logo" aria-label="<spring:message code='linkToMainPage'/>"></a>
+<%@ include file="../common/saosLogo.jsp" %>
 
 
 <div class="judgment-details" id="judgment" tabindex="-1">
@@ -23,9 +21,6 @@
 	        <saos:caseNumber items="${judgment.caseNumbers}"/>
 	    </h2>
 	</c:if>
-
-
-
 
         <div >
     

@@ -9,8 +9,8 @@
         <div class="navigation col-md-4">
             
             <%@ include file="../common/navigationMenu.jsp" %>
-            
-            <a href="${contextPath}/" class="saos-logo" aria-label="<spring:message code='linkToMainPage'/>"></a>
+
+			<%@ include file="../common/saosLogo.jsp" %>
             
             <div id="analysis" tabindex="-1">
                 <div class="form-group" id="analysisFormDiv">
