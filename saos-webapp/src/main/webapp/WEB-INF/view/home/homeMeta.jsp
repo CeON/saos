@@ -7,8 +7,8 @@
 
 <%-- Open graph ogp.me --%>
 <%@ include file="../common/openGraphMeta.jsp" %>
-<meta property="og:title" content="<spring:message code="pageTitle.home" /> - <spring:message code="saos.fullname"/>">
+<meta property="og:title" content="<spring:message code="pageTitle.home" /> - <spring:message code="saos.fullnameAndShortcut"/>">
 <meta property="og:description" content="<spring:message code='home.meta.pageDescription'/>">
 
 
-<title><spring:message code="pageTitle.home" /> - <spring:message code="saos.fullname"/></title>
+<title><spring:message code="pageTitle.home" /> - <spring:message code="saos.fullnameAndShortcut"/></title>
