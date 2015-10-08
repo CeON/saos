@@ -213,7 +213,7 @@ public class HttpServletRequestUtilsTest {
     }
     
     @Test
-    public void constructRequestUrlWithParameters_STANDARD_PORT_NO_QUERY() {
+    public void constructRequestUrlWithParameters_STANDARD_PORT() {
         
         // given
         when(request.getHeader("X-FORWARDED-PROTO")).thenReturn("https");
@@ -227,7 +227,7 @@ public class HttpServletRequestUtilsTest {
     }
      
     @Test
-    public void constructRequestUrlWithParameters_STANDARD_PORT() {
+    public void constructRequestUrlWithParameters_NO_QUERY() {
         
         // given
         when(request.getHeader("X-FORWARDED-PROTO")).thenReturn("https");
