@@ -35,6 +35,7 @@ import pl.edu.icm.saos.api.formatter.LawJournalEntryCodeFormatterFactory;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.persistence.service.LawJournalEntryCodeExtractor;
+import pl.edu.icm.saos.webapp.common.RequestURLInterceptor;
 import pl.edu.icm.saos.webapp.format.MultiWordFormatterFactory;
 import pl.edu.icm.saos.webapp.format.StringTrimmingFormatter;
 
@@ -103,6 +104,7 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
             .addPathPatterns("/search/lawJournalEntries*")
             .addPathPatterns("/keywords/**");
         registry.addInterceptor(new RestrictParamsHandlerInterceptor());
+        registry.addInterceptor(new RequestURLInterceptor());
         
     }
 

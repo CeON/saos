@@ -6,10 +6,21 @@
 
 <%-- JudgmentType --%>
 <c:if test="${!empty judgment.judgmentType}" >
-    <c:set var="metaJudgmentType" >
-        <saos:enum value="${judgment.judgmentType}" ></saos:enum>
-    </c:set>
-    <c:set var="detailsMetaKeywords" value="${detailsMetaKeywords}, ${metaJudgmentType}" />
+
+    <c:choose>
+        <c:when test="${judgment.courtType == 'SUPREME'}" >
+        
+            <c:set var="metaJudgmentType" value="${judgment.scJudgmentForm.name}" />
+            <c:set var="detailsMetaKeywords" value="${detailsMetaKeywords}, ${metaJudgmentType}" />
+        </c:when>
+        <c:otherwise>
+        
+            <c:set var="metaJudgmentType" >
+                <saos:enum value="${judgment.judgmentType}" ></saos:enum>
+            </c:set>
+            <c:set var="detailsMetaKeywords" value="${detailsMetaKeywords}, ${metaJudgmentType}" />
+        </c:otherwise>
+    </c:choose>
 </c:if>
 
 <%-- CaseNumbers --%>
@@ -48,8 +59,11 @@
 
     <c:if test="${!empty judgment.scChambers}" >
         <c:set var="metaScChambers" value="" />
-        <c:forEach items="${judgment.scChambers}" var="chamber">
-            <c:set var="metaScChambers" value="${metaScChambers}, ${chamber.name }" />
+        <c:forEach items="${judgment.scChambers}" var="chamber" varStatus="status">
+            <c:if test="!status.first" >
+                <c:set var="metaScChambers" value="${metaScChambers}, " />
+            </c:if>
+            <c:set var="metaScChambers" value="${metaScChambers}${chamber.name }" />
         </c:forEach>
         
         <c:set var="detailsMetaKeywords" value="${detailsMetaKeywords}, ${metaScChambers}" />
@@ -129,6 +143,10 @@
 
 
 <c:if test="${!empty metaJudgmentType}" >
+    <c:if test="${judgment.courtType == 'SUPREME'}" >
+        <c:set var="metaJudgmentType" value="${fn:toUpperCase(fn:substring(metaJudgmentType, 0, 1))}${fn:substring(metaJudgmentType, 1, fn:length(metaJudgmentType))}" />    
+    </c:if>
+
     <c:set var="detailsMetaDescription" value="${metaJudgmentType}" />
 </c:if>
 
@@ -148,6 +166,10 @@
             <c:set var="detailsMetaDescription" value="${detailsMetaDescription} ${releasedBy} ${metaScChambers}" />
         </c:if>
     </c:when>
+    <c:when test="${judgment.courtType == 'NATIONAL_APPEAL_CHAMBER'}" >
+        <spring:message code="details.meta.nationalAppealChamber" var="metaCourtType" />
+        <c:set var="detailsMetaDescription" value="${detailsMetaDescription} ${releasedBy} ${metaCourtType}" />
+    </c:when>
     <c:otherwise>
         <c:if test="${!empty metaCourtType}" >
 		    <c:set var="detailsMetaDescription" value="${detailsMetaDescription} ${releasedBy} ${metaCourtType}" />
@@ -157,7 +179,7 @@
 
 
 <c:if test="${!empty metaJudges}" >
-    <spring:message code="details.meta.containing" var="containingJudges" />
+    <spring:message code="details.meta.judges" var="containingJudges" />
     <c:set var="detailsMetaDescription" value="${detailsMetaDescription} ${containingJudges} ${metaJudges}." />
 </c:if>
 
