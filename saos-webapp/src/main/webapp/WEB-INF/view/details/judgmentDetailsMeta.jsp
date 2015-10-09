@@ -163,7 +163,7 @@
     </c:when>
     <c:when test="${judgment.courtType == 'SUPREME'}" >
         <c:if test="${!empty metaScChambers}" >
-            <c:set var="detailsMetaDescription" value="${detailsMetaDescription} ${releasedBy} ${metaScChambers}" />
+            <c:set var="detailsMetaDescription" value="${detailsMetaDescription} ${releasedBy} '${metaScChambers}'"  />
         </c:if>
     </c:when>
     <c:when test="${judgment.courtType == 'NATIONAL_APPEAL_CHAMBER'}" >

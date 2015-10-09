@@ -3,7 +3,7 @@
 
 
 <meta name="keywords" content="<spring:message code='search.meta.keywords' />" />
-<meta name="description" content="<spring:message code='search.meta.pageDescription'/>"/>
+<saos:metaDescription code="search.meta.pageDescription" />
 
 
 <%-- Open graph ogp.me --%>

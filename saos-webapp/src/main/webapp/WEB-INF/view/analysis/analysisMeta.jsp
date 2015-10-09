@@ -3,7 +3,7 @@
 
 
 <meta name="keywords" content="<spring:message code='analysis.meta.keywords' />" />
-<meta name="description" content="<spring:message code='analysis.meta.pageDescription'/>"/>
+<saos:metaDescription code="analysis.meta.pageDescription" />
 
 
 <%-- Open graph ogp.me --%>
@@ -13,4 +13,3 @@
 
 
 <title><spring:message code="pageTitle.analysis" /> - <spring:message code="saos.fullnameAndShortcut"/></title>
-
