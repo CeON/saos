@@ -2,8 +2,8 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-<meta name="keywords" content="<spring:message code='analysis.meta.keywords' />" />
-<saos:metaDescription code="analysis.meta.pageDescription" />
+<saos:metaTag code="analysis.meta.keywords" name="keywords" />
+<saos:metaTag code="analysis.meta.pageDescription" name="description" />
 
 
 <%-- Open graph ogp.me --%>
