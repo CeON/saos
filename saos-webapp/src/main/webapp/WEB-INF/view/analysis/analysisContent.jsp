@@ -2,25 +2,9 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-<script>
-$(document).ready(function() {
-	
-    analysisJsProperties = {
-            ZOOM_CANCEL_HINT: '<spring:message code="chart.zoomCancelHint"/>',
-            PAGE_LANG: '<spring:message code="page.lang"/>',
-            CHART_TABLE_NULL_PHRASE: '<spring:message code="analysis.chart.table.nullPhrase"/>',
-            CHART_TABLE_SEARCHED_PHRASE: '<spring:message code="analysis.chart.table.searchedPhrase"/>',
-            MAIN_CHART_TABLE_COL_HEADER_YEAR: '<spring:message code="analysis.chart.table.col.header.year"/>'
-    }
-    
-	initAnalysisJs();
-	
-});
-</script>
-
 	
 <div>
-    <h1><spring:message code="analysis.chart.header" /></h1>
+    <h1 class="content-header" ><spring:message code="analysis.chart.header" /></h1>
 
     <div class="form-inline yaxisValueSelect">
         <label class="control-label"><spring:message code="analysis.ysettings.yaxis.label"/></label>

@@ -147,6 +147,30 @@ public class HttpServletRequestUtilsTest {
         assertEquals(123, HttpServletRequestUtils.extractServerPort(request));
     }
     
+ 
+    @Test
+    public void constructRequestBaseUrl_NON_STANDARD_PORT() {
+        
+        // given
+        when(request.getHeader("X-FORWARDED-PROTO")).thenReturn("https");
+        when(request.getHeader("X-FORWARDED-HOST")).thenReturn("saos.org.pl");
+        when(request.getIntHeader("X-FORWARDED-PORT")).thenReturn(773);
+        
+        // execute & assert
+        assertEquals("https://saos.org.pl:773", HttpServletRequestUtils.constructRequestBaseUrl(request));
+    }
+    
+    @Test
+    public void constructRequestBaseUrl_STANDARD_PORT() {
+        
+        // given
+        when(request.getHeader("X-FORWARDED-PROTO")).thenReturn("https");
+        when(request.getHeader("X-FORWARDED-HOST")).thenReturn("saos.org.pl");
+        when(request.getIntHeader("X-FORWARDED-PORT")).thenReturn(443);
+        
+        // execute & assert
+        assertEquals("https://saos.org.pl", HttpServletRequestUtils.constructRequestBaseUrl(request));
+    }
     
     @Test
     public void constructRequestUrl_NON_STANDARD_PORT() {
@@ -173,8 +197,49 @@ public class HttpServletRequestUtilsTest {
         // execute & assert
         assertEquals("https://saos.org.pl/search", HttpServletRequestUtils.constructRequestUrl(request));
     }
-
-
+    
+    @Test
+    public void constructRequestUrlWithParameters_NON_STANDARD_PORT() {
+        
+        // given
+        when(request.getHeader("X-FORWARDED-PROTO")).thenReturn("https");
+        when(request.getHeader("X-FORWARDED-HOST")).thenReturn("saos.org.pl");
+        when(request.getIntHeader("X-FORWARDED-PORT")).thenReturn(773);
+        when(request.getRequestURI()).thenReturn("/search");
+        when(request.getQueryString()).thenReturn("searchPhrase=orzeczenie&signatur=ii12");
+        
+        // execute & assert
+        assertEquals("https://saos.org.pl:773/search?searchPhrase=orzeczenie&signatur=ii12", HttpServletRequestUtils.constructRequestUrlWithParameters(request));
+    }
+    
+    @Test
+    public void constructRequestUrlWithParameters_STANDARD_PORT() {
+        
+        // given
+        when(request.getHeader("X-FORWARDED-PROTO")).thenReturn("https");
+        when(request.getHeader("X-FORWARDED-HOST")).thenReturn("saos.org.pl");
+        when(request.getIntHeader("X-FORWARDED-PORT")).thenReturn(443);
+        when(request.getRequestURI()).thenReturn("/search");
+        when(request.getQueryString()).thenReturn("searchPhrase=orzeczenie&signatur=ii12");
+        
+        // execute & assert
+        assertEquals("https://saos.org.pl/search?searchPhrase=orzeczenie&signatur=ii12", HttpServletRequestUtils.constructRequestUrlWithParameters(request));
+    }
+     
+    @Test
+    public void constructRequestUrlWithParameters_NO_QUERY() {
+        
+        // given
+        when(request.getHeader("X-FORWARDED-PROTO")).thenReturn("https");
+        when(request.getHeader("X-FORWARDED-HOST")).thenReturn("saos.org.pl");
+        when(request.getIntHeader("X-FORWARDED-PORT")).thenReturn(443);
+        when(request.getRequestURI()).thenReturn("/search");
+        when(request.getQueryString()).thenReturn(null);
+        
+        // execute & assert
+        assertEquals("https://saos.org.pl/search", HttpServletRequestUtils.constructRequestUrlWithParameters(request));
+    }
+    
     @Test
     public void isDefaultPort() {
         

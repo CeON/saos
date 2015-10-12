@@ -355,7 +355,6 @@ a, .hint {
         }
         
         .saos-logo {
-            @include background-image("saosLogoNoText.png");
             background-size: 300px auto;
             background-repeat: no-repeat;
             cursor: pointer;
@@ -514,7 +513,7 @@ a, .hint {
             width: 100%;
         }
         
-        h1 {
+        .content-header {
             border: {
                 color: $dark;
                 style: solid;
@@ -582,7 +581,7 @@ a, .hint {
     
         .search-form {
             padding-bottom: 50px;
-            padding-top: 250px;
+            padding-top: 180px;
             position: relative;
             
             
@@ -617,7 +616,7 @@ a, .hint {
     
     .content {
     
-        h1 {
+        .content-header {
         
             span {
                 font: {
@@ -672,7 +671,7 @@ a, .hint {
         }
      
         .judgment-details {
-            padding-top: 250px;
+            padding-top: 180px;
             padding-bottom: 50px;
             position: relative;
             
@@ -857,7 +856,7 @@ a, .hint {
 
 
     #analysisFormDiv {
-        padding-top: 250px;
+        padding-top: 180px;
         padding-bottom: 50px;
         position: relative;
     }

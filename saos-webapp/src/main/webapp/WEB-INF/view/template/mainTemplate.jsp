@@ -9,16 +9,18 @@
     <c:set var="MONTH_YEAR_PATTERN" value="MM-yyyy" scope="session"></c:set>  
       
     <head>
-	    <meta charset="UTF-8" />
-	    <meta name="google-site-verification" content="G_F59iM1mxi7lR9TXG2XsgU7NmU-UvK710_NaBSmB1A" />
-	    
-	    <%@ include file="pageDescription.jsp" %>
-	    
-	    <link rel="shortcut icon" href="${contextPath}/static/image/favicon.ico" />
+        <meta charset="UTF-8" />
+        <meta name="robots" content="index, follow" >
+        <meta name="language" content="<spring:message code='meta.language' />" > 
+        <meta name="google-site-verification" content="G_F59iM1mxi7lR9TXG2XsgU7NmU-UvK710_NaBSmB1A" />
+        <%-- bing verification --%>
+        <meta name="msvalidate.01" content="645E7E5CC7ACB0DED23BF980917530B1" />
+        
+        <tiles:insertAttribute name="meta" />
+        
+        <link rel="shortcut icon" href="${contextPath}/static/image/favicon.ico" />
 	    
 		<saos:cssJsInit></saos:cssJsInit>
-		
-		<%@ include file="/WEB-INF/view/common/pageTitle.jsp" %>
 	    
 	    <%-- have to overwrite the font-face declaration because firefox does not work with fontface relative urls --%>
 	    <c:set var="glyphiconsFontsUrl" value="${contextPath}/static/font/bootstrap" scope="page"/>

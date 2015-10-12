@@ -80,6 +80,36 @@ public final class HttpServletRequestUtils {
         }
         return port;
     }
+  
+    
+    /**
+     * Returns base url sent by the client.
+     * The url consists of: <br/>
+     * <ul>
+     * <li> scheme - {@link #extractClientScheme(HttpServletRequest)} </li>
+     * <li> host - {@link #extractClientHost(HttpServletRequest)} </li>
+     * <li> port - {@link #extractServerPort(HttpServletRequest)} </li>
+     * </ul>
+     */
+    public static String constructRequestBaseUrl(HttpServletRequest request) {
+	
+	StringBuilder path = new StringBuilder();
+	
+	String scheme = extractScheme(request);
+	
+	int port = extractServerPort(request);
+	        
+	path.append (scheme);   
+	path.append ("://");
+	path.append (extractHost(request));
+	
+	if (!isDefaultPort(scheme, port)) {
+	    path.append (':');
+	    path.append (port);
+        }
+	
+	return path.toString();
+    }
     
     
     /**
@@ -96,18 +126,7 @@ public final class HttpServletRequestUtils {
         
         StringBuilder url = new StringBuilder();
         
-        String scheme = extractScheme(request);
-        
-        int port = extractServerPort(request);
-        
-        url.append (scheme);   
-        url.append ("://");
-        url.append (extractHost(request));
-        
-        if (!isDefaultPort(scheme, port)) {
-            url.append (':');
-            url.append (port);
-        }
+        url.append(constructRequestBaseUrl(request));
         
         String urlPath = request.getRequestURI();
         url.append(urlPath);
@@ -115,6 +134,36 @@ public final class HttpServletRequestUtils {
         return url.toString();
         
     }
+	
+    
+    /**
+     * Returns url sent by the client with parameters.
+     * The url consists of: <br/>
+     * <ul>
+     * <li> scheme - {@link #extractClientScheme(HttpServletRequest)} </li>
+     * <li> host - {@link #extractClientHost(HttpServletRequest)} </li>
+     * <li> port - {@link #extractServerPort(HttpServletRequest)} </li>
+     * <li> urlPath - {@link HttpServletRequest#getRequestURI()} </li>
+     * <li> queryString - {@link HttpServletRequest#getQueryString()} </li>
+     * </ul>
+     */
+    public static String constructRequestUrlWithParameters(HttpServletRequest request) {
+	
+	StringBuilder path = new StringBuilder();
+	
+	String url = constructRequestUrl(request);
+	
+	String queryString = request.getQueryString();
+	
+	path.append(url);
+	
+	if (queryString != null) {
+	    path.append("?").append(queryString);
+	}
+	
+	return path.toString();
+    }
+
     
     /**
      * Is the given port a default port for the given scheme 

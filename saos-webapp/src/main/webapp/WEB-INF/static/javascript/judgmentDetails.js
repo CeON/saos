@@ -5,11 +5,6 @@
  */
 var jsInitInJudgmentDetails = function(options) {
 
-
-    if (options.pageTitle !== undefined) {
-        $(document).attr("title", options.pageTitle + " " + $(document).attr("title"));
-    }
-
    
     //Corrections info section 
     $("#corrections-toggle").click(function() {
