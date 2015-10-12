@@ -2,8 +2,7 @@
 <%@ include file="/WEB-INF/view/common/taglibs.jsp" %>
 
 
-
-<a href="${contextPath}/" class="saos-logo" title="" aria-label="<spring:message code='linkToMainPage'/>"></a>
+<%@ include file="../common/saosLogo.jsp" %>
 
 <div class="search-form" id="search-form-section" tabindex="-1">
     <fieldset id="search-fieldset" >

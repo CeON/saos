@@ -35,6 +35,7 @@ import pl.edu.icm.saos.api.formatter.LawJournalEntryCodeFormatterFactory;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
 import pl.edu.icm.saos.api.services.interceptor.RestrictParamsHandlerInterceptor;
 import pl.edu.icm.saos.persistence.service.LawJournalEntryCodeExtractor;
+import pl.edu.icm.saos.webapp.common.RequestURLInterceptor;
 import pl.edu.icm.saos.webapp.format.MultiWordFormatterFactory;
 import pl.edu.icm.saos.webapp.format.StringTrimmingFormatter;
 
@@ -78,6 +79,7 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/static/**").addResourceLocations("/WEB-INF/static/").setCachePeriod(3600*24*7);
         registry.addResourceHandler("/robots.txt").addResourceLocations("/WEB-INF/").setCachePeriod(0);
+        registry.addResourceHandler("/sitemap.xml").addResourceLocations("/WEB-INF/sitemap.xml").setCachePeriod(0);
         registry.addResourceHandler("/files/judgments/**").addResourceLocations(ResourceUtils.FILE_URL_PREFIX + judgmentsContentPath).setCachePeriod(600);
         
     }
@@ -102,6 +104,7 @@ public class WebappConfiguration extends SpringDataWebConfiguration {
             .addPathPatterns("/search/lawJournalEntries*")
             .addPathPatterns("/keywords/**");
         registry.addInterceptor(new RestrictParamsHandlerInterceptor());
+        registry.addInterceptor(new RequestURLInterceptor());
         
     }
 
