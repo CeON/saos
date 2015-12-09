@@ -209,6 +209,17 @@
     </model> <!-- SRZRJ -->
   </court> <!-- SRZRJ -->
 
+  <court id="15501030">
+    <model>
+      <name>Sąd Rejonowy w Jaworze</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15501500">
     <model> <!-- SOOP -->
       <name>Sąd Okręgowy w Opolu</name>
@@ -344,6 +355,17 @@
   <court id="15501550">
     <model>
       <name>Sąd Rejonowy w Oleśnie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15501555">
+    <model>
+      <name>Sąd Rejonowy w Głubczycach</name>
       <departments>
         <department id="0000503">I Wydział Cywilny</department>
         <department id="0001006">II Wydział Karny</department>
@@ -944,6 +966,40 @@
     </model>
   </court>
 
+  <court id="15051540">
+    <model>
+      <name>Sąd Rejonowy w Biskupcu</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+        <department id="0002015">IV Wydział Pracy</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15051545">
+    <model>
+      <name>Sąd Rejonowy w Lidzbarku Warmińskim</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15051550">
+    <model>
+      <name>Sąd Rejonowy w Nidzicy</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15052000"> <!-- SOSUW -->
     <model> <!-- SOSUW -->
       <name>Sąd Okręgowy w Suwałkach</name> <!-- SOSUW -->
@@ -1251,6 +1307,28 @@
     </model>
   </court>
 
+  <court id="15100535">
+    <model>
+      <name>Sąd Rejonowy w Mogilnie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15100540">
+    <model>
+      <name>Sąd Rejonowy w Żninie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15101000"> <!-- SOE -->
     <model> <!-- SOE -->
       <name>Sąd Okręgowy w Elblągu</name> <!-- SOE -->
@@ -1351,6 +1429,17 @@
   <court id="15101025">
     <model>
       <name>Sąd Rejonowy w Działdowie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15101030">
+    <model>
+      <name>Sąd Rejonowy w Nowym Mieście Lubawskim</name>
       <departments>
         <department id="0000503">I Wydział Cywilny</department>
         <department id="0001006">II Wydział Karny</department>
@@ -1642,6 +1731,28 @@
     </model> <!-- SRSLUPSK	-->
   </court> <!-- SRSLUPSK	-->
 
+  <court id="15102025">
+    <model>
+      <name>Sąd Rejonowy w Bytowie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15102030">
+    <model>
+      <name>Sąd Rejonowy w Miastku</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15102500"> <!-- SOTOR -->
     <model> <!-- SOTOR -->
       <name>Sąd Okręgowy w Toruniu</name> <!-- SOTOR -->
@@ -1737,6 +1848,28 @@
     </model> <!-- SRTOR	-->
   </court> <!-- SRTOR	-->
 
+  <court id="15102525">
+    <model>
+      <name>Sąd Rejonowy w Golubiu-Dobrzyniu</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15102530">
+    <model>
+      <name>Sąd Rejonowy w Wąbrzeźnie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15103000"> <!-- SOWL -->
     <model> <!-- SOWL -->
       <name>Sąd Okręgowy we Włocławku</name> <!-- SOWL -->
@@ -1817,6 +1950,17 @@
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> 
       </departments> 
     </model> 
+  </court>
+
+  <court id="15103025">
+    <model>
+      <name>Sąd Rejonowy w Rypinie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
   </court>
 
 
@@ -2654,6 +2798,28 @@
     </model>
   </court>
 
+  <court id="15200555">
+    <model>
+      <name>Sąd Rejonowy w Pińczowie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15200560">
+    <model>
+      <name>Sąd Rejonowy we Włoszczowie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15201000">
     <model>
       <name>Sąd Okręgowy w Krakowie</name>
@@ -2846,6 +3012,17 @@
   <court id="15201055">
     <model>
       <name>Sąd Rejonowy w Suchej Beskidzkiej</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15201060">
+    <model>
+      <name>Sąd Rejonowy w Miechowie</name>
       <departments>
         <department id="0000503">I Wydział Cywilny</department>
         <department id="0001006">II Wydział Karny</department>
@@ -3142,6 +3319,17 @@
   <court id="15250530">
     <model>
       <name>Sąd Rejonowy w Pleszewie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15250535">
+    <model>
+      <name>Sąd Rejonowy w Ostrzeszowie</name>
       <departments>
         <department id="0000503">I Wydział Cywilny</department>
         <department id="0001006">II Wydział Karny</department>
@@ -3917,6 +4105,17 @@
     </model>
   </court>
 
+  <court id="15300560">
+    <model>
+      <name>Sąd Rejonowy we Włodawie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15301000">
     <model><!-- SORAD -->
       <name>Sąd Okręgowy w Radomiu</name><!-- SORAD -->
@@ -4022,6 +4221,28 @@
         <department id="3020003">VI Zamiejscowy Wydział Cywilny z siedzibą w Lipsku</department>
         <department id="3520006">VII Zamiejscowy Wydział Karny w Lipsku</department>
         <department id="4020012">VIII Zamiejscowy Wydział Rodzinny i Nieletnich w Lipsku</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15301030">
+    <model>
+      <name>Sąd Rejonowy w Lipsku</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15301035">
+    <model>
+      <name>Sąd Rejonowy w Szydłowcu</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
       </departments>
     </model>
   </court>
@@ -4222,6 +4443,17 @@
   <court id="15302025">
     <model>
       <name>Sąd Rejonowy w Krasnymstawie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15302030">
+    <model>
+      <name>Sąd Rejonowy w Janowie Lubelskim</name>
       <departments>
         <department id="0000503">I Wydział Cywilny</department>
         <department id="0001006">II Wydział Karny</department>
@@ -4800,6 +5032,17 @@
     </model> <!-- SRZARY -->
   </court> <!-- SRZARY -->
 
+  <court id="15351535">
+    <model>
+      <name>Sąd Rejonowy we Wschowie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15400000">
     <model><!-- SARZESZ -->
       <name>Sąd Apelacyjny w Rzeszowie</name><!-- SARZESZ -->
@@ -4894,6 +5137,17 @@
     </model> <!-- SRSANOK -->
   </court> <!-- SRSANOK -->
 
+  <court id="15400525">
+    <model>
+      <name>Sąd Rejonowy w Brzozowie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15401000">
     <model><!-- SORZESZ -->
       <name>Sąd Okręgowy w Rzeszowie</name><!-- SORZESZ -->
@@ -4970,6 +5224,17 @@
   <court id="15401020">
     <model>
       <name>Sąd Rejonowy w Leżajsku</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15401025">
+    <model>
+      <name>Sąd Rejonowy w Ropczycach</name>
       <departments>
         <department id="0000503">I Wydział Cywilny</department>
         <department id="0001006">II Wydział Karny</department>
@@ -5058,6 +5323,17 @@
     </model>
   </court>
 
+  <court id="15401525">
+    <model>
+      <name>Sąd Rejonowy w Kolbuszowej</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
   <court id="15402000">
     <model><!-- SOPRZEM -->
       <name>Sąd Okręgowy w Przemyślu</name><!-- SOPRZEM -->
@@ -5108,6 +5384,17 @@
   <court id="15402015">
     <model>
       <name>Sąd Rejonowy w Przeworsku</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15402020">
+    <model>
+      <name>Sąd Rejonowy w Lubaczowie</name>
       <departments>
         <department id="0000503">I Wydział Cywilny</department>
         <department id="0001006">II Wydział Karny</department>
@@ -5211,6 +5498,17 @@
   <court id="15550520">
     <model>
       <name>Sąd Rejonowy w Strzelcach Krajeńskich</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15550525">
+    <model>
+      <name>Sąd Rejonowy w Sulęcinie</name>
       <departments>
         <department id="0000503">I Wydział Cywilny</department>
         <department id="0001006">II Wydział Karny</department>
@@ -5352,6 +5650,17 @@
       </departments> <!-- SRWALCZ -->
     </model> <!-- SRWALCZ -->
   </court> <!-- SRWALCZ -->
+
+  <court id="15551035">
+    <model>
+      <name>Sąd Rejonowy w Sławnie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
 
   <court id="15551500"> <!-- SOSZ -->
     <model> <!-- SOSZ -->
@@ -5543,6 +5852,28 @@
         <department id="0001006">II Wydział Karny</department>
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
         <department id="0002015">IV Wydział Pracy</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15551550">
+    <model>
+      <name>Sąd Rejonowy w Kamieniu Pomorskim</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15551555">
+    <model>
+      <name>Sąd Rejonowy w Łobzie</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
       </departments>
     </model>
   </court>
