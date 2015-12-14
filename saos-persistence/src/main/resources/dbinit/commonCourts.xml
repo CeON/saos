@@ -4573,11 +4573,12 @@
         <department id="0005027">X Wydział Gospodarczy Odwoławczy</department><!-- SOPOZ -->
         <department id="0005557">XI Wydział Wizytacyjny</department><!-- SOPOZ -->
         <department id="0006003">XII Wydział Cywilny</department><!-- SOPOZ -->
-        <department id="0006503">XIII Wydział Cywilny</department><!-- SOPOZ -->
-        <department id="0007003">XIV Wydział Cywilny</department><!-- SOPOZ -->
+        <department id="6520003">XIII Wydział Cywilny z siedzibą w Lesznie </department><!-- SOPOZ -->
+        <department id="7020003">XIV Wydział Cywilny z siedzibą w Pile</department><!-- SOPOZ -->
         <department id="0007503">XV Wydział Cywilny Odwoławczy</department><!-- SOPOZ -->
         <department id="0008006">XVI Wydział Karny</department><!-- SOPOZ -->
         <department id="0008506">XVII Wydział Karny Odwoławczy</department><!-- SOPOZ -->
+        <department id="0009003">XVIII Wydział Cywilny</department><!-- SOPOZ -->
       </departments><!-- SOPOZ -->
     </model><!-- SOPOZ -->
   </court><!-- SOPOZ -->
@@ -5096,8 +5097,8 @@
         <department id="0000503">I Wydział Cywilny</department> <!-- SRKROSNO -->
         <department id="0001006">II Wydział Karny</department> <!-- SRKROSNO -->
         <department id="0001512">III Wydział Rodzinny i Nieletnich</department> <!-- SRKROSNO -->
-        <department id="0002015">IV Wydział Pracy</department> <!-- SRKROSNO -->
-        <department id="0002524">V Wydział Ksiąg Wieczystych</department> <!-- SRKROSNO -->
+        <department id="0002021">IV Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SRKROSNO -->
+        <department id="0002527">V Wydział Gospodarczy</department> <!-- SRKROSNO -->
         <department id="3520003">VII Wydział Cywilny z siedzibą w Brzozowie</department> <!-- SRKROSNO -->
         <department id="4020006">VIII Wydział Karny z siedzibą w Brzozowie</department> <!-- SRKROSNO -->
         <department id="4520012">IX Wydział Rodzinny i Nieletnich z siedzibą w Brzozowie</department> <!-- SRKROSNO -->
