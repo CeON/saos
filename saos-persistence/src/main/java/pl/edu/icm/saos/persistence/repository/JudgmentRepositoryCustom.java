@@ -15,8 +15,10 @@ import pl.edu.icm.saos.persistence.model.Judgment;
  * @author Łukasz Dumiszewski
  */
 
-public interface JudgmentRepositoryCustom {
+public interface JudgmentRepositoryCustom extends IndexableObjectRepositoryCustom {
 
+    
+    
     /**
      * Finds {@link Judgment} with the given id ({@link Judgment#getId()}), initializes it (the whole tree)
      * and returns it.<br/>
@@ -25,6 +27,29 @@ public interface JudgmentRepositoryCustom {
      */
     public <T extends Judgment> T findOneAndInitialize(long id);
 
+    
+    /**
+     * Saves the given {@link Judgment}.
+     * Additionally it updates modification date of this judgment and
+     * resets indexed flag.
+     */
+    public <S extends Judgment> S save(S judgment);
+    
+    /**
+     * Saves all given {@link Judgment}s.
+     * Additionally it updates modification date and resets indexed flag
+     * for all of these judgments.
+     */
+    public <S extends Judgment> List<S> save(Iterable<S> judgments);
+    
+    /**
+     * Saves the given {@link Judgment} and flushes changes instantly.
+     * Additionally it updates modification date of this judgment and
+     * resets indexed flag.
+     */
+    public <S extends Judgment> S saveAndFlush(S judgment);
+    
+    
     /**
      * Deletes {@link Judgment}s with the given judgmentIds.<br/>
      * Note that in order to delete corresponding <code>{@link EnrichmentTag}s</code> and

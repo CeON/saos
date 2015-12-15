@@ -117,8 +117,7 @@ public class JudgmentIndexingJobTest extends BatchJobsTestSupport {
         
         // given
         Judgment firstJudgment = judgmentRepository.findOne(ccJudgments.get(1).getId());
-        firstJudgment.markAsIndexed();
-        judgmentRepository.save(firstJudgment);
+        judgmentRepository.markAsIndexed(firstJudgment.getId());
         
         int alreadyIndexedCount = 1;
         

@@ -11,8 +11,25 @@ import pl.edu.icm.saos.persistence.model.Judgment;
  * 
  * @author Łukasz Dumiszewski
  */
-public interface JudgmentRepository extends JudgmentCommonRepository<Judgment>, JpaRepository<Judgment, Long>, JudgmentRepositoryCustom {
+public interface JudgmentRepository extends JudgmentCommonRepository<Judgment>, JpaRepository<Judgment, Long>, JudgmentRepositoryCustom,
+        IndexableObjectRepository<Judgment> {
 
+    
+    /**
+     * Saves the given {@link Judgment}
+     */
+    public  <S extends Judgment> S save(S judgment);
+    
+    /**
+     * Saves all given {@link Judgment}s
+     */
+    public <S extends Judgment> List<S> save(Iterable<S> judgments);
+    
+    /**
+     * Saves the given {@link Judgment} and flushes changes instantly
+     */
+    public <S extends Judgment> S saveAndFlush(S judgment);
+    
     
     /**
      * Deletes fast all the {@link Judgment}s with the given ids using just a few jpql/sql queries
@@ -39,4 +56,5 @@ public interface JudgmentRepository extends JudgmentCommonRepository<Judgment>, 
     
     /** Unsupported, use: {@link #delete(List)} */
     public void deleteInBatch(Iterable<Judgment> entities);
+    
 }

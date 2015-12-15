@@ -26,7 +26,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
-import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -38,13 +37,13 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.util.ObjectUtils;
 
-import pl.edu.icm.saos.common.visitor.Visitor;
-import pl.edu.icm.saos.persistence.common.IndexableObject;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+
+import pl.edu.icm.saos.common.visitor.Visitor;
+import pl.edu.icm.saos.persistence.common.IndexableObject;
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
 
 /**
@@ -61,7 +60,7 @@ import com.google.common.collect.Lists;
 @Cacheable(false)
 @SequenceGenerator(name = "seq_judgment", allocationSize = 1, sequenceName = "seq_judgment")
 public abstract class Judgment extends IndexableObject {
-
+    
     /** pl. rodzaj wyroku */
     public enum JudgmentType {
         /** pl. postanowienie */
@@ -265,7 +264,11 @@ public abstract class Judgment extends IndexableObject {
     public abstract CourtType getCourtType();
 
     /**
-     * @return Judgment's last modification date
+     * @return Judgment's last modification date.
+     * <br/>
+     * Modification means any change
+     * made to judgment entity or judgment dependent entities
+     * (i.e. authors, keywords, ...)
      */
     public DateTime getModificationDate() {
         return modificationDate;
@@ -573,8 +576,16 @@ public abstract class Judgment extends IndexableObject {
         }
     }
 
-    @PreUpdate
-    protected void onUpdate(){
+    /**
+     * Updates modification date to current time.
+     * <br/>
+     * Method is meant to be used only in persistence
+     * repository classes.
+     * Do not use it outside of that scope.
+     * Modification date will be automatically updated when
+     * saving the entity.
+     */
+    public void updateModificationDate() {
         this.modificationDate = new DateTime();
     }
     

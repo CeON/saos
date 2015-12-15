@@ -10,13 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.enrichment.reference.TagJudgmentReferenceRemover;
-import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
-
-import com.google.common.collect.Lists;
 
 /**
  * Deleter of {@link Judgments} with corresponding {@link EnrichmentTag}s and
@@ -32,9 +31,6 @@ public class JudgmentWithEnrichmentDeleter {
     
     @Autowired
     private JudgmentRepository judgmentRepository;
-    
-    @Autowired
-    private EnrichmentTagRepository enrichmentTagRepository;
     
     @Autowired
     @Qualifier("tagJudgmentReferenceRemover")

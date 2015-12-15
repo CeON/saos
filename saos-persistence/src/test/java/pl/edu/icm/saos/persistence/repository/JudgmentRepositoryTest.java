@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 import org.hibernate.LazyInitializationException;
 import org.joda.time.DateTime;
@@ -23,22 +24,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.PersistenceTestSupport;
 import pl.edu.icm.saos.persistence.common.TestInMemoryObjectFactory;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
-import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgmentDissentingOpinion;
 import pl.edu.icm.saos.persistence.model.CourtCase;
+import pl.edu.icm.saos.persistence.model.Judge;
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentSourceInfo;
 import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski
@@ -48,9 +50,6 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
 
     @Autowired
     private JudgmentRepository judgmentRepository;
-    
-    @Autowired
-    private EnrichmentTagRepository enrichmentTagRepository;
 
     @Autowired
     private TestPersistenceObjectFactory testPersistenceObjectFactory;
@@ -75,6 +74,69 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         // assert
         Assert.assertEquals(1, judgmentRepository.count());
+    }
+    
+    @Test
+    public void save_iterable() {
+        
+        // given
+        
+        CommonCourtJudgment judgment1 = new CommonCourtJudgment();
+        judgment1.addCourtCase(new CourtCase("AAA1"));
+        judgment1.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
+        judgment1.getSourceInfo().setSourceJudgmentId("1");
+        
+        CommonCourtJudgment judgment2 = new CommonCourtJudgment();
+        judgment2.addCourtCase(new CourtCase("AAA2"));
+        judgment2.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
+        judgment2.getSourceInfo().setSourceJudgmentId("2");
+        
+        DateTime beforeSave = new DateTime();
+        waitForTimeChange();
+        
+        
+        // execute
+        
+        judgmentRepository.save(Lists.newArrayList(judgment1, judgment2));
+        
+        
+        // assert
+        
+        assertEquals(2, judgmentRepository.count());
+        
+        Judgment retJudgment1 = judgmentRepository.findOne(judgment1.getId());
+        Judgment retJudgment2 = judgmentRepository.findOne(judgment2.getId());
+        
+        assertTrue(retJudgment1.getModificationDate().isAfter(beforeSave));
+        assertTrue(retJudgment2.getModificationDate().isAfter(beforeSave));
+    }
+    
+    @Test
+    public void saveAndFlush() {
+        
+        // given
+        
+        CommonCourtJudgment judgment = new CommonCourtJudgment();
+        judgment.addCourtCase(new CourtCase("AAA1"));
+        judgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
+        judgment.getSourceInfo().setSourceJudgmentId("1");
+        
+        DateTime beforeSave = new DateTime();
+        waitForTimeChange();
+        
+        
+        // execute
+        
+        judgmentRepository.saveAndFlush(judgment);
+        
+        
+        // assert
+        
+        assertEquals(1, judgmentRepository.count());
+        
+        Judgment retJudgment = judgmentRepository.findOne(judgment.getId());
+        
+        assertTrue(retJudgment.getModificationDate().isAfter(beforeSave));
     }
     
     
@@ -293,92 +355,6 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         judgmentRepository.findOneAndInitialize(987654l);
     }
     
-    @Test
-    public void findAllNotIndexed_FOUND() {
-        
-        // given
-        createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
-        
-        // execute
-        Page<Judgment> judgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
-        
-        // assert
-        assertEquals(1, judgments.getTotalElements());
-    }
-    
-    
-    @Test
-    public void findAllNotIndexed_NOT_FOUND() {
-        
-        // given
-        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
-        judgment.markAsIndexed();
-        
-        judgmentRepository.save(judgment);
-        
-        // execute
-        Page<Judgment> judgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
-        
-        // assert
-        assertEquals(0, judgments.getTotalElements());
-    }
-    
-    @Test
-    public void findAllNotIndexedIds_FOUND() {
-        
-        // given
-        Judgment firstJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
-        Judgment secondJudgment = createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
-        Judgment thirdJudgment = createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
-        
-        // execute
-        List<Long> notIndexed = judgmentRepository.findAllNotIndexedIds();
-        
-        // assert
-        assertThat(notIndexed, containsInAnyOrder(firstJudgment.getId(), secondJudgment.getId(), thirdJudgment.getId()));
-    }
-    
-    @Test
-    public void findAllNotIndexedIds_NOT_FOUND() {
-        
-        // given
-        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
-        judgment.markAsIndexed();
-        judgmentRepository.save(judgment);
-        
-        // execute
-        List<Long> notIndexed = judgmentRepository.findAllNotIndexedIds();
-        
-        // assert
-        assertEquals(0, notIndexed.size());
-    }
-    
-    @Test
-    public void markAsIndexedAndSave_CHECK_INDEXED_DATE() {
-        
-        // given
-        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
-        
-        DateTime beforeIndexed = new DateTime();
-        waitForTimeChange();
-        
-        // execute
-        
-        judgment.markAsIndexed();
-        judgmentRepository.save(judgment);
-        
-        waitForTimeChange();
-        DateTime afterIndexed = new DateTime();
-        
-        // assert
-        Judgment actualJudgment = judgmentRepository.findOne(judgment.getId());
-        
-        assertNotNull(actualJudgment);
-        assertNotNull(actualJudgment.getIndexedDate());
-        assertTrue(beforeIndexed.isBefore(actualJudgment.getIndexedDate()));
-        assertTrue(afterIndexed.isAfter(actualJudgment.getCreationDate()));
-    }
-    
 
     
     @Test
@@ -388,10 +364,8 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         CommonCourtJudgment ccJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         SupremeCourtJudgment scJudgment = createScJudgment(SourceCode.SUPREME_COURT, "2", "AAA2");
-        ccJudgment.markAsIndexed();
-        scJudgment.markAsIndexed();
-        judgmentRepository.save(ccJudgment);
-        judgmentRepository.save(scJudgment);
+        judgmentRepository.markAsIndexed(ccJudgment.getId());
+        judgmentRepository.markAsIndexed(scJudgment.getId());
         
         
         // execute
@@ -415,10 +389,8 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         
         CommonCourtJudgment ccJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
         SupremeCourtJudgment scJudgment = createScJudgment(SourceCode.SUPREME_COURT, "2", "AAA2");
-        ccJudgment.markAsIndexed();
-        scJudgment.markAsIndexed();
-        judgmentRepository.save(ccJudgment);
-        judgmentRepository.save(scJudgment);
+        judgmentRepository.markAsIndexed(ccJudgment.getId());
+        judgmentRepository.markAsIndexed(scJudgment.getId());
         
         
         // execute
@@ -436,7 +408,8 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     }
 
     @Test
-    public void findOne_it_should_return_correct_modification_date_value(){
+    @Transactional
+    public void it_should_update_modification_date_on_judgment_change(){
         
         //given
         CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
@@ -445,6 +418,27 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
 
         //when
         judgment.setDecision("some decision");
+        waitForTimeChange();
+        judgmentRepository.save(judgment);
+        DateTime secondModificationDate = judgmentRepository.findOne(judgment.getId()).getModificationDate();
+
+        //then
+        assertNotNull(firstModificationDate);
+        assertNotNull(secondModificationDate);
+        assertTrue(secondModificationDate.isAfter(firstModificationDate));
+    }
+    
+    @Test
+    @Transactional
+    public void it_should_update_modification_date_on_judgment_collection_change(){
+        
+        //given
+        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        judgmentRepository.save(judgment);
+        DateTime firstModificationDate = judgment.getModificationDate();
+
+        //when
+        judgment.addJudge(new Judge("John Doe", JudgeRole.PRESIDING_JUDGE));
         waitForTimeChange();
         judgmentRepository.save(judgment);
         DateTime secondModificationDate = judgmentRepository.findOne(judgment.getId()).getModificationDate();
@@ -621,27 +615,104 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
+    public void markAsIndexed() {
+        // given
+        Judgment judgment1 = createCcJudgment(SourceCode.COMMON_COURT, "1", "AA1");
+        waitForTimeChange();
+        DateTime beforeIndexed = new DateTime();
+        
+        // execute
+        waitForTimeChange();
+        judgmentRepository.markAsIndexed(judgment1.getId());
+        waitForTimeChange();
+        
+        DateTime afterIndexed = new DateTime();
+        
+        // assert
+        Judgment actualJudgment = judgmentRepository.findOne(judgment1.getId());
+        assertTrue(actualJudgment.isIndexed());
+        assertTrue(actualJudgment.getIndexedDate().isAfter(beforeIndexed));
+        assertTrue(actualJudgment.getIndexedDate().isBefore(afterIndexed));
+        assertTrue(actualJudgment.getModificationDate().isBefore(beforeIndexed));
+        
+    }
+    
+    @Test
     public void markAsNotIndexed() {
         // given
         Judgment judgment1 = createCcJudgment(SourceCode.COMMON_COURT, "1", "AA1");
         Judgment judgment2 = createCcJudgment(SourceCode.COMMON_COURT, "2", "AA2");
         Judgment judgment3 = createCcJudgment(SourceCode.COMMON_COURT, "3", "AA3");
-        
-        judgment1.markAsIndexed();
-        judgment3.markAsIndexed();
-        judgmentRepository.save(Lists.newArrayList(judgment1, judgment3));
-        
-        
+
+        judgmentRepository.markAsIndexed(judgment1.getId());
+        judgmentRepository.markAsIndexed(judgment3.getId());
+
+
         // execute
         judgmentRepository.markAsNotIndexed(Lists.newArrayList(judgment1.getId(), judgment2.getId()));
-        
+
         // assert
         assertFalse(judgmentRepository.findOne(judgment1.getId()).isIndexed());
         assertFalse(judgmentRepository.findOne(judgment2.getId()).isIndexed());
         assertTrue(judgmentRepository.findOne(judgment3.getId()).isIndexed());
     }
     
-
+    @Test
+    public void findAllNotIndexed_FOUND() {
+        
+        // given
+        createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        
+        // execute
+        Page<Judgment> judgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
+        
+        // assert
+        assertEquals(1, judgments.getTotalElements());
+    }
+    
+    
+    @Test
+    public void findAllNotIndexed_NOT_FOUND() {
+        
+        // given
+        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        judgmentRepository.markAsIndexed(judgment.getId());
+        
+        // execute
+        Page<Judgment> judgments = judgmentRepository.findAllNotIndexed(new PageRequest(0, 10));
+        
+        // assert
+        assertEquals(0, judgments.getTotalElements());
+    }
+    
+    @Test
+    public void findAllNotIndexedIds_FOUND() {
+        
+        // given
+        Judgment firstJudgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        Judgment secondJudgment = createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
+        Judgment thirdJudgment = createCcJudgment(SourceCode.COMMON_COURT, "3", "AAA3");
+        
+        // execute
+        List<Long> notIndexed = judgmentRepository.findAllNotIndexedIds();
+        
+        // assert
+        assertThat(notIndexed, containsInAnyOrder(firstJudgment.getId(), secondJudgment.getId(), thirdJudgment.getId()));
+    }
+    
+    @Test
+    public void findAllNotIndexedIds_NOT_FOUND() {
+        
+        // given
+        CommonCourtJudgment judgment = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        judgmentRepository.markAsIndexed(judgment.getId());
+        
+        // execute
+        List<Long> notIndexed = judgmentRepository.findAllNotIndexedIds();
+        
+        // assert
+        assertEquals(0, notIndexed.size());
+    }
     
     
     

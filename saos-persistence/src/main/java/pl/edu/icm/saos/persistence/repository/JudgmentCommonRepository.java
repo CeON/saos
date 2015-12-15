@@ -15,7 +15,7 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
  * @author Łukasz Dumiszewski
  */
 
-public interface JudgmentCommonRepository<T extends Judgment> extends IndexableObjectRepository<T> {
+public interface JudgmentCommonRepository<T extends Judgment> {
 
     @Query("select count(j) from #{#entityName} j where TYPE(j)=:clazz")
     long count(@Param("clazz") Class<? extends T> clazz);

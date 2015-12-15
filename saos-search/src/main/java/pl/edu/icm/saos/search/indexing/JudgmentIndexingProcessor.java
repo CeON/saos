@@ -8,8 +8,8 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.model.Judgment;
+import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
  * Batch processor for indexing all judgments
@@ -19,7 +19,7 @@ import pl.edu.icm.saos.persistence.model.Judgment;
 @Service
 public class JudgmentIndexingProcessor implements ItemProcessor<JudgmentIndexingData, SolrInputDocument> {
     
-    private JudgmentEnrichmentService judgmentEnrichmentService;
+    private JudgmentRepository judgmentRepository;
     
     private List<JudgmentIndexFieldsFiller> judgmentIndexFieldsFillers = new ArrayList<>();
     
@@ -33,8 +33,7 @@ public class JudgmentIndexingProcessor implements ItemProcessor<JudgmentIndexing
         fillJudgmentFields(doc, item);
         
         Judgment judgment = item.getJudgment();
-        judgment.markAsIndexed();
-        judgmentEnrichmentService.unenrichAndSave(judgment);
+        judgmentRepository.markAsIndexed(judgment.getId());
         
         return doc;
     }
@@ -58,9 +57,10 @@ public class JudgmentIndexingProcessor implements ItemProcessor<JudgmentIndexing
     //------------------------ SETTERS --------------------------
 
     @Autowired
-    public void setJudgmentEnrichmentService(JudgmentEnrichmentService judgmentEnrichmentService) {
-        this.judgmentEnrichmentService = judgmentEnrichmentService;
+    public void setJudgmentRepository(JudgmentRepository judgmentRepository) {
+        this.judgmentRepository = judgmentRepository;
     }
+
 
     @Autowired
     public void setJudgmentIndexFieldsFillers(
