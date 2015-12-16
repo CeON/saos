@@ -55,6 +55,8 @@ class SourceCcjExternalRepository {
        
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, new HttpEntity<String>(headers), String.class);
         
+        validateJudgmentIdsResponse(response);
+        
         return xmlTagContentExtractor.extractTagContents(response.getBody(), "id");
     
     }
@@ -88,6 +90,14 @@ class SourceCcjExternalRepository {
     
     //------------------------ PRIVATE --------------------------
     
+    private void validateJudgmentIdsResponse(ResponseEntity<String> response) {
+        
+        MediaType responseContentType = response.getHeaders().getContentType();
+        if (!responseContentType.isCompatibleWith(MediaType.APPLICATION_XML) && !responseContentType.isCompatibleWith(MediaType.TEXT_XML)) {
+            throw new SourceCcJudgmentIdsDownloadException("External repository responded with " + responseContentType + " content type, "
+                    + MediaType.APPLICATION_XML + " or " + MediaType.TEXT_XML + " was expected.");
+        }
+    }
     
     private String findJudgmentDetails(String judgmentId) {
         
