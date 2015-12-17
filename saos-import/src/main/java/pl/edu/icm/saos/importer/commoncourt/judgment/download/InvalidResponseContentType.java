@@ -6,14 +6,14 @@ package pl.edu.icm.saos.importer.commoncourt.judgment.download;
  * 
  * @author madryk
  */
-public class SourceCcJudgmentIdsDownloadException extends RuntimeException {
+public class InvalidResponseContentType extends RuntimeException {
 
     private static final long serialVersionUID = 2939777306136925756L;
 
 
     //------------------------ CONSTRUCTORS --------------------------
     
-    public SourceCcJudgmentIdsDownloadException(String message) {
+    public InvalidResponseContentType(String message) {
         super(message);
     }
 }

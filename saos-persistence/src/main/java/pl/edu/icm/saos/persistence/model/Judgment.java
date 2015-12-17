@@ -577,13 +577,11 @@ public abstract class Judgment extends IndexableObject {
     }
 
     /**
-     * Updates modification date to current time.
+     * Sets the modification date to the current time.
      * <br/>
-     * Method is meant to be used only in persistence
-     * repository classes.
-     * Do not use it outside of that scope.
-     * Modification date will be automatically updated when
-     * saving the entity.
+     * This method is used in persistence repository classes, 
+     * so that saving the object updates the modification date. 
+     * You should not use it in other classes.
      */
     public void updateModificationDate() {
         this.modificationDate = new DateTime();

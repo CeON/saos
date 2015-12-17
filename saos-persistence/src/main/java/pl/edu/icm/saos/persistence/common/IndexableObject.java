@@ -19,8 +19,10 @@ public abstract class IndexableObject extends DataObject {
     private DateTime indexedDate;
 
 
+    //------------------------ GETTERS --------------------------
+    
     /**
-     * Is entity needs to be indexed.
+     * Returns false if the given object tree current state has not been indexed (and should be indexed)
      */
     @Column(columnDefinition=ColumnDefinitionConst.BOOLEAN_NOT_NULL_DEFUALT_FALSE)
     public boolean isIndexed() {
@@ -28,27 +30,29 @@ public abstract class IndexableObject extends DataObject {
     }
 
     /**
-     * Returns date when entity was last indexed.
+     * Returns the date of the last indexing of this entity.
      */
     public DateTime getIndexedDate() {
         return indexedDate;
     }
     
     
+    //------------------------ LOGIC --------------------------
+    
     /**
      * Sets indexed flag to false.
      * <br/>
-     * Method is meant to be used only in persistence
-     * repository classes.
-     * Do not use it outside of that scope.
-     * Indexed flag will be automatically reset when
-     * saving the entity.
+     * This method is used in persistence repository classes, 
+     * so that saving the object resets the indexed flag. 
+     * You should not use it in other classes.
      */
     public void resetIndexedFlag() {
         this.indexed = false;
     }
 
 
+    //------------------------ SETTERS --------------------------
+    
     /** for hibernate */
     @SuppressWarnings("unused")
     private void setIndexed(boolean indexed) {

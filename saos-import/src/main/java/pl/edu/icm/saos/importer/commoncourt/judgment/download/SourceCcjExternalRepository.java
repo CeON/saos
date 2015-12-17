@@ -94,7 +94,7 @@ class SourceCcjExternalRepository {
         
         MediaType responseContentType = response.getHeaders().getContentType();
         if (!responseContentType.isCompatibleWith(MediaType.APPLICATION_XML) && !responseContentType.isCompatibleWith(MediaType.TEXT_XML)) {
-            throw new SourceCcJudgmentIdsDownloadException("External repository responded with " + responseContentType + " content type, "
+            throw new InvalidResponseContentType("External repository responded with " + responseContentType + " content type, "
                     + MediaType.APPLICATION_XML + " or " + MediaType.TEXT_XML + " was expected.");
         }
     }

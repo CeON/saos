@@ -83,7 +83,7 @@ public class SourceCcjExternalRepositoryTest {
         Mockito.verify(xmlTagContentExtractor).extractTagContents(Mockito.eq(responseMessage), Mockito.eq("id"));
     }
 
-    @Test(expected = SourceCcJudgmentIdsDownloadException.class)
+    @Test(expected = InvalidResponseContentType.class)
     public void findJudgmentIds_INVALID_MEDIA_TYPE_RESPONSE() {
         
         // given

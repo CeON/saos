@@ -178,6 +178,7 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
                 .setParameter("id", id)
                 .setParameter("currTimestamp", new DateTime());
         query.executeUpdate();
+        entityManager.flush();
     }
 
     

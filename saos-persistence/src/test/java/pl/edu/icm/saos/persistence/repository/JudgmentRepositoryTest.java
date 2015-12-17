@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 
 import org.hibernate.LazyInitializationException;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -85,11 +86,13 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         judgment1.addCourtCase(new CourtCase("AAA1"));
         judgment1.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
         judgment1.getSourceInfo().setSourceJudgmentId("1");
+        judgment1.getSourceInfo().setReviser("reviser name");
         
         CommonCourtJudgment judgment2 = new CommonCourtJudgment();
         judgment2.addCourtCase(new CourtCase("AAA2"));
         judgment2.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
         judgment2.getSourceInfo().setSourceJudgmentId("2");
+        judgment2.setJudgmentDate(new LocalDate(2013, 5, 2));
         
         DateTime beforeSave = new DateTime();
         waitForTimeChange();
@@ -108,7 +111,62 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
         Judgment retJudgment2 = judgmentRepository.findOne(judgment2.getId());
         
         assertTrue(retJudgment1.getModificationDate().isAfter(beforeSave));
+        assertFalse(retJudgment1.isIndexed());
+        assertNull(retJudgment1.getIndexedDate());
+        assertEquals("reviser name", retJudgment1.getSourceInfo().getReviser());
+        
         assertTrue(retJudgment2.getModificationDate().isAfter(beforeSave));
+        assertFalse(retJudgment2.isIndexed());
+        assertNull(retJudgment2.getIndexedDate());
+        assertEquals(new LocalDate(2013, 5, 2), retJudgment2.getJudgmentDate());
+    }
+    
+    @Test
+    public void save_iterable_UPDATE() {
+        
+        // given
+        
+        Judgment judgment1 = createCcJudgment(SourceCode.COMMON_COURT, "1", "AAA1");
+        Judgment judgment2 = createCcJudgment(SourceCode.COMMON_COURT, "2", "AAA2");
+        judgmentRepository.markAsIndexed(judgment1.getId());
+        judgmentRepository.markAsIndexed(judgment2.getId());
+        
+        judgment1 = judgmentRepository.findOne(judgment1.getId());
+        judgment2 = judgmentRepository.findOne(judgment2.getId());
+        
+        judgment1.setSummary("new summary");
+        judgment1.getSourceInfo().setReviser("new reviser name");
+        judgment2.setJudgmentDate(new LocalDate(2012, 9, 22));
+        
+        waitForTimeChange();
+        DateTime beforeSave = new DateTime();
+        waitForTimeChange();
+        
+        
+        // execute
+        
+        judgmentRepository.save(Lists.newArrayList(judgment1, judgment2));
+        
+        
+        // assert
+        
+        assertEquals(2, judgmentRepository.count());
+        
+        Judgment retJudgment1 = judgmentRepository.findOne(judgment1.getId());
+        Judgment retJudgment2 = judgmentRepository.findOne(judgment2.getId());
+        
+        assertTrue(retJudgment1.getModificationDate().isAfter(beforeSave));
+        assertTrue(retJudgment1.getIndexedDate().isBefore(beforeSave));
+        assertFalse(retJudgment1.isIndexed());
+        assertEquals("new summary", retJudgment1.getSummary());
+        assertEquals("new reviser name", retJudgment1.getSourceInfo().getReviser());
+        
+        
+        assertTrue(retJudgment2.getModificationDate().isAfter(beforeSave));
+        assertTrue(retJudgment2.getIndexedDate().isBefore(beforeSave));
+        assertFalse(retJudgment2.isIndexed());
+        assertEquals(new LocalDate(2012, 9, 22), retJudgment2.getJudgmentDate());
+        
     }
     
     @Test
