@@ -36,7 +36,7 @@ public interface JudgmentRepositoryCustom extends IndexableObjectRepositoryCusto
     public <S extends Judgment> S save(S judgment);
     
     /**
-     * Saves all given {@link Judgment}s.
+     * Saves all the given {@link Judgment}s.
      * Additionally it updates modification date and resets indexed flag
      * for all of these judgments.
      */

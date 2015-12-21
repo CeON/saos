@@ -21,7 +21,7 @@ public interface JudgmentRepository extends JudgmentCommonRepository<Judgment>, 
     public  <S extends Judgment> S save(S judgment);
     
     /**
-     * Saves all given {@link Judgment}s
+     * Saves all the given {@link Judgment}s
      */
     public <S extends Judgment> List<S> save(Iterable<S> judgments);
     
