@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -43,9 +41,6 @@ public class ScObjectDeleterTest extends ImportTestSupport {
     
     @Autowired
     private ScJudgmentFormRepository scJudgmentFormRepository;
-    
-    @Autowired
-    private EntityManager entityManager;
 
     @Autowired
     private RawJudgmentTestFactory rawJudgmentTestFactory;

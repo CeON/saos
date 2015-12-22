@@ -1,7 +1,6 @@
 package pl.edu.icm.saos.search.indexing;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.times;
@@ -16,12 +15,11 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 
-import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
-import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
-import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
-
 import com.google.common.collect.Lists;
+
+import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
+import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
+import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
  * @author madryk
@@ -38,11 +36,11 @@ public class JudgmentIndexingProcessorTest {
     private ScJudgmentIndexFieldsFiller scJudgmentIndexFieldsFiller;
     
     @Mock
-    private JudgmentEnrichmentService judgmentEnrichmentService;
+    private JudgmentRepository judgmentRepository;
     
     @Before
     public void setUp() {
-        judgmentIndexingProcessor.setJudgmentEnrichmentService(judgmentEnrichmentService);
+        judgmentIndexingProcessor.setJudgmentRepository(judgmentRepository);
         doCallRealMethod().when(ccJudgmentIndexFieldsFiller).isApplicable(any());
         doCallRealMethod().when(scJudgmentIndexFieldsFiller).isApplicable(any());
         judgmentIndexingProcessor.setJudgmentIndexFieldsFillers(Lists.newArrayList(ccJudgmentIndexFieldsFiller, scJudgmentIndexFieldsFiller));
@@ -67,7 +65,7 @@ public class JudgmentIndexingProcessorTest {
         verify(scJudgmentIndexFieldsFiller, times(1)).fillFields(any(SolrInputDocument.class), argCaptureForFill.capture());
         assertEquals(5, argCaptureForFill.getValue().getJudgment().getId());
         
-        assertSaveJudgmentInRepository(5);
+        verify(judgmentRepository).markAsIndexed(5L);
     }
     
     @Test
@@ -86,16 +84,7 @@ public class JudgmentIndexingProcessorTest {
         verify(ccJudgmentIndexFieldsFiller, times(1)).fillFields(any(SolrInputDocument.class), argCaptureForFill.capture());
         assertEquals(6, argCaptureForFill.getValue().getJudgment().getId());
         
-        assertSaveJudgmentInRepository(6);
+        verify(judgmentRepository).markAsIndexed(6L);
     }
     
-    
-    //------------------------ PRIVATE --------------------------
-    
-    private void assertSaveJudgmentInRepository(int judgmentId) {
-        ArgumentCaptor<Judgment> argCapture = ArgumentCaptor.forClass(Judgment.class);
-        verify(judgmentEnrichmentService, times(1)).unenrichAndSave(argCapture.capture());
-        assertEquals(judgmentId, argCapture.getValue().getId());
-        assertTrue(argCapture.getValue().isIndexed());
-    }
 }

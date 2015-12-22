@@ -27,6 +27,8 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.io.Files;
+
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.batch.jobs.BatchJobsTestSupport;
 import pl.edu.icm.saos.batch.jobs.JobExecutionAssertUtils;
@@ -65,8 +67,6 @@ import pl.edu.icm.saos.persistence.repository.ScChamberDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.ScChamberRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentFormRepository;
 import pl.edu.icm.saos.persistence.repository.ScJudgmentRepository;
-
-import com.google.common.io.Files;
 
 /**
  * @author Łukasz Dumiszewski
@@ -255,12 +255,13 @@ public class ScJudgmentImportJobTest extends BatchJobsTestSupport {
         setImportDirs("import/supremeCourt/judgments/version1", "import/supremeCourt/judgments/content/version1");
         JobExecution jobExecution = jobExecutor.forceStartNewJob(scJudgmentImportJob);
         long scJudgmentb082Id = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "b082922617256d5b4092cf23864c8894").getId();
-        long scJudgment23ffId = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "24ffe0d974d5823db702e6436dbb9f0f").getId();
+        long scJudgment24ffId = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "24ffe0d974d5823db702e6436dbb9f0f").getId();
+        judgmentRepository.markAsIndexed(scJudgmentb082Id);
         
         testPersistenceObjectFactory.createEnrichmentTagsForJudgment(scJudgmentb082Id);
         
         Judgment ccJudgment = testPersistenceObjectFactory.createSimpleCcJudgment();
-        EnrichmentTag referenceTag = testPersistenceObjectFactory.createReferencedCourtCasesTag(ccJudgment.getId(), judgmentRepository.findOneAndInitialize(scJudgment23ffId));
+        EnrichmentTag referenceTag = testPersistenceObjectFactory.createReferencedCourtCasesTag(ccJudgment.getId(), judgmentRepository.findOneAndInitialize(scJudgment24ffId));
                 
         setImportDirs("import/supremeCourt/judgments/version2", "import/supremeCourt/judgments/content/version2");
         
@@ -303,6 +304,9 @@ public class ScJudgmentImportJobTest extends BatchJobsTestSupport {
         // id shouldn't have changed if it's been update not delete/insert
         assertEquals(scJudgmentb082Id, scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.SUPREME_COURT, "b082922617256d5b4092cf23864c8894").getId());
         
+        // it was updated, so indexed flag should be false 
+        assertJudgmentIndexed("b082922617256d5b4092cf23864c8894", false);
+        
         // enrichment tags for changed judgment should be removed
         assertEquals(0, enrichmentTagRepository.findAllByJudgmentId(scJudgmentb082Id).size());
         
@@ -343,6 +347,13 @@ public class ScJudgmentImportJobTest extends BatchJobsTestSupport {
         EnrichmentTag tag = enrichmentTagRepository.findOne(enrichmentTagId);
         
         assertEquals(json.replace('\'', '\"'), tag.getValue());
+    }
+    
+    private void assertJudgmentIndexed(String sourceJudgmentId, boolean shouldBeIndexed) {
+        SupremeCourtJudgment judgment = scJudgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
+                SourceCode.SUPREME_COURT, sourceJudgmentId);
+        
+        assertTrue(judgment.isIndexed() == shouldBeIndexed);
     }
     
     private void assertJudgment_b082922617256d5b4092cf23864c8894() {

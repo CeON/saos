@@ -25,6 +25,8 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.io.Files;
+
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.batch.jobs.BatchJobsTestSupport;
 import pl.edu.icm.saos.batch.jobs.JobExecutionAssertUtils;
@@ -51,8 +53,6 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceCtJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.RawSourceJudgmentRepository;
-
-import com.google.common.io.Files;
 
 /**
  * @author madryk
@@ -179,6 +179,10 @@ public class CtJudgmentImportJobTest extends BatchJobsTestSupport {
         setImportDirs("import/constitutionalTribunal/judgments/version1", "import/constitutionalTribunal/judgments/content/version1");
         jobExecutor.forceStartNewJob(ctJudgmentImportJob);
         long ctJudgment04e47013Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.CONSTITUTIONAL_TRIBUNAL, "04e47013023d2b315b841f99ccb9c290").getId();
+        long ctJudgment3b42a629Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.CONSTITUTIONAL_TRIBUNAL, "3b42a6299303c65d869c4806fdcdbf7a").getId();
+        judgmentRepository.markAsIndexed(ctJudgment04e47013Id);
+        judgmentRepository.markAsIndexed(ctJudgment3b42a629Id);
+        judgmentRepository.flush();
         
         testPersistenceObjectFactory.createEnrichmentTagsForJudgment(ctJudgment04e47013Id);
         
@@ -210,8 +214,10 @@ public class CtJudgmentImportJobTest extends BatchJobsTestSupport {
         assertEquals(0, enrichmentTagRepository.findAllByJudgmentId(ctJudgment04e47013Id).size());
         
         assertJudgment_3b42a6299303c65d869c4806fdcdbf7a();
+        assertJudgmentIndexed("3b42a6299303c65d869c4806fdcdbf7a", false);
         assertJudgment_04e47013023d2b315b841f99ccb9c290_afterUpdate();
         assertCorrections_04e47013023d2b315b841f99ccb9c290_afterUpdate();
+        assertJudgmentIndexed("04e47013023d2b315b841f99ccb9c290", false);
         
         JudgmentContentAssertUtils.assertJudgmentContentsExist(judgmentContentDir,
                 "constitutional_tribunal/2005/6/21/3b42a6299303c65d869c4806fdcdbf7a.doc",
@@ -229,6 +235,13 @@ public class CtJudgmentImportJobTest extends BatchJobsTestSupport {
     
     
     //------------------------ PRIVATE --------------------------
+    
+    private void assertJudgmentIndexed(String sourceJudgmentId, boolean shouldBeIndexed) {
+        ConstitutionalTribunalJudgment judgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
+                SourceCode.CONSTITUTIONAL_TRIBUNAL, sourceJudgmentId, ConstitutionalTribunalJudgment.class);
+        
+        assertTrue(judgment.isIndexed() == shouldBeIndexed);
+    }
     
     private void assertJudgment_3b42a6299303c65d869c4806fdcdbf7a() {
         ConstitutionalTribunalJudgment judgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
