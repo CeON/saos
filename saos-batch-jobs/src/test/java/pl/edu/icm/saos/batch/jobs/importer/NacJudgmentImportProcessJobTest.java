@@ -26,6 +26,8 @@ import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.io.Files;
+
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.batch.jobs.BatchJobsTestSupport;
 import pl.edu.icm.saos.batch.jobs.JobExecutionAssertUtils;
@@ -51,8 +53,6 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.importer.notapi.RawSourceNacJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.RawSourceJudgmentRepository;
-
-import com.google.common.io.Files;
 
 /**
  * @author madryk
@@ -179,6 +179,10 @@ public class NacJudgmentImportProcessJobTest extends BatchJobsTestSupport {
         jobExecutor.forceStartNewJob(nacJudgmentImportJob);
         long nacJudgmentf1fb6b13Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
                 SourceCode.NATIONAL_APPEAL_CHAMBER, "f1fb6b13d57e25be69d1159356655528").getId();
+        long nacJudgment71254a21Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
+                SourceCode.NATIONAL_APPEAL_CHAMBER, "71254a2118594e375df2fe7dcde9b1db").getId();
+        judgmentRepository.markAsIndexed(nacJudgmentf1fb6b13Id);
+        judgmentRepository.markAsIndexed(nacJudgment71254a21Id);
         
         testPersistenceObjectFactory.createEnrichmentTagsForJudgment(nacJudgmentf1fb6b13Id);
         
@@ -211,8 +215,10 @@ public class NacJudgmentImportProcessJobTest extends BatchJobsTestSupport {
         assertEquals(0, enrichmentTagRepository.findAllByJudgmentId(nacJudgmentf1fb6b13Id).size());
         
         assertJudgment_71254a2118594e375df2fe7dcde9b1db();
+        assertJudgmentIndexed("71254a2118594e375df2fe7dcde9b1db", false);
         assertJudgment_f1fb6b13d57e25be69d1159356655528_afterUpdate();
         assertCorrections_f1fb6b13d57e25be69d1159356655528_afterUpdate();
+        assertJudgmentIndexed("f1fb6b13d57e25be69d1159356655528", false);
         
         
         JudgmentContentAssertUtils.assertJudgmentContentsExist(judgmentContentDir,
@@ -231,6 +237,13 @@ public class NacJudgmentImportProcessJobTest extends BatchJobsTestSupport {
     
     
     //------------------------ PRIVATE --------------------------
+    
+    private void assertJudgmentIndexed(String sourceJudgmentId, boolean shouldBeIndexed) {
+        NationalAppealChamberJudgment judgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(
+                SourceCode.NATIONAL_APPEAL_CHAMBER, sourceJudgmentId, NationalAppealChamberJudgment.class);
+        
+        assertTrue(judgment.isIndexed() == shouldBeIndexed);
+    }
     
     private void assertJudgment_71254a2118594e375df2fe7dcde9b1db() {
         NationalAppealChamberJudgment judgment = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(

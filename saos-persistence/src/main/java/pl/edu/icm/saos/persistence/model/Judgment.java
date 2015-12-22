@@ -26,7 +26,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
-import javax.persistence.PreUpdate;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -38,13 +37,13 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.util.ObjectUtils;
 
-import pl.edu.icm.saos.common.visitor.Visitor;
-import pl.edu.icm.saos.persistence.common.IndexableObject;
-import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+
+import pl.edu.icm.saos.common.visitor.Visitor;
+import pl.edu.icm.saos.persistence.common.IndexableObject;
+import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 
 
 /**
@@ -61,7 +60,7 @@ import com.google.common.collect.Lists;
 @Cacheable(false)
 @SequenceGenerator(name = "seq_judgment", allocationSize = 1, sequenceName = "seq_judgment")
 public abstract class Judgment extends IndexableObject {
-
+    
     /** pl. rodzaj wyroku */
     public enum JudgmentType {
         /** pl. postanowienie */
@@ -265,7 +264,11 @@ public abstract class Judgment extends IndexableObject {
     public abstract CourtType getCourtType();
 
     /**
-     * @return Judgment's last modification date
+     * @return Judgment's last modification date.
+     * <br/>
+     * Modification means any change
+     * made to judgment entity or judgment dependent entities
+     * (i.e. authors, keywords, ...)
      */
     public DateTime getModificationDate() {
         return modificationDate;
@@ -573,8 +576,14 @@ public abstract class Judgment extends IndexableObject {
         }
     }
 
-    @PreUpdate
-    protected void onUpdate(){
+    /**
+     * Sets the modification date to the current time.
+     * <br/>
+     * This method is used in persistence repository classes, 
+     * so that saving the object updates the modification date. 
+     * You should not use it in other classes.
+     */
+    public void updateModificationDate() {
         this.modificationDate = new DateTime();
     }
     

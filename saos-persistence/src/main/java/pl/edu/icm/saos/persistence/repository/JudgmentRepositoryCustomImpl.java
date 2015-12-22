@@ -7,10 +7,13 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.persistence.common.InitializingVisitor;
 import pl.edu.icm.saos.persistence.correction.model.JudgmentCorrection;
@@ -26,7 +29,6 @@ import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
  */
 @Service("judgmentRepositoryCustom")
 public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
-
     
     @Autowired
     private EntityManager entityManager;
@@ -54,6 +56,45 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
         
     }
 
+    @Override
+    @Transactional
+    public <S extends Judgment> S save(S judgment) {
+        
+        judgment.resetIndexedFlag();
+        judgment.updateModificationDate();
+        
+        if (judgment.getId() == 0) {
+            entityManager.persist(judgment);
+            return judgment;
+        } else {
+            return entityManager.merge(judgment);
+        }
+    }
+    
+    @Override
+    @Transactional
+    public <S extends Judgment> List<S> save(Iterable<S> judgments) {
+        
+        List<S> result = Lists.newArrayList();
+        
+        if (judgments == null) {
+            return result;
+        }
+        
+        judgments.forEach(judgment -> result.add(save(judgment)));
+        
+        return result;
+    }
+    
+    @Override
+    @Transactional
+    public <S extends Judgment> S saveAndFlush(S judgment) {
+        S result = save(judgment);
+        judgmentRepository.flush();
+
+        return result;
+    }
+    
     @Override
     @Transactional
     public void delete(List<Long> judgmentIds) {
@@ -127,6 +168,17 @@ public class JudgmentRepositoryCustomImpl implements JudgmentRepositoryCustom {
         for (Judgment element : judgmentRepository.findAll()) {
              delete(element);
         }
+    }
+    
+    @Override
+    @Transactional
+    public void markAsIndexed(Long id) {
+        
+        Query query = entityManager.createQuery("update " + Judgment.class.getName() + " i set i.indexed=true, i.indexedDate=:currTimestamp where i.id = :id")
+                .setParameter("id", id)
+                .setParameter("currTimestamp", new DateTime());
+        query.executeUpdate();
+        entityManager.flush();
     }
 
     

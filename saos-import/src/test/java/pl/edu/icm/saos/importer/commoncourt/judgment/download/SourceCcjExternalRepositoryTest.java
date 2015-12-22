@@ -12,9 +12,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.client.response.MockRestResponseCreators;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -82,6 +85,56 @@ public class SourceCcjExternalRepositoryTest {
         Mockito.verify(xmlTagContentExtractor).extractTagContents(Mockito.eq(responseMessage), Mockito.eq("id"));
     }
 
+    @Test(expected = InvalidResponseContentType.class)
+    public void findJudgmentIds_INVALID_MEDIA_TYPE_RESPONSE() {
+        
+        // given
+        DateTime publicationDateFrom = new DateTime(2012, 04, 11, 12, 00);
+        int pageNo = 2;
+        int pageSize = 10;
+        
+        String url = "http://qwerty.pl?dddd=dddd";
+        Mockito.when(urlFactory.createSourceJudgmentsUrl(Mockito.eq(pageNo), Mockito.eq(pageSize), Mockito.eq(publicationDateFrom))).thenReturn(url);
+        mockServerSuccessResponse(url, "response text", MediaType.TEXT_PLAIN);
+        
+        
+        // execute
+        sourceCcjExternalRepository.findJudgmentIds(pageNo, pageSize, publicationDateFrom);
+    }
+
+    @Test(expected = HttpServerErrorException.class)
+    public void findJudgmentIds_ERROR_RESPONSE() {
+        
+        // given
+        DateTime publicationDateFrom = new DateTime(2012, 04, 11, 12, 00);
+        int pageNo = 2;
+        int pageSize = 10;
+        
+        String url = "http://qwerty.pl?dddd=dddd";
+        Mockito.when(urlFactory.createSourceJudgmentsUrl(Mockito.eq(pageNo), Mockito.eq(pageSize), Mockito.eq(publicationDateFrom))).thenReturn(url);
+        mockServerErrorResponse(url);
+        
+        
+        // execute
+        sourceCcjExternalRepository.findJudgmentIds(pageNo, pageSize, publicationDateFrom);
+    }
+    
+    @Test(expected = HttpClientErrorException.class)
+    public void findJudgmentIds_NOT_FOUND_RESPONSE() {
+        
+        // given
+        DateTime publicationDateFrom = new DateTime(2012, 04, 11, 12, 00);
+        int pageNo = 2;
+        int pageSize = 10;
+        
+        String url = "http://qwerty.pl?dddd=dddd";
+        Mockito.when(urlFactory.createSourceJudgmentsUrl(Mockito.eq(pageNo), Mockito.eq(pageSize), Mockito.eq(publicationDateFrom))).thenReturn(url);
+        mockServerNotFoundResponse(url);
+        
+        
+        // execute
+        sourceCcjExternalRepository.findJudgmentIds(pageNo, pageSize, publicationDateFrom);
+    }
     
     @Test
     public void findJudgment() {
@@ -149,6 +202,24 @@ public class SourceCcjExternalRepositoryTest {
             .expect(requestTo(expectedUrl))
             .andExpect(method(HttpMethod.GET))
             .andRespond(MockRestResponseCreators.withSuccess(response, mediaType));
+    }
+    
+    private void mockServerErrorResponse(String url) {
+        String expectedUrl = UriComponentsBuilder.fromHttpUrl(url).build().encode().toUriString();
+        
+        mockServer
+            .expect(requestTo(expectedUrl))
+            .andExpect(method(HttpMethod.GET))
+            .andRespond(MockRestResponseCreators.withServerError());
+    }
+    
+    private void mockServerNotFoundResponse(String url) {
+        String expectedUrl = UriComponentsBuilder.fromHttpUrl(url).build().encode().toUriString();
+        
+        mockServer
+            .expect(requestTo(expectedUrl))
+            .andExpect(method(HttpMethod.GET))
+            .andRespond(MockRestResponseCreators.withStatus(HttpStatus.NOT_FOUND));
     }
     
     

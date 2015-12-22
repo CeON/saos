@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.batch.jobs.importer;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -229,6 +230,16 @@ public class CcJudgmentImportProcessJobTest extends BatchJobsTestSupport {
         // creating enrichment tags for rJudgment_12420
         long judgment12420Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment_12420.getSourceId()).getId();
         testPersistenceObjectFactory.createEnrichmentTagsForJudgment(judgment12420Id);
+        // mark rJudgment_12420 as indexed
+        judgmentRepository.markAsIndexed(judgment12420Id);
+        
+        
+        // mark rJudgment_17184 as indexed
+        RawSourceCcJudgment rJudgment_17184 = rawCcJudgmentRepository.findOne(17184l);
+        long judgment17184Id = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, rJudgment_17184.getSourceId()).getId();
+        judgmentRepository.markAsIndexed(judgment17184Id);
+        
+        
         
         // and second execution
         
@@ -252,6 +263,7 @@ public class CcJudgmentImportProcessJobTest extends BatchJobsTestSupport {
         assertEquals(3, judgment_12420.getJudges().size());
         assertNotNull(judgment_12420.getJudges(JudgeRole.PRESIDING_JUDGE));
         assertEquals("Anna Nowak", judgment_12420.getJudges(JudgeRole.PRESIDING_JUDGE).get(0).getName());
+        assertFalse(judgment_12420.isIndexed());
         
         
         // assert rJudgment 10869
@@ -261,7 +273,7 @@ public class CcJudgmentImportProcessJobTest extends BatchJobsTestSupport {
         CommonCourtJudgment judgment_10869 = judgmentRepository.findOneAndInitialize(j10869.getId());
         assertNotNull(judgment_10869);
         assertEquals(JudgmentType.DECISION, judgment_10869.getJudgmentType());
-        
+        assertFalse(judgment_10869.isIndexed());
         
         
         
@@ -297,6 +309,9 @@ public class CcJudgmentImportProcessJobTest extends BatchJobsTestSupport {
         JudgmentCorrection expectedCorrection = JudgmentCorrectionBuilder.createFor(judgment_10869).update(judgment_10869).property(JUDGMENT_TYPE).oldValue("DECISION, REASON").newValue("DECISION").build();
         assertEquals(expectedCorrection, judgmentCorrections.get(0));
         
+        
+        // assert judgment_17184 indexed flag still true
+        assertTrue(judgmentRepository.findOne(judgment17184Id).isIndexed());
     }
     
 

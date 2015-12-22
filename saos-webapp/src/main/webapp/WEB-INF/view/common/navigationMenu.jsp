@@ -12,7 +12,7 @@
     <ul id="navigation-links" tabindex=-1>
         <li ><a href="${contextPath}/search"><spring:message code="navigation.search" /></a></li>
         <li ><a href="${contextPath}/analysis"><spring:message code="navigation.analysis" /></a></li>
-        <li ><a href="${contextPath}/api"><spring:message code="navigation.api" /></a></li>
+        <li ><a href="${contextPath}/help/index.php/dokumentacja-api"><spring:message code="navigation.api" /></a></li>
         <li ><a href="${contextPath}/help"><spring:message code="navigation.help" /></a></li>
         <li ><a href="${contextPath}/help/index.php/deklaracja-dostepnosci" data-toggle="tooltip" data-placement="bottom" aria-label="<spring:message code='navigation.accessibilityStatement.title'/>" title="<spring:message code='navigation.accessibilityStatement.title'/>" ><spring:message code="navigation.accessibilityStatement"/></a></li>
       </ul>

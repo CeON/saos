@@ -52,8 +52,7 @@ public class JudgmentIndexingItemFetcherTest extends SearchTestSupport {
         Judgment judgment4 = createCcJudgment(SourceCode.COMMON_COURT, "AA4", "ABC4");
         Judgment judgment5 = createCcJudgment(SourceCode.COMMON_COURT, "AA5", "ABC5");
         
-        judgment3.markAsIndexed();
-        judgmentRepository.save(judgment3);
+        judgmentRepository.markAsIndexed(judgment3.getId());
         
         
         EnrichmentTag tag1 = TestInMemoryEnrichmentTagFactory.createEnrichmentTag(judgment1.getId(), EnrichmentTagTypes.REFERENCED_COURT_CASES,

@@ -141,9 +141,8 @@ public class RefCourtCasesJudgmentReferenceRemoverTest extends EnrichmentTestSup
         // given
         Judgment judgment1 = testPersistenceObjectFactory.createSimpleCcJudgment();
         Judgment judgment2 = testPersistenceObjectFactory.createSimpleScJudgment();
-        judgment1.markAsIndexed();
-        judgment2.markAsIndexed();
-        judgmentRepository.save(Lists.newArrayList(judgment1, judgment2));
+        judgmentRepository.markAsIndexed(judgment1.getId());
+        judgmentRepository.markAsIndexed(judgment2.getId());
         
         EnrichmentTag enrichmentTag1 = createEnrichmentTag(judgment1.getId(), EnrichmentTagTypes.REFERENCED_COURT_CASES,
                 "[{caseNumber:'ABC',judgmentIds:[" + judgment2.getId() + "]}]");

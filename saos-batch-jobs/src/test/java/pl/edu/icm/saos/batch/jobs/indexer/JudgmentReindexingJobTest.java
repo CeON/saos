@@ -11,8 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
-
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -34,6 +32,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import pl.edu.icm.saos.batch.jobs.BatchJobsTestSupport;
 import pl.edu.icm.saos.batch.jobs.JobExecutionAssertUtils;
@@ -61,9 +62,6 @@ import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment.PersonnelType;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 /**
  * @author madryk
  */
@@ -87,9 +85,6 @@ public class JudgmentReindexingJobTest extends BatchJobsTestSupport {
     
     @Autowired
     private TestJudgmentsGenerator testJudgmentsGenerator;
-    
-    @Autowired
-    private EntityManager entityManager;
     
     @Autowired
     @Qualifier("solrJudgmentsServer")
@@ -201,8 +196,7 @@ public class JudgmentReindexingJobTest extends BatchJobsTestSupport {
         
         // given
         List<Judgment> judgments = judgmentRepository.findAll();
-        judgments.forEach(x -> x.markAsIndexed());
-        judgmentRepository.save(judgments);
+        judgments.forEach(x -> judgmentRepository.markAsIndexed(x.getId()));
         
         long notExistingScJudgmentId = findMaxJudgmentId() + 1;
         long notExistingCcJudgmentId = findMaxJudgmentId() + 2;

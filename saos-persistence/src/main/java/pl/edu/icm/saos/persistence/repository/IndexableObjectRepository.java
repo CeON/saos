@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 import pl.edu.icm.saos.persistence.common.IndexableObject;
 
-public interface IndexableObjectRepository<I extends IndexableObject> {
+public interface IndexableObjectRepository<I extends IndexableObject> extends IndexableObjectRepositoryCustom {
 
     @Query("select i from #{#entityName} i where i.indexed=false")
     Page<I> findAllNotIndexed(Pageable pageable);
