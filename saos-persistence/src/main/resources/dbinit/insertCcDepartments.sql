@@ -18,3 +18,4 @@ insert into common_court_division_type(id, creation_date, ver, code, name) value
 insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '54', 'Wykonawczy');
 insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '57', 'Wizytacyjny');
 insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '60', 'Lustracyjny');
+insert into common_court_division_type(id, creation_date, ver, code, name) values(nextval('seq_cc_division_type'), now(), 0, '63', 'Upadłościowy');

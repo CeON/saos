@@ -387,7 +387,7 @@
         <department id="0001506">III Wydział Karny</department> <!-- SOSWIDNICA -->
         <department id="0002006">IV Wydział Karny Odwoławczy</department> <!-- SOSWIDNICA -->
         <department id="0002539">V Wydział Penitencjarny i Nadzoru nad Wykonywaniem Orzeczeń Karnych</department> <!-- SOSWIDNICA -->
-        <department id="0003521">VII Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SOSWIDNICA -->
+        <department id="0001521">VII Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SOSWIDNICA -->
       </departments> <!-- SOSWIDNICA -->
     </model> <!-- SOSWIDNICA -->
   </court> <!-- SOSWIDNICA -->
@@ -1218,7 +1218,7 @@
         <department id="0006003">XII Wydział Cywilny</department> <!-- SRBG -->
         <department id="0006536">XIII Wydział Gospodarczy Krajowego Rejestru Sądowego</department> <!-- SRBG -->
         <department id="0007006">XIV Wydział Karny</department> <!-- SRBG -->
-        <department id="0007527">XV Wydział Gospodarczy</department> <!-- SRBG -->
+        <department id="0007563">XV Wydział Gospodarczy ds. Upadłościowych i Naprawczych</department> <!-- SRBG -->
         <department id="0008006">XVI Wydział Karny</department> <!-- SRBG -->
       </departments> <!-- SRBG -->
     </model> <!-- SRBG -->
