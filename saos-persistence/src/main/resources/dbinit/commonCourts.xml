@@ -2153,8 +2153,9 @@
         <department id="0001503">III Wydział Cywilny Odwoławczy</department> <!-- SOGL -->
         <department id="0002006">IV Wydział Karny</department> <!-- SOGL -->
         <department id="1012506">V Zamiejscowy Wydział Karny</department> <!-- SOGL -->
+        <department id="1012706">V Zamiejscowy Wydział Karny. Sekcja Odwoławcza</department> <!-- SOGL -->
         <department id="0003006">VI Wydział Karny Odwoławczy</department> <!-- SOGL -->
-        <department id="0003539">VII Wydział Penitencjarny i Nadzowu nad Wykonywaniem Orzeczeń Karnych</department> <!-- SOGL -->
+        <department id="0003539">VII Wydział Penitencjarny i Nadzoru nad Wykonywaniem Orzeczeń Karnych</department> <!-- SOGL -->
         <department id="0004021">VIII Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SOGL -->
         <department id="1514521">IX Zamiejscowy Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SOGL -->
         <department id="0005027">X Wydział Gospodarczy</department> <!-- SOGL -->
@@ -2906,6 +2907,7 @@
         <department id="0004024">VIII Wydział Ksiąg Wieczystych</department>  <!-- SRKRAPOD -->
         <department id="0005042">X Wydział Grodzki</department>  <!-- SRKRAPOD -->
         <department id="0005506">XI Wydział Karny</department>  <!-- SRKRAPOD -->
+        <department id="0006003">XII Wydział Cywilny</department>  <!-- SRKRAPOD -->
       </departments>  <!-- SRKRAPOD -->
     </model>  <!-- SRKRAPOD -->
   </court>  <!-- SRKRAPOD -->
