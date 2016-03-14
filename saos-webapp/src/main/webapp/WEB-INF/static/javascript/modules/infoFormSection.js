@@ -139,7 +139,8 @@ function InfoFormSection(options) {
 
          if (!$formSection.is(e.target)  // if the target of the click isn't the container...
                  && $formSection.has(e.target).length === 0 && // ... nor a descendant of the container
-                 !$datepicker.is(e.target) && $datepicker.has(e.target).length === 0) // ... nor a datepicker
+                 !$datepicker.is(e.target) && $datepicker.has(e.target).length === 0 // ... nor a datepicker
+                 && (e.target != $('html').get(0))) // ... nor the scrollbar
          {
              closeFormSection();
              unBindCloseFormSectionEventHandler();
