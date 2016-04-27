@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  */
 @Configuration
 @ComponentScan(useDefaultFilters=false, includeFilters={@Filter(type=FilterType.ANNOTATION, value=Service.class)})
-@Import({ CcjImportJobConfiguration.class, ScjImportJobConfiguration.class, CtjImportJobConfiguration.class,
+@Import({ CcjImportJobConfiguration.class, CcjRemoveJobConfiguration.class, ScjImportJobConfiguration.class, CtjImportJobConfiguration.class,
     NacjImportJobConfiguration.class, IndexingJobConfiguration.class, TagPostUploadJobConfiguration.class })
 public class BatchJobsConfiguration {
     
