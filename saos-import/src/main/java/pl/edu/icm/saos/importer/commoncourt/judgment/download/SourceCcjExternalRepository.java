@@ -26,7 +26,7 @@ import com.google.common.collect.Lists;
  * @author Łukasz Dumiszewski
  */
 @Service
-class SourceCcjExternalRepository {
+public class SourceCcjExternalRepository {
 
     private static Logger log = LoggerFactory.getLogger(SourceCcjExternalRepository.class);
     

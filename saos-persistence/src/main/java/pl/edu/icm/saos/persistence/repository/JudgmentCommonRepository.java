@@ -56,4 +56,7 @@ public interface JudgmentCommonRepository<T extends Judgment> {
     List<Long> filterIdsToExisting(@Param("ids") List<Long> ids);
     
     
+    @Query("select j.sourceInfo.sourceJudgmentId from #{#entityName} j where j.sourceInfo.sourceCode=:sourceCode")
+    List<String> findAllSourceIdsBySourceCode(@Param("sourceCode") SourceCode sourceCode);
+    
 }
