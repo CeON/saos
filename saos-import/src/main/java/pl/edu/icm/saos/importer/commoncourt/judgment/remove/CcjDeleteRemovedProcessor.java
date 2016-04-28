@@ -21,7 +21,7 @@ public class CcjDeleteRemovedProcessor implements ItemProcessor<Judgment, Delete
         
         DeletedJudgment deletedJudgment = new DeletedJudgment();
         
-        deletedJudgment.setRemovedJudgmentId(judgment.getId());
+        deletedJudgment.setJudgmentId(judgment.getId());
         deletedJudgment.setSourceInfo(judgment.getSourceInfo());
         
         return deletedJudgment;

@@ -19,7 +19,7 @@ import pl.edu.icm.saos.persistence.common.DataObject;
 @SequenceGenerator(name = "seq_removed_judgment", allocationSize = 1, sequenceName = "seq_removed_judgment")
 public class DeletedJudgment extends DataObject {
 
-    private long removedJudgmentId;
+    private long judgmentId;
     
     private JudgmentSourceInfo sourceInfo = new JudgmentSourceInfo();
 
@@ -33,8 +33,8 @@ public class DeletedJudgment extends DataObject {
         return id;
     }
     
-    public long getRemovedJudgmentId() {
-        return removedJudgmentId;
+    public long getJudgmentId() {
+        return judgmentId;
     }
     
     @Embedded
@@ -45,8 +45,8 @@ public class DeletedJudgment extends DataObject {
 
     //------------------------ SETTERS --------------------------
 
-    public void setRemovedJudgmentId(long removedJudgmentId) {
-        this.removedJudgmentId = removedJudgmentId;
+    public void setJudgmentId(long judgmentId) {
+        this.judgmentId = judgmentId;
     }
 
     public void setSourceInfo(JudgmentSourceInfo sourceInfo) {

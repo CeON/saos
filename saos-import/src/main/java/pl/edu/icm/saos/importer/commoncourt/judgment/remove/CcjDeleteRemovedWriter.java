@@ -32,7 +32,7 @@ public class CcjDeleteRemovedWriter implements ItemWriter<DeletedJudgment> {
     public void write(List<? extends DeletedJudgment> judgmentsToDelete) throws Exception {
         
         List<Long> judgmentIdsToDelete = judgmentsToDelete.stream()
-                .map(j -> j.getRemovedJudgmentId())
+                .map(j -> j.getJudgmentId())
                 .collect(Collectors.toList());
         
         judgmentWithEnrichmentDeleter.delete(judgmentIdsToDelete);

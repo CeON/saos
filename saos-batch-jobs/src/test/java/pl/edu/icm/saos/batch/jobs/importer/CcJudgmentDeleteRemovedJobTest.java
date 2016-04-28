@@ -137,7 +137,7 @@ public class CcJudgmentDeleteRemovedJobTest extends BatchJobsTestSupport {
         
         for (DeletedJudgment deletedJudgment : deletedJudgments) {
             
-            if (deletedJudgment.getRemovedJudgmentId() == judgment.getId()) {
+            if (deletedJudgment.getJudgmentId() == judgment.getId()) {
                 
                 assertEquals(judgment.getSourceInfo().getPublicationDate(), deletedJudgment.getSourceInfo().getPublicationDate());
                 assertEquals(judgment.getSourceInfo().getPublisher(), deletedJudgment.getSourceInfo().getPublisher());

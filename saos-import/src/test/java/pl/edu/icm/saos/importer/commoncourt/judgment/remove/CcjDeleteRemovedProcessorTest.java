@@ -40,7 +40,7 @@ public class CcjDeleteRemovedProcessorTest {
         
         // assert
         
-        assertEquals(3L, judgmentToRemove.getRemovedJudgmentId());
+        assertEquals(3L, judgmentToRemove.getJudgmentId());
         assertEquals(SourceCode.COMMON_COURT, judgmentToRemove.getSourceInfo().getSourceCode());
         assertEquals("sourceId", judgmentToRemove.getSourceInfo().getSourceJudgmentId());
         assertEquals("sourceUrl", judgmentToRemove.getSourceInfo().getSourceJudgmentUrl());

@@ -63,7 +63,7 @@ public class CcjDeleteRemovedWriterTest {
     private DeletedJudgment createDeletedJudgment(long judgmentId, String sourceJudgmentId) {
         DeletedJudgment deletedJudgment = new DeletedJudgment();
         
-        deletedJudgment.setRemovedJudgmentId(judgmentId);
+        deletedJudgment.setJudgmentId(judgmentId);
         deletedJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
         deletedJudgment.getSourceInfo().setSourceJudgmentId(sourceJudgmentId);
         
