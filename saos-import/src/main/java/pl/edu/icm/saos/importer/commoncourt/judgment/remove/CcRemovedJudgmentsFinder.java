@@ -7,21 +7,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcjExternalRepository;
+import pl.edu.icm.saos.importer.commoncourt.judgment.SourceCcjExternalRepository;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
- * Finder of common court judgments that was removed
- * from source external repository but still are present in the
+ * Finder of common court judgments that have been removed
+ * from the external repository but are still present in the
  * saos repository.
  * 
  * @author madryk
  */
 @Service
-public class SourceCcRemovedJudgmentsFinder {
+public class CcRemovedJudgmentsFinder {
 
-    private final static Logger log = LoggerFactory.getLogger(SourceCcRemovedJudgmentsFinder.class);
+    private final static Logger log = LoggerFactory.getLogger(CcRemovedJudgmentsFinder.class);
 
 
     private SourceCcjExternalRepository sourceCcjExternalRepository;
@@ -35,14 +35,15 @@ public class SourceCcRemovedJudgmentsFinder {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Returns list of source judgment ids from saos repository
-     * that was removed from source external repository 
+     * Returns a list of judgment ids that have been
+     * removed in the external source repository.
      */
-    public List<String> findRemovedJudgments() {
+    public List<Long> findCcRemovedJudgmentSourceIds() {
         
         log.info("Searching for ccJudgments removed from external repository");
         
-        List<String> removedJudgmentsSourceIds = judgmentRepository.findAllSourceIdsBySourceCode(SourceCode.COMMON_COURT);
+        List<Long> removedJudgmentsIds = judgmentRepository.findAllIdsBySourceCode(SourceCode.COMMON_COURT);
+        
         
         int pageNumber = 0;
         while(true) {
@@ -56,12 +57,14 @@ public class SourceCcRemovedJudgmentsFinder {
                 break;
             }
             
-            removedJudgmentsSourceIds.removeAll(judgmentExternalIdsPage);
+            List<Long> judgmentIdsPage = judgmentRepository.findAllIdsBySourceCodeAndSourceJudgmentIds(SourceCode.COMMON_COURT, judgmentExternalIdsPage);
+            
+            removedJudgmentsIds.removeAll(judgmentIdsPage);
             
             ++pageNumber;
         }
         
-        return removedJudgmentsSourceIds;
+        return removedJudgmentsIds;
     }
 
 
@@ -77,6 +80,11 @@ public class SourceCcRemovedJudgmentsFinder {
         this.judgmentRepository = judgmentRepository;
     }
 
+    /**
+     * Defines how many judgment source ids will be downloaded
+     * from external repository at one request.
+     * Default value is 1000
+     */
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }

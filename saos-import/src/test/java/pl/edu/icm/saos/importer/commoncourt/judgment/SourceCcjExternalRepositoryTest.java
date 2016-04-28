@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.commoncourt.judgment.download;
+package pl.edu.icm.saos.importer.commoncourt.judgment;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -21,14 +21,14 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import pl.edu.icm.saos.common.xml.XmlTagContentExtractor;
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentTextData;
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentUrlFactory;
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcjExternalRepository;
-
 import com.google.common.collect.Lists;
 import com.googlecode.catchexception.CatchException;
 import com.googlecode.catchexception.apis.CatchExceptionAssertJ;
+
+import pl.edu.icm.saos.common.xml.XmlTagContentExtractor;
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.InvalidResponseContentType;
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentDownloadErrorException;
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentTextData;
 
 /**
  * @author Łukasz Dumiszewski

@@ -20,10 +20,10 @@ import pl.edu.icm.saos.persistence.repository.RemovedJudgmentRepository;
  * @author madryk
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CcjRemoverWriterTest {
+public class CcjDeleteRemovedWriterTest {
 
     @InjectMocks
-    private CcjRemoverWriter ccjRemoverWriter = new CcjRemoverWriter();
+    private CcjDeleteRemovedWriter ccjDeleteRemovedWriter = new CcjDeleteRemovedWriter();
     
     
     @Mock
@@ -46,7 +46,7 @@ public class CcjRemoverWriterTest {
         
         // execute
         
-        ccjRemoverWriter.write(Lists.newArrayList(judgmentToRemove1, judgmentToRemove2));
+        ccjDeleteRemovedWriter.write(Lists.newArrayList(judgmentToRemove1, judgmentToRemove2));
         
         
         // assert

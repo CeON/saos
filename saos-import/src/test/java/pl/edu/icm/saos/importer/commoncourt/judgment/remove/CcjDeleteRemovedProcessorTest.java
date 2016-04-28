@@ -13,9 +13,9 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
 /**
  * @author madryk
  */
-public class CcjRemoverProcessorTest {
+public class CcjDeleteRemovedProcessorTest {
 
-    private CcjRemoverProcessor ccjRemoverProcessor = new CcjRemoverProcessor();
+    private CcjDeleteRemovedProcessor ccjDeleteRemovedProcessor = new CcjDeleteRemovedProcessor();
     
     
     //------------------------ TESTS --------------------------
@@ -35,7 +35,7 @@ public class CcjRemoverProcessorTest {
         
         // execute
         
-        RemovedJudgment judgmentToRemove = ccjRemoverProcessor.process(judgment);
+        RemovedJudgment judgmentToRemove = ccjDeleteRemovedProcessor.process(judgment);
         
         
         // assert

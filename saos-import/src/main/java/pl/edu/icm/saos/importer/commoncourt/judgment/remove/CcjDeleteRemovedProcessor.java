@@ -12,7 +12,7 @@ import pl.edu.icm.saos.persistence.model.RemovedJudgment;
  * @author madryk
  */
 @Service
-public class CcjRemoverProcessor implements ItemProcessor<Judgment, RemovedJudgment> {
+public class CcjDeleteRemovedProcessor implements ItemProcessor<Judgment, RemovedJudgment> {
 
     //------------------------ LOGIC --------------------------
     

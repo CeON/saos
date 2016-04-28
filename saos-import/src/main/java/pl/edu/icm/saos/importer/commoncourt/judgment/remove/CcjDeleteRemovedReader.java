@@ -13,26 +13,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
 /**
  * Spring batch reader of common court judgments
- * that should be removed
+ * that have been removed at the source side
  * 
  * @author madryk
  */
 @Service
-public class CcjRemoverReader implements ItemStreamReader<Judgment> {
+public class CcjDeleteRemovedReader implements ItemStreamReader<Judgment> {
 
     @Autowired
-    private SourceCcRemovedJudgmentsFinder sourceRemovedJudgmentsFinder;
+    private CcRemovedJudgmentsFinder ccRemovedJudgmentsFinder;
     
     @Autowired
     private JudgmentRepository judgmentRepository;
     
     
-    private Queue<String> judgmentSourceIdsToRemove;
+    private Queue<Long> judgmentIdsToDelete;
     
     
     //------------------------ LOGIC --------------------------
@@ -40,22 +39,22 @@ public class CcjRemoverReader implements ItemStreamReader<Judgment> {
     @Override
     public void open(ExecutionContext executionContext) throws ItemStreamException {
         
-        judgmentSourceIdsToRemove = new LinkedList<>(sourceRemovedJudgmentsFinder.findRemovedJudgments());
+        judgmentIdsToDelete = new LinkedList<>(ccRemovedJudgmentsFinder.findCcRemovedJudgmentSourceIds());
         
     }
 
     @Override
     public Judgment read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
         
-        String sourceId = judgmentSourceIdsToRemove.poll();
+        Long judgmentIdToDelete = judgmentIdsToDelete.poll();
         
-        if (sourceId == null) {
+        if (judgmentIdToDelete == null) {
             return null;
         }
         
-        Judgment judgmentToRemove = judgmentRepository.findOneBySourceCodeAndSourceJudgmentId(SourceCode.COMMON_COURT, sourceId);
+        Judgment judgmentToDelete = judgmentRepository.findOne(judgmentIdToDelete);
         
-        return judgmentToRemove != null ? judgmentToRemove : read();
+        return judgmentToDelete != null ? judgmentToDelete : read(); // prevents from stopping the job when this judgment have been deleted by some other process
     }
 
     @Override

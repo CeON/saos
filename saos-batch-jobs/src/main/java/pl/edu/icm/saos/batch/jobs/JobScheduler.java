@@ -31,7 +31,7 @@ public class JobScheduler {
     public Job ccJudgmentImportJob;
     
     @Autowired
-    private Job ccJudgmentRemoveObsoleteJob;
+    private Job ccJudgmentDeleteRemovedJob;
     
     @Autowired
     private Job judgmentIndexingJob;
@@ -51,14 +51,14 @@ public class JobScheduler {
    
     }
     
-    @Scheduled(cron="${import.commonCourt.judgments.removeObsolete.cron}")
+    @Scheduled(cron="${import.commonCourt.judgments.deleteRemoved.cron}")
     public void removeObsoleteCcJudgments() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
         
-        log.debug("Obsolete judgments removing has started");
+        log.debug("Deletion of removed judgments has started");
         
-        JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentRemoveObsoleteJob);
+        JobExecution execution = jobExecutor.forceStartNewJob(ccJudgmentDeleteRemovedJob);
         
-        log.debug("Obsolete judgments removing has finished, exit status: {}", execution.getStatus());
+        log.debug("Deletion of removed judgments has finished, exit status: {}", execution.getStatus());
    
     }
     

@@ -17,7 +17,7 @@ import pl.edu.icm.saos.persistence.repository.RemovedJudgmentRepository;
  * @author madryk
  */
 @Service
-public class CcjRemoverWriter implements ItemWriter<RemovedJudgment> {
+public class CcjDeleteRemovedWriter implements ItemWriter<RemovedJudgment> {
 
     @Autowired
     private JudgmentWithEnrichmentDeleter judgmentWithEnrichmentDeleter;

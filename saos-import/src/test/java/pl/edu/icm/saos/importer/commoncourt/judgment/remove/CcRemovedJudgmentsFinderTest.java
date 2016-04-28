@@ -15,7 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.collect.Lists;
 
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcjExternalRepository;
+import pl.edu.icm.saos.importer.commoncourt.judgment.SourceCcjExternalRepository;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
@@ -23,10 +23,10 @@ import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
  * @author madryk
  */
 @RunWith(MockitoJUnitRunner.class)
-public class SourceCcRemovedJudgmentsFinderTest {
+public class CcRemovedJudgmentsFinderTest {
 
     @InjectMocks
-    private SourceCcRemovedJudgmentsFinder removedJudgmentsFinder = new SourceCcRemovedJudgmentsFinder();
+    private CcRemovedJudgmentsFinder ccRemovedJudgmentsFinder = new CcRemovedJudgmentsFinder();
     
     @Mock
     private SourceCcjExternalRepository sourceCcjExternalRepository;
@@ -37,7 +37,7 @@ public class SourceCcRemovedJudgmentsFinderTest {
     
     @Before
     public void setup() {
-        removedJudgmentsFinder.setPageSize(3);
+        ccRemovedJudgmentsFinder.setPageSize(3);
     }
     
     //------------------------ TESTS --------------------------
@@ -50,22 +50,23 @@ public class SourceCcRemovedJudgmentsFinderTest {
         List<String> sourceIdsPage1 = Lists.newArrayList("sourceId_1", "sourceId_2", "sourceId_3");
         List<String> sourceIdsPage2 = Lists.newArrayList("sourceId_4", "sourceId_5");
         
-        List<String> sourceIdsInDb = Lists.newArrayList("sourceId_1", "removed_sourceId_1", "sourceId_3", "sourceId_4", "removed_sourceId_2");
+        when(judgmentRepository.findAllIdsBySourceCode(SourceCode.COMMON_COURT)).thenReturn(Lists.newArrayList(1L, 3L, 4L, 6L, 7L));
         
         when(sourceCcjExternalRepository.findJudgmentIds(0, 3, null)).thenReturn(sourceIdsPage1);
         when(sourceCcjExternalRepository.findJudgmentIds(1, 3, null)).thenReturn(sourceIdsPage2);
         when(sourceCcjExternalRepository.findJudgmentIds(2, 3, null)).thenReturn(Lists.newArrayList());
         
-        when(judgmentRepository.findAllSourceIdsBySourceCode(SourceCode.COMMON_COURT)).thenReturn(sourceIdsInDb);
+        when(judgmentRepository.findAllIdsBySourceCodeAndSourceJudgmentIds(SourceCode.COMMON_COURT, sourceIdsPage1)).thenReturn(Lists.newArrayList(1L, 3L));
+        when(judgmentRepository.findAllIdsBySourceCodeAndSourceJudgmentIds(SourceCode.COMMON_COURT, sourceIdsPage2)).thenReturn(Lists.newArrayList(4L));
         
         // execute
         
-        List<String> removedSourceIds = removedJudgmentsFinder.findRemovedJudgments();
+        List<Long> removedSourceIds = ccRemovedJudgmentsFinder.findCcRemovedJudgmentSourceIds();
         
         
         // assert
         
-        assertThat(removedSourceIds, containsInAnyOrder("removed_sourceId_1", "removed_sourceId_2"));
+        assertThat(removedSourceIds, containsInAnyOrder(6L, 7L));
     }
     
 }
