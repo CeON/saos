@@ -1,11 +1,14 @@
 package pl.edu.icm.saos.importer.commoncourt.judgment.remove;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.importer.commoncourt.judgment.SourceCcjExternalRepository;
 import pl.edu.icm.saos.persistence.model.SourceCode;
@@ -23,13 +26,17 @@ public class CcRemovedJudgmentsFinder {
 
     private final static Logger log = LoggerFactory.getLogger(CcRemovedJudgmentsFinder.class);
 
+    private int judgmentRepositoryPageSize = 100;
+
 
     private SourceCcjExternalRepository sourceCcjExternalRepository;
     
     private JudgmentRepository judgmentRepository;
     
     
-    private int pageSize = 1000;
+    private int externalRepositoryPageSize = 1000;
+    
+    
     
     
     //------------------------ LOGIC --------------------------
@@ -48,18 +55,19 @@ public class CcRemovedJudgmentsFinder {
         int pageNumber = 0;
         while(true) {
             
-            List<String> judgmentExternalIdsPage = sourceCcjExternalRepository.findJudgmentIds(pageNumber, pageSize, null);
+            List<String> judgmentExternalIdsPage = sourceCcjExternalRepository.findJudgmentIds(pageNumber, externalRepositoryPageSize, null);
             
-            log.info("Downloaded {} judgment ids from external repository", (pageNumber*pageSize) + judgmentExternalIdsPage.size());
+            log.info("Downloaded {} judgment ids from external repository", (pageNumber*externalRepositoryPageSize) + judgmentExternalIdsPage.size());
             
             
             if (judgmentExternalIdsPage.isEmpty()) {
                 break;
             }
             
-            List<Long> judgmentIdsPage = judgmentRepository.findAllIdsBySourceCodeAndSourceJudgmentIds(SourceCode.COMMON_COURT, judgmentExternalIdsPage);
+            List<Long> judgmentIdsPage = findCorrespondingJudgmentIds(judgmentExternalIdsPage);
             
             removedJudgmentsIds.removeAll(judgmentIdsPage);
+            
             
             ++pageNumber;
         }
@@ -68,6 +76,30 @@ public class CcRemovedJudgmentsFinder {
     }
 
 
+    //------------------------ PRIVATE --------------------------
+    
+    private List<Long> findCorrespondingJudgmentIds(List<String> judgmentExternalIds) {
+        
+        LinkedList<String> remainingExternalIds = Lists.newLinkedList(judgmentExternalIds);
+        List<Long> judgmentIds = Lists.newArrayList();
+        
+        while (!remainingExternalIds.isEmpty()) {
+            
+            List<String> externalIdsPage = Lists.newLinkedList();
+            
+            while(!remainingExternalIds.isEmpty() && externalIdsPage.size() < judgmentRepositoryPageSize) {
+                externalIdsPage.add(remainingExternalIds.removeFirst());
+            }
+            
+            List<Long> judgmentIdsPage = judgmentRepository.findAllIdsBySourceCodeAndSourceJudgmentIds(SourceCode.COMMON_COURT, externalIdsPage);
+            
+            judgmentIds.addAll(judgmentIdsPage);
+        }
+        
+        return judgmentIds;
+    }
+    
+    
     //------------------------ SETTERS --------------------------
 
     @Autowired
@@ -83,9 +115,9 @@ public class CcRemovedJudgmentsFinder {
     /**
      * Defines how many judgment source ids will be downloaded
      * from external repository at one request.
-     * Default value is 1000
+     * Default value is 1000. Cannot be greater than 5000.
      */
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+    public void setExternalRepositoryPageSize(int externalRepositoryPageSize) {
+        this.externalRepositoryPageSize = externalRepositoryPageSize;
     }
 }

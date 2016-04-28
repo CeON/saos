@@ -28,9 +28,9 @@ import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.RemovedJudgment;
+import pl.edu.icm.saos.persistence.model.DeletedJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
-import pl.edu.icm.saos.persistence.repository.RemovedJudgmentRepository;
+import pl.edu.icm.saos.persistence.repository.DeletedJudgmentRepository;
 
 /**
  * @author madryk
@@ -49,7 +49,7 @@ public class CcJudgmentDeleteRemovedJobTest extends BatchJobsTestSupport {
     private JudgmentRepository judgmentRepository;
     
     @Autowired
-    private RemovedJudgmentRepository removedJudgmentRepository;
+    private DeletedJudgmentRepository deletedJudgmentRepository;
     
     @Autowired
     private EnrichmentTagRepository enrichmentTagRepository;
@@ -68,7 +68,7 @@ public class CcJudgmentDeleteRemovedJobTest extends BatchJobsTestSupport {
     @Before
     public void setup() {
         
-        ccRemovedJudgmentsFinder.setPageSize(5);
+        ccRemovedJudgmentsFinder.setExternalRepositoryPageSize(5);
         ccRemovedJudgmentsFinder.setSourceCcjExternalRepository(sourceCcjExternalRepository);
         
     }
@@ -114,12 +114,12 @@ public class CcJudgmentDeleteRemovedJobTest extends BatchJobsTestSupport {
         JobExecutionAssertUtils.assertJobExecution(execution, 0, 3);
         
         
-        List<RemovedJudgment> removedJudgments = removedJudgmentRepository.findAll();
+        List<DeletedJudgment> deletedJudgments = deletedJudgmentRepository.findAll();
         
-        assertEquals(3, removedJudgments.size());
-        assertContainsJudgment(removedJudgments, judgmentToRemove1);
-        assertContainsJudgment(removedJudgments, judgmentToRemove2);
-        assertContainsJudgment(removedJudgments, judgmentToRemove3);
+        assertEquals(3, deletedJudgments.size());
+        assertContainsJudgment(deletedJudgments, judgmentToRemove1);
+        assertContainsJudgment(deletedJudgments, judgmentToRemove2);
+        assertContainsJudgment(deletedJudgments, judgmentToRemove3);
         
         
         assertEquals(judgmentsInDbCount - 3, judgmentRepository.count());
@@ -133,18 +133,18 @@ public class CcJudgmentDeleteRemovedJobTest extends BatchJobsTestSupport {
     
     //------------------------ PRIVATE --------------------------
     
-    private void assertContainsJudgment(List<RemovedJudgment> removedJudgments, Judgment judgment) {
+    private void assertContainsJudgment(List<DeletedJudgment> deletedJudgments, Judgment judgment) {
         
-        for (RemovedJudgment removedJudgment : removedJudgments) {
+        for (DeletedJudgment deletedJudgment : deletedJudgments) {
             
-            if (removedJudgment.getRemovedJudgmentId() == judgment.getId()) {
+            if (deletedJudgment.getRemovedJudgmentId() == judgment.getId()) {
                 
-                assertEquals(judgment.getSourceInfo().getPublicationDate(), removedJudgment.getSourceInfo().getPublicationDate());
-                assertEquals(judgment.getSourceInfo().getPublisher(), removedJudgment.getSourceInfo().getPublisher());
-                assertEquals(judgment.getSourceInfo().getReviser(), removedJudgment.getSourceInfo().getReviser());
-                assertEquals(judgment.getSourceInfo().getSourceCode(), removedJudgment.getSourceInfo().getSourceCode());
-                assertEquals(judgment.getSourceInfo().getSourceJudgmentId(), removedJudgment.getSourceInfo().getSourceJudgmentId());
-                assertEquals(judgment.getSourceInfo().getSourceJudgmentUrl(), removedJudgment.getSourceInfo().getSourceJudgmentUrl());
+                assertEquals(judgment.getSourceInfo().getPublicationDate(), deletedJudgment.getSourceInfo().getPublicationDate());
+                assertEquals(judgment.getSourceInfo().getPublisher(), deletedJudgment.getSourceInfo().getPublisher());
+                assertEquals(judgment.getSourceInfo().getReviser(), deletedJudgment.getSourceInfo().getReviser());
+                assertEquals(judgment.getSourceInfo().getSourceCode(), deletedJudgment.getSourceInfo().getSourceCode());
+                assertEquals(judgment.getSourceInfo().getSourceJudgmentId(), deletedJudgment.getSourceInfo().getSourceJudgmentId());
+                assertEquals(judgment.getSourceInfo().getSourceJudgmentUrl(), deletedJudgment.getSourceInfo().getSourceJudgmentUrl());
                 return;
             }
             

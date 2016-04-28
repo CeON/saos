@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.reflect.Whitebox;
 
 import com.google.common.collect.Lists;
 
@@ -37,7 +38,8 @@ public class CcRemovedJudgmentsFinderTest {
     
     @Before
     public void setup() {
-        ccRemovedJudgmentsFinder.setPageSize(3);
+        ccRemovedJudgmentsFinder.setExternalRepositoryPageSize(3);
+        Whitebox.setInternalState(ccRemovedJudgmentsFinder, "judgmentRepositoryPageSize", 2);
     }
     
     //------------------------ TESTS --------------------------
@@ -56,8 +58,12 @@ public class CcRemovedJudgmentsFinderTest {
         when(sourceCcjExternalRepository.findJudgmentIds(1, 3, null)).thenReturn(sourceIdsPage2);
         when(sourceCcjExternalRepository.findJudgmentIds(2, 3, null)).thenReturn(Lists.newArrayList());
         
-        when(judgmentRepository.findAllIdsBySourceCodeAndSourceJudgmentIds(SourceCode.COMMON_COURT, sourceIdsPage1)).thenReturn(Lists.newArrayList(1L, 3L));
-        when(judgmentRepository.findAllIdsBySourceCodeAndSourceJudgmentIds(SourceCode.COMMON_COURT, sourceIdsPage2)).thenReturn(Lists.newArrayList(4L));
+        when(judgmentRepository.findAllIdsBySourceCodeAndSourceJudgmentIds(SourceCode.COMMON_COURT, Lists.newArrayList("sourceId_1", "sourceId_2")))
+                .thenReturn(Lists.newArrayList(1L));
+        when(judgmentRepository.findAllIdsBySourceCodeAndSourceJudgmentIds(SourceCode.COMMON_COURT, Lists.newArrayList("sourceId_3")))
+                .thenReturn(Lists.newArrayList(3L));
+        when(judgmentRepository.findAllIdsBySourceCodeAndSourceJudgmentIds(SourceCode.COMMON_COURT, sourceIdsPage2))
+                .thenReturn(Lists.newArrayList(4L));
         
         // execute
         

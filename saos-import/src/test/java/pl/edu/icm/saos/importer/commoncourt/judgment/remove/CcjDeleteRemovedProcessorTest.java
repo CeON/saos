@@ -7,7 +7,7 @@ import org.powermock.reflect.Whitebox;
 
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.RemovedJudgment;
+import pl.edu.icm.saos.persistence.model.DeletedJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 
 /**
@@ -35,7 +35,7 @@ public class CcjDeleteRemovedProcessorTest {
         
         // execute
         
-        RemovedJudgment judgmentToRemove = ccjDeleteRemovedProcessor.process(judgment);
+        DeletedJudgment judgmentToRemove = ccjDeleteRemovedProcessor.process(judgment);
         
         
         // assert

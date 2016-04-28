@@ -11,13 +11,13 @@ import pl.edu.icm.saos.persistence.common.DataObject;
 
 /**
  * Entity representing judgment that have been
- * removed from database
+ * deleted from database
  * 
  * @author madryk
  */
 @Entity
 @SequenceGenerator(name = "seq_removed_judgment", allocationSize = 1, sequenceName = "seq_removed_judgment")
-public class RemovedJudgment extends DataObject {
+public class DeletedJudgment extends DataObject {
 
     private long removedJudgmentId;
     

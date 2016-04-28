@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.enrichment.delete.JudgmentWithEnrichmentDeleter;
-import pl.edu.icm.saos.persistence.model.RemovedJudgment;
-import pl.edu.icm.saos.persistence.repository.RemovedJudgmentRepository;
+import pl.edu.icm.saos.persistence.model.DeletedJudgment;
+import pl.edu.icm.saos.persistence.repository.DeletedJudgmentRepository;
 
 /**
  * Spring batch writer for removing judgments
@@ -17,27 +17,27 @@ import pl.edu.icm.saos.persistence.repository.RemovedJudgmentRepository;
  * @author madryk
  */
 @Service
-public class CcjDeleteRemovedWriter implements ItemWriter<RemovedJudgment> {
+public class CcjDeleteRemovedWriter implements ItemWriter<DeletedJudgment> {
 
     @Autowired
     private JudgmentWithEnrichmentDeleter judgmentWithEnrichmentDeleter;
     
     @Autowired
-    private RemovedJudgmentRepository removedJudgmentRepository;
+    private DeletedJudgmentRepository deletedJudgmentRepository;
     
     
     //------------------------ LOGIC --------------------------
     
     @Override
-    public void write(List<? extends RemovedJudgment> judgmentsToRemove) throws Exception {
+    public void write(List<? extends DeletedJudgment> judgmentsToDelete) throws Exception {
         
-        List<Long> judgmentIdsToRemove = judgmentsToRemove.stream()
+        List<Long> judgmentIdsToDelete = judgmentsToDelete.stream()
                 .map(j -> j.getRemovedJudgmentId())
                 .collect(Collectors.toList());
         
-        judgmentWithEnrichmentDeleter.delete(judgmentIdsToRemove);
+        judgmentWithEnrichmentDeleter.delete(judgmentIdsToDelete);
         
-        removedJudgmentRepository.save(judgmentsToRemove);
+        deletedJudgmentRepository.save(judgmentsToDelete);
         
         
     }

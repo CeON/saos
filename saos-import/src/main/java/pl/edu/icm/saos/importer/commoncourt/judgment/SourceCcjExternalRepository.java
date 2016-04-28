@@ -46,11 +46,13 @@ public class SourceCcjExternalRepository {
     
     /**
      * @param pageNo 0-based
+     * @param pageSize must be a number between 1 and 5000
      * @param publicationDateFrom if null then all judgments taken into account
      */
     public List<String> findJudgmentIds(int pageNo, int pageSize, DateTime publicationDateFrom) {
         
-        Preconditions.checkArgument(pageNo >= 0);
+        Preconditions.checkArgument(pageNo >= 0, "pageNo must be greater or equal to zero");
+        Preconditions.checkArgument(pageSize >= 1 && pageSize <= 5000, "pageSize must be between 1 and 5000");
         
         String url = sourceCcJudgmentUrlFactory.createSourceJudgmentsUrl(pageNo, pageSize, publicationDateFrom);
         

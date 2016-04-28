@@ -12,9 +12,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.enrichment.delete.JudgmentWithEnrichmentDeleter;
-import pl.edu.icm.saos.persistence.model.RemovedJudgment;
+import pl.edu.icm.saos.persistence.model.DeletedJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
-import pl.edu.icm.saos.persistence.repository.RemovedJudgmentRepository;
+import pl.edu.icm.saos.persistence.repository.DeletedJudgmentRepository;
 
 /**
  * @author madryk
@@ -30,7 +30,7 @@ public class CcjDeleteRemovedWriterTest {
     private JudgmentWithEnrichmentDeleter judgmentWithEnrichmentDeleter;
     
     @Mock
-    private RemovedJudgmentRepository removedJudgmentRepository;
+    private DeletedJudgmentRepository deletedJudgmentRepository;
     
     
     //------------------------ TESTS --------------------------
@@ -40,8 +40,8 @@ public class CcjDeleteRemovedWriterTest {
         
         // given
         
-        RemovedJudgment judgmentToRemove1 = createRemovedJudgment(1L, "AA1");
-        RemovedJudgment judgmentToRemove2 = createRemovedJudgment(2L, "AA2");
+        DeletedJudgment judgmentToRemove1 = createDeletedJudgment(1L, "AA1");
+        DeletedJudgment judgmentToRemove2 = createDeletedJudgment(2L, "AA2");
         
         
         // execute
@@ -52,21 +52,21 @@ public class CcjDeleteRemovedWriterTest {
         // assert
         
         verify(judgmentWithEnrichmentDeleter).delete(Lists.newArrayList(1L, 2L));
-        verify(removedJudgmentRepository).save(Lists.newArrayList(judgmentToRemove1, judgmentToRemove2));
+        verify(deletedJudgmentRepository).save(Lists.newArrayList(judgmentToRemove1, judgmentToRemove2));
         
-        verifyNoMoreInteractions(judgmentWithEnrichmentDeleter, removedJudgmentRepository);
+        verifyNoMoreInteractions(judgmentWithEnrichmentDeleter, deletedJudgmentRepository);
     }
     
     
     //------------------------ PRIVATE --------------------------
     
-    private RemovedJudgment createRemovedJudgment(long judgmentId, String sourceJudgmentId) {
-        RemovedJudgment removedJudgment = new RemovedJudgment();
+    private DeletedJudgment createDeletedJudgment(long judgmentId, String sourceJudgmentId) {
+        DeletedJudgment deletedJudgment = new DeletedJudgment();
         
-        removedJudgment.setRemovedJudgmentId(judgmentId);
-        removedJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
-        removedJudgment.getSourceInfo().setSourceJudgmentId(sourceJudgmentId);
+        deletedJudgment.setRemovedJudgmentId(judgmentId);
+        deletedJudgment.getSourceInfo().setSourceCode(SourceCode.COMMON_COURT);
+        deletedJudgment.getSourceInfo().setSourceJudgmentId(sourceJudgmentId);
         
-        return removedJudgment;
+        return deletedJudgment;
     }
 }

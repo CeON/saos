@@ -4,7 +4,7 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Service;
 
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.RemovedJudgment;
+import pl.edu.icm.saos.persistence.model.DeletedJudgment;
 
 /**
  * Spring batch processor for removing judgments
@@ -12,19 +12,19 @@ import pl.edu.icm.saos.persistence.model.RemovedJudgment;
  * @author madryk
  */
 @Service
-public class CcjDeleteRemovedProcessor implements ItemProcessor<Judgment, RemovedJudgment> {
+public class CcjDeleteRemovedProcessor implements ItemProcessor<Judgment, DeletedJudgment> {
 
     //------------------------ LOGIC --------------------------
     
     @Override
-    public RemovedJudgment process(Judgment judgment) throws Exception {
+    public DeletedJudgment process(Judgment judgment) throws Exception {
         
-        RemovedJudgment removedJudgment = new RemovedJudgment();
+        DeletedJudgment deletedJudgment = new DeletedJudgment();
         
-        removedJudgment.setRemovedJudgmentId(judgment.getId());
-        removedJudgment.setSourceInfo(judgment.getSourceInfo());
+        deletedJudgment.setRemovedJudgmentId(judgment.getId());
+        deletedJudgment.setSourceInfo(judgment.getSourceInfo());
         
-        return removedJudgment;
+        return deletedJudgment;
     }
 
 }

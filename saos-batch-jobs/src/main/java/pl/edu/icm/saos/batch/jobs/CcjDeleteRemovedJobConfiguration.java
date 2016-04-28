@@ -13,7 +13,7 @@ import pl.edu.icm.saos.importer.commoncourt.judgment.remove.CcjDeleteRemovedProc
 import pl.edu.icm.saos.importer.commoncourt.judgment.remove.CcjDeleteRemovedReader;
 import pl.edu.icm.saos.importer.commoncourt.judgment.remove.CcjDeleteRemovedWriter;
 import pl.edu.icm.saos.persistence.model.Judgment;
-import pl.edu.icm.saos.persistence.model.RemovedJudgment;
+import pl.edu.icm.saos.persistence.model.DeletedJudgment;
 
 /**
  * @author madryk
@@ -47,7 +47,7 @@ public class CcjDeleteRemovedJobConfiguration {
     @Bean
     @Autowired
     protected Step ccJudgmentDeleteRemovedProcessStep() {
-        return steps.get("ccJudgmentDeleteRemovedProcessStep").<Judgment, RemovedJudgment> chunk(20)
+        return steps.get("ccJudgmentDeleteRemovedProcessStep").<Judgment, DeletedJudgment> chunk(20)
             .reader(ccjDeleteRemovedReader)
             .processor(ccjDeleteRemovedProcessor)
             .writer(ccjDeleteRemovedWriter)

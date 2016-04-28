@@ -136,6 +136,24 @@ public class SourceCcjExternalRepositoryTest {
         sourceCcjExternalRepository.findJudgmentIds(pageNo, pageSize, publicationDateFrom);
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void findJudgmentIds_NEGATIVE_PAGE_NO() {
+        // execute
+        sourceCcjExternalRepository.findJudgmentIds(-1, 10, null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void findJudgmentIds_TOO_SMALL_PAGE_SIZE() {
+        // execute
+        sourceCcjExternalRepository.findJudgmentIds(0, 0, null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void findJudgmentIds_TOO_BIG_PAGE_SIZE() {
+        // execute
+        sourceCcjExternalRepository.findJudgmentIds(0, 5001, null);
+    }
+    
     @Test
     public void findJudgment() {
         
