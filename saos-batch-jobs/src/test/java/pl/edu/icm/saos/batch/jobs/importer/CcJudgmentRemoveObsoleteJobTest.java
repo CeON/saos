@@ -25,6 +25,7 @@ import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcjExternalRepository;
 import pl.edu.icm.saos.importer.commoncourt.judgment.remove.SourceCcRemovedJudgmentsFinder;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
+import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.RemovedJudgment;
@@ -49,6 +50,9 @@ public class CcJudgmentRemoveObsoleteJobTest extends BatchJobsTestSupport {
     
     @Autowired
     private RemovedJudgmentRepository removedJudgmentRepository;
+    
+    @Autowired
+    private EnrichmentTagRepository enrichmentTagRepository;
     
     @Autowired
     private SourceCcRemovedJudgmentsFinder sourceCcRemovedJudgmentsFinder;
@@ -80,6 +84,7 @@ public class CcJudgmentRemoveObsoleteJobTest extends BatchJobsTestSupport {
                 .map(j -> j.getSourceInfo().getSourceJudgmentId())
                 .collect(Collectors.toList());
         
+        testPersistenceObjectFactory.createEnrichmentTagsForJudgment(judgmentToRemove1.getId());
         
         SourceCcjExternalRepository sourceCcjExternalRepository = mock(SourceCcjExternalRepository.class);
         when(sourceCcjExternalRepository.findJudgmentIds(0, 5, null)).thenReturn(judgmentSourceIdsInExternalRepository.subList(0, 5));
@@ -121,6 +126,7 @@ public class CcJudgmentRemoveObsoleteJobTest extends BatchJobsTestSupport {
         assertNull(judgmentRepository.findOne(judgmentToRemove2.getId()));
         assertNull(judgmentRepository.findOne(judgmentToRemove3.getId()));
         
+        assertEquals(0, enrichmentTagRepository.findAllByJudgmentId(judgmentToRemove1.getId()).size());
     }
     
     private void assertContainsJudgment(List<RemovedJudgment> removedJudgments, Judgment judgment) {

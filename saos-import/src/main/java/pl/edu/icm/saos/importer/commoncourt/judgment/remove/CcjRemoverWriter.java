@@ -7,8 +7,8 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.edu.icm.saos.enrichment.delete.JudgmentWithEnrichmentDeleter;
 import pl.edu.icm.saos.persistence.model.RemovedJudgment;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.RemovedJudgmentRepository;
 
 /**
@@ -20,7 +20,7 @@ import pl.edu.icm.saos.persistence.repository.RemovedJudgmentRepository;
 public class CcjRemoverWriter implements ItemWriter<RemovedJudgment> {
 
     @Autowired
-    private JudgmentRepository judgmentRepository;
+    private JudgmentWithEnrichmentDeleter judgmentWithEnrichmentDeleter;
     
     @Autowired
     private RemovedJudgmentRepository removedJudgmentRepository;
@@ -35,7 +35,7 @@ public class CcjRemoverWriter implements ItemWriter<RemovedJudgment> {
                 .map(j -> j.getRemovedJudgmentId())
                 .collect(Collectors.toList());
         
-        judgmentRepository.delete(judgmentIdsToRemove);
+        judgmentWithEnrichmentDeleter.delete(judgmentIdsToRemove);
         
         removedJudgmentRepository.save(judgmentsToRemove);
         

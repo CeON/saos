@@ -11,9 +11,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.collect.Lists;
 
+import pl.edu.icm.saos.enrichment.delete.JudgmentWithEnrichmentDeleter;
 import pl.edu.icm.saos.persistence.model.RemovedJudgment;
 import pl.edu.icm.saos.persistence.model.SourceCode;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.RemovedJudgmentRepository;
 
 /**
@@ -27,7 +27,7 @@ public class CcjRemoverWriterTest {
     
     
     @Mock
-    private JudgmentRepository judgmentRepository;
+    private JudgmentWithEnrichmentDeleter judgmentWithEnrichmentDeleter;
     
     @Mock
     private RemovedJudgmentRepository removedJudgmentRepository;
@@ -51,10 +51,10 @@ public class CcjRemoverWriterTest {
         
         // assert
         
-        verify(judgmentRepository).delete(Lists.newArrayList(1L, 2L));
+        verify(judgmentWithEnrichmentDeleter).delete(Lists.newArrayList(1L, 2L));
         verify(removedJudgmentRepository).save(Lists.newArrayList(judgmentToRemove1, judgmentToRemove2));
         
-        verifyNoMoreInteractions(judgmentRepository, removedJudgmentRepository);
+        verifyNoMoreInteractions(judgmentWithEnrichmentDeleter, removedJudgmentRepository);
     }
     
     
