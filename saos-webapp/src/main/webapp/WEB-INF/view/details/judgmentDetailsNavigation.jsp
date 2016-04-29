@@ -456,10 +456,10 @@
             <c:if test="${referencingCount > 0}">
                 <li>
                     <div class="" >
-                        <div class="label-title" ><spring:message code="judgmentDetails.enrichmentTag.referencedCourtCases" />:</div>
+                        
                         <div class="desc" >
 	                        <a href="${contextPath}/search?referencedCourtCaseId=${judgment.id}" title="<spring:message code="judgmentDetails.enrichmentTag.referencingJudgments.searchLink" />">
-	                            <spring:message code="judgmentDetails.enrichmentTag.referencingJudgments.count" />: <c:out value="${referencingCount}" />
+	                            <spring:message code="judgmentDetails.enrichmentTag.referencingJudgments" arguments="${referencingCount}"/>
 	                        </a> 
                         </div>
                     </div>

@@ -31,11 +31,11 @@
                     <c:choose>
                         <c:when test="${judgment.referencingCount>0}">
                             <a href="${contextPath}/search?referencedCourtCaseId=${judgment.id}" title="<spring:message code="judgmentSearch.results.referencingCount.link" />">
-                                <spring:message code="judgmentSearch.results.referencingCount" />: <c:out value="${judgment.referencingCount}" />
+                                <spring:message code="judgmentSearch.results.referencingCount" arguments="${judgment.referencingCount}" />
                             </a>
                         </c:when>
                         <c:otherwise>
-                            <spring:message code="judgmentSearch.results.referencingCount" />: <c:out value="${judgment.referencingCount}" />
+                            <spring:message code="judgmentSearch.results.referencingCount" arguments="${judgment.referencingCount}" />
                         </c:otherwise>
                     </c:choose>
                 </div>
