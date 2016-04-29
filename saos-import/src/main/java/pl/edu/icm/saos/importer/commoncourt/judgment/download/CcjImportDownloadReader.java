@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
+import pl.edu.icm.saos.importer.commoncourt.judgment.SourceCcjExternalRepository;
 import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 
 import com.google.common.collect.ImmutableList;

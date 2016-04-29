@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.commoncourt.judgment.download;
+package pl.edu.icm.saos.importer.commoncourt.judgment;
 
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
@@ -21,14 +21,14 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import pl.edu.icm.saos.common.xml.XmlTagContentExtractor;
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentTextData;
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentUrlFactory;
-import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcjExternalRepository;
-
 import com.google.common.collect.Lists;
 import com.googlecode.catchexception.CatchException;
 import com.googlecode.catchexception.apis.CatchExceptionAssertJ;
+
+import pl.edu.icm.saos.common.xml.XmlTagContentExtractor;
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.InvalidResponseContentType;
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentDownloadErrorException;
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentTextData;
 
 /**
  * @author Łukasz Dumiszewski
@@ -134,6 +134,24 @@ public class SourceCcjExternalRepositoryTest {
         
         // execute
         sourceCcjExternalRepository.findJudgmentIds(pageNo, pageSize, publicationDateFrom);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void findJudgmentIds_NEGATIVE_PAGE_NO() {
+        // execute
+        sourceCcjExternalRepository.findJudgmentIds(-1, 10, null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void findJudgmentIds_TOO_SMALL_PAGE_SIZE() {
+        // execute
+        sourceCcjExternalRepository.findJudgmentIds(0, 0, null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void findJudgmentIds_TOO_BIG_PAGE_SIZE() {
+        // execute
+        sourceCcjExternalRepository.findJudgmentIds(0, 5001, null);
     }
     
     @Test

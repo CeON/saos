@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.commoncourt.judgment.download;
+package pl.edu.icm.saos.importer.commoncourt.judgment;
 
 import java.util.List;
 
@@ -17,16 +17,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import pl.edu.icm.saos.common.xml.XmlTagContentExtractor;
-
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+
+import pl.edu.icm.saos.common.xml.XmlTagContentExtractor;
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.InvalidResponseContentType;
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentDownloadErrorException;
+import pl.edu.icm.saos.importer.commoncourt.judgment.download.SourceCcJudgmentTextData;
 
 /**
  * @author Łukasz Dumiszewski
  */
 @Service
-class SourceCcjExternalRepository {
+public class SourceCcjExternalRepository {
 
     private static Logger log = LoggerFactory.getLogger(SourceCcjExternalRepository.class);
     
@@ -43,11 +46,13 @@ class SourceCcjExternalRepository {
     
     /**
      * @param pageNo 0-based
+     * @param pageSize must be a number between 1 and 5000
      * @param publicationDateFrom if null then all judgments taken into account
      */
     public List<String> findJudgmentIds(int pageNo, int pageSize, DateTime publicationDateFrom) {
         
-        Preconditions.checkArgument(pageNo >= 0);
+        Preconditions.checkArgument(pageNo >= 0, "pageNo must be greater or equal to zero");
+        Preconditions.checkArgument(pageSize >= 1 && pageSize <= 5000, "pageSize must be between 1 and 5000");
         
         String url = sourceCcJudgmentUrlFactory.createSourceJudgmentsUrl(pageNo, pageSize, publicationDateFrom);
         

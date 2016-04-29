@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 import org.springframework.batch.item.ExecutionContext;
 
 import pl.edu.icm.saos.importer.common.ImportDateTimeFormatter;
+import pl.edu.icm.saos.importer.commoncourt.judgment.SourceCcjExternalRepository;
 import pl.edu.icm.saos.persistence.repository.RawSourceCcJudgmentRepository;
 
 import com.google.common.collect.Lists;

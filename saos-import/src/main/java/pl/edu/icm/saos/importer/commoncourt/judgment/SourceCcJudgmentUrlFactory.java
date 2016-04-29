@@ -1,4 +1,4 @@
-package pl.edu.icm.saos.importer.commoncourt.judgment.download;
+package pl.edu.icm.saos.importer.commoncourt.judgment;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;

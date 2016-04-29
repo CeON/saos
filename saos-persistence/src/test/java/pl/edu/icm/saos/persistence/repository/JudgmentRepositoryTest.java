@@ -227,6 +227,46 @@ public class JudgmentRepositoryTest extends PersistenceTestSupport {
     }
     
     @Test
+    public void findAllIdsBySourceCode() {
+        
+        // given
+        Judgment judgment1 = createCcJudgment(SourceCode.COMMON_COURT, "sourceId_1", "AAA1");
+        createScJudgment(SourceCode.SUPREME_COURT, "sourceId_1", "AAA2");
+        createCcJudgment(SourceCode.SUPREME_COURT, "sourceId_3", "AAA3");
+        Judgment judgment4 = createCcJudgment(SourceCode.COMMON_COURT, "sourceId_4", "AAA4");
+        
+        // execute
+        
+        List<Long> judgmentIds = judgmentRepository.findAllIdsBySourceCode(SourceCode.COMMON_COURT);
+        
+        
+        // assert
+        
+        assertThat(judgmentIds, containsInAnyOrder(judgment1.getId(), judgment4.getId()));
+    }
+    
+    @Test
+    public void findAllIdsBySourceCodeAndSourceJudgmentIds() {
+        
+        // given
+        Judgment judgment1 = createCcJudgment(SourceCode.COMMON_COURT, "sourceId_1", "AAA1");
+        createScJudgment(SourceCode.SUPREME_COURT, "sourceId_1", "AAA2");
+        createCcJudgment(SourceCode.SUPREME_COURT, "sourceId_3", "AAA3");
+        Judgment judgment4 = createCcJudgment(SourceCode.COMMON_COURT, "sourceId_4", "AAA4");
+        createCcJudgment(SourceCode.COMMON_COURT, "sourceId_5", "AAA5");
+        
+        // execute
+        
+        List<Long> judgmentIds = judgmentRepository.findAllIdsBySourceCodeAndSourceJudgmentIds(
+                SourceCode.COMMON_COURT, Lists.newArrayList("sourceId_1", "sourceId_4"));
+        
+        
+        // assert
+        
+        assertThat(judgmentIds, containsInAnyOrder(judgment1.getId(), judgment4.getId()));
+    }
+    
+    @Test
     public void findOneBySourceCodeAndSourceJudgmentId_NOT_FOUND() {
         
         // execute

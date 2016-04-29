@@ -13,6 +13,8 @@ public enum JobName {
     IMPORT_CC_JUDGMENTS_download,
     IMPORT_CC_JUDGMENTS_process,
     
+    DELETE_REMOVED_CC_JUDGMENTS,
+    
     IMPORT_CC_COURTS,
     
     IMPORT_CT_JUDGMENTS,
