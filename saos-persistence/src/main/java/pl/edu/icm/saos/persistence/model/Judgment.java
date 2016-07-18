@@ -532,7 +532,7 @@ public abstract class Judgment extends IndexableObject {
     public boolean addReferencedCourtCase(ReferencedCourtCase referencedCourtCase) {
         
         Preconditions.checkNotNull(referencedCourtCase);
-        Preconditions.checkArgument(!containsReferencedCourtCase(referencedCourtCase));
+        Preconditions.checkArgument(!containsReferencedCourtCase(referencedCourtCase), "judgmentId="+this.id);
         
         return this.referencedCourtCases.add(referencedCourtCase);
     }

@@ -13,6 +13,8 @@ import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.importer.common.JudgmentKeywordCreator;
 import pl.edu.icm.saos.importer.common.converter.JudgeConverter;
 import pl.edu.icm.saos.importer.common.converter.JudgmentDataExtractor;
@@ -25,21 +27,19 @@ import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.CourtCase;
 import pl.edu.icm.saos.persistence.model.CourtType;
 import pl.edu.icm.saos.persistence.model.Judge;
-import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
 import pl.edu.icm.saos.persistence.model.Judge.JudgeRole;
 import pl.edu.icm.saos.persistence.model.Judgment.JudgmentType;
-import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.JudgmentKeyword;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.JudgmentResult;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent;
+import pl.edu.icm.saos.persistence.model.JudgmentTextContent.ContentType;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.model.MeansOfAppeal;
 import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.importer.ImportProcessingSkipReason;
 import pl.edu.icm.saos.persistence.repository.CcDivisionRepository;
 import pl.edu.icm.saos.persistence.repository.CommonCourtRepository;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author Łukasz Dumiszewski
@@ -291,7 +291,7 @@ public class SourceCcJudgmentExtractor implements JudgmentDataExtractor<CommonCo
         }
         CommonCourtDivision division = ccDivisionRepository.findOneByCourtIdAndCode(court.getId(), StringUtils.leftPad(sourceJudgment.getDepartmentId(), 7, '0'));
         if (division == null) {
-            throw new CcjImportProcessSkippableException("court division not found, code = " + sourceJudgment.getDepartmentId(), ImportProcessingSkipReason.COURT_DIVISION_NOT_FOUND);
+            throw new CcjImportProcessSkippableException("court division not found, courtId = " + court.getId() + ", code = " + sourceJudgment.getDepartmentId(), ImportProcessingSkipReason.COURT_DIVISION_NOT_FOUND);
         }
         return division;
     }

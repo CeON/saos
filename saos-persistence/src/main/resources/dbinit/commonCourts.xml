@@ -5218,9 +5218,6 @@
         <department id="0004533">IX Wydział Gospodarczy Rejestru Zastawów</department> <!-- SRRZESZOW -->
         <department id="0005006">X Wydział Karny</department> <!-- SRRZESZOW -->
         <department id="0006036">XII Wydział Gospodarczy Krajowego Rejestru Sądowego</department> <!-- SRRZESZOW -->
-        <department id="6520003">XIII Zamiejscowy Wydział Cywilny z siedzibą w Strzyżowie</department> <!-- SRRZESZOW -->
-        <department id="7020006">XIV Zamiejscowy Wydział Karny z siedzibą w Strzyżowie</department> <!-- SRRZESZOW -->
-        <department id="7520012">XV Zamiejscowy Wydział Rodzinny i Nieletnich z siedzibą w Strzyżowie</department> <!-- SRRZESZOW -->
       </departments> <!-- SRRZESZOW -->
     </model> <!-- SRRZESZOW -->
   </court> <!-- SRRZESZOW -->
@@ -5239,6 +5236,17 @@
   <court id="15401025">
     <model>
       <name>Sąd Rejonowy w Ropczycach</name>
+      <departments>
+        <department id="0000503">I Wydział Cywilny</department>
+        <department id="0001006">II Wydział Karny</department>
+        <department id="0001512">III Wydział Rodzinny i Nieletnich</department>
+      </departments>
+    </model>
+  </court>
+
+  <court id="15401030">
+    <model>
+      <name>Sąd Rejonowy w Strzyżowie</name>
       <departments>
         <department id="0000503">I Wydział Cywilny</department>
         <department id="0001006">II Wydział Karny</department>
@@ -6158,6 +6166,7 @@
         <department id="0002006">IV Wydział Karny</department><!-- WAWPRAPNSR -->
         <department id="0002512">V Wydział Rodzinny i Nieletnich</department><!-- WAWPRAPNSR -->
         <department id="0003021">VI Wydział Pracy i Ubezpieczeń Społecznych</department><!-- WAWPRAPNSR -->
+        <department id="0003503">VII Wydział Cywilny</department>
         <department id="0003527">VII Wydział Gospodarczy</department><!-- WAWPRAPNSR -->
         <department id="0004006">VIII Wydział Karny</department><!-- WAWPRAPNSR -->
         <department id="0004527">IX Wydział Gospodarczy do Spraw Upadłościowych</department><!-- WAWPRAPNSR -->
