@@ -22,7 +22,7 @@ $(document).ready(function() {
 
     <form:form id="search-form" class="form-horizontal" role="form" modelAttribute="judgmentCriteriaForm" action="${contextPath}/search" method="GET">
 
-	    <div class="row row-eq-height" >
+	    <div class="row row-eq-height">
 	        
 	        <div class="navigation col-md-4">
 	                
@@ -32,15 +32,22 @@ $(document).ready(function() {
 	                        
 	        </div>
 	    
-	        <div class="content col-md-8" id="judgment-search-content" tabindex="-1">
+	        <div class="content col-md-8" id="judgment-search-content" tabindex="-1" style="margin-bottom: 40px">
 	            
 	            <%@ include file="../search/judgmentSearchContent.jsp" %>
-	            
-	        </div>
-	        
+        
+            </div>
+	           
+	              
 	    </div>
 
+        <%@ include file="../template/appInfoFooter.jsp" %>
+               
+	      
+        
     </form:form>
+    
+
     
 </div>
 
