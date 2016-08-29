@@ -24,8 +24,11 @@ $(document).ready(function() {
 	        <%@ include file="../details/judgmentDetailsContent.jsp" %>
 	        
 	    </div>
+	    
     </div>
 
+    <%@ include file="../template/appInfoFooter.jsp" %>
+    
 </div>
 
         

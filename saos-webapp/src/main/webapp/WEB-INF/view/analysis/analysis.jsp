@@ -41,7 +41,11 @@ $(document).ready(function() {
             <%@ include file="analysisContent.jsp" %>
             
         </div>
-    </div>
+
+     </div>
+     
+     <%@ include file="../template/appInfoFooter.jsp" %>
+  
 
 </div>
         

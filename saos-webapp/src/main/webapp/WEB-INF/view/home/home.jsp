@@ -72,13 +72,8 @@
         <div class="project-info col-xs-12">
         	<spring:message code="footer.project.info"/>
         </div>
-        <div class="app-info-footer">
-            <spring:message code="appInfo.contact"/>: <spring:eval var="contactMailAddress" expression="@exposedProperties.getProperty('contact.generalMailAddress')"/>
-            <saos:mail value="${contactMailAddress}"/> 
-            | 
-            <spring:message code="appInfo.saosVersion"/>: <spring:eval expression="@versionProperties.getProperty('saos.version')"/>
-        </div>
-    
+        
+        <%@ include file="../template/appInfoFooter.jsp" %>   
 
 </div>
 

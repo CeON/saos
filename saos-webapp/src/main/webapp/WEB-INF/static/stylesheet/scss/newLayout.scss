@@ -335,7 +335,11 @@ a, .hint {
     color: $dark;
 }
 
-
+.analysis {
+    .navigation {
+       overflow: hidden;
+    }
+}
 .search, .details, .analysis, .article {
 
     .navigation, .content {
