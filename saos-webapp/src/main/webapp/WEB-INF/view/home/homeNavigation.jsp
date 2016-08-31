@@ -9,7 +9,7 @@
     </a>
     
     <a href="${contextPath}/" class="saos-logo-mobile-link">
-        <img class="saos-logo-mobile" src="${contextPath}/static/image/saosLogoMobile.png" alt="<spring:message code="saos.fullnameAndShortcut"/> - <spring:message code='saos.logo.alt' />" />
+        <img class="saos-logo-mobile" src="${contextPath}/static/image/saosLogoSmall.png" alt="<spring:message code="saos.fullnameAndShortcut"/> - <spring:message code='saos.logo.alt' />" />
     </a>    
 </h1>
    
