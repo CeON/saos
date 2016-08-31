@@ -369,7 +369,7 @@ function getMinMaxYForXRange(chart, xmin, xmax, max) {
 	exloop: for (seriesIndex = 0; seriesIndex < chart.seriesList.length; seriesIndex++) {
 		var series = chart.seriesList[seriesIndex];
 		inloop: for (index = 0; index < series.points.length; index++) {
-			var currentValue = parseInt(series.points[index][1]);
+			var currentValue = parseFloat(series.points[index][1]);
 			var currentX = parseFloat(series.points[index][0]);
 			if (parseFloat(xmin) > currentX) {
 				continue inloop;
