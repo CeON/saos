@@ -104,7 +104,7 @@ var SearchFilters = (function(){
 										if ($searchFormField.val() === "") {
 											$searchFormField.val(filterValue).change();
 										} else {
-											$searchFormField.val($searchFormField.val() + ", " + filterValue).change();
+											$searchFormField.val($searchFormField.val() + " | " + filterValue).change();
 										}
 									} else {
 										selectFormType($selectFormType);
