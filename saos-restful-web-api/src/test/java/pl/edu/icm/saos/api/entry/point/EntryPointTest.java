@@ -121,13 +121,17 @@ public class EntryPointTest {
                 .andExpect(jsonPath("$.links[1].href").value(endsWith("/api/dump/judgments")))
                 .andExpect(jsonPath("$.links[1].description").value(notNullValue()))
 
-                .andExpect(jsonPath("$.links[2].rel").value("scChambers"))
-                .andExpect(jsonPath("$.links[2].href").value(endsWith("/api/dump/scChambers")))
+                .andExpect(jsonPath("$.links[2].rel").value("deletedJudgments"))
+                .andExpect(jsonPath("$.links[2].href").value(endsWith("/api/dump/judgments/deleted")))
                 .andExpect(jsonPath("$.links[2].description").value(notNullValue()))
                 
-                .andExpect(jsonPath("$.links[3].rel").value("enrichments"))
-                .andExpect(jsonPath("$.links[3].href").value(endsWith("/api/dump/enrichments")))
+                .andExpect(jsonPath("$.links[3].rel").value("scChambers"))
+                .andExpect(jsonPath("$.links[3].href").value(endsWith("/api/dump/scChambers")))
                 .andExpect(jsonPath("$.links[3].description").value(notNullValue()))
+                
+                .andExpect(jsonPath("$.links[4].rel").value("enrichments"))
+                .andExpect(jsonPath("$.links[4].href").value(endsWith("/api/dump/enrichments")))
+                .andExpect(jsonPath("$.links[4].description").value(notNullValue()))
         ;
     }
     
