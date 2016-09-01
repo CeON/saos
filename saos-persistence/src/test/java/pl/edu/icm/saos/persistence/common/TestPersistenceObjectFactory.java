@@ -5,8 +5,11 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.common.base.Preconditions;
 
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.model.CommonCourt;
@@ -14,6 +17,7 @@ import pl.edu.icm.saos.persistence.model.CommonCourt.CommonCourtType;
 import pl.edu.icm.saos.persistence.model.CommonCourtDivision;
 import pl.edu.icm.saos.persistence.model.CommonCourtJudgment;
 import pl.edu.icm.saos.persistence.model.ConstitutionalTribunalJudgment;
+import pl.edu.icm.saos.persistence.model.DeletedJudgment;
 import pl.edu.icm.saos.persistence.model.Judgment;
 import pl.edu.icm.saos.persistence.model.JudgmentReferencedRegulation;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
@@ -242,7 +246,7 @@ public class TestPersistenceObjectFactory {
     @Transactional
     public List<EnrichmentTag> createEnrichmentTagsForJudgment(long judgmentId) {
         List<EnrichmentTag> enrichmentTags = TestInMemoryEnrichmentTagFactory.createEnrichmentTagsForJudgment(judgmentId);
-        enrichmentTags.forEach(enrichmentTag -> saveEnrichmentTag(enrichmentTag));
+        enrichmentTags.forEach(enrichmentTag -> save(enrichmentTag));
         
         return enrichmentTags;
     }
@@ -259,7 +263,7 @@ public class TestPersistenceObjectFactory {
     @Transactional
     public EnrichmentTag createReferencedCourtCasesTag(long judgmentId, Judgment ... referencedJudgments) {
         EnrichmentTag enrichmentTag = TestInMemoryEnrichmentTagFactory.createReferencedCourtCasesTag(judgmentId, referencedJudgments);
-        saveEnrichmentTag(enrichmentTag);
+        save(enrichmentTag);
         
         return enrichmentTag;
     }
@@ -271,11 +275,29 @@ public class TestPersistenceObjectFactory {
     @Transactional
     public EnrichmentTag createReferencedRegulationsTag(long judgmentId, String refRegulationTextPrefix, LawJournalEntry ... lawJournalEntries) {
         EnrichmentTag enrichmentTag = TestInMemoryEnrichmentTagFactory.createReferencedRegulationsTag(judgmentId, refRegulationTextPrefix, lawJournalEntries);
-        saveEnrichmentTag(enrichmentTag);
+        save(enrichmentTag);
         
         return enrichmentTag;
     }
 
+    /**
+     * Creates {@link DeletedJudgment}s for the given judgment ids
+     */
+    @Transactional
+    public List<DeletedJudgment> createDeletedJudgments(long... judgmentIds) {
+        
+        Preconditions.checkNotNull(judgmentIds);
+        
+        List<DeletedJudgment> deletedJudgments = Lists.newArrayList();
+        
+        for (long judgmentId : judgmentIds) {
+            DeletedJudgment deletedJudgment = TestInMemoryDeletedJudgmentFactory.createDeletedJudgment(judgmentId);
+            save(deletedJudgment);
+            deletedJudgments.add(deletedJudgment);
+        }
+        
+        return deletedJudgments;
+    }
 
     //------------------------ PRIVATE --------------------------
     @Transactional
@@ -384,8 +406,8 @@ public class TestPersistenceObjectFactory {
     }
     
     @Transactional
-    private void saveEnrichmentTag(EnrichmentTag enrichmentTag) {
-        entityManager.persist(enrichmentTag);
+    private void save(DataObject dataObject) {
+        entityManager.persist(dataObject);
         entityManager.flush();
     }
 

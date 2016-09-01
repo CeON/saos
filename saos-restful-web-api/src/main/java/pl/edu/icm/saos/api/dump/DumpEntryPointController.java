@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pl.edu.icm.saos.api.dump.court.DumpCommonCourtsController;
+import pl.edu.icm.saos.api.dump.deletedjudgment.DumpDeletedJudgmentController;
 import pl.edu.icm.saos.api.dump.enrichmenttag.DumpEnrichmentTagController;
 import pl.edu.icm.saos.api.dump.judgment.DumpJudgmentsController;
 import pl.edu.icm.saos.api.dump.supreme.court.chamber.DumpSupremeCourtChambersController;
@@ -72,7 +73,13 @@ public class DumpEntryPointController {
                 .description(apiMessageService.getMessage("dump.judgments.enrichments.description", null, locale))
                 .build();
 
-        return new ResponseEntity<>(createLinksRepresentation(dumpCourts, dumpJudgments, dumpScChambers, dumpEnrichmentTags), HttpStatus.OK);
+        LinkWithDescription dumpDeletedJudgments = new LinkWithDescriptionBuilder()
+                .rel("deletedJudgments")
+                .href(DumpDeletedJudgmentController.class)
+                .description(apiMessageService.getMessage("dump.judgments.deleted.description", null, locale))
+                .build();
+        
+        return new ResponseEntity<>(createLinksRepresentation(dumpCourts, dumpJudgments, dumpDeletedJudgments, dumpScChambers, dumpEnrichmentTags), HttpStatus.OK);
     }
 
 

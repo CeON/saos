@@ -42,6 +42,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.api.ApiTestSupport;
 import pl.edu.icm.saos.api.search.parameters.ParametersExtractor;
 import pl.edu.icm.saos.api.services.interceptor.AccessControlHeaderHandlerInterceptor;
@@ -50,11 +52,8 @@ import pl.edu.icm.saos.common.json.JsonFormatter;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
-import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.search.DatabaseSearchService;
-
-import com.google.common.collect.Lists;
 
 @Category(SlowTest.class)
 public class DumpEnrichmentTagControllerTest extends ApiTestSupport {
@@ -68,9 +67,6 @@ public class DumpEnrichmentTagControllerTest extends ApiTestSupport {
     @Autowired
     private DumpEnrichmentTagsListSuccessRepresentationBuilder dumpEnrichmentTagsListSuccessRepresentationBuilder;
     
-    @Autowired
-    private EnrichmentTagRepository enrichmentTagRepository;
-
     @Autowired
     private JsonFormatter jsonFormatter;
 
