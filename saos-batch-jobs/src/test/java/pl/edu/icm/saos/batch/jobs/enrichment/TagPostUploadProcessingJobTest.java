@@ -22,12 +22,13 @@ import org.springframework.batch.core.JobExecution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.batch.core.JobForcingExecutor;
 import pl.edu.icm.saos.batch.jobs.BatchJobsTestSupport;
 import pl.edu.icm.saos.batch.jobs.JobExecutionAssertUtils;
 import pl.edu.icm.saos.common.json.JsonNormalizer;
 import pl.edu.icm.saos.common.testcommon.category.SlowTest;
-import pl.edu.icm.saos.enrichment.apply.JudgmentEnrichmentService;
 import pl.edu.icm.saos.persistence.common.TestObjectContext;
 import pl.edu.icm.saos.persistence.common.TestPersistenceObjectFactory;
 import pl.edu.icm.saos.persistence.enrichment.EnrichmentTagRepository;
@@ -36,11 +37,8 @@ import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTagTypes;
 import pl.edu.icm.saos.persistence.enrichment.model.JudgmentEnrichmentHash;
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
-import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
 import pl.edu.icm.saos.search.config.model.JudgmentIndexField;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author madryk
@@ -62,12 +60,6 @@ public class TagPostUploadProcessingJobTest extends BatchJobsTestSupport {
     
     @Autowired
     private EnrichmentTagRepository enrichmentTagRepository;
-    
-    @Autowired
-    private JudgmentEnrichmentService judgmentEnrichmentService;
-    
-    @Autowired
-    private JudgmentRepository judgmentRepository;
     
     @Autowired
     @Qualifier("solrJudgmentsServer")

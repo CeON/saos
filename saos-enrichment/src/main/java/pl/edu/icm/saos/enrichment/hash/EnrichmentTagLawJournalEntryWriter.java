@@ -2,6 +2,8 @@ package pl.edu.icm.saos.enrichment.hash;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +21,16 @@ public class EnrichmentTagLawJournalEntryWriter implements ItemWriter<LawJournal
 
     private LawJournalEntryRepository lawJournalEntryRepository;
     
+    private EntityManager entityManager;
+    
     
     //------------------------ LOGIC --------------------------
     
     @Override
     public void write(List<? extends LawJournalEntry> lawJournalEntries) throws Exception {
         lawJournalEntryRepository.save(lawJournalEntries);
+        lawJournalEntryRepository.flush();
+        entityManager.clear();
     }
 
 
@@ -35,5 +41,9 @@ public class EnrichmentTagLawJournalEntryWriter implements ItemWriter<LawJournal
         this.lawJournalEntryRepository = lawJournalEntryRepository;
     }
 
+    @Autowired
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
     
 }

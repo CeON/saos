@@ -3,6 +3,8 @@ package pl.edu.icm.saos.importer.common;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,6 +30,7 @@ public class JudgmentImportProcessWriter<T extends Judgment> implements ItemWrit
     
     private JudgmentCorrectionRepository judgmentCorrectionRepository;
     
+    private EntityManager entityManager;
     
     
     //------------------------ LOGIC --------------------------
@@ -53,6 +56,8 @@ public class JudgmentImportProcessWriter<T extends Judgment> implements ItemWrit
         
         judgmentCorrectionRepository.flush();
         
+        entityManager.clear();
+        
     }
 
     //------------------------ SETTERS --------------------------
@@ -71,5 +76,11 @@ public class JudgmentImportProcessWriter<T extends Judgment> implements ItemWrit
     public void setJudgmentCorrectionRepository(JudgmentCorrectionRepository judgmentCorrectionRepository) {
         this.judgmentCorrectionRepository = judgmentCorrectionRepository;
     }
+
+    @Autowired
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
 
 }

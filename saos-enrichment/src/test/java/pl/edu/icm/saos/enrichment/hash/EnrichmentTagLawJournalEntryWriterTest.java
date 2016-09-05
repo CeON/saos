@@ -1,17 +1,20 @@
 package pl.edu.icm.saos.enrichment.hash;
 
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.inOrder;
+
+import javax.persistence.EntityManager;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import com.google.common.collect.Lists;
+
 import pl.edu.icm.saos.persistence.model.LawJournalEntry;
 import pl.edu.icm.saos.persistence.repository.LawJournalEntryRepository;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author madryk
@@ -24,6 +27,9 @@ public class EnrichmentTagLawJournalEntryWriterTest {
     
     @Mock
     private LawJournalEntryRepository lawJournalEntryRepository;
+    
+    @Mock
+    private EntityManager entityManager;
     
     
     //------------------------ TESTS --------------------------
@@ -39,6 +45,10 @@ public class EnrichmentTagLawJournalEntryWriterTest {
         enrichmentTagLawJournalEntryWriter.write(Lists.newArrayList(lawJournalEntry1, lawJournalEntry2));
         
         // assert
-        verify(lawJournalEntryRepository).save(Lists.newArrayList(lawJournalEntry1, lawJournalEntry2));
+        InOrder inOrder = inOrder(lawJournalEntryRepository, entityManager);
+        inOrder.verify(lawJournalEntryRepository).save(Lists.newArrayList(lawJournalEntry1, lawJournalEntry2));
+        inOrder.verify(lawJournalEntryRepository).flush();
+        inOrder.verify(entityManager).clear();
+        
     }
 }
