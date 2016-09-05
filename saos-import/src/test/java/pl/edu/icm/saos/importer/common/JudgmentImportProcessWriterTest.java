@@ -9,16 +9,21 @@ import static pl.edu.icm.saos.persistence.correction.model.JudgmentCorrectionBui
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.apache.commons.lang3.RandomUtils;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.powermock.reflect.Whitebox;
+
+import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionBuilder;
 import pl.edu.icm.saos.importer.common.correction.ImportCorrectionConverter;
@@ -32,14 +37,13 @@ import pl.edu.icm.saos.persistence.model.SourceCode;
 import pl.edu.icm.saos.persistence.model.SupremeCourtJudgment;
 import pl.edu.icm.saos.persistence.repository.JudgmentRepository;
 
-import com.google.common.collect.Lists;
-
 /**
  * @author Łukasz Dumiszewski
  */
-
+@RunWith(MockitoJUnitRunner.class)
 public class JudgmentImportProcessWriterTest {
 
+    @InjectMocks
     private JudgmentImportProcessWriter<Judgment> judgmentImportProcessWriter = new JudgmentImportProcessWriter<>();
     
     @Mock private JudgmentRepository judgmentRepository;
@@ -47,6 +51,8 @@ public class JudgmentImportProcessWriterTest {
     @Mock private ImportCorrectionConverter importCorrectionConverter;
     
     @Mock private JudgmentCorrectionRepository judgmentCorrectionRepository;
+    
+    @Mock private EntityManager entityManager;
     
     @Captor
     private ArgumentCaptor<List<Judgment>> argJudgments;
@@ -56,18 +62,6 @@ public class JudgmentImportProcessWriterTest {
     
     @Captor
     private ArgumentCaptor<List<JudgmentCorrection>> argJudgmentCorrections;
-    
-    
-    @Before
-    public void before() {
-        
-        MockitoAnnotations.initMocks(this);
-        
-        judgmentImportProcessWriter.setJudgmentRepository(judgmentRepository);
-        judgmentImportProcessWriter.setImportCorrectionConverter(importCorrectionConverter);
-        judgmentImportProcessWriter.setJudgmentCorrectionRepository(judgmentCorrectionRepository);
-        
-    }
     
     
     
@@ -118,7 +112,7 @@ public class JudgmentImportProcessWriterTest {
         Matcher<Iterable<? extends Object>> containsInAnyOrder = Matchers.containsInAnyOrder(j1Corrections, j2Corrections, j3Corrections);
         assertThat(argJudgmentCorrections.getAllValues(), containsInAnyOrder);
         verify(judgmentCorrectionRepository, times(2)).flush();
-        
+        verify(entityManager).clear();
     }
 
 

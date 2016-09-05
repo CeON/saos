@@ -2,6 +2,8 @@ package pl.edu.icm.saos.enrichment.hash;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,8 @@ public class UpdateEnrichmentHashWriter implements ItemWriter<JudgmentEnrichment
 
     private JudgmentEnrichmentHashRepository judgmentEnrichmentHashRepository;
     
+    private EntityManager entityManager;
+    
     
     //------------------------ LOGIC --------------------------
     
@@ -24,7 +28,8 @@ public class UpdateEnrichmentHashWriter implements ItemWriter<JudgmentEnrichment
     public void write(List<? extends JudgmentEnrichmentHash> enrichmentHashes) throws Exception {
         
         judgmentEnrichmentHashRepository.save(enrichmentHashes);
-        
+        judgmentEnrichmentHashRepository.flush();
+        entityManager.clear();
     }
 
 
@@ -34,6 +39,10 @@ public class UpdateEnrichmentHashWriter implements ItemWriter<JudgmentEnrichment
     public void setJudgmentEnrichmentHashRepository(JudgmentEnrichmentHashRepository judgmentEnrichmentHashRepository) {
         this.judgmentEnrichmentHashRepository = judgmentEnrichmentHashRepository;
     }
-
+    
+    @Autowired
+    public void setEntityManager(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
 
 }
