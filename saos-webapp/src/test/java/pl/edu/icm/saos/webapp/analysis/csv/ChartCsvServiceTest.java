@@ -1,19 +1,18 @@
 package pl.edu.icm.saos.webapp.analysis.csv;
 
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -76,12 +75,7 @@ public class ChartCsvServiceTest {
         
         // assert
         
-        @SuppressWarnings("rawtypes")
-        ArgumentCaptor<Chart> chartArg = ArgumentCaptor.forClass(Chart.class);
-        ArgumentCaptor<Writer> writerArg = ArgumentCaptor.forClass(Writer.class);
-        verify(chartCsvExporter).exportChartToCsv(chartArg.capture(), writerArg.capture());
-        assertTrue(chartArg.getValue() == chart);
-        assertTrue(writerArg.getValue() == writer);
+        verify(chartCsvExporter).exportChartToCsv(same(chart), eq(chartCode), same(analysisForm), same(writer));
         
         verify(response).flushBuffer();
     }

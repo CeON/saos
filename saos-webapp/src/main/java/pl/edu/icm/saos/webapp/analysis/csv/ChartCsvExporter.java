@@ -6,9 +6,10 @@ import java.io.Writer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pl.edu.icm.saos.common.chart.Chart;
-import pl.edu.icm.saos.common.chart.Series;
 import au.com.bytecode.opencsv.CSVWriter;
+import pl.edu.icm.saos.common.chart.Chart;
+import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
+import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
 
 /**
  * A {@link Chart} to csv format exporting service
@@ -31,16 +32,19 @@ public class ChartCsvExporter {
      * Converts the given chart to csv and writes the csv to the given writer
      * @throws IOException in case of I/O Error during writing to the writer
      */
-    public void exportChartToCsv(Chart<Object, Number> chart, Writer writer) throws IOException {
+    public void exportChartToCsv(Chart<Object, Number> chart, ChartCode chartCode, AnalysisForm analysisForm, Writer writer) throws IOException {
         
         CSVWriter csvWriter = createCsvWriter(writer);
         
         try {
-            csvWriter.writeNext(chartCsvGenerator.generateHeader(chart));
             
-            for (Series<Object, Number> series : chart.getSeriesList()) {
-                
-                csvWriter.writeNext(chartCsvGenerator.generateRow(series));
+            csvWriter.writeNext(chartCsvGenerator.generateHeader(chartCode, analysisForm));
+            
+            
+            int rowCount = chart.getSeriesList().get(0).getPoints().size();
+            
+            for (int i=0; i<rowCount; ++i) {
+                csvWriter.writeNext(chartCsvGenerator.generateRow(chart, i));
             }
             
         } finally {

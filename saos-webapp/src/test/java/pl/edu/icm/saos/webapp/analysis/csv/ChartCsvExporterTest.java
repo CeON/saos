@@ -1,11 +1,6 @@
 package pl.edu.icm.saos.webapp.analysis.csv;
 
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.io.IOException;
@@ -19,6 +14,8 @@ import org.mockito.Mock;
 
 import pl.edu.icm.saos.common.chart.Chart;
 import pl.edu.icm.saos.common.chart.Series;
+import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
+import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
 import au.com.bytecode.opencsv.CSVWriter;
 
 /**
@@ -55,23 +52,29 @@ public class ChartCsvExporterTest {
         Writer writer = mock(Writer.class);
         doReturn(csvWriter).when(chartCsvExporter).createCsvWriter(writer); 
         
-        Chart<Object, Number> chart = mock(Chart.class);
-        Series<Object, Number> series1 = mock(Series.class);
+        Series<Object, Number> series1 = new Series<>();
+        series1.addPoint("x1", 4);
+        series1.addPoint("x2", 5);
         Series<Object, Number> series2 = mock(Series.class);
-        when(chart.getSeriesList()).thenReturn(Lists.newArrayList(series1, series2));
         
-        String[] header = new String[]{"A","B"};
-        String[] row1 = new String[]{"44", "55"};
-        String[] row2 = new String[]{"45", "56"};
+        Chart<Object, Number> chart = new Chart<>(Lists.newArrayList(series1, series2));
         
-        when(chartCsvGenerator.generateHeader(chart)).thenReturn(header);
-        when(chartCsvGenerator.generateRow(series1)).thenReturn(row1);
-        when(chartCsvGenerator.generateRow(series2)).thenReturn(row2);
+        ChartCode chartCode = ChartCode.MAIN_CHART;
+        AnalysisForm analysisForm = mock(AnalysisForm.class);
+        
+        
+        String[] header = new String[]{"Y", "A", "B"};
+        String[] row1 = new String[]{"2012", "44", "55"};
+        String[] row2 = new String[]{"2013", "45", "56"};
+        
+        when(chartCsvGenerator.generateHeader(chartCode, analysisForm)).thenReturn(header);
+        when(chartCsvGenerator.generateRow(chart, 0)).thenReturn(row1);
+        when(chartCsvGenerator.generateRow(chart, 1)).thenReturn(row2);
         
         
         // execute
         
-        chartCsvExporter.exportChartToCsv(chart, writer);
+        chartCsvExporter.exportChartToCsv(chart, chartCode, analysisForm, writer);
         
         
         // assert

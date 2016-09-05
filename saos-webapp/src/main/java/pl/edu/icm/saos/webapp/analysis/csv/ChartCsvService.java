@@ -39,7 +39,7 @@ public class ChartCsvService {
         
         Chart<Object, Number> chart = chartGenerator.generateChart(chartCode, analysisForm);
         
-        chartCsvExporter.exportChartToCsv(chart, response.getWriter());
+        chartCsvExporter.exportChartToCsv(chart, chartCode, analysisForm, response.getWriter());
         
         response.flushBuffer();
     }
