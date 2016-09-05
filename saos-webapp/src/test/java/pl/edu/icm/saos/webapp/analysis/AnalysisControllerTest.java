@@ -21,7 +21,6 @@ import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.CC_REGIONAL
 import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.CC_REGION_AREA;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -43,6 +42,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
+
+import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.common.chart.value.DayPeriod;
 import pl.edu.icm.saos.common.chart.value.MonthPeriod;
@@ -67,8 +68,6 @@ import pl.edu.icm.saos.webapp.analysis.request.UiySettings.UiyValueType;
 import pl.edu.icm.saos.webapp.court.SimpleCommonCourt;
 import pl.edu.icm.saos.webapp.court.SimpleEntity;
 
-import com.google.common.collect.Lists;
-
 /**
  * @author madryk
  */
@@ -76,8 +75,6 @@ import com.google.common.collect.Lists;
 @WebAppConfiguration
 public class AnalysisControllerTest extends WebappTestSupport {
 
-    @Autowired
-    private AnalysisController analysisController;
     
     @Autowired
     @Qualifier("solrJudgmentsServer")
@@ -195,7 +192,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
             ));
     }
     
-//    @Test
+    @Test
     public void showAnalysis_checkExposeParams() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)
@@ -227,7 +224,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         ));
     }
     
-//    @Test
+    @Test
     public void showAnalysis_checkCommonCourtsInModel() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)
@@ -249,7 +246,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         ));
     }
     
-//    @Test
+    @Test
     public void showAnalysis_checkCommonCourtDivisionsInModel() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)
@@ -268,7 +265,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         ));
     }
     
-//    @Test
+    @Test
     public void showAnalysis_checkSupremeCourtChambersInModel() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)
@@ -286,7 +283,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         ));
     }
     
-//    @Test
+    @Test
     public void showAnalysis_checkSupremeCourtChamberDivisionsInModel() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)
@@ -304,7 +301,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         ));
     }
     
-//    @Test
+    @Test
     public void removeSeriesSearchCriteria() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(post(URL_BASE + "/removePhrase")
@@ -325,7 +322,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
             ));
     }
     
-//    @Test
+    @Test
     public void addNewSeriesSearchCriteria() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(post(URL_BASE + "/addNewPhrase")
@@ -345,7 +342,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
             ));
     }
     
-//    @Test
+    @Test
     public void generate_WithOneYearPeriods() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -381,7 +378,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         assertAggregatedChartSeries(1, result, 3, 27);
     }
     
-//    @Test
+    @Test
     public void generate_WithSixMonthsPeriods() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -417,7 +414,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         assertAggregatedChartSeries(1, result, 3, 25);
     }
     
-//    @Test
+    @Test
     public void generate_WithOneMonthPeriods() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -443,7 +440,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
     }
     
-//    @Test
+    @Test
     public void generate_WithOneWeekPeriods() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -481,7 +478,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         assertAggregatedChartSeries(1, result, 3, 9);
     }
     
-//    @Test
+    @Test
     public void generate_WithOneDayPeriods() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -517,7 +514,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         assertAggregatedChartSeries(1, result, 3, 6);
     }
     
-//    @Test
+    @Test
     public void generate_WithPercentYValues() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -574,7 +571,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         assertAggregatedChartSeriesDouble(1, result, 3, avgSeries1);
     }
     
-//    @Test
+    @Test
     public void generate_WithNumberPer1000YValues() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -631,7 +628,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         assertAggregatedChartSeriesDouble(1, result, 3, avgSeries1);
     }
     
-//    @Test
+    @Test
     public void generate_ForCommonCourts() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -664,7 +661,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         assertCcCourtChartXticks(result, appealCourt1, appealCourt2);
     }
     
-//    @Test
+    @Test
     public void generate_ForCommonCourt() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -691,7 +688,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         assertAggregatedChartSeries(1, result, 3, 5);
     }
     
-//    @Test
+    @Test
     public void generate_ForCcAppealWithDependent() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -724,7 +721,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
     }
     
-//    @Test
+    @Test
     public void generate_ForCcRegionalWithDependent() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -757,7 +754,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
     }
     
-//    @Test
+    @Test
     public void generate_ForCommonCourtDivision() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -786,7 +783,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
     }
     
-//    @Test
+    @Test
     public void generate_ForSupremeCourtChamber() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -813,7 +810,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         assertAggregatedChartSeries(1, result, 3, 5);
     }
     
-//    @Test
+    @Test
     public void generate_ForSupremeCourtChamberDivision() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generate")
@@ -841,7 +838,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         assertAggregatedChartSeries(1, result, 3, 2);
     }
     
-//    @Test
+    @Test
     public void generateCsv_MAIN_CHART() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generateCsv")
@@ -856,15 +853,25 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
         // assert
         
-        String expectedCsvContent = 
-                buildCsvHeader("1/2000", "2/2000", "3/2000", "4/2000", "5/2000", "6/2000", "7/2000", "8/2000", "9/2000", "10/2000", "11/2000", "12/2000", "1/2001") + "\n"
-                + buildCsvSeriesLine(4, 4, 0, 9, 1, 0, 0, 0, 1, 0, 0, 2, 0) + "\n"
-                + buildCsvSeriesLine(6, 3, 0, 7, 1, 0, 0, 0, 3, 0, 0, 1, 0) + "\n";
+        String expectedCsvContent = buildCsvLine("Period", "JudgmentCount (phrase1)", "JudgmentCount (phrase2)") + "\n"
+                + buildCsvLine("1/2000", "4", "6") + "\n"
+                + buildCsvLine("2/2000", "4", "3") + "\n"
+                + buildCsvLine("3/2000", "0", "0") + "\n"
+                + buildCsvLine("4/2000", "9", "7") + "\n"
+                + buildCsvLine("5/2000", "1", "1") + "\n"
+                + buildCsvLine("6/2000", "0", "0") + "\n"
+                + buildCsvLine("7/2000", "0", "0") + "\n"
+                + buildCsvLine("8/2000", "0", "0") + "\n"
+                + buildCsvLine("9/2000", "1", "3") + "\n"
+                + buildCsvLine("10/2000", "0", "0") + "\n"
+                + buildCsvLine("11/2000", "0", "0") + "\n"
+                + buildCsvLine("12/2000", "2", "1") + "\n"
+                + buildCsvLine("1/2001", "0", "0") + "\n";
         
         result.andExpect(content().string(expectedCsvContent));
     }
 
-//    @Test
+    @Test
     public void generateCsv_CC_COURT_CHART() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generateCsv")
@@ -876,10 +883,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
         // assert
         
-        String expectedCsvContent = 
-                buildCsvHeader(appealCourt1.getName(), appealCourt2.getName()) + "\n"
-                + buildCsvSeriesLine(8, 2) + "\n"
-                + buildCsvSeriesLine(8, 1) + "\n";
+        String expectedCsvContent = buildCsvLine("Court", "JudgmentCount (phrase1)", "JudgmentCount (phrase2)") + "\n"
+                + buildCsvLine(appealCourt1.getName(), "8", "8") + "\n"
+                + buildCsvLine(appealCourt2.getName(), "2", "1") + "\n";
         
         result.andExpect(content().string(expectedCsvContent));
     }
@@ -1049,12 +1055,8 @@ public class AnalysisControllerTest extends WebappTestSupport {
         return division;
     }
     
-    private String buildCsvHeader(String ... headerValues) {
-        return Lists.newArrayList(headerValues).stream().collect(Collectors.joining(";"));
-    }
-    
-    private String buildCsvSeriesLine(Integer ... counts) {
-        return Arrays.asList(counts).stream().map(x -> String.valueOf(x)).collect(Collectors.joining(";"));
+    private String buildCsvLine(String ... values) {
+        return Lists.newArrayList(values).stream().collect(Collectors.joining(";"));
     }
     
     @Transactional

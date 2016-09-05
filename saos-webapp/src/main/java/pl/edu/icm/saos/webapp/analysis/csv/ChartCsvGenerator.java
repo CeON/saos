@@ -37,7 +37,7 @@ public class ChartCsvGenerator {
     //------------------------ LOGIC --------------------------
     
     /**
-     * Generate csv header for given {@link ChartCode} and {@link AnalysisForm}
+     * Generates csv header for given {@link ChartCode} and {@link AnalysisForm}
      */
     public String[] generateHeader(ChartCode chartCode, AnalysisForm analysisForm) {
         
