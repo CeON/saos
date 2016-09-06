@@ -10,6 +10,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Locale;
 
 import org.assertj.core.util.Lists;
 import org.junit.Before;
@@ -17,9 +18,11 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import au.com.bytecode.opencsv.CSVWriter;
 import pl.edu.icm.saos.common.chart.Chart;
 import pl.edu.icm.saos.common.chart.Series;
-import au.com.bytecode.opencsv.CSVWriter;
+import pl.edu.icm.saos.webapp.analysis.request.AnalysisForm;
+import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
 
 /**
  * @author Łukasz Dumiszewski
@@ -55,23 +58,30 @@ public class ChartCsvExporterTest {
         Writer writer = mock(Writer.class);
         doReturn(csvWriter).when(chartCsvExporter).createCsvWriter(writer); 
         
-        Chart<Object, Number> chart = mock(Chart.class);
-        Series<Object, Number> series1 = mock(Series.class);
+        Series<Object, Number> series1 = new Series<>();
+        series1.addPoint("x1", 4);
+        series1.addPoint("x2", 5);
         Series<Object, Number> series2 = mock(Series.class);
-        when(chart.getSeriesList()).thenReturn(Lists.newArrayList(series1, series2));
         
-        String[] header = new String[]{"A","B"};
-        String[] row1 = new String[]{"44", "55"};
-        String[] row2 = new String[]{"45", "56"};
+        Chart<Object, Number> chart = new Chart<>(Lists.newArrayList(series1, series2));
         
-        when(chartCsvGenerator.generateHeader(chart)).thenReturn(header);
-        when(chartCsvGenerator.generateRow(series1)).thenReturn(row1);
-        when(chartCsvGenerator.generateRow(series2)).thenReturn(row2);
+        ChartCode chartCode = ChartCode.MAIN_CHART;
+        AnalysisForm analysisForm = mock(AnalysisForm.class);
+        Locale locale = Locale.FRANCE; 
+        
+        
+        String[] header = new String[]{"Y", "A", "B"};
+        String[] row1 = new String[]{"2012", "44", "55"};
+        String[] row2 = new String[]{"2013", "45", "56"};
+        
+        when(chartCsvGenerator.generateHeader(chartCode, analysisForm, locale)).thenReturn(header);
+        when(chartCsvGenerator.generateRow(chart, 0)).thenReturn(row1);
+        when(chartCsvGenerator.generateRow(chart, 1)).thenReturn(row2);
         
         
         // execute
         
-        chartCsvExporter.exportChartToCsv(chart, writer);
+        chartCsvExporter.exportChartToCsv(chart, chartCode, analysisForm, locale, writer);
         
         
         // assert

@@ -1,19 +1,19 @@
 package pl.edu.icm.saos.webapp.analysis.csv;
 
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.same;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -60,6 +60,7 @@ public class ChartCsvServiceTest {
         ChartCode chartCode = ChartCode.MAIN_CHART;
         AnalysisForm analysisForm = mock(AnalysisForm.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
+        Locale locale = Locale.CANADA_FRENCH;
         
         PrintWriter writer = mock(PrintWriter.class);
         when(response.getWriter()).thenReturn(writer);
@@ -71,17 +72,12 @@ public class ChartCsvServiceTest {
         
         // execute
         
-        chartCsvService.generateChartCsv(chartCode, analysisForm, response);
+        chartCsvService.generateChartCsv(chartCode, analysisForm, locale, response);
         
         
         // assert
         
-        @SuppressWarnings("rawtypes")
-        ArgumentCaptor<Chart> chartArg = ArgumentCaptor.forClass(Chart.class);
-        ArgumentCaptor<Writer> writerArg = ArgumentCaptor.forClass(Writer.class);
-        verify(chartCsvExporter).exportChartToCsv(chartArg.capture(), writerArg.capture());
-        assertTrue(chartArg.getValue() == chart);
-        assertTrue(writerArg.getValue() == writer);
+        verify(chartCsvExporter).exportChartToCsv(same(chart), eq(chartCode), same(analysisForm), eq(locale), same(writer));
         
         verify(response).flushBuffer();
     }

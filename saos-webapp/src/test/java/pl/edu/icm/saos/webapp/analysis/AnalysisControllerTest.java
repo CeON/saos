@@ -21,8 +21,8 @@ import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.CC_REGIONAL
 import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.CC_REGION_AREA;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -43,6 +43,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.web.context.WebApplicationContext;
+
+import com.google.common.collect.Lists;
 
 import pl.edu.icm.saos.common.chart.value.DayPeriod;
 import pl.edu.icm.saos.common.chart.value.MonthPeriod;
@@ -67,8 +69,6 @@ import pl.edu.icm.saos.webapp.analysis.request.UiySettings.UiyValueType;
 import pl.edu.icm.saos.webapp.court.SimpleCommonCourt;
 import pl.edu.icm.saos.webapp.court.SimpleEntity;
 
-import com.google.common.collect.Lists;
-
 /**
  * @author madryk
  */
@@ -76,8 +76,6 @@ import com.google.common.collect.Lists;
 @WebAppConfiguration
 public class AnalysisControllerTest extends WebappTestSupport {
 
-    @Autowired
-    private AnalysisController analysisController;
     
     @Autowired
     @Qualifier("solrJudgmentsServer")
@@ -845,6 +843,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     public void generateCsv_MAIN_CHART() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generateCsv")
+                .locale(new Locale("pl", "PL"))
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
                 .param("globalFilter.judgmentDateRange.startMonth", "1")
@@ -856,10 +855,20 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
         // assert
         
-        String expectedCsvContent = 
-                buildCsvHeader("1/2000", "2/2000", "3/2000", "4/2000", "5/2000", "6/2000", "7/2000", "8/2000", "9/2000", "10/2000", "11/2000", "12/2000", "1/2001") + "\n"
-                + buildCsvSeriesLine(4, 4, 0, 9, 1, 0, 0, 0, 1, 0, 0, 2, 0) + "\n"
-                + buildCsvSeriesLine(6, 3, 0, 7, 1, 0, 0, 0, 3, 0, 0, 1, 0) + "\n";
+        String expectedCsvContent = buildCsvLine("Okres", "Liczba orzeczeń (phrase1)", "Liczba orzeczeń (phrase2)") + "\n"
+                + buildCsvLine("1/2000", "4", "6") + "\n"
+                + buildCsvLine("2/2000", "4", "3") + "\n"
+                + buildCsvLine("3/2000", "0", "0") + "\n"
+                + buildCsvLine("4/2000", "9", "7") + "\n"
+                + buildCsvLine("5/2000", "1", "1") + "\n"
+                + buildCsvLine("6/2000", "0", "0") + "\n"
+                + buildCsvLine("7/2000", "0", "0") + "\n"
+                + buildCsvLine("8/2000", "0", "0") + "\n"
+                + buildCsvLine("9/2000", "1", "3") + "\n"
+                + buildCsvLine("10/2000", "0", "0") + "\n"
+                + buildCsvLine("11/2000", "0", "0") + "\n"
+                + buildCsvLine("12/2000", "2", "1") + "\n"
+                + buildCsvLine("1/2001", "0", "0") + "\n";
         
         result.andExpect(content().string(expectedCsvContent));
     }
@@ -868,6 +877,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     public void generateCsv_CC_COURT_CHART() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generateCsv")
+                .locale(new Locale("pl", "PL"))
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
                 .param("globalFilter.courtCriteria.courtType", "COMMON")
@@ -876,10 +886,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
         // assert
         
-        String expectedCsvContent = 
-                buildCsvHeader(appealCourt1.getName(), appealCourt2.getName()) + "\n"
-                + buildCsvSeriesLine(8, 2) + "\n"
-                + buildCsvSeriesLine(8, 1) + "\n";
+        String expectedCsvContent = buildCsvLine("Sąd", "Liczba orzeczeń (phrase1)", "Liczba orzeczeń (phrase2)") + "\n"
+                + buildCsvLine(appealCourt1.getName(), "8", "8") + "\n"
+                + buildCsvLine(appealCourt2.getName(), "2", "1") + "\n";
         
         result.andExpect(content().string(expectedCsvContent));
     }
@@ -1049,12 +1058,8 @@ public class AnalysisControllerTest extends WebappTestSupport {
         return division;
     }
     
-    private String buildCsvHeader(String ... headerValues) {
-        return Lists.newArrayList(headerValues).stream().collect(Collectors.joining(";"));
-    }
-    
-    private String buildCsvSeriesLine(Integer ... counts) {
-        return Arrays.asList(counts).stream().map(x -> String.valueOf(x)).collect(Collectors.joining(";"));
+    private String buildCsvLine(String ... values) {
+        return Lists.newArrayList(values).stream().collect(Collectors.joining(";"));
     }
     
     @Transactional

@@ -1,6 +1,7 @@
 package pl.edu.icm.saos.webapp.analysis.csv;
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,13 +34,13 @@ public class ChartCsvService {
      * the generated csv and appropriate http headers to the passed response object.
      * @throws IOException in case of an IO error during writing to the response object
      */
-    public void generateChartCsv(ChartCode chartCode, AnalysisForm analysisForm, HttpServletResponse response) throws IOException {
+    public void generateChartCsv(ChartCode chartCode, AnalysisForm analysisForm, Locale locale, HttpServletResponse response) throws IOException {
         
         createHttpHeaders(chartCode, response);
         
         Chart<Object, Number> chart = chartGenerator.generateChart(chartCode, analysisForm);
         
-        chartCsvExporter.exportChartToCsv(chart, response.getWriter());
+        chartCsvExporter.exportChartToCsv(chart, chartCode, analysisForm, locale, response.getWriter());
         
         response.flushBuffer();
     }
