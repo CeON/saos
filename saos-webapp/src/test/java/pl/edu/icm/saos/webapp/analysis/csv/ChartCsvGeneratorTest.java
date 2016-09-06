@@ -3,12 +3,15 @@ package pl.edu.icm.saos.webapp.analysis.csv;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
+import java.util.Locale;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.context.MessageSource;
 
 import pl.edu.icm.saos.common.chart.Chart;
 import pl.edu.icm.saos.common.chart.Series;
@@ -30,10 +33,16 @@ public class ChartCsvGeneratorTest {
     @Mock
     private PointValueFormatterManager pointValueFormatterManager;
 
-
+    @Mock
+    private MessageSource messageSource;
+    
+    
     private AnalysisForm analysisForm = new AnalysisForm();
     
     private Chart<Object, Number> chart = new Chart<>();
+    
+    private Locale locale = Locale.US;
+    
     
     @Before
     public void setup() {
@@ -65,6 +74,13 @@ public class ChartCsvGeneratorTest {
         
         when(pointValueFormatterManager.format(5)).thenReturn("5");
         when(pointValueFormatterManager.format(6)).thenReturn("6");
+        
+        
+        when(messageSource.getMessage("analysis.chart.csv.columnHeader.xAxis.court", null, locale)).thenReturn("Court");
+        when(messageSource.getMessage("analysis.chart.csv.columnHeader.xAxis.period", null, locale)).thenReturn("Period");
+        when(messageSource.getMessage("analysis.chart.csv.columnHeader.series.count", null, locale)).thenReturn("JudgmentCount");
+        when(messageSource.getMessage("analysis.chart.csv.columnHeader.series.per1000count", null, locale)).thenReturn("JudgmentPer1000Judgments");
+        when(messageSource.getMessage("analysis.chart.csv.columnHeader.series.percent", null, locale)).thenReturn("JudgmentPercent");
     }
     
     
@@ -74,14 +90,21 @@ public class ChartCsvGeneratorTest {
     public void generateHeader_NULL_CHART_CODE() {
         
         // execute
-        chartCsvGenerator.generateHeader(null, analysisForm);
+        chartCsvGenerator.generateHeader(null, analysisForm, locale);
     }
     
     @Test(expected = NullPointerException.class)
     public void generateHeader_NULL_ANALYSIS_FORM() {
         
         // execute
-        chartCsvGenerator.generateHeader(ChartCode.MAIN_CHART, null);
+        chartCsvGenerator.generateHeader(ChartCode.MAIN_CHART, null, locale);
+    }
+    
+    @Test(expected = NullPointerException.class)
+    public void generateHeader_NULL_LOCALE() {
+        
+        // execute
+        chartCsvGenerator.generateHeader(ChartCode.MAIN_CHART, analysisForm, null);
     }
     
     @Test
@@ -89,7 +112,7 @@ public class ChartCsvGeneratorTest {
         
         // execute
         
-        String[] header = chartCsvGenerator.generateHeader(ChartCode.MAIN_CHART, analysisForm);
+        String[] header = chartCsvGenerator.generateHeader(ChartCode.MAIN_CHART, analysisForm, locale);
         
         // assert
         
@@ -104,7 +127,7 @@ public class ChartCsvGeneratorTest {
         
         // execute
         
-        String[] header = chartCsvGenerator.generateHeader(ChartCode.CC_COURT_CHART, analysisForm);
+        String[] header = chartCsvGenerator.generateHeader(ChartCode.CC_COURT_CHART, analysisForm, locale);
         
         // assert
         
@@ -123,7 +146,7 @@ public class ChartCsvGeneratorTest {
         
         // execute
         
-        String[] header = chartCsvGenerator.generateHeader(ChartCode.MAIN_CHART, analysisForm);
+        String[] header = chartCsvGenerator.generateHeader(ChartCode.MAIN_CHART, analysisForm, locale);
         
         // assert
         
@@ -142,7 +165,7 @@ public class ChartCsvGeneratorTest {
         
         // execute
         
-        String[] header = chartCsvGenerator.generateHeader(ChartCode.MAIN_CHART, analysisForm);
+        String[] header = chartCsvGenerator.generateHeader(ChartCode.MAIN_CHART, analysisForm, locale);
         
         // assert
         

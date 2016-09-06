@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -59,6 +60,7 @@ public class ChartCsvServiceTest {
         ChartCode chartCode = ChartCode.MAIN_CHART;
         AnalysisForm analysisForm = mock(AnalysisForm.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
+        Locale locale = Locale.CANADA_FRENCH;
         
         PrintWriter writer = mock(PrintWriter.class);
         when(response.getWriter()).thenReturn(writer);
@@ -70,12 +72,12 @@ public class ChartCsvServiceTest {
         
         // execute
         
-        chartCsvService.generateChartCsv(chartCode, analysisForm, response);
+        chartCsvService.generateChartCsv(chartCode, analysisForm, locale, response);
         
         
         // assert
         
-        verify(chartCsvExporter).exportChartToCsv(same(chart), eq(chartCode), same(analysisForm), same(writer));
+        verify(chartCsvExporter).exportChartToCsv(same(chart), eq(chartCode), same(analysisForm), eq(locale), same(writer));
         
         verify(response).flushBuffer();
     }

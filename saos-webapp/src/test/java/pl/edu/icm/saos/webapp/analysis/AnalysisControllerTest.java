@@ -22,6 +22,7 @@ import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.CC_REGION_A
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -842,6 +843,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     public void generateCsv_MAIN_CHART() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generateCsv")
+                .locale(new Locale("pl", "PL"))
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
                 .param("globalFilter.judgmentDateRange.startMonth", "1")
@@ -853,7 +855,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
         // assert
         
-        String expectedCsvContent = buildCsvLine("Period", "JudgmentCount (phrase1)", "JudgmentCount (phrase2)") + "\n"
+        String expectedCsvContent = buildCsvLine("Okres", "Liczba orzeczeń (phrase1)", "Liczba orzeczeń (phrase2)") + "\n"
                 + buildCsvLine("1/2000", "4", "6") + "\n"
                 + buildCsvLine("2/2000", "4", "3") + "\n"
                 + buildCsvLine("3/2000", "0", "0") + "\n"
@@ -875,6 +877,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     public void generateCsv_CC_COURT_CHART() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE + "/generateCsv")
+                .locale(new Locale("pl", "PL"))
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
                 .param("globalFilter.courtCriteria.courtType", "COMMON")
@@ -883,7 +886,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
         // assert
         
-        String expectedCsvContent = buildCsvLine("Court", "JudgmentCount (phrase1)", "JudgmentCount (phrase2)") + "\n"
+        String expectedCsvContent = buildCsvLine("Sąd", "Liczba orzeczeń (phrase1)", "Liczba orzeczeń (phrase2)") + "\n"
                 + buildCsvLine(appealCourt1.getName(), "8", "8") + "\n"
                 + buildCsvLine(appealCourt2.getName(), "2", "1") + "\n";
         

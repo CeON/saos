@@ -1,10 +1,12 @@
 package pl.edu.icm.saos.webapp.analysis.csv;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Preconditions;
@@ -26,41 +28,48 @@ import pl.edu.icm.saos.webapp.analysis.result.ChartCode;
 @Service("chartCsvGenerator")
 public class ChartCsvGenerator {
 
-    private static final String COURT_NAME_HEADER = "Court";
+    private static final String COLUMN_HEADER_FROM_X_AXIS__COURT_NAME = "analysis.chart.csv.columnHeader.xAxis.court";
+    private static final String COLUMN_HEADER_FROM_X_AXIS__PERIOD = "analysis.chart.csv.columnHeader.xAxis.period";
     
-    private static final String PERIOD_HEADER = "Period";
+    private static final String COLUMN_HEADER_FROM_SERIES__NUMBER = "analysis.chart.csv.columnHeader.series.count";
+    private static final String COLUMN_HEADER_FROM_SERIES__NUMBER_PER_1000 = "analysis.chart.csv.columnHeader.series.per1000count";
+    private static final String COLUMN_HEADER_FROM_SERIES__PERCENT = "analysis.chart.csv.columnHeader.series.percent";
     
     
     private PointValueFormatterManager pointValueFormatterManager;
+    
+    private MessageSource messageSource;
     
     
     //------------------------ LOGIC --------------------------
     
     /**
-     * Generates csv header for given {@link ChartCode} and {@link AnalysisForm}
+     * Generates csv header for given {@link ChartCode} and {@link AnalysisForm}.
+     * The header will be localized using given locale.
      */
-    public String[] generateHeader(ChartCode chartCode, AnalysisForm analysisForm) {
+    public String[] generateHeader(ChartCode chartCode, AnalysisForm analysisForm, Locale locale) {
         
         Preconditions.checkNotNull(chartCode);
         Preconditions.checkNotNull(analysisForm);
+        Preconditions.checkNotNull(locale);
         
-        List<String> headers = Lists.newArrayList();
+        List<String> columnHeaders = Lists.newArrayList();
         
         
         if (chartCode == ChartCode.CC_COURT_CHART) {
-            headers.add(COURT_NAME_HEADER);
+            columnHeaders.add(messageSource.getMessage(COLUMN_HEADER_FROM_X_AXIS__COURT_NAME, null, locale));
         } else {
-            headers.add(PERIOD_HEADER);
+            columnHeaders.add(messageSource.getMessage(COLUMN_HEADER_FROM_X_AXIS__PERIOD, null, locale));
         }
         
         
         for (JudgmentSeriesFilter seriesFilter : analysisForm.getSeriesFilters()) {
             
-            headers.add(generateSeriesFilterHeader(analysisForm, seriesFilter));
+            columnHeaders.add(generateColumnHeaderFromSeries(analysisForm.getYsettings().getValueType(), seriesFilter, locale));
             
         }
         
-        return headers.toArray(new String[headers.size()]);
+        return columnHeaders.toArray(new String[columnHeaders.size()]);
     }
     
     /**
@@ -87,9 +96,9 @@ public class ChartCsvGenerator {
     
     //------------------------ PRIVATE --------------------------
     
-    private String generateSeriesFilterHeader(AnalysisForm analysisForm, JudgmentSeriesFilter seriesFilter) {
+    private String generateColumnHeaderFromSeries(UiyValueType yValueType, JudgmentSeriesFilter seriesFilter, Locale locale) {
         
-        String headerName = convertYValueTypetoHeaderName(analysisForm.getYsettings().getValueType());
+        String headerName = convertYValueTypeToHeaderName(yValueType, locale);
         
         String phrase = seriesFilter.getPhrase();
         if (StringUtils.isNotBlank(phrase)) {
@@ -100,12 +109,12 @@ public class ChartCsvGenerator {
         
     }
     
-    private String convertYValueTypetoHeaderName(UiyValueType valueType) {
+    private String convertYValueTypeToHeaderName(UiyValueType valueType, Locale locale) {
         
         switch(valueType) {
-            case NUMBER: return "JudgmentCount";
-            case NUMBER_PER_1000: return "JudgmentPer1000Judgments";
-            case PERCENT: return "JudgmentPercent";
+            case NUMBER: return messageSource.getMessage(COLUMN_HEADER_FROM_SERIES__NUMBER, null, locale);
+            case NUMBER_PER_1000: return messageSource.getMessage(COLUMN_HEADER_FROM_SERIES__NUMBER_PER_1000, null, locale);
+            case PERCENT: return messageSource.getMessage(COLUMN_HEADER_FROM_SERIES__PERCENT, null, locale);
             default: throw new RuntimeException("Not supported y value type: " + valueType);
         }
     }
@@ -117,5 +126,10 @@ public class ChartCsvGenerator {
     @Qualifier("csvPointValueFormatterManager")
     public void setPointValueFormatterManager(PointValueFormatterManager pointValueFormatterManager) {
         this.pointValueFormatterManager = pointValueFormatterManager;
+    }
+
+    @Autowired
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
     }
 }

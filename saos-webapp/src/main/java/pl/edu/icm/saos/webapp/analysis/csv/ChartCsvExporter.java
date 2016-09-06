@@ -2,6 +2,7 @@ package pl.edu.icm.saos.webapp.analysis.csv;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,13 +33,13 @@ public class ChartCsvExporter {
      * Converts the given chart to csv and writes the csv to the given writer
      * @throws IOException in case of I/O Error during writing to the writer
      */
-    public void exportChartToCsv(Chart<Object, Number> chart, ChartCode chartCode, AnalysisForm analysisForm, Writer writer) throws IOException {
+    public void exportChartToCsv(Chart<Object, Number> chart, ChartCode chartCode, AnalysisForm analysisForm, Locale locale, Writer writer) throws IOException {
         
         CSVWriter csvWriter = createCsvWriter(writer);
         
         try {
             
-            csvWriter.writeNext(chartCsvGenerator.generateHeader(chartCode, analysisForm));
+            csvWriter.writeNext(chartCsvGenerator.generateHeader(chartCode, analysisForm, locale));
             
             
             int rowCount = chart.getSeriesList().get(0).getPoints().size();

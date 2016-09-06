@@ -10,6 +10,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Locale;
 
 import org.assertj.core.util.Lists;
 import org.junit.Before;
@@ -66,20 +67,21 @@ public class ChartCsvExporterTest {
         
         ChartCode chartCode = ChartCode.MAIN_CHART;
         AnalysisForm analysisForm = mock(AnalysisForm.class);
+        Locale locale = Locale.FRANCE; 
         
         
         String[] header = new String[]{"Y", "A", "B"};
         String[] row1 = new String[]{"2012", "44", "55"};
         String[] row2 = new String[]{"2013", "45", "56"};
         
-        when(chartCsvGenerator.generateHeader(chartCode, analysisForm)).thenReturn(header);
+        when(chartCsvGenerator.generateHeader(chartCode, analysisForm, locale)).thenReturn(header);
         when(chartCsvGenerator.generateRow(chart, 0)).thenReturn(row1);
         when(chartCsvGenerator.generateRow(chart, 1)).thenReturn(row2);
         
         
         // execute
         
-        chartCsvExporter.exportChartToCsv(chart, chartCode, analysisForm, writer);
+        chartCsvExporter.exportChartToCsv(chart, chartCode, analysisForm, locale, writer);
         
         
         // assert
