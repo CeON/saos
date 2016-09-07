@@ -2,6 +2,7 @@ package pl.edu.icm.saos.webapp.analysis;
 
 
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -98,8 +99,8 @@ public class AnalysisController {
 
     
     @RequestMapping(value="/analysis/generateCsv", method= RequestMethod.GET)
-    public void generateCsv(@ModelAttribute("analysisForm") AnalysisForm analysisForm, @RequestParam("chartCode") ChartCode chartCode, HttpServletResponse response) throws IOException {
-        chartCsvService.generateChartCsv(chartCode, analysisForm, response);
+    public void generateCsv(@ModelAttribute("analysisForm") AnalysisForm analysisForm, @RequestParam("chartCode") ChartCode chartCode, Locale locale, HttpServletResponse response) throws IOException {
+        chartCsvService.generateChartCsv(chartCode, analysisForm, locale, response);
         
     }
 
