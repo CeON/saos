@@ -38,14 +38,20 @@ public class JudgmentEnrichmentTagsHashCalculatorTest {
         // given
         JudgmentEnrichmentTags judgmentWithTags = new JudgmentEnrichmentTags(3L);
         
-        judgmentWithTags.addEnrichmentTag(createEnrichmentTag(3L, "SOME_TAG_VALUE", "{key:'value'}"));
+        judgmentWithTags.addEnrichmentTag(createEnrichmentTag(3L, "B_SOME_TAG_VALUE", "{key:'value1'}"));
+        judgmentWithTags.addEnrichmentTag(createEnrichmentTag(3L, "A_SOME_TAG_VALUE", "{key:'value2'}"));
         judgmentWithTags.addEnrichmentTag(createEnrichmentTag(4L, "TAG_WITH_REFERENCE", "{judgmentId:3}"));
+        judgmentWithTags.addEnrichmentTag(createEnrichmentTag(2L, "TAG_WITH_REFERENCE", "{judgmentId:3}"));
         
         // execute
         String hash = judgmentEnrichmentTagsHashCalculator.calculateHash(judgmentWithTags);
         
         // assert
-        String expectedHash = DigestUtils.md5Hex("3:SOME_TAG_VALUE:{'key':'value'}::4:TAG_WITH_REFERENCE:{'judgmentId':3}".replace('\'', '"'));
+        String expectedHash = DigestUtils.md5Hex(
+                ("2:TAG_WITH_REFERENCE:{'judgmentId':3}"
+                + "::3:A_SOME_TAG_VALUE:{'key':'value2'}"
+                + "::3:B_SOME_TAG_VALUE:{'key':'value1'}"
+                + "::4:TAG_WITH_REFERENCE:{'judgmentId':3}").replace('\'', '"'));
         assertEquals(expectedHash, hash);
     }
     
