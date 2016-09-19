@@ -1,11 +1,14 @@
 package pl.edu.icm.saos.enrichment.hash;
 
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
 
 import com.google.common.base.Preconditions;
+
+import pl.edu.icm.saos.persistence.enrichment.model.EnrichmentTag;
 
 /**
  * Calculator of judgment enrichment tags hashes
@@ -35,6 +38,7 @@ public class JudgmentEnrichmentTagsHashCalculator {
         }
         
         String value = judgmentEnrichmentTags.getEnrichmentTags().stream()
+                .sorted(Comparator.comparing(EnrichmentTag::getJudgmentId).thenComparing(EnrichmentTag::getTagType))
                 .map(tag -> tag.getJudgmentId() + TAG_VALUES_SEPARATOR + tag.getTagType() + TAG_VALUES_SEPARATOR + tag.getValue())
                 .collect(Collectors.joining(TAG_SEPARATOR));
         

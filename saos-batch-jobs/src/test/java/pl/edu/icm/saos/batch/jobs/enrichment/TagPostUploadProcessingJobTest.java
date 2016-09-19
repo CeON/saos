@@ -7,6 +7,7 @@ import static pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactor
 import static pl.edu.icm.saos.persistence.common.TestInMemoryEnrichmentTagFactory.createReferencedRegulationsTag;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -235,6 +236,7 @@ public class TagPostUploadProcessingJobTest extends BatchJobsTestSupport {
     
     private String getHashForTags(EnrichmentTag ... tags) {
         String value = Arrays.asList(tags).stream()
+                .sorted(Comparator.comparing(EnrichmentTag::getJudgmentId).thenComparing(EnrichmentTag::getTagType))
                 .map(tag -> tag.getJudgmentId() + ":" + tag.getTagType() + ":" + tag.getValue())
                 .collect(Collectors.joining("::"));
         return DigestUtils.md5Hex(value);
