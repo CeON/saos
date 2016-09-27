@@ -5940,6 +5940,7 @@
         <department id="0007203">XXIV Wydział Cywilny</department>
         <department id="0007503">XXV Wydział Cywilny</department>
         <department id="0007827">XXVI Wydział Gospodarczy</department>
+        <department id="0008103">XXVII Wydział Cywilny Odwoławczy</department>
       </departments> <!-- WAWSO -->
     </model> <!-- WAWSO -->
   </court> <!-- WAWSO --> 
