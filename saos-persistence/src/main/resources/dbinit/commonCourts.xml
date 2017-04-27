@@ -6151,7 +6151,8 @@
         <department id="0002006">IV Wydział Karny</department><!-- WAWPRAPDSR -->
         <department id="0002512">V Wydział Rodzinny i Nieletnich</department><!-- WAWPRAPDSR -->
         <department id="0003021">VI Wydział Pracy i Ubezpieczeń Społecznych</department><!-- WAWPRAPDSR -->
-      </departments> <!-- WAWPRAPDSR -->
+        <department id="0003503">VII Wydział Cywilny</department><!-- WAWPRAPDSR -->
+       </departments> <!-- WAWPRAPDSR -->
     </model> <!-- WAWPRAPDSR -->
   </court> <!-- WAWPRAPDSR -->
   
