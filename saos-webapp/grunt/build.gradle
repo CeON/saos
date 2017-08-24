@@ -52,6 +52,10 @@ task prepareEnvForGrunt(dependsOn: grunt_build) {
 	}
 }
 
+// Work around for
+// https://github.com/srs/gradle-grunt-plugin/issues/32
+installGrunt.setArgs( ['install', 'grunt-cli@1.2.0', 'grunt@0.4.5'] )
+
 task gruntBuild(dependsOn: grunt_build) {}
 
 grunt_build.dependsOn 'compileSass'
