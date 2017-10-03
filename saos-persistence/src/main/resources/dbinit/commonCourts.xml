@@ -3007,6 +3007,7 @@
         <department id="0000503">I Wydział Cywilny </department>  <!-- SRWIELI -->
         <department id="0001006">II Wydział Karny</department>  <!-- SRWIELI -->
         <department id="0001524">III Wydział Ksiąg Wieczystych</department>  <!-- SRWIELI -->
+        <department id="0002012">IV Wydział Rodzinny i Nieletnich</department>
       </departments>  <!-- SRWIELI -->
     </model> <!-- SRWIELI -->
   </court>  <!-- SRWIELI -->
