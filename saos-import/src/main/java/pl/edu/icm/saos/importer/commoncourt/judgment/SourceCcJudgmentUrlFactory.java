@@ -26,8 +26,10 @@ class SourceCcJudgmentUrlFactory {
     private String timeZoneId = "Europe/Warsaw";
     
     
+    //-------------------- LOGIC --------------------
+    
     String createSourceJudgmentsUrl(int pageNo, int pageSize, DateTime publicationDateFrom) {
-        String url = ccJudgmentListSourceUrl +"?offset="+pageSize*pageNo+"&limit="+pageSize+"&sort=signature|asc";
+        String url = ccJudgmentListSourceUrl +"?offset="+pageSize*pageNo+"&limit="+pageSize+"&sort=signature-asc";
         if (publicationDateFrom != null) {
             publicationDateFrom = publicationDateFrom.toDateTime(DateTimeZone.forID(timeZoneId));
             url += "&publicationDateFrom="+publicationDateFrom.toString(DateTimeFormat.forPattern(queryDateFromFormat));
