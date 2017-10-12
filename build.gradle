@@ -5,10 +5,12 @@ buildscript {
    }
    dependencies {
        classpath 'net.researchgate:gradle-release:2.1.2'
+       classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.3.0"
    }
 }
 
 apply plugin: 'net.researchgate.release'
+apply plugin: "com.jfrog.artifactory"
     
     
 
@@ -194,6 +196,9 @@ subprojects {
         useJUnit {
             includeCategories "pl.edu.icm.saos.common.testcommon.category.SlowTest"
         }
+    }
+    
+    artifactoryPublish {
     }
     
     
