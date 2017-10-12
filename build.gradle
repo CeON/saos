@@ -5,12 +5,10 @@ buildscript {
    }
    dependencies {
        classpath 'net.researchgate:gradle-release:2.1.2'
-       classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.3.0"
    }
 }
 
 apply plugin: 'net.researchgate.release'
-apply plugin: "com.jfrog.artifactory"
     
     
 
@@ -169,7 +167,7 @@ subprojects {
     }
     
     task wrapper(type: Wrapper) {
-        gradleVersion = '2.0'
+        gradleVersion = '4.2.1'
     }
     
     
@@ -198,8 +196,6 @@ subprojects {
         }
     }
     
-    artifactoryPublish {
-    }
     
     
     check.dependsOn slowTest
