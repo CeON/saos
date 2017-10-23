@@ -18,7 +18,6 @@ import pl.edu.icm.saos.persistence.common.GeneratableDataObject;
  * @author Łukasz Dumiszewski
  */
 @Entity
-@Table(uniqueConstraints={@UniqueConstraint(name="judgment_rawText_journalEntry_unique", columnNames={"fk_judgment", "rawText", "fk_law_journal_entry"})})
 @Cacheable(true)
 @SequenceGenerator(name = "seq_j_referenced_regulation", allocationSize = 1, sequenceName = "seq_j_referenced_regulation")
 public class JudgmentReferencedRegulation extends GeneratableDataObject {
