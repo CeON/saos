@@ -781,7 +781,7 @@
         <department id="0001509">III Wydział Rodzinny</department> <!-- SRLM -->
         <department id="0002021">IV Wydział Pracy i Ubezpieczeń Społecznych</department> <!-- SRLM -->
         <department id="0002527">V Wydział Gospodarczy</department> <!-- SRLM -->
-        <department id="0523506">VII Zamiejscowy Wydział Karny w Kolnie</department> <!-- SRLM -->
+        <department id="3520006">VII Zamiejscowy Wydział Karny w Kolnie</department> <!-- SRLM -->
         <department id="1024003">VIII Zamiejscowy Wydział Cywilny w Grajewie</department> <!-- SRLM -->
         <department id="1524506">IX Zamiejscowy Wydział Karny w Grajewie</department> <!-- SRLM -->
         <department id="2025009">X Zamiejscowy Wydział Rodzinny w Grajewie</department> <!-- SRLM -->
@@ -5903,7 +5903,9 @@
         <department id="0001006">II Wydział Karny</department><!-- SAWAW -->
         <department id="0001521">III Wydział Pracy i Ubezpieczeń Społecznych</department><!-- SAWAW -->
         <department id="0002057">IV Wydział Wizytacji</department><!-- SAWAW -->
+        <department id="0002503">V Wydział Cywilny</department><!-- SAWAW -->
         <department id="0003003">VI Wydział Cywilny</department><!-- SAWAW -->
+        <department id="0003527">VII Wydział Gospodarczy</department><!-- SAWAW -->
       </departments><!-- SAWAW -->
     </model><!-- SAWAW -->
   </court><!-- SAWAW -->
