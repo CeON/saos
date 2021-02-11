@@ -880,6 +880,8 @@ public class AnalysisControllerTest extends WebappTestSupport {
                 .locale(new Locale("pl", "PL"))
                 .param("seriesFilters[0].phrase", "phrase1")
                 .param("seriesFilters[1].phrase", "phrase2")
+                .param("globalFilter.judgmentDateRange.startMonth", "1")
+                .param("globalFilter.judgmentDateRange.startYear", "2000")
                 .param("globalFilter.courtCriteria.courtType", "COMMON")
                 .param("chartCode", "CC_COURT_CHART"));
 

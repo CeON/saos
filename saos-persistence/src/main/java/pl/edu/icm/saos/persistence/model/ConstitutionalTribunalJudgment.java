@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ConstitutionalTribunalJudgment extends Judgment {
     }
 
     @OneToMany(mappedBy="judgment", orphanRemoval=true, cascade=CascadeType.ALL)
+    @OrderBy("id asc")
     private List<ConstitutionalTribunalJudgmentDissentingOpinion> getDissentingOpinions_() {
         return dissentingOpinions;
     }
