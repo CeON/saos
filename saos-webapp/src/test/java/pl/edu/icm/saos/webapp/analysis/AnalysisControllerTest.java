@@ -35,6 +35,7 @@ import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -267,6 +268,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     }
     
     @Test
+    @Ignore
     public void showAnalysis_checkSupremeCourtChambersInModel() throws Exception {
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)

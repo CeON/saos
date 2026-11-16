@@ -351,7 +351,22 @@ public class JudgmentSearchServiceTest {
     }
     
     @Test
-    public void search_CHECK_HIGHLIGHTING_NO_LENGTH_LIMIT() {
+    public void search_CHECK_HIGHLIGHTING_BEFORE_LENGHT_LIMIT() {
+        // given
+        JudgmentCriteria criteria = new JudgmentCriteria("almostlastword");
+        
+        // execute
+        SearchResults<JudgmentSearchResult> results = judgmentSearchService.search(criteria, null);
+        
+        // assert
+        JudgmentSearchResult result = fetchAndAssertSingleSearchResult(results);
+        assertEquals(22, result.getId());
+        
+        assertTrue(result.getContent().contains("<em>almostlastword</em>"));
+    }
+    
+    @Test
+    public void search_CHECK_HIGHLIGHTING_NO_HIGHLIGHT_AFTER_LIMIT() {
         // given
         JudgmentCriteria criteria = new JudgmentCriteria("lastword");
         
@@ -362,7 +377,7 @@ public class JudgmentSearchServiceTest {
         JudgmentSearchResult result = fetchAndAssertSingleSearchResult(results);
         assertEquals(22, result.getId());
         
-        assertTrue(result.getContent().contains("<em>lastword</em>"));
+        assertFalse(result.getContent().contains("<em>lastword</em>"));
     }
     
     
@@ -557,7 +572,7 @@ public class JudgmentSearchServiceTest {
         doc.addField("ctDissentingOpinionAuthor", "Jan Nowak");
         doc.addField("ctDissentingOpinionAuthor", "Maciej Kamiński");
         
-        doc.addField("content", StringUtils.repeat('a', 100000) + " " + "lastword");
+        doc.addField("content", StringUtils.repeat('a', 100000 - " almostlastword".length()) + " almostlastword lastword");
         
         return doc;
     }
