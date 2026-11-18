@@ -19,6 +19,7 @@ import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.CC_DISTRICT
 import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.CC_DISTRICT_COURT_ID;
 import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.CC_REGIONAL_COURT_ID;
 import static pl.edu.icm.saos.search.config.model.JudgmentIndexField.CC_REGION_AREA;
+import static pl.edu.icm.saos.webapp.common.CacheNames.DICTIONARIES;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,6 +39,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.CacheManager;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -96,6 +98,8 @@ public class AnalysisControllerTest extends WebappTestSupport {
     @Autowired
     private CcCourtAreaFieldValueCreator ccCourtAreaFieldValueCreator;
     
+    @Autowired
+    private CacheManager cacheManager;
     
     private MockMvc mockMvc;
     
@@ -149,7 +153,9 @@ public class AnalysisControllerTest extends WebappTestSupport {
         
         judgmentsServer.deleteByQuery("*:*");
         judgmentsServer.commit();
-        
+
+        cacheManager.getCache(DICTIONARIES).clear();
+
         generateCommonCourts();
         generateSupremeCourtChambers();
         indexJudgments();
@@ -268,6 +274,7 @@ public class AnalysisControllerTest extends WebappTestSupport {
     
     @Test
     public void showAnalysis_checkSupremeCourtChambersInModel() throws Exception {
+
         // execute
         ResultActions result = mockMvc.perform(get(URL_BASE)
                 .param("globalFilter.courtCriteria.courtType", "SUPREME"));
